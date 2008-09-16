@@ -10,7 +10,7 @@
 			>
 			<DebugSettings
 				Command="$(TargetPath)"
-				WorkingDirectory="X:\4ha6EW2cru\build\debug\bin"
+				WorkingDirectory="X:\build\debug\bin"
 				CommandArguments=""
 				Attach="false"
 				DebuggerType="3"
