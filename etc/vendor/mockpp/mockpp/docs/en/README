@@ -1,0 +1,10 @@
+
+If you decide to download the other documentation files you should
+place them into the same directory to benefit from the links between
+the groups. For example:
+
+  /usr/local/share/doc/mockpp-doc\
+                                  \-tutorial
+                                  \-api-doc
+                                  \-handbook
+

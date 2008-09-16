@@ -1,0 +1,130 @@
+/***************************************************************************
+ *        tut-visit2.dox - visitable mock objects, template version
+ *
+ *                            -------------------
+ *   begin                : Fri 18 Nov 2005
+ *   copyright            : (C) 2002-2008 by Ewald Arnold
+ *   email                : mockpp at ewald-arnold dot de
+ *
+ * $Id: tut-visit2.dox 1438 2008-03-08 20:22:43Z ewald-arnold $
+ *
+ ***************************************************************************/
+
+/*! \page tut_visit2
+
+\section visit2_mo Solution 2b: Visitable Mock Methods
+
+The former approach to set up a visitable mock objects with macros
+needs few lines of code and works fine if you do everything right.
+
+But a big disadvantage is the fact that it is really hard to find
+compiler errors as all messages refer to the same line. For the same
+reason it is almost impossible to use a debugger and step through the
+code and follow the execution path.
+
+A better solution is the use of mock methods. They act similar to the code
+behind the macros but are based on templates. There are only little
+changes. Most of the work is it to provide some forwarder
+methods.
+
+Include the additonal top level header:
+
+\code
+#include <mockpp/CountedVisitableMethod.h>
+\endcode
+
+Instead of providing the members wrapped in macros add the mock method
+objects.
+
+\code
+class VisitMock : public Interface
+                , public VisitableMockObject
+{
+  public:
+
+    VisitMock()
+      : VisitableMockObject("VisitMock", 0)
+      , open_mocker("open", this)
+      , read_mocker("read", this)
+      , write_mocker("write", this)
+      , close_mocker("close", this)
+      , calculate_mocker("calculate", this)
+    {}
+\endcode
+
+Implementing the methods within the mock object is easy as they only
+forward to their mock method object.
+
+\code
+    void open(const std::string &filename)
+    {
+      open_mocker.forward(filename);
+    }
+
+    std::string read()
+    {
+      return read_mocker.forward();
+    }
+\endcode
+
+If you intend to use constraints to make your tests less strict you need
+to add an overloaded method which forwards the constraint object. Note that
+this method may only be called in record mode and never returns a value.
+
+\code
+    unsigned calculate(unsigned input)
+    {
+      return calculate_mocker.forward(input);
+    }
+
+    void calculate(const ConstraintHolder<unsigned> &ch)
+    {
+      calculate_mocker.forward(ch);
+    }
+\endcode
+
+To finally complete the class definition you have to declare the mock
+methods.
+
+\code
+    VisitableMockMethod<void, std::string>   open_mocker;
+    VisitableMockMethod<std::string>         read_mocker;
+    VisitableMockMethod<void, std::string>   write_mocker;
+    VisitableMockMethod<void>                close_mocker;
+    VisitableMockMethod<unsigned, unsigned>  calculate_mocker;
+\endcode
+
+Now as everything is prepared you set up the behaviour. This happens
+almost exactly as before when using macros. Instead of using a controller
+object you use the mock methods directly. For convenience, in case you
+have rather long names as in the example, you can use a reference as well.
+
+\code
+    VisitMock mock;
+
+    VisitableMockMethod<std::string>        &reader (mock.read_mocker);
+    VisitableMockMethod<unsigned, unsigned> &calcer (mock.calculate_mocker);
+\endcode
+
+The actual setup is done with exactly the same methods as before with
+the macros.
+
+\code
+    mock.open("file1.lst");
+    mock.read();
+    mock.read();
+    mock.read();
+    mock.close();
+
+    reader.addReturnValue("record-1");
+    reader.addReturnValue("record-2");
+    reader.addReturnValue("record-3");
+\endcode
+
+<a href="visitmock2_8cpp-source.html">visitmock2.cpp</a> contains the complete source code.
+
+Next: \ref chain_mo
+
+\ref content
+
+*/

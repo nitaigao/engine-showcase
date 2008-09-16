@@ -1,0 +1,375 @@
+<!-- Appendix
+
+     $Id: appendix.docbook 1176 2006-04-08 17:56:51Z ewald-arnold $
+-->
+
+<appendix id="installation">
+<title>Installation</title>
+
+<sect1 id="getting-mockpp">
+<title>How to obtain mockpp</title>
+
+<para>&mockpp; is located on <ulink url="http://www.sf.net">Sourceforge</ulink>.
+Everything about &mockpp; can be found on it's homepage at
+<ulink url="http://mockpp.sf.net">http://mockpp.sf.net</ulink></para>
+</sect1>
+
+<sect1 id="compilation">
+<title>Compilation and Installation</title>
+
+<sect2 id="installing-autoconf">
+<title>Installing on systems using <application>autoconf</application> and friends</title>
+
+<para>In order to compile and install mockpp on your system, type the following in the base
+directory of the &mockpp; distribution:
+
+<screen width="40">
+ <prompt>%</prompt> <userinput>./configure</userinput>
+ <prompt>%</prompt> <userinput>make</userinput>
+ <prompt>%</prompt> <userinput>make install</userinput>
+</screen>
+</para>
+
+There are some options for <application>configure</application> you might be interested in:
+
+<variablelist>
+
+ <varlistentry>
+   <term>--enable-unicode</term>
+   <listitem><para>By default &mockpp; uses standard 8bit wide strings (<token>std::string</token>
+   and <token>const char*</token> to be more precise). If you need basic support for
+   <ulink url="http://www.unicode.org">Unicode</ulink> and it's 16bit or 32bit wide characters
+   you must add this parameter when invoking <userinput>configure</userinput>.
+   </para></listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term>--enable-doxygen</term>
+   <listitem><para>This option generates and installs the api documentation.
+   <application>doxygen</application> must be installed in this case.
+   </para></listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term>--enable-docbook</term>
+   <listitem><para>If you what to generate and install the handbook, you must
+   provide this parameter.
+   <application>docbook</application> must be installed in this case.</para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term>--disable-RTTI</term>
+   <listitem><para>Some environments don't use runtime type information
+   to reduce the size of the footprint of the binaries. In this case
+   the according debugging information is omitted.</para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term>--disable-exceptions</term>
+   <listitem><para>Some environments don't use exceptions for similar reasons.
+   All features based on try and catch statements don't work in this case
+   and you must provide your own way to collect the test results.</para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term>--enable-builtin-stl</term>
+   <listitem><para>By default &mockpp; is compiled with the C++ Standard Template Libray that
+   comes with your compiler. Unfortunately the current implementations consume
+   rather much resources. For that reason a built-in minimalistic STL can be used.</para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term>--disable-builtin-cxxtest</term>
+   <listitem><para>By default &mockpp; uses a built-in version of &cxxtest; as test
+   framework. If you want to use another framework you should disable it to remove
+   all internal dependencies. Please understand that in this case the unit tests
+   won't run if you don't enable another supported framework instead.</para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term>--disable-namespace</term>
+   <listitem><para>Older compilers may not support namespaces properly.
+   If you need such a compiler for a given environment you might try to disable
+   namespaces for all built-in parts and maybe get enough of the files compile
+   to build a basic test library. A lot of the files probably won't compile on such
+   compilers due to the lack of template support.</para>
+
+   <para>In this case &mockpp;
+   resides in the global namespace. Additionally the built-in components &ministl;
+   and &cxxtest; are in the global namespace as well. This may lead to problems
+   when using other libraries which contain classes like <classname>Exception</classname>
+   or <classname>String</classname>. There are also workarounds for certain elements
+   in the <literal>std</literal> namespace.</para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term>--enable-cppunit</term>
+   <listitem><para>This option enables &cppunit; as test framework.</para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term>--enable-boosttest</term>
+   <listitem><para>This option enables &boost.test; as test framework.</para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term>--boost-dir</term>
+   <listitem><para>Normaly configure searches <filename>/usr/include</filename> and
+   <filename>/usr/local/include</filename>. In case there are multiple versions
+   the first directory is taken. If you have a non-standard include directory or
+   need as special version you will want to use this option.</para>
+   </listitem>
+ </varlistentry>
+
+</variablelist>
+
+
+<para>Since mockpp uses <application>autoconf</application> and
+<application>automake</application> you should have no trouble compiling it.
+Should you run into problems please report them to the
+<ulink url="http://sourceforge.net/bugs/?group_id=69135">Bug Tracker</ulink>.</para>
+
+<para>Once you have compiled the sources you should run the built-in checks
+to verify the correct behaviour on your platform:
+
+<screen width="40">
+ <prompt>%</prompt> <userinput>make check</userinput>
+</screen>
+
+</para>
+
+</sect2>
+
+<!-- ===================================== -->
+
+<sect2 id="installing-cygwin">
+<title>Installing on systems using &cygwin;</title>
+
+<para>There have been reports about problems to compile and link
+with &cppunit; on Windows system under &cygwin;. A solution might be to be to link
+statically. First compile &cppunit; (and possibly force installation with -k):
+</para>
+
+<screen width="40">
+ <prompt>%</prompt> <userinput>./configure --disable-shared</userinput>
+ <prompt>%</prompt> <userinput>make check</userinput>
+ <prompt>%</prompt> <userinput>make -k install</userinput>
+</screen>
+
+<para>Then install &mockpp;:</para>
+
+<screen width="40">
+ <prompt>%</prompt> <userinput>./configure --disable-shared</userinput>
+ <prompt>%</prompt> <userinput>make check</userinput>
+ <prompt>%</prompt> <userinput>make install</userinput>
+</screen>
+
+</sect2>
+
+<!-- ===================================== -->
+
+<sect2 id="creating-rpms">
+<title>Creating and Installing an RPM</title>
+
+<para>Using the previous installation procedure has drawbacks when you
+want do uninstall or upgrade to a newer version. Maybe you rather want to benefit
+from the common mechanism provided by <application>rpm</application>.
+Before installing the library this way you need to create rpm packages
+which requires some developer tools like <application>doxygen</application>
+or <application>docbook</application> and a bit of experience in this
+matter.</para>
+
+<para>This can be done by running the following command in the top level directory
+of the source distribution:
+
+<screen width="40">
+ <prompt>%</prompt> <userinput>make rpm</userinput>
+</screen>
+
+After completion you will receive two rpm packages: one for the library and the
+headers and one for the documentation. They are usually located at
+<filename>/usr/src/packages/RPMS</filename>.
+
+</para>
+</sect2>
+
+<!-- ===================================== -->
+
+<sect2 id="installing-others">
+<title>Installing on other systems</title>
+
+<para>If you are using a compiler on a platform not directly supported you must
+setup your own project files for your compiler. All adjustments are done in
+<filename class='headerfile'>mockpp.h</filename>. To benefit from updates it is of
+course better to move your own settings to a configuration file and include it.
+<para>
+
+</para>
+See <filename class='headerfile'>config-bcb5.h</filename> as an example for Borland's
+CBuilder.
+</para>
+
+<para id="configuration">The following options are used to manually tweak the library:
+
+<variablelist>
+
+ <varlistentry>
+   <term><literal>MOCKPP_UNICODE</literal></term>
+   <listitem><para>Enable unicode characters (based on <token>wchar_t</token>) instead
+   of ascii characters.There are some related macros. <literal>MOCKPP_PCHAR</literal>
+   and <literal>MOCKPP_CHAR</literal> are used to mark literal character strings
+   either with or without leading "L".
+   <literal>MOCKPP_STRING</literal> and <literal>MOCKPP_PCSTRING</literal> are
+   used to create a <token>String</token> variable.
+   </para></listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term><literal>MOCKPP_EXPORT</literal></term>
+   <listitem><para>Some platforms export only explicitly tagged elements in dynamic
+   libraries. Other elements can't be linked from other binaries. This macro
+   hides such an export declaration.</para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term><literal>MOCKPP_USE_MINI_STL</literal></term>
+   <listitem><para>Use the built-in alternative STL implementation instead of the
+   STL that comes with the C++ compiler to try to save memory resources.
+   If you use &cxxtest; <literal>CXXTEST_USE_MINI_STL</literal> should also be
+   defined.</para>
+
+   <para>If you want to use another STL you have to extend the according section
+   in <filename>mockpp.h</filename>. Search for <literal>MOCKPP_USE_MINI_STL</literal>
+   and add an appropriate section similar to the one for
+   &ministl;. Do the same for &cxxtest; in
+  <filename>3party/cxxtest/cxxtest/Flags.h</filename></para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term><literal>MOCKPP_NO_RTTI</literal></term>
+   <listitem><para>Disable all features that are based on runtime type information
+   to reduce the library size.</para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term><literal>MOCKPP_NO_EXCEPTIONS</literal></term>
+   <listitem><para>Disable exception handling to reduce the library size. If you do not
+   use the built-in &cxxtest; you probably need to adjust the handling of failures.
+   See <xref linkend="no-exceptions" /> for a list of the according macros.</para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term><literal>MOCKPP_USE_CPPUNIT</literal></term>
+   <listitem><para>Use &cppunit; as framework for fow control.</para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term><literal>MOCKPP_USE_CXXTEST</literal></term>
+   <listitem><para>Use &cxxtest; as framework for fow control.</para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term><literal>MOCKPP_USE_BOOSTTEST</literal></term>
+   <listitem><para>Use &boost.test; as framework for fow control.</para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term><literal>MOCKPP_BOUNDARY_DELTA</literal></term>
+   <listitem><para>Include source code for
+   <function>ExpectationBoundary::setExpectedDelta()</function></para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term><literal>MOCKPP_USE_STD_EXCEPTION</literal></term>
+   <listitem><para>Derive <classname>mockpp::Exception</classname>
+    from <classname>std::exception</classname></para>
+   </listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term><literal>MOCKPP_MAKE_CHAR_READABLE</literal></term>
+   <listitem><para>Display non-printable characters in a more readable form.</para>
+   </listitem>
+ </varlistentry>
+
+</variablelist>
+
+There are more predefined options of less interest in <filename>mockpp.h</filename>.
+
+</para>
+
+<note>
+ <title>Once you have ported &mockpp; to a new platform:</title>
+ <para>Please send me your files for inclusion in the next distribution.
+ You will certainly make some people happy with this.</para>
+</note>
+
+</sect2>
+
+<!-- ===================================== -->
+
+<sect2 id="useful-scripts">
+<title>Useful Scripts And Batch Files</title>
+
+<para>The distribution contains some scripts or batch files which can help
+in some situations. They are spread across the directory tree depending on what
+should be done.</para>
+
+<variablelist>
+
+ <varlistentry>
+   <term><filename>mockpp/gen_files_N.sh</filename></term>
+   <listitem><para>Several headers contain classes which depend on the maximal
+   number of parameters you want to pass. This is the master script file which
+   triggers all the actual generator files. Extend the numbers in this file
+   for example if you need more stubs in <function>onConsecutiveCalls()</function>
+   or higher numbered <classname>ChainableMockMethod</classname> classes.
+   </para></listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term><filename>mockpp/build4sun</filename></term>
+   <listitem><para>This bash script runs <application>configure</application>
+   with the parameters needed for <application>SUN Studio 10</application>.
+   </para></listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term><filename>mockpp/mockpp/install-win.bat</filename></term>
+   <listitem><para>This batch file is intended to copy all the header files
+   for &mockpp; to the global include directory. Run it from a dos box and
+   provide the target directory.
+   </para></listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term><filename>mockpp-config</filename></term>
+   <listitem><para>This script is generated by configure and can be used to
+   retrieve the configuration data for &mockpp; This may become useful when
+   integrating &mockpp; in other projects.
+   </para></listitem>
+ </varlistentry>
+
+</variablelist>
+
+</sect2>
+
+</sect1>
+
+</appendix>

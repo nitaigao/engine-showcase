@@ -1,0 +1,178 @@
+/***************************************************************************
+                tut-basic.dox - basic mock objects
+
+                             -------------------
+    begin                : Sun 2 Jan 2005
+    copyright            : (C) 2002-2008 by Ewald Arnold
+    email                : mockpp at ewald-arnold dot de
+
+  $Id: tut-basic.dox 1438 2008-03-08 20:22:43Z ewald-arnold $
+
+ ***************************************************************************/
+
+/*! \page tut_basic
+
+\section basic_mo Solution 1: Basic Mock Objects
+
+The first solution will use basic mock objects to express the needed expectations.
+Additionally there is a container object to hold and verify all those tiny mock
+objects. The container must inherit from the \c Interface class as well as
+from the root of all more advanced mock objects \c MockObject :
+
+\code
+class BasicMock : public Interface
+                , public MockObject
+{
+  public:
+\endcode
+
+In the next step the constructor is added which also initializes
+all sub-expectations. All objects should get a meaningful
+name to identify them in debug output when errors occur. Additionally
+they are registered with the container mock object. It might be
+a good idea to use some kind of hierarchical naming scheme to identify
+the sub-objects within the surrounding container object as shown below.
+
+\code
+    BasicMock()
+      : MockObject("BasicMock", 0)
+      , open_name("BasicMock/open_name", this)
+      , close_counter("BasicMock/close_counter", this)
+      , write_data("BasicMock/write_data", this)
+      , read_data("BasicMock/read_data", this)
+    {
+    }
+\endcode
+
+Every call to one of the methods will be checked by an adequate expectation type.
+Depending on your personal taste you can simply use public member variables or hide
+them and offer getter and setter methods.
+
+To verify the calls to \c open() a \c ExpectationList is used. This way
+all the actual values are checked against the expectations one after the other.
+As a side effect the total number of calls to \c open() is verified since
+the count of actual and expected values have to be equal.
+
+\code
+    ExpectationList<std::string> open_name;
+
+    virtual void open(const std::string &name)
+    {
+      open_name.addActual(name);
+    }
+\endcode
+
+The implementation of method \c read() needs a different approach. To return
+a predefined set of values an object of type \c ReturnObjectList is
+used. And again the additional benefit is the fact that the total number of
+calls must equal the number of return values.
+
+\code
+    ReturnObjectList<std::string> read_data;
+
+    virtual std::string read()
+    {
+      return read_data.nextReturnObject();
+    }
+\endcode
+
+A third alternative is chosen to to verify the correct number of calls to
+\c close(). Since there are no parameters or return values the only
+possibility is to take \c ExpectationCounter .
+
+\code
+    ExpectationCounter close_counter;
+
+    virtual void close()
+    {
+      close_counter.inc();
+    }
+\endcode
+
+Once the mock object is implemented you have to set up the desired behaviour.
+
+The expected program flow covers
+2 calls to \c open(): 1 for reading and 1 for writing. Each time with the same filename.
+Unfortunately there is no simple way to distinguish between the different calls to
+\c open() in the read and write sequence.
+
+So 2 expected parameter values for calls to \c open() are added:
+
+\code
+    BasicMock mock;
+
+    mock.open_name.addExpected("file1.lst");
+    mock.open_name.addExpected("file1.lst");
+\endcode
+
+Next you have to provide the appropriate number of return values for the \c read() method.
+They are added in the expected order to the \c ReturnObjectList :
+
+\code
+    mock.read_data.addObjectToReturn("record-1");
+    mock.read_data.addObjectToReturn("record-2");
+    mock.read_data.addObjectToReturn("record-3");
+\endcode
+
+While processing the records a method \c calculate is invoked several times. Since the input
+can't be determined exactly a \c ConstraintList is used which verifies similar to
+a ExpectationList but on the base of a mean amount and a delta value.
+
+\code
+    mock.calculate_input.addExpected(eq<unsigned>(5,5));
+    mock.calculate_input.addExpected(eq<unsigned>(5,5));
+    mock.calculate_input.addExpected(eq<unsigned>(5,5));
+\endcode
+
+The number of calls to \c close() must equal the calls to \c open() . For that reason
+the according \c ExpectationCounter is set to 2:
+
+\code
+    mock.close_counter.setExpected(2);
+\endcode
+
+The set up code is completed with the expectations for the calls to \c write() .
+The expected parameter values are added in the expected order:
+
+\code
+    mock.write_data.addExpected("record-1/processed");
+    mock.write_data.addExpected("record-2/processed");
+    mock.write_data.addExpected("record-3/processed");
+\endcode
+
+All the expectations for the mock object are complete. The methods under test
+are invoked in the order of the production code. If any expectations are missed
+ an exception
+is thrown which should be caught and displayed.
+
+\code
+    Consumer consumer(&mock);
+    consumer.load();
+    consumer.process();
+    consumer.save();
+  }
+  catch(std::exception &ex)
+  {
+    std::cout << std::endl
+              << "Error occured.\n" << ex.what() << std::endl
+              << std::endl;
+  }
+\endcode
+
+There is one important thing remaining: there is no simple way to
+automatically detect
+missing actual values. The only possibility is to verify manually
+after the test calls are done. The call of \c verify() in the container
+mock object will then trigger the verification of all its sub-objects.
+
+\code
+    mock.verify();
+\endcode
+
+<a href="basicmock_8cpp-source.html">basicmock.cpp</a> contains the complete source code.
+
+Next: \ref visit_mo
+
+\ref content
+
+*/

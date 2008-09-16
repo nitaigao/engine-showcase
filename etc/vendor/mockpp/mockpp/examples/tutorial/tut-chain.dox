@@ -1,0 +1,178 @@
+/***************************************************************************
+                tut-chain.dox - chainable mock objects
+
+                             -------------------
+    begin                : Sun 2 Jan 2005
+    copyright            : (C) 2002-2008 by Ewald Arnold
+    email                : mockpp at ewald-arnold dot de
+
+  $Id: tut-chain.dox 1438 2008-03-08 20:22:43Z ewald-arnold $
+
+ ***************************************************************************/
+
+/*! \page tut_chain
+
+\ref content
+
+\section chain_mo Solution 3a: Chainable Mock Objects With Macros
+
+After including the the \c mockpp header files some elements from the \c mockpp namespace
+which will be needed later
+are imported to omit the prefix and enhance readability.
+
+\code
+using mockpp::eq;
+using mockpp::exactly;
+using mockpp::returnValue;
+using mockpp::throwException;
+\endcode
+
+A more convenient way is to place a \c #define before including the mockpp headers
+which imports all these shortcut functions into the global namespace:
+
+\code
+#define MOCKPP_IMPORT_ABBREVIATED
+#include <mockpp/chaining/ChainingMockObjectSupport.h>
+\endcode
+
+The next solution of the know testing problem
+uses another type of advanced mock objects. It is called
+<em>ChainableMockObject</em> because the expectations are created by chaining
+method calls to a temporary object that moves the sub-expectations into the
+container mock object.
+
+The class is implemented similar to the previous example.
+Only the names differ slightly. Every \c VISITABLE is replaced by
+\c CHAINABLE .
+
+\code
+class ChainMock : public Interface
+                , public ChainableMockObject
+{
+  public:
+
+    ChainMock()
+      : ChainableMockObject("ChainMock", 0)
+      , MOCKPP_CONSTRUCT_MEMBERS_FOR_VOID_CHAINABLE_EXT1(open, ext)
+      , MOCKPP_CONSTRUCT_MEMBERS_FOR_CHAINABLE0(read)
+      , MOCKPP_CONSTRUCT_MEMBERS_FOR_VOID_CHAINABLE_EXT1(write, ext)
+      , MOCKPP_CONSTRUCT_MEMBERS_FOR_VOID_CHAINABLE0(close)
+    {}
+\endcode
+
+The next step after implementing the mock object is similar to the previous
+example, too. To
+create expectations you have to use a helper object as well. In this case
+a \c Chainer instead of the former \c Controller .
+
+\code
+    ChainMock mock;
+    MOCKPP_CHAINER_FOR_EXT(ChainMock, open, ext) open_chainer (&mock);
+\endcode
+
+This chainer is then used to create a temporary object which helps to
+pass all desired sub-expectations into the mock object. Usually you
+will create one or more of the following types:
+
+ - a number indicating how often the ecpectation is used
+ - a constraint for each parameter of the call
+ - a return value or an exception to throw
+ - a unique label to reference the expectation
+
+When a method is invoked on a mock object, the mock object searches
+through its expectations from first to last (in the order of your source code)
+to find one that matches the
+invocation. An expectation matches an invocation if all of its
+matching rules match the invocation. After the invocation, the matching expectation
+might stop matching
+further invocations. For example, an \c expects(once())
+expectation only matches once and will be ignored on future invocations while an
+\c expects(atLeastOnce())
+expectation will always be matched against invocations.
+
+At the end of the test cycle all expectations have to be "consumed" for a successful
+result.
+
+So he following code is quite easy to read: the method is expected to
+be invoked exactly once with a parameter equal to "file1.lst". And the the call
+must happen before another call labelled "reader".
+
+\code
+    open_chainer.expects(once())
+                .with(eq(std::string("file1.lst")))
+                .before("reader");
+\endcode
+
+Chainable mock objects provide a method \c stubs() as well as a method \c expects(). Internally both do
+exactly the same. The main difference is more of a syntactical nature. Expectations expressed
+with \c stubs
+should be used when the main intent is to return values. Whereas \c expects() is prefered when the
+focus lies on checking parameters. Another difference is the optional parameter to \c stubs() .
+If this parameter is missing the expecation is optional and has unlimited lifetime. Therefor it is
+no error of the stub is not called at all.
+
+To set up a method to return a value you might choose one of the patterns below.
+The first call passes only one argument and the second creates a sequence of three values
+which will be returned one after the other.
+
+\code
+    read_chainer.stubs()
+                .will(new ReturnStub<std::string>("record-1"));
+
+    read_chainer.stubs()
+                .will(onConsecutiveCalls(new ReturnStub<std::string>("record-1"),
+                                         new ReturnStub<std::string>("record-2"),
+                                         new ReturnStub<std::string>("record-3")));
+\endcode
+
+<a href="chainmock_8cpp-source.html">chainmock.cpp</a> contains the
+complete source code.
+
+\section chain_examples More elaborate examples
+
+It is possible to re-write the examples from the previous section.
+
+First the \c add() method is replaced. Two expected calls with parameters are
+prepared together with the correct return value:
+
+ - \c add(1,2) ==> 3
+ - \c add(99,11) ==> 110
+
+The last statement sets the default return value -1.
+
+\code
+  add_chainer.stubs()
+             .with(eq(1), eq(2))
+             .will(returnValue(3));
+
+  add_chainer.stubs()
+             .with(eq(99), eq(11))
+             .will(returnValue(110));
+
+  add_chainer.stubs()
+             .will(returnValue(-1));
+\endcode
+
+The next example rewrites the \c network_read() method. As before the method shall return 10 times
+with a 0, then an NetworkError shall be thrown and all later calls shall return 1:
+
+\code
+    read_chainer.stubs(exactly(10))
+                .will(returnValue(0));
+
+    read_chainer.stubs(once())
+                .will(throwException<int>(NetworkError()));
+
+    read_chainer.stubs()
+                .will(returnValue(1));
+\endcode
+
+<a href="chainmock_8cpp-source.html">chainmock.cpp</a> contains the
+complete source code.
+
+Next: \ref chain2_mo
+
+\ref content
+
+*/
+

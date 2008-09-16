@@ -1,0 +1,80 @@
+/***************************************************************************
+                tut-cppunt.dox - using cppunit
+
+                             -------------------
+    begin                : Sun 2 Jan 2005
+    copyright            : (C) 2002-2008 by Ewald Arnold
+    email                : mockpp at ewald-arnold dot de
+
+  $Id: tut-cppunit.dox 1438 2008-03-08 20:22:43Z ewald-arnold $
+
+ ***************************************************************************/
+
+/*! \page tut_cppunit
+
+\section cppunit   CppUnit Basics
+
+The common way to group tests with CppUnit is to create a
+class and put the tests in appropriate methods. By deriving
+the test class from CppUnit::TestFixture you get the functionality
+to register and control the tests.
+
+\code
+class Calculator_test : public CppUnit::TestFixture
+{
+ public:
+\endcode
+
+Most of the implementation code is available with macros. To create
+the code for a method \c test_add() you would use the following sequence
+within the class body:
+
+\code
+   CPPUNIT_TEST_SUITE( Calculator_test );
+     CPPUNIT_TEST(test_add);
+   CPPUNIT_TEST_SUITE_END();
+
+ public:
+
+   void test_add();
+\endcode
+
+CppUnit provides a mechanism to automatically register the tests. This
+is done with a static variable hidden in a macro:
+
+\code
+CPPUNIT_TEST_SUITE_REGISTRATION(Calculator_test);
+\endcode
+
+The test method itself verifies the actual value against
+the expectation and throws an exception if they don't match.
+CppUnit provides a set of macros to handle the common
+cases.
+
+\code
+void Calculator_test::test_add()
+{
+  Calculator calc(100);
+  CPPUNIT_ASSERT_EQUAL(123, calc.add(23));
+}
+\endcode
+
+To finally run all the tests you have to create the desired environment,
+register the tests and start the process:
+
+\code
+  CppUnit::TextUi::TestRunner runner;
+  CppUnit::TestFactory &registry = CppUnit::TestFactoryRegistry::getRegistry();
+  runner.addTest(registry.makeTest());
+  return runner.run() ? 0 : 1;
+\endcode
+
+<a href="cppunit_8cpp-source.html">cppunit.cpp</a> contains
+the complete source code.
+
+Next: \ref verifying
+
+\ref content
+
+*/
+

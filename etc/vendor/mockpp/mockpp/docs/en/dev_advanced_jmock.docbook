@@ -1,0 +1,563 @@
+<!-- Advanced mock objects - the jmock approach
+
+     $Id: dev_advanced_jmock.docbook 1450 2008-05-25 08:01:08Z ewald-arnold $
+-->
+
+<sect2 id="jmock-object">
+<title>Chainable Mock Objects</title>
+
+<sect3>
+<title>Overview</title>
+
+<para>Specifying some behaviour with chainable mock objects is similar to describing
+it in words. You may say for example:
+
+<itemizedlist>
+  <listitem>I <emphasis>expect</emphasis> some method invocation exactly
+            <emphasis>once</emphasis></listitem>
+  <listitem>This must happen <emphasis>after</emphasis> another invocation
+            labeled "other-ident"</listitem>
+  <listitem>The method must be called <emphasis>with</emphasis> a value
+            <emphasis>equal</emphasis> to 321</listitem>
+  <listitem>Then the method <emphasis>will</emphasis> return 123</listitem>
+  <listitem>This invocation has an <emphasis>identifier</emphasis> called "ident"</listitem>
+</itemizedlist>
+
+In C++ code you might express the same like this:
+
+<programlisting>
+
+  chainer.expects(once())
+         .with(new IsEqual&lt;int>(321))
+         .after("other-ident")
+         .will(new ReturnStub(123))
+         .id("ident");
+
+</programlisting>
+
+You need not provide all of these methods, only what you actually need. If you don't intend
+to return a special value: omit <methodname>will()</methodname> and the default return value
+will be used.</para>
+
+<para>For void methods you may apply <methodname>isVoid()</methodname> instead of
+<methodname>will()</methodname> to explicitly
+express this fact.</para>
+
+<para>When a method is invoked on a chainable mock object, the mock object searches
+through its expectations from first to last to find one that matches the
+invocation. An expectation matches an invocation if all of its
+matching rules match the invocation. After the invocation, the matching expectation
+might stop matching
+further invocations. For example, an <methodname>expects(once())</methodname>
+expectation only matches once and will be ignored on future invocations while an
+<methodname>expects(atLeastOnce())</methodname>
+expectation will always be matched against invocations.</para>
+
+<para>The original java implementation contained an additional method called
+<methodname>method()</methodname> which passed the desired method name.
+This is completely missing in my C++ implementation. The reason is
+simple: C++ does not support reflection and therefor an application can't look into itself or
+create methods at runtime or do some other weird things. So I had to apply a handful of
+macro-magic and templates instead. This led to the
+fact that you have to set up a different helper object for <emphasis>each method</emphasis>
+whereas jMock would use the same object for all calls of a mock object.</para>
+
+<para>A note about the internals: each chain link returns a temporary builder object with
+its own set of methods to influence the mocked method and object. See directory
+<filename>builder</filename> for most of the files. The first
+method <methodname>expects()</methodname> returns
+an object of type <classname>InvocationMockerBuilder</classname> which provides method
+<methodname>with()</methodname>. And  the last method returns a type
+<classname>IdentityBuilder</classname> which contains <methodname>id()</methodname>.
+</para>
+
+</sect3>
+
+<sect3>
+<title>Stubs And Expectations</title>
+
+<para>Chainable mock objects provide <emphasis>stubbed</emphasis> and
+<emphasis>expected</emphasis> methods. An expected method must occur as
+specified, otherwise the object will fail when verified. A stubbed method
+without specification may be invoked unlimited times or not at all
+but the test still passes.</para>
+
+<para>In general, you will <emphasis>stub</emphasis> when you want to get some
+return value from a method whereas you <emphasis>expect</emphasis> when
+you intend to check the input parameters to a method. When invoked with a
+specification both methods do internally the same but you should use the correct one
+to express your intention.</para>
+
+</sect3>
+
+<sect3>
+<title>Invocation Matchers</title>
+
+<para>The parameter to the methods <methodname>expects()</methodname> and
+<methodname>stubs()</methodname> must be some kind of invocation counter. The
+current release covers the most common cases with a set of classes. However these classes
+should not be used directly as they are not very readable. You should use one of the
+wrapper functions instead:</para>
+
+<itemizedlist>
+  <listitem><methodname>InvokeOnceMatcher</methodname> = <methodname>once()</methodname>: exactly one single invocation</listitem>
+  <listitem><methodname>InvokeCountMatcher</methodname> = <methodname>exactly()</methodname>: an exact invocation count</listitem>
+  <listitem><methodname>InvokeAtLeastMatcher</methodname> = <methodname>atLeast()</methodname>: a minimum invocation count</listitem>
+  <listitem><methodname>InvokeAtLeastOnceMatcher</methodname> = <methodname>atLeastOnce()</methodname>: invoke the method at least once</listitem>
+  <listitem><methodname>InvokeAtMostMatcher</methodname> = <methodname>atMost()</methodname>: a maximum invocation count</listitem>
+  <listitem><methodname>never()</methodname>: never invoke this method</listitem>
+</itemizedlist>
+
+<para>After setting up the behaviour and actually invoking the mock object the matcher specifications
+are processed one after the other in the order given in your source file. So if you wanted to return
+three different values 111, 222 and 333 you would write:
+
+<programlisting>
+
+  chainer.stubs(once()).will(new ReturnStub(111));
+  chainer.stubs(once()).will(new ReturnStub(222));
+  chainer.stubs(once()).will(new ReturnStub(333));
+
+</programlisting>
+
+For obvious reasons you should not use <methodname>atLeast()</methodname> in the first expectation
+as is this would render the following lines useless.</para>
+
+</sect3>
+
+<sect3>
+<title>Invocation Order</title>
+
+<para>Every single invocation to one of your mock objects may be labeled with a unique
+identifier. This identifier may then be used to determine that another invocation
+must happen prior or after it. You may as well demand that this decision has to be based
+on an invocation to a totally different mock object. And it is also possible
+to add more than one call to
+<methodname>before()</methodname> or <methodname>after()</methodname> if you want to
+have it match against more than one invocation in the same expectation chain.</para>
+
+</sect3>
+
+<sect3  id="parameter-constraint">
+<title>Parameter Constraints</title>
+
+<para>When working with a <classname>VisitableMockObject</classname>
+you normally specify exactly which parameter value you expect. A
+<classname>ChainableMockObject</classname>
+on the other hand can work less strict. Specifying an exact match is common but
+you may as well allow a set of values or even any value.
+Or you demand that each value must be higher than the one in the
+previous invocation.</para>
+
+<para>The distribution already contains a set of classes for common
+constraints. For convenience reasons and to enhance readability most of these
+classes have a counterpart in the form of a wrapper function. The most important
+ones are:</para>
+
+<itemizedlist>
+  <listitem><classname>IsEqual</classname> = <methodname>eq()</methodname> tests equality</listitem>
+  <listitem><classname>IsSame</classname> = <methodname>same()</methodname> tests if two objects are the same</listitem>
+  <listitem><classname>IsCloseTo</classname> = <methodname>eq(a,b)</methodname> tests near equality</listitem>
+  <listitem><classname>IsGreaterThan</classname> = <methodname>gt()</methodname> is true for higher values a reference value</listitem>
+  <listitem><classname>IsLessThan</classname> = <methodname>lt()</methodname> is true for lower values than a reference value</listitem>
+  <listitem><classname>IsNot</classname> = <methodname>logic_not()</methodname> negates another contraint</listitem>
+  <listitem><classname>And</classname> = <methodname>logic_and()</methodname> provides a logical-and of two constraints</listitem>
+  <listitem><classname>Or</classname> = <methodname>logic_or()</methodname> provides a logical-or of two constraints</listitem>
+  <listitem><classname>IsAnything</classname> = <methodname>any()</methodname> is always true</listitem>
+  <listitem><classname>IsNothing</classname> = <methodname>nothing()</methodname> is never true</listitem>
+  <listitem><classname>StringContains</classname> = <methodname>stringContains()</methodname> checks for the occurrence of a substring</listitem>
+  <listitem><classname>IsInstanceOf</classname> = <methodname>isA()</methodname> tests if an object is of a type</listitem>
+</itemizedlist>
+
+<para>Creating your own constraints is quite easy. Look at the files in the
+<filename>constraint</filename> directory to get an idea how this can be done.
+
+<note>
+<title>Caution with side effects</title>
+<para>One might try to to combine two contraints using <methodname>logic_or()</methodname>
+or <methodname>logic_and()</methodname> respectively the according classes
+<classname>Or</classname> or <classname>And</classname>:
+
+<programlisting>
+
+  mock.foo(logic_and&lt;int>( eq&lt;int>(0), outBound&lt;int>(42)));
+
+</programlisting>
+
+Unfortunately the resulting behaviour might not be as expected. By default the
+evaluation of the two contstriaints is shortcut. This means that the second
+constraint is not evaluated when the result is determined after the first. This
+is intended as it is the default behaviour in C/C++:
+
+<programlisting>
+
+  if(evalA() &amp;&amp; evalB())
+     ...
+
+</programlisting>
+
+<function>evalB()</function> is not executed if <function>evalA()</function> is
+false because this would not change the program flow anymore.</para>
+
+<para>In this case the second constraint is called one to little. If you need a
+more determined behaviour when all constraints are evaluated you can pass a third
+parameter which is set to <token>false</token> and enforces full evaluation.
+</para>
+<!--  -->
+</note>
+
+
+
+</para>
+
+<para>Use method <methodname>with()</methodname> to pass the constraints. Obviously this
+method has the same number of parameters as your mocked method.</para>
+
+<sect4  id="outbound-constraint">
+<title>Outbound Values</title>
+
+<para id="outbound">There are special constraints which are not actually real constraints.
+<classname>OutBound</classname> does not check for incoming parameter values but
+passes values back by a reference. This enables mocked methods like the following:
+
+<programlisting linenumbering="numbered">
+
+  void getByReference(int &amp;ra)
+  {
+     ra = 123;
+  }
+
+</programlisting>
+
+The values are returned one after the other. Please understand that for chainable
+mock objects this is probably not the desired behaviour as the values are already
+stored when the parameters are just evaluated. The intended application is for
+visitable mock objects.
+
+</para>
+
+<para>
+Similarly there is <classname>TriggeredOutBound</classname> which is used to store
+the value defered upon a trigger call. The first call to <methodname>eval()</methodname>
+does not store the value itself but a reference to the variable.
+
+To store the actual value a stub class like <classname>TriggerStub</classname> or
+<classname>ReturnValueAndTriggerStub</classname> is then
+used to trigger the copy action. This way the storing of the desired outbound value
+by reference is defered until the method would really be invoked. The calls to
+<methodname>eval()</methodname> are primarily to check for potential matches.
+Unfortunately a temporary shared pointer variable is needed since all the objects are
+completely independent from each other.
+
+<para>The following example would trigger the contraints in parameters 2 and 3 when
+the first parameters is 2:</para>
+
+<programlisting>
+
+  class UserInfo
+  {
+    virtual void vident(unsigned userno,
+                        string &amp;username,
+                        string &amp;useradr) = 0;
+  };
+
+  TriggeredOutbound&lt;string> *tc_a;
+  TriggeredOutbound&lt;string> *tc_b;
+
+  tc_a = new TriggeredOutbound&lt;string>("my-name");
+  tc_b = new TriggeredOutbound&lt;string>("my-address");
+  videnter.expects(once())
+          .with(eq(2u),
+                tc_a,
+                tc_b)
+          .will(trigger(tc_a, tc_b));
+
+</programlisting>
+
+</para>
+
+</sect4>
+
+<sect4  id="comparing-constraint">
+<title>Constraints for Comparison</title>
+
+<para>&mockpp; contains two constraint classes to compare objects.
+<classname>IsEqual</classname> is probably appropriate for most cases. It takes
+an object and stores it's value for later comparison.</para>
+
+<para><classname>IsSame</classname> on the other hand is intended to check
+for identical values. This usually means to compare the pointer values
+of two objects. There is a template function
+<function>isSameComparison</function> which implements this default behaviour.
+If you need a differing implementation for a certain class you can provide
+a specialised template. This may happen if you are using a shared pointer and
+don't want to compare the helper but the shared object at the end of
+the pointers.</para>
+
+<para>For a similar reason there is another templated function
+named <function>isEqualComparison</function>. Both functions are
+useful if you need to compare objects but can't or don't want to
+implement the according <function>operator==</function>.</para>
+
+<para>
+<note>
+<title>Potential backwards compatibility break</title>
+<para>&mockpp; up to version 1.9.3 implemented
+<classname>IsEqual</classname> and <classname>IsSame</classname>
+in exactly the same manner.
+Unfortunately this may now lead to dangling pointers and crashes if
+existing code refers to temporary objects.</para>
+
+<para>The following fragment shows the problem. When constructing
+the object a temporary string is created and this pointer is
+passed to the constructor of <classname>IsEqual</classname>.
+After this statement the string object is destroyed and this pointer becomes
+invalid.
+
+<programlisting>
+
+   IsSame&lt;std::string&gt; same ("string");
+
+</programlisting>
+
+To avoid this problem you have to create a variable which must exist
+until the test completes.
+
+<programlisting>
+
+   std::string str ("string");
+   IsSame&lt;std::string&gt; same (str);
+
+</programlisting>
+
+</para>
+</note>
+
+</para>
+</sect4>
+
+</sect3>
+
+
+<sect3>
+<title>Custom Matchers</title>
+
+<para>The former sections explained standard methods for common use. But it is also possible to create
+your own rules for matching an invocation. If your rules depend on the parameters passed
+to the mocked method derive your custom class from <classname>InvocationMatcher</classname>.
+If it is independent from the parameters use <classname>TypelessMatcher</classname> instead. To
+express the non-standard use you should then pass the object to method
+<methodname>match()</methodname>.</para>
+
+<para> But please keep in mind that custom matchers can virtually do everything. Most of the
+time you want to check method parameters and therefor you probably should create a
+constraint class derived from <classname>Constraint&lt;T></classname>. See also the
+files below <filename>mockpp/constraint</filename> as a starting point.</para>
+
+</sect3>
+
+
+<sect3>
+<title>Return Values and Exceptions</title>
+
+<para>Return values from methods and exceptions are treated similar. Exceptions are
+considered not more than a special kind of return value. You may determine the return value
+based on the result of the parameters you passed with <methodname>expects()</methodname>
+and <methodname>with()</methodname> or you can optionally set a default action
+by passing it to <methodname>setDefaultStub()</methodname>.
+The default action takes place when no other expectation matches.</para>
+
+<para>If you have a sequence of return values that shall be returned in subsequent
+invocations you can use a short hand method and pass
+the values via <methodname>onConsecutiveCalls()</methodname> to
+<methodname>will()</methodname>.</para>
+</sect3>
+
+<sect3>
+<title>Create a Chainer Object Using Macros</title>
+
+<para>
+To get a chainable mock object you must:
+<itemizedlist>
+ <listitem>Derive and define your object with the methods you need</listitem>
+ <listitem>Create a chainer for each method and set up the behaviour</listitem>
+</itemizedlist>
+</para>
+
+<para>
+The following listing contains a short example and explains some of the features.
+
+<programlisting>
+
+  class MyInterfaceClass <co  id="jinterface2-class-co"  linkends="jinterface2-class" />
+  {
+    public:
+
+     virtual int access(unsigned index) = 0;
+  };
+
+  class MyChainableMockObject : public ChainableMockObject,  <co  id="chainable-class-co"  linkends="chainable-class" />
+                                public MyInterfaceClass
+  {
+    public:
+      MyChainableMockObject(const String &amp;name)
+        : ChainableMockObject(name, 0)
+        , MOCKPP_CONSTRUCT_MEMBERS_FOR_CHAINABLE1(access) <co  id="chainable-ctor-co"  linkends="chainable-ctor" />
+      {}
+
+      MOCKPP_CHAINABLE1(MyChainableMockObject, int, access, unsigned); <co id="jmock-method-co"  linkends="jmock-method" />
+  };
+
+  MyChainableMockObject mco("mco");
+
+  MOCKPP_CHAINER_FOR(MyChainableMockObject, access) chainer (&amp;mco); <co  id="jmock-chainer-co"  linkends="jmock-controller" />
+
+  chainer.setDefaultStub(new ThrowStub&lt;int>(make_throwable(1)));  <co id="jmock-feed1-co"  linkends="jmock-feed1" />
+  chainer.stubs()
+         .with(eq(1))
+         .will(new ReturnStub&lt;int>(13));                              <co id="jmock-feed2-co"  linkends="jmock-feed2" />
+
+  chainer.expects(once())
+         .with((eq(2)))
+         .id("called-with-2"); <co id="jmock-feed3-co"  linkends="jmock-feed3" />
+
+  chainer.stubs()
+         .after(otherObject, "some-label")
+         .will(new ReturnStub&lt;int>(2222)); <co id="jmock-feed4-co"  linkends="jmock-feed4" />
+
+  // use the object
+
+  mco.verify(); <co id="jmock-verify-co"  linkends="jmock-verify" />
+
+</programlisting>
+
+<calloutlist>
+
+  <callout arearefs="jinterface2-class-co"  id="jinterface2-class" >
+    <para>Define your interface class.</para>
+  </callout>
+
+  <callout arearefs="chainable-class-co"  id="chainable-class" >
+    <para>Derive your mock object class from <classname>ChainableMockObject</classname>
+    and the interface class.</para>
+  </callout>
+
+  <callout arearefs="chainable-ctor-co"  id="chainable-ctor" >
+    <para>According to the type of method and the number of parameters it takes
+    add a macro that does the construction part for all the necessary internal
+    helper variables for that method.</para>
+  </callout>
+
+  <callout arearefs="jmock-method-co"  id="jmock-method" >
+    <para>Similarly add another macro that implements the internal variables
+    and helper methods.</para>
+  </callout>
+
+  <callout arearefs="jmock-chainer-co"  id="jmock-controller" >
+    <para>Create a  chainer object for the method to set up it's
+    behaviour.</para>
+  </callout>
+
+  <callout arearefs="jmock-feed1-co"  id="jmock-feed1" >
+    <para>Add some behaviour: tell the object to throw an exception when no other
+    expectations match.</para>
+  </callout>
+
+  <callout arearefs="jmock-feed2-co"  id="jmock-feed2" >
+    <para>More specific behaviour: depending on the parameters passed it shall respond
+    with certain return values.</para>
+  </callout>
+
+  <callout arearefs="jmock-feed3-co"  id="jmock-feed3" >
+    <para>Add a label to an invocation for further reference.</para>
+  </callout>
+
+  <callout arearefs="jmock-feed4-co"  id="jmock-feed4" >
+    <para>After an invocation of some other object's method has occured
+    return a different value.</para>
+  </callout>
+
+
+  <callout arearefs="jmock-verify-co"  id="jmock-verify" >
+    <para>After the tests have completed verify all conditions that are still pending, for
+    example unused return values or exceptions.</para>
+  </callout>
+
+</calloutlist>
+
+</para>
+
+</sect3>
+
+<sect3 id="chain-template">
+<title>Using a Mock Method Chainer</title>
+
+The second approach with mock method templates is almost the same as before. The difference
+is to replace the macros and the resulting chainer object with the method object
+and forward the call to it.
+
+<programlisting>
+
+  class MyChainableMockObject : public ChainableMockObject,
+                                public MyInterfaceClass
+  {
+    public:
+      MyChainableMockObject(const String &amp;name)
+        : ChainableMockObject(name, 0)
+        , access_mocker("access", this)  <co  id="chainmeth-cons-co"  linkends="chainmeth-cons" />
+      {}
+
+      virtual int access(unsigned index) <co  id="chainmeth-fwd-co"  linkends="chainmeth-fwd" />
+      {
+        return access_mocker.forward(index);
+      }
+
+      ChainableMockMethod1&lt;int, unsigned> access_mocker;  <co  id="chainmeth-var-co"  linkends="chainmeth-var" />
+  };
+
+  MyChainableMockObject mco("mco");
+
+  ChainableMockMethod1&lt;int, unsigned> &amp;chainer (mco.access_mocker);  <co  id="chainmeth-ref-co"  linkends="chainmeth-ref" />
+
+  chainer.setDefaultStub(new ThrowStub&lt;int>(make_throwable(1)));
+  chainer.stubs()
+         .with(eq(12u))
+         .will(new ReturnStub&lt;int>(13));  <co  id="chainmeth-setup-co"  linkends="chainmeth-setup" />
+
+  // use the object
+
+  mco.verify();
+
+</programlisting>
+
+<calloutlist>
+
+  <callout arearefs="chainmeth-cons-co"  id="chainmeth-cons" >
+    <para>Construct the mock method helper object.</para>
+  </callout>
+
+  <callout arearefs="chainmeth-fwd-co"  id="chainmeth-fwd" >
+    <para>Provide the method as entry point and forward the call to
+          the method which does the actual work.</para>
+  </callout>
+
+  <callout arearefs="chainmeth-var-co"  id="chainmeth-var" >
+    <para>Instantiate a mock method variable. Select the class according
+    to the parameters the method takes. There also a template without a trailing
+    number which handles an arbitrary parameter count.</para>
+  </callout>
+
+  <callout arearefs="chainmeth-ref-co"  id="chainmeth-ref" >
+    <para>For convenience create a reference to the mock method helper.</para>
+  </callout>
+
+  <callout arearefs="chainmeth-setup-co"  id="chainmeth-setup" >
+    <para>Set up the mock objects behaviour in the same manner as
+           described above using the macros.</para>
+  </callout>
+
+</calloutlist>
+
+</sect3>
+
+</sect2>

@@ -1,0 +1,238 @@
+<!-- Generator apps
+
+     $Id: generator.docbook 1413 2007-06-20 18:32:57Z ewald-arnold $
+-->
+
+<chapter id="devel-generator">
+<title>Automatically Create Mock Object Sources</title>
+
+<para>The process for the creation of the source files from C++ headers is
+split into two parts:
+
+<itemizedlist spacing="compact">
+  <listitem><para>The first application <filename>mockpp2xml</filename> parses the
+  C++ header file and writes the constructors and methods you need to an intermediate
+  XML file.</para></listitem>
+
+  <listitem><para>In the second step <filename>xml2mockpp</filename> reads the
+  XML file and creates a C++ header and the according implementation files.
+  Upon request a third file is created where user defined constructors are located.
+  </para></listitem>
+</itemizedlist>
+</para>
+
+<para>Splitting the process into two parts enables postprocessing the XML file with
+simple methods. Otherwise a rather complicated C++ parser based on less known
+tools like <filename>yacc</filename> and <filename>lex</filename> would have to
+be changed.</para>
+
+<para>Additionally one could create a different application for the second step.
+Based on the XML file it could create totally different user
+defined C++ sources.</para>
+
+<para>If you integrate the two applications into your build process, your mock
+object files are automatically kept up to date with the production sources. You
+simply make the mock object files depend on the according header file.
+If you need specialized
+constuctors you will place them in the user defined third file. This file is never
+updated automatically. Instead a template file is written from where you can copy-and-paste
+what you need and adjust the rest manually.</para>
+
+<!-- ===================================== -->
+
+<sect1 id="devel-gen-mockpp2xml">
+<title>Parsing The Header File</title>
+
+<para>In the first step <filename>mockpp2xml</filename> parses the header file
+and outputs the
+according XML data stream to standard output. If you want to have an XML file you
+must redirect standard outout to the desired file. The only possible parameter is the name
+of the C++ header file. All the classes in the header file are written to the
+XML stream.</para>
+
+<para>The parser needs markers whch methods and constructors shall be written to
+the XML stream. This is done by appending a pseudo keyword after one of the access
+modifiers <token>public</token>, <token>protected</token> or <token>private</token>
+before the definition.</para>
+
+<para>The parser distinguishes between constructors and methods. Each of them
+uses a different keyword:
+
+<variablelist>
+
+  <varlistentry>
+    <term><token>mockpp_constructor</token></term>
+    <listitem><para>This keyword includes the directly following constructor
+    (and only this one) in the XML stream.</para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><token>mockpp_methods</token></term>
+    <listitem><para>All the methods after this keyword are written to the XML
+    stream. The inclusion stops at the next access modifier unless it contains
+    this keyword again.</para></listitem>
+  </varlistentry>
+
+</variablelist>
+
+Destructors are never included even if they have a starting marker. To make
+these keywords invisible for the compiler you define these two with empty content.</para>
+
+<para>A sample class could then look like this:
+
+<programlisting>
+
+#define mockpp_constructor
+#define mockpp_methods
+
+class MockppIdlTest : public IdlInterface
+{
+  public mockpp_constructor:
+    MockppIdlTest(int i, const std::string &amp;s)
+      : IdlInterface("name")
+    {
+    }
+
+  private mockpp_methods:
+    virtual std::string * url4() = 0;
+};
+
+</programlisting>
+
+</para>
+
+<para>The following line shows how to invoke the C++ parser and write the XML stream
+to a file:
+
+<screen>
+
+  mockpp2xml   header.h  >header-data.xml
+
+</screen>
+
+</para>
+
+<para>If you are familiar with with development around
+<ulink url="http://www.kde.org">KDE</ulink> and
+<ulink url="http://www.troll.no">QT</ulink> you are probably familiar with this
+approach.</para>
+
+<para>It might also be interesting to know that the basis for this parser was
+taken from the
+<ulink url="http://www.kde.org">KDE Project</ulink>. For that reason it is able
+to parse (in the meaning of to ignore) the special keywords related to DCOP and
+QOBJECT like <token>k_dcop</token> or <token>signals</token>.
+</para>
+
+<note>
+<title>The Difficulty of Parsing C++</title>
+<para>Parsing even valid C++ source code is is a difficult task.
+<filename>xml2mockpp</filename> handles most of the common files. But there may
+be problems with some code, for example nested templates. In the worst case
+you may have to remove or
+comment out the problematic parts while parsing. Probably it is possible to use
+<token>#define</token>'s with the preprocessor to do this automatically.</para>
+
+<para>The test files <filename>mockpp/generator/mockpp2xml/dcopidl_test.h</filename>
+and <filename>mockpp/generator/mockpp2xml/mockppidl_test.h</filename> give an
+overview of what the parser currently is able to process.</para>
+
+<para>In case you have a file which is not parsed correctly but you think this
+should be the case since it looks trivial: please post
+<ulink url="http://sourceforge.net/tracker/?atid=523523&amp;group_id=69135&amp;func=browse">a
+bug report.</ulink></para>
+
+</note>
+
+</sect1>
+
+<!-- ===================================== -->
+
+<sect1 id="devel-gen-xml2mockpp">
+<title>Generating The Mock Object Files</title>
+
+<para>In the second step the XML file is processed and the C++ files are created.
+Each invocation of <filename>xml2mockpp</filename> creates a set consisting of
+two or more files depending on the given options and the XML file. The
+filenames are composed of the according C++ class name and the
+extension "_mock" plus some file specific suffix.
+
+<itemizedlist spacing="compact">
+  <listitem><para>A C++ header file with the filename extension ".h".</para></listitem>
+  <listitem><para>A C++ implementation file with the filename extension ".cpp".</para></listitem>
+  <listitem><para>Optionally a C++ implementation file containing user defined constructors
+  with the filename ending in "_mock_user.cpp".</para></listitem>
+</itemizedlist>
+
+There are several options that influence the file creation process:
+
+<variablelist>
+
+  <varlistentry>
+    <term><command>--gen-visitable-method</command></term>
+    <listitem><para>Generate files that use the
+    <link linkend="visit-template">visitable mock method</link>
+    approach.</para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><command>--gen-chainable-method</command></term>
+    <listitem><para>Generate files that use
+    <link linkend="chain-template">chainableable mock methods</link>.</para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><command>--gen-user-ctor</command></term>
+    <listitem><para>By default the implementation of the constructors is placed
+    in the implementation file for the mock methods. In case you have to adjust
+    the constructor for special cases you can enable a third file for user
+    defined constructors. If this file
+    already exists, then the new content is written to a fourth file with the
+    extension <filename>_user_mock.cpp.new</filename>.
+    You can then move the new parts from there to the user defined implementation file.</para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><command>--gen-class=classname</command></term>
+    <listitem><para>Without additional options each of the classes in the XML file
+    result in a set of header and source files. If you want to create files for
+    only a selected set of classes you have to pass the class name using this
+    option. When you need more than one class you have to pass this option
+    multiple times.</para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><command>--file-name=filename.xml</command></term>
+    <listitem><para>The name of the XML file with the class data.</para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><command>--dest-dir=dest-path</command></term>
+    <listitem><para>Without further options the resulting files are written to
+    the current directory. If you want a different destination you provide
+    the desired path with this parameter.</para></listitem>
+  </varlistentry>
+
+</variablelist>
+
+</para>
+
+<para>The following line creates the C++ files <filename>MockppIdlTestMock.h</filename>
+and <filename>MockppIdlTestMock.cpp</filename> from the XML file
+<filename>header-data.xml</filename>. These files are based on
+<link linkend="visit-template">visitable mock methods</link> and they are written
+to the subdirectory <filename>tests</filename>. For better readability the long
+command line is broken into two lines.
+
+<screen>
+
+  xml2mockpp  --gen-visitable-method --file-name=header-data.xml \
+              --dest-dir=tests  --gen-class=MockppIdlTest
+
+</screen>
+
+</para>
+</sect1>
+
+
+</chapter>

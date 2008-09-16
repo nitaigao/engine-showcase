@@ -1,0 +1,353 @@
+<!-- Basic mock objects
+
+     $Id: dev_basic.docbook 1126 2006-01-07 11:39:50Z ewald-arnold $
+-->
+
+<sect1 id="basic-expectations">
+<title>Basic Expectations</title>
+
+<para>
+All of the expectation objects share a similar approach: setting up
+a set of expectations at the beginning of a test and compare with
+actual values while the test is running.</para>
+
+<para>For that reason each of the different expectation classes
+has at least
+<itemizedlist>
+  <listitem>a method named similar to <methodname>setExpected()</methodname> to set
+  up the expected value.</listitem>
+  <listitem>and a method named <methodname>setActual()</methodname> for setting
+  the actual value.</listitem>
+</itemizedlist>
+
+Additionally there are some methods to influence the verification
+process under certain circumstances:
+
+<variablelist>
+
+  <varlistentry>
+    <term><methodname>setFailOnVerify()</methodname></term>
+    <listitem><para>Usually the actual value is immediately compared
+    when set. Sometimes you want to defer this until all the work is done.
+    After invoking this method you must call <methodname>verify()</methodname>
+    manually at the end to verify all pending expectations.</para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><methodname>setExpectNothing()</methodname></term>
+    <listitem><para>If you want to prevent the occurrence of any actual values
+    you should invoke this method at the beginning.
+
+    <note><title>Attention</title>
+    <para>
+    Please understand that
+    this is different from not setting any expectations! Not setting an expectation
+    yields in no error at all for any setting of an actual value since there is no value
+    to compare with.
+    </para>
+    </note>
+    </para></listitem>
+  </varlistentry>
+
+</variablelist>
+
+</para>
+
+<sect2 id="expectation-value">
+<title>Expectation Value</title>
+
+<para>
+
+The most common application is the use of <classname>ExpectationValue</classname>
+which does an exact comparison. Your own data types should implement a meaningful
+<methodname>operator==()</methodname> to be usable with &mockpp;.
+Depending on your type <methodname>operator&lt;()</methodname>
+can replace the former operator by supplying a template which does the following
+computation: <code>!(x &lt; y) &amp;&amp; !(y &lt; x)</code>.</para>
+
+<para>The following example creates an expectation value for <token>int</token>
+values.
+
+<programlisting>
+
+  ExpectationValue &lt;int> ev ("verifyValue", 0);
+
+  ev.setExpected(1234);
+  ev.setActual(4321);
+
+</programlisting>
+
+</para>
+
+</sect2>
+<!-- ############################################################### -->
+
+<sect2 id="expectation-list">
+<title>Expectation List</title>
+
+<para>
+Sometimes you have not only a single value but a series of values. For this
+purpose you set up a list of expectations of the same type. The next example creates
+an expectation list for <token>int</token> values. The list members are compared with the
+actual values one after the other in exactly the same order they were inserted.
+
+<programlisting>
+
+  ExpectationList &lt;int> el ("verifyValue", 0);
+
+  el.addExpected(1);
+  el.addExpected(2);
+  el.addExpected(3);
+
+  el.addActual(1);
+  el.addActual(2);
+  el.addActual(3);
+
+</programlisting>
+
+</para>
+
+</sect2>
+
+<!-- ############################################################### -->
+
+<sect2 id="constraint-list">
+<title>Constraint List</title>
+
+<para>
+Another expectation class is <classname>ConstraintList</classname>. It is similar to the former
+<classname>ExpectationList</classname> but offers more flexibility by using constraint classes
+to check the validity of the actual parameters. Instead of a value you pass the according
+object which is then used to verify the actual value. The usage of the constraint classes is
+explained in
+the <link linkend="parameter-constraint">chapter about ChainingMockObjects</link>.
+
+<programlisting>
+
+  ConstraintList &lt;int> cl ("verifyValue", 0);
+
+  cl.addExpected(new IsGreaterOrEqual&lt;int>(10)); <co  id="great-eq-co"  linkends="great-eq" />
+  cl.addExpected(new IsLessOrEqual&lt;int>(20));    <co  id="less-eq-co"   linkends="less-eq" />
+
+  cl.addActual(13);
+  cl.addActual(23);
+
+</programlisting>
+
+<calloutlist>
+
+  <callout arearefs="great-eq-co"  id="great-eq" >
+    <para>This constraint is valid for all actual parameters which are greater than or equal to 10.</para>
+  </callout>
+
+  <callout arearefs="less-eq-co"  id="less-eq" >
+    <para>This one is valid for all actual parameters which are less than or equal to 20.</para>
+  </callout>
+
+</calloutlist>
+</para>
+
+</sect2>
+
+<!-- ############################################################### -->
+
+<sect2 id="expectation-set">
+<title>Expectation Set</title>
+
+<para>
+There are also cases where you have a number of values which must all occur but the
+order is not relevant at all. It even does not matter if an actual value is added
+more than once. For that purpose &mockpp; provides a set oriented data type.
+See the next example:
+
+<programlisting>
+
+  ExpectationSet &lt;int> es ("verifyValue", 0);
+  es.addExpected(1);
+  es.addExpected(2);
+  es.addExpected(3);
+
+  es.addActual(3);
+  es.addActual(2);
+  es.addActual(1);
+  es.addActual(3); <co  id="expset-co"  linkends="expset" />
+  es.addActual(2);
+  es.addActual(1);
+
+</programlisting>
+
+<calloutlist>
+
+  <callout arearefs="expset-co"  id="expset" >
+    <para>Adding the same actual value more than once is OK for the set.</para>
+  </callout>
+
+</calloutlist>
+
+</para>
+
+</sect2>
+
+<!-- ############################################################### -->
+
+<sect2 id="expectation-map">
+<title>Expectation Map</title>
+
+<para>
+In addition to <classname>ExpectationSet</classname> there is a <literal>map</literal>
+oriented class which uses key/value pairs. The comparison is done only with the key, the
+value itself is ignored.
+
+<programlisting>
+
+  ExpectationMap &lt;int, std::string> em ("verifyMap", 0);
+
+  em.addExpected(1, "one");
+  em.addExpected(2, "two");
+  em.addExpected(3, "three");
+
+  em.addActual(3);
+  em.addActual(2);
+  em.addActual(1);
+
+</programlisting>
+
+</para>
+
+</sect2>
+
+<!-- ############################################################### -->
+
+<sect2 id="expectation-boundary">
+<title>Expectation Boundary</title>
+
+<para>
+When you need not check for an exact match but want to allow a range of values
+you may use <classname>ExpectationBoundary</classname> which tests against a lower
+and an upper boundary value. Since the comparison is done with
+<methodname>operator&lt;()</methodname> your own data types should implement it
+meaningfully.
+
+<programlisting>
+
+  ExpectationBoundary &lt;int> eb ("verifyBoundary", 0);
+
+  eb.setExpected(111, 333);
+  eb.setActual(222);
+
+</programlisting>
+
+</para>
+
+</sect2>
+
+<!-- ############################################################### -->
+
+<sect2 id="expectation-counter">
+<title>ExpectationCounter</title>
+
+<para>
+Another task is counting events. For that reason &mockpp; provides a counter-like
+class.
+
+<programlisting>
+
+  ExpectationCounter ec ("verifyCounter", 0);
+
+  ec.setExpected(5);
+  ec.inc();
+
+</programlisting>
+
+</para>
+
+</sect2>
+
+
+<!-- ############################################################### -->
+
+<sect2 id="tracking-counter">
+<title>TrackingCounter</title>
+
+<para>
+If you want to track events which are related to each other you might use the
+two classes <classname>TrackingCounterMaster</classname> and
+<classname>TrackingCounterClient</classname>. The master contains
+a shared conter value. Each time one of the clients is activated it gets the
+current value from the master and stores it. The value inside the master is
+incremented at the same time. This way you can roughly check the order in which
+the clients were accessed. It is also possible to retrieve each counter value
+of a client and not only the last one.
+
+<programlisting>
+
+  TrackingCounterMaster master ("master", 0);
+  TrackingCounterClient client1 ("client-1", master);
+  TrackingCounterClient client2 ("client-2", master);
+
+  master.setExpected(5, 10);
+  client1.setExpected(2);
+  client2.setExpected(2, 8);
+
+  client1++;
+  client2++;
+
+  master.verify();
+
+</programlisting>
+
+</para>
+
+</sect2>
+
+
+<!-- ############################################################### -->
+
+<sect2 id="expectation-segment">
+<title>ExpectationSegment</title>
+
+<para>
+Checking the occurence of a substring within a target string is also needed
+frequently:
+
+<programlisting>
+
+  ExpectationSegment &lt;std::string> es ("verifySegment", 0);
+
+  es.setExpected("substr");
+  es.setActual("ubs")
+
+</programlisting>
+
+</para>
+
+</sect2>
+
+
+<!-- ############################################################### -->
+
+<sect2 id="return-object-list">
+<title>Return Object List</title>
+
+<para>
+If you set up your own mock objects you will need to provide a list
+of predefined return objects from your mock implementations. All of the objects
+must be consumed.
+
+<programlisting>
+
+  ReturnObjectList &lt;std::string> ro ("objectList", 0);
+
+  ro.addObjectToReturn("str-1");
+  ro.addObjectToReturn("str-2");
+
+  std::string s = ro.nextReturnObject();
+
+</programlisting>
+
+</para>
+
+</sect2>
+
+</sect1>
+
