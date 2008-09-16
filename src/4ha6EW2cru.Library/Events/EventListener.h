@@ -3,12 +3,15 @@
 
 #include <functional>
 
+#include "../Logging/Logger.h"
+#include "../Exceptions/NullReferenceException.hpp"
+
 #include "IEvent.hpp"
 #include "EventType.hpp"
 #include "IEventListener.hpp"
 
 /*! 
-	Listenener for Events and handles the appropriate action 
+	Listener for Events and handles the appropriate action 
 */
 template< class T >
 class EventListener : public IEventListener
@@ -18,15 +21,31 @@ class EventListener : public IEventListener
 
 public:
 
-	EventListener( const EventType eventType,  T* const handlerTarget, HandlerFunctor handlerFunctor )
+	EventListener( const EventType eventType, T* const handlerTarget, HandlerFunctor handlerFunctor )
+		: _handlerFunctor( handlerFunctor )
+		, _eventType( eventType )
+		, _handlerTarget( handlerTarget )
 	{
-		_handlerFunctor = handlerFunctor;
-		_handlerTarget = handlerTarget;
-		_eventType = eventType;
+
 	}
 
+	/*! Passes the incoming event function handling it */
 	void HandleEvent( const IEvent* event ) const 
 	{
+		if ( _handlerTarget == 0 )
+		{
+			std::string message = "EventListener::HandleEvent - HandlerTarget is NULL";
+			throw NullReferenceException( message );
+			Logger::GetInstance( )->Fatal( message );
+		}
+
+		if ( _handlerFunctor == 0 )
+		{
+			std::string message = "EventListener::HandleEvent - HandlerFunctor is NULL";
+			throw NullReferenceException( message );
+			Logger::GetInstance( )->Fatal( message );
+		}
+
 		( _handlerTarget->*_handlerFunctor )( event );
 	}
 

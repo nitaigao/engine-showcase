@@ -13,7 +13,7 @@
 
 int main (int argc, char* argv[])
 {
-	//_crtBreakAlloc = 31593;
+	//_crtBreakAlloc = 2179;
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF ); 
 
 	// Create the event manager and test controller

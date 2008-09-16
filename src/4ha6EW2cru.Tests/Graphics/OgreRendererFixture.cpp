@@ -1,7 +1,8 @@
 #include "OgreRendererFixture.h"
 
-#include "Graphics/IRenderer.hpp"
 #include "Graphics/OgreRenderer.h"
+
+#include "Exceptions/ScreenDimensionsException.hpp"
 
 #include "Events/EventManager.h"
 #include "IO/FileManager.h"
@@ -14,10 +15,14 @@ void OgreRendererFixture::setUp( )
 	Logger::Initialize( );
 	EventManager::Initialize( );
 	FileManager::Initialize( );
+
+	_renderer = new OgreRenderer( );
 }
 
 void OgreRendererFixture::tearDown( )
 {
+	delete _renderer;
+
 	FileManager::GetInstance( )->Release( );
 	EventManager::GetInstance( )->Release( );
 	Logger::GetInstance( )->Release( );
@@ -25,10 +30,15 @@ void OgreRendererFixture::tearDown( )
 
 void OgreRendererFixture::Should_Intialize_Correctly( )
 {
-	IRenderer* renderer = new OgreRenderer( );
-	bool result = renderer->Initialize( 800, 600, false );
+	CPPUNIT_ASSERT( _renderer->Initialize( 800, 600, false ) );
+}
 
-	CPPUNIT_ASSERT( result );
+void OgreRendererFixture::Should_Throw_ScreenDimensionsException_On_Initialize_Given_Negative_Dimensions( )
+{
+	CPPUNIT_ASSERT_THROW( _renderer->Initialize( -1, -1, -1 ), ScreenDimensionsException );
+}
 
-	delete renderer;
+void OgreRendererFixture::Should_Throw_ScreenDimensionsException_On_Initialize_Given_Zero_Dimensions( )
+{
+	CPPUNIT_ASSERT_THROW( _renderer->Initialize( 0, 0, 0 ), ScreenDimensionsException );
 }

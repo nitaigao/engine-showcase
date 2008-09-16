@@ -5474,3 +5474,1911 @@ INFO: Releasing the Game
 DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
 INFO: Releasing the File Manager
 INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+FATAL: Logger has already been Initialized
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+FATAL: Logger has already been Initialized
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+FATAL: Logger has already been Initialized
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+FATAL: Logger has already been Initialized
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager
+INFO: Initializing Game
+INFO: Initializing Event Manager
+INFO: Initializing the File Manager
+DEBUG: Adding ../game/data/views.bad to File System Path
+INFO: Initializing Human View
+DEBUG: BadArchiveFactory: Creating Instance of ../game/data/gui.bad
+DEBUG: Adding ../game/data/gui.bad to File System Path
+INFO: Initializing Input System
+DEBUG: Adding ../game/data/gui.bad to File System Path
+DEBUG: Loading File: views/interactiveview.lua
+FATAL: Loading Script: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+FATAL: Loading Script: gui/screens/introscreen/introscreen.lua
+DEBUG: introscreen: Initializing
+INFO: Lua: Initializing IntroScreen
+INFO: Lua: IntroScreen Initialized
+INFO: Releasing the Game
+DEBUG: BadArchiveFactory: Destroying Instance of ../game/data/gui.bad
+INFO: Releasing the File Manager
+INFO: Releasing Event Manager

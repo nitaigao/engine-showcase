@@ -3,6 +3,8 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
+#include "Exceptions/ScriptException.hpp"
+
 class ScriptFixture : public CPPUNIT_NS::TestFixture
 {
 
@@ -11,7 +13,7 @@ class ScriptFixture : public CPPUNIT_NS::TestFixture
   CPPUNIT_TEST( Should_Load_Script_Successfully );
   CPPUNIT_TEST( Should_Recieve_Event );
   CPPUNIT_TEST( Should_Call_Function );
-  CPPUNIT_TEST_EXCEPTION( Should_Throw_On_Script_Error, std::exception );
+  CPPUNIT_TEST( Should_Throw_On_Script_Error );
   CPPUNIT_TEST_SUITE_END( );
 
 public:

@@ -11,12 +11,12 @@ class EventDataFixture : public CPPUNIT_NS::TestFixture
 {
 
   CPPUNIT_TEST_SUITE( EventDataFixture );
-  CPPUNIT_TEST( Should_KeyEvent_Return_Correct_Keycode );
+  CPPUNIT_TEST( Should_Return_Correct_Keycode );
   CPPUNIT_TEST_SUITE_END( );
 
 protected:
 
-  void Should_KeyEvent_Return_Correct_Keycode( );
+  void Should_Return_Correct_Keycode( );
 
 };
 

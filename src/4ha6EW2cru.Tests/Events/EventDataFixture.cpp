@@ -2,7 +2,7 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION( EventDataFixture );
 
-void EventDataFixture::Should_KeyEvent_Return_Correct_Keycode( )
+void EventDataFixture::Should_Return_Correct_Keycode( )
 {
 	OIS::KeyCode keyCode = OIS::KC_RETURN;
 	

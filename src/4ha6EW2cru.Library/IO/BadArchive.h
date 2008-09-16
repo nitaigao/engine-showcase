@@ -21,8 +21,8 @@ class BadArchive : public Ogre::Archive
 		DataStreamPtr open( const String& filename ) const;
 		bool exists( const String& filename );
 
-		StringVectorPtr list( bool recursive = true, bool dirs = false ) { return StringVectorPtr( ); };
-		FileInfoListPtr listFileInfo( bool recursive = true, bool dirs = false ) { return FileInfoListPtr( ); };
+		StringVectorPtr list( bool recursive = true, bool dirs = false );
+		FileInfoListPtr listFileInfo( bool recursive = true, bool dirs = false );
 
 		StringVectorPtr find( const String& pattern, bool recursive = true, bool dirs = false );
 		FileInfoListPtr findFileInfo( const String& pattern, bool recursive = true, bool dirs = false );

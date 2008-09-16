@@ -53,3 +53,13 @@ FileInfoListPtr BadArchive::findFileInfo( const String& pattern, bool recursive 
 {
 	return FileInfoListPtr( new FileInfoList( ) );
 }
+
+StringVectorPtr BadArchive::list( bool recursive /* = true */, bool dirs /* = false */ )
+{
+	return StringVectorPtr( new StringVector( ) );
+}
+
+FileInfoListPtr BadArchive::listFileInfo( bool recursive /* = true */, bool dirs /* = false */ )
+{
+	return FileInfoListPtr( new FileInfoList( ) );
+}

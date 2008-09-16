@@ -18,21 +18,9 @@ bool HumanView::Initialize( )
 	_renderer->Initialize( width, height, fullScreen );
 
 	{	// -- Input
- 
-		std::stringstream hWndParam;
-		hWndParam << _renderer->GetHwnd( );
 
-		OIS::ParamList params;
-		params.insert( std::make_pair( std::string("WINDOW"), hWndParam.str( ) ) );		
-
-		OIS::InputManager* oisManager = OIS::InputManager::createInputSystem( params );
-		_inputSystem = new InputSystem( oisManager );
-		
-		if ( !_inputSystem->Initialize( ) )
-		{
-			return false;
-		}
-
+		_inputSystem = new InputSystem( _renderer->GetHwnd( ) );
+		_inputSystem->Initialize( );
 		_inputSystem->SetCaptureArea( width, height );
 	}
 
@@ -72,22 +60,13 @@ bool HumanView::Initialize( )
 void HumanView::Render( )
 {
 	_renderer->Render( );
-	//_root->renderOneFrame( );
 }
 
 void HumanView::Update( )
 {
-	/*if ( _root != 0 )
-	{
-		if ( _root->getAutoCreatedWindow( )->isClosed( ) )
-		{
-			EventManager::GetInstance( )->QueueEvent( new Event( GAME_QUIT ) );
-		}
-	}*/
-
 	if ( _inputSystem != 0 )
 	{
-		//_inputSystem->Update( );
+		_inputSystem->Update( );
 	}
 }
 
@@ -97,8 +76,6 @@ HumanView::~HumanView( )
 	EventManager::GetInstance( )->RemoveEventListener( CHANGE_SCREEN, this, &HumanView::OnChangeScreen );
 
 	delete _currentScreen;
-
-	_inputSystem->Release( );
 	delete _inputSystem;
 	_inputSystem = 0;
 

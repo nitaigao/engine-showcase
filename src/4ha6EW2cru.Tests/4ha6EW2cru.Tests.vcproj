@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/cppunit/include;../../etc/vendor/ois/includes;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/mygui/include;../../etc/vendor/mockpp;../../etc/vendor/ogre/include"
+				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/cppunit/include;../../etc/vendor/ois/includes;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/mygui/include;../../etc/vendor/mockpp;../../etc/vendor/ogre/include;../../etc/vendor/poco/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,9 +61,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="mockpp_44d.lib cppunitd.lib OgreMain_d.lib OIS_static_d.lib luad.lib libluabind.lib MyGUI_d.lib"
+				AdditionalDependencies="mockpp_44d.lib cppunitd.lib OgreMain_d.lib OIS_static_d.lib luad.lib libluabind.lib MyGUI_d.lib pococapsule.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/ogre/lib"
+				AdditionalLibraryDirectories="../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/ogre/lib;../../etc/vendor/poco/lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -309,11 +309,19 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Mocks\MockEventSubject.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Mocks\MockEventTrigger.hpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Mocks\MockLogAppender.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Mocks\MockRenderer.hpp"
 			>
 		</File>
 		<File
