@@ -28,6 +28,7 @@ class EventManagerFixture : public CPPUNIT_NS::TestFixture
   CPPUNIT_TEST( Should_Throw_On_RemoveEventListener_Given_NULL_Target );
   CPPUNIT_TEST( Should_Throw_On_RemoveEventListener_Given_NULL_HandlerFunctor );  
   CPPUNIT_TEST( Should_Remove_Listener_Given_Correct_Listener_And_Initialized );
+  CPPUNIT_TEST( Should_Still_Remove_Listener_Given_Non_Existant_Listener_And_Initialized );
   CPPUNIT_TEST( Should_Queue_Event_Given_Correct_Event );
   CPPUNIT_TEST( Should_Throw_On_Queue_Event_Given_NULL_Event );
   CPPUNIT_TEST( Should_Throw_On_Queue_Event_Given_Uninitialized );
@@ -58,6 +59,7 @@ protected:
 	void Should_Throw_On_RemoveEventListener_Given_NULL_Target( );
 	void Should_Throw_On_RemoveEventListener_Given_NULL_HandlerFunctor( );  
 	void Should_Remove_Listener_Given_Correct_Listener_And_Initialized( );
+	void Should_Still_Remove_Listener_Given_Non_Existant_Listener_And_Initialized( );
 	void Should_Queue_Event_Given_Correct_Event( );
 	void Should_Throw_On_Queue_Event_Given_NULL_Event( );
 	void Should_Throw_On_Queue_Event_Given_Uninitialized( );

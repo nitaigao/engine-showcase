@@ -175,7 +175,7 @@ void EventManagerFixture:: Should_Add_Listener_Given_Correct_Listener_And_Initia
 {
 	EventSubjectMock* eventSubject = new EventSubjectMock( );
 	EventManager::Initialize( );
-	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->AddEventListener< EventSubjectMock >( TEST_EVENT, eventSubject, &EventSubjectMock::EventHandler ), NullReferenceException );
+	EventManager::GetInstance( )->AddEventListener< EventSubjectMock >( TEST_EVENT, eventSubject, &EventSubjectMock::EventHandler );
 	EventManager::GetInstance( )->Release( );
 
 	delete eventSubject;
@@ -195,25 +195,53 @@ void EventManagerFixture:: Should_Throw_On_RemoveEventListener_Given_NULL_Target
 
 void EventManagerFixture:: Should_Throw_On_RemoveEventListener_Given_NULL_HandlerFunctor( )
 {
+	EventSubjectMock* eventSubject = new EventSubjectMock( );
 
+	EventManager::Initialize( );
+	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->RemoveEventListener< EventSubjectMock > ( TEST_EVENT, eventSubject, 0 ), NullReferenceException );
+	EventManager::GetInstance( )->Release( );
+
+	delete eventSubject;
 }
 
 void EventManagerFixture:: Should_Remove_Listener_Given_Correct_Listener_And_Initialized( )
 {
+	EventSubjectMock* eventSubject = new EventSubjectMock( );
 
+	EventManager::Initialize( );
+	EventManager::GetInstance( )->AddEventListener( TEST_EVENT, eventSubject, &EventSubjectMock::EventHandler );
+	EventManager::GetInstance( )->RemoveEventListener( TEST_EVENT, eventSubject, &EventSubjectMock::EventHandler );
+	EventManager::GetInstance( )->Release( );
+
+	delete eventSubject;
+}
+
+void EventManagerFixture:: Should_Still_Remove_Listener_Given_Non_Existant_Listener_And_Initialized( )
+{
+	EventSubjectMock* eventSubject = new EventSubjectMock( );
+
+	EventManager::Initialize( );
+	EventManager::GetInstance( )->RemoveEventListener( TEST_EVENT, eventSubject, &EventSubjectMock::EventHandler );
+	EventManager::GetInstance( )->Release( );
+	
+	delete eventSubject;
 }
 
 void EventManagerFixture:: Should_Queue_Event_Given_Correct_Event( )
 {
-
+	EventManager::Initialize( );
+	EventManager::GetInstance( )->QueueEvent( new Event( TEST_EVENT ) );	
+	EventManager::GetInstance( )->Release( );
 }
 
 void EventManagerFixture:: Should_Throw_On_Queue_Event_Given_NULL_Event( )
 {
-
+	EventManager::Initialize( );
+	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->QueueEvent( 0 ), NullReferenceException );
+	EventManager::GetInstance( )->Release( );
 }
 
 void EventManagerFixture:: Should_Throw_On_Queue_Event_Given_Uninitialized( )
 {
-
+	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->QueueEvent( 0 ), UnInitializedException );
 }

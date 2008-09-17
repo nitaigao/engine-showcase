@@ -36,9 +36,9 @@ public:
 
 	/*! Adds an EventListener for Event processing */
 	template< class AT >
-	void AddEventListener( const EventType eventType, AT* eventTarget, void ( AT::*handlerFunctor ) ( const IEvent* event ) )
+	void AddEventListener( const EventType eventType, AT* handlerTarget, void ( AT::*handlerFunctor ) ( const IEvent* event ) )
 	{
-		if ( 0 == eventTarget )
+		if ( 0 == handlerTarget )
 		{
 			std::string targetNUllMessage = "EventManager::AddEventListener - Event Target is NULL";
 			Logger::GetInstance( )->Fatal( targetNUllMessage );
@@ -52,7 +52,7 @@ public:
 			throw NullReferenceException( handlerNUllMessage );
 		}
 
-		EventListener< AT >* eventListener = new EventListener< AT >( eventType, eventTarget, handlerFunctor );
+		EventListener< AT >* eventListener = new EventListener< AT >( eventType, handlerTarget, handlerFunctor );
 
 		std::pair< const EventType, IEventListener* > listenerPair( eventListener->GetEventType( ), eventListener );
 		_eventListeners.insert( listenerPair );
@@ -62,6 +62,20 @@ public:
 	template< class RT >
 	void RemoveEventListener( const EventType eventType, RT* handlerTarget, void ( RT::*handlerFunctor ) ( const IEvent* event ) )
 	{
+		if ( 0 == handlerTarget )
+		{
+			std::string targetNUllMessage = "EventManager::RemoveEventListener - Event Target is NULL";
+			Logger::GetInstance( )->Fatal( targetNUllMessage );
+			throw NullReferenceException( targetNUllMessage );
+		}
+
+		if ( 0 == handlerFunctor )
+		{
+			std::string handlerNUllMessage = "EventManager::RemoveEventListener - Handler Functor is NULL";
+			Logger::GetInstance( )->Fatal( handlerNUllMessage );
+			throw NullReferenceException( handlerNUllMessage );
+		}
+
 		std::pair< 
 			EventListenerList::iterator, 
 			EventListenerList::iterator
