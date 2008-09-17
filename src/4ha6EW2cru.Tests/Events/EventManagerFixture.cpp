@@ -183,13 +183,13 @@ void EventManagerFixture:: Should_Add_Listener_Given_Correct_Listener_And_Initia
 
 void EventManagerFixture:: Should_Throw_On_RemoveEventListener_Given_Uninitialized( )
 {
-	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->RemoveEventListener(< EventSubjectMock >( TEST_EVENT, 0, 0 ), UnInitializedException );
+	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->RemoveEventListener< EventSubjectMock > ( TEST_EVENT, 0, 0 ), UnInitializedException );
 }
 
 void EventManagerFixture:: Should_Throw_On_RemoveEventListener_Given_NULL_Target( )
 {
 	EventManager::Initialize( );
-	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->RemoveEventListener(< EventSubjectMock >( TEST_EVENT, 0, &EventSubjectMock::EventHandler ), NullReferenceException );
+	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->RemoveEventListener< EventSubjectMock > ( TEST_EVENT, 0, &EventSubjectMock::EventHandler ), NullReferenceException );
 	EventManager::GetInstance( )->Release( );
 }
 

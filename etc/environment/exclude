@@ -17,4 +17,5 @@ dist
 _ReSharper.*
 obj
 bin
+*.dat
 *.ncb
