@@ -20,11 +20,11 @@ public:
 	OgreRenderer( );
 	virtual ~OgreRenderer( );
 
-	bool Initialize( int width, int height, bool fullScreen );
+	void Initialize( int width, int height, bool fullScreen );
 	void Render( ) const;
 	void Update( ) const;
 	size_t GetHwnd( ) const;
-	inline Gui* GetGui( ) { return _gui; };
+	Gui* GetGui( );
 
 private:
 
@@ -41,6 +41,7 @@ private:
 
 	Root* _root;
 	Gui* _gui;
+	bool _initialized;
 
 	ArchiveFactory* _badFactory;
 

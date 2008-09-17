@@ -3,15 +3,19 @@
 #include "../Common/Paths.hpp"
 #include "../Logging/Logger.h"
 #include "../IO/BadArchiveFactory.h"
+
 #include "../Events/EventManager.h"
 #include "../Events/Event.h"
+
 #include "../Exceptions/ScreenDimensionsException.hpp"
+#include "../Exceptions/UnInitializedException.hpp"
 
 OgreRenderer::OgreRenderer( )
 {
 	_badFactory = new BadArchiveFactory( );
 	_root = new Root( );
 	_gui = new Gui( );
+	_initialized = false;
 
 }
 
@@ -37,7 +41,19 @@ OgreRenderer::~OgreRenderer( )
 	_badFactory = 0;
 }
 
-bool OgreRenderer::Initialize( int width, int height, bool fullScreen )
+Gui* OgreRenderer::GetGui( )
+{
+	if ( !_initialized )
+	{
+		UnInitializedException e( "OgreRenderer::GetGui - Renderer isn't initialized" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
+	}
+
+	return _gui;
+}
+
+void OgreRenderer::Initialize( int width, int height, bool fullScreen )
 {
 	{	// -- Ogre Init
 
@@ -60,15 +76,6 @@ bool OgreRenderer::Initialize( int width, int height, bool fullScreen )
 		RenderSystemList::iterator renderSystemIterator = renderSystems->begin( );
 
 		_root->setRenderSystem( *renderSystemIterator );
-
-		HDC deviceContext = 0;
-
-		if( !GetDC( NULL ) )
-		{
-			Logger::GetInstance( )->Fatal( "Could not get Device Information" );
-			return false;
-		}
-
 	
 		std::stringstream videoModeDesc;
 		videoModeDesc << width << " x " << height << " @ 32-bit colour";
@@ -106,11 +113,18 @@ bool OgreRenderer::Initialize( int width, int height, bool fullScreen )
 		EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_RELEASED, this, &OgreRenderer::OnMouseReleased );
 	}
 
-	return true;
+	_initialized = true;
 }
 
 size_t OgreRenderer::GetHwnd( ) const
 {
+	if ( !_initialized )
+	{
+		UnInitializedException e( "OgreRenderer::GetHwnd - Renderer isn't initialized" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
+	}
+
 	size_t hWnd = 0;
 	_root->getAutoCreatedWindow( )->getCustomAttribute( "WINDOW", &hWnd );
 	return hWnd;
@@ -118,17 +132,28 @@ size_t OgreRenderer::GetHwnd( ) const
 
 void OgreRenderer::Render( ) const
 {
+	if ( !_initialized )
+	{
+		UnInitializedException e( "OgreRenderer::Render - Renderer isn't initialized" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
+	}
+
 	_root->renderOneFrame( );
 }
 
 void OgreRenderer::Update( ) const
 {
-	if ( _root != 0 )
+	if ( !_initialized )
 	{
-		if ( _root->getAutoCreatedWindow( )->isClosed( ) )
-		{
-			EventManager::GetInstance( )->QueueEvent( new Event( GAME_QUIT ) );
-		}
+		UnInitializedException e( "OgreRenderer::Update - Renderer isn't initialized" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
+	}
+
+	if ( _root->getAutoCreatedWindow( )->isClosed( ) )
+	{
+		EventManager::GetInstance( )->QueueEvent( new Event( GAME_QUIT ) );
 	}
 }
 

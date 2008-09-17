@@ -321,6 +321,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Input\MouseListenerFixture.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Input\MouseListenerFixture.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Graphics\OgreRendererFixture.cpp"
 			>
 		</File>

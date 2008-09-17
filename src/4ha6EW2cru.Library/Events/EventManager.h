@@ -40,16 +40,16 @@ public:
 	{
 		if ( 0 == handlerTarget )
 		{
-			std::string targetNUllMessage = "EventManager::AddEventListener - Event Target is NULL";
-			Logger::GetInstance( )->Fatal( targetNUllMessage );
-			throw NullReferenceException( targetNUllMessage );
+			NullReferenceException nullTarget( "EventManager::AddEventListener - Event Target is NULL" );
+			Logger::GetInstance( )->Fatal( nullTarget.what( ) );
+			throw nullTarget;
 		}
 
 		if ( 0 == handlerFunctor )
 		{
-			std::string handlerNUllMessage = "EventManager::AddEventListener - Handler Functor is NULL";
-			Logger::GetInstance( )->Fatal( handlerNUllMessage );
-			throw NullReferenceException( handlerNUllMessage );
+			NullReferenceException nullFunctor( "EventManager::AddEventListener - Handler Functor is NULL" );
+			Logger::GetInstance( )->Fatal( nullFunctor.what( ) );
+			throw nullFunctor;
 		}
 
 		EventListener< AT >* eventListener = new EventListener< AT >( eventType, handlerTarget, handlerFunctor );
@@ -64,16 +64,16 @@ public:
 	{
 		if ( 0 == handlerTarget )
 		{
-			std::string targetNUllMessage = "EventManager::RemoveEventListener - Event Target is NULL";
-			Logger::GetInstance( )->Fatal( targetNUllMessage );
-			throw NullReferenceException( targetNUllMessage );
+			NullReferenceException nullTarget( "EventManager::RemoveEventListener - Event Target is NULL" );
+			Logger::GetInstance( )->Fatal( nullTarget.what( ) );
+			throw nullTarget;
 		}
 
 		if ( 0 == handlerFunctor )
 		{
-			std::string handlerNUllMessage = "EventManager::RemoveEventListener - Handler Functor is NULL";
-			Logger::GetInstance( )->Fatal( handlerNUllMessage );
-			throw NullReferenceException( handlerNUllMessage );
+			NullReferenceException nullFunctor( "EventManager::RemoveEventListener - Handler Functor is NULL" );
+			Logger::GetInstance( )->Fatal( nullFunctor.what( ) );
+			throw nullFunctor;
 		}
 
 		std::pair< 

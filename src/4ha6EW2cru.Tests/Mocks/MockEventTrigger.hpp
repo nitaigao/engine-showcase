@@ -7,6 +7,8 @@
 
 USING_NAMESPACE_MOCKPP
 
+#include "Events/IEvent.hpp"
+
 class MockEventTrigger : public MockObject
 {
 
@@ -22,7 +24,6 @@ public:
 	ExpectationCounter handle_count;
 
 	inline void EventHandler( const IEvent* event ) { handle_count.inc( ); };
-
 };
 
 #endif

@@ -1,8 +1,8 @@
 #include "BadArchiveFactoryFixture.h"
 
-#include "IO/BadArchiveFactory.h"
 #include "IO/BadArchive.h"
 #include "Exceptions/ArchiveNotFoundException.hpp"
+#include "Exceptions/NullReferenceException.hpp"
 
 #include "Logging/Logger.h"
 #include "IO/FileManager.h"
@@ -13,33 +13,42 @@ void BadArchiveFactoryFixture::setUp( )
 {
 	Logger::Initialize( );
 	FileManager::Initialize( );
+
+	_bfactory = new BadArchiveFactory( );
 }
 
 void BadArchiveFactoryFixture::tearDown( )
 {
+	delete _bfactory;
+
 	FileManager::GetInstance( )->Release( );
 	Logger::GetInstance( )->Release( );
 }
 
 void BadArchiveFactoryFixture::Should_Create_BadArchive( )
 {
-	BadArchiveFactory* bfactory = new BadArchiveFactory( );
-	Archive* archive = bfactory->createInstance( "../game/test/Test.bad" );
+	Archive* archive = _bfactory->createInstance( "../game/test/Test.bad" );
 
 	CPPUNIT_ASSERT( archive != 0 );
 
-	bfactory->destroyInstance( archive );
-	delete bfactory;
+	_bfactory->destroyInstance( archive );
 }
 
 void BadArchiveFactoryFixture::Should_Throw_On_Non_Existing_BAD_File( )
 {
-	BadArchiveFactory* bfactory = new BadArchiveFactory( );
-	
 	CPPUNIT_ASSERT_THROW(
-		bfactory->createInstance( "blah" ),
+		_bfactory->createInstance( "blah" ),
 		ArchiveNotFoundException
 		);
+}
 
-	delete bfactory;
+void BadArchiveFactoryFixture::Should_Throw_On_Destroy_Given_NULL_Archive( )
+{
+	CPPUNIT_ASSERT_THROW( _bfactory->destroyInstance( 0 ), NullReferenceException );;
+}
+
+void BadArchiveFactoryFixture::Should_Destroy_Valid_Archive( )
+{
+	Archive* archive = _bfactory->createInstance( "../game/test/Test.bad" );
+	_bfactory->destroyInstance( archive );
 }

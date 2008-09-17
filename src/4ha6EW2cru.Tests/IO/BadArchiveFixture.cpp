@@ -18,6 +18,41 @@ void BadArchiveFixture::tearDown( )
 	Logger::GetInstance( )->Release( );
 }
 
+void BadArchiveFixture::Should_Load( )
+{
+
+}
+
+void BadArchiveFixture::Should_Unload( )
+{
+
+}
+
+void BadArchiveFixture::Should_Return_True_On_Case_Sensitive( )
+{
+	
+}
+
+void BadArchiveFixture::Should_Return_DataStreamPtr_Given_File_Found( )
+{
+	BadArchive* archive = new BadArchive( "../game/test/Test.bad", "BAD" );
+	Ogre::DataStreamPtr stream = archive->open( "Test.txt" );
+
+	CPPUNIT_ASSERT( !stream.isNull( ) );
+
+	delete archive;
+}
+
+void BadArchiveFixture::Sould_Return_NULL_DataStreamPtr_Given_File_Not_Found( )
+{
+	BadArchive* archive = new BadArchive( "../game/test/Test.bad", "BAD" );
+	Ogre::DataStreamPtr stream = archive->open( "blah" );
+
+	CPPUNIT_ASSERT( stream.isNull( ) );
+
+	delete archive;
+}
+
 void BadArchiveFixture::Should_Return_False_From_Exists_Given_NON_Existing_File( )
 {
 	BadArchive* archive = new BadArchive( "../game/test/Test.bad", "BAD" );
@@ -38,32 +73,42 @@ void BadArchiveFixture::Should_Return_True_From_Exists_Given_File_Exists( )
 	delete archive;
 }
 
-void BadArchiveFixture::Sould_Return_NULL_Given_File_Not_Found( )
+void BadArchiveFixture::Should_Return_Empty_StringVectorPtr_On_List( )
 {
 	BadArchive* archive = new BadArchive( "../game/test/Test.bad", "BAD" );
-	Ogre::DataStreamPtr stream = archive->open( "blah" );
+	Ogre::StringVectorPtr files = archive->list( "*" );
 
-	CPPUNIT_ASSERT( stream.isNull( ) );
+	CPPUNIT_ASSERT( !files.isNull( ) );
 
 	delete archive;
 }
 
-void BadArchiveFixture::Should_Return_Not_NULL_Given_File_Found( )
+void BadArchiveFixture::Should_Return_Empty_FileInfoPtr_On_ListFileInfo( )
 {
 	BadArchive* archive = new BadArchive( "../game/test/Test.bad", "BAD" );
-	Ogre::DataStreamPtr stream = archive->open( "Test.txt" );
+	Ogre::FileInfoListPtr info = archive->listFileInfo( false, false );
 
-	CPPUNIT_ASSERT( !stream.isNull( ) );
+	CPPUNIT_ASSERT( !info.isNull( ) );
 
 	delete archive;
 }
 
-void BadArchiveFixture::Should_Find_Some_Files( )
+void BadArchiveFixture::Should_Return_Empty_StringVectorPtr_On_Find( )
 {
 	BadArchive* archive = new BadArchive( "../game/test/Test.bad", "BAD" );
 	Ogre::StringVectorPtr files = archive->find( "*" );
 
 	CPPUNIT_ASSERT( !files.isNull( ) );
+
+	delete archive;
+}
+
+void BadArchiveFixture::Should_Return_Empty_FileInfoPtr_On_FindFileInfo( )
+{
+	BadArchive* archive = new BadArchive( "../game/test/Test.bad", "BAD" );
+	Ogre::FileInfoListPtr info = archive->findFileInfo( "*", false, false );
+
+	CPPUNIT_ASSERT( !info.isNull( ) );
 
 	delete archive;
 }

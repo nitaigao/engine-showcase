@@ -9,6 +9,8 @@ CPPUNIT_TEST_SUITE_REGISTRATION( EventListenerFixture );
 
 void EventListenerFixture::setUp( )
 {
+	Logger::Initialize( );
+
 	_eventTarget = 0;
 	_eventTarget = new EventSubjectMock( );
 
@@ -22,6 +24,8 @@ void EventListenerFixture::tearDown( )
 
 	delete _eventTarget;
 	_eventTarget = 0;
+
+	Logger::GetInstance( )->Release( );
 }
 
 void EventListenerFixture::EventListener_Should_Return_Correct_Event_Type( )

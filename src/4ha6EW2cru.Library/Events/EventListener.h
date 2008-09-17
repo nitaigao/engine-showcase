@@ -34,16 +34,23 @@ public:
 	{
 		if ( _handlerTarget == 0 )
 		{
-			std::string message = "EventListener::HandleEvent - HandlerTarget is NULL";
-			throw NullReferenceException( message );
-			Logger::GetInstance( )->Fatal( message );
+			NullReferenceException nullTarget( "EventListener::HandleEvent - HandlerTarget is NULL" );
+			Logger::GetInstance( )->Fatal( nullTarget.what( ) );
+			throw nullTarget;
 		}
 
 		if ( _handlerFunctor == 0 )
 		{
-			std::string message = "EventListener::HandleEvent - HandlerFunctor is NULL";
-			throw NullReferenceException( message );
-			Logger::GetInstance( )->Fatal( message );
+			NullReferenceException nullHandler( "EventListener::HandleEvent - HandlerFunctor is NULL" );
+			Logger::GetInstance( )->Fatal( nullHandler.what( ) );
+			throw nullHandler;
+		}
+
+		if ( 0 == event )
+		{
+			NullReferenceException nullEvent( "EventListener::HandleEvent - Event is NULL" );
+			Logger::GetInstance( )->Fatal( nullEvent.what( ) );
+			throw nullEvent;
 		}
 
 		( _handlerTarget->*_handlerFunctor )( event );

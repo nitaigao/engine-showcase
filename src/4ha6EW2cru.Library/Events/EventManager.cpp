@@ -9,9 +9,9 @@ EventManager* EventManager::GetInstance( )
 {
 	if ( 0 == g_EventManagerInstance )
 	{
-		std::string uninitMessage = "EventManager::GetInstance - EventManager has not been Intiialized";
-		Logger::GetInstance( )->Fatal( uninitMessage );
-		throw UnInitializedException( uninitMessage );
+		UnInitializedException e( "EventManager::GetInstance - EventManager has not been Initialized" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
 	}
 
 	return g_EventManagerInstance;
@@ -32,7 +32,7 @@ void EventManager::Release( )
 
 	_eventListeners.erase( _eventListeners.begin( ), _eventListeners.end( ) );
 
-	Logger::GetInstance( )->Info( "Releasing Event Manager" );
+	Logger::GetInstance( )->Info( "EventManager::Release - Releasing Event Manager" );
 
 	delete g_EventManagerInstance;
 	g_EventManagerInstance = 0;
@@ -40,13 +40,13 @@ void EventManager::Release( )
 
 bool EventManager::Initialize( )
 {
-	Logger::GetInstance( )->Info( "Initializing Event Manager" );
+	Logger::GetInstance( )->Info( "EventManager::Initialize - Initializing Event Manager" );
 
 	if ( g_EventManagerInstance != 0 )
 	{
-		std::string errorMessage = "EventManager has already been Intialized";
-		Logger::GetInstance( )->Fatal( errorMessage );
-		throw AlreadyInitializedException( errorMessage );
+		AlreadyInitializedException e( "EventManager::Initialize - EventManager has already been Initialized" );
+		Logger::GetInstance( )->Fatal( e.what ( ) );
+		throw e;
 	}
 
 	g_EventManagerInstance = new EventManager( );
@@ -56,11 +56,11 @@ bool EventManager::Initialize( )
 
 void EventManager::QueueEvent( const IEvent* event )
 {
-	if ( !event || 0 == event )
+	if ( 0 == event )
 	{
-		std::string nullMessage = "EventManager::QueueEvent - Attempted to add a NULL Event to the Queue";
-		Logger::GetInstance( )->Fatal( nullMessage );
-		throw NullReferenceException( nullMessage );
+		NullReferenceException e( "EventManager::QueueEvent - Attempted to add a NULL Event to the Queue" );
+		Logger::GetInstance( )->Fatal( e.what ( ) );
+		throw e;
 	}
 
 	_eventQueue.push( event );

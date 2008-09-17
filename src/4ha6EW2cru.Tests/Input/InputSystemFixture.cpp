@@ -47,7 +47,7 @@ void InputSystemFixture::Should_Throw_Given_Already_Initialized( )
 	CPPUNIT_ASSERT_THROW( _inputSystem->Initialize( ), AlreadyInitializedException );
 }
 
-void InputSystemFixture::Should_Not_Initialize_With_No_HWND( )
+void InputSystemFixture::Should_Not_Initialize_With_NULL_HWND( )
 {	
 	delete _inputSystem;
 
@@ -55,7 +55,7 @@ void InputSystemFixture::Should_Not_Initialize_With_No_HWND( )
 	CPPUNIT_ASSERT_THROW( _inputSystem->Initialize( ), IntializeFailedException );
 }
 
-void InputSystemFixture::Should_Throw_Out_Of_Range_Exception_Given_Invalid_Capture_Area( )
+void InputSystemFixture::Should_Throw_Given_Invalid_Capture_Area( )
 {
 	_inputSystem->Initialize( );
 
@@ -69,7 +69,7 @@ void InputSystemFixture::Should_Accept_Valid_Capture_Area( )
 	_inputSystem->SetCaptureArea( 1, 1 );
 }
 
-void InputSystemFixture::Should_Throw_UnInitializedException_Given_Unitialized_SetCaptureArea( )
+void InputSystemFixture::Should_Throw_Given_Unitialized_SetCaptureArea( )
 {
 	delete _inputSystem;
 
@@ -77,13 +77,13 @@ void InputSystemFixture::Should_Throw_UnInitializedException_Given_Unitialized_S
 	CPPUNIT_ASSERT_THROW( _inputSystem->SetCaptureArea( 1, 1 ), UnInitializedException );
 }
 
-void InputSystemFixture::Should_Update_Correctly( )
+void InputSystemFixture::Should_Update_Given_Initialized( )
 {
 	_inputSystem->Initialize( );
 	_inputSystem->Update( );
 }
 
-void InputSystemFixture::Should_Throw_UnInitializedException_Given_UnIntialized_Update( )
+void InputSystemFixture::Should_Throw_Given_UnIntialized_Update( )
 {
 	delete _inputSystem;
 

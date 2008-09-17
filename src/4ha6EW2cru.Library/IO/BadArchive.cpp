@@ -13,8 +13,9 @@ BadArchive::BadArchive( const std::string name, const std::string type ) : Archi
 
 	if ( !result )
 	{
-		Logger::GetInstance( )->Fatal( "BadArchive, There was an error adding a BAD file location to the FileManager" );
-		throw ArchiveNotFoundException( );
+		ArchiveNotFoundException e( "BadArchive, There was an error adding a BAD file location to the FileManager" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
 	}
 }
 
