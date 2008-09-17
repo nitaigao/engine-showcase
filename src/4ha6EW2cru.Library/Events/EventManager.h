@@ -38,6 +38,20 @@ public:
 	template< class AT >
 	void AddEventListener( const EventType eventType, AT* eventTarget, void ( AT::*handlerFunctor ) ( const IEvent* event ) )
 	{
+		if ( 0 == eventTarget )
+		{
+			std::string targetNUllMessage = "EventManager::AddEventListener - Event Target is NULL";
+			Logger::GetInstance( )->Fatal( targetNUllMessage );
+			throw NullReferenceException( targetNUllMessage );
+		}
+
+		if ( 0 == handlerFunctor )
+		{
+			std::string handlerNUllMessage = "EventManager::AddEventListener - Handler Functor is NULL";
+			Logger::GetInstance( )->Fatal( handlerNUllMessage );
+			throw NullReferenceException( handlerNUllMessage );
+		}
+
 		EventListener< AT >* eventListener = new EventListener< AT >( eventType, eventTarget, handlerFunctor );
 
 		std::pair< const EventType, IEventListener* > listenerPair( eventListener->GetEventType( ), eventListener );
@@ -73,7 +87,7 @@ public:
 	}
 
 	/*! Gets the number of attached EventListeners */
-	inline int GetEventListenerCount( ) const { return _eventListeners.size( ); };
+	//inline int GetEventListenerCount( ) const { return _eventListeners.size( ); };
 
 private:
 

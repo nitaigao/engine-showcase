@@ -29,3 +29,5 @@ private:
 	IRenderer* _renderer;
 
 };
+
+#endif

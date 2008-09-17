@@ -7,9 +7,11 @@ static EventManager* g_EventManagerInstance = 0;
 
 EventManager* EventManager::GetInstance( )
 {
-	if ( g_EventManagerInstance == 0 )
+	if ( 0 == g_EventManagerInstance )
 	{
-		throw UnInitializedException( "EventManager");
+		std::string uninitMessage = "EventManager::GetInstance - EventManager has not been Intiialized";
+		Logger::GetInstance( )->Fatal( uninitMessage );
+		throw UnInitializedException( uninitMessage );
 	}
 
 	return g_EventManagerInstance;
@@ -54,10 +56,11 @@ bool EventManager::Initialize( )
 
 void EventManager::QueueEvent( const IEvent* event )
 {
-	if ( !event )
+	if ( !event || 0 == event )
 	{
-		Logger::GetInstance( )->Fatal( "Attempted to add a NULL Event to the Event Queue" );
-		return;
+		std::string nullMessage = "EventManager::QueueEvent - Attempted to add a NULL Event to the Queue";
+		Logger::GetInstance( )->Fatal( nullMessage );
+		throw NullReferenceException( nullMessage );
 	}
 
 	_eventQueue.push( event );
