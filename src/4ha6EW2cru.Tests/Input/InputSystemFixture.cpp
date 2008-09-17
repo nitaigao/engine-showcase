@@ -2,71 +2,91 @@
 
 #include "Input/InputSystem.h"
 #include "Logging/Logger.h"
+#include "IO/FileManager.h"
+#include "Graphics/IRenderer.hpp"
 
-#include "Ogre.h"
-using namespace Ogre;
+#include "Exceptions/IntializeFailedException.hpp"
+#include "Exceptions/OutOfRangeException.hpp"
+#include "Exceptions/AlreadyInitializedException.hpp"
+#include "Exceptions/UnInitializedException.hpp"
+
+#include "Graphics/OgreRenderer.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION( InputSystemFixture );
 
 void InputSystemFixture::setUp( )
 {
 	Logger::Initialize( );
+	FileManager::Initialize( );
+	EventManager::Initialize( );
+
+	_renderer = new OgreRenderer( );
+	_renderer->Initialize( 640, 480, false );
+
+	_inputSystem = new InputSystem( _renderer->GetHwnd( ) );
 }
 
 void InputSystemFixture::tearDown( )
 {
+	delete _inputSystem;
+	delete _renderer;
+
+	EventManager::GetInstance( )->Release();
+	FileManager::GetInstance( )->Release();
 	Logger::GetInstance( )->Release( );
 }
 
 void InputSystemFixture::Should_Initialize_Properly( )
 {
-	Root* root = new Root( );
-
-	Ogre::LogManager::getSingletonPtr( )->destroyLog( Ogre::LogManager::getSingletonPtr( )->getDefaultLog( ) );
-	Ogre::LogManager::getSingletonPtr( )->createLog( "default", true, false, true );
-
-	root->loadPlugin( "RenderSystem_Direct3D9_d" );
-
-	RenderSystemList *renderSystems = root->getAvailableRenderers( );
-	RenderSystemList::iterator renderSystemIterator = renderSystems->begin( );
-
-	root->setRenderSystem( *renderSystemIterator );
-	
-	( *renderSystemIterator )->setConfigOption( "Full Screen", "No" );
-	( *renderSystemIterator )->setConfigOption( "Video Mode", "640 x 480 @ 32-bit colour" );
-
-	root->initialise( true, "Human View" );
-
-	RenderWindow* window = root->getAutoCreatedWindow( );
-
-	size_t hWnd = 0;
-	window->getCustomAttribute( "WINDOW", &hWnd );
-	std::stringstream hWndParam;
-	hWndParam << hWnd;
-
-	OIS::ParamList params;
-	params.insert( std::make_pair( std::string("WINDOW"), hWndParam.str( ) ) );		
-
-	OIS::InputManager* oisManager = OIS::InputManager::createInputSystem( params );
-
-	InputSystem* inputSystem = new InputSystem( oisManager );
-	bool result = inputSystem->Initialize( );
-
-	CPPUNIT_ASSERT( result );
-
-	inputSystem->Release( );
-	delete inputSystem;
-
-	root->shutdown( );
-	delete root;
+	_inputSystem->Initialize( );
 }
 
-void InputSystemFixture::Should_Not_Initialize_With_Null_OISInputManager( )
+void InputSystemFixture::Should_Throw_Given_Already_Initialized( )
+{
+	_inputSystem->Initialize( );
+	CPPUNIT_ASSERT_THROW( _inputSystem->Initialize( ), AlreadyInitializedException );
+}
+
+void InputSystemFixture::Should_Not_Initialize_With_No_HWND( )
 {	
-	InputSystem* inputSystem = new InputSystem( 0 );
-	bool result = inputSystem->Initialize( );
+	delete _inputSystem;
 
-	CPPUNIT_ASSERT( !result );
+	_inputSystem = new InputSystem( 0 );
+	CPPUNIT_ASSERT_THROW( _inputSystem->Initialize( ), IntializeFailedException );
+}
 
-	delete inputSystem;
+void InputSystemFixture::Should_Throw_Out_Of_Range_Exception_Given_Invalid_Capture_Area( )
+{
+	_inputSystem->Initialize( );
+
+	CPPUNIT_ASSERT_THROW( _inputSystem->SetCaptureArea( 0, 0 ), OutOfRangeException );
+}
+
+void InputSystemFixture::Should_Accept_Valid_Capture_Area( )
+{
+	_inputSystem->Initialize( );
+
+	_inputSystem->SetCaptureArea( 1, 1 );
+}
+
+void InputSystemFixture::Should_Throw_UnInitializedException_Given_Unitialized_SetCaptureArea( )
+{
+	delete _inputSystem;
+
+	_inputSystem = new InputSystem( 0 );
+	CPPUNIT_ASSERT_THROW( _inputSystem->SetCaptureArea( 1, 1 ), UnInitializedException );
+}
+
+void InputSystemFixture::Should_Update_Correctly( )
+{
+	_inputSystem->Initialize( );
+	_inputSystem->Update( );
+}
+
+void InputSystemFixture::Should_Throw_UnInitializedException_Given_UnIntialized_Update( )
+{
+	delete _inputSystem;
+
+	_inputSystem = new InputSystem( 0 );
+	CPPUNIT_ASSERT_THROW( _inputSystem->Update( ), UnInitializedException );
 }

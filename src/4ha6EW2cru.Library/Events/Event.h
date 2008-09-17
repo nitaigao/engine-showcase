@@ -11,21 +11,10 @@
 class Event : public IEvent
 {
 
-protected:
-
-	typedef std::tr1::function< void ( const IEvent* ) > HandlerFunction;
-
 public:
 
-	Event( const EventType& eventType ) 
+	Event( const EventType& eventType, IEventData* eventData = 0 ) 
 		: _eventType( eventType ) 
-		, _eventData( 0 )
-	{ 
-	
-	};
-
-	Event( const EventType& eventType, IEventData* eventData )
-		: _eventType( eventType )
 		, _eventData( eventData )
 	{ 
 	

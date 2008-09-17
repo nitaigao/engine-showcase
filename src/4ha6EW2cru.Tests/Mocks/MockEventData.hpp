@@ -1,12 +1,12 @@
 #ifndef MOCKEVENTDATA_H
 #define MOCKEVENTDATA_H
 
-class TestEventData : public IEventData 
+class MockEventData : public IEventData 
 {
 
 public:
 
-	TestEventData( const int& const data )
+	MockEventData( const int& const data )
 		: _data( data )
 	{ };
 

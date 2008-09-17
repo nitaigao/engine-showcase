@@ -3,9 +3,6 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "Events/Event.h"
-#include "Events/IEventData.hpp"
-
 class EventFixture : public CPPUNIT_NS::TestFixture
 {
 

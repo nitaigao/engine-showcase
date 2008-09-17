@@ -274,11 +274,19 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Input\IInputSystem.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Input\InputSystem.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Input\InputSystem.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Exceptions\IntializeFailedException.hpp"
 			>
 		</File>
 		<File
@@ -302,11 +310,19 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Exceptions\NullReferenceException.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Graphics\OgreRenderer.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Graphics\OgreRenderer.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Exceptions\OutOfRangeException.hpp"
 			>
 		</File>
 		<File
@@ -319,6 +335,10 @@
 		</File>
 		<File
 			RelativePath=".\View\Screen.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Exceptions\ScreenDimensionsException.hpp"
 			>
 		</File>
 		<File

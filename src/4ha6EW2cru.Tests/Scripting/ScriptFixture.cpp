@@ -7,7 +7,6 @@
 #include "Logging/Logger.h"
 #include "Scripting/Script.h"
 #include "IO/FileManager.h"
-#include "Exceptions/ScriptException.hpp"
 
 #include "../Mocks/MockEventData.hpp"
 #include "../Mocks/MockScriptBinder.hpp"

@@ -5,7 +5,6 @@
 
 #include "../Events/IEvent.hpp"
 #include "../Events/EventData.hpp"
-#include "../IO/BadArchiveFactory.h"
 
 #include "Ogre.h"
 using namespace Ogre;
@@ -18,13 +17,7 @@ class OgreRenderer : public IRenderer
 
 public:
 
-	OgreRenderer( )
-		: _root( 0 )
-		, _gui( 0 )
-	{
-
-	}
-
+	OgreRenderer( );
 	virtual ~OgreRenderer( );
 
 	bool Initialize( int width, int height, bool fullScreen );
@@ -49,7 +42,7 @@ private:
 	Root* _root;
 	Gui* _gui;
 
-	BadArchiveFactory* _badFactory;
+	ArchiveFactory* _badFactory;
 
 };
 

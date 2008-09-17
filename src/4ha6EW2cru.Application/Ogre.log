@@ -1,0 +1,30 @@
+20:14:53: Creating resource group General
+20:14:53: Creating resource group Internal
+20:14:53: Creating resource group Autodetect
+20:14:53: SceneManagerFactory for type 'DefaultSceneManager' registered.
+20:14:53: Registering ResourceManager for type Material
+20:14:53: Registering ResourceManager for type Mesh
+20:14:53: Registering ResourceManager for type Skeleton
+20:14:53: MovableObjectFactory for type 'ParticleSystem' registered.
+20:14:53: OverlayElementFactory for type Panel registered.
+20:14:53: OverlayElementFactory for type BorderPanel registered.
+20:14:53: OverlayElementFactory for type TextArea registered.
+20:14:53: Registering ResourceManager for type Font
+20:14:53: ArchiveFactory for archive type FileSystem registered.
+20:14:53: ArchiveFactory for archive type Zip registered.
+20:14:53: FreeImage version: 3.10.0
+20:14:53: This program uses FreeImage, a free, open source image library supporting all common bitmap formats. See http://freeimage.sourceforge.net for details
+20:14:53: Supported formats: bmp,ico,jpg,jif,jpeg,jpe,jng,koa,iff,lbm,mng,pbm,pbm,pcd,pcx,pgm,pgm,png,ppm,ppm,ras,tga,targa,tif,tiff,wap,wbmp,wbm,psd,cut,xbm,xpm,gif,hdr,g3,sgi,exr,j2k,j2c,jp2
+20:14:53: DDS codec registering
+20:14:53: Registering ResourceManager for type HighLevelGpuProgram
+20:14:53: Registering ResourceManager for type Compositor
+20:14:53: MovableObjectFactory for type 'Entity' registered.
+20:14:53: MovableObjectFactory for type 'Light' registered.
+20:14:53: MovableObjectFactory for type 'BillboardSet' registered.
+20:14:53: MovableObjectFactory for type 'ManualObject' registered.
+20:14:53: MovableObjectFactory for type 'BillboardChain' registered.
+20:14:53: MovableObjectFactory for type 'RibbonTrail' registered.
+20:14:53: OGRE EXCEPTION(6:FileNotFoundException): 'plugins.cfg' file not found! in ConfigFile::load at f:\ogre_cvs_vc9\ogrenew_146\ogremain\src\ogreconfigfile.cpp (line 84)
+20:14:53: plugins.cfg not found, automatic plugin loading disabled.
+20:14:53: *-*-* OGRE Initialising
+20:14:53: *-*-* Version 1.4.7 (Eihort)

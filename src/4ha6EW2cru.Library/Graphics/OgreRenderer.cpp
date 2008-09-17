@@ -5,6 +5,15 @@
 #include "../IO/BadArchiveFactory.h"
 #include "../Events/EventManager.h"
 #include "../Events/Event.h"
+#include "../Exceptions/ScreenDimensionsException.hpp"
+
+OgreRenderer::OgreRenderer( )
+{
+	_badFactory = new BadArchiveFactory( );
+	_root = new Root( );
+	_gui = new Gui( );
+
+}
 
 OgreRenderer::~OgreRenderer( )
 {
@@ -12,11 +21,15 @@ OgreRenderer::~OgreRenderer( )
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_MOVED, this, &OgreRenderer::OnMouseMoved );
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_RELEASED, this, &OgreRenderer::OnMouseReleased );
 
-	_gui->shutdown( );
+	if ( _root->isInitialised( ) )
+	{
+		_gui->shutdown( );
+		_root->shutdown( );
+	}
+
 	delete _gui;
 	_gui = 0;
-
-	_root->shutdown( );
+	
 	delete _root;
 	_root = 0;
 
@@ -28,14 +41,16 @@ bool OgreRenderer::Initialize( int width, int height, bool fullScreen )
 {
 	{	// -- Ogre Init
 
-		_root = new Root( );
+		if ( width < 1 || height < 1 || fullScreen < 0 )
+		{
+			throw ScreenDimensionsException( );
+		}
 
 		Ogre::LogManager::getSingletonPtr( )->destroyLog( Ogre::LogManager::getSingletonPtr( )->getDefaultLog( ) );
 		Ogre::LogManager::getSingletonPtr( )->createLog( "default", true, false, true );
 
 		_root->loadPlugin( "RenderSystem_Direct3D9_d" );
 
-		_badFactory = new BadArchiveFactory( );
 		ArchiveManager::getSingletonPtr( )->addArchiveFactory( _badFactory );
 		this->LoadResources( );
 
@@ -54,13 +69,11 @@ bool OgreRenderer::Initialize( int width, int height, bool fullScreen )
 			return false;
 		}
 
-		int desktopWidth = GetSystemMetrics( SM_CXSCREEN );
-		int desktopHeight = GetSystemMetrics( SM_CYSCREEN );
-
+	
 		std::stringstream videoModeDesc;
-		videoModeDesc << desktopWidth << " x " << desktopHeight << " @ 32-bit colour";
+		videoModeDesc << width << " x " << height << " @ 32-bit colour";
 
-		( *renderSystemIterator )->setConfigOption( "Full Screen", "No" );
+		( *renderSystemIterator )->setConfigOption( "Full Screen", fullScreen ? "Yes" : "No" );
 		( *renderSystemIterator )->setConfigOption( "Video Mode", videoModeDesc.str( ) );
 
 		_root->initialise( true, "Human View" );
@@ -82,7 +95,6 @@ bool OgreRenderer::Initialize( int width, int height, bool fullScreen )
 
 	{	// -- MyGUI 
 
-		_gui = new Gui( );
 		_gui->initialise( _root->getAutoCreatedWindow(  ) );
 		_gui->hidePointer( );
 	}
@@ -134,7 +146,7 @@ void OgreRenderer::LoadResources( )
 
 		for ( ConfigFile::SettingsMultiMap::iterator i = settings->begin( ); i != settings->end( ); ++i )
 		{
-			//ResourceGroupManager::getSingleton( ).addResourceLocation( i->second, i->first );
+			ResourceGroupManager::getSingleton( ).addResourceLocation( i->second, i->first );
 		}
 	}
 }

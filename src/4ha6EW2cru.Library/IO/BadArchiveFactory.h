@@ -2,6 +2,7 @@
 #define __BADARCHIVEFACTORY_H
 
 #include <string>
+
 #include "OgreArchiveFactory.h"
 #include "OgreArchive.h"
 
