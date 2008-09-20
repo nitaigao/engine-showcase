@@ -5,8 +5,10 @@
 #include "physfs.h"
 #include "../Logging/Logger.h"
 #include "../Common/Paths.hpp"
+
 #include "../Exceptions/UnInitializedException.hpp"
 #include "../Exceptions/AlreadyInitializedException.hpp"
+#include "../Exceptions/FileNotFoundException.hpp"
 
 static FileManager* g_FileManagerInstance = 0;
 
@@ -14,7 +16,9 @@ FileManager* FileManager::GetInstance( )
 {
 	if ( g_FileManagerInstance == 0 )
 	{
-		throw UnInitializedException( );
+		UnInitializedException e( "FileManager::GetInstance - FileManager has not been Intialized" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
 	}
 
 	return g_FileManagerInstance;
@@ -59,13 +63,16 @@ bool FileManager::FileExists( const std::string filePath ) const
 
 bool FileManager::AddFileStore( const std::string filePath )
 {
-	std::stringstream logMessage;
-	logMessage << "Adding " << filePath << " to File System Path";
-	Logger::GetInstance( )->Debug( logMessage.str( ) );
+	int result = ( PHYSFS_addToSearchPath( filePath.c_str( ), 1 ) > 0 );
 
-	int result = PHYSFS_addToSearchPath( filePath.c_str( ), 1 );
+	if ( !result )
+	{
+		FileNotFoundException e( "FileManager::AddFileStore - Could not find File Store" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
+	}
 
-	return ( result > 0 );
+	return result;
 }
 
 FileBuffer* FileManager::GetFile( const std::string filePath ) const
@@ -74,19 +81,21 @@ FileBuffer* FileManager::GetFile( const std::string filePath ) const
 	logMessage << "Loading File: " << filePath;
 	Logger::GetInstance( )->Debug( logMessage.str( ) );
 
-	FileBuffer* fileBuffer = 0;
-
-	if ( PHYSFS_exists( filePath.c_str( ) ) )
+	if ( !PHYSFS_exists( filePath.c_str( ) ) )
 	{
-		PHYSFS_file *pFile = PHYSFS_openRead( filePath.c_str( ) );
-		
-		int fileLength = PHYSFS_fileLength( pFile );
-		fileBuffer = new FileBuffer( );
-		fileBuffer->fileBytes = new CHAR[ fileLength ];
-		fileBuffer->fileSize = PHYSFS_read( pFile, fileBuffer->fileBytes, 1, fileLength );
-		fileBuffer->filePath = filePath;
-		PHYSFS_close( pFile );
+		FileNotFoundException e( "FileManager::GetFile - Could not find file within the Search Path" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
 	}
 
+	PHYSFS_file *pFile = PHYSFS_openRead( filePath.c_str( ) );
+	
+	int fileLength = PHYSFS_fileLength( pFile );
+	FileBuffer* fileBuffer = new FileBuffer( );
+	fileBuffer->fileBytes = new CHAR[ fileLength ];
+	fileBuffer->fileSize = PHYSFS_read( pFile, fileBuffer->fileBytes, 1, fileLength );
+	fileBuffer->filePath = filePath;
+	PHYSFS_close( pFile );
+	
 	return fileBuffer;
 }

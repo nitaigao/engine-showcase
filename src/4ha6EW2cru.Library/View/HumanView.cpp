@@ -30,11 +30,7 @@ bool HumanView::Initialize( )
 		FileBuffer* viewScriptBuffer = FileManager::GetInstance( )->GetFile( "views/interactiveview.lua" );
 
 		_viewScript = Script::CreateFromFileBuffer( viewScriptBuffer );
-		
-		if ( !_viewScript->Initialize( ) )
-		{
-			return false;
-		}
+		_viewScript->Initialize( );
 		
 		module( _viewScript->GetState( ) )
 		[

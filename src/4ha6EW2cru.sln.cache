@@ -1,0 +1,304 @@
+﻿<Project DefaultTargets="Build" ToolsVersion="3.5" InitialTargets="ValidateSolutionConfiguration;ValidateToolsVersions" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_SolutionProjectConfiguration>Release|Win32</_SolutionProjectConfiguration>
+    <_SolutionProjectToolsVersion>3.5</_SolutionProjectToolsVersion>
+    <_SolutionProjectCacheVersion>3.5</_SolutionProjectCacheVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <_SolutionProjectProjects Include="4ha6EW2cru.Application\4ha6EW2cru.Application.vcproj" />
+    <_SolutionProjectProjects Include="4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" />
+    <_SolutionProjectProjects Include="4ha6EW2cru.Tests\4ha6EW2cru.Tests.vcproj" />
+  </ItemGroup>
+  <UsingTask TaskName="Microsoft.Build.Tasks.CreateTemporaryVCProject" AssemblyName="Microsoft.Build.Tasks.v3.5, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <UsingTask TaskName="Microsoft.Build.Tasks.ResolveVCProjectOutput" AssemblyName="Microsoft.Build.Tasks.v3.5, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <PropertyGroup Condition=" '$(Configuration)' == '' ">
+    <Configuration>Debug</Configuration>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == '' ">
+    <Platform>Win32</Platform>
+  </PropertyGroup>
+  <PropertyGroup Condition=" ('$(AspNetConfiguration)' == '') ">
+    <AspNetConfiguration>$(Configuration)</AspNetConfiguration>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SolutionDir>X:\src\</SolutionDir>
+    <SolutionExt>.sln</SolutionExt>
+    <SolutionFileName>4ha6EW2cru.sln</SolutionFileName>
+    <SolutionName>4ha6EW2cru</SolutionName>
+    <SolutionPath>X:\src\4ha6EW2cru.sln</SolutionPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == '' and '$(MSBuildToolsVersion)' == '2.0'">v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == '' and '$(MSBuildToolsVersion)' != '2.0'">v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') ">
+    <CurrentSolutionConfigurationContents>
+      <SolutionConfiguration xmlns="">
+        <ProjectConfiguration Project="{AD4BF66A-BD18-4E12-AE35-2025E5190266}">Debug|Win32</ProjectConfiguration>
+        <ProjectConfiguration Project="{399D7AEA-884F-4884-B655-AED35E934A07}">Debug|Win32</ProjectConfiguration>
+        <ProjectConfiguration Project="{A34EEED2-C572-46C6-8FAB-CFA9DEAA058A}">Debug|Win32</ProjectConfiguration>
+      </SolutionConfiguration>
+    </CurrentSolutionConfigurationContents>
+  </PropertyGroup>
+  <PropertyGroup Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') ">
+    <CurrentSolutionConfigurationContents>
+      <SolutionConfiguration xmlns="">
+        <ProjectConfiguration Project="{AD4BF66A-BD18-4E12-AE35-2025E5190266}">Release|Win32</ProjectConfiguration>
+        <ProjectConfiguration Project="{399D7AEA-884F-4884-B655-AED35E934A07}">Release|Win32</ProjectConfiguration>
+        <ProjectConfiguration Project="{A34EEED2-C572-46C6-8FAB-CFA9DEAA058A}">Release|Win32</ProjectConfiguration>
+      </SolutionConfiguration>
+    </CurrentSolutionConfigurationContents>
+  </PropertyGroup>
+  <Target Name="ValidateSolutionConfiguration">
+    <Error Text="The specified solution configuration &quot;$(Configuration)|$(Platform)&quot; is invalid. Please specify a valid solution configuration using the Configuration and Platform properties (e.g. MSBuild.exe Solution.sln /p:Configuration=Debug /p:Platform=&quot;Any CPU&quot;) or leave those properties blank to use the default solution configuration." Code="MSB4126" HelpKeyword="MSBuild.SolutionInvalidSolutionConfiguration" Condition="('$(CurrentSolutionConfigurationContents)' == '') and ('$(SkipInvalidConfigurations)' != 'true')" />
+    <Warning Text="The specified solution configuration &quot;$(Configuration)|$(Platform)&quot; is invalid. Please specify a valid solution configuration using the Configuration and Platform properties (e.g. MSBuild.exe Solution.sln /p:Configuration=Debug /p:Platform=&quot;Any CPU&quot;) or leave those properties blank to use the default solution configuration." Code="MSB4126" HelpKeyword="MSBuild.SolutionInvalidSolutionConfiguration" Condition="('$(CurrentSolutionConfigurationContents)' == '') and ('$(SkipInvalidConfigurations)' == 'true')" />
+    <Message Text="Building solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="'$(CurrentSolutionConfigurationContents)' != ''" />
+  </Target>
+  <Target Name="ValidateToolsVersions">
+    <Error Text="The tools version &quot;$(MSBuildToolsVersion)&quot; of the solution does not support building projects with a different tools version." Code="MSB4149" HelpKeyword="MSBuild.SolutionToolsVersionDoesNotSupportProjectToolsVersion" Condition="'$(MSBuildToolsVersion)' == '2.0' and ('$(ProjectToolsVersion)' != '2.0' and '$(ProjectToolsVersion)' != '')" />
+  </Target>
+  <Target Name="4ha6EW2cru_Applicaton" DependsOnTargets="4ha6EW2cru_Library" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <ResolveVCProjectOutput ProjectReferences="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') ">
+      <Output TaskParameter="ResolvedOutputPaths" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_0" />
+      <Output TaskParameter="ResolvedImportLibraryPaths" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_ImportLibraries" />
+    </ResolveVCProjectOutput>
+    <CreateItem Include="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_0)" AdditionalMetadata="Guid={399D7AEA-884F-4884-B655-AED35E934A07}">
+      <Output TaskParameter="Include" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References" />
+    </CreateItem>
+    <CreateTemporaryVCProject ProjectFile="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.vcproj" Configuration="Debug|Win32" OutputProjectFile="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Debug_Win32.vcproj" ReferenceGuids="{399D7AEA-884F-4884-B655-AED35E934A07}" ReferenceAssemblies="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References)" ReferenceImportLibraries="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_ImportLibraries)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Debug_Win32.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <Delete Files="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Debug_Win32.vcproj" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <ResolveVCProjectOutput ProjectReferences="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') ">
+      <Output TaskParameter="ResolvedOutputPaths" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_0" />
+      <Output TaskParameter="ResolvedImportLibraryPaths" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_ImportLibraries" />
+    </ResolveVCProjectOutput>
+    <CreateItem Include="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_0)" AdditionalMetadata="Guid={399D7AEA-884F-4884-B655-AED35E934A07}">
+      <Output TaskParameter="Include" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References" />
+    </CreateItem>
+    <CreateTemporaryVCProject ProjectFile="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.vcproj" Configuration="Release|Win32" OutputProjectFile="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Release_Win32.vcproj" ReferenceGuids="{399D7AEA-884F-4884-B655-AED35E934A07}" ReferenceAssemblies="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References)" ReferenceImportLibraries="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_ImportLibraries)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Release_Win32.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+    <Delete Files="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Release_Win32.vcproj" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+  </Target>
+  <Target Name="4ha6EW2cru_Applicaton:Clean" DependsOnTargets="4ha6EW2cru_Library:Clean" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <ResolveVCProjectOutput ProjectReferences="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') ">
+      <Output TaskParameter="ResolvedOutputPaths" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_Clean_0" />
+      <Output TaskParameter="ResolvedImportLibraryPaths" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_ImportLibraries_Clean" />
+    </ResolveVCProjectOutput>
+    <CreateItem Include="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_Clean_0)" AdditionalMetadata="Guid={399D7AEA-884F-4884-B655-AED35E934A07}">
+      <Output TaskParameter="Include" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_Clean" />
+    </CreateItem>
+    <CreateTemporaryVCProject ProjectFile="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.vcproj" Configuration="Debug|Win32" OutputProjectFile="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Debug_Win32.vcproj" ReferenceGuids="{399D7AEA-884F-4884-B655-AED35E934A07}" ReferenceAssemblies="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_Clean)" ReferenceImportLibraries="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_ImportLibraries_Clean)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Debug_Win32.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Clean="true" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <Delete Files="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Debug_Win32.vcproj" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <ResolveVCProjectOutput ProjectReferences="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') ">
+      <Output TaskParameter="ResolvedOutputPaths" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_Clean_0" />
+      <Output TaskParameter="ResolvedImportLibraryPaths" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_ImportLibraries_Clean" />
+    </ResolveVCProjectOutput>
+    <CreateItem Include="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_Clean_0)" AdditionalMetadata="Guid={399D7AEA-884F-4884-B655-AED35E934A07}">
+      <Output TaskParameter="Include" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_Clean" />
+    </CreateItem>
+    <CreateTemporaryVCProject ProjectFile="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.vcproj" Configuration="Release|Win32" OutputProjectFile="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Release_Win32.vcproj" ReferenceGuids="{399D7AEA-884F-4884-B655-AED35E934A07}" ReferenceAssemblies="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_Clean)" ReferenceImportLibraries="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_ImportLibraries_Clean)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Release_Win32.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Clean="true" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+    <Delete Files="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Release_Win32.vcproj" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+  </Target>
+  <Target Name="4ha6EW2cru_Applicaton:Rebuild" DependsOnTargets="4ha6EW2cru_Library:Rebuild" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <ResolveVCProjectOutput ProjectReferences="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') ">
+      <Output TaskParameter="ResolvedOutputPaths" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_Rebuild_0" />
+      <Output TaskParameter="ResolvedImportLibraryPaths" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_ImportLibraries_Rebuild" />
+    </ResolveVCProjectOutput>
+    <CreateItem Include="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_Rebuild_0)" AdditionalMetadata="Guid={399D7AEA-884F-4884-B655-AED35E934A07}">
+      <Output TaskParameter="Include" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_Rebuild" />
+    </CreateItem>
+    <CreateTemporaryVCProject ProjectFile="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.vcproj" Configuration="Debug|Win32" OutputProjectFile="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Debug_Win32.vcproj" ReferenceGuids="{399D7AEA-884F-4884-B655-AED35E934A07}" ReferenceAssemblies="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_Rebuild)" ReferenceImportLibraries="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_ImportLibraries_Rebuild)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Debug_Win32.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Rebuild="true" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <Delete Files="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Debug_Win32.vcproj" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <ResolveVCProjectOutput ProjectReferences="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') ">
+      <Output TaskParameter="ResolvedOutputPaths" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_Rebuild_0" />
+      <Output TaskParameter="ResolvedImportLibraryPaths" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_ImportLibraries_Rebuild" />
+    </ResolveVCProjectOutput>
+    <CreateItem Include="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_Rebuild_0)" AdditionalMetadata="Guid={399D7AEA-884F-4884-B655-AED35E934A07}">
+      <Output TaskParameter="Include" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_Rebuild" />
+    </CreateItem>
+    <CreateTemporaryVCProject ProjectFile="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.vcproj" Configuration="Release|Win32" OutputProjectFile="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Release_Win32.vcproj" ReferenceGuids="{399D7AEA-884F-4884-B655-AED35E934A07}" ReferenceAssemblies="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_Rebuild)" ReferenceImportLibraries="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_ImportLibraries_Rebuild)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Release_Win32.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Rebuild="true" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+    <Delete Files="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Release_Win32.vcproj" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+  </Target>
+  <Target Name="4ha6EW2cru_Applicaton:Publish" DependsOnTargets="4ha6EW2cru_Library:Publish" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <Warning Text="VC projects do not support the &quot;Publish&quot; target." Code="MSB4076" HelpKeyword="MSBuild.SolutionVCProjectNoPublish" />
+    <ResolveVCProjectOutput ProjectReferences="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') ">
+      <Output TaskParameter="ResolvedOutputPaths" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_0" />
+      <Output TaskParameter="ResolvedImportLibraryPaths" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_ImportLibraries" />
+    </ResolveVCProjectOutput>
+    <CreateItem Include="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_0)" AdditionalMetadata="Guid={399D7AEA-884F-4884-B655-AED35E934A07}">
+      <Output TaskParameter="Include" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References" />
+    </CreateItem>
+    <CreateTemporaryVCProject ProjectFile="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.vcproj" Configuration="Debug|Win32" OutputProjectFile="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Debug_Win32.vcproj" ReferenceGuids="{399D7AEA-884F-4884-B655-AED35E934A07}" ReferenceAssemblies="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References)" ReferenceImportLibraries="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_ImportLibraries)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Debug_Win32.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <Delete Files="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Debug_Win32.vcproj" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <ResolveVCProjectOutput ProjectReferences="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') ">
+      <Output TaskParameter="ResolvedOutputPaths" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_0" />
+      <Output TaskParameter="ResolvedImportLibraryPaths" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_ImportLibraries" />
+    </ResolveVCProjectOutput>
+    <CreateItem Include="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References_0)" AdditionalMetadata="Guid={399D7AEA-884F-4884-B655-AED35E934A07}">
+      <Output TaskParameter="Include" ItemName="Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References" />
+    </CreateItem>
+    <CreateTemporaryVCProject ProjectFile="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.vcproj" Configuration="Release|Win32" OutputProjectFile="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Release_Win32.vcproj" ReferenceGuids="{399D7AEA-884F-4884-B655-AED35E934A07}" ReferenceAssemblies="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_References)" ReferenceImportLibraries="@(Project_AD4BF66A-BD18-4E12-AE35-2025E5190266_ImportLibraries)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Release_Win32.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+    <Delete Files="X:\src\4ha6EW2cru.Application\4ha6EW2cru.Application.tmp_Release_Win32.vcproj" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+  </Target>
+  <Target Name="4ha6EW2cru_Library" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <VCBuild Projects="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+  </Target>
+  <Target Name="4ha6EW2cru_Library:Clean" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <VCBuild Projects="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Clean="true" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Clean="true" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+  </Target>
+  <Target Name="4ha6EW2cru_Library:Rebuild" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <VCBuild Projects="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Rebuild="true" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Rebuild="true" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+  </Target>
+  <Target Name="4ha6EW2cru_Library:Publish" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <Warning Text="VC projects do not support the &quot;Publish&quot; target." Code="MSB4076" HelpKeyword="MSBuild.SolutionVCProjectNoPublish" />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+  </Target>
+  <Target Name="4ha6EW2cru_Tests" DependsOnTargets="4ha6EW2cru_Library" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <ResolveVCProjectOutput ProjectReferences="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') ">
+      <Output TaskParameter="ResolvedOutputPaths" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_0" />
+      <Output TaskParameter="ResolvedImportLibraryPaths" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_ImportLibraries" />
+    </ResolveVCProjectOutput>
+    <CreateItem Include="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_0)" AdditionalMetadata="Guid={399D7AEA-884F-4884-B655-AED35E934A07}">
+      <Output TaskParameter="Include" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References" />
+    </CreateItem>
+    <CreateTemporaryVCProject ProjectFile="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.vcproj" Configuration="Debug|Win32" OutputProjectFile="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Debug_Win32.vcproj" ReferenceGuids="{399D7AEA-884F-4884-B655-AED35E934A07}" ReferenceAssemblies="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References)" ReferenceImportLibraries="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_ImportLibraries)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Debug_Win32.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <Delete Files="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Debug_Win32.vcproj" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <ResolveVCProjectOutput ProjectReferences="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') ">
+      <Output TaskParameter="ResolvedOutputPaths" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_0" />
+      <Output TaskParameter="ResolvedImportLibraryPaths" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_ImportLibraries" />
+    </ResolveVCProjectOutput>
+    <CreateItem Include="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_0)" AdditionalMetadata="Guid={399D7AEA-884F-4884-B655-AED35E934A07}">
+      <Output TaskParameter="Include" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References" />
+    </CreateItem>
+    <CreateTemporaryVCProject ProjectFile="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.vcproj" Configuration="Release|Win32" OutputProjectFile="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Release_Win32.vcproj" ReferenceGuids="{399D7AEA-884F-4884-B655-AED35E934A07}" ReferenceAssemblies="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References)" ReferenceImportLibraries="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_ImportLibraries)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Release_Win32.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+    <Delete Files="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Release_Win32.vcproj" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+  </Target>
+  <Target Name="4ha6EW2cru_Tests:Clean" DependsOnTargets="4ha6EW2cru_Library:Clean" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <ResolveVCProjectOutput ProjectReferences="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') ">
+      <Output TaskParameter="ResolvedOutputPaths" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_Clean_0" />
+      <Output TaskParameter="ResolvedImportLibraryPaths" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_ImportLibraries_Clean" />
+    </ResolveVCProjectOutput>
+    <CreateItem Include="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_Clean_0)" AdditionalMetadata="Guid={399D7AEA-884F-4884-B655-AED35E934A07}">
+      <Output TaskParameter="Include" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_Clean" />
+    </CreateItem>
+    <CreateTemporaryVCProject ProjectFile="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.vcproj" Configuration="Debug|Win32" OutputProjectFile="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Debug_Win32.vcproj" ReferenceGuids="{399D7AEA-884F-4884-B655-AED35E934A07}" ReferenceAssemblies="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_Clean)" ReferenceImportLibraries="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_ImportLibraries_Clean)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Debug_Win32.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Clean="true" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <Delete Files="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Debug_Win32.vcproj" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <ResolveVCProjectOutput ProjectReferences="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') ">
+      <Output TaskParameter="ResolvedOutputPaths" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_Clean_0" />
+      <Output TaskParameter="ResolvedImportLibraryPaths" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_ImportLibraries_Clean" />
+    </ResolveVCProjectOutput>
+    <CreateItem Include="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_Clean_0)" AdditionalMetadata="Guid={399D7AEA-884F-4884-B655-AED35E934A07}">
+      <Output TaskParameter="Include" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_Clean" />
+    </CreateItem>
+    <CreateTemporaryVCProject ProjectFile="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.vcproj" Configuration="Release|Win32" OutputProjectFile="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Release_Win32.vcproj" ReferenceGuids="{399D7AEA-884F-4884-B655-AED35E934A07}" ReferenceAssemblies="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_Clean)" ReferenceImportLibraries="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_ImportLibraries_Clean)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Release_Win32.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Clean="true" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+    <Delete Files="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Release_Win32.vcproj" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+  </Target>
+  <Target Name="4ha6EW2cru_Tests:Rebuild" DependsOnTargets="4ha6EW2cru_Library:Rebuild" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <ResolveVCProjectOutput ProjectReferences="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') ">
+      <Output TaskParameter="ResolvedOutputPaths" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_Rebuild_0" />
+      <Output TaskParameter="ResolvedImportLibraryPaths" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_ImportLibraries_Rebuild" />
+    </ResolveVCProjectOutput>
+    <CreateItem Include="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_Rebuild_0)" AdditionalMetadata="Guid={399D7AEA-884F-4884-B655-AED35E934A07}">
+      <Output TaskParameter="Include" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_Rebuild" />
+    </CreateItem>
+    <CreateTemporaryVCProject ProjectFile="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.vcproj" Configuration="Debug|Win32" OutputProjectFile="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Debug_Win32.vcproj" ReferenceGuids="{399D7AEA-884F-4884-B655-AED35E934A07}" ReferenceAssemblies="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_Rebuild)" ReferenceImportLibraries="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_ImportLibraries_Rebuild)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Debug_Win32.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Rebuild="true" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <Delete Files="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Debug_Win32.vcproj" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <ResolveVCProjectOutput ProjectReferences="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') ">
+      <Output TaskParameter="ResolvedOutputPaths" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_Rebuild_0" />
+      <Output TaskParameter="ResolvedImportLibraryPaths" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_ImportLibraries_Rebuild" />
+    </ResolveVCProjectOutput>
+    <CreateItem Include="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_Rebuild_0)" AdditionalMetadata="Guid={399D7AEA-884F-4884-B655-AED35E934A07}">
+      <Output TaskParameter="Include" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_Rebuild" />
+    </CreateItem>
+    <CreateTemporaryVCProject ProjectFile="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.vcproj" Configuration="Release|Win32" OutputProjectFile="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Release_Win32.vcproj" ReferenceGuids="{399D7AEA-884F-4884-B655-AED35E934A07}" ReferenceAssemblies="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_Rebuild)" ReferenceImportLibraries="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_ImportLibraries_Rebuild)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Release_Win32.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Rebuild="true" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+    <Delete Files="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Release_Win32.vcproj" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+  </Target>
+  <Target Name="4ha6EW2cru_Tests:Publish" DependsOnTargets="4ha6EW2cru_Library:Publish" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <Warning Text="VC projects do not support the &quot;Publish&quot; target." Code="MSB4076" HelpKeyword="MSBuild.SolutionVCProjectNoPublish" />
+    <ResolveVCProjectOutput ProjectReferences="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') ">
+      <Output TaskParameter="ResolvedOutputPaths" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_0" />
+      <Output TaskParameter="ResolvedImportLibraryPaths" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_ImportLibraries" />
+    </ResolveVCProjectOutput>
+    <CreateItem Include="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_0)" AdditionalMetadata="Guid={399D7AEA-884F-4884-B655-AED35E934A07}">
+      <Output TaskParameter="Include" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References" />
+    </CreateItem>
+    <CreateTemporaryVCProject ProjectFile="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.vcproj" Configuration="Debug|Win32" OutputProjectFile="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Debug_Win32.vcproj" ReferenceGuids="{399D7AEA-884F-4884-B655-AED35E934A07}" ReferenceAssemblies="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References)" ReferenceImportLibraries="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_ImportLibraries)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Debug_Win32.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Debug|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <Delete Files="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Debug_Win32.vcproj" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Win32') " />
+    <ResolveVCProjectOutput ProjectReferences="X:\src\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') ">
+      <Output TaskParameter="ResolvedOutputPaths" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_0" />
+      <Output TaskParameter="ResolvedImportLibraryPaths" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_ImportLibraries" />
+    </ResolveVCProjectOutput>
+    <CreateItem Include="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References_0)" AdditionalMetadata="Guid={399D7AEA-884F-4884-B655-AED35E934A07}">
+      <Output TaskParameter="Include" ItemName="Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References" />
+    </CreateItem>
+    <CreateTemporaryVCProject ProjectFile="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.vcproj" Configuration="Release|Win32" OutputProjectFile="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Release_Win32.vcproj" ReferenceGuids="{399D7AEA-884F-4884-B655-AED35E934A07}" ReferenceAssemblies="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_References)" ReferenceImportLibraries="@(Project_A34EEED2-C572-46C6-8FAB-CFA9DEAA058A_ImportLibraries)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+    <VCBuild Projects="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Release_Win32.vcproj" ToolPath="$(VCBuildToolPath)" Configuration="Release|Win32" SolutionFile="X:\src\4ha6EW2cru.sln" Override="$(VCBuildOverride)" AdditionalLibPaths="$(VCBuildAdditionalLibPaths)" AdditionalLinkLibraryPaths="$(VCBuildAdditionalLinkLibraryPaths)" UseEnvironment="$(VCBuildUseEnvironment)" UserEnvironment="$(VCBuildUserEnvironment)" AdditionalOptions="$(VCBuildAdditionalOptions)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+    <Delete Files="X:\src\4ha6EW2cru.Tests\4ha6EW2cru.Tests.tmp_Release_Win32.vcproj" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Win32') " />
+  </Target>
+  <Target Name="Build" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(CollectedBuildOutput)">
+    <MSBuild Condition="@(BuildLevel0) != ''" Projects="@(BuildLevel0)" Properties="Configuration=%(Configuration); Platform=%(Platform); BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" BuildInParallel="true" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)">
+      <Output TaskParameter="TargetOutputs" ItemName="CollectedBuildOutput" />
+    </MSBuild>
+    <Message Text="The project &quot;%(SkipLevel0.Identity)&quot; is not selected for building in solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="@(SkipLevel0) != ''" />
+    <Warning Text="The project configuration for project &quot;%(MissingConfigLevel0.Identity)&quot; was not specified in the solution file for the solution configuration &quot;$(Configuration)|$(Platform)&quot;." Code="MSB4121" HelpKeyword="MSBuild.SolutionProjectConfigurationMissing" Condition="@(MissingConfigLevel0) != ''" />
+    <CallTarget Targets="4ha6EW2cru_Library" RunEachTargetSeparately="true" />
+    <MSBuild Condition="@(BuildLevel1) != ''" Projects="@(BuildLevel1)" Properties="Configuration=%(Configuration); Platform=%(Platform); BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" BuildInParallel="true" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)">
+      <Output TaskParameter="TargetOutputs" ItemName="CollectedBuildOutput" />
+    </MSBuild>
+    <Message Text="The project &quot;%(SkipLevel1.Identity)&quot; is not selected for building in solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="@(SkipLevel1) != ''" />
+    <Warning Text="The project configuration for project &quot;%(MissingConfigLevel1.Identity)&quot; was not specified in the solution file for the solution configuration &quot;$(Configuration)|$(Platform)&quot;." Code="MSB4121" HelpKeyword="MSBuild.SolutionProjectConfigurationMissing" Condition="@(MissingConfigLevel1) != ''" />
+    <CallTarget Targets="4ha6EW2cru_Applicaton;4ha6EW2cru_Tests" RunEachTargetSeparately="true" />
+  </Target>
+  <Target Name="Clean" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <MSBuild Condition="@(BuildLevel0) != ''" Projects="@(BuildLevel0)" Properties="Configuration=%(Configuration); Platform=%(Platform); BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" Targets="Clean" ToolsVersion="$(ProjectToolsVersion)" BuildInParallel="true" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" />
+    <Message Text="The project &quot;%(SkipLevel0.Identity)&quot; is not selected for building in solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="@(SkipLevel0) != ''" />
+    <Warning Text="The project configuration for project &quot;%(MissingConfigLevel0.Identity)&quot; was not specified in the solution file for the solution configuration &quot;$(Configuration)|$(Platform)&quot;." Code="MSB4121" HelpKeyword="MSBuild.SolutionProjectConfigurationMissing" Condition="@(MissingConfigLevel0) != ''" />
+    <CallTarget Targets="4ha6EW2cru_Library:Clean" RunEachTargetSeparately="true" />
+    <MSBuild Condition="@(BuildLevel1) != ''" Projects="@(BuildLevel1)" Properties="Configuration=%(Configuration); Platform=%(Platform); BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" Targets="Clean" ToolsVersion="$(ProjectToolsVersion)" BuildInParallel="true" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" />
+    <Message Text="The project &quot;%(SkipLevel1.Identity)&quot; is not selected for building in solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="@(SkipLevel1) != ''" />
+    <Warning Text="The project configuration for project &quot;%(MissingConfigLevel1.Identity)&quot; was not specified in the solution file for the solution configuration &quot;$(Configuration)|$(Platform)&quot;." Code="MSB4121" HelpKeyword="MSBuild.SolutionProjectConfigurationMissing" Condition="@(MissingConfigLevel1) != ''" />
+    <CallTarget Targets="4ha6EW2cru_Applicaton:Clean;4ha6EW2cru_Tests:Clean" RunEachTargetSeparately="true" />
+    <Delete Files="4ha6EW2cru.sln.cache" />
+  </Target>
+  <Target Name="Rebuild" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(CollectedBuildOutput)">
+    <MSBuild Condition="@(BuildLevel0) != ''" Projects="@(BuildLevel0)" Properties="Configuration=%(Configuration); Platform=%(Platform); BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" Targets="Rebuild" ToolsVersion="$(ProjectToolsVersion)" BuildInParallel="true" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)">
+      <Output TaskParameter="TargetOutputs" ItemName="CollectedBuildOutput" />
+    </MSBuild>
+    <Message Text="The project &quot;%(SkipLevel0.Identity)&quot; is not selected for building in solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="@(SkipLevel0) != ''" />
+    <Warning Text="The project configuration for project &quot;%(MissingConfigLevel0.Identity)&quot; was not specified in the solution file for the solution configuration &quot;$(Configuration)|$(Platform)&quot;." Code="MSB4121" HelpKeyword="MSBuild.SolutionProjectConfigurationMissing" Condition="@(MissingConfigLevel0) != ''" />
+    <CallTarget Targets="4ha6EW2cru_Library:Rebuild" RunEachTargetSeparately="true" />
+    <MSBuild Condition="@(BuildLevel1) != ''" Projects="@(BuildLevel1)" Properties="Configuration=%(Configuration); Platform=%(Platform); BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" Targets="Rebuild" ToolsVersion="$(ProjectToolsVersion)" BuildInParallel="true" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)">
+      <Output TaskParameter="TargetOutputs" ItemName="CollectedBuildOutput" />
+    </MSBuild>
+    <Message Text="The project &quot;%(SkipLevel1.Identity)&quot; is not selected for building in solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="@(SkipLevel1) != ''" />
+    <Warning Text="The project configuration for project &quot;%(MissingConfigLevel1.Identity)&quot; was not specified in the solution file for the solution configuration &quot;$(Configuration)|$(Platform)&quot;." Code="MSB4121" HelpKeyword="MSBuild.SolutionProjectConfigurationMissing" Condition="@(MissingConfigLevel1) != ''" />
+    <CallTarget Targets="4ha6EW2cru_Applicaton:Rebuild;4ha6EW2cru_Tests:Rebuild" RunEachTargetSeparately="true" />
+  </Target>
+  <Target Name="Publish" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <MSBuild Condition="@(BuildLevel0) != ''" Projects="@(BuildLevel0)" Properties="Configuration=%(Configuration); Platform=%(Platform); BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" Targets="Publish" ToolsVersion="$(ProjectToolsVersion)" BuildInParallel="true" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" />
+    <Message Text="The project &quot;%(SkipLevel0.Identity)&quot; is not selected for building in solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="@(SkipLevel0) != ''" />
+    <Warning Text="The project configuration for project &quot;%(MissingConfigLevel0.Identity)&quot; was not specified in the solution file for the solution configuration &quot;$(Configuration)|$(Platform)&quot;." Code="MSB4121" HelpKeyword="MSBuild.SolutionProjectConfigurationMissing" Condition="@(MissingConfigLevel0) != ''" />
+    <CallTarget Targets="4ha6EW2cru_Library:Publish" RunEachTargetSeparately="true" />
+    <MSBuild Condition="@(BuildLevel1) != ''" Projects="@(BuildLevel1)" Properties="Configuration=%(Configuration); Platform=%(Platform); BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" Targets="Publish" ToolsVersion="$(ProjectToolsVersion)" BuildInParallel="true" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" />
+    <Message Text="The project &quot;%(SkipLevel1.Identity)&quot; is not selected for building in solution configuration &quot;$(Configuration)|$(Platform)&quot;." Condition="@(SkipLevel1) != ''" />
+    <Warning Text="The project configuration for project &quot;%(MissingConfigLevel1.Identity)&quot; was not specified in the solution file for the solution configuration &quot;$(Configuration)|$(Platform)&quot;." Code="MSB4121" HelpKeyword="MSBuild.SolutionProjectConfigurationMissing" Condition="@(MissingConfigLevel1) != ''" />
+    <CallTarget Targets="4ha6EW2cru_Applicaton:Publish;4ha6EW2cru_Tests:Publish" RunEachTargetSeparately="true" />
+  </Target>
+</Project>

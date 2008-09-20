@@ -5,8 +5,11 @@
 #include "Events/EventManager.h"
 #include "Logging/AppenderFactory.h"
 #include "Logging/Logger.h"
-#include "Scripting/Script.h"
 #include "IO/FileManager.h"
+
+#include "Exceptions/UnInitializedException.hpp"
+#include "Exceptions/AlreadyInitializedException.hpp"
+#include "Exceptions/OutOfRangeException.hpp"
 
 #include "../Mocks/MockEventData.hpp"
 #include "../Mocks/MockScriptBinder.hpp"
@@ -21,10 +24,16 @@ void ScriptFixture::setUp( )
 	EventManager::Initialize( );
 
 	MockScriptBinder::handle_count = 0;
+
+	FileManager::GetInstance( )->AddFileStore( "../game/test" );
+	FileBuffer* scriptBuffer = FileManager::GetInstance( )->GetFile( "testscript.lua" );
+	_script = Script::CreateFromFileBuffer( scriptBuffer );
 }
 
 void ScriptFixture::tearDown( )
 {
+	delete _script;
+
 	FileManager::GetInstance( )->Release( );
 	EventManager::GetInstance( )->Release( );
 	Logger::GetInstance( )->Release( );
@@ -32,78 +41,86 @@ void ScriptFixture::tearDown( )
 	MockScriptBinder::handle_count = 0;
 }
 
-void ScriptFixture::Should_Not_Initialize_NonExistant_Script( )
+void ScriptFixture::Should_Initialize_Given_Valid_Script( )
+{
+	_script->Initialize( );
+}
+
+void ScriptFixture::Should_Throw_On_Initialize_Given_Invalid_Script( )
+{
+	FileManager::GetInstance( )->AddFileStore( "../game/test" );
+	FileBuffer* scriptBuffer = FileManager::GetInstance( )->GetFile( "garbage.lua" );
+	Script* script = Script::CreateFromFileBuffer( scriptBuffer );
+	CPPUNIT_ASSERT_THROW( script->Initialize( ), ScriptException );
+}
+
+void ScriptFixture::Should_Throw_On_Initialize_Given_Already_Initialized( )
+{
+	_script->Initialize( );
+	CPPUNIT_ASSERT_THROW( _script->Initialize( ), AlreadyInitializedException );
+}
+
+void ScriptFixture::Should_Throw_On_CreateFromFileBuffer_Given_NULL_FileBuffer( )
+{
+	CPPUNIT_ASSERT_THROW( Script::CreateFromFileBuffer( 0 ), NullReferenceException );
+}
+
+void ScriptFixture::Should_Throw_On_CreateFromFileBuffer_Given_Invalid_FileBuffer( )
 {
 	FileBuffer* fileBuffer = new FileBuffer( );
-	Script* script = Script::CreateFromFileBuffer( fileBuffer );
+	CPPUNIT_ASSERT_THROW( Script::CreateFromFileBuffer( fileBuffer ), UnInitializedException );
+}
 
-	bool result = script->Initialize( );
-	CPPUNIT_ASSERT( !result );
+void ScriptFixture::Should_CreateFromFileBuffer_Given_Valid_FileBuffer( )
+{
+	FileManager::GetInstance( )->AddFileStore( "../game/test" );
+	FileBuffer* scriptBuffer = FileManager::GetInstance( )->GetFile( "testscript.lua" );
+	Script* script = Script::CreateFromFileBuffer( scriptBuffer );
 
 	delete script;
 }
 
-void ScriptFixture::Should_Load_Script_Successfully( )
+void ScriptFixture::Should_Throw_On_CallFunction_Given_Not_Initialized( )
 {
-	FileBuffer* fileBuffer = FileManager::GetInstance( )->GetFile( "test/testscript.lua" );
-	CPPUNIT_ASSERT( fileBuffer != 0 );
-
-	Script* script = Script::CreateFromFileBuffer( fileBuffer );
-	bool result = script->Initialize( );
-
-	CPPUNIT_ASSERT( result );
-	CPPUNIT_ASSERT( script->GetState( ) != 0 );
-
-	delete script;
+	CPPUNIT_ASSERT_THROW( _script->CallFunction( "testFunction" ), UnInitializedException );
 }
 
-void ScriptFixture::Should_Recieve_Event( )
+void ScriptFixture::Should_Throw_On_CallFunction_Given_Empty_FunctionName( )
 {
-	FileBuffer* fileBuffer = FileManager::GetInstance( )->GetFile( "test/testscript.lua" );
-	
-	Script* script = Script::CreateFromFileBuffer( fileBuffer );
-	script->Initialize( );
+	_script->Initialize( );
 
-	module( script->GetState( ) )
-	[
-		def( "handledEvent",  &MockScriptBinder::HandleEvent )
-	];
-
-	script->CallFunction( "Should_Recieve_Event_Setup" );
-	EventManager::GetInstance( )->QueueEvent( new Event( TEST_EVENT ) );
-	EventManager::GetInstance( )->Update( );
-
-	CPPUNIT_ASSERT( MockScriptBinder::handle_count == 1 );
-
-	delete script;
+	CPPUNIT_ASSERT_THROW( _script->CallFunction( "" ), OutOfRangeException );
 }
 
-void ScriptFixture::Should_Call_Function( )
+void ScriptFixture::Should_Throw_On_CallFunction_Given_Non_Existing_FunctionName( )
 {
-	FileBuffer* fileBuffer = FileManager::GetInstance( )->GetFile( "test/testscript.lua" );
-	
-	Script* script = Script::CreateFromFileBuffer( fileBuffer );
-	script->Initialize( );
+	_script->Initialize( );
 
-	module( script->GetState( ) )
-	[
-		def( "shouldCallFunction",  &MockScriptBinder::HandleEvent )
-	];
-
-	script->CallFunction( "Should_Call_Function" );
-	CPPUNIT_ASSERT( MockScriptBinder::handle_count == 1 );
-
-	delete script;
+	CPPUNIT_ASSERT_THROW( _script->CallFunction( "randomFunction" ), ScriptException );
 }
 
-void ScriptFixture::Should_Throw_On_Script_Error( )
+void ScriptFixture::Should_Throw_On_CallFunction_Given_Lua_Error( )
 {
-	FileBuffer* fileBuffer = FileManager::GetInstance( )->GetFile( "test/testscript.lua" );
-	
-	Script* script = Script::CreateFromFileBuffer( fileBuffer );
-	script->Initialize( );
+	_script->Initialize( );
 
-	CPPUNIT_ASSERT_THROW( script->CallFunction( "Random_Function" ), ScriptException );
+	CPPUNIT_ASSERT_THROW( _script->CallFunction( "killerFunction" ), ScriptException );
+}
 
-	delete script;
+void ScriptFixture::Should_CallFunction_Given_Valid_FunctionName( )
+{
+	_script->Initialize( );
+
+	_script->CallFunction( "testFunction" );
+}
+
+void ScriptFixture::Should_Thow_On_GetState_Given_Not_Initialized( )
+{
+	CPPUNIT_ASSERT_THROW( _script->GetState( ), UnInitializedException );
+}
+
+void ScriptFixture::Should_GetState_Given_Intialized( )
+{
+	_script->Initialize( );
+
+	CPPUNIT_ASSERT( _script->GetState( ) != 0 );
 }

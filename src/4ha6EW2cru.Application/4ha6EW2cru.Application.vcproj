@@ -60,7 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="cppunitd.lib mockpp_44d.lib OgreMain_d.lib OIS_static_d.lib luad.lib libluabind.lib MyGUI_d.lib"
+				AdditionalDependencies="cppunit.lib mockpp_44.lib OgreMain.lib OIS_static.lib lua.lib libluabind.lib MyGUI.lib"
 				AdditionalLibraryDirectories="../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/lib;../../etc/vendor/ogre/lib"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
@@ -91,8 +91,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="../../build/release/bin/"
+			IntermediateDirectory="../../build/release/obj/$(ParentName)"
 			ConfigurationType="1"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
@@ -116,6 +116,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="../../etc/vendor/mygui/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/include"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"

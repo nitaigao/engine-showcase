@@ -4,35 +4,48 @@
 #include <ostream>
 #include <sstream>
 
-bool FileAppender::Initialize( const std::string filePath )
+#include "../Exceptions/AlreadyInitializedException.hpp"
+#include "../Exceptions/FileWriteException.hpp"
+#include "../Logging/Logger.h"
+
+void FileAppender::Initialize( const std::string filePath )
 {
+	if( _isIntialized )
+	{
+		AlreadyInitializedException e( "FileAppender::Initialize - Attempted to Initialized an already initailized File" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
+	}
+
 	_filePath = filePath;
 
 	std::ofstream logFile;
-	logFile.open( _filePath.c_str( ), std::fstream::out | std::fstream::app );
+	logFile.open( _filePath.c_str( ), std::fstream::out );
 
-	if ( logFile.is_open( ) )
+	if ( !logFile.is_open( ) )
 	{
-		logFile.close( );
-		
-		return true;
+		FileWriteException ioE( "FileAppender::Initialize - Cannot write to log file" );
+		Logger::GetInstance( )->Fatal( ioE.what( ) );
+		throw ioE;
 	}
 
-	return false;
+	logFile.close( );
+		
+	_isIntialized = true;
 }
 
-bool FileAppender::Append( const std::string message ) const
+void FileAppender::Append( const std::string message ) const
 {
 	std::ofstream logFile;
 	logFile.open( _filePath.c_str( ), std::fstream::out | std::fstream::app );
 
-	if ( logFile.is_open( ) )
+	if ( !logFile.is_open( ) )
 	{
-		logFile << message.c_str( );
-		logFile.close( );
-
-		return true;
+		FileWriteException ioE( "FileAppender::Initialize - Cannot write to log file" );
+		Logger::GetInstance( )->Fatal( ioE.what( ) );
+		throw ioE;
 	}
 
-	return false;
+	logFile << message.c_str( );
+	logFile.close( );
 }

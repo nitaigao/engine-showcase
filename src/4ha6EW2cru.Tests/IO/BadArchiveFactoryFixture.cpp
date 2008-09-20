@@ -1,7 +1,7 @@
 #include "BadArchiveFactoryFixture.h"
 
 #include "IO/BadArchive.h"
-#include "Exceptions/ArchiveNotFoundException.hpp"
+#include "Exceptions/FileNotFoundException.hpp"
 #include "Exceptions/NullReferenceException.hpp"
 
 #include "Logging/Logger.h"
@@ -38,7 +38,7 @@ void BadArchiveFactoryFixture::Should_Throw_On_Non_Existing_BAD_File( )
 {
 	CPPUNIT_ASSERT_THROW(
 		_bfactory->createInstance( "blah" ),
-		ArchiveNotFoundException
+		FileNotFoundException
 		);
 }
 

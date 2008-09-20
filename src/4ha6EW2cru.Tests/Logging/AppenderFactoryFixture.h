@@ -7,12 +7,14 @@ class AppenderFactoryFixture : public CPPUNIT_NS::TestFixture
 {
 
   CPPUNIT_TEST_SUITE( AppenderFactoryFixture );
-  CPPUNIT_TEST( Should_Return_Correct_Type );
+  CPPUNIT_TEST( Should_Return_ConsoleAppender );
+  CPPUNIT_TEST( Should_Return_FileAppender );
   CPPUNIT_TEST_SUITE_END( );
 
 protected:
 
-	void Should_Return_Correct_Type( );
+	void Should_Return_ConsoleAppender( );
+	void Should_Return_FileAppender( );
 
 };
 

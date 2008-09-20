@@ -4,6 +4,8 @@
 #include "Logging/Logger.h"
 #include "IO/BadArchive.h"
 
+#include "Exceptions/FileNotFoundException.hpp"
+
 CPPUNIT_TEST_SUITE_REGISTRATION( BadArchiveFixture );
 
 void BadArchiveFixture::setUp( )
@@ -30,7 +32,11 @@ void BadArchiveFixture::Should_Unload( )
 
 void BadArchiveFixture::Should_Return_True_On_Case_Sensitive( )
 {
+	BadArchive* archive = new BadArchive( "../game/test/Test.bad", "BAD" );
 	
+	CPPUNIT_ASSERT( archive->isCaseSensitive( )	);
+	
+	delete archive;
 }
 
 void BadArchiveFixture::Should_Return_DataStreamPtr_Given_File_Found( )
@@ -43,12 +49,11 @@ void BadArchiveFixture::Should_Return_DataStreamPtr_Given_File_Found( )
 	delete archive;
 }
 
-void BadArchiveFixture::Sould_Return_NULL_DataStreamPtr_Given_File_Not_Found( )
+void BadArchiveFixture::Sould_Return_Throw_Given_File_Not_Found( )
 {
 	BadArchive* archive = new BadArchive( "../game/test/Test.bad", "BAD" );
-	Ogre::DataStreamPtr stream = archive->open( "blah" );
 
-	CPPUNIT_ASSERT( stream.isNull( ) );
+	CPPUNIT_ASSERT_THROW( archive->open( "blah" ), FileNotFoundException );
 
 	delete archive;
 }

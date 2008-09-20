@@ -15,7 +15,7 @@ public:
 	~ConsoleAppender( ) { };
 
 	/* Appends a message to the Appender */
-	bool Append( const std::string message ) const;
+	void Append( const std::string message ) const;
 
 private:
 

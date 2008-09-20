@@ -19,11 +19,10 @@ public:
 
 	ExpectationCounter append_count;
 
-	bool Append( const std::string const message ) const
+	void Append( const std::string const message ) const
 	{
 		MockLogAppender* appenderMock = const_cast< MockLogAppender* >( this );
 		appenderMock->append_count.inc( );
-		return true;
 	}
 
 private:

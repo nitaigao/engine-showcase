@@ -14,7 +14,7 @@ public:
 	virtual ~IAppender( ) { };
 
 	/* Appends a message to the Appender */
-	virtual bool Append( const std::string message ) const = 0;
+	virtual void Append( const std::string message ) const = 0;
 
 };
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject ProjectType="Visual C++" Version="9.00" Name="4ha6EW2cru.Applicaton" ProjectGUID="{AD4BF66A-BD18-4E12-AE35-2025E5190266}" RootNamespace="My4ha6EW2cru" TargetFrameworkVersion="196613">
+  <Platforms>
+    <Platform Name="Win32" />
+  </Platforms>
+  <ToolFiles>
+  </ToolFiles>
+  <Configurations>
+    <Configuration Name="Debug|Win32" OutputDirectory="..\..\build\debug\bin\" IntermediateDirectory="..\..\build\debug\obj\$(ParentName)" ConfigurationType="1" UseOfMFC="0" CharacterSet="2" BuildLogFile="$(IntDir)\$(TARGETNAME).htm">
+      <Tool Name="VCPreBuildEventTool" />
+      <Tool Name="VCCustomBuildTool" />
+      <Tool Name="VCXMLDataGeneratorTool" />
+      <Tool Name="VCWebServiceProxyGeneratorTool" />
+      <Tool Name="VCMIDLTool" />
+      <Tool Name="VCCLCompilerTool" Optimization="0" AdditionalIncludeDirectories="../../etc/vendor/mygui/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/include" MinimalRebuild="true" BasicRuntimeChecks="3" RuntimeLibrary="3" WarningLevel="3" DebugInformationFormat="4" />
+      <Tool Name="VCManagedResourceCompilerTool" />
+      <Tool Name="VCResourceCompilerTool" />
+      <Tool Name="VCPreLinkEventTool" />
+      <Tool Name="VCLinkerTool" AdditionalDependencies="cppunit.lib mockpp_44.lib OgreMain.lib OIS_static.lib lua.lib libluabind.lib MyGUI.lib" AdditionalLibraryDirectories="../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/lib;../../etc/vendor/ogre/lib" IgnoreDefaultLibraryNames="" GenerateDebugInformation="true" TargetMachine="1" />
+      <Tool Name="VCALinkTool" />
+      <Tool Name="VCManifestTool" />
+      <Tool Name="VCXDCMakeTool" />
+      <Tool Name="VCBscMakeTool" />
+      <Tool Name="VCFxCopTool" />
+      <Tool Name="VCAppVerifierTool" />
+      <Tool Name="VCPostBuildEventTool" CommandLine="" />
+    </Configuration>
+    <Configuration Name="Release|Win32" OutputDirectory="../../build/release/bin/" IntermediateDirectory="../../build/release/obj/$(ParentName)" ConfigurationType="1" CharacterSet="2" WholeProgramOptimization="1">
+      <Tool Name="VCPreBuildEventTool" />
+      <Tool Name="VCCustomBuildTool" />
+      <Tool Name="VCXMLDataGeneratorTool" />
+      <Tool Name="VCWebServiceProxyGeneratorTool" />
+      <Tool Name="VCMIDLTool" />
+      <Tool Name="VCCLCompilerTool" Optimization="2" EnableIntrinsicFunctions="true" AdditionalIncludeDirectories="../../etc/vendor/mygui/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/include" RuntimeLibrary="2" EnableFunctionLevelLinking="true" WarningLevel="3" DebugInformationFormat="3" />
+      <Tool Name="VCManagedResourceCompilerTool" />
+      <Tool Name="VCResourceCompilerTool" />
+      <Tool Name="VCPreLinkEventTool" />
+      <Tool Name="VCLinkerTool" GenerateDebugInformation="true" OptimizeReferences="2" EnableCOMDATFolding="2" TargetMachine="1" AdditionalDependencies="X:\src\4ha6EW2cru.Library\../../build/release/bin/\4ha6EW2cru.Library.lib" />
+      <Tool Name="VCALinkTool" />
+      <Tool Name="VCManifestTool" />
+      <Tool Name="VCXDCMakeTool" />
+      <Tool Name="VCBscMakeTool" />
+      <Tool Name="VCFxCopTool" />
+      <Tool Name="VCAppVerifierTool" />
+      <Tool Name="VCPostBuildEventTool" />
+    </Configuration>
+  </Configurations>
+  <References>
+  </References>
+  <Files>
+    <File RelativePath=".\main.cpp">
+    </File>
+  </Files>
+  <Globals>
+  </Globals>
+</VisualStudioProject>

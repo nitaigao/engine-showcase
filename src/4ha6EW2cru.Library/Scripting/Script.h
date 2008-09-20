@@ -26,8 +26,8 @@ public:
 
 	~Script( );
 
-	/*! Intializes the Script from a FileBuffer */
-	bool Initialize( );
+	/*! Initializes the Script from a FileBuffer */
+	void Initialize( );
 
 	/*! Creates the Script from a FileBuffer */
 	static Script* CreateFromFileBuffer( FileBuffer* fileBuffer );
@@ -36,13 +36,14 @@ public:
 	void CallFunction( const std::string functionName );
 
 	/*! Returns the Script state */
-	inline lua_State* GetState ( ) const { return _luaState; };
+	lua_State* GetState( ) const;
 	
 private:
 
 	Script( )
 		: _luaState( 0 )
 		, _fileBuffer( 0 )
+		, _isInitialized( false )
 	{ 
 
 	};
@@ -65,6 +66,7 @@ private:
 	lua_State* _luaState;
 	EventHandlers _eventHandlers;
 	FileBuffer* _fileBuffer;
+	bool _isInitialized;
 
 };
 

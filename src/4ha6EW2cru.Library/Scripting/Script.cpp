@@ -3,7 +3,11 @@
 #include "../Logging/Logger.h"
 #include "../Events/EventListener.h"
 #include "../Events/EventManager.h"
+
+#include "../Exceptions/UnInitializedException.hpp"
 #include "../Exceptions/ScriptException.hpp"
+#include "../Exceptions/AlreadyInitializedException.hpp"
+#include "../Exceptions/OutOfRangeException.hpp"
 
 Script::~Script( )
 {
@@ -25,61 +29,91 @@ Script::~Script( )
 
 Script* Script::CreateFromFileBuffer( FileBuffer* fileBuffer )
 {
+	if ( 0 == fileBuffer )
+	{
+		NullReferenceException nullE( "Script::CreateFromFileBuffer - The given FileBuffer is NULL" );
+		Logger::GetInstance( )->Fatal( nullE.what( ) );
+		throw nullE;
+	}
+
+	if ( fileBuffer->fileBytes == 0 || fileBuffer->fileSize == 0 )
+	{
+		delete fileBuffer;
+
+		UnInitializedException unInitE( "Script::CreateFromFileBuffer - Cannot Initialize from an Empty File Buffer" );
+		Logger::GetInstance( )->Fatal( unInitE.what( ) );
+		throw unInitE;
+	}
+
 	Script* script = new Script( );
 	script->_fileBuffer = fileBuffer;
 	return script;
 }
 
-bool Script::Initialize( )
+void Script::Initialize( )
 {
-	bool result = false;
-
-	if ( _fileBuffer != 0 )
+	if ( _isInitialized )
 	{
-		if ( _fileBuffer->fileBytes != 0 )
-		{
-			std::stringstream loadingMessage;
-			loadingMessage << "Loading Script: " << _fileBuffer->filePath;
-			Logger::GetInstance( )->Fatal( loadingMessage.str( ) );
+		AlreadyInitializedException aiE( "Script::Initialize - Script has already been Initialized" );
+		Logger::GetInstance( )->Fatal( aiE.what( ) );
+		throw aiE;
+	}
 
-			_luaState = lua_open( );
-			luabind::open( _luaState );
+	_luaState = lua_open( );
+	luabind::open( _luaState );
 
-			luaL_loadbuffer( _luaState, _fileBuffer->fileBytes, _fileBuffer->fileSize, _fileBuffer->filePath.c_str( ) );
-			lua_pcall( _luaState, 0, 0, 0 );
+	int result = luaL_loadbuffer( _luaState, _fileBuffer->fileBytes, _fileBuffer->fileSize, _fileBuffer->filePath.c_str( ) );
 
-			module( _luaState )
+	if ( LUA_ERRSYNTAX == result )
+	{
+		ScriptException syntaxE( "Script::Initialize - There is a syntax error within the Script" );
+		Logger::GetInstance( )->Fatal( syntaxE.what( ) );
+		throw syntaxE;
+	}
+
+	if ( LUA_ERRMEM == result )
+	{
+		ScriptException memE( "Script::Initialize - There is memory allocation error within the Script" );
+		Logger::GetInstance( )->Fatal( memE.what( ) );
+		throw memE;
+	}
+
+	lua_pcall( _luaState, 0, 0, 0 );
+
+	module( _luaState )
+	[
+		def( "print",  &Script::LogMessage ),
+		def( "addEventListener", &Script::FromLua_AddEventListener ),
+
+		class_< Script >( "Script" ),
+
+		class_< EventType >( "EventType" )
+			.enum_( "constants" )
 			[
-				def( "print",  &Script::LogMessage ),
-				def( "addEventListener", &Script::FromLua_AddEventListener ),
+				value( "TEST_EVENT", TEST_EVENT ),
+				value( "KEY_UP", KEY_UP )
+			]
+	];
 
-				class_< Script >( "Script" ),
-
-				class_< EventType >( "EventType" )
-					.enum_( "constants" )
-					[
-						value( "TEST_EVENT", TEST_EVENT ),
-						value( "KEY_UP", KEY_UP )
-					]
-			];
-
-			result = true;
-		}
-		else
-		{
-			Logger::GetInstance( )->Fatal( "Cannot intitialize script, fileBuffer is has no bytes!" );
-		}
-	}
-	else
-	{
-		Logger::GetInstance( )->Fatal( "Cannot intitialize script, fileBuffer is NULL" );
-	}
-
-	return result;
+	_isInitialized = true;
 }
 
 void Script::CallFunction( const std::string functionName )
 {
+	if ( !_isInitialized )
+	{
+		UnInitializedException unE( "Script::CallFunction - Script is not Initialized" );
+		Logger::GetInstance( )->Fatal( unE.what( ) );
+		throw unE;
+	}
+
+	if( functionName.empty( ) )
+	{
+		OutOfRangeException outE( "Script::CallFunction - The given function name is empty" );
+		Logger::GetInstance( )->Fatal( outE.what( ) );
+		throw outE;
+	}
+
 	try
 	{
 		call_function< int >( _luaState, functionName.c_str( ), this );
@@ -94,6 +128,18 @@ void Script::CallFunction( const std::string functionName )
 
 		throw ScriptException( errorMessage.str( ) );
 	}
+}
+
+lua_State* Script::GetState( ) const
+{
+	 if ( !_isInitialized )
+	 {
+		 UnInitializedException e( "Script::GetState -Script is not Initialized" );
+		 Logger::GetInstance( )->Fatal( e.what( ) );
+		 throw e;
+	 }
+
+	 return _luaState;
 }
 
 void Script::LogMessage( const std::string message )
