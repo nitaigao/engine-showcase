@@ -26,14 +26,13 @@ Ogre::DataStreamPtr BadArchive::open( const Ogre::String& filename ) const
 	FileBuffer* fileBuffer = FileManager::GetInstance( )->GetFile( filename );
 
 	std::stringstream logMessage;
-	logMessage << "BadArchive: Opening File" << filename;
+	logMessage << "BadArchive: Opening File " << filename;
 	Logger::GetInstance( )->Debug( logMessage.str( ) );
 
 	if ( fileBuffer != 0 )
 	{
-		std::ifstream* fileStream = new std::ifstream( fileBuffer->fileBytes );
-		Ogre::FileStreamDataStream* dataStream = new FileStreamDataStream( filename, fileStream, fileBuffer->fileSize, true );
-		stream = DataStreamPtr( dataStream );
+		MemoryDataStream memoryStream( fileBuffer->fileBytes, fileBuffer->fileSize, false );
+		stream = DataStreamPtr( new MemoryDataStream( memoryStream, true ) );
 		delete fileBuffer;
 	}
 
@@ -52,7 +51,16 @@ StringVectorPtr BadArchive::find( const String& pattern, bool recursive /* = tru
 
 FileInfoListPtr BadArchive::findFileInfo( const String& pattern, bool recursive /* = true */, bool dirs /* = false */ )
 {
-	return FileInfoListPtr( new FileInfoList( ) );
+	FileInfoListPtr fileList = FileInfoListPtr( new FileInfoList( ) );
+
+	if ( FileManager::GetInstance( )->FileExists( pattern ) )
+	{
+		FileInfo fileInfo;
+		fileInfo.archive = this;
+		fileList->push_back( fileInfo );
+	}
+
+	return fileList;
 }
 
 StringVectorPtr BadArchive::list( bool recursive /* = true */, bool dirs /* = false */ )

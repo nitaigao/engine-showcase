@@ -8,7 +8,8 @@
 
 #include "Logging/Logger.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( FileAppenderFixture );
+#include "../Suites.h"
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( FileAppenderFixture, Suites::LoggingSuite( ) );
 
 void FileAppenderFixture::setUp( )
 {

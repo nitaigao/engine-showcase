@@ -12,7 +12,8 @@
 
 #include "Graphics/OgreRenderer.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( InputSystemFixture );
+#include "../Suites.h"
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( InputSystemFixture, Suites::InputSuite( ) );
 
 void InputSystemFixture::setUp( )
 {

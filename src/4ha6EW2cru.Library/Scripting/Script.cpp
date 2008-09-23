@@ -91,7 +91,8 @@ void Script::Initialize( )
 			.enum_( "constants" )
 			[
 				value( "TEST_EVENT", TEST_EVENT ),
-				value( "KEY_UP", KEY_UP )
+				value( "INPUT_KEY_UP", INPUT_KEY_UP ),
+				value( "LOG_MESSAGE_LOGGED", LOG_MESSAGE_LOGGED )
 			]
 	];
 

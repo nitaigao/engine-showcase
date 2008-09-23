@@ -208,6 +208,22 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Graphics\GUI\ControlFixture.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\ControlFixture.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Logging\EventAppenderFixture.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Logging\EventAppenderFixture.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Events\EventDataFixture.cpp"
 			>
 		</File>
@@ -356,11 +372,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\System\Settings.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\System\SettingsFixture.h"
+			RelativePath=".\Suites.h"
 			>
 		</File>
 	</Files>

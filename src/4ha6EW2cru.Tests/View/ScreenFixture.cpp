@@ -11,7 +11,8 @@ using namespace Ogre;
 
 #include "View/Screen.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( ScreenFixture );
+#include "../Suites.h"
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScreenFixture, Suites::ViewSuite( ) );
 
 void ScreenFixture::setUp( )
 {
@@ -68,23 +69,28 @@ void ScreenFixture::tearDown( )
 	Logger::GetInstance( )->Release( );
 }
 
-void ScreenFixture::Should_Fail_Intialization_No_Gui( )
+void ScreenFixture::Should_Throw_On_Initialize_Given_NULL_Gui( )
 {
-	FileBuffer* buffer = FileManager::GetInstance( )->GetFile( "../game/test/testscript.lua" );
+	FileBuffer* buffer = FileManager::GetInstance( )->GetFile( "testscript.lua" );
 	Script* script = Script::CreateFromFileBuffer( buffer );
 	script->Initialize( );
 
 	Screen screen( "randomscreen" );
-	CPPUNIT_ASSERT_THROW( screen.Initialize( 0, script ), std::exception* );
+	CPPUNIT_ASSERT_THROW( screen.Initialize( 0, script ), NullReferenceException );
 }
 
-void ScreenFixture::Should_Fail_Initialization_No_Script( )
+void ScreenFixture::Should_Throw_On_Initialize_Given_NULL_Script( )
 {
 	Screen screen( "randomscreen" );
-	CPPUNIT_ASSERT_THROW( screen.Initialize( _gui, 0 ), std::exception* );
+	CPPUNIT_ASSERT_THROW( screen.Initialize( _gui, 0 ), NullReferenceException );
 }
 
-void ScreenFixture::Should_SuccessFully_Initialize( )
+void ScreenFixture::Should_Throw_On_Initialize_Given_Already_Initialized( )
+{
+
+}
+
+void ScreenFixture::Should_Initialize_Given_Valid_Parameters( )
 {
 	FileManager::GetInstance( )->AddFileStore( "../game/test/gui/screens/testscreen" );
 
@@ -93,7 +99,15 @@ void ScreenFixture::Should_SuccessFully_Initialize( )
 	script->Initialize( );
 
 	Screen screen( "testscreen" );
-	bool result = screen.Initialize( _gui, script );
+	screen.Initialize( _gui, script );
+}
 
-	CPPUNIT_ASSERT( result );
+void ScreenFixture::Should_Return_ScreenName( )
+{
+
+}
+
+void ScreenFixture::Should_Return_VisibilityMask( )
+{
+
 }

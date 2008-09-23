@@ -189,7 +189,23 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Graphics\GUI\Control.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\Control.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Events\Event.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Logging\EventAppender.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Logging\EventAppender.h"
 			>
 		</File>
 		<File
@@ -354,6 +370,14 @@
 		</File>
 		<File
 			RelativePath=".\Exceptions\UnInitializedException.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\View.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\View.h"
 			>
 		</File>
 	</Files>

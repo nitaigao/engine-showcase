@@ -21,18 +21,22 @@ public:
 	HumanView( ) 
 		: _viewScript( 0 )
 		, _currentScreen( 0 )
+		, _inputSystem( 0 )
 		, _renderer( 0 )
-	{ };
+		, _isIntialized( false )
+	{ 
+	
+	};
 
 	~HumanView( );
 
-	/*! Initializes all subsystems of the View  */
-	bool Initialize( );
+	/*! Initializes all subsystems of the View */
+	void Initialize( int width, int height, bool fullScreen );
 
-	/*! Causes all subsystems to refresh their data */
+	/*! Cause all subsystems to refresh their data */
 	void Update( );
 
-	/*! Renders the current Screen */
+	/*! Render the current Screen */
 	void Render( );
 
 private:
@@ -46,14 +50,11 @@ private:
 	/*! Handler to intercept the OnChangeScreen Event */
 	void OnChangeScreen( const IEvent* event );
 
-	/*! Loads in all the Resource Locations from the FileSystem */
-	void LoadResources( );
-
 	IRenderer* _renderer;
 	Script* _viewScript;
 	InputSystem* _inputSystem;
-
 	Screen* _currentScreen;
+	bool _isIntialized;
 
 };
 

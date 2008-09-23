@@ -22,7 +22,7 @@ public:
 	bool mouseMoved( const MouseEvent &arg )
 	{
 		Event* event = new Event( INPUT_MOUSE_MOVED, new MouseEventData( arg.state, OIS::MB_Left ) );
-		EventManager::GetInstance( )->QueueEvent( event );
+		EventManager::GetInstance( )->TriggerEvent( event );
 
 		return true;
 	}
@@ -31,7 +31,7 @@ public:
 	bool mousePressed( const MouseEvent &arg, MouseButtonID id )
 	{
 		Event* event = new Event( INPUT_MOUSE_PRESSED, new MouseEventData( arg.state, id ) );
-		EventManager::GetInstance( )->QueueEvent( event );
+		EventManager::GetInstance( )->TriggerEvent( event );
 
 		return true;
 	}
@@ -40,7 +40,7 @@ public:
 	bool mouseReleased( const MouseEvent &arg, MouseButtonID id )
 	{	
 		Event* event = new Event( INPUT_MOUSE_RELEASED, new MouseEventData( arg.state, id ) );
-		EventManager::GetInstance( )->QueueEvent( event );
+		EventManager::GetInstance( )->TriggerEvent( event );
 
 		return true;
 	}

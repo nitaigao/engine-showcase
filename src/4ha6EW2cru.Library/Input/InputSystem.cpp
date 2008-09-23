@@ -24,13 +24,7 @@ void InputSystem::Initialize( )
 
 	Logger::GetInstance( )->Info( "Initializing Input System" );
 
-	std::stringstream hWndParam;
-	hWndParam << _hWnd;
-
-	OIS::ParamList params;
-	params.insert( std::make_pair( std::string("WINDOW"), hWndParam.str( ) ) );		
-
-	_inputManager = OIS::InputManager::createInputSystem( params );
+	_inputManager = OIS::InputManager::createInputSystem( _hWnd );
 
 	_keyboard = static_cast< OIS::Keyboard* >( _inputManager->createInputObject( OIS::OISKeyboard, true ) );
 	_keyboardListener = new KeyboardListener( );

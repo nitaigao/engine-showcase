@@ -6,13 +6,11 @@
 #include "../IO/FileManager.h"
 #include "../Graphics/OgreRenderer.h"
 
-bool HumanView::Initialize( )
+#include "../Exceptions/UnInitializedException.hpp"
+
+void HumanView::Initialize( int width, int height, bool fullScreen )
 {
 	Logger::GetInstance( )->Info( "Initializing Human View" );
-
-	int width = 1920;
-	int height = 1200;
-	bool fullScreen = false;
 
 	_renderer = new OgreRenderer( );
 	_renderer->Initialize( width, height, fullScreen );
@@ -47,33 +45,44 @@ bool HumanView::Initialize( )
 	{	// -- Event Listeners
 
 		EventManager::GetInstance( )->AddEventListener( GAME_INITIALIZED, this, &HumanView::OnGameInitialized );
-		EventManager::GetInstance( )->AddEventListener( CHANGE_SCREEN, this, &HumanView::OnChangeScreen );
+		EventManager::GetInstance( )->AddEventListener( VIEW_CHANGE_SCREEN, this, &HumanView::OnChangeScreen );
 	}
 
-	return true;
+	_isIntialized = true;
 }
 
 void HumanView::Render( )
 {
+	if ( !_isIntialized )
+	{
+		UnInitializedException e( "HumanView::Render - Attempted to render when View isn't initialized" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
+	}
+
 	_renderer->Render( );
 }
 
 void HumanView::Update( )
 {
-	if ( _inputSystem != 0 )
+	if ( !_isIntialized )
 	{
-		_inputSystem->Update( );
+		UnInitializedException e( "HumanView::Update - Attempted to update when View isn't initialized" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
 	}
+	
+	_inputSystem->Update( );
+	_renderer->Update( );
 }
 
 HumanView::~HumanView( )
 {
-	EventManager::GetInstance( )->RemoveEventListener( GAME_INITIALIZED, this, &HumanView::OnGameInitialized );
-	EventManager::GetInstance( )->RemoveEventListener( CHANGE_SCREEN, this, &HumanView::OnChangeScreen );
-
-	delete _currentScreen;
-	delete _inputSystem;
-	_inputSystem = 0;
+	if ( _renderer != 0 )
+	{
+		delete _renderer;
+		_renderer = 0;
+	}
 
 	if ( _viewScript != 0 )
 	{
@@ -81,7 +90,23 @@ HumanView::~HumanView( )
 		_viewScript = 0;
 	}
 
-	delete _renderer;
+	if ( _currentScreen != 0 )
+	{
+		delete _currentScreen;
+		_currentScreen = 0;
+	}
+
+	if ( _inputSystem != 0 )
+	{
+		delete _inputSystem;
+		_inputSystem = 0;
+	}
+
+	if ( _isIntialized )
+	{
+		EventManager::GetInstance( )->RemoveEventListener( GAME_INITIALIZED, this, &HumanView::OnGameInitialized );
+		EventManager::GetInstance( )->RemoveEventListener( VIEW_CHANGE_SCREEN, this, &HumanView::OnChangeScreen );		
+	}
 }
 
 void HumanView::OnGameInitialized( const IEvent* event )
@@ -95,11 +120,11 @@ void HumanView::OnChangeScreen( const IEvent* event )
 	luabind::call_function< int >( _viewScript->GetState( ), "onScreenChange", this, eventData->GetScreenName( ) );
 }
 
-void HumanView::FromLua_ChangeScreen( HumanView* sender, std::string screenName, unsigned int visibilityMask )
+void HumanView::FromLua_ChangeScreen( HumanView* view, std::string screenName, unsigned int visibilityMask )
 {
-	if ( sender->_currentScreen != 0 )
+	if ( view->_currentScreen != 0 )
 	{
-		delete sender->_currentScreen;
+		delete view->_currentScreen;
 	}
 
 	std::stringstream scriptPath;
@@ -109,6 +134,6 @@ void HumanView::FromLua_ChangeScreen( HumanView* sender, std::string screenName,
 	Script* script = Script::CreateFromFileBuffer( scriptBuffer );
 	script->Initialize( );
 
-	sender->_currentScreen = new Screen( screenName, visibilityMask );
-	sender->_currentScreen->Initialize( sender->_renderer->GetGui( ), script );
+	view->_currentScreen = new Screen( screenName, visibilityMask );
+	view->_currentScreen->Initialize( view->_renderer->GetGui( ), script );
 }

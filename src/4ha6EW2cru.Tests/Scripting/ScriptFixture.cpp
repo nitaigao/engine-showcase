@@ -14,7 +14,8 @@
 #include "../Mocks/MockEventData.hpp"
 #include "../Mocks/MockScriptBinder.hpp"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( ScriptFixture );
+#include "../Suites.h"
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScriptFixture, Suites::ScriptingSuite( ) );
 
 void ScriptFixture::setUp( )
 {
@@ -52,6 +53,8 @@ void ScriptFixture::Should_Throw_On_Initialize_Given_Invalid_Script( )
 	FileBuffer* scriptBuffer = FileManager::GetInstance( )->GetFile( "garbage.lua" );
 	Script* script = Script::CreateFromFileBuffer( scriptBuffer );
 	CPPUNIT_ASSERT_THROW( script->Initialize( ), ScriptException );
+
+	delete script;
 }
 
 void ScriptFixture::Should_Throw_On_Initialize_Given_Already_Initialized( )

@@ -10,32 +10,27 @@
 #include "../Exceptions/ScreenDimensionsException.hpp"
 #include "../Exceptions/UnInitializedException.hpp"
 
-OgreRenderer::OgreRenderer( )
-{
-	_badFactory = new BadArchiveFactory( );
-	_root = new Root( );
-	_gui = new Gui( );
-	_initialized = false;
-
-}
-
 OgreRenderer::~OgreRenderer( )
 {
-	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_MOVED, this, &OgreRenderer::OnMouseMoved );
+	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_PRESSED, this, &OgreRenderer::OnMousePressed );
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_MOVED, this, &OgreRenderer::OnMouseMoved );
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_RELEASED, this, &OgreRenderer::OnMouseReleased );
+	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_DOWN, this, &OgreRenderer::OnKeyDown );
+	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_UP, this, &OgreRenderer::OnKeyUp );
 
-	if ( _root->isInitialised( ) )
+	if ( _gui != 0 )
 	{
 		_gui->shutdown( );
-		_root->shutdown( );
+		delete _gui;
+		_gui = 0;
 	}
 
-	delete _gui;
-	_gui = 0;
-	
-	delete _root;
-	_root = 0;
+	if ( _root != 0 )
+	{
+		_root->shutdown( );
+		delete _root;
+		_root = 0;
+	}
 
 	delete _badFactory;
 	_badFactory = 0;
@@ -43,7 +38,7 @@ OgreRenderer::~OgreRenderer( )
 
 Gui* OgreRenderer::GetGui( )
 {
-	if ( !_initialized )
+	if ( !_isInitialized )
 	{
 		UnInitializedException e( "OgreRenderer::GetGui - Renderer isn't initialized" );
 		Logger::GetInstance( )->Fatal( e.what( ) );
@@ -62,11 +57,14 @@ void OgreRenderer::Initialize( int width, int height, bool fullScreen )
 			throw ScreenDimensionsException( );
 		}
 
+		_root = new Root( );
+
 		Ogre::LogManager::getSingletonPtr( )->destroyLog( Ogre::LogManager::getSingletonPtr( )->getDefaultLog( ) );
 		Ogre::LogManager::getSingletonPtr( )->createLog( "default", true, false, true );
 
 		_root->loadPlugin( "RenderSystem_Direct3D9_d" );
-
+		
+		_badFactory = new BadArchiveFactory( );
 		ArchiveManager::getSingletonPtr( )->addArchiveFactory( _badFactory );
 		this->LoadResources( );
 
@@ -101,24 +99,26 @@ void OgreRenderer::Initialize( int width, int height, bool fullScreen )
 	}
 
 	{	// -- MyGUI 
-
-		_gui->initialise( _root->getAutoCreatedWindow(  ) );
+		_gui = new Gui( );
+		_gui->initialise( _root->getAutoCreatedWindow( ), "gui/core/core.xml" );
 		_gui->hidePointer( );
 	}
 
 	{	// -- Event Listeners
 
-		EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_MOVED, this, &OgreRenderer::OnMouseMoved );
 		EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_PRESSED, this, &OgreRenderer::OnMousePressed );
+		EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_MOVED, this, &OgreRenderer::OnMouseMoved );
 		EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_RELEASED, this, &OgreRenderer::OnMouseReleased );
+		EventManager::GetInstance( )->AddEventListener( INPUT_KEY_DOWN, this, &OgreRenderer::OnKeyDown );
+		EventManager::GetInstance( )->AddEventListener( INPUT_KEY_UP, this, &OgreRenderer::OnKeyUp );
 	}
 
-	_initialized = true;
+	_isInitialized = true;
 }
 
 size_t OgreRenderer::GetHwnd( ) const
 {
-	if ( !_initialized )
+	if ( !_isInitialized )
 	{
 		UnInitializedException e( "OgreRenderer::GetHwnd - Renderer isn't initialized" );
 		Logger::GetInstance( )->Fatal( e.what( ) );
@@ -132,7 +132,7 @@ size_t OgreRenderer::GetHwnd( ) const
 
 void OgreRenderer::Render( ) const
 {
-	if ( !_initialized )
+	if ( !_isInitialized )
 	{
 		UnInitializedException e( "OgreRenderer::Render - Renderer isn't initialized" );
 		Logger::GetInstance( )->Fatal( e.what( ) );
@@ -144,7 +144,7 @@ void OgreRenderer::Render( ) const
 
 void OgreRenderer::Update( ) const
 {
-	if ( !_initialized )
+	if ( !_isInitialized )
 	{
 		UnInitializedException e( "OgreRenderer::Update - Renderer isn't initialized" );
 		Logger::GetInstance( )->Fatal( e.what( ) );
@@ -192,4 +192,16 @@ void OgreRenderer::OnMouseReleased( const IEvent* event )
 {
 	MouseEventData* eventData = static_cast< MouseEventData* >( event->GetEventData( ) );
 	_gui->injectMouseRelease( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, ( MyGUI::MouseButton ) eventData->GetMouseButtonId( ) );
+}
+
+void OgreRenderer::OnKeyUp( const IEvent* event )
+{
+	KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
+	_gui->injectKeyRelease( ( MyGUI::KeyCode ) eventData->GetKeyCode( ) );
+}
+
+void OgreRenderer::OnKeyDown( const IEvent* event )
+{ 
+	KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
+	_gui->injectKeyPress( ( MyGUI::KeyCode ) eventData->GetKeyCode( ) );
 }

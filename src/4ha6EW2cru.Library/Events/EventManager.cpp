@@ -66,6 +66,32 @@ void EventManager::QueueEvent( const IEvent* event )
 	_eventQueue.push( event );
 }
 
+void EventManager::TriggerEvent( const IEvent* event )
+{
+	if ( 0 == event )
+	{
+		NullReferenceException e( "EventManager::TriggerEvent - Attempted to trigger a NULL Event" );
+		Logger::GetInstance( )->Fatal( e.what ( ) );
+		throw e;
+	}
+
+	std::pair< 
+		EventListenerList::iterator, 
+		EventListenerList::iterator
+	> listeners;
+
+	std::multimap< const EventType, IEventListener* > eventListeners( _eventListeners );
+
+	listeners = eventListeners.equal_range( ( EventType ) event->GetEventType( ) ); 
+
+	for ( EventListenerList::iterator i = listeners.first; i != listeners.second; ++i )
+	{
+		( *i ).second->HandleEvent( event );
+	}
+
+	delete event;
+}
+
 void EventManager::Update( )
 {
 	std::pair< 

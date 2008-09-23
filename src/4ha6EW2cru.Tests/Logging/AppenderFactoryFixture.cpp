@@ -3,7 +3,8 @@
 #include "Logging/AppenderFactory.h"
 #include "Logging/AppenderType.hpp"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( AppenderFactoryFixture );
+#include "../Suites.h"
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( AppenderFactoryFixture, Suites::LoggingSuite( ) );
 
 void AppenderFactoryFixture::Should_Return_ConsoleAppender( )
 {
@@ -17,4 +18,11 @@ void AppenderFactoryFixture::Should_Return_FileAppender( )
 	IAppender* fileAppender = AppenderFactory::CreateAppender( FILEAPPENDER );
 	CPPUNIT_ASSERT( fileAppender != 0 );
 	delete fileAppender;
+}
+
+void AppenderFactoryFixture::Should_Return_EventAppender( )
+{
+	IAppender* eventAppender = AppenderFactory::CreateAppender( EVENTAPPENDER );
+	CPPUNIT_ASSERT( eventAppender != 0 );
+	delete eventAppender;
 }

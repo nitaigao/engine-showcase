@@ -11,9 +11,13 @@ class ScreenFixture : public CPPUNIT_NS::TestFixture
 
   CPPUNIT_TEST_SUITE( ScreenFixture );
 
-  CPPUNIT_TEST_EXCEPTION( Should_Fail_Intialization_No_Gui, std::exception );
-  CPPUNIT_TEST_EXCEPTION( Should_Fail_Initialization_No_Script, std::exception );
-  CPPUNIT_TEST( Should_SuccessFully_Initialize );
+  CPPUNIT_TEST( Should_Throw_On_Initialize_Given_NULL_Gui );
+  CPPUNIT_TEST( Should_Throw_On_Initialize_Given_NULL_Script );
+  CPPUNIT_TEST( Should_Throw_On_Initialize_Given_Already_Initialized );
+  CPPUNIT_TEST( Should_Initialize_Given_Valid_Parameters );
+
+  CPPUNIT_TEST( Should_Return_ScreenName );
+  CPPUNIT_TEST( Should_Return_VisibilityMask );
 
   CPPUNIT_TEST_SUITE_END( );
 
@@ -24,9 +28,13 @@ public:
 
 protected:
 
-	void Should_Fail_Intialization_No_Gui( );
-	void Should_Fail_Initialization_No_Script( );
-	void Should_SuccessFully_Initialize( );
+	void Should_Throw_On_Initialize_Given_NULL_Gui( );
+	void Should_Throw_On_Initialize_Given_NULL_Script( );;
+	void Should_Throw_On_Initialize_Given_Already_Initialized( );
+	void Should_Initialize_Given_Valid_Parameters( );
+
+	void Should_Return_ScreenName( );
+	void Should_Return_VisibilityMask( );
 
 private:
 

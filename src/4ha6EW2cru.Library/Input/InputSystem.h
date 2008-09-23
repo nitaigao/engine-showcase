@@ -18,7 +18,7 @@ class InputSystem : public IInputSystem
 
 public:
 
-	InputSystem( size_t hWnd )
+	InputSystem( std::size_t hWnd )
 		: _inputManager( 0 )
 		, _keyboard( 0 )
 		, _keyboardListener( 0 )
@@ -42,7 +42,7 @@ public:
 
 private:
 
-	size_t _hWnd;
+	std::size_t _hWnd;
 
 	OIS::InputManager* _inputManager;
 

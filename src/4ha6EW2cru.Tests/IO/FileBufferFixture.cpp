@@ -2,7 +2,8 @@
 
 #include "IO/FileBuffer.hpp"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( FileBufferFixture );
+#include "../Suites.h"
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( FileBufferFixture, Suites::IOSuite( ) );
 
 void FileBufferFixture::Should_Contain_Given_Values( )
 {

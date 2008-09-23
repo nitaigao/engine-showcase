@@ -5,6 +5,8 @@
 #include <cppunit/TestResultCollector.h>
 #include <cppunit/TestRunner.h>
 
+#include "Suites.h"
+
 #ifdef _DEBUG
 	#define _CRTDBG_MAP_ALLOC
 	#define _CRTDBG_MAP_ALLOC_NEW
@@ -13,13 +15,13 @@
 
 int main (int argc, char* argv[])
 {
-	//_crtBreakAlloc = 2179;
+	//_crtBreakAlloc = 2018;
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF ); 
 
 	// Create the event manager and test controller
 	CPPUNIT_NS::TestResult controller;
 
-	// Add a listener that colllects test result
+	// Add a listener that collects test result
 	CPPUNIT_NS::TestResultCollector result;
 	controller.addListener( &result );        
 
@@ -29,12 +31,21 @@ int main (int argc, char* argv[])
 
 	// Add the top suite to the test runner
 	CPPUNIT_NS::TestRunner runner;
-	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest() );
+
+	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::EventsSuite( ) ).makeTest( ) );
+	//runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::GraphicsSuite( ) ).makeTest( ) );
+	//runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::InputSuite( ) ).makeTest( ) );
+	//runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::IOSuite( ) ).makeTest( ) );
+	//runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::LoggingSuite( ) ).makeTest( ) );
+	//runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::ScriptingSuite( ) ).makeTest( ) );
+	//runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::SystemSuite( ) ).makeTest( ) );
+	//runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::ViewSuite( ) ).makeTest( ) );
+
 	runner.run( controller );
 
 	// Print test in a compiler compatible format.
-	CPPUNIT_NS::CompilerOutputter outputter( &result, CPPUNIT_NS::stdCOut() );
-	outputter.write(); 
+	CPPUNIT_NS::CompilerOutputter outputter( &result, CPPUNIT_NS::stdCOut( ) );
+	outputter.write( ); 
 
-	return result.wasSuccessful() ? 0 : 1;
+	return result.wasSuccessful( ) ? 0 : 1;
 }

@@ -31,6 +31,9 @@ public:
 	/*! Queues an Event for processing on the next Tick */
 	void QueueEvent( const IEvent* event );
 
+	/*! Processes an Event immediately */
+	void TriggerEvent( const IEvent* event );
+
 	/*! Fires all events in the Event Queue */
 	void Update( );
 

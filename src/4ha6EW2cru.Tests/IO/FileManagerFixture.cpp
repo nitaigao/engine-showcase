@@ -6,7 +6,8 @@
 #include "Exceptions/NullReferenceException.hpp"
 #include "Exceptions/FileNotFoundException.hpp"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( FileManagerFixture );
+#include "../Suites.h"
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( FileManagerFixture, Suites::IOSuite( ) );
 
 void FileManagerFixture::setUp( )
 {

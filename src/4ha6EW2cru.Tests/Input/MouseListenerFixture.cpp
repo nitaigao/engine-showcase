@@ -5,7 +5,8 @@
 
 #include "ois/OISMouse.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( MouseListenerFixture );
+#include "../Suites.h"
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( MouseListenerFixture, Suites::InputSuite( ) );
 
 void MouseListenerFixture::setUp( )
 {

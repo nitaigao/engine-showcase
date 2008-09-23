@@ -5,7 +5,8 @@
 
 #include "Exceptions/NullReferenceException.hpp"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( EventListenerFixture );
+#include "../Suites.h"
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( EventListenerFixture, Suites::EventsSuite( ) );
 
 void EventListenerFixture::setUp( )
 {

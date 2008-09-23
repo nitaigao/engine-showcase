@@ -10,7 +10,8 @@
 
 #include "Exceptions/UnInitializedException.hpp"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( OgreRendererFixture );
+#include "../Suites.h"
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( OgreRendererFixture, Suites::GraphicsSuite( ) );
 
 void OgreRendererFixture::setUp( )
 {

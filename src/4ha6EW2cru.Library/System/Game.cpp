@@ -1,22 +1,29 @@
 #include "Game.h"
 
+#include "../Exceptions/AlreadyInitializedException.hpp"
+#include "../Exceptions/UnInitializedException.hpp"
+
 #include "../Common/Paths.hpp"
 #include "../Logging/ConsoleAppender.h"
 #include "../Logging/FileAppender.h"
 
-bool Game::Initialize( )
+void Game::Initialize( )
 {
+	if ( _isInitialized )
+	{
+		AlreadyInitializedException e ( "Game::Initialize - Attempted to Initialized when the game had already been Initialized" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
+	}
+
 	{	// Initialize all Singletons
 		
-		if ( !Logger::Initialize( ) )
-		{
-			return false;
-		}
+		Logger::Initialize( );
 
 		{
 			ConsoleAppender* consoleAppender = static_cast< ConsoleAppender* >( AppenderFactory::CreateAppender( CONSOLEAPPENDER ) );
 			Logger::GetInstance( )->AddAppender( consoleAppender );
-	
+
 			FileAppender* fileAppender = static_cast< FileAppender* >( AppenderFactory::CreateAppender( FILEAPPENDER ) );
 			fileAppender->Initialize( Paths::GetLogFilePath( ) );
 			Logger::GetInstance( )->AddAppender( fileAppender );
@@ -24,15 +31,16 @@ bool Game::Initialize( )
 			Logger::GetInstance( )->Info( "Initializing Game" );
 		}
 
-		if ( !EventManager::Initialize( ) )
+		EventManager::Initialize( );
+
 		{
-			return false;
+
+			IAppender* eventAppender = AppenderFactory::CreateAppender( EVENTAPPENDER );
+			Logger::GetInstance( )->AddAppender( eventAppender );
+
 		}
 
-		if ( !FileManager::Initialize( ) )
-		{
-			return false;
-		}
+		FileManager::Initialize( );
 
 		FileManager::GetInstance( )->AddFileStore( Paths::GetViewPackagePath( ) );
 	}
@@ -40,21 +48,26 @@ bool Game::Initialize( )
 	{	// Initialize all Views
 
 		_view = new HumanView( );
-
-		if ( !_view->Initialize( ) )
-		{
-			return false;
-		}
+		int desktopWidth = GetSystemMetrics( SM_CXSCREEN );
+		int desktopHeight = GetSystemMetrics( SM_CYSCREEN );
+		_view->Initialize( desktopWidth, desktopHeight, false );
 	}
 
 	EventManager::GetInstance( )->AddEventListener( GAME_QUIT, this, &Game::OnGameQuit );
 	EventManager::GetInstance( )->QueueEvent( new Event( GAME_INITIALIZED ) );
 
-	return true;
+	_isInitialized = true;
 }
 
 void Game::StartLoop( bool loopOnce )
 {
+	if ( !_isInitialized )
+	{
+		UnInitializedException e( "Game::StartLoop - Cannot Start the Loop when not Initialized" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
+	}
+
 	MSG msg;
 
 	while( !_isQuitting )
@@ -79,7 +92,12 @@ void Game::StartLoop( bool loopOnce )
 
 void Game::Release( )
 {
-	Logger::GetInstance( )->Info( "Releasing the Game" );
+	if ( !_isInitialized )
+	{
+		UnInitializedException e( "Game::Release - Cannot Release when not Initialized" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
+	}
 
 	delete _view;
 

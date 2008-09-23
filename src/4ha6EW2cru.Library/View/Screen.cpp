@@ -12,6 +12,7 @@ using namespace MyGUI;
 #include "../Events/EventListener.h"
 #include "../Events/EventManager.h"
 #include "../IO/FileManager.h"
+#include "../Graphics/gui/Control.h"
 
 Screen::~Screen( )
 {
@@ -39,8 +40,17 @@ bool Screen::loadGUI( )
 			return false;
 		}
 
-		_gui->destroyAllChildWidget(	);
-		_gui->load( guiPath.str( ) );
+		_gui->destroyAllChildWidget( );
+
+		try
+		{
+			_gui->load( guiPath.str( ) );
+		}
+		catch ( MyGUIException e )
+		{
+			Logger::GetInstance( )->Fatal( e.what( ) );
+			throw;
+		}		
 
 		result = true;
 	}
@@ -56,7 +66,10 @@ bool Screen::loadScript( )
 	{
 		module( _script->GetState( ) )
 		[
-			class_< Screen >( "Screen" )
+			class_< Screen >( "Screen" ),
+			class_< Control >( "Control" )
+				.def( constructor< std::string >( ) )
+				.def( "initialize", &Control::Initialize )
 			,
 
 			def( "changeScreen", &Screen::FromLua_ChangeScreen ),
@@ -71,26 +84,27 @@ bool Screen::loadScript( )
 	return result;
 }
 
-bool Screen::Initialize( Gui* gui, Script* script )
+void Screen::Initialize( Gui* gui, Script* script )
 {	
 	_script = script;
 	_gui = gui;
 
-	std::stringstream logMessage;
-	logMessage << _screenName.c_str( ) << ": Initializing";
-	Logger::GetInstance( )->Debug( logMessage.str( ) );
-
-	if ( !loadGUI( ) )
+	if ( gui == 0 )
 	{
-		throw std::exception( "Unable to initialize screen GUI" );
+		NullReferenceException guiNullE( "Screen::Initialize - Cannot Initialize with a NULL GUI" );
+		Logger::GetInstance( )->Fatal( guiNullE.what( ) );
+		throw guiNullE;
 	}
 
-	if ( !loadScript( ) )
+	if ( script == 0 )
 	{
-		throw std::exception( "Unable to load Screen Script" );
+		NullReferenceException scriptNullE( "Screen::Initialize - Cannot Initialize with a NULL Script" );
+		Logger::GetInstance( )->Fatal( scriptNullE.what( ) );
+		throw scriptNullE;
 	}
 
-	return true;
+	loadGUI( );
+	loadScript( );
 }
 
 void Screen::FromLua_ShowMouse( )
@@ -101,5 +115,5 @@ void Screen::FromLua_ShowMouse( )
 void Screen::FromLua_ChangeScreen( std::string screenName )
 {
 	ChangeScreenEventData* eventData = new ChangeScreenEventData( screenName );
-	EventManager::GetInstance( )->QueueEvent( new Event( CHANGE_SCREEN, eventData ) );
+	EventManager::GetInstance( )->QueueEvent( new Event( VIEW_CHANGE_SCREEN, eventData ) );
 }

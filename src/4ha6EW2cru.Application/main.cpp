@@ -18,15 +18,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	Game game;
 
-	if ( game.Initialize( ) )
-	{
-		game.StartLoop ( false );
-		game.Release( );
-
-		return EXIT_SUCCESS;
-	}
-
-	return EXIT_FAILURE;
+	game.Initialize( );
+	game.StartLoop ( false );
+	game.Release( );
+	
+	return EXIT_SUCCESS;
 }
 
 // EOF

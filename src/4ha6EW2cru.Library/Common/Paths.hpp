@@ -32,6 +32,9 @@ public:
 
 	/*! Get the path to the gui.bad file */
 	static std::string GetGUIPackagePath( ) { return "../game/data/gui.bad"; };
+
+	/*! Get the path to the gui controls directory */
+	static std::string GetControlsPath( ) { return "gui/controls/"; };
 };
 
 #endif

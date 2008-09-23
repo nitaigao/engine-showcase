@@ -23,11 +23,12 @@ public:
 	Game( )
 		: _loopCount( 0 )
 		, _isQuitting( false )
+		, _isInitialized( false )
 		, _view( 0 )
 	{ };
 	
 	/*! Initializes the Game and all Subsystems */
-	bool Initialize( );
+	void Initialize( );
 
 	/*! Entry point to start the main Game Loop */
 	void StartLoop( bool loopOnce );
@@ -37,11 +38,12 @@ public:
 
 private:
 
-	/*! Recieves the GAME_QUIT Event and starts the Quit Process */
+	/*! Receives the GAME_QUIT Event and starts the Quit Process */
 	void OnGameQuit( const IEvent* event );
 
 	int _loopCount;
 	bool _isQuitting;
+	bool _isInitialized;
 
 	HumanView* _view;
 

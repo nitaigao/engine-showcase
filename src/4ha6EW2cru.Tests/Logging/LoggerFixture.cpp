@@ -7,7 +7,8 @@
 
 #include "Exceptions/NullReferenceException.hpp"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( LoggerFixture );
+#include "../Suites.h"
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( LoggerFixture, Suites::LoggingSuite( ) );
 
 void LoggerFixture::Should_Initialize_Correctly( )
 {

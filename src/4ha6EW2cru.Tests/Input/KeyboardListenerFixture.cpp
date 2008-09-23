@@ -5,7 +5,8 @@
 
 #include "../Mocks/MockEventTrigger.hpp"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( KeyboardListenerFixture );
+#include "../Suites.h"
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( KeyboardListenerFixture, Suites::InputSuite( ) );
 
 void KeyboardListenerFixture::setUp( )
 {
@@ -24,13 +25,13 @@ void KeyboardListenerFixture::Should_Fire_RETURN_KeyUp_Event( )
 	MockEventTrigger* eventTriggerMock = new MockEventTrigger( );
 	eventTriggerMock->handle_count.setExpected( 1 );
 
-	EventManager::GetInstance( )->AddEventListener( KEY_UP, eventTriggerMock, &MockEventTrigger::EventHandler );
+	EventManager::GetInstance( )->AddEventListener( INPUT_KEY_UP, eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	KeyboardListener* listener = new KeyboardListener( );
 	listener->keyReleased( OIS::KeyEvent( 0,  OIS::KC_RETURN, 0 ) );
 
 	EventManager::GetInstance( )->Update( );
-	EventManager::GetInstance( )->RemoveEventListener( KEY_UP, eventTriggerMock, &MockEventTrigger::EventHandler );
+	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_UP, eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	eventTriggerMock->verify( );
 
@@ -43,13 +44,13 @@ void KeyboardListenerFixture::Should_Fire_RETURN_KeyDown_Event( )
 	MockEventTrigger* eventTriggerMock = new MockEventTrigger( );
 	eventTriggerMock->handle_count.setExpected( 1 );
 
-	EventManager::GetInstance( )->AddEventListener( KEY_DOWN, eventTriggerMock, &MockEventTrigger::EventHandler );
+	EventManager::GetInstance( )->AddEventListener( INPUT_KEY_DOWN, eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	KeyboardListener* listener = new KeyboardListener( );
 	listener->keyPressed( OIS::KeyEvent( 0,  OIS::KC_RETURN, 0 ) );
 
 	EventManager::GetInstance( )->Update( );
-	EventManager::GetInstance( )->RemoveEventListener( KEY_DOWN, eventTriggerMock, &MockEventTrigger::EventHandler );
+	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_DOWN, eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	eventTriggerMock->verify( );
 

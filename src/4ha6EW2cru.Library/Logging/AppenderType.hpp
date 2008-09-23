@@ -4,7 +4,8 @@
 enum AppenderType
 {
 	CONSOLEAPPENDER,
-	FILEAPPENDER
+	FILEAPPENDER,
+	EVENTAPPENDER
 };
 
 #endif

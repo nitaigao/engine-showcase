@@ -5,7 +5,8 @@
 
 #include "../Mocks/MockEventData.hpp"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( EventFixture );
+#include "../Suites.h"
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( EventFixture, Suites::EventsSuite( ) );
 
 void EventFixture::Should_Return_Correct_Data( )
 {

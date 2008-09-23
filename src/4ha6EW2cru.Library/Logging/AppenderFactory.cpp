@@ -2,6 +2,7 @@
 
 #include "ConsoleAppender.h"
 #include "FileAppender.h"
+#include "EventAppender.h"
 
 IAppender* AppenderFactory::CreateAppender( const AppenderType appenderType )
 {
@@ -19,6 +20,12 @@ IAppender* AppenderFactory::CreateAppender( const AppenderType appenderType )
 	case FILEAPPENDER:
 
 		appender = new FileAppender( );
+
+		break;
+
+	case EVENTAPPENDER:
+
+		appender = new EventAppender( );
 
 		break;
 

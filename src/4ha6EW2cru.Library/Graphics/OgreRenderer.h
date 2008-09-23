@@ -17,7 +17,15 @@ class OgreRenderer : public IRenderer
 
 public:
 
-	OgreRenderer( );
+	OgreRenderer( )
+		: _root( 0 )
+		, _gui( 0 )
+		, _isInitialized( false )
+		, _badFactory( 0 )
+	{
+
+	}
+
 	virtual ~OgreRenderer( );
 
 	void Initialize( int width, int height, bool fullScreen );
@@ -37,11 +45,17 @@ private:
 	/*! Handler to intercept OnMouseMoved Events */
 	void OnMouseReleased( const IEvent* event );
 
+	/*! Handler to intercept OnKeyUp Events */
+	void OnKeyUp( const IEvent* event );
+
+	/*! Handler to intercept OnKeyDown Events */
+	void OnKeyDown( const IEvent* event );
+
 	void LoadResources( );
 
 	Root* _root;
 	Gui* _gui;
-	bool _initialized;
+	bool _isInitialized;
 
 	ArchiveFactory* _badFactory;
 

@@ -7,7 +7,8 @@
 #include "Logging/Logger.h"
 #include "IO/FileManager.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( BadArchiveFactoryFixture );
+#include "../Suites.h"
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( BadArchiveFactoryFixture, Suites::IOSuite( ) );
 
 void BadArchiveFactoryFixture::setUp( )
 {

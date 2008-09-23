@@ -20,12 +20,14 @@ public:
 		, _visibilityMask( visibilityMask )
 		, _script( 0 )
 		, _gui( 0 )
-	{ };
+	{
+	
+	};
 
 	virtual ~Screen( );
 
 	/*! Initializes the Screen */
-	bool Initialize( Gui* gui, Script* script );
+	void Initialize( Gui* gui, Script* script );
 
 	/*! Returns the name of the Screen */
 	inline const std::string GetScreenName( ) const { return _screenName; };
@@ -37,6 +39,7 @@ private:
 
 	static void FromLua_ChangeScreen( std::string screenName );
 	static void FromLua_ShowMouse( );
+	static void FromLua_AddControl( ); 
 
 	bool loadGUI( );
 	bool loadScript( );

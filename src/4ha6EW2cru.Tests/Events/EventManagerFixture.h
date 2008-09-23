@@ -32,6 +32,9 @@ class EventManagerFixture : public CPPUNIT_NS::TestFixture
   CPPUNIT_TEST( Should_Queue_Event_Given_Correct_Event );
   CPPUNIT_TEST( Should_Throw_On_Queue_Event_Given_NULL_Event );
   CPPUNIT_TEST( Should_Throw_On_Queue_Event_Given_Uninitialized );
+  CPPUNIT_TEST( Should_Throw_On_Trigger_Given_Uninitialized );
+  CPPUNIT_TEST( Should_Trigger_Event_Given_Initialized );
+  CPPUNIT_TEST( Should_Throw_On_TriggerEvent_Given_Event_Is_NULL );
   CPPUNIT_TEST_SUITE_END( );
 
 public:
@@ -63,6 +66,9 @@ protected:
 	void Should_Queue_Event_Given_Correct_Event( );
 	void Should_Throw_On_Queue_Event_Given_NULL_Event( );
 	void Should_Throw_On_Queue_Event_Given_Uninitialized( );
+	void Should_Throw_On_Trigger_Given_Uninitialized( );
+	void Should_Trigger_Event_Given_Initialized( );
+	void Should_Throw_On_TriggerEvent_Given_Event_Is_NULL( );
 
 };
 

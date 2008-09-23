@@ -20,8 +20,8 @@ public:
 	/* Fired when the user presses a button on the keyboard */
 	bool keyPressed( const KeyEvent &arg )
 	{
-		Event* event = new Event( KEY_DOWN, new KeyEventData( arg.key ) );
-		EventManager::GetInstance( )->QueueEvent( event );
+		Event* event = new Event( INPUT_KEY_DOWN, new KeyEventData( arg.key ) );
+		EventManager::GetInstance( )->TriggerEvent( event );
 
 		return true;
 	};
@@ -29,8 +29,8 @@ public:
 	/* Fired when the user releases a button on the keyboard */
 	bool keyReleased( const KeyEvent &arg )
 	{
-		Event* event = new Event( KEY_UP, new KeyEventData( arg.key ) );
-		EventManager::GetInstance( )->QueueEvent( event );
+		Event* event = new Event( INPUT_KEY_UP, new KeyEventData( arg.key ) );
+		EventManager::GetInstance( )->TriggerEvent( event );
 
 		return true;
 	};

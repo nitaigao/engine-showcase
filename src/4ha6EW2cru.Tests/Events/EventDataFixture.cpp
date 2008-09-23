@@ -1,6 +1,7 @@
 #include "EventDataFixture.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( EventDataFixture );
+#include "../Suites.h"
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( EventDataFixture, Suites::EventsSuite( ) );
 
 void EventDataFixture::Should_Return_Correct_Keycode( )
 {

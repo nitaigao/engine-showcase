@@ -22,7 +22,7 @@ public:
 	};
 
 	/* Returns the keycode of the key pressed in the Event */
-	inline const OIS::KeyCode& GetKeyCode( ) const { return _keyCode; };
+	inline OIS::KeyCode GetKeyCode( ) const { return _keyCode; };
 
 private:
 
@@ -95,6 +95,28 @@ private:
 	ChangeScreenEventData & operator = ( const ChangeScreenEventData & copy ) { return *this; };
 
 	std::string _screenName;
+
+};
+
+class AppenderEventData : public IEventData
+{
+
+public:
+
+	~AppenderEventData( ) { };
+
+	AppenderEventData( const std::string message )
+		: _message( message )
+	{
+
+	}
+
+	/*! Returns the Message that has been Appended */
+	inline const std::string GetMessage( ) const { return _message; };
+
+private:
+
+	std::string _message;
 
 };
 
