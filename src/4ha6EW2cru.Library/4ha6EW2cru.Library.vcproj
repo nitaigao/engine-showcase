@@ -60,7 +60,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="OgreMain_d.lib  physfsd.lib MyGui_d.lib"
-				AdditionalLibraryDirectories="../../etc/vendor/physfs;../../etc/vendor/lua;../../etc/vendor/mygui/lib/debug;../../etc/vendor/luabind/lib;../../etc/vendor/ois/lib;../../etc/vendor/ogre/lib"
+				AdditionalLibraryDirectories="../../etc/vendor/physfs;../../etc/vendor/lua;../../etc/vendor/mygui/lib;../../etc/vendor/luabind/lib;../../etc/vendor/ois/lib;../../etc/vendor/ogre/lib"
 				IgnoreDefaultLibraryNames=""
 			/>
 			<Tool
