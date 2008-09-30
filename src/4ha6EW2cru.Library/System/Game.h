@@ -5,8 +5,6 @@
 #include "../Events/EventManager.h"
 #include "../IO/FileManager.h"
 
-#include "../Logging/AppenderFactory.h"
-
 #include "../Events/EventListener.h"
 #include  "../Events/Event.h"
 

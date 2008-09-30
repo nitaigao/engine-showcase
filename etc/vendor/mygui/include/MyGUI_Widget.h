@@ -27,7 +27,6 @@ namespace MyGUI
 	protected:
 		// все создание только через фабрику
 		Widget(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String & _name);
-		virtual ~Widget();
 
 		void _updateView(); // обновления себя и детей
 
@@ -49,6 +48,8 @@ namespace MyGUI
 		static Ogre::String WidgetTypeName;
 
 	public:
+
+		virtual ~Widget();
 
 		// методы и шаблоны для создания виджета
 		/** Create child widget

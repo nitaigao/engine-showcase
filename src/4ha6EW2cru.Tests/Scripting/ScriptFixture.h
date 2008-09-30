@@ -25,8 +25,7 @@ class ScriptFixture : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( Should_Throw_On_CallFunction_Given_Lua_Error );
 	CPPUNIT_TEST( Should_CallFunction_Given_Valid_FunctionName );
 
-	CPPUNIT_TEST( Should_Thow_On_GetState_Given_Not_Initialized );
-	CPPUNIT_TEST( Should_GetState_Given_Intialized );
+	CPPUNIT_TEST( Should_GetState );
 
 	CPPUNIT_TEST_SUITE_END( );
 
@@ -51,8 +50,7 @@ protected:
 	void Should_Throw_On_CallFunction_Given_Lua_Error( );
 	void Should_CallFunction_Given_Valid_FunctionName( );
 
-	void Should_Thow_On_GetState_Given_Not_Initialized( );
-	void Should_GetState_Given_Intialized( );
+	void Should_GetState( );
 
 private:
 

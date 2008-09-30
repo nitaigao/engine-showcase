@@ -28,7 +28,6 @@ void HumanView::Initialize( int width, int height, bool fullScreen )
 		FileBuffer* viewScriptBuffer = FileManager::GetInstance( )->GetFile( "views/interactiveview.lua" );
 
 		_viewScript = Script::CreateFromFileBuffer( viewScriptBuffer );
-		_viewScript->Initialize( );
 		
 		module( _viewScript->GetState( ) )
 		[
@@ -40,6 +39,8 @@ void HumanView::Initialize( int width, int height, bool fullScreen )
 
 			def( "changeScreen", &HumanView::FromLua_ChangeScreen )
 		];
+
+		_viewScript->Initialize( );
 	}
 
 	{	// -- Event Listeners

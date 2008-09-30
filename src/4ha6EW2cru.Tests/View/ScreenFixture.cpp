@@ -6,8 +6,8 @@ using namespace Ogre;
 #include "IO/FileManager.h"
 #include "Events/EventManager.h"
 
-#include "Logging/AppenderFactory.h"
 #include "Logging/Logger.h"
+#include "Logging/ConsoleAppender.h"
 
 #include "View/Screen.h"
 
@@ -17,7 +17,7 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScreenFixture, Suites::ViewSuite( ) );
 void ScreenFixture::setUp( )
 {
 	Logger::Initialize( );
-	Logger::GetInstance( )->AddAppender( AppenderFactory::CreateAppender( CONSOLEAPPENDER ) );
+	Logger::GetInstance( )->AddAppender( new ConsoleAppender( ) );
 
 	EventManager::Initialize( );
 

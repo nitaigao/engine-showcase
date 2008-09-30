@@ -149,18 +149,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Logging\AppenderFactory.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Logging\AppenderFactory.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Logging\AppenderType.hpp"
-			>
-		</File>
-		<File
 			RelativePath=".\Exceptions\ArchiveNotFoundException.hpp"
 			>
 		</File>
@@ -186,14 +174,6 @@
 		</File>
 		<File
 			RelativePath=".\Logging\ConsoleAppender.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\Control.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\Control.h"
 			>
 		</File>
 		<File
@@ -265,6 +245,38 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Graphics\GUI\GuiComponent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\GuiComponent.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\GuiController.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\GuiController.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\GuiModel.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\GuiModel.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\GuiView.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\GuiView.h"
+			>
+		</File>
+		<File
 			RelativePath=".\View\HumanView.cpp"
 			>
 		</File>
@@ -286,6 +298,22 @@
 		</File>
 		<File
 			RelativePath=".\Events\IEventListener.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\IGuiComponent.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\IGuiController.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\IGuiModel.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\IGuiView.hpp"
 			>
 		</File>
 		<File
@@ -369,15 +397,11 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Types\String.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Exceptions\UnInitializedException.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\View.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\View.h"
 			>
 		</File>
 	</Files>

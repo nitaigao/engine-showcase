@@ -3,8 +3,8 @@
 #include "Events/Event.h"
 #include "Events/IEventListener.hpp"
 #include "Events/EventManager.h"
-#include "Logging/AppenderFactory.h"
 #include "Logging/Logger.h"
+#include "Logging/ConsoleAppender.h"
 #include "IO/FileManager.h"
 
 #include "Exceptions/UnInitializedException.hpp"
@@ -20,7 +20,7 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScriptFixture, Suites::ScriptingSuite( ) 
 void ScriptFixture::setUp( )
 {
 	Logger::Initialize( );
-	Logger::GetInstance( )->AddAppender( AppenderFactory::CreateAppender( CONSOLEAPPENDER ) );
+	Logger::GetInstance( )->AddAppender( new ConsoleAppender( ) );
 	FileManager::Initialize( );
 	EventManager::Initialize( );
 
@@ -116,12 +116,7 @@ void ScriptFixture::Should_CallFunction_Given_Valid_FunctionName( )
 	_script->CallFunction( "testFunction" );
 }
 
-void ScriptFixture::Should_Thow_On_GetState_Given_Not_Initialized( )
-{
-	CPPUNIT_ASSERT_THROW( _script->GetState( ), UnInitializedException );
-}
-
-void ScriptFixture::Should_GetState_Given_Intialized( )
+void ScriptFixture::Should_GetState( )
 {
 	_script->Initialize( );
 

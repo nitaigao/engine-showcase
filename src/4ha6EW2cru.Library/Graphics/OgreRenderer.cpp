@@ -10,6 +10,9 @@
 #include "../Exceptions/ScreenDimensionsException.hpp"
 #include "../Exceptions/UnInitializedException.hpp"
 
+using namespace Ogre;
+using namespace MyGUI;
+
 OgreRenderer::~OgreRenderer( )
 {
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_PRESSED, this, &OgreRenderer::OnMousePressed );

@@ -13,8 +13,9 @@ class FileAppender : public IAppender
 
 public:
 
-	FileAppender( )
+	FileAppender( const std::string filePath )
 		: _isIntialized( false )
+		, _filePath( filePath )
 	{
 
 	}
@@ -25,7 +26,7 @@ public:
 	}
 
 	/* Initialize the Appender */
-	void Initialize( const std::string filePath );
+	void Initialize( );
 
 	/* Appends a message to the Target */
 	void Append( const std::string message ) const;

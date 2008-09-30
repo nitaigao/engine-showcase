@@ -1,6 +1,5 @@
 #include "FileAppenderFixture.h"
 
-#include "Logging/AppenderFactory.h"
 #include "Logging/FileAppender.h"
 
 #include "Exceptions/FileWriteException.hpp"
@@ -23,8 +22,8 @@ void FileAppenderFixture::tearDown( )
 
 void FileAppenderFixture::Should_Append_Message( )
 {
-	FileAppender* fileAppender = static_cast< FileAppender* >( AppenderFactory::CreateAppender( FILEAPPENDER ) );
-	fileAppender->Initialize( "../logs/test.log" );
+	FileAppender* fileAppender = new FileAppender( "../logs/test.log" );
+	fileAppender->Initialize( );
 
 	fileAppender->Append( "Test Message" );
 
@@ -34,29 +33,29 @@ void FileAppenderFixture::Should_Append_Message( )
 
 void FileAppenderFixture::Should_Throw_On_Initialize_Given_File_Create_Error( )
 {
-	FileAppender* fileAppender = static_cast< FileAppender* >( AppenderFactory::CreateAppender( FILEAPPENDER ) );
+	FileAppender* fileAppender = new FileAppender( "../logs/readonly.log" );
 	
-	CPPUNIT_ASSERT_THROW( fileAppender->Initialize( "../logs/readonly.log" ), FileWriteException );
+	CPPUNIT_ASSERT_THROW( fileAppender->Initialize( ), FileWriteException );
 
 	delete fileAppender;
 }
 
 void FileAppenderFixture::Should_Initialize_Correctly_Given_File_Can_Be_Creaed_Or_Appended( )
 {
-	FileAppender* fileAppender = static_cast< FileAppender* >( AppenderFactory::CreateAppender( FILEAPPENDER ) );
+	FileAppender* fileAppender = new FileAppender( "../logs/test.log" );
 	
-	fileAppender->Initialize( "../logs/test.log" );
+	fileAppender->Initialize( );
 
 	delete fileAppender;
 }
 
 void FileAppenderFixture::Should_Throw_On_Intialized_Given_Already_Intialized( )
 {
-	FileAppender* fileAppender = static_cast< FileAppender* >( AppenderFactory::CreateAppender( FILEAPPENDER ) );
+	FileAppender* fileAppender = new FileAppender( "../logs/test.log" );
 
-	fileAppender->Initialize( "../logs/test.log" );
+	fileAppender->Initialize( );
 	
-	CPPUNIT_ASSERT_THROW( fileAppender->Initialize( "../logs/test.log" ), AlreadyInitializedException );
+	CPPUNIT_ASSERT_THROW( fileAppender->Initialize( ), AlreadyInitializedException );
 
 	delete fileAppender;
 }

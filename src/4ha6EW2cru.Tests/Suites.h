@@ -16,6 +16,7 @@ public:
 	static std::string ScriptingSuite( ) { return "Scripting"; };
 	static std::string SystemSuite( ) { return "System"; };
 	static std::string ViewSuite( ) { return "View"; };
+	static std::string TypesSuite( ) { return "Types"; };
 	
 };
 

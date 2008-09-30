@@ -19,6 +19,8 @@ EventManager* EventManager::GetInstance( )
 
 void EventManager::Release( )
 {
+	Logger::GetInstance( )->Info( "EventManager::Release - Releasing Event Manager" );
+
 	while( _eventQueue.size( ) > 0 )
 	{
 		delete _eventQueue.front( );
@@ -31,8 +33,6 @@ void EventManager::Release( )
 	}
 
 	_eventListeners.erase( _eventListeners.begin( ), _eventListeners.end( ) );
-
-	Logger::GetInstance( )->Info( "EventManager::Release - Releasing Event Manager" );
 
 	delete g_EventManagerInstance;
 	g_EventManagerInstance = 0;

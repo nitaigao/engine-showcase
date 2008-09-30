@@ -12,7 +12,8 @@ using namespace MyGUI;
 #include "../Events/EventListener.h"
 #include "../Events/EventManager.h"
 #include "../IO/FileManager.h"
-#include "../Graphics/gui/Control.h"
+
+#include "../Graphics/gui/GuiComponent.h"
 
 Screen::~Screen( )
 {
@@ -66,11 +67,11 @@ bool Screen::loadScript( )
 	{
 		module( _script->GetState( ) )
 		[
-			class_< Screen >( "Screen" ),
-			class_< Control >( "Control" )
+			class_< GuiComponent >( "Component" )
 				.def( constructor< std::string >( ) )
-				.def( "initialize", &Control::Initialize )
-			,
+				.def( "initialize", &GuiComponent::Initialize ),
+
+			class_< Screen >( "Screen" ),
 
 			def( "changeScreen", &Screen::FromLua_ChangeScreen ),
 			def( "showMouse", &Screen::FromLua_ShowMouse )

@@ -8,7 +8,7 @@
 #include "../Exceptions/FileWriteException.hpp"
 #include "../Logging/Logger.h"
 
-void FileAppender::Initialize( const std::string filePath )
+void FileAppender::Initialize( )
 {
 	if( _isIntialized )
 	{
@@ -16,8 +16,6 @@ void FileAppender::Initialize( const std::string filePath )
 		Logger::GetInstance( )->Fatal( e.what( ) );
 		throw e;
 	}
-
-	_filePath = filePath;
 
 	std::ofstream logFile;
 	logFile.open( _filePath.c_str( ), std::fstream::out );

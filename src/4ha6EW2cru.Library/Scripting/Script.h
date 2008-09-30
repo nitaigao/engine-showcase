@@ -37,26 +37,23 @@ public:
 	void CallFunction( const std::string functionName );
 
 	/*! Returns the Script state */
-	lua_State* GetState( ) const;
+	inline lua_State* GetState( ) const { return _luaState; };
 	
+	/*! Receives addEventListener request from LUA and forwards to the Script Instance */
+	static void FromLua_AddEventListener( Script* script, EventType eventType, object handlerFunction );
+
 private:
 
-	Script( )
-		: _luaState( 0 )
-		, _fileBuffer( 0 )
-		, _isInitialized( false )
-	{ 
-
-	};
+	Script( );
 
 	Script( const Script & copy ) { };
 	Script & operator = ( const Script & copy ) { return *this; };
 
-	/*! Receives addEventListener request from LUA and forwards to the Script Instance */
-	static void FromLua_AddEventListener( Script* script, EventType eventType, object handlerFunction );
-
 	/*! Receives an Event from the Event Manager and forwards to the LUA Script */
 	void ToLua_EventHandler( const IEvent* event );
+
+	/*! Is called when an error occurs within the Script */
+	static int FromLua_ScriptError( lua_State* luaState );
 
 	/*! Adds an EventListener to the System and maps it to an Lua Function */
 	void AddEventListener( const EventType eventType, const object handlerFunction );

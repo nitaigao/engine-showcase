@@ -6,6 +6,7 @@
 #include "../Common/Paths.hpp"
 #include "../Logging/ConsoleAppender.h"
 #include "../Logging/FileAppender.h"
+#include "../Logging/EventAppender.h"
 
 void Game::Initialize( )
 {
@@ -21,11 +22,11 @@ void Game::Initialize( )
 		Logger::Initialize( );
 
 		{
-			ConsoleAppender* consoleAppender = static_cast< ConsoleAppender* >( AppenderFactory::CreateAppender( CONSOLEAPPENDER ) );
+			ConsoleAppender* consoleAppender = new ConsoleAppender( );
 			Logger::GetInstance( )->AddAppender( consoleAppender );
 
-			FileAppender* fileAppender = static_cast< FileAppender* >( AppenderFactory::CreateAppender( FILEAPPENDER ) );
-			fileAppender->Initialize( Paths::GetLogFilePath( ) );
+			FileAppender* fileAppender = new FileAppender( Paths::GetLogFilePath( ) );
+			fileAppender->Initialize(  );
 			Logger::GetInstance( )->AddAppender( fileAppender );
 
 			Logger::GetInstance( )->Info( "Initializing Game" );
@@ -35,7 +36,7 @@ void Game::Initialize( )
 
 		{
 
-			IAppender* eventAppender = AppenderFactory::CreateAppender( EVENTAPPENDER );
+			IAppender* eventAppender = new EventAppender( EventManager::GetInstance( ) );
 			Logger::GetInstance( )->AddAppender( eventAppender );
 
 		}
@@ -48,8 +49,8 @@ void Game::Initialize( )
 	{	// Initialize all Views
 
 		_view = new HumanView( );
-		int desktopWidth = GetSystemMetrics( SM_CXSCREEN );
-		int desktopHeight = GetSystemMetrics( SM_CYSCREEN );
+		int desktopWidth = 1024;// GetSystemMetrics( SM_CXSCREEN );
+		int desktopHeight = 768; //GetSystemMetrics( SM_CYSCREEN );
 		_view->Initialize( desktopWidth, desktopHeight, false );
 	}
 

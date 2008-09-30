@@ -8,16 +8,10 @@
 
 void EventAppender::Append( const std::string message ) const
 {
-	AppenderEventData* eventData = new AppenderEventData( message );
-	IEvent* event = new Event( LOG_MESSAGE_LOGGED, eventData );
-
-	try
+	if ( _eventManager != 0 )
 	{
-		EventManager::GetInstance( )->QueueEvent( event );
-	}
-	catch ( UnInitializedException e )
-	{
-		delete event;
-		throw;
+		AppenderEventData* eventData = new AppenderEventData( message );
+		IEvent* event = new Event( LOG_MESSAGE_LOGGED, eventData );
+		_eventManager->QueueEvent( event );
 	}
 }

@@ -176,14 +176,6 @@
 	</References>
 	<Files>
 		<File
-			RelativePath=".\Logging\AppenderFactoryFixture.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Logging\AppenderFactoryFixture.h"
-			>
-		</File>
-		<File
 			RelativePath=".\IO\BadArchiveFactoryFixture.cpp"
 			>
 		</File>
@@ -205,14 +197,6 @@
 		</File>
 		<File
 			RelativePath=".\Logging\ConsoleAppenderFixture.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\ControlFixture.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\ControlFixture.h"
 			>
 		</File>
 		<File
@@ -285,6 +269,22 @@
 		</File>
 		<File
 			RelativePath=".\System\GameFixture.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\GUIControllerFixture.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\GUIControllerFixture.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\GuiViewFixture.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\GuiViewFixture.h"
 			>
 		</File>
 		<File
@@ -369,6 +369,14 @@
 		</File>
 		<File
 			RelativePath=".\Scripting\ScriptFixture.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Types\StringFixture.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Types\StringFixture.h"
 			>
 		</File>
 		<File

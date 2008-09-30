@@ -1,6 +1,11 @@
 #include "Script.h"
 
+#include "../Types/String.h"
+
 #include "../Logging/Logger.h"
+
+#include "../Events/EventType.hpp"
+#include "../Events/EventData.hpp"
 #include "../Events/EventListener.h"
 #include "../Events/EventManager.h"
 
@@ -8,6 +13,12 @@
 #include "../Exceptions/ScriptException.hpp"
 #include "../Exceptions/AlreadyInitializedException.hpp"
 #include "../Exceptions/OutOfRangeException.hpp"
+
+Script::Script( ) : _fileBuffer( 0 ), _isInitialized( false )
+{ 
+	_luaState = lua_open( );
+	luabind::open( _luaState );
+};
 
 Script::~Script( )
 {
@@ -20,11 +31,8 @@ Script::~Script( )
 
 	_eventHandlers.clear( );
 
-	if ( _luaState != 0 )
-	{
-		lua_close( _luaState );
-		_luaState = 0;
-	}
+	lua_close( _luaState );
+	_luaState = 0;
 }
 
 Script* Script::CreateFromFileBuffer( FileBuffer* fileBuffer )
@@ -59,9 +67,6 @@ void Script::Initialize( )
 		throw aiE;
 	}
 
-	_luaState = lua_open( );
-	luabind::open( _luaState );
-
 	int result = luaL_loadbuffer( _luaState, _fileBuffer->fileBytes, _fileBuffer->fileSize, _fileBuffer->filePath.c_str( ) );
 
 	if ( LUA_ERRSYNTAX == result )
@@ -78,14 +83,15 @@ void Script::Initialize( )
 		throw memE;
 	}
 
-	lua_pcall( _luaState, 0, 0, 0 );
-
 	module( _luaState )
 	[
 		def( "print",  &Script::LogMessage ),
 		def( "addEventListener", &Script::FromLua_AddEventListener ),
 
 		class_< Script >( "Script" ),
+
+		class_< AppenderEventData >( "AppenderEventData" )
+			.def( "getMessage", &AppenderEventData::GetMessage ),
 
 		class_< EventType >( "EventType" )
 			.enum_( "constants" )
@@ -95,6 +101,10 @@ void Script::Initialize( )
 				value( "LOG_MESSAGE_LOGGED", LOG_MESSAGE_LOGGED )
 			]
 	];
+
+	luabind::set_pcall_callback( &Script::FromLua_ScriptError );
+
+	lua_pcall( _luaState, 0, 0, 0 );
 
 	_isInitialized = true;
 }
@@ -114,33 +124,8 @@ void Script::CallFunction( const std::string functionName )
 		Logger::GetInstance( )->Fatal( outE.what( ) );
 		throw outE;
 	}
-
-	try
-	{
-		call_function< int >( _luaState, functionName.c_str( ), this );
-	}
-	catch( luabind::error& error )
-	{
-		object error_msg( from_stack( error.state( ), -1) );
-
-		std::stringstream errorMessage;
-		errorMessage << "Script Error: " << error.what( ) << ": " << error_msg;
-		Logger::GetInstance( )->Fatal( errorMessage.str( ) );	
-
-		throw ScriptException( errorMessage.str( ) );
-	}
-}
-
-lua_State* Script::GetState( ) const
-{
-	 if ( !_isInitialized )
-	 {
-		 UnInitializedException e( "Script::GetState -Script is not Initialized" );
-		 Logger::GetInstance( )->Fatal( e.what( ) );
-		 throw e;
-	 }
-
-	 return _luaState;
+	
+	call_function< int >( _luaState, functionName.c_str( ), this );
 }
 
 void Script::LogMessage( const std::string message )
@@ -162,20 +147,50 @@ void Script::AddEventListener( const EventType eventType, object handlerFunction
 
 void Script::ToLua_EventHandler( const IEvent* event )
 {
-	const IEvent* e = event;
-	
-	try
+	switch( event->GetEventType( ) )
 	{
+		
+	case LOG_MESSAGE_LOGGED:
+
+		_eventHandlers[ event->GetEventType( ) ]( ( ( AppenderEventData* ) event->GetEventData( ) )->GetMessage( ) );
+
+		break;
+
+	default:
+
 		_eventHandlers[ event->GetEventType( ) ]( this );
+
+		break;
 	}
-	catch( luabind::error& error )
+}
+
+int Script::FromLua_ScriptError( lua_State* luaState )
+{
+	lua_Debug d;
+
+	int result = 0;
+
+	result = lua_getstack( luaState, 0, &d );
+	result = lua_getinfo( luaState, "Sln", &d );
+	
+	std::string error = lua_tostring( luaState, -1 );
+	lua_pop( luaState, 1 );
+
+	std::stringstream errorMessage;
+	errorMessage << "Script Error: " << d.short_src << ":" << d.currentline;
+
+	if ( d.name != 0 )
 	{
-		object error_msg( from_stack( error.state( ), -1) );
-
-		std::stringstream errorMessage;
-		errorMessage << "Script Handle Event Error: " << error.what( ) << ": " << error_msg;
-		Logger::GetInstance( )->Fatal( errorMessage.str( ) );	
-
-		throw std::exception( errorMessage.str( ).c_str( ) );
+		errorMessage << "(" << d.namewhat << " " << d.name << ")";
 	}
+
+	errorMessage << " " << error;
+	
+	lua_pushstring( luaState, errorMessage.str( ).c_str( ) );
+
+	ScriptException e( errorMessage.str( ) );
+	Logger::GetInstance( )->Fatal( errorMessage.str( ) );
+	throw e;
+	
+	return 1;	
 }

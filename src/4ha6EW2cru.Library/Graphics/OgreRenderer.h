@@ -7,10 +7,7 @@
 #include "../Events/EventData.hpp"
 
 #include "Ogre.h"
-using namespace Ogre;
-
 #include "MyGUI.h"
-using namespace MyGUI;
 
 class OgreRenderer : public IRenderer
 {
@@ -53,11 +50,11 @@ private:
 
 	void LoadResources( );
 
-	Root* _root;
-	Gui* _gui;
+	Ogre::Root* _root;
+	MyGUI::Gui* _gui;
 	bool _isInitialized;
 
-	ArchiveFactory* _badFactory;
+	Ogre::ArchiveFactory* _badFactory;
 
 };
 
