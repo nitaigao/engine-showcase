@@ -15,3 +15,14 @@ function onReceiveEvent( sender )
 	handledEvent( );
 
 end
+
+function testFunction( ) 
+
+
+end
+
+function killerFunction( )
+
+	error( "Test LUA Error" );
+
+end
