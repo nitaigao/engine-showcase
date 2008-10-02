@@ -26,30 +26,28 @@ void GuiComponent::Initialize( )
 	_script = Script::CreateFromFileBuffer( controllerBuffer );
 
 	module( _script->GetState( ) )
-		[
-			class_< Ogre::UTFString >( "utfstring" ),
+	[
+		class_< GuiModel >( "Model" )
+			.def( constructor< >( ) )
+			.def( "addEventListener", &GuiModel::FromLua_AddEventListener ),
 
-			class_< GuiModel, GuiModel_Wrapper >( "Model" )
-				.def( constructor< >( ) )
-				.def( "addEventListener", &Script::FromLua_AddEventListener ),
+		class_< GuiView >( "View" )
+			.def( constructor< std::string >( ) )
+			.def( "initialize", &GuiView::Initialize )
+			.def( "findControl", &GuiView::FindControl ),
 
-			class_< GuiView, GuiView_Wrapper >( "View" )
-				.def( constructor< std::string >( ) )
-				.def( "initialize", &GuiView::Initialize )
-				.def( "findControl", &GuiView::FindControl ),
+		class_< GuiController >( "Controller" )
+			.def( constructor< std::string >( ) ),
 
-			class_< GuiController >( "Controller" )
-				.def( constructor< std::string >( ) )
-				.def( "initialize", &GuiController::Initialize ),
+		class_< MyGUI::Widget >( "Widget" )
+			.def( "setText", &MyGUI::StaticText::setCaption )
+			.def( "getText", &MyGUI::StaticText::getCaption )
+			.def( "addEventListener", &GuiController::FromLua_AddEventListener ),
 
-			class_< MyGUI::Widget >( "Widget" )
-				.def( "setText", &MyGUI::StaticText::setCaption )
-				.def( "getText", &MyGUI::StaticText::getCaption )
-				.def( "addEventListener", &GuiView::FromLua_AddEventListener ),
-
-			def( "toString", &StringUtils::ToString ),
-			def( "toUTFString", &StringUtils::ToUTFString )
-		];
+		class_< Ogre::UTFString >( "utfstring" ),
+		def( "toString", &StringUtils::ToString ),
+		def( "toUTFString", &StringUtils::ToUTFString )
+	];
 
 	_script->Initialize( );
 	_script->CallFunction( "onLoad" );

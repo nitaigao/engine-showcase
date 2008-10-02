@@ -16,7 +16,7 @@ DEBUG: BadArchive: Opening File gui/core/core.font
 DEBUG: Loading File: gui/core/core.pointer
 DEBUG: BadArchive: Opening File gui/core/core.pointer
 INFO: Initializing Input System
-DEBUG: Loading File: views/interactiveview.lua
+DEBUG: Loading File: gui/screens/screens.xml
 DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
 DEBUG: Loading File: gui/screens/introscreen/introscreen.layout
 DEBUG: BadArchive: Opening File gui/screens/introscreen/introscreen.layout
@@ -28,19 +28,14 @@ INFO: Lua: onKeyUp Fired
 DEBUG: Loading File: gui/screens/menuscreen/menuscreen.lua
 DEBUG: Loading File: gui/screens/menuscreen/menuscreen.layout
 DEBUG: BadArchive: Opening File gui/screens/menuscreen/menuscreen.layout
-DEBUG: Loading File: gui/core/Comic.TTF
-DEBUG: BadArchive: Opening File gui/core/Comic.TTF
 DEBUG: Loading File: gui/controls/console/console.lua
 DEBUG: Loading File: gui/controls/console/console.layout
 DEBUG: BadArchive: Opening File gui/controls/console/console.layout
-INFO: keycode was nil, sigh...
-INFO: Opened Console
-INFO: keycode was nil, sigh...
-INFO: keycode was nil, sigh...
-INFO: keycode was nil, sigh...
-INFO: keycode was nil, sigh...
-INFO: keycode was nil, sigh...
-INFO: keycode was nil, sigh...
+DEBUG: Loading File: gui/core/Comic.TTF
+DEBUG: BadArchive: Opening File gui/core/Comic.TTF
+INFO: 
+INFO: hello
+INFO: this is a command
 DEBUG: BadArchiveFactory::destroyInstance - Instance of ../game/data/gui.bad
 INFO: Releasing the File Manager
 INFO: EventManager::Release - Releasing Event Manager

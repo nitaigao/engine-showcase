@@ -8,6 +8,8 @@
 
 #include "../Exceptions/UnInitializedException.hpp"
 
+#include "../Utility/tinyxml/ticpp.h"
+
 void HumanView::Initialize( int width, int height, bool fullScreen )
 {
 	Logger::GetInstance( )->Info( "Initializing Human View" );
@@ -15,39 +17,12 @@ void HumanView::Initialize( int width, int height, bool fullScreen )
 	_renderer = new OgreRenderer( );
 	_renderer->Initialize( width, height, fullScreen );
 
-	{	// -- Input
+	_inputSystem = new InputSystem( _renderer->GetHwnd( ) );
+	_inputSystem->Initialize( );
+	_inputSystem->SetCaptureArea( width, height );
 
-		_inputSystem = new InputSystem( _renderer->GetHwnd( ) );
-		_inputSystem->Initialize( );
-		_inputSystem->SetCaptureArea( width, height );
-	}
-
-	{	// -- View Script Initialization
-
-		FileManager::GetInstance( )->AddFileStore( Paths::GetGUIPackagePath( ) );
-		FileBuffer* viewScriptBuffer = FileManager::GetInstance( )->GetFile( "views/interactiveview.lua" );
-
-		_viewScript = Script::CreateFromFileBuffer( viewScriptBuffer );
-		
-		module( _viewScript->GetState( ) )
-		[
-			class_< HumanView >( "HumanView" ),
-			class_< Screen >( "Screen" )
-				.def( constructor< std::string, unsigned int > ( ) )
-				.def( "Initialize", &Screen::Initialize )
-			,
-
-			def( "changeScreen", &HumanView::FromLua_ChangeScreen )
-		];
-
-		_viewScript->Initialize( );
-	}
-
-	{	// -- Event Listeners
-
-		EventManager::GetInstance( )->AddEventListener( GAME_INITIALIZED, this, &HumanView::OnGameInitialized );
-		EventManager::GetInstance( )->AddEventListener( VIEW_CHANGE_SCREEN, this, &HumanView::OnChangeScreen );
-	}
+	EventManager::GetInstance( )->AddEventListener( GAME_INITIALIZED, this, &HumanView::OnGameInitialized );
+	EventManager::GetInstance( )->AddEventListener( VIEW_CHANGE_SCREEN, this, &HumanView::OnChangeScreen );
 
 	_isIntialized = true;
 }
@@ -85,12 +60,6 @@ HumanView::~HumanView( )
 		_renderer = 0;
 	}
 
-	if ( _viewScript != 0 )
-	{
-		delete _viewScript;
-		_viewScript = 0;
-	}
-
 	if ( _currentScreen != 0 )
 	{
 		delete _currentScreen;
@@ -112,22 +81,18 @@ HumanView::~HumanView( )
 
 void HumanView::OnGameInitialized( const IEvent* event )
 {
-	luabind::call_function< int >( _viewScript->GetState( ), "onGameInitialized", this );
+	std::string bootStrap = this->LoadScreenConfig( );
+	this->ChangeScreen( bootStrap );
 }
 
 void HumanView::OnChangeScreen( const IEvent* event )
 {
 	ChangeScreenEventData* eventData = static_cast< ChangeScreenEventData* > ( event->GetEventData( ) );
-	luabind::call_function< int >( _viewScript->GetState( ), "onScreenChange", this, eventData->GetScreenName( ) );
+	this->ChangeScreen( eventData->GetScreenName( ) );
 }
 
-void HumanView::FromLua_ChangeScreen( HumanView* view, std::string screenName, unsigned int visibilityMask )
+void HumanView::ChangeScreen( std::string screenName )
 {
-	if ( view->_currentScreen != 0 )
-	{
-		delete view->_currentScreen;
-	}
-
 	std::stringstream scriptPath;
 	scriptPath << "gui/screens/" << screenName << "/" << screenName << ".lua";
 
@@ -135,6 +100,40 @@ void HumanView::FromLua_ChangeScreen( HumanView* view, std::string screenName, u
 	Script* script = Script::CreateFromFileBuffer( scriptBuffer );
 	script->Initialize( );
 
-	view->_currentScreen = new Screen( screenName, visibilityMask );
-	view->_currentScreen->Initialize( view->_renderer->GetGui( ), script );
+	delete _currentScreen;
+
+	_currentScreen = new Screen( screenName, 0 );
+	_currentScreen->Initialize( _renderer->GetGui( ), script );
+}
+
+std::string HumanView::LoadScreenConfig( )
+{
+	FileBuffer* configBuffer = FileManager::GetInstance( )->GetFile( "gui/screens/screens.xml" );
+
+	std::istringstream inputStream;
+	inputStream.str( configBuffer->fileBytes );
+
+	delete configBuffer;
+
+	TiXmlDocument tiDoc;
+	inputStream >> tiDoc;
+
+	ticpp::Document doc( &tiDoc );
+
+	std::string bootStrap;
+
+	ticpp::Iterator< ticpp::Node > child;
+	for ( child = doc.FirstChild( )->FirstChild( ); child != child.end(); child++ )
+	{
+		ticpp::Element* element = child->ToElement( );
+		
+		std::string screenName;
+		bool isBootStrap;
+
+		element->GetAttribute( "name", &screenName );
+		element->GetAttributeOrDefault( "bootstrap", &isBootStrap, false );
+		bootStrap = ( isBootStrap ) ? screenName : bootStrap;
+	}
+
+	return bootStrap;
 }

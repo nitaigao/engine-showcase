@@ -13,20 +13,20 @@ using namespace luabind;
 class GuiModel : public IGuiModel
 {
 
+	typedef std::map< EventType, object > EventHandlers;
+
 public:
 
 	virtual ~GuiModel( ) { };
 
-};
+	static void FromLua_AddEventListener( GuiModel* eventTarget, EventType eventType, luabind::object handlerFunction );
+	void AddEventListener( EventType eventType, luabind::object handlerFunction );
 
-struct GuiModel_Wrapper : GuiModel, luabind::wrap_base
-{
-	virtual ~GuiModel_Wrapper( ) { };
+	void EventHandler( const IEvent* event );
 
-	GuiModel_Wrapper( )
-	{
+private:
 
-	}
+	EventHandlers _eventHandlers;
 
 };
 

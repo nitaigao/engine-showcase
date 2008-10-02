@@ -8,8 +8,6 @@ public:
 
 	virtual ~IGuiController( ) { };
 
-	virtual void Initialize( ) = 0;
-
 };
 
 #endif

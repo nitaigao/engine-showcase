@@ -42,6 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include"
+				PreprocessorDefinitions="TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -397,7 +398,31 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Types\String.h"
+			RelativePath=".\Utility\tinyxml\ticpp.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\tinyxml\ticpp.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\tinyxml\ticpprc.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\tinyxml\tinyxml.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\tinyxml\tinyxml.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\tinyxml\tinyxmlerror.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\tinyxml\tinyxmlparser.cpp"
 			>
 		</File>
 		<File

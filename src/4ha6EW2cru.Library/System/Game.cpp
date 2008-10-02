@@ -49,8 +49,8 @@ void Game::Initialize( )
 	{	// Initialize all Views
 
 		_view = new HumanView( );
-		int desktopWidth = 1024;// GetSystemMetrics( SM_CXSCREEN );
-		int desktopHeight = 768; //GetSystemMetrics( SM_CYSCREEN );
+		int desktopWidth = GetSystemMetrics( SM_CXSCREEN );
+		int desktopHeight = GetSystemMetrics( SM_CYSCREEN );
 		_view->Initialize( desktopWidth, desktopHeight, false );
 	}
 

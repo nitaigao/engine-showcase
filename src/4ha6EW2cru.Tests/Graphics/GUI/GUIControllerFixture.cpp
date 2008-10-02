@@ -39,27 +39,3 @@ void GuiControllerFixture::tearDown( )
 	EventManager::GetInstance( )->Release( );
 	Logger::GetInstance( )->Release( );
 }
-
-/*void GuiControllerFixture::Should_Throw_On_Initialize_Given_NULL_Not_Gui( )
-{
-	GuiController GuiController( "existingscript", 0 );
-	CPPUNIT_ASSERT_THROW( GuiController.Initialize( ), NullReferenceException );
-}
-
-void GuiControllerFixture::Should_Throw_On_Initialize_Given_Layout_Not_Found( )
-{
-	//GuiController GuiController( "existingscript", 0 );
-	//CPPUNIT_ASSERT_THROW( GuiController.Initialize( ), FileNotFoundException );
-}*/
-
-void GuiControllerFixture::Should_Throw_On_Initialize_Given_Script_Not_Found( )
-{
-	GuiController GuiController( "blah" );
-	CPPUNIT_ASSERT_THROW( GuiController.Initialize( ), FileNotFoundException );
-}
-
-void GuiControllerFixture::Should_Initialize_Correctly( )
-{
-	GuiController GuiController( "test" );
-	GuiController.Initialize( );
-}

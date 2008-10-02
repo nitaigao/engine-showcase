@@ -1,7 +1,5 @@
 #include "Script.h"
 
-#include "../Types/String.h"
-
 #include "../Logging/Logger.h"
 
 #include "../Events/EventType.hpp"
@@ -98,7 +96,7 @@ void Script::Initialize( )
 			[
 				value( "TEST_EVENT", TEST_EVENT ),
 				value( "INPUT_KEY_UP", INPUT_KEY_UP ),
-				value( "LOG_MESSAGE_LOGGED", LOG_MESSAGE_LOGGED )
+				value( "LOG_MESSAGE_APPENDED", LOG_MESSAGE_APPENDED )
 			]
 	];
 
@@ -147,18 +145,20 @@ void Script::AddEventListener( const EventType eventType, object handlerFunction
 
 void Script::ToLua_EventHandler( const IEvent* event )
 {
+	object eventHandler = _eventHandlers[ event->GetEventType( ) ];
+
 	switch( event->GetEventType( ) )
 	{
 		
-	case LOG_MESSAGE_LOGGED:
+	case LOG_MESSAGE_APPENDED:
 
-		_eventHandlers[ event->GetEventType( ) ]( ( ( AppenderEventData* ) event->GetEventData( ) )->GetMessage( ) );
+		call_function< void >( eventHandler, static_cast< AppenderEventData* >( event->GetEventData( ) ) );
 
 		break;
 
 	default:
 
-		_eventHandlers[ event->GetEventType( ) ]( this );
+		call_function< void >( eventHandler );
 
 		break;
 	}

@@ -112,7 +112,7 @@ public:
 	}
 
 	/*! Returns the Message that has been Appended */
-	inline const std::string GetMessage( ) const { return _message; };
+	inline std::string GetMessage( ) { return _message; };
 
 private:
 

@@ -39,6 +39,9 @@ public:
 	/*! Render the current Screen */
 	void Render( );
 
+	/* Changes the current Screen */
+	void ChangeScreen( std::string screenName );
+
 private:
 
 	/*! Changes the current Screen of the View */
@@ -49,6 +52,13 @@ private:
 
 	/*! Handler to intercept the OnChangeScreen Event */
 	void OnChangeScreen( const IEvent* event );
+
+	/*! Loads in a list of available screens 
+	* @return The BootStrap Screen 
+	*/
+	std::string LoadScreenConfig( );
+
+	std::string _bootStrapScreen;
 
 	IRenderer* _renderer;
 	Script* _viewScript;
