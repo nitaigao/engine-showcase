@@ -17,68 +17,73 @@ namespace MyGUI
 
 	class _MyGUIExport Window : public Widget
 	{
-		// для вызова закрытого конструктора
-		friend class factory::WindowFactory;
+		// РґР»СЏ РІС‹Р·РѕРІР° Р·Р°РєСЂС‹С‚РѕРіРѕ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
+		friend class factory::BaseWidgetFactory<Window>;
 
-	protected:
-		Window(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String & _name);
-		static Ogre::String WidgetTypeName;
+		MYGUI_RTTI_CHILD_HEADER;
 
 	public:
-		//! @copydoc Widget::_getType()
-		inline static const Ogre::String & _getType() {return WidgetTypeName;}
-		//! @copydoc Widget::getWidgetType()
-		virtual const Ogre::String & getWidgetType() { return _getType(); }
 
-		// переопределяем для присвоению клиенту
-		virtual WidgetPtr _createWidget(const std::string & _type, const std::string & _skin, const IntCoord& _coord, Align _align, const std::string & _layer, const std::string & _name);
-
-		// для мееедленного показа и скрытия
-      /** Show window smooth */
+		// РґР»СЏ РјРµРµРµРґР»РµРЅРЅРѕРіРѕ РїРѕРєР°Р·Р° Рё СЃРєСЂС‹С‚РёСЏ
+		/** Show window smooth */
 		void showSmooth(bool _reset = false);
-      /** Hide window smooth */
+		/** Hide window smooth */
 		void hideSmooth();
-      /** Hide window smooth and then destroy it */
+		/** Hide window smooth and then destroy it */
 		void destroySmooth();
 
-      /** Get auto alpha mode flag */
-		inline bool getAutoAlpha() {return mIsAutoAlpha;}
-      /** Enable or disable auto alpha mode */
+		/** Get auto alpha mode flag */
+		bool getAutoAlpha() {return mIsAutoAlpha;}
+		/** Enable or disable auto alpha mode */
 		void setAutoAlpha(bool _auto);
 
-      /** Set window caption */
+		/** Set window caption */
 		virtual void setCaption(const Ogre::UTFString & _caption);
-      /** Get window caption */
+		/** Get window caption */
 		virtual const Ogre::UTFString & getCaption();
 
 		/** Set minimal and maximal possible window size
 			@param _minmax First two values - min width and height, second - max width and height
 		*/
-		inline void setMinMax(IntRect _minmax) {mMinmax = _minmax;}
+		void setMinMax(const IntRect & _minmax) { mMinmax = _minmax; }
 		/** Set minimal and maximal possible window size
 			@param First two values - min width and height, second - max width and height
 		*/
-		inline void setMinMax(int _min_h, int _min_v, int _max_h, int _max_v) {mMinmax.set(_min_h, _min_v, _max_h, _max_v);}
-      /** Get minimal and maximal possible window size */
-		inline IntRect getMinMax() {return mMinmax;}
+		void setMinMax(int _min_h, int _min_v, int _max_h, int _max_v) { mMinmax.set(_min_h, _min_v, _max_h, _max_v); }
+		/** Get minimal and maximal possible window size */
+		const IntRect & getMinMax() {return mMinmax;}
 
-      //! @copydoc Widget::setPosition(const IntPoint& _pos)
-		virtual void setPosition(const IntPoint& _pos);
-      //! @copydoc Widget::setPosition(const IntCoord& _coord)
-		virtual void setPosition(const IntCoord& _coord);
+		void setMinSize(const IntSize & _size) { mMinmax.left = _size.width; mMinmax.top = _size.height; }
+		void setMinSize(int _width, int _height) { mMinmax.left = _width; mMinmax.top = _height; }
+		IntSize getMinSize() { return IntSize(mMinmax.left, mMinmax.top); }
+
+		void setMaxSize(const IntSize & _size) { mMinmax.right = _size.width; mMinmax.bottom = _size.height; }
+		void setMaxSize(int _width, int _height) { mMinmax.right = _width; mMinmax.bottom = _height; }
+		IntSize getMaxSize() { return IntSize(mMinmax.right, mMinmax.bottom); }
+
+		//! @copydoc Widget::setPosition(const IntPoint & _point)
+		virtual void setPosition(const IntPoint & _point);
 		//! @copydoc Widget::setSize(const IntSize& _size)
-		virtual void setSize(const IntSize& _size);
-		//! @copydoc Widget::setPosition(int _left, int _top)
-		inline void setPosition(int _left, int _top) {setPosition(IntPoint(_left, _top));}
-		//! @copydoc Widget::setPosition(int _left, int _top, int _width, int _height)
-		inline void setPosition(int _left, int _top, int _width, int _height) {setPosition(IntCoord(_left, _top, _width, _height));}
-		//! @copydoc Widget::setSize(int _width, int _height)
-		inline void setSize(int _width, int _height) {setSize(IntSize(_width, _height));}
+		virtual void setSize(const IntSize & _size);
+		//! @copydoc Widget::setCoord(const IntCoord & _coord)
+		virtual void setCoord(const IntCoord & _coord);
 
-      /** Get snap to borders mode flag */
-		inline bool getSnap() {return mSnap;}
-      /** Enable or disable snap to borders mode */
-		inline void setSnap(bool _snap) {mSnap = _snap;}
+		/** @copydoc Widget::setPosition(int _left, int _top) */
+		void setPosition(int _left, int _top) { setPosition(IntPoint(_left, _top)); }
+		/** @copydoc Widget::setSize(int _width, int _height) */
+		void setSize(int _width, int _height) { setSize(IntSize(_width, _height)); }
+		/** @copydoc Widget::setCoord(int _left, int _top, int _width, int _height) */
+		void setCoord(int _left, int _top, int _width, int _height) { setCoord(IntCoord(_left, _top, _width, _height)); }
+
+		MYGUI_OBSOLETE("use Widget::setCoord(const IntCoord& _coord)")
+		void setPosition(const IntCoord & _coord) { setCoord(_coord); }
+		MYGUI_OBSOLETE("use Widget::setCoord(int _left, int _top, int _width, int _height)")
+		void setPosition(int _left, int _top, int _width, int _height) { setCoord(_left, _top, _width, _height); }
+
+		/** Get snap to borders mode flag */
+		bool getSnap() {return mSnap;}
+		/** Enable or disable snap to borders mode */
+		void setSnap(bool _snap) {mSnap = _snap;}
 
 		//! @copydoc Widget::setTextAlign
 		virtual void setTextAlign(Align _align);
@@ -100,9 +105,6 @@ namespace MyGUI
 		//! @copydoc Widget::getFontHeight
 		virtual uint16 getFontHeight();
 
-		//! @copydoc Widget::getChilds
-		virtual VectorWidgetPtr getChilds();
-
 		/** Event : Window button pressed.\n
 			signature : void method(MyGUI::WidgetPtr _sender, const std::string& _name)
 			@param _name of pressed button
@@ -116,39 +118,49 @@ namespace MyGUI
 		EventInfo_WidgetVoid eventWindowChangeCoord;
 
 	protected:
+		Window(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		virtual ~Window();
 
-		void _onMouseChangeRootFocus(bool _focus);
-		void _onKeyChangeRootFocus(bool _focus);
-		void _onMouseDrag(int _left, int _top);
-		void _onMouseButtonPressed(int _left, int _top, MouseButton _id);
+		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
+
+		// РїРµСЂРµРѕРїСЂРµРґРµР»СЏРµРј РґР»СЏ РїСЂРёСЃРІРѕРµРЅРёСЋ РєР»РёРµРЅС‚Сѓ
+		virtual WidgetPtr baseCreateWidget(const std::string & _type, const std::string & _skin, const IntCoord& _coord, Align _align, const std::string & _layer, const std::string & _name);
+
+		void onMouseChangeRootFocus(bool _focus);
+		void onKeyChangeRootFocus(bool _focus);
+		void onMouseDrag(int _left, int _top);
+		void onMouseButtonPressed(int _left, int _top, MouseButton _id);
 
 		void notifyMousePressed(MyGUI::WidgetPtr _sender, int _left, int _top, MouseButton _id);
 		void notifyPressedButtonEvent(MyGUI::WidgetPtr _sender);
 		void notifyMouseDrag(MyGUI::WidgetPtr _sender, int _left, int _top);
 
-		// просто обновляет альфу взависимости от флагов
+		// РїСЂРѕСЃС‚Рѕ РѕР±РЅРѕРІР»СЏРµС‚ Р°Р»СЊС„Сѓ РІР·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ С„Р»Р°РіРѕРІ
 		void updateAlpha();
+
+	private:
+		void initialiseWidgetSkin(WidgetSkinInfoPtr _info);
+		void shutdownWidgetSkin();
 
 	private:
 		WidgetPtr mWidgetCaption;
 
-		// размеры окна перед началом его изменений
+		// СЂР°Р·РјРµСЂС‹ РѕРєРЅР° РїРµСЂРµРґ РЅР°С‡Р°Р»РѕРј РµРіРѕ РёР·РјРµРЅРµРЅРёР№
 		IntCoord mPreActionCoord;
 
-		// наши главные фокусы
+		// РЅР°С€Рё РіР»Р°РІРЅС‹Рµ С„РѕРєСѓСЃС‹
 		bool mMouseRootFocus;
 		bool mKeyRootFocus;
 
-		// автоматическое или ручное управление альфой
+		// Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРµ РёР»Рё СЂСѓС‡РЅРѕРµ СѓРїСЂР°РІР»РµРЅРёРµ Р°Р»СЊС„РѕР№
 		bool mIsAutoAlpha;
 
-		// минимальные и максимальные размеры окна
+		// РјРёРЅРёРјР°Р»СЊРЅС‹Рµ Рё РјР°РєСЃРёРјР°Р»СЊРЅС‹Рµ СЂР°Р·РјРµСЂС‹ РѕРєРЅР°
 		IntRect mMinmax;
 
-		bool mSnap; // прилеплять ли к краям
+		bool mSnap; // РїСЂРёР»РµРїР»СЏС‚СЊ Р»Рё Рє РєСЂР°СЏРј
 
 		IntCoord mCurrentActionScale;
-
 
 	}; // class Window : public Widget
 

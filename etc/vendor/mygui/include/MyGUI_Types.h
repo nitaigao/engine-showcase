@@ -9,16 +9,26 @@
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Utility.h"
+#include "MyGUI_TPoint.h"
+#include "MyGUI_TSize.h"
+#include "MyGUI_TRect.h"
+#include "MyGUI_TCoord.h"
+
 #include <Ogre.h>
-#include "TPoint.h"
-#include "TSize.h"
-#include "TRect.h"
-#include "TCoord.h"
+
+#include "MyGUI_LastHeader.h"
+
+// потом это убрать и передалать парсинг
+#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
+
+#	pragma warning( disable: 4996)
+
+#endif
 
 namespace MyGUI
 {
 
-	// ���������� ����
+	// определяем типы
 	typedef types::TPoint<int> IntPoint;
 	typedef types::TPoint<float> FloatPoint;
 
@@ -42,14 +52,24 @@ namespace MyGUI
 	typedef unsigned int uint32;
 	typedef unsigned int uint;
 
-	typedef wchar_t Char;
+	typedef unsigned int Char;
+	typedef std::string UString;
+
+	// тип, для двойного преобразования
+	template <typename Type>
+	struct FakeType
+	{
+		FakeType(Type _value) : value(_value) { }
+		operator Type () { return value; }
+		Type value;
+	};
 
 	namespace utility
 	{
 		namespace templates
 		{
-			template <class T>
-			Ogre::ColourValue parseColour(const std::string& _value)
+			template <typename T>
+			inline Ogre::ColourValue parseColour(const std::string& _value)
 			{
 				if (_value.empty()) return Ogre::ColourValue::ZERO;
 				if (_value[0] == '#') {
@@ -69,10 +89,17 @@ namespace MyGUI
 			}
 		} // namespace templates
 
-		inline Ogre::ColourValue parseColour(const std::string& _value) {return templates::parseColour<void>(_value);}
+		inline Ogre::ColourValue parseColour(const std::string& _value) { return templates::parseColour<void>(_value); }
+		inline std::string toString(const Ogre::ColourValue & _colour) { return toString(_colour.r, " " , _colour.g, " " , _colour.b, " ", _colour.a); }
 
 	} // namespace utility
 
 } // namespace MyGUI
+
+#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
+
+#	pragma warning( default: 4996)
+
+#endif
 
 #endif // __MYGUI_TYPES_H__

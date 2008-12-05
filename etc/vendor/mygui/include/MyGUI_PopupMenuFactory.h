@@ -8,24 +8,19 @@
 #define __MYGUI_POPUP_MENU_FACTORY_H__
 
 #include "MyGUI_Prerequest.h"
-#include "MyGUI_WidgetFactoryInterface.h"
-#include "MyGUI_WidgetDefines.h"
+#include "MyGUI_IWidgetFactory.h"
+#include "MyGUI_PopupMenu.h"
 
 namespace MyGUI
 {
 	namespace factory
 	{
 
-		class _MyGUIExport PopupMenuFactory : public WidgetFactoryInterface
+		class _MyGUIExport PopupMenuFactory : public BaseWidgetFactory<PopupMenu>
 		{
 		public:
 			PopupMenuFactory();
 			~PopupMenuFactory();
-
-			// реализация интерфейса фабрики
-			const Ogre::String& getType();
-			WidgetPtr createWidget(const Ogre::String& _skin, const IntCoord& _coord, Align _align, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String& _name);
-
 		};
 
 	} // namespace factory

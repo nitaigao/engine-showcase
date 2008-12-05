@@ -9,76 +9,157 @@
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Edit.h"
+#include "MyGUI_List.h"
+#include "MyGUI_Any.h"
+#include "MyGUI_EventPair.h"
 
 namespace MyGUI
 {
 
 	class _MyGUIExport ComboBox : public Edit
 	{
-		// для вызова закрытого конструктора
-		friend class factory::ComboBoxFactory;
+		// РґР»СЏ РІС‹Р·РѕРІР° Р·Р°РєСЂС‹С‚РѕРіРѕ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
+		friend class factory::BaseWidgetFactory<ComboBox>;
 
-	protected:
-		ComboBox(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String & _name);
-		~ComboBox();
-
-		static Ogre::String WidgetTypeName;
+		MYGUI_RTTI_CHILD_HEADER;
 
 	public:
-		//! @copydoc Widget::_getType()
-		inline static const Ogre::String & _getType() {return WidgetTypeName;}
-		//! @copydoc Widget::getWidgetType()
-		virtual const Ogre::String & getWidgetType() { return _getType(); }
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё Р°Р№С‚РµРјР°РјРё
 
-		//------------------------------------------------------------------------------------//
-		// методы для манипуляций строками
 		//! Get number of items
-		size_t getItemCount();
+		size_t getItemCount() { return mList->getItemCount(); }
 
-		//! Insert an item into a list at specified position
-		void insertItem(size_t _index, const Ogre::UTFString & _item);
-		//! Add an item to the end of a list
-		void addItem(const Ogre::UTFString & _item);
-		//! Replace an item at a specified position
-		void setItem(size_t _index, const Ogre::UTFString & _item);
-		//! Get item from specified position
-		const Ogre::UTFString & getItem(size_t _index);
+		//! Insert an item into a array at a specified position
+		void insertItemAt(size_t _index, const Ogre::UTFString & _name, Any _data = Any::Null);
 
-		//! Delete item at a specified position
-		void deleteItem(size_t _index);
-		//! Delete all items
-		void deleteAllItems();
+		//! Add an item to the end of a array
+		void addItem(const Ogre::UTFString & _name, Any _data = Any::Null) { return insertItemAt(ITEM_NONE, _name, _data); }
 
-		//! Get number of selected item (ITEM_NONE if none selected)
-		inline size_t getItemSelect() {return mItemIndex;}
-		//! Reset item selection
-		inline void resetItemSelect() {setItemSelect(ITEM_NONE);}
+		//! Remove item at a specified position
+		void removeItemAt(size_t _index);
+
+		//! Remove all items
+		void removeAllItems();
+
+
+		//! Search item, returns the position of the first occurrence in array or ITEM_NONE if item not found
+		size_t findItemIndexWith(const Ogre::UTFString & _name)
+		{
+			return mList->findItemIndexWith(_name);
+		}
+
+
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё РІС‹РґРµР»РµРЅРёСЏРјРё
+
+		//! Get index of selected item (ITEM_NONE if none selected)
+		size_t getItemIndexSelected() { return mItemIndex; }
+
 		//! Select specified _index
-		void setItemSelect(size_t _index);
+		void setItemSelectedAt(size_t _index);
+
+		//! Clear item selection
+		void clearItemSelected() { setItemSelectedAt(ITEM_NONE); }
+
+
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё РґР°РЅРЅС‹РјРё
+
+		//! Replace an item data at a specified position
+		void setItemDataAt(size_t _index, Any _data);
+
+		//! Clear an item data at a specified position
+		void clearItemDataAt(size_t _index) { setItemDataAt(_index, Any::Null); }
+
+		//! Get item data from specified position
+		template <typename ValueType>
+		ValueType * getItemDataAt(size_t _index, bool _throw = true)
+		{
+			return mList->getItemDataAt<ValueType>(_index, _throw);
+		}
+
+
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё РѕС‚РѕР±СЂР°Р¶РµРЅРёРµРј
+
+		//! Replace an item name at a specified position
+		void setItemNameAt(size_t _index, const Ogre::UTFString & _name);
+
+		//! Get item name from specified position
+		const Ogre::UTFString & getItemNameAt(size_t _index) { return mList->getItemNameAt(_index); }
+
+
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё РІС‹РґРёРјРѕСЃС‚СЊСЋ
+
+		//! Move all elements so specified becomes visible
+		void beginToItemAt(size_t _index) { mList->beginToItemAt(_index); }
+
+		//! Move all elements so first becomes visible
+		void beginToItemFirst() { if (getItemCount()) beginToItemAt(0); }
+
+		//! Move all elements so last becomes visible
+		void beginToItemLast() { if (getItemCount()) beginToItemAt(getItemCount() - 1); }
+
+		//! Move all elements so selected becomes visible
+		void beginToItemSelected() { if (getItemIndexSelected() != ITEM_NONE) beginToItemAt(getItemIndexSelected()); }
+
+		//------------------------------------------------------------------------------//
+
+		// #ifdef MYGUI_USING_OBSOLETE
+		MYGUI_OBSOLETE("use ComboBox::insertItemAt(size_t _index, const Ogre::UTFString & _name)")
+		void insertItem(size_t _index, const Ogre::UTFString & _name) { insertItemAt(_index, _name); }
+
+		MYGUI_OBSOLETE("use ComboBox::setItemNameAt(size_t _index, const Ogre::UTFString & _name)")
+		void setItem(size_t _index, const Ogre::UTFString & _item) { setItemNameAt(_index, _item); }
+
+		MYGUI_OBSOLETE("use ComboBox::getItemNameAt(size_t _index)")
+		const Ogre::UTFString & getItem(size_t _index) { return getItemNameAt(_index); }
+
+		MYGUI_OBSOLETE("use ComboBox::removeItemAt(size_t _index)")
+		void deleteItem(size_t _index) { removeItemAt(_index); }
+
+		MYGUI_OBSOLETE("use ComboBox::removeAllItems()")
+		void deleteAllItems() { removeAllItems(); }
+
+		MYGUI_OBSOLETE("use ComboBox::getItemIndexSelected()")
+		size_t getItemSelect() { return getItemIndexSelected(); }
+
+		MYGUI_OBSOLETE("use ComboBox::clearItemSelected()")
+		void resetItemSelect() { clearItemSelected(); }
+
+		MYGUI_OBSOLETE("use ComboBox::setItemSelectedAt(size_t _index)")
+		void setItemSelect(size_t _index) { setItemSelectedAt(_index); }
+
+		// #endif // MYGUI_USING_OBSOLETE
+
 
 		//------------------------------------------------------------------------------------//
-		// методы для управления отображением
+		// РјРµС‚РѕРґС‹ РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёРµРј
+
 		//! Set drop list mode (text can not be edited)
 		void setComboModeDrop(bool _drop);
 		//! Get drop list mode flag
-		inline bool getComboModeDrop() { return mModeDrop; }
+		bool getComboModeDrop() { return mModeDrop; }
 
 		//! Set smooth show of list
-		inline void setSmoothShow(bool _smooth) { mShowSmooth = _smooth; }
+		void setSmoothShow(bool _smooth) { mShowSmooth = _smooth; }
 		//! Get smooth show of list flag
-		inline bool getSmoothShow() { return mShowSmooth; }
+		bool getSmoothShow() { return mShowSmooth; }
 
 		//! Set max list height
-		inline int getMaxListHeight() { return mMaxHeight; }
+		size_t getMaxListHeight() { return mMaxHeight; }
 		//! Get max list height
-		inline void setMaxListHeight(int _height) { mMaxHeight = _height; }
+		void setMaxListHeight(size_t _height) { mMaxHeight = _height; }
 
 		//------------------------------------------------------------------------------------//
 
 		/** Event : Enter pressed in combo mode or item selected in drop.\n
-			signature : void method(MyGUI::WidgetPtr _sender)
+			signature : void method(MyGUI::WidgetPtr _sender, size_t _index)
+			@param _index item
 		*/
-		EventInfo_WidgetVoid eventComboAccept;
+		EventPair<EventInfo_WidgetVoid, EventInfo_WidgetSizeT> eventComboAccept;
 
 		/** Event : Position changed.\n
 			signature : void method(MyGUI::WidgetPtr _sender, size_t _index)\n
@@ -87,8 +168,14 @@ namespace MyGUI
 		EventInfo_WidgetSizeT eventComboChangePosition;
 
 	protected:
-		virtual void _onKeyButtonPressed(KeyCode _key, Char _char);
+		ComboBox(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		virtual ~ComboBox();
 
+		virtual void onKeyButtonPressed(KeyCode _key, Char _char);
+
+		virtual void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
+
+	private:
 		void notifyButtonPressed(WidgetPtr _sender, int _left, int _top, MouseButton _id);
 		void notifyListLostFocus(WidgetPtr _sender, MyGUI::WidgetPtr _new);
 		void notifyListSelectAccept(WidgetPtr _widget, size_t _position);
@@ -101,18 +188,19 @@ namespace MyGUI
 		void showList();
 		void hideList();
 
+		void initialiseWidgetSkin(WidgetSkinInfoPtr _info);
+		void shutdownWidgetSkin();
+
 	private:
 		ButtonPtr mButton;
 		ListPtr mList;
 
 		bool mListShow;
-		int mMaxHeight;
+		size_t mMaxHeight;
 		size_t mItemIndex;
 		bool mModeDrop;
 		bool mDropMouse;
 		bool mShowSmooth;
-
-		//float mDoAlpha;
 
 	}; // class _MyGUIExport ComboBox : public Edit
 

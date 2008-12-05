@@ -10,14 +10,14 @@
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Instance.h"
 #include "MyGUI_PointerInfo.h"
-#include "MyGUI_WidgetDefines.h"
-#include "MyGUI_UnlinkWidget.h"
-#include "MyGUI_WidgetCreator.h"
+#include "MyGUI_IUnlinkWidget.h"
+#include "MyGUI_IWidgetCreator.h"
+#include "MyGUI_StaticImage.h"
 
 namespace MyGUI
 {
 
-	class _MyGUIExport PointerManager : public UnlinkWidget, public WidgetCreator
+	class _MyGUIExport PointerManager : public IUnlinkWidget, public IWidgetCreator
 	{
 		INSTANCE_HEADER(PointerManager);
 
@@ -27,10 +27,10 @@ namespace MyGUI
 
 	public:
 
-		/** Load additional MyGUI *.pointer file */
+		/** Load additional MyGUI *_pointer.xml file */
 		bool load(const std::string & _file, const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
-		void _load(xml::xmlNodePtr _node, const std::string & _file);
+		void _load(xml::xmlNodePtr _node, const std::string & _file, Version _version);
 
 		/** Show pointer*/
 		void show();
@@ -38,7 +38,7 @@ namespace MyGUI
 		void hide();
 
 		/** Return visibility of pointer*/
-		inline bool isShow() {return mShow;}
+		bool isShow() {return mShow;}
 
 		/** Set pointer position*/
 		void setPosition(const IntPoint& _pos);
@@ -48,26 +48,27 @@ namespace MyGUI
 		*/
 		void setPointer(const std::string & _name, WidgetPtr _owner);
 		/** Set default pointer */
-		inline void setDefaultPointer() {if (false == mDefaultPointer.empty()) setPointer(mDefaultPointer, null); }
+		void setDefaultPointer() {if (false == mDefaultPointer.empty()) setPointer(mDefaultPointer, null); }
 
 		void _unlinkWidget(WidgetPtr _widget);
 
-		inline const std::string & getDefaultPointer() { return mDefaultPointer; }
+		/** Get default pointer */
+		const std::string & getDefaultPointer() { return mDefaultPointer; }
 
 	private:
 
 		void clear();
-		// создает виджет
-		virtual WidgetPtr _createWidget(const std::string & _type, const std::string & _skin, const IntCoord& _coord, Align _align, const std::string & _layer, const std::string & _name);
+		// СЃРѕР·РґР°РµС‚ РІРёРґР¶РµС‚
+		virtual WidgetPtr baseCreateWidget(const std::string & _type, const std::string & _skin, const IntCoord& _coord, Align _align, const std::string & _layer, const std::string & _name);
 
-		// удяляет неудачника
+		// СѓРґСЏР»СЏРµС‚ РЅРµСѓРґР°С‡РЅРёРєР°
 		virtual void _destroyChildWidget(WidgetPtr _widget);
 
-		// удаляет всех детей
+		// СѓРґР°Р»СЏРµС‚ РІСЃРµС… РґРµС‚РµР№
 		virtual void _destroyAllChildWidget();
 
 	private:
-		// вектор всех детей виджетов
+		// РІРµРєС‚РѕСЂ РІСЃРµС… РґРµС‚РµР№ РІРёРґР¶РµС‚РѕРІ
 		VectorWidgetPtr mWidgetChild;
 
 		std::string mDefaultPointer;
@@ -78,7 +79,7 @@ namespace MyGUI
 		MapPointerInfo mMapPointers;
 
 		WidgetPtr mWidgetOwner;
-		WidgetPtr mMousePointer;
+		StaticImagePtr mMousePointer;
 
 
 	}; // class PointerManager

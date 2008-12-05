@@ -9,17 +9,16 @@
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Common.h"
-#include "MyGUI_WidgetDefines.h"
+#include "MyGUI_ISubWidget.h"
 
 namespace MyGUI
 {
 
-	// вспомогательный класс для инициализации сабскинов
+	// РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Р№ РєР»Р°СЃСЃ РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё СЃР°Р±СЃРєРёРЅРѕРІ
 	class _MyGUIExport SubWidgetBinding
 	{
-	private:
-		// для доступа к внутренним членам
-		friend class 	WidgetSkinInfo;
+		// РґР»СЏ РґРѕСЃС‚СѓРїР° Рє РІРЅСѓС‚СЂРµРЅРЅРёРј С‡Р»РµРЅР°Рј
+		friend class WidgetSkinInfo;
 
 	public:
 		SubWidgetBinding()
@@ -43,39 +42,34 @@ namespace MyGUI
 		void clear()
 		{
 			mType = "";
-			mAlign = 0;
+			mAlign = Align::Default;
 			mStates.clear();
 		}
 
-		void add(const std::string & _name, const FloatRect& _rect)
+		void add(const std::string & _name, StateInfo * _data, const std::string & _skin)
 		{
-			add(_name, _rect, Ogre::ColourValue::ZERO, -1);
+			// РёС‰РµРј С‚Р°РєРѕР№ Р¶Рµ РєР»СЋС‡
+			MapStateInfo::const_iterator iter = mStates.find(_name);
+			if (iter != mStates.end()) {
+				delete _data;
+				MYGUI_LOG(Warning, "state with name '" << _name << "' already exist in skin '" << _skin << "'");
+				return;
+			}
+			// РґРѕР±Р°РІР»СЏРµРј
+			mStates[_name] = _data;
 		}
 
-		void add(const std::string & _name, float _alpha)
+		void addProperty(const std::string & _key, const std::string & _value)
 		{
-			add(_name, FloatRect(-1, -1, -1, -1), Ogre::ColourValue::ZERO, _alpha);
-		}
-
-		void add(const std::string & _name, const Ogre::ColourValue & _colour)
-		{
-			add(_name, FloatRect(-1, -1, -1, -1), _colour, -1);
-		}
-
-		void add(const std::string & _name, const FloatRect & _rect, const Ogre::ColourValue  & _colour, float _alpha)
-		{
-			// ищем такой же ключ
-			MapSubWidgetStateInfo::const_iterator iter = mStates.find(_name);
-			MYGUI_ASSERT(iter == mStates.end(), "state with name '" << _name << "' already exist");
-			// добавляем
-			mStates[_name] = SubWidgetStateInfo(_rect, _colour, _alpha);
+			mProperties[_key] = _value;
 		}
 
 	private:
 		IntCoord mOffset;
 		Align mAlign;
 		std::string mType;
-		MapSubWidgetStateInfo mStates;
+		MapStateInfo mStates;
+		MapString mProperties;
 	};
 
 } // namespace MyGUI

@@ -4,7 +4,7 @@
 #include "../Scripting/Script.h"
 #include "../Input/InputSystem.h"
 
-#include "Screen.h"
+#include "../Graphics/GUI/GuiScreen.h"
 #include "../Graphics/IRenderer.hpp"
 
 #include "MyGUI.h"
@@ -63,7 +63,7 @@ private:
 	IRenderer* _renderer;
 	Script* _viewScript;
 	InputSystem* _inputSystem;
-	Screen* _currentScreen;
+	GuiScreen* _currentScreen;
 	bool _isIntialized;
 
 };

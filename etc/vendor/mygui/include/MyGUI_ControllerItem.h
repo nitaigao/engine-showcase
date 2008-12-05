@@ -17,16 +17,20 @@ namespace MyGUI
 	class _MyGUIExport ControllerItem
 	{
 	public:
+		virtual ~ControllerItem() {};
 
 		virtual void prepareItem(WidgetPtr _widget) = 0;
-		virtual void replaseItem(WidgetPtr _widget, ControllerItem * _item) = 0;
+		//virtual void replaseItem(WidgetPtr _widget, ControllerItem * _item) = 0;
 		virtual bool addTime(WidgetPtr _widget, float _time) = 0;
 		virtual const std::string & getType() = 0;
 
-		// делегат, который будет вызван, перед началом работы контроллера
+		// РґРµР»РµРіР°С‚, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РІС‹Р·РІР°РЅ, РїРµСЂРµРґ РЅР°С‡Р°Р»РѕРј СЂР°Р±РѕС‚С‹ РєРѕРЅС‚СЂРѕР»Р»РµСЂР°
 		delegates::CDelegate1<WidgetPtr> eventPreAction;
 
-		// делегат, который будет вызван, после завершения работы контроллера
+		// РґРµР»РµРіР°С‚, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РІС‹Р·РІР°РЅ, РїРѕСЃР»Рµ РѕС‡РµСЂРµРґРЅРѕРіРѕ Р°РїРґРµР№С‚Р°
+		delegates::CDelegate1<WidgetPtr> eventUpdateAction;
+
+		// РґРµР»РµРіР°С‚, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РІС‹Р·РІР°РЅ, РїРѕСЃР»Рµ Р·Р°РІРµСЂС€РµРЅРёСЏ СЂР°Р±РѕС‚С‹ РєРѕРЅС‚СЂРѕР»Р»РµСЂР°
 		delegates::CDelegate1<WidgetPtr> eventPostAction;
 
 	};

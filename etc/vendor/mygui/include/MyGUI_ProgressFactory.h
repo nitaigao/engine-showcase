@@ -8,29 +8,26 @@
 #define __MYGUI_PROGRESS_FACTORY_H__
 
 #include "MyGUI_Prerequest.h"
-#include "MyGUI_WidgetFactoryInterface.h"
-#include "MyGUI_WidgetDefines.h"
+#include "MyGUI_IWidgetFactory.h"
+#include "MyGUI_Progress.h"
 
 namespace MyGUI
 {
 	namespace factory
 	{
 
-		class _MyGUIExport ProgressFactory : public WidgetFactoryInterface
+		class _MyGUIExport ProgressFactory : public BaseWidgetFactory<Progress>
 		{
 		public:
 			ProgressFactory();
 			~ProgressFactory();
+		private:
+			// РјРµС‚РѕРґС‹ РґР»СЏ РїР°СЂСЃРёРЅРіР°
+			void Progress_Range(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Progress_Position(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Progress_AutoTrack(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Progress_StartPoint(WidgetPtr _widget, const std::string &_key, const std::string &_value);
 
-			// реализация интерфейса фабрики
-			const Ogre::String& getType();
-			WidgetPtr createWidget(const Ogre::String& _skin, const IntCoord& _coord, Align _align, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String& _name);
-
-			// методы для парсинга
-			void Progress_Range(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Progress_Position(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Progress_AutoTrack(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Progress_StartPoint(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
 		};
 
 	} // namespace factory

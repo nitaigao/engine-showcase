@@ -20,7 +20,19 @@ using namespace luabind;
 void GuiComponent::Initialize( )
 {
 	std::stringstream scriptPath;
-	scriptPath << Paths::GetControlsPath( ) << _name << "/" << _name << ".lua";
+	
+	switch( _componentType )
+	{
+	
+		case SCREEN: 
+			scriptPath << Paths::GetScreensPath( ) << _name << "/" << _name << ".lua";
+			break;
+			
+		case CONTROL:
+			scriptPath << Paths::GetControlsPath( ) << _name << "/" << _name << ".lua";
+			break;
+			
+	}
 
 	FileBuffer* controllerBuffer = FileManager::GetInstance( )->GetFile( scriptPath.str( ) );
 	_script = Script::CreateFromFileBuffer( controllerBuffer );

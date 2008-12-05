@@ -9,39 +9,44 @@
 
 #include "MyGUI_Prerequest.h"
 
+#include <OgrePrerequisites.h>
+#include <OgreResourceGroupManager.h>
+
+#include "MyGUI_LastHeader.h"
+
 namespace MyGUI
 {
-	namespace templates
-	{
-		template <class T>
-		std::vector<Ogre::String> get_vector_resource_path(const Ogre::String & _mask, const Ogre::String & _group)
-		{
-			std::vector<Ogre::String> vec;
-			Ogre::FileInfoListPtr pFileInfo = Ogre::ResourceGroupManager::getSingleton().findResourceFileInfo(_group, _mask);
-			for (Ogre::FileInfoList::iterator fi = pFileInfo->begin(); fi != pFileInfo->end(); fi++ ) {
-				vec.push_back(fi->archive->getName() + "/" + fi->filename);
-			}
-			return vec;
-		}
-
-		template <class T>
-		Ogre::String get_resource_path(const Ogre::String & _mask, const Ogre::String & _group)
-		{
-			Ogre::FileInfoListPtr pFileInfo = Ogre::ResourceGroupManager::getSingleton().findResourceFileInfo(_group, _mask);
-			if (pFileInfo->size() != 1) return "";
-			Ogre::String retval = pFileInfo->front().archive->getName() + "/" + pFileInfo->front().filename;
-			pFileInfo.setNull();
-			return retval;
-		}
-
-	} // namespace templates
 
 	namespace helper
 	{
-		// возвращает вектор путей ресурсов по маске
-		inline std::vector<Ogre::String> getVectorResourcePath(const Ogre::String & _mask, const Ogre::String & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME) {return templates::get_vector_resource_path<void>(_mask, _group);}
-		// возвращает путь ресурса по маске
-		inline Ogre::String getResourcePath(const Ogre::String & _mask, const Ogre::String & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME) {return templates::get_resource_path<void>(_mask, _group);}
+		typedef std::vector<Ogre::String> VectorString;
+
+		void _MyGUIExport addResourceLocation(
+			const Ogre::String& _name,
+			const Ogre::String& _type,
+			const Ogre::String& _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+			bool _recursive = false,
+			bool _subdirs = false);
+
+		bool _MyGUIExport isFileExist(
+			const Ogre::String& _filename,
+			const Ogre::String& _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+			bool _unique = true,
+			bool _fullmatch = true);
+
+		Ogre::String _MyGUIExport getResourcePath(
+			const Ogre::String& _filename,
+			const Ogre::String& _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+			bool _fullpath = true,
+			bool _unique = true,
+			bool _fullmatch = true);
+
+		VectorString _MyGUIExport getVectorResourcePath(
+			const Ogre::String& _pattern,
+			const Ogre::String& _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+			bool _fullpath = true,
+			bool _fullmatch = true);
+
 	} // namespace helper
 
 } // namespace MyGUI

@@ -22,20 +22,6 @@ DEBUG: Loading File: gui/screens/introscreen/introscreen.layout
 DEBUG: BadArchive: Opening File gui/screens/introscreen/introscreen.layout
 DEBUG: Loading File: gui/screens/introscreen/intro_logo.png
 DEBUG: BadArchive: Opening File gui/screens/introscreen/intro_logo.png
-INFO: Lua: Initializing IntroScreen
-INFO: Lua: IntroScreen Initialized
-INFO: Lua: onKeyUp Fired
-DEBUG: Loading File: gui/screens/menuscreen/menuscreen.lua
-DEBUG: Loading File: gui/screens/menuscreen/menuscreen.layout
-DEBUG: BadArchive: Opening File gui/screens/menuscreen/menuscreen.layout
-DEBUG: Loading File: gui/controls/console/console.lua
-DEBUG: Loading File: gui/controls/console/console.layout
-DEBUG: BadArchive: Opening File gui/controls/console/console.layout
-DEBUG: Loading File: gui/core/Comic.TTF
-DEBUG: BadArchive: Opening File gui/core/Comic.TTF
-INFO: 
-INFO: hello
-INFO: this is a command
 DEBUG: BadArchiveFactory::destroyInstance - Instance of ../game/data/gui.bad
 INFO: Releasing the File Manager
 INFO: EventManager::Release - Releasing Event Manager

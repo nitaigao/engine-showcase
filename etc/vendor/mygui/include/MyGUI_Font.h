@@ -9,11 +9,11 @@
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Common.h"
-#include <Ogre.h>
+
 #include <OgreResource.h>
 #include <OgreTexture.h>
-#include <OgreMaterial.h>
-#include <OgreCommon.h>
+
+#include "MyGUI_LastHeader.h"
 
 namespace MyGUI
 {
@@ -22,37 +22,116 @@ namespace MyGUI
     {
 
 	public:
-		typedef Ogre::uint32 CodePoint;
-		typedef Ogre::FloatRect UVRect;
-		typedef std::pair<CodePoint, CodePoint> PairCodePoint;
+
+		// информация об диапазоне
+		struct PairCodePoint
+		{
+			PairCodePoint(Char _first, Char _last) :
+				first(_first),
+				last(_last)
+			{
+			}
+
+			// проверяет входит ли символ в диапазон
+			bool isExist(Char _code) { return _code >= first && _code <= last; }
+
+		public:
+			Char first;
+			Char last;
+		};
+
 		typedef std::vector<PairCodePoint> VectorPairCodePoint;
 
-		// ���������� �� ����� �������
+		// информация об одном символе
 		struct GlyphInfo
 		{
-			CodePoint codePoint;
-			UVRect uvRect;
-			Ogre::Real aspectRatio;
+			Char codePoint;
+			FloatRect uvRect;
+			float aspectRatio;
 
-			GlyphInfo() : codePoint(0), uvRect(UVRect(0, 0, 0, 0)), aspectRatio(1) { }
-			GlyphInfo(CodePoint _code, const UVRect& _rect, Ogre::Real _aspect) : codePoint(_code), uvRect(_rect), aspectRatio(_aspect) { }
+			GlyphInfo() :
+				codePoint(0),
+				aspectRatio(1)
+			{
+			}
+
+			GlyphInfo(Char _code, const FloatRect& _rect, float _aspect) :
+				codePoint(_code),
+				uvRect(_rect),
+				aspectRatio(_aspect)
+			{
+			}
+
 		};
 
 		typedef std::vector<GlyphInfo> VectorGlyphInfo;
 
-		// ��������� � ��������� ��������
+		// инфомация о диапазоне символов
 		struct RangeInfo
 		{
-			CodePoint first;
-			CodePoint second;
-			VectorGlyphInfo range;
+		private:
+			RangeInfo() { }
 
-			RangeInfo(CodePoint _first, CodePoint _second) : first(_first), second(_second) { }
+		public:
+			RangeInfo(Char _first, Char _last) :
+				first(_first),
+				last(_last)
+			{
+				range.resize(last - first + 1);
+			}
+
+			// проверяет входит ли символ в диапазон
+			bool isExist(Char _code) { return _code >= first && _code <= last; }
+
+			// возвращает указатель на глиф, или 0, если код не входит в диапазон
+			GlyphInfo * getInfo(Char _code) { return isExist(_code) ? &range[_code - first] : null; }
+
+			// возвращает указатель на глиф, или 0
+			/*GlyphInfo * insert(Char _code)
+			{
+				// если у же есть, то возвращаем существующий
+				if (isExist(_code)) return &range[_code - first];
+
+				// вставляем в начало
+				if (_code - 1 == first) {
+					first--;
+					range.insert(range.begin(), GlyphInfo(_code, FloatRect(), 0));
+					return &range[0];
+				}
+				// вставляем в конец
+				else if (_code + 1 == last) {
+					last++;
+					range.push_back(GlyphInfo(_code, FloatRect(), 0));
+					return &range[last - first];
+				}
+
+				return null;
+			}*/
+
+		public:
+			Char first;
+			Char last;
+			VectorGlyphInfo range;
 		};
 
 		typedef std::vector<RangeInfo> VectorRangeInfo;
 
-		// constants
+		struct PairCodeCoord
+		{
+			PairCodeCoord(Char _code, const IntCoord& _coord) :
+				code(_code),
+				coord(_coord)
+			{
+			}
+
+			bool operator < (const PairCodeCoord & _value) const { return code < _value.code; }
+
+			Char code;
+			IntCoord coord;
+		};
+
+		typedef std::vector<PairCodeCoord> VectorPairCodeCoord;
+
 		enum constCodePoints
 		{
 			FONT_CODE_SELECT = 0,
@@ -70,23 +149,30 @@ namespace MyGUI
         /// Source of the font (either an image name or a truetype font)
 		Ogre::String mSource;
         /// Size of the truetype font, in points
-		Ogre::Real mTtfSize;
+		float mTtfSize;
         /// Resolution (dpi) of truetype font
-		Ogre::uint mTtfResolution;
+		uint mTtfResolution;
 
-		CodePoint mSpaceSimbol;
-		Ogre::uint8 mCountSpaceTab;
-		Ogre::uint8 mCharSpacer;
+		int mDistance;
+		int mSpaceWidth;
+		int mTabWidth;
+		int mCursorWidth;
+		int mOffsetHeight;
+		int mDefaultHeight;
+		int mHeightPix;
 
-		// ��������� ���������� � ��������
+		// отдельная информация о символах
 		GlyphInfo mSpaceGlyphInfo, mTabGlyphInfo, mSelectGlyphInfo, mSelectDeactiveGlyphInfo, mCursorGlyphInfo;
 
-		// ������� ������� �� ����� ��������
+		// символы которые не нужно рисовать
 		VectorPairCodePoint mVectorHideCodePoint;
+
+		// символы созданные руками
+		VectorPairCodeCoord mVectorPairCodeCoord;
 
 	protected:
 
-		// ��� ���������� � ��������
+		// вся информация о символах
 		VectorRangeInfo mVectorRangeInfo;
 
 		/// Texture pointer
@@ -95,12 +181,18 @@ namespace MyGUI
         /// for TRUE_TYPE font only
         bool mAntialiasColour;
 
-		/// @copydoc Resource::loadImpl
+		/// @copydoc Ogre::Resource::loadImpl
 		virtual void loadImpl();
-		/// @copydoc Resource::unloadImpl
+		/// @copydoc Ogre::Resource::unloadImpl
 		virtual void unloadImpl();
-		/// @copydoc Resource::calculateSize
+		/// @copydoc Ogre::Resource::calculateSize
 		size_t calculateSize(void) const { return 0; } // permanent resource is in the texture
+
+		void addGlyph(GlyphInfo * _info, Char _index, int _left, int _top, int _right, int _bottom, int _finalw, int _finalh, float _aspect);
+
+		void loadResourceTrueType(Ogre::Resource* res);
+		void addRange(VectorPairCodeCoord & _info, size_t _first, size_t _last, int _width, int _height, float _aspect);
+		void checkTexture();
 
 	public:
 
@@ -109,38 +201,38 @@ namespace MyGUI
 		Font(Ogre::ResourceManager* creator, const Ogre::String& name, Ogre::ResourceHandle handle, const Ogre::String& group, bool isManual = false, Ogre::ManualResourceLoader* loader = 0);
         virtual ~Font();
 
-		GlyphInfo * getSpaceGlyphInfo() {return & mSpaceGlyphInfo;}
-		GlyphInfo * getTabGlyphInfo() {return & mTabGlyphInfo;}
-		GlyphInfo * getSelectGlyphInfo() {return & mSelectGlyphInfo;}
-		GlyphInfo * getSelectDeactiveGlyphInfo() {return & mSelectDeactiveGlyphInfo;}
-		GlyphInfo * getCursorGlyphInfo() {return & mCursorGlyphInfo;}
+		GlyphInfo * getSpaceGlyphInfo() { return & mSpaceGlyphInfo; }
+		GlyphInfo * getTabGlyphInfo() { return & mTabGlyphInfo; }
+		GlyphInfo * getSelectGlyphInfo() { return & mSelectGlyphInfo; }
+		GlyphInfo * getSelectDeactiveGlyphInfo() { return & mSelectDeactiveGlyphInfo; }
+		GlyphInfo * getCursorGlyphInfo() { return & mCursorGlyphInfo; }
 
 		void setSource(const Ogre::String& source) { mSource = source; }
-		const Ogre::String& getSource(void) const { return mSource; }
+		const Ogre::String& getSource() const { return mSource; }
 
 		void setTrueTypeSize(Ogre::Real ttfSize) { mTtfSize = ttfSize; }
-		Ogre::Real getTrueTypeSize(void) const { return mTtfSize; }
+		Ogre::Real getTrueTypeSize() const { return mTtfSize; }
 
 		void setTrueTypeResolution(Ogre::uint ttfResolution) { mTtfResolution = ttfResolution; }
-		Ogre::uint getTrueTypeResolution(void) const { return mTtfResolution; }
+		Ogre::uint getTrueTypeResolution() const { return mTtfResolution; }
 
-		GlyphInfo * getGlyphInfo(CodePoint _id);
+		GlyphInfo * getGlyphInfo(Char _id);
 
-		inline void addCodePointRange(Ogre::Real _first, Ogre::Real _second)
+		void addCodePointRange(Ogre::Real _first, Ogre::Real _second)
 		{
 			mVectorRangeInfo.push_back(RangeInfo((Ogre::uint32)_first, (Ogre::uint32)_second));
 		}
 
-		inline void addHideCodePointRange(Ogre::Real _first, Ogre::Real _second)
+		void addHideCodePointRange(Ogre::Real _first, Ogre::Real _second)
 		{
 			mVectorHideCodePoint.push_back(PairCodePoint((unsigned int)_first, (unsigned int)_second));
 		}
 
-		// ���������, ������ �� ������ � ���� �������� ��������
-		inline bool checkHidePointCode(CodePoint _id)
+		// проверяет, входит ли символ в зоны ненужных символов
+		bool checkHidePointCode(Char _id)
 		{
 			for (VectorPairCodePoint::iterator iter=mVectorHideCodePoint.begin(); iter!=mVectorHideCodePoint.end(); ++iter) {
-				if ((_id >= iter->first) && (_id <= iter->second)) return true;
+				if (iter->isExist(_id)) return true;
 			}
 			return false;
 		}
@@ -152,26 +244,46 @@ namespace MyGUI
 			mVectorHideCodePoint.clear();
 		}
 
-		inline const Ogre::TexturePtr& getTextureFont() const { return mTexture; }
-		inline const Ogre::TexturePtr& getTextureFont() { return mTexture; }
+		const Ogre::TexturePtr& getTextureFont() const { return mTexture; }
+		const Ogre::TexturePtr& getTextureFont() { return mTexture; }
 
-        inline void setAntialiasColour(bool enabled) { mAntialiasColour = enabled; }
-        inline bool getAntialiasColour(void) const { return mAntialiasColour; }
+        void setAntialiasColour(bool enabled) { mAntialiasColour = enabled; }
+        bool getAntialiasColour(void) const { return mAntialiasColour; }
+
+		int getDefaultHeight() const { return mDefaultHeight; }
+		void setDefaultHeight(int _height) { mDefaultHeight = _height; }
+
+		int getHeightPix() { return mHeightPix; }
 
 		/** Implementation of ManualResourceLoader::loadResource, called
 			when the Texture that this font creates needs to (re)load. */
 		void loadResource(Ogre::Resource* resource);
 
-		// ������������� � ����� �������� ������ �� ������� ��� �������
-		inline CodePoint getSpaceSimbol() {return mSpaceSimbol;}
-		inline void setSpaceSimbol(CodePoint _simbol) {mSpaceSimbol = _simbol;}
+		//ширина пробела в пикселях
+		Char setSpaceWidth() { return mSpaceWidth; }
+		void setSpaceWidth(int _pix) { mSpaceWidth = _pix; }
 
-		// ������������� ����������� �������� ��� ����
-		inline Ogre::uint8 getCountSpaceTab() {return mCountSpaceTab;}
-		inline void setCountSpaceTab(Ogre::uint8 _count) {mCountSpaceTab = _count;}
+		// ширина таба в пикселях
+		int getTabWidth() { return mTabWidth; }
+		void setTabWidth(int _pix) { mTabWidth = _pix; }
 
-		inline Ogre::uint8 getCharSpacer() {return mCharSpacer;}
-		inline void setCharSpacer(Ogre::uint8 _spacer) {mCharSpacer = _spacer;}
+		// ширина курсора в пикселях
+		int getCursorWidth() { return mCursorWidth; }
+		void setCursorWidth(int _pix) { mCursorWidth = _pix; }
+
+		// расстояние между символами при генерации в пикселях
+		int getDistance() { return mDistance; }
+		void setDistance(int _pix) { mDistance = _pix; }
+
+		// смещение всех символов по горизонтали
+		int getOffsetHeight() { return mOffsetHeight; }
+		void setOffsetHeight(int _pix) { mOffsetHeight = _pix; }
+
+		void addGlyph(uint _index, const IntCoord& _coord);
+
+		bool isTrueType() { return mTtfResolution != 0; }
+
+		void initialise();
 
     };
 

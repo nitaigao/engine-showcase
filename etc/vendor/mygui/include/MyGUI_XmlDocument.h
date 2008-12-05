@@ -8,6 +8,8 @@
 #define __MYGUI_XML_DOCUMENT_H__
 
 #include "MyGUI_Prerequest.h"
+#include "MyGUI_Utility.h"
+#include "MyGUI_Convert.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -16,48 +18,25 @@
 #include <assert.h>
 
 #include <OgreDataStream.h>
+#include <OgreUTFString.h>
+
+#include "MyGUI_LastHeader.h"
 
 namespace MyGUI
 {
 	namespace xml
 	{
 
-		namespace utility
-		{
-			template< class T >
-			inline std::string toString (T p)
-			{
-				std::ostringstream stream;
-				stream << p;
-				return stream.str();
-			}
-
-			template< class T1, class T2 >
-			inline std::string toString (T1 p1, T2 p2)
-			{
-				std::ostringstream stream;
-				stream << p1 << p2;
-				return stream.str();
-			}
-
-			inline void trim(std::string& _str, bool _left = true, bool _right = true)
-			{
-				if (_right) _str.erase(_str.find_last_not_of(" \t\r")+1);
-				if (_left) _str.erase(0, _str.find_first_not_of(" \t\r"));
-			}
-
-		}
-
-		typedef enum xmlNodeType {
-			XML_NODE_TYPE_REMARK, // ����������
-			XML_NODE_TYPE_INFO, // �������������� ����
-			XML_NODE_TYPE_NORMAL, // ������������ ����
+		enum xmlNodeType {
+			XML_NODE_TYPE_REMARK, // коментарий
+			XML_NODE_TYPE_INFO, // информационный блок
+			XML_NODE_TYPE_NORMAL, // обыкновенный блок
 		};
 
 		namespace errors
 		{
 
-			typedef enum ErrorTypes {
+			enum ErrorTypes {
 				XML_ERROR_NONE,
 				XML_ERROR_OPEN_FILE,
 				XML_ERROR_CREATE_FILE,
@@ -96,8 +75,8 @@ namespace MyGUI
 			bool nextNode();
 			bool nextNode(const std::string & _name);
 
-			inline xmlNodePtr operator->() const {assert(m_current != m_end); return (*m_current);}
-			inline xmlNodePtr currentNode() {assert(m_current != m_end); return (*m_current);}
+			xmlNodePtr operator->() const { assert(m_current != m_end); return (*m_current); }
+			xmlNodePtr currentNode() { assert(m_current != m_end); return (*m_current); }
 
 		private:
 			bool m_first;
@@ -117,22 +96,46 @@ namespace MyGUI
 
 		private:
 			xmlNode(const std::string &_name, xmlNodePtr _parent, xmlNodeType _type = XML_NODE_TYPE_NORMAL, const std::string & _body = "");
-
 			void save(std::ofstream & _stream, size_t _level);
 
 		public:
 			xmlNodePtr createChild(const std::string & _name, const std::string & _body = "");
 
-			template <class T>
-			inline void addAttributes(const std::string &_key, const T& _value)
+			template <typename T>
+			void addAttributes(const std::string &_key, const T& _value)
 			{
 				mAttributes.push_back(PairAttributes(_key, utility::toString(_value)));
 			}
 
-			template <class T>
-			inline void addBody(const T& _body)
+			void addAttributes(const std::string & _key, const std::string & _value)
+			{
+				mAttributes.push_back(PairAttributes(_key, _value));
+			}
+
+			template <typename T>
+			void addBody(const T& _body)
 			{
 				mBody.empty() ? mBody = utility::toString(_body) : mBody += utility::toString(" ", _body);
+			}
+
+			void addBody(const std::string & _body)
+			{
+				if (mBody.empty()) mBody = _body;
+				else {
+					mBody += " ";
+					mBody += _body;
+				}
+			}
+
+			template <typename T>
+			void setBody(const T& _body)
+			{
+				mBody = utility::toString(_body);
+			}
+
+			void setBody(const std::string & _body)
+			{
+				mBody = _body;
 			}
 
 			void clear();
@@ -140,12 +143,12 @@ namespace MyGUI
 			bool findAttribute(const std::string & _name, std::string & _value);
 			std::string findAttribute(const std::string & _name);
 
-			inline const std::string & getName() {return mName;}
-			inline const std::string & getBody() {return mBody;}
-			inline const VectorAttributes & getAttributes() {return mAttributes;}
-			inline xmlNodePtr getParent() {return mParent;}
+			const std::string & getName() { return mName; }
+			const std::string & getBody() { return mBody; }
+			const VectorAttributes & getAttributes() { return mAttributes; }
+			xmlNodePtr getParent() { return mParent; }
 
-			inline xmlNodeIterator getNodeIterator() {return xmlNodeIterator(mChilds.begin(), mChilds.end());}
+			xmlNodeIterator getNodeIterator() { return xmlNodeIterator(mChilds.begin(), mChilds.end()); }
 
 		private:
 			std::string mName;
@@ -165,23 +168,56 @@ namespace MyGUI
 			xmlDocument();
 			~xmlDocument();
 
-			bool open(const std::string & _name);
-			// ��������� �� ������ ����
-			bool open(const Ogre::DataStreamPtr& stream);
+			// открывает обычным файлом, имя файла в utf8
+			bool open(const std::string & _filename);
 
-			// ��������� ����
-			bool save(const std::string & _name);
+			// открывает обычным файлом, имя файла в utf16 или utf32
+			bool open(const std::wstring & _filename);
+
+			// открывает обычным потоком
+			bool open(std::ifstream & _stream);
+
+			// сохраняет файл, имя файла в кодировке utf8
+			bool save(const std::string & _filename);
+
+			// сохраняет файл, имя файла в кодировке utf16 или utf32
+			bool save(const std::wstring & _filename);
+
+			bool save(std::ofstream & _stream);
+
+
+			// если группа есть, то открывается огровским потоком, если нет, то просто как файл
+			bool open(const std::string & _filename, const std::string & _group);
+
+			// открывает по потоку огра
+			bool open(const Ogre::DataStreamPtr& _stream);
+
+			bool save(const Ogre::UTFString & _filename)
+			{
+				return save(_filename.asWStr());
+			}
+
+			bool open(const Ogre::UTFString & _filename)
+			{
+				return open(_filename.asWStr());
+			}
 
 			void clear();
 			const std::string getLastError();
 
 		private:
 
+			void setLastFileError(const std::string & _filename) { mLastErrorFile = _filename; }
+
+			void setLastFileError(const std::wstring & _filename) { mLastErrorFile = Ogre::UTFString(_filename).asUTF8(); }
+
 			bool parseTag(xmlNodePtr &_currentNode, std::string _body);
 
 			bool checkPair(std::string &_key, std::string &_value);
 
-			// ���� ������ ��� ����� �������
+			bool parseLine(std::string & _line, xmlNodePtr & _node);
+
+			// ищет символ без учета ковычек
 			size_t find(const std::string & _text, char _char, size_t _start = 0);
 
 			void clearInfo();
@@ -191,7 +227,7 @@ namespace MyGUI
 			xmlNodePtr createInfo(const std::string & _version = "1.0", const std::string & _encoding = "UTF-8");
 			xmlNodePtr createRoot(const std::string & _name);
 
-			inline xmlNodePtr getRoot() {return mRoot;}
+			xmlNodePtr getRoot() {return mRoot;}
 
 		private:
 			xmlNodePtr mRoot;

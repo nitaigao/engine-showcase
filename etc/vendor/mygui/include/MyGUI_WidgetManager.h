@@ -9,29 +9,30 @@
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Instance.h"
-#include "MyGUI_WidgetCreator.h"
-#include "MyGUI_UnlinkWidget.h"
-#include "MyGUI_CastWidget.h"
+#include "MyGUI_IWidgetCreator.h"
+#include "MyGUI_IUnlinkWidget.h"
+#include "MyGUI_ICroppedRectangle.h"
+#include "MyGUI_Widget.h"
 
 namespace MyGUI
 {
 
-	// делегат для парсинга
+	// РґРµР»РµРіР°С‚ РґР»СЏ РїР°СЂСЃРёРЅРіР°
 	typedef delegates::CDelegate3<WidgetPtr,  const Ogre::String &, const Ogre::String &> ParseDelegate;
 
-	class _MyGUIExport WidgetManager : public UnlinkWidget
+	class _MyGUIExport WidgetManager : public IUnlinkWidget
 	{
 		INSTANCE_HEADER(WidgetManager);
 
 	public:
 		typedef std::map<Ogre::String, ParseDelegate> MapDelegate;
-		typedef std::set<WidgetFactoryInterface*> SetWidgetFactory;
+		typedef std::set<IWidgetFactory*> SetWidgetFactory;
 
 	public:
 		void initialise();
 		void shutdown();
 
-		WidgetPtr createWidget(const Ogre::String & _type, const Ogre::String & _skin, const IntCoord& _coord, Align _align, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String & _name);
+		WidgetPtr createWidget(const Ogre::String & _type, const Ogre::String & _skin, const IntCoord& _coord, Align _align, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
 
 		/** Destroy all widgets FIXME or remove - doesn't work*/
 		void destroyAllWidget();
@@ -39,74 +40,92 @@ namespace MyGUI
 		/** Destroy _widget */
 		void destroyWidget(WidgetPtr _widget);
 		/** Destroy vector of widgets */
-		void destroyWidgetsVector(VectorWidgetPtr &_widgets);
+		void destroyWidgets(VectorWidgetPtr &_widgets);
+		/** Destroy Enumerator of widgets */
+		void destroyWidgets(EnumeratorWidgetPtr & _widgets);
+
+		MYGUI_OBSOLETE("use WidgetManager::destroyWidgets(VectorWidgetPtr &_widgets)")
+		void destroyWidgetsVector(VectorWidgetPtr &_widgets) { destroyWidgets(_widgets); }
 
 		/** Register widget factory */
-		void registerFactory(WidgetFactoryInterface * _factory);
+		void registerFactory(IWidgetFactory * _factory);
 		/** Unregister widget factory */
-		void unregisterFactory(WidgetFactoryInterface * _factory);
+		void unregisterFactory(IWidgetFactory * _factory);
 
-		// метод для поиска виджета
-		/** Find widget by name */
-		WidgetPtr findWidgetT(const Ogre::String & _name);
+		// РјРµС‚РѕРґ РґР»СЏ РїРѕРёСЃРєР° РІРёРґР¶РµС‚Р°
+		/** Find widget by name
+			If widget is not found the exception will be thrown, or if the second parameter is false the null pointer will be returned
+		*/
+		WidgetPtr findWidgetT(const Ogre::String & _name, bool _throw = true);
 		/** Find widget by name and prefix*/
-		inline WidgetPtr findWidgetT(const std::string& _name, const std::string& _prefix)
+		WidgetPtr findWidgetT(const std::string& _name, const std::string& _prefix, bool _throw = true)
 		{
-			return findWidgetT(_prefix + _name);
+			return findWidgetT(_prefix + _name, _throw);
 		}
 		/** Find widget by name and cast it to T type.
 			If T and found widget have different types cause error in DEBUG mode.
 		*/
-		template <class T> inline T* findWidget(const std::string& _name)
+		template <typename T> T* findWidget(const std::string& _name)
 		{
 			WidgetPtr widget = findWidgetT(_name);
 			if (null == widget) return null;
-			return castWidget<T>(widget);
+			return widget->castType<T>();
 		}
 
 		/** Find widget by name and prefix and cast it to T type*/
-		template <class T> inline T* findWidget(const std::string& _name, const std::string& _prefix)
+		template <typename T> T* findWidget(const std::string& _name, const std::string& _prefix)
 		{
 			return findWidget<T>(_prefix + _name);
 		}
 
-		// преобразует изначальное смещение, в текущее, так как будто скин был создан изначально
-		//static FloatRect convertOffset(const FloatRect & _offset, Align _align, const IntSize & _parentSkinSize, int _parentWidth, int _parentHeight);
-		// преобразует точку на виджете в глобальную позицию
+		// РїСЂРµРѕР±СЂР°Р·СѓРµС‚ С‚РѕС‡РєСѓ РЅР° РІРёРґР¶РµС‚Рµ РІ РіР»РѕР±Р°Р»СЊРЅСѓСЋ РїРѕР·РёС†РёСЋ
 		/** Convert position on widget to global position */
-		static IntPoint convertToGlobal(const IntPoint& _point, WidgetPtr _widget);
+		//static IntPoint convertToGlobal(const IntPoint& _point, WidgetPtr _widget);
 
-		// очищает имя в списках
+		// РѕС‡РёС‰Р°РµС‚ РёРјСЏ РІ СЃРїРёСЃРєР°С…
 		void _unlinkWidget(WidgetPtr _widget);
 
-		// только удаляет и отписывает виджет
-		// метод для тех кто ручками создал виджет
-		//void _deleteWidget(WidgetPtr _widget);
-
-		// регестрирует делегат
-		/** Register delegate for parsing in layout files or by WidgetManager::parse method 
-			@example manager.registerDelegate("Button_Pressed") = newDelegate(this, &ButtonFactory::Button_Pressed);
+		// СЂРµРіРµСЃС‚СЂРёСЂСѓРµС‚ РґРµР»РµРіР°С‚
+		/** Register delegate for parsing in layout files or by WidgetManager::parse method
+			@code manager.registerDelegate("Button_Pressed") = newDelegate(this, &ButtonFactory::Button_Pressed); @endcode
 		*/
 		ParseDelegate & registerDelegate(const Ogre::String & _key);
 		/** Unregister delegate for parsing in layout files or by WidgetManager::parse method */
 		void unregisterDelegate(const Ogre::String & _key);
 
-		// парсит ключ значение
+		// РїР°СЂСЃРёС‚ РєР»СЋС‡ Р·РЅР°С‡РµРЅРёРµ
 		/** Parse and apply property to widget
 			@param _widget to which property will be applied
 			@param _key property
-			@param _value
-			@example manager.parse(widget, "Button_Pressed", "true");
+			@param _value for applying
+			@code WidgetManager::getInstance()->parse(widget, "Button_Pressed", "true"); @endcode
 		*/
 		void parse(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
 
-		// все кто хочет отписать у себя виджет при удалении
+		// РІСЃРµ РєС‚Рѕ С…РѕС‡РµС‚ РѕС‚РїРёСЃР°С‚СЊ Сѓ СЃРµР±СЏ РІРёРґР¶РµС‚ РїСЂРё СѓРґР°Р»РµРЅРёРё
 		/** Register unlinker (call unlink if for any destroyed widget)*/
-		void registerUnlinker(UnlinkWidget * _unlink);
+		void registerUnlinker(IUnlinkWidget * _unlink);
 		/** Unregister unlinker (call unlink if for any destroyed widget)*/
-		void unregisterUnlinker(UnlinkWidget * _unlink);
+		void unregisterUnlinker(IUnlinkWidget * _unlink);
 		/** Unlink widget */
 		void unlinkFromUnlinkers(WidgetPtr _widget);
+
+		IntCoord WidgetManager::convertAbsoluteToInt(const FloatCoord& _coord, WidgetPtr _parent);
+
+		/* Convert from relative to pixel coordinates.
+			@param
+				_coord relative coordinates. (relative to _parent client area coordinates)
+			@param
+				_parent Widget.
+		*/
+		IntCoord convertRelativeToInt(const FloatCoord & _coord, WidgetPtr _parent);
+		/* Convert from pixel to relative coordinates.
+			@param
+				_coord relative coordinates. (relative to _parent client area coordinates)
+			@param
+				_parent Widget.
+		*/
+		FloatCoord convertIntToRelative(const IntCoord & _coord, WidgetPtr _parent);
 
 	protected:
 		SetWidgetFactory mFactoryList;
@@ -116,8 +135,8 @@ namespace MyGUI
 		// set of integrated factories
 		SetWidgetFactory mIntegratedFactoryList;
 
-		// список менеджеров для отписки при удалении
-		VectorUnlinkWidget mVectorUnlinkWidget;
+		// СЃРїРёСЃРѕРє РјРµРЅРµРґР¶РµСЂРѕРІ РґР»СЏ РѕС‚РїРёСЃРєРё РїСЂРё СѓРґР°Р»РµРЅРёРё
+		VectorIUnlinkWidget mVectorIUnlinkWidget;
 
 	};
 

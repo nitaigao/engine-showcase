@@ -9,9 +9,8 @@
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Instance.h"
-#include "MyGUI_FrameListener.h"
 #include "MyGUI_ControllerItem.h"
-#include "MyGUI_UnlinkWidget.h"
+#include "MyGUI_IUnlinkWidget.h"
 #include "MyGUI_WidgetDefines.h"
 #include "MyGUI_ActionController.h"
 
@@ -21,7 +20,7 @@ namespace MyGUI
 	typedef std::pair<WidgetPtr, ControllerItem *> PairControllerItem;
 	typedef std::list<PairControllerItem> ListControllerItem;
 
-	class _MyGUIExport ControllerManager : public FrameListener, public UnlinkWidget
+	class _MyGUIExport ControllerManager : public IUnlinkWidget
 	{
 		INSTANCE_HEADER(ControllerManager);
 
@@ -30,23 +29,21 @@ namespace MyGUI
 		void shutdown();
 
 		/** Add controlled widget
-			@param
-				_widget to be controlled
-			@param
-				_item controller with some actions (for example ControllerFadeAlpha or your own)
-			@note _item will be deleted automatically at end of controller lifetime (or by removeItem)
+			@param _widget to be controlled
+			@param _item controller with some actions (for example ControllerFadeAlpha or your own)
+			@note _item will be deleted automatically at end of controller lifetime
+				(if not removed by removeItem(WidgetPtr _widget) before)
 		*/
 		void addItem(WidgetPtr _widget, ControllerItem * _item);
 		/** Stop the control over a widget
-			@param
-				_widget to be removed
+			@param _widget to be removed
 		*/
 		void removeItem(WidgetPtr _widget);
 
 		void _unlinkWidget(WidgetPtr _widget);
 
 	private:
-		void _frameEntered(float _time);
+		void frameEntered(float _time);
 		void clear();
 
 	private:

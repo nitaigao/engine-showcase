@@ -11,6 +11,7 @@
 #include "MyGUI_Instance.h"
 #include "MyGUI_XmlDocument.h"
 #include "MyGUI_WidgetDefines.h"
+#include "MyGUI_Gui.h"
 
 namespace MyGUI
 {
@@ -26,39 +27,37 @@ namespace MyGUI
 		void shutdown();
 
 		/** Load layout file
-			@param
-				_file name of layout
-			@param
-				_group Ogre resource group where _file is
-			@return
-				Return vector of pointers of loaded root widgets (root == without parents)
+			@param _file name of layout
+			@param _group Ogre resource group where _file is
+			@return Return vector of pointers of loaded root widgets (root == without parents)
 		*/
 		VectorWidgetPtr load(const std::string & _file, const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-		void _load(xml::xmlNodePtr _node, const std::string & _file);
+		void _load(xml::xmlNodePtr _node, const std::string & _file, Version _version);
 
 		/** Load layout file
-			@param
-				_file name of layout
-			@param
-				_prefix will be added to all loaded widgets names
-			@param
-				_group Ogre resource group where _file is
-			@return
-				Return vector of pointers of loaded root widgets (root == without parents)
+			@param _file name of layout
+			@param _prefix will be added to all loaded widgets names
+			@param _parent widget to load on
+			@param _group Ogre resource group where _file is
+			@return Return vector of pointers of loaded root widgets (root == without parents)
 		*/
-		VectorWidgetPtr loadLayout(const std::string & _file, const std::string & _prefix = "", const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-		//void unload(const std::string & _file);
+		VectorWidgetPtr loadLayout(const std::string & _file, const std::string & _prefix = "", WidgetPtr _parent = NULL, const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+		/** Unload layout file */
+		void unloadLayout(VectorWidgetPtr & _widgets);
 
 	private:
 		void parseLayout(VectorWidgetPtr & _widgets, xml::xmlNodePtr _root);
 		void parseWidget(VectorWidgetPtr & _widgets, xml::xmlNodeIterator & _widget, WidgetPtr _parent);
 
 	private:
-		// для возврата последней загрузки
+		// РґР»СЏ РІРѕР·РІСЂР°С‚Р° РїРѕСЃР»РµРґРЅРµР№ Р·Р°РіСЂСѓР·РєРё
 		VectorWidgetPtr mVectorWidgetPtr;
 
-		// префикс при загрузке лейаута
+		// РїСЂРµС„РёРєСЃ РїСЂРё Р·Р°РіСЂСѓР·РєРµ Р»РµР№Р°СѓС‚Р°
 		std::string layoutPrefix;
+		// РїСЂРµС„РёРєСЃ РїСЂРё Р·Р°РіСЂСѓР·РєРµ Р»РµР№Р°СѓС‚Р°
+		WidgetPtr layoutParent;
 		
 	}; // class LayoutManager
 

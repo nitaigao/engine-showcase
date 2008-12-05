@@ -8,74 +8,81 @@
 #define __MYGUI_PROGRESS_H__
 
 #include "MyGUI_Prerequest.h"
+#include "MyGUI_Align.h"
 #include "MyGUI_Widget.h"
-#include "MyGUI_FrameListener.h"
 
 namespace MyGUI
 {
 
-	class _MyGUIExport Progress : public Widget, public FrameListener
+	class _MyGUIExport Progress : public Widget
 	{
-		// для вызова закрытого конструктора
-		friend class factory::ProgressFactory;
+		// РґР»СЏ РІС‹Р·РѕРІР° Р·Р°РєСЂС‹С‚РѕРіРѕ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
+		friend class factory::BaseWidgetFactory<Progress>;
 
-	protected:
-		Progress(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String & _name);
-		~Progress();
-
-		static Ogre::String WidgetTypeName;
-
-		void _frameEntered(float _time);
+		MYGUI_RTTI_CHILD_HEADER;
 
 	public:
-		//! @copydoc Widget::_getType()
-		inline static const Ogre::String & _getType() {return WidgetTypeName;}
-		//! @copydoc Widget::getWidgetType()
-		virtual const Ogre::String & getWidgetType() { return _getType(); }
-
 		/** Set progress range */
 		void setProgressRange(size_t _range);
 		/** Get progress range */
-		inline size_t getProgressRange() {return mRange;}
+		size_t getProgressRange() {return mRange;}
 
 		/** Set progress position */
 		void setProgressPosition(size_t _pos);
 		/** Get progress position */
-		inline size_t getProgressPosition() {return mEndPosition;}
+		size_t getProgressPosition() {return mEndPosition;}
 
-		/** FIXME что оно делает? почему нет в фактори метода? */
+		/** FIXME С‡С‚Рѕ РѕРЅРѕ РґРµР»Р°РµС‚? РїРѕС‡РµРјСѓ РЅРµС‚ РІ С„Р°РєС‚РѕСЂРё РјРµС‚РѕРґР°? */
 		void setProgressFillTrack(bool _fill);
 		/** Get progress fill track flag */
-		inline bool getProgressFillTrack() {return mFillTrack;}
+		bool getProgressFillTrack() {return mFillTrack;}
 
 		/** Enable or disable progress auto tracking */
 		void setProgressAutoTrack(bool _auto);
 		/** Get progress auto tracking flag */
-		inline bool getProgressAutoTrack() {return mAutoTrack;}
+		bool getProgressAutoTrack() {return mAutoTrack;}
 
 		/** Set progress start point
-			For example with ALIGN_TOP if will be filled from top to bottom.
+			For example with Align::Top if will be filled from top to bottom.
 		*/
-		void setProgressStartPoint(Align _align = ALIGN_LEFT);
+		void setProgressStartPoint(Align _align = Align::Left);
 		/** Get progress start point */
-		inline Align getProgressStartPoint() {return mStartPoint;}
+		Align getProgressStartPoint() {return mStartPoint;}
 
-		//! @copydoc Widget::setPosition(const IntCoord& _coord)
-		void setPosition(const IntCoord& _coord);
+		//! @copydoc Widget::setPosition(const IntPoint & _point)
+		virtual void setPosition(const IntPoint & _point);
 		//! @copydoc Widget::setSize(const IntSize& _size)
-		void setSize(const IntSize& _size);
-		//! @copydoc Widget::setPosition(int _left, int _top)
-		inline void setPosition(int _left, int _top) {Widget::setPosition(IntPoint(_left, _top));}
-		//! @copydoc Widget::setPosition(int _left, int _top, int _width, int _height)
-		inline void setPosition(int _left, int _top, int _width, int _height) {setPosition(IntCoord(_left, _top, _width, _height));}
-		//! @copydoc Widget::setSize(int _width, int _height)
-		inline void setSize(int _width, int _height) {setSize(IntSize(_width, _height));}
+		virtual void setSize(const IntSize & _size);
+		//! @copydoc Widget::setCoord(const IntCoord & _coord)
+		virtual void setCoord(const IntCoord & _coord);
+
+		/** @copydoc Widget::setPosition(int _left, int _top) */
+		void setPosition(int _left, int _top) { setPosition(IntPoint(_left, _top)); }
+		/** @copydoc Widget::setSize(int _width, int _height) */
+		void setSize(int _width, int _height) { setSize(IntSize(_width, _height)); }
+		/** @copydoc Widget::setCoord(int _left, int _top, int _width, int _height) */
+		void setCoord(int _left, int _top, int _width, int _height) { setCoord(IntCoord(_left, _top, _width, _height)); }
+
+		MYGUI_OBSOLETE("use Widget::setCoord(const IntCoord& _coord)")
+		void setPosition(const IntCoord & _coord) { setCoord(_coord); }
+		MYGUI_OBSOLETE("use Widget::setCoord(int _left, int _top, int _width, int _height)")
+		void setPosition(int _left, int _top, int _width, int _height) { setCoord(_left, _top, _width, _height); }
+
+	protected:
+		Progress(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		virtual ~Progress();
+
+		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
 
 	private:
+		void initialiseWidgetSkin(WidgetSkinInfoPtr _info);
+		void shutdownWidgetSkin();
+
+		void frameEntered(float _time);
 		void updateTrack();
 
-		inline int getClientWidth() {return ((IS_ALIGN_LEFT(mStartPoint)) || (IS_ALIGN_RIGHT(mStartPoint))) ? mClient->getWidth() : mClient->getHeight();}
-		inline int getClientHeight() {return ((IS_ALIGN_LEFT(mStartPoint)) || (IS_ALIGN_RIGHT(mStartPoint))) ? mClient->getHeight() : mClient->getWidth();}
+		int getClientWidth() {return ((mStartPoint.isLeft()) || (mStartPoint.isRight())) ? mWidgetClient->getWidth() : mWidgetClient->getHeight();}
+		int getClientHeight() {return ((mStartPoint.isLeft()) || (mStartPoint.isRight())) ? mWidgetClient->getHeight() : mWidgetClient->getWidth();}
 
 		void setTrackPosition(WidgetPtr _widget, int _left, int _top, int _width, int _height);
 
@@ -83,7 +90,7 @@ namespace MyGUI
 		std::string mTrackSkin;
 		int mTrackWidth;
 		int mTrackStep;
-		WidgetPtr mClient;
+		int mTrackMin;
 
 		VectorWidgetPtr mVectorTrack;
 		size_t mRange;

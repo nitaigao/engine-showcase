@@ -14,9 +14,15 @@
 namespace MyGUI
 {
 
+	/** This controller used for smooth changing alpha of widget in time */
 	class _MyGUIExport ControllerFadeAlpha : public ControllerItem
 	{
 	public:
+		/**
+			@param _alpha that will be as result of changing
+			@param _coef of alpha changing speed (1. mean that alpha will change from 0 to 1 at 1 second)
+			@param _enabled if true then widget will be inactive after start of alpha changing
+		*/
 		ControllerFadeAlpha(float _alpha, float _coef, bool _enabled);
 
 	private:
@@ -25,16 +31,16 @@ namespace MyGUI
 		const std::string & getType();
 		bool addTime(WidgetPtr _widget, float _time);
 		void prepareItem(WidgetPtr _widget);
-		void replaseItem(WidgetPtr _widget, ControllerItem * _item);
+		//void replaseItem(WidgetPtr _widget, ControllerItem * _item);
 
-		inline bool getEnabled() {return mEnabled;}
-		inline float getAlpha() {return mAlpha;}
-		inline float getCoef() {return mCoef;}
+		bool getEnabled() {return mEnabled;}
+		float getAlpha() {return mAlpha;}
+		float getCoef() {return mCoef;}
 
 	private:
-		bool mEnabled;
 		float mAlpha;
 		float mCoef;
+		bool mEnabled;
 
 	};
 

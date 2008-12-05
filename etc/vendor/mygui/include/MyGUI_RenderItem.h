@@ -18,6 +18,8 @@
 #include <OgreTextureManager.h>
 #include <OgreTextureUnitState.h>
 
+#include "MyGUI_LastHeader.h"
+
 namespace MyGUI
 {
 
@@ -36,14 +38,13 @@ namespace MyGUI
 		~RenderItem();
 
 		void _render(bool _update);
-		//void _resize(const FloatSize& _size);
 
-		inline const std::string& getTextureName() { return mTextureName; }
+		const std::string& getTextureName() { return mTextureName; }
 
-		inline void addDrawItem(DrawItem * _item, size_t _count)
+		void addDrawItem(DrawItem * _item, size_t _count)
 		{
 
-// проверяем только в дебаге
+// РїСЂРѕРІРµСЂСЏРµРј С‚РѕР»СЊРєРѕ РІ РґРµР±Р°РіРµ
 #if MYGUI_DEBUG_MODE == 1
 			for (VectorDrawItem::iterator iter=mDrawItems.begin(); iter!=mDrawItems.end(); ++iter) {
 				MYGUI_ASSERT((*iter).first != _item, "DrawItem exist");
@@ -57,11 +58,11 @@ namespace MyGUI
 
 		void removeDrawItem(DrawItem * _item);
 
-		inline void reallockDrawItem(DrawItem * _item, size_t _count)
+		void reallockDrawItem(DrawItem * _item, size_t _count)
 		{
 			for (VectorDrawItem::iterator iter=mDrawItems.begin(); iter!=mDrawItems.end(); ++iter) {
 				if ((*iter).first == _item) {
-					// если нужно меньше, то ниче не делаем
+					// РµСЃР»Рё РЅСѓР¶РЅРѕ РјРµРЅСЊС€Рµ, С‚Рѕ РЅРёС‡Рµ РЅРµ РґРµР»Р°РµРј
 					if ((*iter).second < _count) {
 						mNeedVertexCount -= (*iter).second;
 						mNeedVertexCount += _count;
@@ -73,26 +74,16 @@ namespace MyGUI
 			MYGUI_EXCEPT("DrawItem not found");
 		}
 
-		inline void setTextureName(const std::string& _texture)
+		void setTextureName(const std::string& _texture)
 		{
 			MYGUI_DEBUG_ASSERT(mNeedVertexCount == 0, "change texture only empty buffer");
 			mTextureName = _texture;
 		}
 
-		inline void outOfDate() { mOutDate = true; }
+		void outOfDate() { mOutDate = true; }
 
-		//inline float getMaximumDepth() {return mMaximumDepth;}
-
-		/*inline float getPixScaleX() {return mPixScaleX;}
-		inline float getPixScaleY() {return mPixScaleY;}
-
-		inline float getHOffset() {return mHOffset;}
-		inline float getVOffset() {return mVOffset;}
-
-		inline float getAspectCoef() {return mAspectCoef;}*/
-
-		inline size_t getVertexCount() {return mVertexCount;}
-		inline size_t getNeedVertexCount() {return mNeedVertexCount;}
+		size_t getVertexCount() {return mVertexCount;}
+		size_t getNeedVertexCount() {return mNeedVertexCount;}
 
 	private:
 		void initRenderState();
@@ -120,21 +111,10 @@ namespace MyGUI
 		Ogre::TextureUnitState::UVWAddressingMode mTextureAddressMode;
 		Ogre::LayerBlendModeEx mColorBlendMode, mAlphaBlendMode;
 
-		// размер пикселя в относительных координатах
-		/*float mPixScaleX;
-		float mPixScaleY;
-
-		// смещение для того, чтобы тексель попал в пиксель
-        float mHOffset;
-        float mVOffset;
-
-		float mAspectCoef;
-
-		// координата зю
-		float mMaximumDepth;*/
-
 		LayerItemKeeper * mParent;
 		LayerManager * mLayerManager;
+
+		size_t mCountVertex;
 
 	};
 

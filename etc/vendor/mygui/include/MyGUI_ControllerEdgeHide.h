@@ -14,6 +14,12 @@
 namespace MyGUI
 {
 
+	/** This controller used for hiding widgets near screen edges.
+		Widget will start hiding(move out of screen) if it's near
+		border and it and it's childrens don't have any focus. Hiding
+		till only small part of widget be visible. Widget will move
+		inside screen if it have any focus.
+	*/
 	class _MyGUIExport ControllerEdgeHide : public ControllerItem
 	{
 	public:
@@ -28,7 +34,7 @@ namespace MyGUI
 		const std::string & getType();
 		bool addTime(WidgetPtr _widget, float _time);
 		void prepareItem(WidgetPtr _widget);
-		void replaseItem(WidgetPtr _widget, ControllerItem * _item);
+		//void replaseItem(WidgetPtr _widget, ControllerItem * _item);
 
 		delegates::CDelegate1<WidgetPtr> eventPostAction;
 

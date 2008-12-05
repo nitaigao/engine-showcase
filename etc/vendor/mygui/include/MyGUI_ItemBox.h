@@ -8,371 +8,294 @@
 #define __MYGUI_ITEM_BOX_H__
 
 #include "MyGUI_Prerequest.h"
-#include "MyGUI_Widget.h"
+#include "MyGUI_DDContainer.h"
+#include "MyGUI_ItemInfo.h"
+#include "MyGUI_Any.h"
 
 namespace MyGUI
 {
 
-	// структура информации об отображении элемента
-	struct ItemInfo
+	class _MyGUIExport ItemBox : public DDContainer
 	{
-		ItemInfo(size_t _index, void * _data) :
-			update(false),
-			drag(false),
-			select(false),
-			active(false),
-			drag_accept(false),
-			drag_refuse(false),
-			index(_index),
-			data(_data)
-		{
-		}
+		// РґР»СЏ РІС‹Р·РѕРІР° Р·Р°РєСЂС‹С‚РѕРіРѕ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
+		friend class factory::BaseWidgetFactory<ItemBox>;
 
-		// изменилось не только состояние, но и содержимое
-		bool update;
-		// нажат ли виджет
-		bool select;
-		// активен ли виджет
-		bool active;
-		// виджет для перетаскивания или нет
-		bool drag;
-		// айтем принимамет дроп
-		bool drag_accept;
-		// айтем не берет дроп
-		bool drag_refuse;
-		// индекс этого элемента
-		size_t index;
-		// пользовательские данные
-		void * data;
-	};
-	typedef std::vector<ItemInfo> VectorItemInfo;
-
-	// структура информации об индексах дропа
-	struct ItemDropInfo
-	{
-		ItemDropInfo() :
-			reseiver(null),
-			reseiver_index(ITEM_NONE),
-			reseiver_data(null),
-			sender(null),
-			sender_index(ITEM_NONE),
-			sender_data(null)
-		{
-		}
-
-		ItemDropInfo(WidgetPtr _sender, size_t _sender_index, void * _sender_data, WidgetPtr _reseiver, size_t _reseiver_index, void * _reseiver_data) :
-			sender(_sender),
-			sender_index(_sender_index),
-			sender_data(_sender_data),
-			reseiver(_reseiver),
-			reseiver_index(_reseiver_index),
-			reseiver_data(_reseiver_data)
-		{
-		}
-
-		void set(WidgetPtr _sender, size_t _sender_index, void * _sender_data, WidgetPtr _reseiver, size_t _reseiver_index, void * _reseiver_data)
-		{
-			sender = _sender;
-			sender_index = _sender_index;
-			sender_data = _sender_data;
-			reseiver = _reseiver;
-			reseiver_index = _reseiver_index;
-			reseiver_data = _reseiver_data;
-		}
-
-		void reset()
-		{
-			if (reseiver) reseiver->_eventInvalideDropInfo = null;
-			reseiver = null;
-			reseiver_index = ITEM_NONE;
-			reseiver_data = null;
-			sender = null;
-			sender_index = ITEM_NONE;
-			sender_data = null;
-		}
-
-		// посылающий виджет 
-		WidgetPtr sender;
-		// индекс посылающего виджета
-		size_t sender_index;
-		// ассоциированные данные отправителя
-		void * sender_data;
-
-		// принимающий виджет
-		WidgetPtr reseiver;
-		// индекс принимающего виджета
-		size_t reseiver_index;
-		// ассоциированные данные получателя
-		void * reseiver_data;
-	};
-
-	// вспомогательная структура для представления одного виджета айтема
-	struct WidgetItemData
-	{
-		WidgetItemData() : item(null), data(null) {}
-		WidgetPtr item;
-		void * data;
-	};
-
-	typedef std::vector<WidgetItemData> VectorWidgetItemData;
-
-	enum DropState {
-		DROP_START,
-		DROP_END,
-		DROP_MISS,
-		DROP_ACCEPT,
-		DROP_REFUSE
-	};
-
-	enum NotifyItem {
-		NOTIFY_MOUSE_PRESSED,
-		NOTIFY_MOUSE_RELEASED,
-		NOTIFY_KEY_PRESSED,
-		NOTIFY_KEY_RELEASED,
-	};
-
-	struct NotifyItemData {
-		NotifyItemData(size_t _index, NotifyItem _notify, int _x, int _y, MouseButton _id) :
-			index(_index), notify(_notify), x(_x), y(_y), id(_id), code(KC_UNASSIGNED), key(0) {}
-
-		NotifyItemData(size_t _index, NotifyItem _notify, KeyCode _code, Char _key) :
-			index(_index), notify(_notify), x(0), y(0), id(MB_None), code(_code), key(_key) { }
-
-		NotifyItemData(size_t _index, NotifyItem _notify, KeyCode _code) :
-			index(_index), notify(_notify), x(0), y(0), id(MB_None), code(_code), key(KC_UNASSIGNED) { }
-
-		size_t index;
-		NotifyItem notify;
-		int x;
-		int y;
-		MouseButton id;
-		KeyCode code;
-		Char key;
-	};
-
-	// делегат для событий айтема
-	typedef delegates::CDelegate2<WidgetPtr, const NotifyItemData &> EventInfo_WidgetNotifyItemData;
-
-	// делегаты для обновления
-	typedef delegates::CDelegate2<WidgetPtr, WidgetItemData&> EventInfo_WidgetWidgetRefWidget; //???
-	typedef delegates::CDelegate3<WidgetPtr, IntCoord&, bool> EventInfo_WidgetWidgetRefCoordBool;
-	typedef delegates::CDelegate3<WidgetPtr, WidgetItemData, const ItemInfo&> EventInfo_WidgetWidgetItemInfo;
-
-	// делегаты для дропа
-	typedef delegates::CDelegate3<WidgetPtr, const ItemDropInfo&, bool&> EventInfo_WidgetCItemDropInfoRefBoolRef;
-	typedef delegates::CDelegate3<WidgetPtr, const ItemDropInfo&, bool> EventInfo_WidgetCItemDropInfoRefBool;
-	typedef delegates::CDelegate2<WidgetPtr, DropState> EventInfo_WidgetDropState;
-
-
-	class _MyGUIExport ItemBox : public Widget
-	{
-		// для вызова закрытого конструктора
-		friend class factory::ItemBoxFactory;
-
-	protected:
-		ItemBox(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String & _name);
-		static Ogre::String WidgetTypeName;
+		MYGUI_RTTI_CHILD_HEADER;
 
 	public:
-		//! @copydoc Widget::_getType()
-		inline static const Ogre::String & _getType() {return WidgetTypeName;}
-		//! @copydoc Widget::getWidgetType()
-		virtual const Ogre::String & getWidgetType() { return _getType(); }
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё Р°Р№С‚РµРјР°РјРё
 
-		//----------------------------------------------------------------//
-		// методы для изменения содержимого бокса
 		//! Get number of items
-		inline size_t getItemCount() { return (size_t)mCountItems;}
+		size_t getItemCount() { return mCountItems; }
 
-		//! Insert an item into a box at a specified position
-		void insertItem(size_t _index, void * _data);
-		inline void insertItem(size_t _index) {insertItem(_index, null);}
+		//! Insert an item into a array at a specified position
+		void insertItemAt(size_t _index, Any _data = Any::Null);
 
-		//! Add an item to the end of a box
-		inline void addItem(void * _data) {insertItem(ITEM_NONE, _data);}
-		inline void addItem() {insertItem(ITEM_NONE, null);}
+		//! Add an item to the end of a array
+		void addItem(Any _data = Any::Null) { insertItemAt(ITEM_NONE, _data); }
 
-		//! Replace an item at a specified position
-		void setItemData(size_t _index, void * _data);
+		//! Remove item at a specified position
+		void removeItemAt(size_t _index);
 
-		//! Get item from specified position
-		inline void * getItemData(size_t _index) {return _getDropItemData(_index);}
-		virtual void * _getDropItemData(size_t _index);
+		//! Remove all items
+		void removeAllItems();
 
-		//! Delete item at a specified position
-		void deleteItem(size_t _index);
-		//! Delete all items
-		void deleteAllItems();
+		//! Redraw at a specified position
+		void redrawItemAt(size_t _index);
 
-		//! Get number of selected item (ITEM_NONE if none selected)
-		inline size_t getItemSelect() {return mIndexSelect;}
-		//! Reset item selection
-		inline void resetItemSelect() {setItemSelect(ITEM_NONE);}
-		//! Set item selection at a specified position
-		void setItemSelect(size_t _index);
+		//! Redraw all items
+		void redrawAllItems() { _updateAllVisible(true); }
+
+
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё РІС‹РґРµР»РµРЅРёСЏРјРё
+
+		//! Get index of selected item (ITEM_NONE if none selected)
+		size_t getItemIndexSelected() { return mIndexSelect; }
+
+		//! Select specified _index
+		void setItemSelectedAt(size_t _index);
+
+		//! Clear item selection
+		void clearItemSelected() { setItemSelectedAt(ITEM_NONE); }
+
+
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё РґР°РЅРЅС‹РјРё
+
+		//! Replace an item data at a specified position
+		void setItemDataAt(size_t _index, Any _data);
+
+		//! Clear an item data at a specified position
+		void clearItemDataAt(size_t _index) { setItemDataAt(_index, Any::Null); }
+
+		//! Get item data from specified position
+		template <typename ValueType>
+		ValueType * getItemDataAt(size_t _index, bool _throw = true)
+		{
+			MYGUI_ASSERT_RANGE(_index, mItemsInfo.size(), "ItemBox::getItemDataAt");
+			return mItemsInfo[_index].data.castType<ValueType>(_throw);
+		}
+
+
+
+		// #ifdef MYGUI_USING_OBSOLETE
+
+		MYGUI_OBSOLETE("use ItemBox::insertItemAt(size_t _index, Any _data)")
+		void insertItem(size_t _index, Any _data = Any::Null) { insertItemAt(_index, _data); }
+
+		MYGUI_OBSOLETE("use ItemBox::setItemDataAt(size_t _index, Any _data)")
+		void setItemData(size_t _index, Any _data) { setItemDataAt(_index, _data); }
+
+		MYGUI_OBSOLETE("use ItemBox::removeItemAt(size_t _index)")
+		void deleteItem(size_t _index) { removeItemAt(_index); }
+
+		MYGUI_OBSOLETE("use ItemBox::removeAllItems()")
+		void deleteAllItems() { removeAllItems(); }
+
+		MYGUI_OBSOLETE("use ItemBox::getItemIndexSelected()")
+		size_t getItemSelect() { return getItemIndexSelected(); }
+
+		MYGUI_OBSOLETE("use ItemBox::clearItemSelected()")
+		void resetItemSelect() { clearItemSelected(); }
+
+		MYGUI_OBSOLETE("use ItemBox::setItemSelectedAt(size_t _index)")
+		void setItemSelect(size_t _index) { setItemSelectedAt(_index); }
+
+		// #endif // MYGUI_USING_OBSOLETE
+
 
 		void setItemBoxAlignVert(bool _vert);
-		inline bool getItemBoxAlignVert() { return mAlignVert; }
+		bool getItemBoxAlignVert() { return mAlignVert; }
 
-		// возвращает индекс елемента, по указателю на виджет айтема
+		// РІРѕР·РІСЂР°С‰Р°РµС‚ РёРЅРґРµРєСЃ РµР»РµРјРµРЅС‚Р°, РїРѕ СѓРєР°Р·Р°С‚РµР»СЋ РЅР° РІРёРґР¶РµС‚ Р°Р№С‚РµРјР°
 		size_t getIndexByWidget(WidgetPtr _widget);
 
-		//----------------------------------------------------------------//
-		//! @copydoc Widget::setPosition(const IntCoord& _coord)
-		virtual void setPosition(const IntCoord& _coord);
+		// РІРѕР·РІСЂР°С‰Р°РµС‚ РІРёРґР¶РµС‚, СЃРѕР·РґР°РЅРЅС‹Р№ РґР»СЏ РґСЂРѕРїР°
+		WidgetPtr getWidgetDrop() { return mItemDrag; }
+
+		// РІРѕР·РІСЂР°С‰Р°РµС‚ РІРёРґР¶РµС‚ РёРЅРґРµРєСЃР°, РµСЃР»Рё РѕРЅ РІРёРґРµРЅ
+		WidgetPtr getWidgetByIndex(size_t _index);
+
+		void resetDrop() { endDrop(true); }
+
+		//! @copydoc Widget::setPosition(const IntPoint & _point)
+		virtual void setPosition(const IntPoint & _point);
 		//! @copydoc Widget::setSize(const IntSize& _size)
-		virtual void setSize(const IntSize& _size);
-		//! @copydoc Widget::setPosition(int _left, int _top)
-		inline void setPosition(int _left, int _top) {Widget::setPosition(IntPoint(_left, _top));}
-		//! @copydoc Widget::setPosition(int _left, int _top, int _width, int _height)
-		inline void setPosition(int _left, int _top, int _width, int _height) {setPosition(IntCoord(_left, _top, _width, _height));}
-		//! @copydoc Widget::setSize(int _width, int _height)
-		inline void setSize(int _width, int _height) {setSize(IntSize(_width, _height));}
+		virtual void setSize(const IntSize & _size);
+		//! @copydoc Widget::setCoord(const IntCoord & _coord)
+		virtual void setCoord(const IntCoord & _coord);
 
-		// event : запрос на создание айтема
-		// signature : void method(WidgetPtr _sender, WidgetPtr _parent, WidgetPtr & _item)
-		EventInfo_WidgetWidgetRefWidget requestCreateWidgetItem;
+		/** @copydoc Widget::setPosition(int _left, int _top) */
+		void setPosition(int _left, int _top) { setPosition(IntPoint(_left, _top)); }
+		/** @copydoc Widget::setSize(int _width, int _height) */
+		void setSize(int _width, int _height) { setSize(IntSize(_width, _height)); }
+		/** @copydoc Widget::setCoord(int _left, int _top, int _width, int _height) */
+		void setCoord(int _left, int _top, int _width, int _height) { setCoord(IntCoord(_left, _top, _width, _height)); }
 
-		// event : запрос на размер айтема
-		// signature : void method(WidgetPtr _sender, WidgetPtr _client, IntCoord & _coord, bool _drop)
-		EventInfo_WidgetWidgetRefCoordBool requestCoordWidgetItem;
+		MYGUI_OBSOLETE("use Widget::setCoord(const IntCoord& _coord)")
+		void setPosition(const IntCoord & _coord) { setCoord(_coord); }
+		MYGUI_OBSOLETE("use Widget::setCoord(int _left, int _top, int _width, int _height)")
+		void setPosition(int _left, int _top, int _width, int _height) { setCoord(_left, _top, _width, _height); }
 
-		// event : запрос на обновление айтема
-		// signature : void method(WidgetPtr _sender, WidgetPtr _item, const ItemInfo& _info)
+		// event : Р·Р°РїСЂРѕСЃ РЅР° СЃРѕР·РґР°РЅРёРµ Р°Р№С‚РµРјР°
+		// signature : void method(MyGUI::WidgetPtr _sender, MyGUI::WidgetPtr _item)
+		EventInfo_WidgetWidget requestCreateWidgetItem;
+
+		// event : Р·Р°РїСЂРѕСЃ РЅР° СЂР°Р·РјРµСЂ Р°Р№С‚РµРјР°
+		// signature : void method(MyGUI::WidgetPtr _sender, MyGUI::IntCoord & _coord, bool _drop)
+		EventInfo_WidgetRefCoordBool requestCoordWidgetItem;
+
+		// event : Р·Р°РїСЂРѕСЃ РЅР° РѕР±РЅРѕРІР»РµРЅРёРµ Р°Р№С‚РµРјР°
+		// signature : void method(MyGUI::WidgetPtr _sender, MyGUI::WidgetPtr _item, const MyGUI::ItemInfo & _info)
 		EventInfo_WidgetWidgetItemInfo requestUpdateWidgetItem;
 
-
-		// event : запрос на начало дропа
-		// signature : void method(WidgetPtr _sender, const ItemDropInfo& _info, bool & _result)
-		EventInfo_WidgetCItemDropInfoRefBoolRef eventStartDrop;
-
-		// event : запрос на дроп айтема
-		// signature : void method(WidgetPtr _sender, const ItemDropInfo& _info, bool & _result)
-		EventInfo_WidgetCItemDropInfoRefBoolRef eventRequestDrop;
-
-		// event : завершение дропа
-		// signature : void method(WidgetPtr _sender, const ItemDropInfo& _info, bool _result)
-		EventInfo_WidgetCItemDropInfoRefBool eventEndDrop;
-
-		// event : текущее состояние дропа
-		// signature : void method(WidgetPtr _sender, DropState _state)
-		EventInfo_WidgetDropState eventDropState;
-
-		// event : двойной щелчек мыши или Enter на елементе
-		// signature : void method(WidgetPtr _sender, size_t _index)
+		// event : РґРІРѕР№РЅРѕР№ С‰РµР»С‡РµРє РјС‹С€Рё РёР»Рё Enter РЅР° РµР»РµРјРµРЅС‚Рµ
+		// signature : void method(MyGUI::WidgetPtr _sender, size_t _index)
 		EventInfo_WidgetSizeT eventSelectItemAccept;
 
-		// event : изменилась позиция выделенного элемента
-		// signature : void method(WidgetPtr _sender, size_t _index)
+		// event : РёР·РјРµРЅРёР»Р°СЃСЊ РїРѕР·РёС†РёСЏ РІС‹РґРµР»РµРЅРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
+		// signature : void method(MyGUI::WidgetPtr _sender, size_t _index)
 		EventInfo_WidgetSizeT eventChangeItemPosition;
 
-		// event : щелчек мыши на элементе
-		// signature : void method(WidgetPtr _sender, size_t _index)
+		// event : С‰РµР»С‡РµРє РјС‹С€Рё РЅР° СЌР»РµРјРµРЅС‚Рµ
+		// signature : void method(MyGUI::WidgetPtr _sender, size_t _index)
 		EventInfo_WidgetSizeT eventMouseItemActivate;
 
-		// event : событие связанной с конкретным айтемом
+		// event : СЃРѕР±С‹С‚РёРµ СЃРІСЏР·Р°РЅРЅРѕР№ СЃ РєРѕРЅРєСЂРµС‚РЅС‹Рј Р°Р№С‚РµРјРѕРј
 		// signature : void method(MyGUI::WidgetPtr _sender, const MyGUI::NotifyItemData & _info)
 		EventInfo_WidgetNotifyItemData eventNotifyItem;
 
 	protected:
 
-		void _onMouseWheel(int _rel);
-		void _onKeyLostFocus(WidgetPtr _new);
-		void _onKeySetFocus(WidgetPtr _old);
+		struct ItemDataInfo
+		{
+			ItemDataInfo(Any _data) :
+				data(_data)
+			{
+			}
+			Any data;
+		};
+		typedef std::vector<ItemDataInfo> VectorItemInfo;
 
-		void notifyScrollChangePosition(WidgetPtr _sender, size_t _index);
-		void notifyMouseWheel(WidgetPtr _sender, int _rel);
-		void notifyMouseSetFocus(WidgetPtr _sender, WidgetPtr _old);
-		void notifyMouseLostFocus(WidgetPtr _sender, WidgetPtr _new);
-		void notifyMouseButtonPressed(WidgetPtr _sender, int _left, int _top, MouseButton _id);
-		void notifyMouseButtonReleased(WidgetPtr _sender, int _left, int _top, MouseButton _id);
-		void notifyMouseButtonDoubleClick(WidgetPtr _sender);
-		void notifyMouseDrag(WidgetPtr _sender, int _left, int _top);
-		void requestGetDragItemInfo(WidgetPtr _sender, WidgetPtr & _list, size_t & _index);
-		void notifyInvalideDrop(WidgetPtr _sender);
+		ItemBox(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		virtual ~ItemBox();
+
+		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
+
+		virtual void onMouseButtonPressed(int _left, int _top, MouseButton _id);
+		virtual void onMouseButtonReleased(int _left, int _top, MouseButton _id);
+		virtual void onMouseDrag(int _left, int _top);
+
+		virtual void onMouseWheel(int _rel);
+		virtual void onKeyLostFocus(WidgetPtr _new);
+		virtual void onKeySetFocus(WidgetPtr _old);
+
 		void notifyKeyButtonPressed(WidgetPtr _sender, KeyCode _key, Char _char);
 		void notifyKeyButtonReleased(WidgetPtr _sender, KeyCode _key);
+		void notifyScrollChangePosition(WidgetPtr _sender, size_t _index);
+		void notifyMouseWheel(WidgetPtr _sender, int _rel);
+		//void notifyMouseSetFocus(WidgetPtr _sender, WidgetPtr _old);
+		//void notifyMouseLostFocus(WidgetPtr _sender, WidgetPtr _new);
+		void notifyRootMouseChangeFocus(WidgetPtr _sender, bool _focus);
+		void notifyMouseButtonDoubleClick(WidgetPtr _sender);
+		void requestGetContainer(WidgetPtr _sender, WidgetPtr & _container, size_t & _index);
+		void notifyMouseDrag(WidgetPtr _sender, int _left, int _top);
+		void notifyMouseButtonPressed(WidgetPtr _sender, int _left, int _top, MouseButton _id);
+		void notifyMouseButtonReleased(WidgetPtr _sender, int _left, int _top, MouseButton _id);
 
-		// Обновляет данные о айтемах, при изменении размеров 
+
+		virtual void removeDropItems();
+		virtual void updateDropItems();
+		virtual void updateDropItemsState(const DropWidgetState & _state);
+
+		// РћР±РЅРѕРІР»СЏРµС‚ РґР°РЅРЅС‹Рµ Рѕ Р°Р№С‚РµРјР°С…, РїСЂРё РёР·РјРµРЅРµРЅРёРё СЂР°Р·РјРµСЂРѕРІ
 		void updateMetrics();
 
-		// обновляет скролл, по текущим метрикам
+		// РѕР±РЅРѕРІР»СЏРµС‚ СЃРєСЂРѕР»Р», РїРѕ С‚РµРєСѓС‰РёРј РјРµС‚СЂРёРєР°Рј
 		void updateScroll();
 
-		// просто обновляет все виджеты что видны
+		// РїСЂРѕСЃС‚Рѕ РѕР±РЅРѕРІР»СЏРµС‚ РІСЃРµ РІРёРґР¶РµС‚С‹ С‡С‚Рѕ РІРёРґРЅС‹
 		void _updateAllVisible(bool _redraw);
 
 		void updateFromResize(const IntSize& _size);
 
-		WidgetItemData & getItemWidget(size_t _index);
+		// РІРѕР·РІСЂР°С‰Р°РµС‚ СЃР»РµРґСѓСЋС‰РёР№ Р°Р№С‚РµРј, РµСЃР»Рё РЅРµС‚ РµРіРѕ, С‚Рѕ СЃРѕР·РґР°РµС‚СЃСЏ
+		// Р·Р°РїСЂРѕСЃС‹ С‚РѕР»СЊРєРѕ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕ
+		WidgetPtr getItemWidget(size_t _index);
 
 		void _updateScrollWidget();
 
-		void _setDragItemInfo(size_t _index, bool _set, bool _accept);
+		void setContainerItemInfo(size_t _index, bool _set, bool _accept);
 
-		// сбрасываем старую подсветку
+		// СЃР±СЂР°СЃС‹РІР°РµРј СЃС‚Р°СЂСѓСЋ РїРѕРґСЃРІРµС‚РєСѓ
 		void resetCurrentActiveItem();
-		// ищет и устанавливает подсвеченный айтем
+		// РёС‰РµС‚ Рё СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РїРѕРґСЃРІРµС‡РµРЅРЅС‹Р№ Р°Р№С‚РµРј
 		void findCurrentActiveItem();
+
+		// Р·Р°РїСЂР°С€РёРІР°РµРј Сѓ РєРѕРЅРµР№С‚РµСЂР° Р°Р№С‚РµРј РїРѕ РїРѕР·РёС†РёРё РјС‹С€Рё
+		virtual size_t getContainerIndex(const IntPoint & _point);
+
+		// СЃР±СЂР°СЃС‹РІР°РµС‚ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё, РїСЂРё Р»СЋР±РѕРј РєРѕР»Р»РёС‡РµСЃС‚РІРµРЅРЅРѕРј РёР·РјРµРЅРµРЅРёРё
+		virtual void resetContainer(bool _update);
+
+	private:
+		void initialiseWidgetSkin(WidgetSkinInfoPtr _info);
+		void shutdownWidgetSkin();
 
 	private:
 		VScrollPtr mWidgetScroll;
-		//WidgetPtr mWidgetClient;
 
-		// наши дети в строках
-		VectorWidgetItemData mVectorItems;
+		// РЅР°С€Рё РґРµС‚Рё РІ СЃС‚СЂРѕРєР°С…
+		VectorWidgetPtr mVectorItems;
 
-		// размер одного айтема
+		// СЂР°Р·РјРµСЂ РѕРґРЅРѕРіРѕ Р°Р№С‚РµРјР°
 		IntSize mSizeItem;
 
-		// размерность скролла в пикселях
+		// СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ СЃРєСЂРѕР»Р»Р° РІ РїРёРєСЃРµР»СЏС…
 		int mScrollRange;
-		// позиция скролла п пикселях
+		// РїРѕР·РёС†РёСЏ СЃРєСЂРѕР»Р»Р° Рї РїРёРєСЃРµР»СЏС…
 		int mScrollPosition;
 
-		// колличество айтемов в одной строке
+		// РєРѕР»Р»РёС‡РµСЃС‚РІРѕ Р°Р№С‚РµРјРѕРІ РІ РѕРґРЅРѕР№ СЃС‚СЂРѕРєРµ
 		int mCountItemInLine;
-		// колличество линий
+		// РєРѕР»Р»РёС‡РµСЃС‚РІРѕ Р»РёРЅРёР№
 		int mCountLines;
-		// колличество айтемов всего
-		int mCountItems;
-		// максимальное колличество видимых линий
+		// РєРѕР»Р»РёС‡РµСЃС‚РІРѕ Р°Р№С‚РµРјРѕРІ РІСЃРµРіРѕ
+		size_t mCountItems;
+		// РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»Р»РёС‡РµСЃС‚РІРѕ РІРёРґРёРјС‹С… Р»РёРЅРёР№
 		int mCountLineVisible;
 
 
-		// самая верхняя строка
+		// СЃР°РјР°СЏ РІРµСЂС…РЅСЏСЏ СЃС‚СЂРѕРєР°
 		int mLineTop;
-		// текущее смещение верхнего элемента в пикселях
-		// сколько его пикселей не видно сверху
+		// С‚РµРєСѓС‰РµРµ СЃРјРµС‰РµРЅРёРµ РІРµСЂС…РЅРµРіРѕ СЌР»РµРјРµРЅС‚Р° РІ РїРёРєСЃРµР»СЏС…
+		// СЃРєРѕР»СЊРєРѕ РµРіРѕ РїРёРєСЃРµР»РµР№ РЅРµ РІРёРґРЅРѕ СЃРІРµСЂС…Сѓ
 		int mOffsetTop;
 
-		// текущий выделенный элемент или ITEM_NONE
+		// С‚РµРєСѓС‰РёР№ РІС‹РґРµР»РµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚ РёР»Рё ITEM_NONE
 		size_t mIndexSelect;
-		// подсвеченный элемент или ITEM_NONE
+		// РїРѕРґСЃРІРµС‡РµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚ РёР»Рё ITEM_NONE
 		size_t mIndexActive;
+		// РёРЅРґРµРєСЃ СЃРѕ СЃРІРѕР№СЃС‚РІРѕРј РїСЂРёРµРјР° РёР»Рё ITEM_NONE
+		size_t mIndexAccept;
+		// РёРЅРґРµРєСЃ СЃРѕ СЃРІРѕР№СЃС‚РІРѕРј РѕС‚РєР°Р·Р° РёР»Рё ITEM_NONE
+		size_t mIndexRefuse;
 
-		// имеем ли мы фокус ввода
+
+		// РёРјРµРµРј Р»Рё РјС‹ С„РѕРєСѓСЃ РІРІРѕРґР°
 		bool mIsFocus;
 
-		// структура данных об айтеме
+		// СЃС‚СЂСѓРєС‚СѓСЂР° РґР°РЅРЅС‹С… РѕР± Р°Р№С‚РµРјРµ
 		VectorItemInfo mItemsInfo;
 
-		WidgetItemData mItemDrag;
-		WidgetPtr mOldDrop;
-		bool mDropResult;
-		ItemDropInfo mDropInfo;
+		WidgetPtr mItemDrag;
 		IntPoint mPointDragOffset;
-
-		WidgetPtr mCurrentSender;
-		size_t mDropSenderIndex;
-		IntPoint mClickInWidget;
-
-		bool mStartDrop;
-		bool mNeedDrop;
 
 		bool mAlignVert;
 
-	}; // class ItemBox : public Widget
+	}; // class ItemBox
 
 } // namespace MyGUI
 

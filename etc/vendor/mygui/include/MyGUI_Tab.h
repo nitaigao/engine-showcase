@@ -9,241 +9,366 @@
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Widget.h"
+#include "MyGUI_Any.h"
 
 namespace MyGUI
 {
 
-	typedef std::vector<SheetPtr> VectorSheetPtr;
+	typedef std::vector<TabItemPtr> VectorTabItemPtr;
 
-	struct TabSheetInfo
+	struct TabItemInfo
 	{
-		TabSheetInfo(int _width, const Ogre::UTFString& _name, SheetPtr _sheet) :
-			width(_width), name(_name), sheet(_sheet)
+		TabItemInfo(int _width, const Ogre::UTFString& _name, TabItemPtr _item, Any _data) :
+			width(_width),
+			name(_name),
+			item(_item),
+			data(_data)
 		{
 		}
 
 		int width;
 		Ogre::UTFString name;
-		SheetPtr sheet;
+		TabItemPtr item;
+		Any data;
 	};
 
-	typedef std::vector<TabSheetInfo> VectorTabSheetInfo;
+	typedef std::vector<TabItemInfo> VectorTabItemInfo;
 
 	class _MyGUIExport Tab : public Widget
 	{
-		// для вызова закрытого конструктора
-		friend class factory::TabFactory;
-		// для уведобления об удалении
-		friend class Sheet;
+		// РґР»СЏ РІС‹Р·РѕРІР° Р·Р°РєСЂС‹С‚РѕРіРѕ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
+		friend class factory::BaseWidgetFactory<Tab>;
+		// РґР»СЏ СѓРІРµРґРѕР±Р»РµРЅРёСЏ РѕР± СѓРґР°Р»РµРЅРёРё
+		friend class TabItem;
+
+		MYGUI_RTTI_CHILD_HEADER;
+
+	public:
+
+		//! @copydoc Widget::setPosition(const IntPoint & _point)
+		virtual void setPosition(const IntPoint & _point);
+		//! @copydoc Widget::setSize(const IntSize& _size)
+		virtual void setSize(const IntSize & _size);
+		//! @copydoc Widget::setCoord(const IntCoord & _coord)
+		virtual void setCoord(const IntCoord & _coord);
+
+		/** @copydoc Widget::setPosition(int _left, int _top) */
+		void setPosition(int _left, int _top) { setPosition(IntPoint(_left, _top)); }
+		/** @copydoc Widget::setSize(int _width, int _height) */
+		void setSize(int _width, int _height) { setSize(IntSize(_width, _height)); }
+		/** @copydoc Widget::setCoord(int _left, int _top, int _width, int _height) */
+		void setCoord(int _left, int _top, int _width, int _height) { setCoord(IntCoord(_left, _top, _width, _height)); }
+
+		MYGUI_OBSOLETE("use Widget::setCoord(const IntCoord& _coord)")
+		void setPosition(const IntCoord & _coord) { setCoord(_coord); }
+		MYGUI_OBSOLETE("use Widget::setCoord(int _left, int _top, int _width, int _height)")
+		void setPosition(int _left, int _top, int _width, int _height) { setCoord(_left, _top, _width, _height); }
+
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё Р°Р№С‚РµРјР°РјРё
+
+		//! Get number of items
+		size_t getItemCount() { return mItemsInfo.size(); }
+
+		//! Insert an item into a array at a specified position
+		TabItemPtr insertItemAt(size_t _index, const Ogre::UTFString & _name, Any _data = Any::Null);
+		//! Insert an item into a array
+		TabItemPtr insertItem(TabItemPtr _to, const Ogre::UTFString & _name, Any _data = Any::Null) {
+			return insertItemAt(getItemIndex(_to), _name, _data);
+		}
+
+		//! Add an item to the end of a array
+		TabItemPtr addItem(const Ogre::UTFString & _name, Any _data = Any::Null) {
+			return insertItemAt(ITEM_NONE, _name, _data);
+		}
+
+		//! Remove item at a specified position
+		void removeItemAt(size_t _index);
+		//! Remove item
+		void removeItem(TabItemPtr _item) { removeItemAt(getItemIndex(_item)); }
+
+		//! Remove all items
+		void removeAllItems();
+
+
+
+		//! Get item from specified position
+		TabItemPtr getItemAt(size_t _index);
+
+		//! Get item index
+		size_t getItemIndex(TabItemPtr _item)
+		{
+			for (size_t pos=0; pos<mItemsInfo.size(); pos++) {
+				if (mItemsInfo[pos].item == _item) return pos;
+			}
+			MYGUI_EXCEPT("item (" << _item << ") not found, source 'Tab::getItemIndex'");
+		}
+
+		//! Search item, returns the position of the first occurrence in array or ITEM_NONE if item not found
+		size_t findItemIndex(TabItemPtr _item)
+		{
+			for (size_t pos=0; pos<mItemsInfo.size(); pos++) {
+				if (mItemsInfo[pos].item == _item) return pos;
+			}
+			return ITEM_NONE;
+		}
+
+		//! Search item, returns the position of the first occurrence in array or ITEM_NONE if item not found
+		size_t findItemIndexWith(const Ogre::UTFString & _name)
+		{
+			for (size_t pos=0; pos<mItemsInfo.size(); pos++) {
+				if (mItemsInfo[pos].name == _name) return pos;
+			}
+			return ITEM_NONE;
+		}
+
+		//! Search item, returns the item of the first occurrence in array or null if item not found
+		TabItemPtr findItemWith(const Ogre::UTFString & _name)
+		{
+			for (size_t pos=0; pos<mItemsInfo.size(); pos++) {
+				if (mItemsInfo[pos].name == _name) return mItemsInfo[pos].item;
+			}
+			return null;
+		}
+
+
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё РІС‹РґРµР»РµРЅРёСЏРјРё
+
+		//! Get index of selected item (ITEM_NONE if none selected)
+		size_t getItemIndexSelected() { return mIndexSelect; }
+
+		//! Get selected item (null if none selected)
+		TabItemPtr getItemSelected() { return getItemIndexSelected() != ITEM_NONE ? getItemAt(getItemIndexSelected()) : null; }
+
+		//! Select specified _index
+		void setItemSelectedAt(size_t _index);
+
+		//! Select item
+		void setItemSelected(TabItemPtr _item) { setItemSelectedAt(getItemIndex(_item)); }
+
+		//! Clear item selection
+		void clearItemSelected() { setItemSelectedAt(ITEM_NONE); }
+
+
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё РґР°РЅРЅС‹РјРё
+
+		//! Replace an item data at a specified position
+		void setItemDataAt(size_t _index, Any _data);
+		//! Replace an item data
+		void setItemData(TabItemPtr _item, Any _data) { setItemDataAt(getItemIndex(_item), _data); }
+
+		//! Clear an item data at a specified position
+		void clearItemDataAt(size_t _index) { setItemDataAt(_index, Any::Null); }
+		//! Clear an item data
+		void clearItemData(TabItemPtr _item) { clearItemDataAt(getItemIndex(_item)); }
+
+		//! Get item data from specified position
+		template <typename ValueType>
+		ValueType * getItemDataAt(size_t _index, bool _throw = true)
+		{
+			MYGUI_ASSERT_RANGE(_index, mItemsInfo.size(), "Tab::getItemDataAt");
+			return mItemsInfo[_index].data.castType<ValueType>(_throw);
+		}
+		//! Get item data
+		template <typename ValueType>
+		ValueType * getItemData(TabItemPtr _item, bool _throw = true)
+		{
+			return getItemData<ValueType>(getItemIndex(_item), _throw);
+		}
+
+
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё РѕС‚РѕР±СЂР°Р¶РµРЅРёРµРј
+
+		//! Replace an item name at a specified position
+		void setItemNameAt(size_t _index, const Ogre::UTFString & _name);
+
+		//! Replace an item name
+		void setItemName(TabItemPtr _item, const Ogre::UTFString & _name) { setItemNameAt(getItemIndex(_item), _name); }
+
+		//! Get item name from specified position
+		const Ogre::UTFString & getItemNameAt(size_t _index);
+
+		//! Get item name
+		const Ogre::UTFString & getItemName(TabItemPtr _item) { return getItemNameAt(getItemIndex(_item)); }
+
+
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё РІС‹РґРёРјРѕСЃС‚СЊСЋ
+
+		//! Move all elements so specified becomes visible
+		void beginToItemAt(size_t _index);
+
+		//! Move all elements so specified becomes visible
+		void beginToItem(TabItemPtr _item) { beginToItemAt(getItemIndex(_item)); }
+
+		//! Move all elements so first becomes visible
+		void beginToItemFirst() { if (getItemCount()) beginToItemAt(0); }
+
+		//! Move all elements so last becomes visible
+		void beginToItemLast() { if (getItemCount()) beginToItemAt(getItemCount() - 1); }
+
+		//! Move all elements so selected becomes visible
+		void beginToItemSelected() { if (getItemIndexSelected() != ITEM_NONE) beginToItemAt(getItemIndexSelected()); }
+
+
+		//------------------------------------------------------------------------------//
+		// РѕСЃС‚Р°Р»СЊРЅС‹Рµ РјР°РЅРёРїСѓР»СЏС†РёРё
+
+		//! Set button width at a specified position
+		void setButtonWidthAt(size_t _index, int _width = DEFAULT);
+		//! Set button width
+		void setButtonWidth(TabItemPtr _item, int _width = DEFAULT) { setButtonWidthAt(getItemIndex(_item), _width); }
+
+		//! Get button width at a specified position
+		int getButtonWidthAt(size_t _index);
+		//! Get button width
+		int getButtonWidth(TabItemPtr _item) { return getButtonWidthAt(getItemIndex(_item)); }
+
+		//------------------------------------------------------------------------------//
+
+		/** Set default button width and disable autowidth mode */
+		void setButtonDefaultWidth(int _width);
+		/** Get default button width */
+		int getButtonDefaultWidth() { return mButtonDefaultWidth; }
+
+		/** Enable or disable button auto width */
+		void setButtonAutoWidth(bool _auto);
+		/** Get button auto width flag */
+		bool getButtonAutoWidth() { return mButtonAutoWidth; }
+
+		/** Enable or disable smooth sheets showing*/
+		void setSmoothShow(bool _smooth) { mSmoothShow = _smooth; }
+		/** Get smooth sheets showing flag */
+		bool getSmoothShow() { return mSmoothShow; }
+
+
+
+		// #ifdef MYGUI_USING_OBSOLETE
+
+		MYGUI_OBSOLETE("use Tab::getButtonWidthAt(size_t _index)")
+		int getSheetButtonWidthIndex(size_t _index) { return getButtonWidthAt(_index); }
+
+		MYGUI_OBSOLETE("use Tab::getButtonWidth(TabItemPtr _item)")
+		int getSheetButtonWidth(TabItemPtr _sheet) { return getButtonWidth(_sheet); }
+
+		MYGUI_OBSOLETE("use Tab::setButtonWidthAt(size_t _index, int _width)")
+		void setSheetButtonWidthIndex(size_t _index, int _width = DEFAULT) { setButtonWidthAt(_index, _width); }
+
+		MYGUI_OBSOLETE("use Tab::setButtonWidth(TabItemPtr _item, int _width)")
+		void setSheetButtonWidth(TabItemPtr _sheet, int _width = DEFAULT) { setButtonWidth(_sheet, _width); }
+
+		MYGUI_OBSOLETE("use Tab::beginToItemAt(size_t _index)")
+		void showBarButton(size_t _index) { beginToItemAt(_index); }
+
+		MYGUI_OBSOLETE("use Tab::beginToItemSelected()")
+		void showBarSelectButton() { beginToItemSelected(); }
+
+		MYGUI_OBSOLETE("use Tab::getItemCount()")
+		size_t getSheetCount() { return getItemCount(); }
+
+		MYGUI_OBSOLETE("use Tab::getItemName(TabItemPtr _item)")
+		const Ogre::UTFString& getSheetName(TabItemPtr _sheet) { return getItemName(_sheet); }
+
+		MYGUI_OBSOLETE("use Tab::getItemNameAt(size_t _index)")
+		const Ogre::UTFString& getSheetNameIndex(size_t _index) { return getItemNameAt(_index); }
+
+		MYGUI_OBSOLETE("use Tab::getItemAt(size_t _index)")
+		TabItemPtr getSheet(size_t _index) { return getItemAt(_index); }
+
+		MYGUI_OBSOLETE("use Tab::setItemNameAt(size_t _index, const Ogre::UTFString & _name)")
+		void setSheetNameIndex(size_t _index, const Ogre::UTFString& _name, int _width = DEFAULT) { setItemNameAt(_index, _name); }
+
+		MYGUI_OBSOLETE("use Tab::setItemName(TabItemPtr _item, const Ogre::UTFString & _name)")
+		void setSheetName(TabItemPtr _sheet, const Ogre::UTFString& _name, int _width = DEFAULT) { setItemName(_sheet, _name); }
+
+		MYGUI_OBSOLETE("use Tab::addItem(const Ogre::UTFString & _name, Any _data)")
+		TabItemPtr addSheet(const Ogre::UTFString& _name, int _width = DEFAULT) { return addItem(_name, _width); }
+
+		MYGUI_OBSOLETE("use Tab::insertItemAt(size_t _index, const Ogre::UTFString & _name, Any _data)")
+		TabItemPtr insertSheet(size_t _index, const Ogre::UTFString& _name, int _width = DEFAULT) { return insertItemAt(_index, _name); }
+
+		MYGUI_OBSOLETE("use Tab::removeItemAt(size_t _index)")
+		void removeSheetIndex(size_t _index) { removeItemAt(_index); }
+
+		MYGUI_OBSOLETE("use Tab::removeItem(TabItemPtr _item)")
+		void removeSheet(TabItemPtr _sheet) { removeItem(_sheet); }
+
+		MYGUI_OBSOLETE("use Tab::setItemSelectedAt(size_t _index)")
+		void selectSheetIndex(size_t _index, bool _smooth = true) { setItemSelectedAt(_index); }
+
+		MYGUI_OBSOLETE("use Tab::setItemSelected(TabItemPtr _item)")
+		void selectSheet(TabItemPtr _sheet, bool _smooth = true) { setItemSelected(_sheet); }
+
+		MYGUI_OBSOLETE("use Tab::getItemIndexSelected()")
+		size_t getSelectSheetIndex() { return getItemIndexSelected(); }
+
+		// #endif // MYGUI_USING_OBSOLETE
+
+
+
+		/** Event : Active Tab sheet changed \n
+			signature : void method(MyGUI::WidgetPtr _sender, size_t _index)\n
+			@param _index Index of selected sheet
+		*/
+		EventInfo_WidgetSizeT eventTabChangeSelect;
 
 	protected:
-		Tab(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String & _name);
+		Tab(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
 		virtual ~Tab();
+
+		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
+
+		// РїРµСЂРµРѕРїСЂРµРґРµР»СЏРµРј РґР»СЏ РѕСЃРѕР±РѕРіРѕ РѕР±СЃР»СѓР¶РёРІР°РЅРёСЏ СЃС‚СЂР°РЅРёС†
+		virtual WidgetPtr baseCreateWidget(const std::string & _type, const std::string & _skin, const IntCoord& _coord, Align _align, const std::string & _layer, const std::string & _name);
 
 		void updateBar();
 
 		void notifyPressedButtonEvent(MyGUI::WidgetPtr _sender);
 		void notifyPressedBarButtonEvent(MyGUI::WidgetPtr _sender);
 
-		int getButtonWidthByName(const Ogre::UTFString& _text);
+		int _getTextWidth(const Ogre::UTFString& _text);
 
-		void _showSheet(SheetPtr _sheet, bool _show, bool _smooth);
+		void _showItem(TabItemPtr _sheet, bool _show, bool _smooth);
 
-		void _createSheetButton();
+		void _createItemButton();
 
-		// вкладка при удалении уведомляет таб
-		void _notifyDeleteSheet(SheetPtr _sheet);
+		void _insertItem(size_t _index, const Ogre::UTFString & _name, TabItemPtr _sheet, Any _data);
 
-		static Ogre::String WidgetTypeName;
-
-	public:
-		//! @copydoc Widget::_getType()
-		inline static const Ogre::String & _getType() {return WidgetTypeName;}
-		//! @copydoc Widget::getWidgetType()
-		virtual const Ogre::String & getWidgetType() { return _getType(); }
-
-		// переопределяем для особого обслуживания страниц
-		virtual WidgetPtr _createWidget(const std::string & _type, const std::string & _skin, const IntCoord& _coord, Align _align, const std::string & _layer, const std::string & _name);
-
-		//! @copydoc Widget::setPosition(const IntCoord& _coord)
-		void setPosition(const IntCoord& _coord);
-		//! @copydoc Widget::setSize(const IntSize& _size)
-		void setSize(const IntSize& _size);
-		//! @copydoc Widget::setPosition(int _left, int _top)
-		inline void setPosition(int _left, int _top) {Widget::setPosition(IntPoint(_left, _top));}
-		//! @copydoc Widget::setPosition(int _left, int _top, int _width, int _height)
-		inline void setPosition(int _left, int _top, int _width, int _height) {setPosition(IntCoord(_left, _top, _width, _height));}
-		//! @copydoc Widget::setSize(int _width, int _height)
-		inline void setSize(int _width, int _height) {setSize(IntSize(_width, _height));}
-
-		// сделать видимой кнопку
-		/** Show bar button
-			@param _index of button
-		*/
-		void showBarButton(size_t _index);
-		/** Show bar button
-			@param _name of button
-		*/
-		void showBarButton(const Ogre::UTFString& _name);
-		/** Show selected bar button */
-		inline void showBarSelectButton() {showBarButton(mSelectSheet);}
-
-		/** Set default button width and disable autowidth mode */
-		void setButtonDefaultWidth(int _width);
-
-		/** Get default button width */
-		inline int getButtonDefaultWidth()
-		{
-			return mButtonDefaultWidth;
-		}
-
-		/** Enable or disable button auto width */
-		void setButtonAutoWidth(bool _auto);
-		/** Get button auto width flag */
-		inline bool getButtonAutoWidth()
-		{
-			return mButtonAutoWidth;
-		}
-
-		/** Enable or disable smooth sheets showing*/
-		inline void setSmoothShow(bool _smooth)
-		{
-			mSmoothShow = _smooth;
-		}
-		/** Get smooth sheets showing flag */
-		inline bool getSmoothShow()
-		{
-			return mSmoothShow;
-		}
-
-		//--------------------------------------------------------------------
-		// работа с вкладками
-		//--------------------------------------------------------------------
-		/** Get sheets count */
-		inline size_t getSheetCount()
-		{
-			return mSheetsInfo.size();
-		}
-
-		/** Get _sheet name */
-		inline const Ogre::UTFString& getSheetName(SheetPtr _sheet)
-		{
-			for (size_t pos=0; pos<mSheetsInfo.size(); pos++) {
-				if (mSheetsInfo[pos].sheet == _sheet) return mSheetsInfo[pos].name;
-			}
-			MYGUI_EXCEPT("sheet (" << _sheet << ") not found");
-		}
-
-		/** Get sheet name by _index */
-		inline const Ogre::UTFString& getSheetNameIndex(size_t _index)
-		{
-			MYGUI_ASSERT(_index < mSheetsInfo.size(), "getSheetNameIndex: index " << (unsigned int)_index <<" out of range");
-			return mSheetsInfo[_index].name;
-		}
-
-		/** Get sheet button width by _index */
-		inline int getSheetButtonWidthIndex(size_t _index)
-		{
-			MYGUI_ASSERT(_index < mSheetsInfo.size(), "getSheetButtonWidthIndex: index " << (unsigned int)_index <<" out of range");
-			return mSheetsInfo[_index].width;
-		}
-		/** Get _sheet button width */
-		inline int getSheetButtonWidth(SheetPtr _sheet)
-		{
-			for (size_t pos=0; pos<mSheetsInfo.size(); pos++) {
-				if (mSheetsInfo[pos].sheet == _sheet) mSheetsInfo[pos].width;
-			}
-			MYGUI_EXCEPT("sheet (" << _sheet << ") not found");
-		}
-
-		/** Get sheet pointer by _index */
-		inline SheetPtr getSheet(size_t _index)
-		{
-			MYGUI_ASSERT(_index < mSheetsInfo.size(), "getSheet: index " << (unsigned int)_index <<" out of range");
-			return mSheetsInfo[_index].sheet;
-		}
-
-		/** Get sheet pointer by _name */
-		inline SheetPtr findSheet(const Ogre::UTFString& _name)
-		{
-			for (VectorTabSheetInfo::iterator iter=mSheetsInfo.begin(); iter!=mSheetsInfo.end(); ++iter) {
-				if ((*iter).name == _name) return (*iter).sheet;
-			}
-			return null;
-		}
-
-		/** Set sheet name
-			@param _index of sheet
-			@param _width new width
-		*/
-		void setSheetNameIndex(size_t _index, const Ogre::UTFString& _name, int _width = DEFAULT);
-		/** Set _sheet name
-			@param _width new width
-		*/
-		void setSheetName(SheetPtr _sheet, const Ogre::UTFString& _name, int _width = DEFAULT);
-
-		/** Set sheet button width
-			@param _index of sheet
-			@param _width new width
-		*/
-		void setSheetButtonWidthIndex(size_t _index, int _width = DEFAULT);
-		/** Set _sheet button width 
-			@param _width new width
-		*/
-		void setSheetButtonWidth(SheetPtr _sheet, int _width = DEFAULT);
-
-		/** Add sheet at the end
-			@param _name of new sheet
-			@param _width of new sheet
-		*/
-		SheetPtr addSheet(const Ogre::UTFString& _name, int _width = DEFAULT);
-		/** Insert sheet at specified position
-			@param _index where new sheet wil be
-			@param _name of new sheet
-			@param _width of sheet
-		*/
-		SheetPtr insertSheet(size_t _index, const Ogre::UTFString& _name, int _width = DEFAULT);
-
-		/** Removee sheet by _index */
-		void removeSheetIndex(size_t _index);
-		/** Removee sheet by _name */
-		void removeSheet(const Ogre::UTFString& _name);
-		/** Removee sheet by _sheet pointer */
-		void removeSheet(SheetPtr _sheet);
-
-		/** Select sheet by _index, with _smooth selecting */
-		void selectSheetIndex(size_t _index, bool _smooth = true);
-		/** Select sheet by _name, with _smooth selecting */
-		void selectSheet(const Ogre::UTFString& _name, bool _smooth = true);
-		/** Select sheet by _sheet pointer, with _smooth selecting */
-		void selectSheet(SheetPtr _sheet, bool _smooth = true);
-		/** Get selected sheet index */
-		inline size_t getSelectSheetIndex() {return mSelectSheet;}
+		// РІРєР»Р°РґРєР° РїСЂРё СѓРґР°Р»РµРЅРёРё СѓРІРµРґРѕРјР»СЏРµС‚ С‚Р°Р±
+		void _notifyDeleteItem(TabItemPtr _item);
 
 	private:
-		int mOffsetTab; // смещение бара при показе кнопок
+		void initialiseWidgetSkin(WidgetSkinInfoPtr _info);
+		void shutdownWidgetSkin();
+
+	private:
+		int mOffsetTab; // СЃРјРµС‰РµРЅРёРµ Р±Р°СЂР° РїСЂРё РїРѕРєР°Р·Рµ РєРЅРѕРїРѕРє
 		bool mButtonShow;
-		int mWidthBar; // ширина в которую помещаються все кнопки
-		VectorWidgetPtr mSheetButton; // список кнопок, не должно равно списку страниц
+		int mWidthBar; // С€РёСЂРёРЅР° РІ РєРѕС‚РѕСЂСѓСЋ РїРѕРјРµС‰Р°СЋС‚СЊСЃСЏ РІСЃРµ РєРЅРѕРїРєРё
+		VectorWidgetPtr mItemButton; // СЃРїРёСЃРѕРє РєРЅРѕРїРѕРє, РЅРµ РґРѕР»Р¶РЅРѕ СЂР°РІРЅРѕ СЃРїРёСЃРєСѓ СЃС‚СЂР°РЅРёС†
 		std::string mButtonSkinName, mEmptySkinName;
 
 		WidgetPtr mWidgetBar;
 		ButtonPtr mButtonLeft, mButtonRight, mButtonList;
-		VectorWidgetPtr mWidgetsPatch; // список виджетов которые нужно показать при показе кнопки
+		WidgetPtr mButtonDecor;
+		VectorWidgetPtr mWidgetsPatch; // СЃРїРёСЃРѕРє РІРёРґР¶РµС‚РѕРІ РєРѕС‚РѕСЂС‹Рµ РЅСѓР¶РЅРѕ РїРѕРєР°Р·Р°С‚СЊ РїСЂРё РїРѕРєР°Р·Рµ РєРЅРѕРїРєРё
 		WidgetPtr mEmptyBarWidget;
-		WidgetPtr mSheetTemplate;
+		WidgetPtr mItemTemplate;
 
-		// информация о вкладках
-		VectorTabSheetInfo mSheetsInfo;
+		// РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ РІРєР»Р°РґРєР°С…
+		VectorTabItemInfo mItemsInfo;
 		size_t mStartIndex;
-		size_t mSelectSheet;
+		size_t mIndexSelect;
 
 		int mButtonDefaultWidth;
 		bool mSmoothShow;
 		bool mButtonAutoWidth;
 
-		// флаг, чтобы отсеч уведомления от вкладок, при общем шутдауне виджета
-		bool mShutDown;
+		// С„Р»Р°Рі, С‡С‚РѕР±С‹ РѕС‚СЃРµС‡ СѓРІРµРґРѕРјР»РµРЅРёСЏ РѕС‚ РІРєР»Р°РґРѕРє, РїСЂРё РѕР±С‰РµРј С€СѓС‚РґР°СѓРЅРµ РІРёРґР¶РµС‚Р°
+		bool mShutdown;
 
 	};
 

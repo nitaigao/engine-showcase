@@ -15,58 +15,70 @@ namespace MyGUI
 
 	class _MyGUIExport Button : public Widget
 	{
-		// для вызова закрытого конструктора
-		friend class factory::ButtonFactory;
+		// РґР»СЏ РІС‹Р·РѕРІР° Р·Р°РєСЂС‹С‚РѕРіРѕ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
+		friend class factory::BaseWidgetFactory<Button>;
 
-	protected:
-		Button(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String & _name);
-		static Ogre::String WidgetTypeName;
+		MYGUI_RTTI_CHILD_HEADER;
 
 	public:
-		//! @copydoc Widget::_getType()
-		inline static const Ogre::String & _getType() {return WidgetTypeName;}
-		//! @copydoc Widget::getWidgetType()
-		virtual const Ogre::String & getWidgetType() { return _getType(); }
+		//! OLD Set button check state
+		void setButtonPressed(bool _check) { setStateCheck(_check); }
+		//! OLD Get buton check 
+		bool getButtonPressed() { return getStateCheck(); }
 
-		//! Set button pressed state
-		inline void setButtonPressed(bool _pressed)
+		//! Set button check state
+		void setStateCheck(bool _check)
 		{
-			if (mIsStatePressed == _pressed) return;
-			mIsStatePressed = _pressed;
+			if (mIsStateCheck == _check) return;
+			mIsStateCheck = _check;
 			updateButtonState();
 		}
 
-		//! Get buton pressed
-		inline bool getButtonPressed() {return mIsStatePressed;}
+		//! Get buton check
+		bool getStateCheck() {return mIsStateCheck;}
 
 		//! Set button focused state
-		inline void _setMouseFocus(bool _focus)
+		void _setMouseFocus(bool _focus)
 		{
-			mIsFocus = _focus;
+			mIsMouseFocus = _focus;
 			updateButtonState();
 		}
 
+		//! Set image index (image should be defined in skin)
 		void setImageIndex(size_t _index);
+		//! Get image index
+		size_t getImageIndex();
 
+		/** Get pointer to glyph image for this button (if it exist in button skin) */
+		StaticImagePtr getStaticImage() { return mImage; }
+
+		//! @copydoc Widget::setEnabled(bool _enabled)
 		virtual void setEnabled(bool _enabled);
 
 	protected:
+		Button(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		virtual ~Button();
 
-		virtual void _onMouseLostFocus(WidgetPtr _new);
-		virtual void _onMouseSetFocus(WidgetPtr _old);
-		virtual void _onMouseButtonPressed(int _left, int _top, MouseButton _id);
-		virtual void _onMouseButtonReleased(int _left, int _top, MouseButton _id);
+		virtual void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
 
-		void updateButtonState();
-
+		virtual void onMouseLostFocus(WidgetPtr _new);
+		virtual void onMouseSetFocus(WidgetPtr _old);
+		virtual void onMouseButtonPressed(int _left, int _top, MouseButton _id);
+		virtual void onMouseButtonReleased(int _left, int _top, MouseButton _id);
 
 	private:
-		// нажата ли кнопка
-		bool mIsPressed;
-		// в фокусе ли кнопка
-		bool mIsFocus;
-		// статус кнопки нажата или нет
-		bool mIsStatePressed;
+		void updateButtonState();
+
+		void shutdownWidgetSkin();
+		void initialiseWidgetSkin(WidgetSkinInfoPtr _info);
+
+	private:
+		// РЅР°Р¶Р°С‚Р° Р»Рё РєРЅРѕРїРєР°
+		bool mIsMousePressed;
+		// РІ С„РѕРєСѓСЃРµ Р»Рё РєРЅРѕРїРєР°
+		bool mIsMouseFocus;
+		// СЃС‚Р°С‚СѓСЃ РєРЅРѕРїРєРё РЅР°Р¶Р°С‚Р° РёР»Рё РЅРµС‚
+		bool mIsStateCheck;
 
 		StaticImagePtr mImage;
 

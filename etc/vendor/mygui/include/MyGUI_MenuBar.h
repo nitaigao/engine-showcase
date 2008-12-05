@@ -9,23 +9,23 @@
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Widget.h"
+#include "MyGUI_Button.h"
+#include "MyGUI_Any.h"
 
 namespace MyGUI
 {
 
 	struct MenuItemInfo
 	{
-	private:
-		MenuItemInfo() {}
-
-	public:
-		MenuItemInfo(ButtonPtr _button, PopupMenuPtr _menu) :
-			button(_button), menu(_menu)
+		MenuItemInfo(ButtonPtr _button, bool _separator, PopupMenuPtr _menu, Any _data) :
+			button(_button), menu(_menu), separator(_separator), data(_data)
 		{
 		}
 
 		ButtonPtr button;
 		PopupMenuPtr menu;
+		bool separator;
+		Any data;
 	};
 
 	typedef std::vector<MenuItemInfo> VectorMenuItemInfo;
@@ -34,64 +34,149 @@ namespace MyGUI
 
 	class _MyGUIExport MenuBar : public Widget
 	{
-		// ‰Îˇ ‚˚ÁÓ‚‡ Á‡Í˚ÚÓ„Ó ÍÓÌÒÚÛÍÚÓ‡
-		friend class factory::MenuBarFactory;
+		// –¥–ª—è –≤—ã–∑–æ–≤–∞ –∑–∞–∫—Ä—ã—Ç–æ–≥–æ –∫–æ–Ω—Å—Ç—Ä—É–∫—Ç–æ—Ä–∞
+		friend class factory::BaseWidgetFactory<MenuBar>;
 
-	protected:
-		MenuBar(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String & _name);
-		static Ogre::String WidgetTypeName;
+		MYGUI_RTTI_CHILD_HEADER;
 
 	public:
-		//! @copydoc Widget::_getType()
-		inline static const Ogre::String & _getType() {return WidgetTypeName;}
-		//! @copydoc Widget::getWidgetType()
-		virtual const Ogre::String & getWidgetType() { return _getType(); }
+		enum ItemType
+		{
+			ItemTypeNormal,
+			ItemTypePopup,
+			ItemTypeSeparator
+		};
 
-		//------------------------------------------------------------------------------------//
-		// ÏÂÚÓ‰˚ ‰Îˇ Ï‡ÌËÔÛÎˇˆËÈ ÏÂÌ˛¯Í‡ÏË
+	public:
+		//------------------------------------------------------------------------------//
+		// –º–∞–Ω–∏–ø—É–ª—è—Ü–∏–∏ –∞–π—Ç–µ–º–∞–º–∏
+
 		//! Get number of items
-		inline size_t getItemCount() { return mVectorMenuItemInfo.size();}
+		size_t getItemCount() { return mItemsInfo.size(); }
 
-		//! Insert an item into a menubar at a specified position
-		void insertItem(size_t _index, const Ogre::UTFString & _item);
-		//! Add an item to the end of a menubar
-		inline void addItem(const Ogre::UTFString & _item) {insertItem(ITEM_NONE, _item);}
-		//! Replace an item at a specified position
-		void setItem(size_t _index, const Ogre::UTFString & _item);
+		//! Insert an item into a array at a specified position
+		void insertItemAt(size_t _index, const Ogre::UTFString & _name, ItemType _type = ItemTypeNormal, Any _data = Any::Null);
+
+		//! Add an item to the end of a array
+		void addItem(const Ogre::UTFString & _name, ItemType _type = ItemTypeNormal, Any _data = Any::Null) { insertItemAt(ITEM_NONE, _name, _type, _data); }
+
+		//! Remove item at a specified position
+		void removeItemAt(size_t _index);
+
+		//! Remove all items
+		void removeAllItems();
+
+
 		//! Get item from specified position
-		const Ogre::UTFString & getItemName(size_t _index);
+		const Ogre::UTFString & getItemNameAt(size_t _index);
 
-		PopupMenuPtr getItemMenu(size_t _index);
+		//! Search item, returns the position of the first occurrence in array or ITEM_NONE if item not found
+		size_t findItemIndexWith(const Ogre::UTFString & _name)
+		{
+			for (size_t pos=0; pos<mItemsInfo.size(); pos++) {
+				// FIXME —Ö—Ä–∞–Ω–∏—Ç—å –∏–º—è
+				if (mItemsInfo[pos].button->getCaption() == _name) return pos;
+			}
+			return ITEM_NONE;
+		}
 
-		//! Delete item at a specified position
-		void deleteItem(size_t _index);
-		//! Delete all items
-		void deleteAllItems();
+		//------------------------------------------------------------------------------//
+		// –º–∞–Ω–∏–ø—É–ª—è—Ü–∏–∏ –≤—ã–¥–µ–ª–µ–Ω–∏—è–º–∏
 
-		//! Get number of selected item (ITEM_NONE if none selected)
-		inline size_t getItemSelect() {return mIndexSelect;}
-		//! Reset item selection
-		inline void resetItemSelect() {setItemSelect(ITEM_NONE);}
-		//! Set item selection at a specified position
-		void setItemSelect(size_t _index);
+		//! Get index of selected item (ITEM_NONE if none selected)
+		size_t getItemIndexSelected() { return mIndexSelect; }
+
+		//! Select specified _index
+		void setItemSelectedAt(size_t _index);
+
+		//! Clear item selection
+		void clearItemSelected() { setItemSelectedAt(ITEM_NONE); }
+
+		//------------------------------------------------------------------------------//
+		// –º–∞–Ω–∏–ø—É–ª—è—Ü–∏–∏ –¥–∞–Ω–Ω—ã–º–∏
+
+		//! Replace an item data at a specified position
+		void setItemDataAt(size_t _index, Any _data);
+
+		//! Clear an item data at a specified position
+		void clearItemDataAt(size_t _index) { setItemDataAt(_index, Any::Null); }
+
+		//! Get item data from specified position
+		template <typename ValueType>
+		ValueType * getItemDataAt(size_t _index, bool _throw = true)
+		{
+			MYGUI_ASSERT_RANGE(_index, mItemsInfo.size(), "PopupMenu::getItemDataAt");
+			return mItemsInfo[_index].data.castType<ValueType>(_throw);
+		}
+
+
+		PopupMenuPtr getItemChildAt(size_t _index);
+
+		PopupMenuPtr createItemChildAt(size_t _index);
+
+		void removeItemChildAt(size_t _index);
+
+		void insertSeparatorAt(size_t _index) { insertItemAt(_index, "", ItemTypeSeparator); }
+
+		void addSeparator() { addItem("", ItemTypeSeparator); }
+
+		void setItemNameAt(size_t _index, const Ogre::UTFString & _name);
+
+
+		// #ifdef MYGUI_USING_OBSOLETE
+
+		MYGUI_OBSOLETE("use MenuBar::getItemNameAt(size_t _index)")
+		const Ogre::UTFString & getItemName(size_t _index) { return getItemNameAt(_index); }
+
+		MYGUI_OBSOLETE("use MenuBar::getItemChildAt(size_t _index)")
+		PopupMenuPtr getItemMenu(size_t _index) { return getItemChildAt(_index); }
+
+		MYGUI_OBSOLETE("use MenuBar::removeItemAt(size_t _index)")
+		void deleteItem(size_t _index) { removeItemAt(_index); }
+
+		MYGUI_OBSOLETE("use MenuBar::removeAllItems()")
+		void deleteAllItems() { removeAllItems(); }
+
+		MYGUI_OBSOLETE("use MenuBar::getItemIndexSelected()")
+		size_t getItemSelect() { return getItemIndexSelected(); }
+
+		MYGUI_OBSOLETE("use MenuBar::clearItemSelected()")
+		void resetItemSelect() { clearItemSelected(); }
+
+		MYGUI_OBSOLETE("use MenuBar::setItemSelectedAt(size_t _index)")
+		void setItemSelect(size_t _index) { setItemSelectedAt(_index); }
+
+		// #endif // MYGUI_USING_OBSOLETE
+
 
 		/** Event : Enter pressed or mouse click.\n
-			signature : void method(WidgetPtr _sender, size_t _index)\n
+			signature : void method(MyGUI::WidgetPtr _sender, size_t _index)\n
 			@param _index of selected item
 		*/
 		EventInfo_WidgetMenuSizeT eventPopupMenuAccept;
 
+	protected:
+		MenuBar(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		virtual ~MenuBar();
+
+		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
+
 	private:
+		void initialiseWidgetSkin(WidgetSkinInfoPtr _info);
+		void shutdownWidgetSkin();
+
 		void update();
 
 		void eventMouseButtonPressed(MyGUI::WidgetPtr _sender, int _left, int _top, MouseButton _id);
-		void notifyPopupMenuClose(WidgetPtr _sender);
+		//void notifyPopupMenuClose(WidgetPtr _sender);
 		void notifyPopupMenuAccept(WidgetPtr _sender, size_t _index);
 
 
 	private:
-		VectorMenuItemInfo mVectorMenuItemInfo;
+		VectorMenuItemInfo mItemsInfo;
 		std::string mButtonSkinName;
+		std::string mSubMenuSkin;
+		std::string mSubMenuLayer;
 		int mDistanceButton;
 
 		size_t mIndexSelect;

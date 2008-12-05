@@ -356,27 +356,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\View\ScreenFixture.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\View\ScreenFixture.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Scripting\ScriptFixture.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Scripting\ScriptFixture.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Types\StringFixture.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Types\StringFixture.h"
 			>
 		</File>
 		<File

@@ -22,9 +22,9 @@ namespace MyGUI
 		friend class LogManager;
 
 	public:
-		inline LogStream& operator<<(const LogStreamEnd& _endl)
+		LogStream& operator<<(const LogStreamEnd& _endl)
 		{
-			std::cout << std::endl;
+			if (getSTDOutputEnabled()) std::cout << std::endl;
 			if (mStream.is_open()) {
 				mStream << std::endl;
 				mStream.close();
@@ -34,111 +34,15 @@ namespace MyGUI
 			return *this;
 		}
 
-		inline LogStream& operator<<(bool _value)
+		template <typename T>
+		inline LogStream& operator<<(T _value)
 		{
-			std::cout << _value;
+			if (getSTDOutputEnabled()) std::cout << _value;
 			if (mStream.is_open()) mStream << _value;
-
 			return *this;
 		}
 
-		inline LogStream& operator<<(short _value)
-		{
-			std::cout << _value;
-			if (mStream.is_open()) mStream << _value;
-
-			return *this;
-		}
-
-		inline LogStream& operator<<(unsigned short _value)
-		{
-			std::cout << _value;
-			if (mStream.is_open()) mStream << _value;
-
-			return *this;
-		}
-
-		inline LogStream& operator<<(int _value)
-		{
-			std::cout << _value;
-			if (mStream.is_open()) mStream << _value;
-
-			return *this;
-		}
-
-		inline LogStream& operator<<(long _value)
-		{
-			std::cout << _value;
-			if (mStream.is_open()) mStream << _value;
-
-			return *this;
-		}
-
-		inline LogStream& operator<<(unsigned long _value)
-		{
-			std::cout << _value;
-			if (mStream.is_open()) mStream << _value;
-
-			return *this;
-		}
-
-		inline LogStream& operator<<(float _value)
-		{
-			std::cout << _value;
-			if (mStream.is_open()) mStream << _value;
-
-			return *this;
-		}
-
-		inline LogStream& operator<<(double _value)
-		{
-			std::cout << _value;
-			if (mStream.is_open()) mStream << _value;
-
-			return *this;
-		}
-
-		inline LogStream& operator<<(long double _value)
-		{
-			std::cout << _value;
-			if (mStream.is_open()) mStream << _value;
-
-			return *this;
-		}
-
-		inline LogStream& operator<<(size_t _value)
-		{
-			std::cout << (unsigned int)_value;
-			if (mStream.is_open()) mStream << (unsigned int)_value;
-
-			return *this;
-		}
-
-		inline LogStream& operator<<(const void * _value)
-		{
-			std::cout << _value;
-			if (mStream.is_open()) mStream << _value;
-
-			return *this;
-		}
-
-		inline LogStream& operator<<(const char * _value)
-		{
-			std::cout << _value;
-			if (mStream.is_open()) mStream << _value;
-
-			return *this;
-		}
-
-		inline LogStream& operator<<(const std::string& _value)
-		{
-			std::cout << _value;
-			if (mStream.is_open()) mStream << _value;
-
-			return *this;
-		}
-
-		inline const std::string& getFileName() {return mFileName;}
+		const std::string& getFileName() {return mFileName;}
 
 	private:
 		LogStream();
@@ -148,18 +52,19 @@ namespace MyGUI
 
 		void start(const std::string& _section, const std::string& _level);
 
-		inline void lock()
+		bool getSTDOutputEnabled();
+
+		void lock()
 		{
 		}
 
-		inline void release()
+		void release()
 		{
 		}
 
 	private:
 		std::ofstream mStream;
 		std::string mFileName;
-
 	};
 
 	typedef std::map<std::string, LogStream*> MapLogStream;

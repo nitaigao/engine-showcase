@@ -37,9 +37,9 @@ namespace MyGUI
 		_vert ? _widget->setSize(_width, _height) : _widget->setSize(_height, _width);
 	}
 
-	inline void setWidgetPosition(WidgetPtr _widget, int _left, int _top, int _width, int _height, bool _vert)
+	inline void setWidgetCoord(WidgetPtr _widget, int _left, int _top, int _width, int _height, bool _vert)
 	{
-		_vert ? _widget->setPosition(_left, _top, _width, _height) : _widget->setPosition(_top, _left, _height, _width);
+		_vert ? _widget->setCoord(_left, _top, _width, _height) : _widget->setCoord(_top, _left, _height, _width);
 	}
 
 	inline void convertWidgetCoord(IntCoord & _coord, bool _vert)

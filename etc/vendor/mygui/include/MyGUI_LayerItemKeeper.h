@@ -24,9 +24,9 @@ namespace MyGUI
 		LayerItemKeeper();
 		~LayerItemKeeper();
 
-		inline void _addUsing() { mCountUsing++; }
-		inline void _removeUsing() { mCountUsing--; }
-		inline size_t _countUsing() { return mCountUsing; }
+		void _addUsing() { mCountUsing++; }
+		void _removeUsing() { mCountUsing--; }
+		size_t _countUsing() { return mCountUsing; }
 
 		void _render(bool _update);
 		//void _resize(const FloatSize& _size);
@@ -35,12 +35,12 @@ namespace MyGUI
 
 		LayerItem * _findLayerItem(int _left, int _top, LayerItem* &_root);
 
-		inline void _addPeekItem(LayerItem * _root)
+		void _addPeekItem(LayerItem * _root)
 		{
 			mPeekLayerItems.push_back(_root);
 		}
 
-		inline void _removePeekItem(LayerItem * _root)
+		void _removePeekItem(LayerItem * _root)
 		{
 			for (VectorLayerItem::iterator iter=mPeekLayerItems.begin(); iter!=mPeekLayerItems.end(); ++iter) {
 				if ((*iter) == _root) {
@@ -51,18 +51,18 @@ namespace MyGUI
 			}
 		}
 
-		// обновляет очередь буферов
+		// РѕР±РЅРѕРІР»СЏРµС‚ РѕС‡РµСЂРµРґСЊ Р±СѓС„РµСЂРѕРІ
 		void _update();
 
 	private:
 		size_t mCountUsing;
 
-		// список двух очередей отрисовки, для сабскинов и текста
+		// СЃРїРёСЃРѕРє РґРІСѓС… РѕС‡РµСЂРµРґРµР№ РѕС‚СЂРёСЃРѕРІРєРё, РґР»СЏ СЃР°Р±СЃРєРёРЅРѕРІ Рё С‚РµРєСЃС‚Р°
 		VectorRenderItem mFirstRenderItems;
 		VectorRenderItem mSecondRenderItems;
 
-		// список всех рутовых виджетов
-		// у перекрывающегося слоя здесь только один
+		// СЃРїРёСЃРѕРє РІСЃРµС… СЂСѓС‚РѕРІС‹С… РІРёРґР¶РµС‚РѕРІ
+		// Сѓ РїРµСЂРµРєСЂС‹РІР°СЋС‰РµРіРѕСЃСЏ СЃР»РѕСЏ Р·РґРµСЃСЊ С‚РѕР»СЊРєРѕ РѕРґРёРЅ
 		VectorLayerItem mPeekLayerItems;
 
 	};

@@ -9,66 +9,111 @@
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Widget.h"
+#include "MyGUI_Any.h"
 
 namespace MyGUI
 {
 
 	class _MyGUIExport List : public Widget
 	{
-		// для вызова закрытого конструктора
-		friend class factory::ListFactory;
+		// РґР»СЏ РІС‹Р·РѕРІР° Р·Р°РєСЂС‹С‚РѕРіРѕ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
+		friend class factory::BaseWidgetFactory<List>;
 
-	protected:
-		List(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String & _name);
-		static Ogre::String WidgetTypeName;
+		MYGUI_RTTI_CHILD_HEADER;
 
 	public:
-		//! @copydoc Widget::_getType()
-		inline static const Ogre::String & _getType() {return WidgetTypeName;}
-		//! @copydoc Widget::getWidgetType()
-		virtual const Ogre::String & getWidgetType() { return _getType(); }
 
-		//------------------------------------------------------------------------------------//
-		// методы для манипуляций строками
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё Р°Р№С‚РµРјР°РјРё
+
 		//! Get number of items
-		inline size_t getItemCount() { return mStringArray.size();}
+		size_t getItemCount() { return mItemsInfo.size(); }
 
-		//! Insert an item into a list at a specified position
-		void insertItem(size_t _index, const Ogre::UTFString & _item);
-		//! Add an item to the end of a list
-		inline void addItem(const Ogre::UTFString & _item) {insertItem(ITEM_NONE, _item);}
-		//! Replace an item at a specified position
-		void setItem(size_t _index, const Ogre::UTFString & _item);
-		//! Get item from specified position
-		const Ogre::UTFString & getItem(size_t _index);
-		//! Search item, returns the position of the first occurrence in list or ITEM_NONE if item not found
-		size_t findItem(const Ogre::UTFString & _item);
+		//! Insert an item into a array at a specified position
+		void insertItemAt(size_t _index, const Ogre::UTFString & _name, Any _data = Any::Null);
 
-		//! Delete item at a specified position
-		void deleteItem(size_t _index);
-		//! Delete all items
-		void deleteAllItems();
+		//! Add an item to the end of a array
+		void addItem(const Ogre::UTFString & _name, Any _data = Any::Null) { insertItemAt(ITEM_NONE, _name, _data); }
 
-		//! Get number of selected item (ITEM_NONE if none selected)
-		inline size_t getItemSelect() {return mIndexSelect;}
-		//! Reset item selection
-		inline void resetItemSelect() {setItemSelect(ITEM_NONE);}
+		//! Remove item at a specified position
+		void removeItemAt(size_t _index);
+
+		//! Remove all items
+		void removeAllItems();
+
+		//! Swap items at a specified position
+		void swapItemsAt(size_t _index1, size_t _index2);
+
+
+		//! Search item, returns the position of the first occurrence in array or ITEM_NONE if item not found
+		size_t findItemIndexWith(const Ogre::UTFString & _name)
+		{
+			for (size_t pos=0; pos<mItemsInfo.size(); pos++) {
+				if (mItemsInfo[pos].first == _name) return pos;
+			}
+			return ITEM_NONE;
+		}
+
+
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё РІС‹РґРµР»РµРЅРёСЏРјРё
+
+		//! Get index of selected item (ITEM_NONE if none selected)
+		size_t getItemIndexSelected() { return mIndexSelect; }
+
 		//! Select specified _index
-		void setItemSelect(size_t _index);
+		void setItemSelectedAt(size_t _index);
+
+		//! Clear item selection
+		void clearItemSelected() { setItemSelectedAt(ITEM_NONE); }
 
 
-		//------------------------------------------------------------------------------------//
-		// методы для показа строк
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё РґР°РЅРЅС‹РјРё
+
+		//! Replace an item data at a specified position
+		void setItemDataAt(size_t _index, Any _data);
+
+		//! Clear an item data at a specified position
+		void clearItemDataAt(size_t _index) { setItemDataAt(_index, Any::Null); }
+
+		//! Get item data from specified position
+		template <typename ValueType>
+		ValueType * getItemDataAt(size_t _index, bool _throw = true)
+		{
+			MYGUI_ASSERT_RANGE(_index, mItemsInfo.size(), "List::getItemDataAt");
+			return mItemsInfo[_index].second.castType<ValueType>(_throw);
+		}
+
+
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё РѕС‚РѕР±СЂР°Р¶РµРЅРёРµРј
+
+		//! Replace an item name at a specified position
+		void setItemNameAt(size_t _index, const Ogre::UTFString & _name);
+
+		//! Get item name from specified position
+		const Ogre::UTFString & getItemNameAt(size_t _index);
+
+
+		//------------------------------------------------------------------------------//
+		// РјР°РЅРёРїСѓР»СЏС†РёРё РІС‹РґРёРјРѕСЃС‚СЊСЋ
+
 		//! Move all elements so specified becomes visible
-		void beginToIndex(size_t _index);
-		//! Move all elements so first becomes visible
-		inline void beginToStart() { beginToIndex(0); }
-		//! Move all elements so last becomes visible
-		inline void beginToEnd() { if (!mStringArray.empty()) beginToIndex(mStringArray.size()-1); }
-		//! Move all elements so selected becomes visible
-		inline void beginToSelect() { beginToIndex(mIndexSelect); }
+		void beginToItemAt(size_t _index);
 
-		// видим ли мы элемент, полностью или нет
+		//! Move all elements so first becomes visible
+		void beginToItemFirst() { if (getItemCount()) beginToItemAt(0); }
+
+		//! Move all elements so last becomes visible
+		void beginToItemLast() { if (getItemCount()) beginToItemAt(getItemCount() - 1); }
+
+		//! Move all elements so selected becomes visible
+		void beginToItemSelected() { if (getItemIndexSelected() != ITEM_NONE) beginToItemAt(getItemIndexSelected()); }
+
+		//------------------------------------------------------------------------------//
+
+		// РІРёРґРёРј Р»Рё РјС‹ СЌР»РµРјРµРЅС‚, РїРѕР»РЅРѕСЃС‚СЊСЋ РёР»Рё РЅРµС‚
 		/** Return true if item visible
 			@param
 				_index of item
@@ -76,9 +121,59 @@ namespace MyGUI
 				_fill if false function return true if only whole item is visible
 				if true function return true even if only part of item is visible
 		*/
-		bool isItemVisible(size_t _index, bool _fill = true);
+		bool isItemVisibleAt(size_t _index, bool _fill = true);
 		//! Same as isItemVisible for selected item
-		inline bool isItemSelectVisible(bool _fill = true) {return isItemVisible(mIndexSelect, _fill);}
+		bool isItemSelectedVisible(bool _fill = true) { return isItemVisibleAt(mIndexSelect, _fill); }
+
+
+		// #ifdef MYGUI_USING_OBSOLETE
+
+		MYGUI_OBSOLETE("use List::insertItemAt(size_t _index, const Ogre::UTFString & _name)")
+		void insertItem(size_t _index, const Ogre::UTFString & _item) { insertItemAt(_index, _item); }
+
+		MYGUI_OBSOLETE("use List::setItemNameAt(size_t _index, const Ogre::UTFString & _name)")
+		void setItem(size_t _index, const Ogre::UTFString & _item) { setItemNameAt(_index, _item); }
+
+		MYGUI_OBSOLETE("use List::getItemNameAt(size_t _index)")
+		const Ogre::UTFString & getItem(size_t _index) { return getItemNameAt(_index); }
+
+		MYGUI_OBSOLETE("use List::removeItemAt(size_t _index)")
+		void deleteItem(size_t _index) { removeItemAt(_index); }
+
+		MYGUI_OBSOLETE("use List::removeAllItems()")
+		void deleteAllItems() { removeAllItems(); }
+
+		MYGUI_OBSOLETE("use List::findItemIndexWith(const Ogre::UTFString & _name)")
+		size_t findItem(const Ogre::UTFString & _item) { return findItemIndexWith(_item); }
+
+		MYGUI_OBSOLETE("use List::getItemIndexSelected()")
+		size_t getItemSelect() { return getItemIndexSelected(); }
+
+		MYGUI_OBSOLETE("use List::clearItemSelected()")
+		void resetItemSelect() { clearItemSelected(); }
+
+		MYGUI_OBSOLETE("use List::setItemSelectedAt(size_t _index)")
+		void setItemSelect(size_t _index) { setItemSelectedAt(_index); }
+
+		MYGUI_OBSOLETE("use List::beginToItemAt(size_t _index)")
+		void beginToIndex(size_t _index) { beginToItemAt(_index); }
+
+		MYGUI_OBSOLETE("use List::beginToItemFirst()")
+		void beginToStart() { beginToItemFirst(); }
+
+		MYGUI_OBSOLETE("use List::beginToItemLast()")
+		void beginToEnd() { beginToItemLast(); }
+
+		MYGUI_OBSOLETE("use List::beginToItemSelected()")
+		void beginToSelect() { beginToItemSelected(); }
+
+		MYGUI_OBSOLETE("use List::isItemVisibleAt(size_t _index, bool _fill)")
+		bool isItemVisible(size_t _index, bool _fill = true) { return isItemVisibleAt(_index, _fill); }
+
+		MYGUI_OBSOLETE("use List::isItemSelectedVisible(bool _fill)")
+		bool isItemSelectVisible(bool _fill = true) { return isItemSelectedVisible(_fill); }
+
+		// #endif // MYGUI_USING_OBSOLETE
 
 		//! Set scroll visible when it needed
 		void setScrollVisible(bool _visible);
@@ -86,76 +181,75 @@ namespace MyGUI
 		void setScrollPosition(size_t _position);
 
 		//------------------------------------------------------------------------------------//
-		// для изменения у всех строк
-		/*virtual void setTextAlign(Align _align);
-		virtual Align getTextAlign();
-
-		virtual void setColour(const Ogre::ColourValue & _colour);
-		virtual const Ogre::ColourValue & getColour();
-
-		virtual void setFontName(const Ogre::String & _font);
-		virtual const Ogre::String & getFontName();
-
-		virtual void setFontHeight(uint16 _height);
-		virtual uint16 getFontHeight();*/
-
-		//------------------------------------------------------------------------------------//
-		// вспомогательные методы для составных списков
+		// РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ РјРµС‚РѕРґС‹ РґР»СЏ СЃРѕСЃС‚Р°РІРЅС‹С… СЃРїРёСЃРєРѕРІ
 		void _setItemFocus(size_t _position, bool _focus);
 		void _sendEventChangeScroll(size_t _position);
 
 		//------------------------------------------------------------------------------------//
-		//! @copydoc Widget::setPosition(const IntCoord& _coord)
-		void setPosition(const IntCoord& _coord);
-		//! @copydoc Widget::setSize(const IntSize& _size)
-		void setSize(const IntSize& _size);
-		//! @copydoc Widget::setPosition(int _left, int _top)
-		inline void setPosition(int _left, int _top) {Widget::setPosition(IntPoint(_left, _top));}
-		//! @copydoc Widget::setPosition(int _left, int _top, int _width, int _height)
-		inline void setPosition(int _left, int _top, int _width, int _height) {setPosition(IntCoord(_left, _top, _width, _height));}
-		//! @copydoc Widget::setSize(int _width, int _height)
-		inline void setSize(int _width, int _height) {setSize(IntSize(_width, _height));}
 
-		// возвращает максимальную высоту вмещающую все строки и родительский бордюр
+		//! @copydoc Widget::setPosition(const IntPoint & _point)
+		virtual void setPosition(const IntPoint & _point);
+		//! @copydoc Widget::setSize(const IntSize& _size)
+		virtual void setSize(const IntSize & _size);
+		//! @copydoc Widget::setCoord(const IntCoord & _coord)
+		virtual void setCoord(const IntCoord & _coord);
+
+		/** @copydoc Widget::setPosition(int _left, int _top) */
+		void setPosition(int _left, int _top) { setPosition(IntPoint(_left, _top)); }
+		/** @copydoc Widget::setSize(int _width, int _height) */
+		void setSize(int _width, int _height) { setSize(IntSize(_width, _height)); }
+		/** @copydoc Widget::setCoord(int _left, int _top, int _width, int _height) */
+		void setCoord(int _left, int _top, int _width, int _height) { setCoord(IntCoord(_left, _top, _width, _height)); }
+
+		MYGUI_OBSOLETE("use Widget::setCoord(const IntCoord& _coord)")
+		void setPosition(const IntCoord & _coord) { setCoord(_coord); }
+		MYGUI_OBSOLETE("use Widget::setCoord(int _left, int _top, int _width, int _height)")
+		void setPosition(int _left, int _top, int _width, int _height) { setCoord(_left, _top, _width, _height); }
+
+		// РІРѕР·РІСЂР°С‰Р°РµС‚ РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ РІС‹СЃРѕС‚Сѓ РІРјРµС‰Р°СЋС‰СѓСЋ РІСЃРµ СЃС‚СЂРѕРєРё Рё СЂРѕРґРёС‚РµР»СЊСЃРєРёР№ Р±РѕСЂРґСЋСЂ
 		//! Return optimal height to fit all items in List
-		inline int getOptimalHeight() {return (mCoord.height - mWidgetClient->getHeight()) + ((int)mStringArray.size() * mHeightLine);}
+		size_t getOptimalHeight() {return (mCoord.height - mWidgetClient->getHeight()) + (mItemsInfo.size() * mHeightLine);}
 
 		/** Event : Enter pressed or double click.\n
-			signature : void method(WidgetPtr _sender, size_t _index)\n
+			signature : void method(MyGUI::WidgetPtr _sender, size_t _index)\n
 			@param _index of selected item
 		*/
 		EventInfo_WidgetSizeT eventListSelectAccept;
 
 		/** Event : Selected item position changed.\n
-			signature : void method(WidgetPtr _sender, size_t _index)\n
+			signature : void method(MyGUI::WidgetPtr _sender, size_t _index)\n
 			@param _index of new item
 		*/
 		EventInfo_WidgetSizeT eventListChangePosition;
 
 		/** Event : Item was selected by mouse.\n
-			signature : void method(WidgetPtr _sender, size_t _index)\n
+			signature : void method(MyGUI::WidgetPtr _sender, size_t _index)\n
 			@param _index of selected item
 		*/
 		EventInfo_WidgetSizeT eventListMouseItemActivate;
 
 		/** Event : Mouse is over item.\n
-			signature : void method(WidgetPtr _sender, size_t _index)\n
+			signature : void method(MyGUI::WidgetPtr _sender, size_t _index)\n
 			@param _index of focused item
 		*/
 		EventInfo_WidgetSizeT eventListMouseItemFocus;
 
 		/** Event : Position of scroll changed.\n
-			signature : void method(WidgetPtr _sender, size_t _position)\n
+			signature : void method(MyGUI::WidgetPtr _sender, size_t _position)\n
 			@param _position of scroll
 		*/
 		EventInfo_WidgetSizeT eventListChangeScroll;
 
 	protected:
+		List(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		virtual ~List();
 
-		void _onMouseWheel(int _rel);
-		void _onKeyLostFocus(WidgetPtr _new);
-		void _onKeySetFocus(WidgetPtr _old);
-		void _onKeyButtonPressed(KeyCode _key, Char _char);
+		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
+
+		void onMouseWheel(int _rel);
+		void onKeyLostFocus(WidgetPtr _new);
+		void onKeySetFocus(WidgetPtr _old);
+		void onKeyButtonPressed(KeyCode _key, Char _char);
 
 		void notifyScrollChangePosition(WidgetPtr _sender, size_t _rel);
 		void notifyMousePressed(WidgetPtr _sender, int _left, int _top, MouseButton _id);
@@ -168,48 +262,51 @@ namespace MyGUI
 		void updateLine(bool _reset = false);
 		void _setScrollView(size_t _position);
 
-		// перерисовывает от индекса до низа
+		// РїРµСЂРµСЂРёСЃРѕРІС‹РІР°РµС‚ РѕС‚ РёРЅРґРµРєСЃР° РґРѕ РЅРёР·Р°
 		void _redrawItemRange(size_t _start = 0);
 
-		// перерисовывает индекс
+		// РїРµСЂРµСЂРёСЃРѕРІС‹РІР°РµС‚ РёРЅРґРµРєСЃ
 		void _redrawItem(size_t _index);
 
-		// удаляем строку из списка
+		// СѓРґР°Р»СЏРµРј СЃС‚СЂРѕРєСѓ РёР· СЃРїРёСЃРєР°
 		void _deleteString(size_t _index);
-		// вставляем строку
-		void _insertString(size_t _index, const Ogre::UTFString & _item);
 
-		// ищет и выделяет елемент
-		inline void _selectIndex(size_t _index, bool _select);
+		// РёС‰РµС‚ Рё РІС‹РґРµР»СЏРµС‚ РµР»РµРјРµРЅС‚
+		void _selectIndex(size_t _index, bool _select);
 
-		inline void _updateState() {setState(mIsFocus ? "select" : "normal");}
+		void _updateState() { setState(mIsFocus ? "pushed" : "normal"); }
+
+	private:
+		void initialiseWidgetSkin(WidgetSkinInfoPtr _info);
+		void shutdownWidgetSkin();
 
 	private:
 		std::string mSkinLine;
 		VScrollPtr mWidgetScroll;
-		//WidgetPtr mWidgetClient;
 
-		// наши дети в строках
+		// РЅР°С€Рё РґРµС‚Рё РІ СЃС‚СЂРѕРєР°С…
 		VectorWidgetPtr mWidgetLines;
 
-		int mHeightLine; // высота одной строки
-		int mTopIndex; // индекс самого верхнего элемента
-		int mOffsetTop; // текущее смещение
-		int mRangeIndex; // размерность скрола
-		size_t mLastRedrawLine; // последняя перерисованная линия
+		int mHeightLine; // РІС‹СЃРѕС‚Р° РѕРґРЅРѕР№ СЃС‚СЂРѕРєРё
+		int mTopIndex; // РёРЅРґРµРєСЃ СЃР°РјРѕРіРѕ РІРµСЂС…РЅРµРіРѕ СЌР»РµРјРµРЅС‚Р°
+		int mOffsetTop; // С‚РµРєСѓС‰РµРµ СЃРјРµС‰РµРЅРёРµ
+		int mRangeIndex; // СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ СЃРєСЂРѕР»Р°
+		size_t mLastRedrawLine; // РїРѕСЃР»РµРґРЅСЏСЏ РїРµСЂРµСЂРёСЃРѕРІР°РЅРЅР°СЏ Р»РёРЅРёСЏ
 
-		size_t mIndexSelect; // текущий выделенный элемент или ITEM_NONE
-		size_t mLineActive; // текущий виджет над которым мыша
+		size_t mIndexSelect; // С‚РµРєСѓС‰РёР№ РІС‹РґРµР»РµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚ РёР»Рё ITEM_NONE
+		size_t mLineActive; // С‚РµРєСѓС‰РёР№ РІРёРґР¶РµС‚ РЅР°Рґ РєРѕС‚РѕСЂС‹Рј РјС‹С€Р°
 
-		std::vector<Ogre::UTFString> mStringArray;
+		typedef std::pair<Ogre::UTFString, Any> PairItem;
+		typedef std::vector<PairItem> VectorItemInfo;
+		VectorItemInfo mItemsInfo;
 
-		// имеем ли мы фокус ввода
+		// РёРјРµРµРј Р»Рё РјС‹ С„РѕРєСѓСЃ РІРІРѕРґР°
 		bool mIsFocus;
 		bool mNeedVisibleScroll;
 
 		IntSize mOldSize;
 
-	}; // class List : public Widget
+	};
 
 } // namespace MyGUI
 

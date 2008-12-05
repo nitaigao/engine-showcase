@@ -8,26 +8,23 @@
 #define __MYGUI_MENU_BAR_FACTORY_H__
 
 #include "MyGUI_Prerequest.h"
-#include "MyGUI_WidgetFactoryInterface.h"
-#include "MyGUI_WidgetDefines.h"
+#include "MyGUI_IWidgetFactory.h"
+#include "MyGUI_MenuBar.h"
 
 namespace MyGUI
 {
 	namespace factory
 	{
 
-		class _MyGUIExport MenuBarFactory : public WidgetFactoryInterface
+		class _MyGUIExport MenuBarFactory : public BaseWidgetFactory<MenuBar>
 		{
 		public:
 			MenuBarFactory();
 			~MenuBarFactory();
+		private:
+			// РјРµС‚РѕРґС‹ РґР»СЏ РїР°СЂСЃРёРЅРіР°
+			void MenuBar_AddItem(WidgetPtr _widget, const std::string &_key, const std::string &_value);
 
-			// реализация интерфейса фабрики
-			const Ogre::String& getType();
-			WidgetPtr createWidget(const Ogre::String& _skin, const IntCoord& _coord, Align _align, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String& _name);
-
-			// методы для парсинга
-			void MenuBar_AddItem(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
 		};
 
 	} // namespace factory

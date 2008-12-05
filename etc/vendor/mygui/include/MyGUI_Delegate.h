@@ -7,73 +7,110 @@
 #ifndef __MYGUI_DELEGATE_H__
 #define __MYGUI_DELEGATE_H__
 
+#include <assert.h>
+#include <typeinfo>
 // source
 // http://rsdn.ru/article/cpp/delegates.xml
 
-// генерация делегатов для различного колличества параметров
-
+// РіРµРЅРµСЂР°С†РёСЏ РґРµР»РµРіР°С‚РѕРІ РґР»СЏ СЂР°Р·Р»РёС‡РЅРѕРіРѕ РєРѕР»Р»РёС‡РµСЃС‚РІР° РїР°СЂР°РјРµС‚СЂРѕРІ
 namespace MyGUI
 {
 
-	// один параметр
-	#define SUFFIX       1
-	#define TEMPLATE_PARAMS  class TP1
-	#define TEMPLATE_ARGS    TP1
-	#define PARAMS       TP1 p1
-	#define ARGS         p1
+	namespace delegates
+	{
+		// Р±Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ РґР»СЏ С‚РµС… РєР»Р°СЃСЃРѕРІ, С‡С‚Рѕ С…РѕС‚СЏС‚ СЃРµР±СЏ РѕС‚РІСЏР·С‹РІР°С‚СЊ РѕС‚ РјСѓР»СЊС‚Рё РґРµР»РµРіР°С‚РѕРІ
+		class _MyGUIExport IDelegateUnlink
+		{
+		public:
+			IDelegateUnlink() { m_baseDelegateUnlink = this; }
+			bool compare(IDelegateUnlink * _unlink) { return m_baseDelegateUnlink == _unlink->m_baseDelegateUnlink; }
+
+		private:
+			IDelegateUnlink * m_baseDelegateUnlink;
+		};
+
+		inline IDelegateUnlink * GetDelegateUnlink(void * _base) { return 0; }
+		inline IDelegateUnlink * GetDelegateUnlink(IDelegateUnlink * _base) { return _base; }
+	}
+
+	// Р±РµР· РїР°СЂР°РјРµС‚СЂРѕРІ
+	#define MYGUI_SUFFIX       0
+	#define MYGUI_TEMPLATE
+	#define MYGUI_TEMPLATE_PARAMS
+	#define MYGUI_TEMPLATE_ARGS
+	#define MYGUI_T_TEMPLATE_PARAMS  <typename T>
+	#define MYGUI_T_TEMPLATE_ARGS <T>
+	#define MYGUI_PARAMS
+	#define MYGUI_ARGS
+	#define MYGUI_TYPENAME
 
 	#include "MyGUI_DelegateImplement.h"
 
-	#undef SUFFIX
-	#undef TEMPLATE_PARAMS
-	#undef TEMPLATE_ARGS
-	#undef PARAMS
-	#undef ARGS
-
-	// два параметра
-	#define SUFFIX       2
-	#define TEMPLATE_PARAMS  class TP1, class TP2
-	#define TEMPLATE_ARGS    TP1, TP2
-	#define PARAMS       TP1 p1, TP2 p2
-	#define ARGS         p1, p2
+	// РѕРґРёРЅ РїР°СЂР°РјРµС‚СЂ
+	#define MYGUI_SUFFIX       1
+	#define MYGUI_TEMPLATE	template
+	#define MYGUI_TEMPLATE_PARAMS  <typename TP1>
+	#define MYGUI_TEMPLATE_ARGS    <TP1>
+	#define MYGUI_T_TEMPLATE_PARAMS  <typename T, typename TP1>
+	#define MYGUI_T_TEMPLATE_ARGS    <T, TP1>
+	#define MYGUI_PARAMS       TP1 p1
+	#define MYGUI_ARGS         p1
+	#define MYGUI_TYPENAME     typename
 
 	#include "MyGUI_DelegateImplement.h"
 
-	#undef SUFFIX
-	#undef TEMPLATE_PARAMS
-	#undef TEMPLATE_ARGS
-	#undef PARAMS
-	#undef ARGS
-
-	// три параметра
-	#define SUFFIX       3
-	#define TEMPLATE_PARAMS  class TP1, class TP2, class TP3
-	#define TEMPLATE_ARGS    TP1, TP2, TP3
-	#define PARAMS       TP1 p1, TP2 p2, TP3 p3
-	#define ARGS         p1, p2, p3
+	// РґРІР° РїР°СЂР°РјРµС‚СЂР°
+	#define MYGUI_SUFFIX       2
+	#define MYGUI_TEMPLATE	template
+	#define MYGUI_TEMPLATE_PARAMS  <typename TP1, typename TP2>
+	#define MYGUI_TEMPLATE_ARGS    <TP1, TP2>
+	#define MYGUI_T_TEMPLATE_PARAMS  <typename T, typename TP1, typename TP2>
+	#define MYGUI_T_TEMPLATE_ARGS    <T, TP1, TP2>
+	#define MYGUI_PARAMS       TP1 p1, TP2 p2
+	#define MYGUI_ARGS         p1, p2
+	#define MYGUI_TYPENAME     typename
 
 	#include "MyGUI_DelegateImplement.h"
 
-	#undef SUFFIX
-	#undef TEMPLATE_PARAMS
-	#undef TEMPLATE_ARGS
-	#undef PARAMS
-	#undef ARGS
-
-	// четыре параметра
-	#define SUFFIX       4
-	#define TEMPLATE_PARAMS  class TP1, class TP2, class TP3, class TP4
-	#define TEMPLATE_ARGS    TP1, TP2, TP3, TP4
-	#define PARAMS       TP1 p1, TP2 p2, TP3 p3, TP4 p4
-	#define ARGS         p1, p2, p3, p4
+	// С‚СЂРё РїР°СЂР°РјРµС‚СЂР°
+	#define MYGUI_SUFFIX       3
+	#define MYGUI_TEMPLATE	template
+	#define MYGUI_TEMPLATE_PARAMS  <typename TP1, typename TP2, typename TP3>
+	#define MYGUI_TEMPLATE_ARGS    <TP1, TP2, TP3>
+	#define MYGUI_T_TEMPLATE_PARAMS  <typename T, typename TP1, typename TP2, typename TP3>
+	#define MYGUI_T_TEMPLATE_ARGS    <T, TP1, TP2, TP3>
+	#define MYGUI_PARAMS       TP1 p1, TP2 p2, TP3 p3
+	#define MYGUI_ARGS         p1, p2, p3
+	#define MYGUI_TYPENAME     typename
 
 	#include "MyGUI_DelegateImplement.h"
 
-	#undef SUFFIX
-	#undef TEMPLATE_PARAMS
-	#undef TEMPLATE_ARGS
-	#undef PARAMS
-	#undef ARGS
+	// С‡РµС‚С‹СЂРµ РїР°СЂР°РјРµС‚СЂР°
+	#define MYGUI_SUFFIX       4
+	#define MYGUI_TEMPLATE	template
+	#define MYGUI_TEMPLATE_PARAMS  <typename TP1, typename TP2, typename TP3, typename TP4>
+	#define MYGUI_TEMPLATE_ARGS    <TP1, TP2, TP3, TP4>
+	#define MYGUI_T_TEMPLATE_PARAMS  <typename T, typename TP1, typename TP2, typename TP3, typename TP4>
+	#define MYGUI_T_TEMPLATE_ARGS    <T, TP1, TP2, TP3, TP4>
+	#define MYGUI_PARAMS       TP1 p1, TP2 p2, TP3 p3, TP4 p4
+	#define MYGUI_ARGS         p1, p2, p3, p4
+	#define MYGUI_TYPENAME     typename
+
+	#include "MyGUI_DelegateImplement.h"
+
+	// РїСЏС‚СЊ РїР°СЂР°РјРµС‚СЂРѕРІ
+	#define MYGUI_SUFFIX       5
+	#define MYGUI_TEMPLATE	template
+	#define MYGUI_TEMPLATE_PARAMS  <typename TP1, typename TP2, typename TP3, typename TP4, typename TP5>
+	#define MYGUI_TEMPLATE_ARGS    <TP1, TP2, TP3, TP4, TP5>
+	#define MYGUI_T_TEMPLATE_PARAMS  <typename T, typename TP1, typename TP2, typename TP3, typename TP4, typename TP5>
+	#define MYGUI_T_TEMPLATE_ARGS    <T, TP1, TP2, TP3, TP4, TP5>
+	#define MYGUI_PARAMS       TP1 p1, TP2 p2, TP3 p3, TP4 p4, TP5 p5
+	#define MYGUI_ARGS         p1, p2, p3, p4, p5
+	#define MYGUI_TYPENAME     typename
+
+	#include "MyGUI_DelegateImplement.h"
+
 
 } // namespace MyGUI
 

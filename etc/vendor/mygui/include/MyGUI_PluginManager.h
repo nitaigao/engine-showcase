@@ -8,16 +8,20 @@
 #define __MYGUI_PLUGIN_MANAGER_H__
 
 #include "MyGUI_Prerequest.h"
-#include <Ogre.h>
 #include "MyGUI_Instance.h"
 #include "MyGUI_Plugin.h"
 #include "MyGUI_XmlDocument.h"
+#include "MyGUI_Version.h"
 
-typedef void (*DLL_START_PLUGIN)(void);
-typedef void (*DLL_STOP_PLUGIN)(void);
+#include <Ogre.h>
+
+#include "MyGUI_LastHeader.h"
 
 namespace MyGUI
 {
+
+	typedef void (*DLL_START_PLUGIN)(void);
+	typedef void (*DLL_STOP_PLUGIN)(void);
 
 	/*!	\brief Plugin manager. Load/unload and register plugins.
 	*/
@@ -38,9 +42,9 @@ namespace MyGUI
 		//!	Unload plugin
 		void unloadPlugin(const std::string& _file);
 
-		/** Load additional MyGUI *.pluggin file */
+		/** Load additional MyGUI *_pluggin.xml file */
 		bool load(const std::string& _file, const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-		void _load(xml::xmlNodePtr _node, const std::string & _file);
+		void _load(xml::xmlNodePtr _node, const std::string & _file, Version _version);
 
 		/*!	Install plugin
 			

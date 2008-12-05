@@ -2,14 +2,26 @@
 	@file
 	@author		Denis Koronchik
 	@author		Georgiy Evmenov
-	@author		�� � � ���� ���� =)
+	@author		Ну и я чуть чуть =)
 	@date		09/2007
 */
 
 #ifndef __MYGUI_PREREQUEST_H__
 #define __MYGUI_PREREQUEST_H__
 
+#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
+#		define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #include "MyGUI_Platform.h"
+
+// for OGRE_VERSION
+#include <OgrePrerequisites.h>
+
+// для полной информации о выделении памяти
+#if OGRE_VERSION < ((1 << 16) | (6 << 8) | 0)
+	#include <OgreMemoryManager.h>
+#endif
 
 #include <string>
 #include <list>
@@ -20,6 +32,8 @@
 #include "MyGUI_Utility.h"
 #include "MyGUI_Delegate.h"
 
+#include "MyGUI_LastHeader.h"
+
 namespace MyGUI
 {
 	class Gui;
@@ -28,7 +42,7 @@ namespace MyGUI
 
 	class WidgetSkinInfo;
 	class MaskPeekInfo;
-	class WidgetCreator;
+	class IWidgetCreator;
 
 	// managers
 	class InputManager;
@@ -43,13 +57,18 @@ namespace MyGUI
 	class LayoutManager;
 	class PluginManager;
 	class DynLibManager;
-
-	class WidgetFactoryInterface;
+	class DelegateManager;
+	class LanguageManager;
+	class ResourceManager;
+	
+	class IWidgetFactory;
 
 	class DynLib;
 
 	namespace factory
 	{
+		template <typename T> class BaseWidgetFactory;
+
 		class WidgetFactory;
 		class ButtonFactory;
 		class WindowFactory;
@@ -59,17 +78,20 @@ namespace MyGUI
 		class EditFactory;
 		class ComboBoxFactory;
 		class StaticTextFactory;
-		class SheetFactory;
 		class TabFactory;
+		class TabItemFactory;
 		class ProgressFactory;
 		class ItemBoxFactory;
 		class MultiListFactory;
 		class StaticImageFactory;
 		class MessageFactory;
 		class RenderBoxFactory;
-		class FooBarFactory;
 		class PopupMenuFactory;
+		class MenuItemFactory;
 		class MenuBarFactory;
+		class ScrollViewFactory;
+		class DDContainerFactory;
+		class GridCtrlFactory;
 	}
 
 	class Widget;
@@ -81,17 +103,21 @@ namespace MyGUI
 	class Edit;
 	class ComboBox;
 	class StaticText;
-	class Sheet;
 	class Tab;
+	class TabItem;
 	class Progress;
 	class ItemBox;
 	class MultiList;
 	class StaticImage;
 	class Message;
 	class RenderBox;
-	class FooBar;
+	class MenuCtrl;
+	class MenuItem;
 	class PopupMenu;
 	class MenuBar;
+	class ScrollView;
+	class DDContainer;
+	class GridCtrl;
 
 	typedef Widget * WidgetPtr;
 	typedef Button * ButtonPtr;
@@ -102,17 +128,24 @@ namespace MyGUI
 	typedef Edit * EditPtr;
 	typedef ComboBox * ComboBoxPtr;
 	typedef StaticText * StaticTextPtr;
-	typedef Sheet * SheetPtr;
 	typedef Tab * TabPtr;
+	typedef TabItem * TabItemPtr;
 	typedef Progress * ProgressPtr;
 	typedef ItemBox * ItemBoxPtr;
 	typedef MultiList * MultiListPtr;
 	typedef StaticImage * StaticImagePtr;
 	typedef Message * MessagePtr;
 	typedef RenderBox * RenderBoxPtr;
-	typedef FooBar * FooBarPtr;
+	typedef MenuCtrl * MenuCtrlPtr;
+	typedef MenuItem * MenuItemPtr;
 	typedef PopupMenu * PopupMenuPtr;
 	typedef MenuBar * MenuBarPtr;
+	typedef ScrollView * ScrollViewPtr;
+	typedef DDContainer * DDContainerPtr;
+	typedef GridCtrl * GridCtrlPtr;
+
+	typedef TabItem Sheet; // OBSOLETE
+	typedef TabItem * SheetPtr; // OBSOLETE
 
 	// Define version
     #define MYGUI_VERSION_MAJOR 2
@@ -156,14 +189,6 @@ namespace MyGUI
 // instantiation request" Occurs in VC7 for no justifiable reason on all
 // #includes of Singleton
 #   pragma warning( disable: 4661)
-
-// disable: deprecation warnings when using CRT calls in VC8
-// These show up on all C runtime lib code in VC8, disable since they clutter
-// the warnings with things we may not be able to do anything about (e.g.
-// generated code from nvparse etc). I doubt very much that these calls
-// will ever be actually removed from VC anyway, it would break too much code.
-#	pragma warning( disable: 4996)
-
 
 #endif
 

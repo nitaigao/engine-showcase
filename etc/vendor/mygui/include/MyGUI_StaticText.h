@@ -15,20 +15,22 @@ namespace MyGUI
 
 	class _MyGUIExport StaticText : public Widget
 	{
-		// для вызова закрытого конструктора
-		friend class factory::StaticTextFactory;
+		// РґР»СЏ РІС‹Р·РѕРІР° Р·Р°РєСЂС‹С‚РѕРіРѕ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
+		friend class factory::BaseWidgetFactory<StaticText>;
+
+		MYGUI_RTTI_CHILD_HEADER;
 
 	protected:
-		StaticText(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String & _name);
-		static Ogre::String WidgetTypeName;
+		StaticText(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		virtual ~StaticText();
 
-	public:
-		//! @copydoc Widget::_getType()
-		inline static const Ogre::String & _getType() {return WidgetTypeName;}
-		//! @copydoc Widget::getWidgetType()
-		virtual const Ogre::String & getWidgetType() { return _getType(); }
+		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
 
-	}; // class _MyGUIExport StaticText : public Widget
+	private:
+		void initialiseWidgetSkin(WidgetSkinInfoPtr _info);
+		void shutdownWidgetSkin();
+
+	};
 
 } // namespace MyGUI
 

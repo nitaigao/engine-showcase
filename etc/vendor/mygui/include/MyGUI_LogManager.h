@@ -44,15 +44,19 @@ namespace MyGUI
 
 		static const LogStreamEnd& end();
 
+		// set logging enabled on std output device
+		static void setSTDOutputEnabled(bool _enable);
+		static bool getSTDOutputEnabled();
+
 	private:
 		LogManager();
 		~LogManager();
 
-		inline static void lock()
+		static void lock()
 		{
 		}
 
-		inline static void release()
+		static void release()
 		{
 		}
 
@@ -66,7 +70,7 @@ namespace MyGUI
 	private:
 		static LogManager * msInstance;
 		MapLogStream mMapSectionFileName;
-
+		bool mSTDOut;
 	};
 
 } // namespace MyGUI

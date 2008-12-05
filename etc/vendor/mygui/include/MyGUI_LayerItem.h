@@ -24,26 +24,27 @@ namespace MyGUI
 
 	public:
 		LayerItem() : mLayerKeeper(null), mLayerItemKeeper(null) {};
+		virtual ~LayerItem() {};
 
 	private:
 		virtual LayerItem * _findLayerItem(int _left, int _top) = 0;
 
 	public:
 
-		inline LayerKeeper * getLayerKeeper() {return mLayerKeeper;}
+		LayerKeeper * getLayerKeeper() { return mLayerKeeper; }
 
-		// наш текущий хранитель леера
-		inline LayerItemKeeper * getLayerItemKeeper() { return mLayerItemKeeper; }
-		inline void setLayerItemKeeper(LayerItemKeeper * _item) {mLayerItemKeeper = _item;}
+		// РЅР°С€ С‚РµРєСѓС‰РёР№ С…СЂР°РЅРёС‚РµР»СЊ Р»РµРµСЂР°
+		LayerItemKeeper * getLayerItemKeeper() { return mLayerItemKeeper; }
+		void setLayerItemKeeper(LayerItemKeeper * _item) { mLayerItemKeeper = _item; }
 
-		// физическое подсоединение и отсоединение
+		// С„РёР·РёС‡РµСЃРєРѕРµ РїРѕРґСЃРѕРµРґРёРЅРµРЅРёРµ Рё РѕС‚СЃРѕРµРґРёРЅРµРЅРёРµ
 		virtual void _attachToLayerItemKeeper(LayerItemKeeper * _item) = 0;
 		virtual void _detachFromLayerItemKeeper() = 0;
 
 	private:
-		// актуально для рутового виджета
+		// Р°РєС‚СѓР°Р»СЊРЅРѕ РґР»СЏ СЂСѓС‚РѕРІРѕРіРѕ РІРёРґР¶РµС‚Р°
 		LayerKeeper * mLayerKeeper;
-		// конкретный айтем находящийся в слое
+		// РєРѕРЅРєСЂРµС‚РЅС‹Р№ Р°Р№С‚РµРј РЅР°С…РѕРґСЏС‰РёР№СЃСЏ РІ СЃР»РѕРµ
 		LayerItemKeeper * mLayerItemKeeper;
 
 	};

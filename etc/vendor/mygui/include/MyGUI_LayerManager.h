@@ -9,21 +9,24 @@
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Instance.h"
+#include "MyGUI_Enumerator.h"
 #include "MyGUI_XmlDocument.h"
-#include "MyGUI_UnlinkWidget.h"
+#include "MyGUI_IUnlinkWidget.h"
 
-#include <Ogre.h>
-#include <OgrePrerequisites.h>
 #include <OgreRenderQueueListener.h>
+
+#include "MyGUI_LastHeader.h"
 
 namespace MyGUI
 {
 
 	class LayerItem;
 	class LayerKeeper;
-	typedef std::vector<LayerKeeper*> VectorLayerKeeper;
+	typedef LayerKeeper* LayerKeeperPtr;
+	typedef std::vector<LayerKeeperPtr> VectorLayerKeeperPtr;
+	typedef Enumerator<VectorLayerKeeperPtr> EnumeratorLayerKeeperPtr;
 
-	class _MyGUIExport LayerManager : public Ogre::RenderQueueListener, public UnlinkWidget
+	class _MyGUIExport LayerManager : public Ogre::RenderQueueListener, public IUnlinkWidget
 	{
 		INSTANCE_HEADER(LayerManager);
 
@@ -50,68 +53,74 @@ namespace MyGUI
 		*/
 		void upLayerItem(WidgetPtr _item);
 
-		/** Load additional MyGUI *.layer file */
+		/** Load additional MyGUI *_layer.xml file */
 		bool load(const std::string & _file, const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-		void _load(xml::xmlNodePtr _node, const std::string & _file);
+		void _load(xml::xmlNodePtr _node, const std::string & _file, Version _version);
 
 		LayerItem * _findLayerItem(int _left, int _top, LayerItem* &_root);
 
-		// удаляем данный виджет из всех возможных мест
+		// СѓРґР°Р»СЏРµРј РґР°РЅРЅС‹Р№ РІРёРґР¶РµС‚ РёР· РІСЃРµС… РІРѕР·РјРѕР¶РЅС‹С… РјРµСЃС‚
 		void _unlinkWidget(WidgetPtr _widget);
 
-		void _windowResized(const FloatSize& _size);
-
-		/** Get view size of GUI area*/
-		inline const FloatSize& getViewSize() {return mViewSize;}
+		void _windowResized(const IntSize& _size);
 
 		/** Get maximum depth */
-		inline float getMaximumDepth() {return mMaximumDepth;}
+		float getMaximumDepth() { return mMaximumDepth; }
 
 		/** Get X pixel scale */
-		inline float getPixScaleX() {return mPixScaleX;}
+		float getPixScaleX() { return mPixScaleX; }
 		/** Get Y pixel scale */
-		inline float getPixScaleY() {return mPixScaleY;}
+		float getPixScaleY() { return mPixScaleY; }
 
 		/** Get horisontal texel offset divided by window width */
-		inline float getHOffset() {return mHOffset;}
+		float getHOffset() { return mHOffset; }
 		/** Get vertical texel offset divided by window height */
-		inline float getVOffset() {return mVOffset;}
+		float getVOffset() { return mVOffset; }
 
 		/** Get aspect coefficient */
-		inline float getAspectCoef() {return mAspectCoef;}
+		float getAspectCoef() { return mAspectCoef; }
 
 		/** Set scene manager where MyGUI will be rendered */
 		void setSceneManager(Ogre::SceneManager * _scene);
 
-		inline size_t getBatch() {return mCountBatch;}
-		inline void _addBatch() {mCountBatch ++;}
+		/** Get current batch count */
+		size_t getBatch() { return mCountBatch; }
+		void _addBatch() { mCountBatch ++; }
 
-		bool exist(const std::string & _name);
+		/** Check is layer exist */
+		bool isExist(const std::string & _name);
+		/** Get layer keepers Enumerator */
+		EnumeratorLayerKeeperPtr getEnumerator() { return EnumeratorLayerKeeperPtr(mLayerKeepers); }
+
+		/** Get top visible and enabled widget at specified position */
+		WidgetPtr getWidgetFromPoint(int _left, int _top);
 
 	private:
+		void clear();
 
 		virtual void renderQueueStarted(Ogre::uint8 queueGroupId, const Ogre::String& invocation, bool& skipThisInvocation);
 		virtual void renderQueueEnded(Ogre::uint8 queueGroupId, const Ogre::String& invocation, bool& repeatThisInvocation);
 
+		void merge(VectorLayerKeeperPtr & _layers);
+		void destroy(LayerKeeperPtr _layer);
+
 	private:
-		VectorLayerKeeper mLayerKeepers;
+		VectorLayerKeeperPtr mLayerKeepers;
 
-		FloatSize mViewSize;
-
-		// флаг для обновления всех и вся
+		// С„Р»Р°Рі РґР»СЏ РѕР±РЅРѕРІР»РµРЅРёСЏ РІСЃРµС… Рё РІСЃСЏ
 		bool mUpdate;
 
-		// размер пикселя в относительных координатах
+		// СЂР°Р·РјРµСЂ РїРёРєСЃРµР»СЏ РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹С… РєРѕРѕСЂРґРёРЅР°С‚Р°С…
 		float mPixScaleX;
 		float mPixScaleY;
 
-		// смещение для того, чтобы тексель попал в пиксель
+		// СЃРјРµС‰РµРЅРёРµ РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ С‚РµРєСЃРµР»СЊ РїРѕРїР°Р» РІ РїРёРєСЃРµР»СЊ
         float mHOffset;
         float mVOffset;
 
 		float mAspectCoef;
 
-		// координата зю
+		// РєРѕРѕСЂРґРёРЅР°С‚Р° Р·СЋ
 		float mMaximumDepth;
 
 		Ogre::SceneManager * mSceneManager;

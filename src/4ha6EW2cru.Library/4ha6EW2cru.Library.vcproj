@@ -270,6 +270,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Graphics\GUI\GuiScreen.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\GuiScreen.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Graphics\GUI\GuiView.cpp"
 			>
 		</File>
@@ -371,14 +379,6 @@
 		</File>
 		<File
 			RelativePath=".\Common\Paths.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\View\Screen.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\View\Screen.h"
 			>
 		</File>
 		<File

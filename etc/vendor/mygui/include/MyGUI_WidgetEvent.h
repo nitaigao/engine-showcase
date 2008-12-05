@@ -10,10 +10,12 @@
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Macros.h"
 #include "MyGUI_WidgetDefines.h"
+#include "MyGUI_WidgetToolTip.h"
 
 namespace MyGUI
 {
-	// делегаты для событий виджета
+
+	// РґРµР»РµРіР°С‚С‹ РґР»СЏ СЃРѕР±С‹С‚РёР№ РІРёРґР¶РµС‚Р°
 	typedef delegates::CDelegate1<WidgetPtr> EventInfo_WidgetVoid;
 	typedef delegates::CDelegate2<WidgetPtr, WidgetPtr> EventInfo_WidgetWidget;
 	typedef delegates::CDelegate2<WidgetPtr, bool> EventInfo_WidgetBool;
@@ -25,25 +27,30 @@ namespace MyGUI
 	typedef delegates::CDelegate3<WidgetPtr, KeyCode, Char> EventInfo_WidgetKeyCodeChar;
 	typedef delegates::CDelegate3<WidgetPtr, const std::string&, const std::string&> EventInfo_WidgetStringString;
 	typedef delegates::CDelegate3<WidgetPtr, WidgetPtr&, size_t &> EventInfo_WidgetRefWidgetRefSizeT;
+	typedef delegates::CDelegate2<WidgetPtr, const ToolTipInfo & > EventInfo_WidgetToolTip;
 
 	/**
 	General information about creating delegate for event :
-
-		void anyFunc(...) {}; // global function
+	@example "Delegate usage"
+	@code
+		void anyFunc(...) { } // global function
 
 		class AnyClass
 		{
 		public:
-			static void anyStaticMethod(...) {}; // static method
-			void anyMethod(...) {}; // обычный метод
+			static void anyStaticMethod(...) { } // static class method
+			void anyMethod(...) { } // class method
 		};
 
 		AnyClass anyObject; // class instance
+	@endcode
 
 	delegate creating:
+	@code
 		eventAny = MyGUI::newDelegate(anyFunc);
 		eventAny = MyGUI::newDelegate(AnyClass::anyStaticMethod);
 		eventAny = MyGUI::newDelegate(&anyObject, &AnyClass::anyMethod);
+	@endcode
 	*/
 
 	class _MyGUIExport WidgetEvent
@@ -51,10 +58,14 @@ namespace MyGUI
 		friend class InputManager;
 
     public:
-		virtual ~WidgetEvent() {};
+		virtual ~WidgetEvent() { }
 
 	protected:
-		WidgetEvent() : mWidgetEventSender(0) {}
+		WidgetEvent() :
+			mWidgetEventSender(0),
+			mRootMouseActive(false)
+		{
+		}
 
 	public:
 
@@ -154,112 +165,118 @@ namespace MyGUI
 		/** Event : Extendeble event for special cases or plugins.\n
 			signature : void method(MyGUI::WidgetPtr _sender, const std::string & _key, const std::string & _value);
 		*/
-		/* event : общее расширяемое событие для плагинов или особых случаев*/
-		/* signature : void method(MyGUI::WidgetPtr _sender, const std::string & _key, const std::string & _value);*/
 		EventInfo_WidgetStringString eventActionInfo;
 
-		/* event : внутренний запрос на родителя и номера айтема, у любого виджета*/
-		/* signature : void method(WidgetPtr _sender, WidgetPtr & _list, size_t & _index);*/
-		EventInfo_WidgetRefWidgetRefSizeT  _requestGetDragItemInfo;
+		/** Event : Internal request for parent and item index, used for any widget.\n
+			signature : void method(MyGUI::WidgetPtr _sender, MyGUI::WidgetPtr & _container, size_t & _index);
+			@param _container parent
+			@param _index of widget
+		*/
+		EventInfo_WidgetRefWidgetRefSizeT requestGetContainer;
 
-		/* event : внутреннее событие, невалидна информация для дропа*/
-		/* signature : void method(WidgetPtr _sender);*/
-		EventInfo_WidgetVoid _eventInvalideDropInfo;
+		/** Event : Event about changing tooltip state.\n
+			signature : void method(MyGUI::WidgetPtr _sender, const MyGUI::ToolTipInfo & _info);
+			@param _info about tooltip
+		*/
+		EventInfo_WidgetToolTip eventToolTip;
 
 	protected:
 
-		// !!! ОБЯЗАТЕЛЬНО в родительском классе вызывать последним
-		virtual void _onMouseLostFocus(WidgetPtr _new)
+		// !!! РћР‘РЇР—РђРўР•Р›Р¬РќРћ РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј РєР»Р°СЃСЃРµ РІС‹Р·С‹РІР°С‚СЊ РїРѕСЃР»РµРґРЅРёРј
+		virtual void onMouseLostFocus(WidgetPtr _new)
 		{
 			eventMouseLostFocus(mWidgetEventSender, _new);
 		}
 
-		// !!! ОБЯЗАТЕЛЬНО в родительском классе вызывать последним
-		virtual void _onMouseSetFocus(WidgetPtr _old)
+		// !!! РћР‘РЇР—РђРўР•Р›Р¬РќРћ РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј РєР»Р°СЃСЃРµ РІС‹Р·С‹РІР°С‚СЊ РїРѕСЃР»РµРґРЅРёРј
+		virtual void onMouseSetFocus(WidgetPtr _old)
 		{
 			eventMouseSetFocus(mWidgetEventSender, _old);
 		}
 
-		// !!! ОБЯЗАТЕЛЬНО в родительском классе вызывать последним
-		virtual void _onMouseDrag(int _left, int _top)
+		// !!! РћР‘РЇР—РђРўР•Р›Р¬РќРћ РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј РєР»Р°СЃСЃРµ РІС‹Р·С‹РІР°С‚СЊ РїРѕСЃР»РµРґРЅРёРј
+		virtual void onMouseDrag(int _left, int _top)
 		{
 			eventMouseDrag(mWidgetEventSender, _left, _top);
 		}
 
-		// !!! ОБЯЗАТЕЛЬНО в родительском классе вызывать последним
-		virtual void _onMouseMove(int _left, int _top)
+		// !!! РћР‘РЇР—РђРўР•Р›Р¬РќРћ РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј РєР»Р°СЃСЃРµ РІС‹Р·С‹РІР°С‚СЊ РїРѕСЃР»РµРґРЅРёРј
+		virtual void onMouseMove(int _left, int _top)
 		{
 			eventMouseMove(mWidgetEventSender, _left, _top);
 		}
 
-		// !!! ОБЯЗАТЕЛЬНО в родительском классе вызывать последним
-		virtual void _onMouseWheel(int _rel)
+		// !!! РћР‘РЇР—РђРўР•Р›Р¬РќРћ РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј РєР»Р°СЃСЃРµ РІС‹Р·С‹РІР°С‚СЊ РїРѕСЃР»РµРґРЅРёРј
+		virtual void onMouseWheel(int _rel)
 		{
 			eventMouseWheel(mWidgetEventSender, _rel);
 		}
 
-		// !!! ОБЯЗАТЕЛЬНО в родительском классе вызывать последним
-		virtual void _onMouseButtonPressed(int _left, int _top, MouseButton _id)
+		// !!! РћР‘РЇР—РђРўР•Р›Р¬РќРћ РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј РєР»Р°СЃСЃРµ РІС‹Р·С‹РІР°С‚СЊ РїРѕСЃР»РµРґРЅРёРј
+		virtual void onMouseButtonPressed(int _left, int _top, MouseButton _id)
 		{
 			eventMouseButtonPressed(mWidgetEventSender, _left, _top, _id);
 		}
 
-		// !!! ОБЯЗАТЕЛЬНО в родительском классе вызывать последним
-		virtual void _onMouseButtonReleased(int _left, int _top, MouseButton _id)
+		// !!! РћР‘РЇР—РђРўР•Р›Р¬РќРћ РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј РєР»Р°СЃСЃРµ РІС‹Р·С‹РІР°С‚СЊ РїРѕСЃР»РµРґРЅРёРј
+		virtual void onMouseButtonReleased(int _left, int _top, MouseButton _id)
 		{
 			eventMouseButtonReleased(mWidgetEventSender, _left, _top, _id);
 		}
 
-		// !!! ОБЯЗАТЕЛЬНО в родительском классе вызывать последним
-		virtual void _onMouseButtonClick()
+		// !!! РћР‘РЇР—РђРўР•Р›Р¬РќРћ РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј РєР»Р°СЃСЃРµ РІС‹Р·С‹РІР°С‚СЊ РїРѕСЃР»РµРґРЅРёРј
+		virtual void onMouseButtonClick()
 		{
 			eventMouseButtonClick(mWidgetEventSender);
 		}
 
-		// !!! ОБЯЗАТЕЛЬНО в родительском классе вызывать последним
-		virtual void _onMouseButtonDoubleClick()
+		// !!! РћР‘РЇР—РђРўР•Р›Р¬РќРћ РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј РєР»Р°СЃСЃРµ РІС‹Р·С‹РІР°С‚СЊ РїРѕСЃР»РµРґРЅРёРј
+		virtual void onMouseButtonDoubleClick()
 		{
 			eventMouseButtonDoubleClick(mWidgetEventSender);
 		}
 
-		// !!! ОБЯЗАТЕЛЬНО в родительском классе вызывать последним
-		virtual void _onKeyLostFocus(WidgetPtr _new)
+		// !!! РћР‘РЇР—РђРўР•Р›Р¬РќРћ РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј РєР»Р°СЃСЃРµ РІС‹Р·С‹РІР°С‚СЊ РїРѕСЃР»РµРґРЅРёРј
+		virtual void onKeyLostFocus(WidgetPtr _new)
 		{
 			eventKeyLostFocus(mWidgetEventSender, _new);
 		}
 
-		// !!! ОБЯЗАТЕЛЬНО в родительском классе вызывать последним
-		virtual void _onKeySetFocus(WidgetPtr _old)
+		// !!! РћР‘РЇР—РђРўР•Р›Р¬РќРћ РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј РєР»Р°СЃСЃРµ РІС‹Р·С‹РІР°С‚СЊ РїРѕСЃР»РµРґРЅРёРј
+		virtual void onKeySetFocus(WidgetPtr _old)
 		{
 			eventKeySetFocus(mWidgetEventSender, _old);
 		}
 
-		// !!! ОБЯЗАТЕЛЬНО в родительском классе вызывать последним
-		virtual void _onKeyButtonPressed(KeyCode _key, Char _char)
+		// !!! РћР‘РЇР—РђРўР•Р›Р¬РќРћ РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј РєР»Р°СЃСЃРµ РІС‹Р·С‹РІР°С‚СЊ РїРѕСЃР»РµРґРЅРёРј
+		virtual void onKeyButtonPressed(KeyCode _key, Char _char)
 		{
 			eventKeyButtonPressed(mWidgetEventSender, _key, _char);
 		}
 
-		// !!! ОБЯЗАТЕЛЬНО в родительском классе вызывать последним
-		virtual void _onKeyButtonReleased(KeyCode _key)
+		// !!! РћР‘РЇР—РђРўР•Р›Р¬РќРћ РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј РєР»Р°СЃСЃРµ РІС‹Р·С‹РІР°С‚СЊ РїРѕСЃР»РµРґРЅРёРј
+		virtual void onKeyButtonReleased(KeyCode _key)
 		{
 			eventKeyButtonReleased(mWidgetEventSender, _key);
 		}
 
-		// !!! ОБЯЗАТЕЛЬНО в родительском классе вызывать последним
-		virtual void _onMouseChangeRootFocus(bool _focus)
+		// !!! РћР‘РЇР—РђРўР•Р›Р¬РќРћ РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј РєР»Р°СЃСЃРµ РІС‹Р·С‹РІР°С‚СЊ РїРѕСЃР»РµРґРЅРёРј
+		virtual void onMouseChangeRootFocus(bool _focus)
 		{
 			eventRootMouseChangeFocus(mWidgetEventSender, _focus);
 		}
 
-		// !!! ОБЯЗАТЕЛЬНО в родительском классе вызывать последним
-		virtual void _onKeyChangeRootFocus(bool _focus)
+		// !!! РћР‘РЇР—РђРўР•Р›Р¬РќРћ РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј РєР»Р°СЃСЃРµ РІС‹Р·С‹РІР°С‚СЊ РїРѕСЃР»РµРґРЅРёРј
+		virtual void onKeyChangeRootFocus(bool _focus)
 		{
 			eventRootKeyChangeFocus(mWidgetEventSender, _focus);
 		}
 
-		// от чьего имени мы посылаем сообщения
+		// РѕС‚ С‡СЊРµРіРѕ РёРјРµРЅРё РјС‹ РїРѕСЃС‹Р»Р°РµРј СЃРѕРѕР±С‰РµРЅРёСЏ
 		WidgetPtr mWidgetEventSender;
+
+	private:
+		bool mRootMouseActive;
 	};
 
 } // namespace MyGUI

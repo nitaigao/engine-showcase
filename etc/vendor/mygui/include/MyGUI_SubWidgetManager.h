@@ -9,18 +9,20 @@
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Instance.h"
-#include "MyGUI_CroppedRectangleInterface.h"
-#include "MyGUI_SubWidgetFactoryInterface.h"
+#include "MyGUI_XmlDocument.h"
+#include "MyGUI_ICroppedRectangle.h"
+#include "MyGUI_ISubWidgetFactory.h"
 
 #include "MyGUI_SubSkin.h"
 #include "MyGUI_MainSkin.h"
 #include "MyGUI_SimpleText.h"
 #include "MyGUI_EditText.h"
-#include "MyGUI_ColourRect.h"
+#include "MyGUI_RawRect.h"
 #include "MyGUI_TileRect.h"
 
 namespace MyGUI
 {
+
 	class _MyGUIExport SubWidgetManager
 	{
 		INSTANCE_HEADER(SubWidgetManager);
@@ -29,23 +31,25 @@ namespace MyGUI
 		void initialise();
 		void shutdown();
 
-		// создает сабвиджет используя фабрику
-		CroppedRectangleInterface * createSubWidget(const SubWidgetInfo &_info, CroppedRectangleInterface * _parent);
+		// СЃРѕР·РґР°РµС‚ СЃР°Р±РІРёРґР¶РµС‚ РёСЃРїРѕР»СЊР·СѓСЏ С„Р°Р±СЂРёРєСѓ
+		ISubWidget * createSubWidget(const SubWidgetInfo &_info, ICroppedRectangle * _parent);
 
-		inline void registerFactory(SubWidgetFactoryInterface * _factory)
+		void registerFactory(ISubWidgetFactory * _factory)
 		{
 			mFactoryList.push_back(_factory);
 		}
 
-	protected:
-		std::list<SubWidgetFactoryInterface*> mFactoryList;
+		StateInfo * getStateData(const std::string & _factory, xml::xmlNodePtr _node, xml::xmlNodePtr _root);
 
-		CroppedRectangleFactory<SubSkin> * mFactorySubSkin;
-		CroppedRectangleFactory<MainSkin> * mFactoryMainSkin;
-		CroppedRectangleFactory<SimpleText> * mFactorySimpleText;
-		CroppedRectangleFactory<EditText> * mFactoryEditText;
-		CroppedRectangleFactory<ColourRect> * mFactoryColourRect;
-		CroppedRectangleFactory<TileRect> * mFactoryTileRect;
+	protected:
+		std::list<ISubWidgetFactory*> mFactoryList;
+
+		SubWidgetFactory<SubSkin> * mFactorySubSkin;
+		SubWidgetFactory<MainSkin> * mFactoryMainSkin;
+		SubWidgetFactory<SimpleText> * mFactorySimpleText;
+		SubWidgetFactory<EditText> * mFactoryEditText;
+		SubWidgetFactory<RawRect> * mFactoryRawRect;
+		SubWidgetFactory<TileRect> * mFactoryTileRect;
 		
 	};
 

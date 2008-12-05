@@ -8,40 +8,57 @@
 #define __MYGUI_WIDGET_FACTORY_H__
 
 #include "MyGUI_Prerequest.h"
-#include "MyGUI_WidgetFactoryInterface.h"
-#include "MyGUI_WidgetDefines.h"
+#include "MyGUI_IWidgetFactory.h"
+#include "MyGUI_Widget.h"
 
 namespace MyGUI
 {
 	namespace factory
 	{
 
-		class _MyGUIExport WidgetFactory : public WidgetFactoryInterface
+		class _MyGUIExport WidgetFactory : public BaseWidgetFactory<Widget>
 		{
 		public:
 			WidgetFactory();
 			~WidgetFactory();
+		private:
+			void notifyChangeLanguage(const std::string & _language);
 
-			// реализация интерфейса фабрики
-			const Ogre::String& getType();
-			WidgetPtr createWidget(const Ogre::String& _skin, const IntCoord& _coord, Align _align, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String& _name);
+			// РјРµС‚РѕРґС‹ РґР»СЏ РїР°СЂСЃРёРЅРіР°
+			void Widget_Caption(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_Position(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_Size(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_Coord(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_Show(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_Colour(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_FontName(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_FontHeight(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_Alpha(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_State(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_NeedKey(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_NeedMouse(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_AlignText(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_Enabled(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_InheritsAlpha(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_InheritsPeek(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_MaskPeek(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_NeedToolTip(WidgetPtr _widget, const std::string &_key, const std::string &_value);
 
-			// методы для парсинга
-			void Widget_Caption(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Widget_Move(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Widget_Size(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Widget_Show(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Widget_Colour(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Widget_FontName(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Widget_FontHeight(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Widget_Alpha(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Widget_State(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Widget_NeedKey(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Widget_NeedMouse(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Widget_AlignText(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Widget_Enabled(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Widget_InheritsAlpha(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			
+			void Widget_eventMouseLostFocus(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_eventMouseSetFocus(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_eventMouseDrag(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_eventMouseMove(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_eventMouseWheel(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_eventMouseButtonPressed(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_eventMouseButtonReleased(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_eventMouseButtonClick(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Widget_eventMouseButtonDoubleClick(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			//... many events still missed
+			void Widget_eventToolTip(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+
+		private:
+			bool mNeedTranslate;
+
 		};
 
 	} // namespace factory

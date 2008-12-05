@@ -8,26 +8,19 @@
 #define __MYGUI_ITEM_BOX_FACTORY_H__
 
 #include "MyGUI_Prerequest.h"
-#include "MyGUI_WidgetFactoryInterface.h"
-#include "MyGUI_WidgetDefines.h"
+#include "MyGUI_IWidgetFactory.h"
+#include "MyGUI_ItemBox.h"
 
 namespace MyGUI
 {
 	namespace factory
 	{
 
-		class _MyGUIExport ItemBoxFactory : public WidgetFactoryInterface
+		class _MyGUIExport ItemBoxFactory : public BaseWidgetFactory<ItemBox>
 		{
 		public:
 			ItemBoxFactory();
 			~ItemBoxFactory();
-
-			// реализация интерфейса фабрики
-			const Ogre::String& getType();
-			WidgetPtr createWidget(const Ogre::String& _skin, const IntCoord& _coord, Align _align, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String& _name);
-
-			// методы для парсинга
-			//void ItemBox_AddItem(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
 		};
 
 	} // namespace factory

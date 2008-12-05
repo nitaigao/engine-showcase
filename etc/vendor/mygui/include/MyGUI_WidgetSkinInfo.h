@@ -14,14 +14,37 @@
 
 namespace MyGUI
 {
-	// вспомогательный класс для инициализации одного скина
+
+	// РёРЅС„РѕСЂРјР°С†РёСЏ, РѕР± РѕРґРЅРѕРј СЃР°Р±РІРёРґР¶РµС‚Рµ
+	struct SubWidgetInfo
+	{
+		SubWidgetInfo(const std::string & _type, const IntCoord& _coord, Align _align, const MapString & _properties) :
+			coord(_coord),
+			align(_align),
+			type(_type),
+			properties(_properties)
+		{
+		}
+
+		IntCoord coord;
+		Align align;
+		std::string type;
+		MapString properties;
+	};
+
+	typedef std::vector<SubWidgetInfo> VectorSubWidgetInfo;
+
+	class WidgetSkinInfo;
+	typedef WidgetSkinInfo * WidgetSkinInfoPtr;
+	typedef std::map<std::string, WidgetSkinInfoPtr> MapWidgetSkinInfoPtr;
+
+	// РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Р№ РєР»Р°СЃСЃ РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РѕРґРЅРѕРіРѕ СЃРєРёРЅР°
 	class _MyGUIExport WidgetSkinInfo
 	{
 
 	public:
 		WidgetSkinInfo()
 		{
-			checkState("normal");
 		}
 
 		void setInfo(const IntSize & _size, const std::string &_texture)
@@ -33,85 +56,87 @@ namespace MyGUI
 		void addInfo(const SubWidgetBinding & _bind)
 		{
 			checkState(_bind.mStates);
-			mBasis.push_back(SubWidgetInfo(_bind.mType, _bind.mOffset, _bind.mAlign));
+			mBasis.push_back(SubWidgetInfo(_bind.mType, _bind.mOffset, _bind.mAlign, _bind.mProperties));
 			checkBasis();
 			fillState(_bind.mStates, mBasis.size()-1);
 		}
 
-		inline void addParam(const std::string &_key, const std::string &_value)
+		void addProperty(const std::string &_key, const std::string &_value)
 		{
-			mParams[_key] = _value;
+			mProperties[_key] = _value;
 		}
 
-		inline void addChild(const ChildSkinInfo& _child)
+		void addChild(const ChildSkinInfo& _child)
 		{
 			mChilds.push_back(_child);
 		}
 
-		inline bool loadMask(const std::string& _file)
+		bool loadMask(const std::string& _file)
 		{
 			return mMaskPeek.load(_file);
 		}
 
-	private:
-		void checkState(const MapSubWidgetStateInfo & _states)
+		void clear()
 		{
-			for (MapSubWidgetStateInfo::const_iterator iter = _states.begin(); iter != _states.end(); ++iter) {
+			for (MapWidgetStateInfo::iterator iter = mStates.begin(); iter!=mStates.end(); ++iter) {
+				for (VectorStateInfo::iterator iter2=iter->second.begin(); iter2!=iter->second.end(); ++iter2) {
+					delete *iter2;
+				}
+			}
+		}
+
+	private:
+		void checkState(const MapStateInfo & _states)
+		{
+			for (MapStateInfo::const_iterator iter = _states.begin(); iter != _states.end(); ++iter) {
 				checkState(iter->first);
 			}
 		}
 
-		inline void checkState(const std::string & _name)
+		void checkState(const std::string & _name)
 		{
-			// ищем такой же ключ
+			// РёС‰РµРј С‚Р°РєРѕР№ Р¶Рµ РєР»СЋС‡
 			MapWidgetStateInfo::const_iterator iter = mStates.find(_name);
 			if (iter == mStates.end()) {
-				// добавляем новый стейт
-				mStates[_name] = WidgetStateInfo();
+				// РґРѕР±Р°РІР»СЏРµРј РЅРѕРІС‹Р№ СЃС‚РµР№С‚
+				mStates[_name] = VectorStateInfo();
 			}
 		}
 
-		inline void checkBasis()
+		void checkBasis()
 		{
-			// и увеличиваем размер смещений по колличеству сабвиджетов
+			// Рё СѓРІРµР»РёС‡РёРІР°РµРј СЂР°Р·РјРµСЂ СЃРјРµС‰РµРЅРёР№ РїРѕ РєРѕР»Р»РёС‡РµСЃС‚РІСѓ СЃР°Р±РІРёРґР¶РµС‚РѕРІ
 			for (MapWidgetStateInfo::iterator iter = mStates.begin(); iter!=mStates.end(); ++iter) {
-				while (iter->second.offsets.size() < mBasis.size()) {
-					iter->second.offsets.push_back(FloatRect(0, 0, 1, 1));
-				};
+				iter->second.resize(mBasis.size());
 			}
 		}
 
-		inline void fillState(const MapSubWidgetStateInfo & _states, size_t _index)
+		void fillState(const MapStateInfo & _states, size_t _index)
 		{
-			for (MapSubWidgetStateInfo::const_iterator iter = _states.begin(); iter != _states.end(); ++iter) {
-				// выставляем смещение для текущего саб скина
-				mStates[iter->first].offsets[_index] = iter->second.offset;
-				// если нужно то выставляем цвета
-				if (iter->second.colour != Ogre::ColourValue::ZERO) mStates[iter->first].colour = iter->second.colour;
-				// если нужно то выставляем и альфу
-				if (iter->second.alpha != -1) mStates[iter->first].alpha = iter->second.alpha;
+			for (MapStateInfo::const_iterator iter = _states.begin(); iter != _states.end(); ++iter) {
+				mStates[iter->first][_index] = iter->second;
 			}
 		}
 
 	public:
-		inline const IntSize & getSize() const {return mSize;}
-		inline const std::string & getTextureName() const {return mTexture;}
-		inline const VectorSubWidgetInfo & getBasisInfo() const {return mBasis;}
-		inline const MapWidgetStateInfo & getStateInfo() const {return mStates;}
-		inline const MapString & getParams() const {return mParams;}
-		inline const VectorChildSkinInfo& getChild() const {return mChilds;}
-		inline const MaskPeekInfo& getMask() const {return mMaskPeek;}
+		const IntSize & getSize() const { return mSize; }
+		const std::string & getTextureName() const { return mTexture; }
+		const VectorSubWidgetInfo & getBasisInfo() const { return mBasis; }
+		const MapWidgetStateInfo & getStateInfo() const { return mStates; }
+		const MapString & getProperties() const { return mProperties; }
+		const VectorChildSkinInfo & getChild() const { return mChilds; }
+		MaskPeekInfo const * getMask() const { return &mMaskPeek; }
 
 	private:
 		IntSize mSize;
 		std::string mTexture;
 		VectorSubWidgetInfo mBasis;
 		MapWidgetStateInfo mStates;
-		// дополнительные параметры скина
-		MapString mParams;
-		// дети скина
+		// РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹ СЃРєРёРЅР°
+		MapString mProperties;
+		// РґРµС‚Рё СЃРєРёРЅР°
 		VectorChildSkinInfo mChilds;
-		// маска для этого скина для пикинга
+		// РјР°СЃРєР° РґР»СЏ СЌС‚РѕРіРѕ СЃРєРёРЅР° РґР»СЏ РїРёРєРёРЅРіР°
 		MaskPeekInfo mMaskPeek;
 
 	};

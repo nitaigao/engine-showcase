@@ -8,29 +8,34 @@
 #define __MYGUI_STATIC_IMAGE_FACTORY_H__
 
 #include "MyGUI_Prerequest.h"
-#include "MyGUI_WidgetFactoryInterface.h"
-#include "MyGUI_WidgetDefines.h"
+#include "MyGUI_IWidgetFactory.h"
+#include "MyGUI_StaticImage.h"
 
 namespace MyGUI
 {
 	namespace factory
 	{
 
-		class _MyGUIExport StaticImageFactory : public WidgetFactoryInterface
+		//typedef std::map<std::string, ParseDelegate> MapDelegate;
+
+		class _MyGUIExport StaticImageFactory : public BaseWidgetFactory<StaticImage>
 		{
 		public:
 			StaticImageFactory();
 			~StaticImageFactory();
+		private:
+			// РјРµС‚РѕРґС‹ РґР»СЏ РїР°СЂСЃРёРЅРіР°
+			void Image_Texture(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Image_Coord(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Image_Tile(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Image_Index(WidgetPtr _widget, const std::string &_key, const std::string &_value);
 
-			// реализация интерфейса фабрики
-			const Ogre::String& getType();
-			WidgetPtr createWidget(const Ogre::String& _skin, const IntCoord& _coord, Align _align, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String& _name);
+			void Image_Resource(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Image_Group(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Image_Name(WidgetPtr _widget, const std::string &_key, const std::string &_value);
 
-			// методы для парсинга
-			void Image_Texture(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Image_Rect(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Image_Tile(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Image_Num(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
+		/*private:
+			MapDelegate mDelegates;*/
 		};
 
 	} // namespace factory

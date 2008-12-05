@@ -15,20 +15,12 @@ namespace MyGUI
 
 	class _MyGUIExport HScroll : public VScroll
 	{
-		// для вызова закрытого конструктора
-		friend class factory::HScrollFactory;
+		// РґР»СЏ РІС‹Р·РѕРІР° Р·Р°РєСЂС‹С‚РѕРіРѕ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
+		friend class factory::BaseWidgetFactory<HScroll>;
 
-	protected:
-		HScroll(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String & _name);
-		
-		static Ogre::String WidgetTypeName;
+		MYGUI_RTTI_CHILD_HEADER;
 
 	public:
-		//! @copydoc Widget::_getType()
-		inline static const Ogre::String & _getType() {return WidgetTypeName;}
-		//! @copydoc Widget::getWidgetType()
-		virtual const Ogre::String & getWidgetType() { return _getType(); }
-
 		/** Get size in pixels of area where scroll moves */
 		int getLineSize();
 
@@ -39,7 +31,16 @@ namespace MyGUI
 		/** Get size of track in pixels */
 		int getTrackSize();
 
+	protected:
+		HScroll(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		virtual ~HScroll();
+
+		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
+		
 	private:
+		void initialiseWidgetSkin(WidgetSkinInfoPtr _info);
+		void shutdownWidgetSkin();
+
 		void TrackMove(int _left, int _top);
 		void updateTrack();
 

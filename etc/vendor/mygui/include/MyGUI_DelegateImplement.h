@@ -4,104 +4,270 @@
 	@date		11/2007
 	@module
 */
+
+#include <list>
+
 namespace delegates
 {
+	#define MYGUI_COMBINE(a,b)							MYGUI_COMBINE1(a,b)
+	#define MYGUI_COMBINE1(a,b)						a##b
 
-	#define COMBINE(a,b)       COMBINE1(a,b)
-	#define COMBINE1(a,b)      a##b
+	#define MYGUI_I_DELEGATE							MYGUI_COMBINE(IDelegate, MYGUI_SUFFIX)
+	#define MYGUI_C_STATIC_DELEGATE			MYGUI_COMBINE(CStaticDelegate, MYGUI_SUFFIX)
+	#define MYGUI_C_METHOD_DELEGATE			MYGUI_COMBINE(CMethodDelegate, MYGUI_SUFFIX)
+	#define MYGUI_C_DELEGATE							MYGUI_COMBINE(CDelegate, MYGUI_SUFFIX)
+	#define MYGUI_C_MULTI_DELEGATE				MYGUI_COMBINE(CMultiDelegate, MYGUI_SUFFIX)
 
-	#define I_DELEGATE         COMBINE(IDelegate, SUFFIX)
-	#define C_STATIC_DELEGATE  COMBINE(CStaticDelegate, SUFFIX)
-	#define C_METHOD_DELEGATE  COMBINE(CMethodDelegate, SUFFIX)
-	#define C_DELEGATE         COMBINE(CDelegate, SUFFIX)
-
-	// базовый класс всех делегатов
-	template<TEMPLATE_PARAMS>
-	class I_DELEGATE
+	// Р±Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ РІСЃРµС… РґРµР»РµРіР°С‚РѕРІ
+	MYGUI_TEMPLATE		MYGUI_TEMPLATE_PARAMS
+	class MYGUI_I_DELEGATE
 	{
 	public:
-		virtual ~I_DELEGATE() {}
-		virtual void Invoke(PARAMS) = 0;
+		virtual ~MYGUI_I_DELEGATE() {}
+		virtual void invoke(MYGUI_PARAMS) = 0;
+		virtual bool compare(MYGUI_I_DELEGATE		MYGUI_TEMPLATE_ARGS* _delegate) = 0;
+		virtual bool compare(IDelegateUnlink * _unlink) { return false; }
 	};
 
-	// делегат для статической функции
-	template<TEMPLATE_PARAMS>
-	class C_STATIC_DELEGATE : public I_DELEGATE<TEMPLATE_ARGS>
+	// РґРµР»РµРіР°С‚ РґР»СЏ СЃС‚Р°С‚РёС‡РµСЃРєРѕР№ С„СѓРЅРєС†РёРё
+	MYGUI_TEMPLATE		MYGUI_TEMPLATE_PARAMS
+	class MYGUI_C_STATIC_DELEGATE : public MYGUI_I_DELEGATE		MYGUI_TEMPLATE_ARGS
 	{
 	public:
-		typedef void (*PFunc)(PARAMS);
-		C_STATIC_DELEGATE(PFunc pFunc) { mFunc = pFunc; }
-		virtual void Invoke(PARAMS) { mFunc(ARGS); }
+		typedef void (*Func)(MYGUI_PARAMS);
 
-	private:
-		PFunc mFunc;
-	};
+		MYGUI_C_STATIC_DELEGATE(Func _func) : mFunc(_func) { }
 
-	// делегат для метода класса
-	template<class TObj, TEMPLATE_PARAMS>
-	class C_METHOD_DELEGATE : public I_DELEGATE<TEMPLATE_ARGS>
-	{
-	public:
-		typedef void (TObj::*PMethod)(PARAMS);
-		C_METHOD_DELEGATE(TObj* pObj, PMethod pMethod)
+		virtual void invoke(MYGUI_PARAMS)
 		{
-			mObject = pObj;
-			mMethod = pMethod;
+			mFunc(MYGUI_ARGS);
 		}
-		virtual void Invoke(PARAMS) { (mObject->*mMethod)(ARGS); }
+
+		virtual bool compare(MYGUI_I_DELEGATE		MYGUI_TEMPLATE_ARGS* _delegate)
+		{
+			if (!_delegate || typeid(*this) != typeid(*_delegate)) return false;
+			return (static_cast<MYGUI_C_STATIC_DELEGATE	MYGUI_TEMPLATE_ARGS*>(_delegate)->mFunc != mFunc);
+		}
 
 	private:
-		TObj *mObject;
-		PMethod mMethod;
+		Func mFunc;
+	};
+
+	// РґРµР»РµРіР°С‚ РґР»СЏ РјРµС‚РѕРґР° РєР»Р°СЃСЃР°
+	template MYGUI_T_TEMPLATE_PARAMS
+	class MYGUI_C_METHOD_DELEGATE : public MYGUI_I_DELEGATE		MYGUI_TEMPLATE_ARGS
+	{
+	public:
+		typedef void (T::*Method)(MYGUI_PARAMS);
+
+		MYGUI_C_METHOD_DELEGATE(IDelegateUnlink * _unlink, T * _object, Method _method) :
+			mUnlink(_unlink),
+			mObject(_object),
+			mMethod(_method)
+		{
+		}
+
+		virtual void invoke(MYGUI_PARAMS)
+		{
+			(mObject->*mMethod)(MYGUI_ARGS);
+		}
+
+		virtual bool compare(MYGUI_I_DELEGATE		MYGUI_TEMPLATE_ARGS* _delegate)
+		{
+			if (!_delegate || typeid(*this) != typeid(*_delegate)) return false;
+			MYGUI_C_METHOD_DELEGATE		MYGUI_T_TEMPLATE_ARGS* cast =
+				static_cast<MYGUI_C_METHOD_DELEGATE		MYGUI_T_TEMPLATE_ARGS*>(_delegate);
+			if ( cast->mObject != mObject || cast->mMethod != mMethod ) return false;
+			return true;
+		}
+
+		virtual bool compare(IDelegateUnlink * _unlink)
+		{
+			return mUnlink == _unlink;
+		}
+
+	private:
+		IDelegateUnlink *mUnlink;
+		T * mObject;
+		Method mMethod;
 	};
 
 
-	// шаблон для создания делегата статической функции
-	// параметры : указатель на функцию
-	// пример : newDelegate(funk_name);
-	template<TEMPLATE_PARAMS>
-	I_DELEGATE<TEMPLATE_ARGS>* newDelegate(void (*pFunc)(PARAMS))
+	// С€Р°Р±Р»РѕРЅ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РґРµР»РµРіР°С‚Р° СЃС‚Р°С‚РёС‡РµСЃРєРѕР№ С„СѓРЅРєС†РёРё
+	// РїР°СЂР°РјРµС‚СЂС‹ : СѓРєР°Р·Р°С‚РµР»СЊ РЅР° С„СѓРЅРєС†РёСЋ
+	// РїСЂРёРјРµСЂ : newDelegate(funk_name);
+	// РїСЂРёРјРµСЂ : newDelegate(class_name::static_method_name);
+	MYGUI_TEMPLATE		MYGUI_TEMPLATE_PARAMS
+	inline MYGUI_I_DELEGATE		MYGUI_TEMPLATE_ARGS* newDelegate(void (*_func)(MYGUI_PARAMS))
 	{
-		return new C_STATIC_DELEGATE<TEMPLATE_ARGS>(pFunc);
+		return new MYGUI_C_STATIC_DELEGATE		 MYGUI_TEMPLATE_ARGS(_func);
 	}
 
-	// шаблон для создания делегата метода класса
-	// параметры : указатель на объект класса и указатель на метод класса
-	// пример : newDelegate(&object_name, &class_name::method_name);
-	template <class TObj, TEMPLATE_PARAMS>
-	I_DELEGATE<TEMPLATE_ARGS>* newDelegate(TObj* pObj, void (TObj::*pMethod)(PARAMS))
+	// С€Р°Р±Р»РѕРЅ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РґРµР»РµРіР°С‚Р° РјРµС‚РѕРґР° РєР»Р°СЃСЃР°
+	// РїР°СЂР°РјРµС‚СЂС‹ : СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РѕР±СЉРµРєС‚ РєР»Р°СЃСЃР° Рё СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РјРµС‚РѕРґ РєР»Р°СЃСЃР°
+	// РїСЂРёРјРµСЂ : newDelegate(&object_name, &class_name::method_name);
+	template MYGUI_T_TEMPLATE_PARAMS
+	inline MYGUI_I_DELEGATE		MYGUI_TEMPLATE_ARGS* newDelegate(T * _object, void (T::*_method)(MYGUI_PARAMS))
 	{
-		return new C_METHOD_DELEGATE<TObj, TEMPLATE_ARGS> (pObj, pMethod);
+		return new MYGUI_C_METHOD_DELEGATE	 MYGUI_T_TEMPLATE_ARGS (GetDelegateUnlink(_object), _object, _method);
 	}
 
-
-	// шаблон класса делегата
-	template<TEMPLATE_PARAMS>
-	class C_DELEGATE
+	// С€Р°Р±Р»РѕРЅ РєР»Р°СЃСЃР° РґРµР»РµРіР°С‚Р°
+	MYGUI_TEMPLATE	 MYGUI_TEMPLATE_PARAMS
+	class MYGUI_C_DELEGATE
 	{
 	public:
-		typedef I_DELEGATE<TEMPLATE_ARGS> IDelegate;
+		typedef MYGUI_I_DELEGATE	MYGUI_TEMPLATE_ARGS IDelegate;
 
-		C_DELEGATE() : mDelegate (0) {}
-		~C_DELEGATE() { if (mDelegate) delete mDelegate; }
-
-		bool IsNull() { return (mDelegate == 0); }
-
-		C_DELEGATE<TEMPLATE_ARGS>& operator=(IDelegate* pDelegate)
+		MYGUI_C_DELEGATE() :
+			mDelegate(0)
 		{
-			if (mDelegate) delete mDelegate;
-			mDelegate = pDelegate;
+		}
+
+		~MYGUI_C_DELEGATE()
+		{
+			clear();
+		}
+
+		bool empty()
+		{
+			return mDelegate == 0;
+		}
+
+		void clear()
+		{
+			if (mDelegate) {
+				delete mDelegate;
+				mDelegate = 0;
+			}
+		}
+
+		MYGUI_C_DELEGATE	MYGUI_TEMPLATE_ARGS& operator=(IDelegate* _delegate)
+		{
+			if (mDelegate) {
+				delete mDelegate;
+			}
+			mDelegate = _delegate;
 			return *this;
 		}
 
-		void operator()(PARAMS)
+		void operator()(MYGUI_PARAMS)
 		{
 			if (mDelegate == 0) return;
-			mDelegate->Invoke(ARGS);
+			mDelegate->invoke(MYGUI_ARGS);
 		}
 
 	private:
 		IDelegate * mDelegate;
 	};
+
+	// С€Р°Р±Р»РѕРЅ РєР»Р°СЃСЃР° РјСѓР»СЊС‚Рё РґРµР»РµРіР°С‚Р°
+	MYGUI_TEMPLATE		MYGUI_TEMPLATE_PARAMS
+	class MYGUI_C_MULTI_DELEGATE
+	{
+	public:
+		typedef MYGUI_I_DELEGATE	MYGUI_TEMPLATE_ARGS IDelegate;
+
+		MYGUI_C_MULTI_DELEGATE()
+		{
+		}
+
+		~MYGUI_C_MULTI_DELEGATE()
+		{
+			clear();
+		}
+
+		bool empty()
+		{
+			MYGUI_TYPENAME std::list<IDelegate *>::iterator iter;
+			for (iter=mListDelegates.begin(); iter!=mListDelegates.end(); ++iter) {
+				if (*iter) return false;
+			}
+			return true;
+		}
+
+		void clear()
+		{
+			MYGUI_TYPENAME std::list<IDelegate *>::iterator iter;
+			for (iter=mListDelegates.begin(); iter!=mListDelegates.end(); ++iter) {
+				if (*iter) {
+					delete (*iter);
+					(*iter) = 0;
+				}
+			}
+		}
+
+		void clear(IDelegateUnlink * _unlink)
+		{
+			MYGUI_TYPENAME std::list<IDelegate *>::iterator iter;
+			for (iter=mListDelegates.begin(); iter!=mListDelegates.end(); ++iter) {
+				if ((*iter) && (*iter)->compare(_unlink)) {
+					delete (*iter);
+					(*iter) = 0;
+				}
+			}
+		}
+
+		MYGUI_C_MULTI_DELEGATE		MYGUI_TEMPLATE_ARGS& operator+=(IDelegate* _delegate)
+		{
+			MYGUI_TYPENAME std::list<IDelegate *>::iterator iter;
+			for (iter=mListDelegates.begin(); iter!=mListDelegates.end(); ++iter) {
+				if ((*iter) && (*iter)->compare(_delegate)) {
+                                  assert("dublicate delegate");
+				}
+			}
+			mListDelegates.push_back(_delegate);
+			return *this;
+		}
+
+		MYGUI_C_MULTI_DELEGATE		MYGUI_TEMPLATE_ARGS& operator-=(IDelegate* _delegate)
+		{
+			MYGUI_TYPENAME std::list<IDelegate *>::iterator iter;
+			for (iter=mListDelegates.begin(); iter!=mListDelegates.end(); ++iter) {
+				if ((*iter) && (*iter)->compare(_delegate)) {
+					// РїСЂРѕРІРµСЂСЏРµРј РЅР° РёРґРµРЅС‚РёС‡РЅРѕСЃС‚СЊ РґРµР»РµРіР°С‚РѕРІ
+					if ((*iter) != _delegate) delete (*iter);
+					(*iter) = 0;
+					break;
+				}
+			}
+			delete _delegate;
+			return *this;
+		}
+
+		void operator()(MYGUI_PARAMS)
+		{
+			MYGUI_TYPENAME std::list<IDelegate *>::iterator iter=mListDelegates.begin();
+			while (iter != mListDelegates.end()) {
+				if (0 == (*iter)) iter = mListDelegates.erase(iter);
+				else {
+					(*iter)->invoke(MYGUI_ARGS);
+					++iter;
+				}
+			};
+		}
+
+	private:
+		std::list<IDelegate *> mListDelegates;
+	};
+
+	#undef MYGUI_COMBINE
+	#undef MYGUI_COMBINE1
+
+	#undef MYGUI_I_DELEGATE
+	#undef MYGUI_C_STATIC_DELEGATE
+	#undef MYGUI_C_METHOD_DELEGATE
+	#undef MYGUI_C_DELEGATE
+	#undef MYGUI_C_MULTI_DELEGATE
+
+	#undef MYGUI_SUFFIX
+	#undef MYGUI_TEMPLATE
+	#undef MYGUI_TEMPLATE_PARAMS
+	#undef MYGUI_TEMPLATE_ARGS
+	#undef MYGUI_T_TEMPLATE_PARAMS
+	#undef MYGUI_T_TEMPLATE_ARGS
+	#undef MYGUI_PARAMS
+	#undef MYGUI_ARGS
+	#undef MYGUI_TYPENAME
 
 } // namespace delegates

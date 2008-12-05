@@ -93,17 +93,17 @@ void HumanView::OnChangeScreen( const IEvent* event )
 
 void HumanView::ChangeScreen( std::string screenName )
 {
-	std::stringstream scriptPath;
-	scriptPath << "gui/screens/" << screenName << "/" << screenName << ".lua";
+	//std::stringstream scriptPath;
+	//scriptPath << "gui/screens/" << screenName << "/" << screenName << ".lua";
 
-	FileBuffer* scriptBuffer = FileManager::GetInstance( )->GetFile( scriptPath.str( ) );
-	Script* script = Script::CreateFromFileBuffer( scriptBuffer );
-	script->Initialize( );
+	//FileBuffer* scriptBuffer = FileManager::GetInstance( )->GetFile( scriptPath.str( ) );
+	//Script* script = Script::CreateFromFileBuffer( scriptBuffer );
+	//script->Initialize( );
 
 	delete _currentScreen;
 
-	_currentScreen = new Screen( screenName, 0 );
-	_currentScreen->Initialize( _renderer->GetGui( ), script );
+	_currentScreen = new GuiScreen( screenName, 0 );
+	_currentScreen->Initialize( );//_renderer->GetGui( ), script );
 }
 
 std::string HumanView::LoadScreenConfig( )

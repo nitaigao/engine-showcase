@@ -8,20 +8,22 @@
 #define __MYGUI_TILE_RECT_H__
 
 #include "MyGUI_Prerequest.h"
+#include "MyGUI_XmlDocument.h"
 #include "MyGUI_Types.h"
-#include "MyGUI_CroppedRectangleInterface.h"
-#include "MyGUI_DrawItem.h"
+#include "MyGUI_ISubWidgetRect.h"
+#include "MyGUI_WidgetSkinInfo.h"
 
 namespace MyGUI
 {
 
 	class RenderItem;
 
-	class _MyGUIExport TileRect : public CroppedRectangleInterface, public DrawItem
+	class _MyGUIExport TileRect : public ISubWidgetRect
 	{
+		MYGUI_RTTI_CHILD_HEADER;
 
 	public:
-		TileRect(const SubWidgetInfo &_info, CroppedRectanglePtr _parent);
+		TileRect(const SubWidgetInfo &_info, ICroppedRectangle * _parent);
 		virtual ~TileRect();
 
 		void setAlpha(float _alpha);
@@ -40,8 +42,13 @@ namespace MyGUI
 		virtual void _createDrawItem(LayerItemKeeper * _keeper, RenderItem * _item);
 		virtual void _destroyDrawItem();
 
-		// ����� ��� ��������� ����
+		// метод для отрисовки себя
 		virtual size_t _drawItem(Vertex * _vertex, bool _update);
+
+		virtual void _setStateData(StateInfo * _data);
+
+		// метод для генерации данных из описания xml
+		static StateInfo * createStateData(xml::xmlNodePtr _node, xml::xmlNodePtr _root);
 
 	private:
 		void updateTextureData();
@@ -68,6 +75,9 @@ namespace MyGUI
 
 		float mTextureHeightOne;
 		float mTextureWidthOne;
+
+		bool mTileH;
+		bool mTileV;
 
 	};
 

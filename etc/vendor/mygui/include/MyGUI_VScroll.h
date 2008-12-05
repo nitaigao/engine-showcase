@@ -15,43 +15,35 @@ namespace MyGUI
 
 	class _MyGUIExport VScroll : public Widget
 	{
-		// для вызова закрытого конструктора
-		friend class factory::VScrollFactory;
-
-	protected:
-		VScroll(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String & _name);
-
-		static Ogre::String WidgetTypeName;
+		// РґР»СЏ РІС‹Р·РѕРІР° Р·Р°РєСЂС‹С‚РѕРіРѕ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
+		friend class factory::BaseWidgetFactory<VScroll>;
+		
+		MYGUI_RTTI_CHILD_HEADER;
 
 	public:
-		//! @copydoc Widget::_getType()
-		inline static const Ogre::String & _getType() {return WidgetTypeName;}
-		//! @copydoc Widget::getWidgetType()
-		virtual const Ogre::String & getWidgetType() { return _getType(); }
-
 		/** Set scroll range */
 		void setScrollRange(size_t _range);
 		/** Get scroll range */
-		inline size_t getScrollRange() {return mScrollRange;}
+		size_t getScrollRange() {return mScrollRange;}
 
 		/** Set scroll position */
 		void setScrollPosition(size_t _position);
 		/** Get scroll position */
-		inline size_t getScrollPosition() {return mScrollPosition;}
+		size_t getScrollPosition() {return mScrollPosition;}
 
 		/** Set scroll page
 			page - tracker step when buttons pressed
 		*/
-		inline void setScrollPage(size_t _page = 1) {mScrollPage = _page;}
+		void setScrollPage(size_t _page = 1) {mScrollPage = _page;}
 		/** Get scroll page */
-		inline size_t getScrollPage() {return mScrollPage;}
+		size_t getScrollPage() {return mScrollPage;}
 
 		/** Set scroll view page
 			view page - tracker step when pressed on scroll line
 		*/
-		inline void setScrollViewPage(size_t _viewPage = 1) {mScrollViewPage = _viewPage;}
+		void setScrollViewPage(size_t _viewPage = 1) {mScrollViewPage = _viewPage;}
 		/** Get scroll view page */
-		inline size_t getScrollViewPage() {return mScrollViewPage;}
+		size_t getScrollViewPage() {return mScrollViewPage;}
 
 		/** Get size in pixels of area where scroll moves */
 		virtual int getLineSize();
@@ -68,49 +60,71 @@ namespace MyGUI
 		/** Get minimal track size */
 		int getMinTrackSize() {return mMinTrackSize;}
 
-		//! @copydoc Widget::setPosition(const IntCoord& _coord)
-		virtual void setPosition(const IntCoord& _coord);
+		//! @copydoc Widget::setPosition(const IntPoint & _point)
+		virtual void setPosition(const IntPoint & _point);
 		//! @copydoc Widget::setSize(const IntSize& _size)
-		virtual void setSize(const IntSize& _size);
-		//! @copydoc Widget::setPosition(int _left, int _top)
-		inline void setPosition(int _left, int _top) {Widget::setPosition(IntPoint(_left, _top));}
-		//! @copydoc Widget::setPosition(int _left, int _top, int _width, int _height)
-		inline void setPosition(int _left, int _top, int _width, int _height) {setPosition(IntCoord(_left, _top, _width, _height));}
-		//! @copydoc Widget::setSize(int _width, int _height)
-		inline void setSize(int _width, int _height) {setSize(IntSize(_width, _height));}
+		virtual void setSize(const IntSize & _size);
+		//! @copydoc Widget::setCoord(const IntCoord & _coord)
+		virtual void setCoord(const IntCoord & _coord);
+
+		/** @copydoc Widget::setPosition(int _left, int _top) */
+		void setPosition(int _left, int _top) { setPosition(IntPoint(_left, _top)); }
+		/** @copydoc Widget::setSize(int _width, int _height) */
+		void setSize(int _width, int _height) { setSize(IntSize(_width, _height)); }
+		/** @copydoc Widget::setCoord(int _left, int _top, int _width, int _height) */
+		void setCoord(int _left, int _top, int _width, int _height) { setCoord(IntCoord(_left, _top, _width, _height)); }
+
+		MYGUI_OBSOLETE("use Widget::setCoord(const IntCoord& _coord)")
+		void setPosition(const IntCoord & _coord) { setCoord(_coord); }
+		MYGUI_OBSOLETE("use Widget::setCoord(int _left, int _top, int _width, int _height)")
+		void setPosition(int _left, int _top, int _width, int _height) { setCoord(_left, _top, _width, _height); }
 
 		/** Event : scroll tracker position changed.\n
-			signature : void method(WidgetPtr _sender, size_t _position)\n
+			signature : void method(MyGUI::WidgetPtr _sender, size_t _position)\n
 			@param _position - new tracker position
 		*/
 		EventInfo_WidgetSizeT eventScrollChangePosition;
 
 	protected:
+		VScroll(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		virtual ~VScroll();
+
+		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
+
 		virtual void updateTrack();
 		virtual void TrackMove(int _left, int _top);
+
+		virtual void onMouseWheel(int _rel);
+
 		void notifyMousePressed(WidgetPtr _sender, int _left, int _top, MouseButton _id);
 		void notifyMouseReleased(WidgetPtr _sender, int _left, int _top, MouseButton _id);
 		void notifyMouseDrag(WidgetPtr _sender, int _left, int _top);
+		void notifyMouseWheel(WidgetPtr _sender, int _rel);
 
-		// наши кнопки
+	private:
+		void initialiseWidgetSkin(WidgetSkinInfoPtr _info);
+		void shutdownWidgetSkin();
+
+	protected:
+		// РЅР°С€Рё РєРЅРѕРїРєРё
 		ButtonPtr mWidgetStart;
 		ButtonPtr mWidgetEnd;
 		ButtonPtr mWidgetTrack;
-		// куски между кнопками
+		// РєСѓСЃРєРё РјРµР¶РґСѓ РєРЅРѕРїРєР°РјРё
 		ButtonPtr mWidgetFirstPart;
 		ButtonPtr mWidgetSecondPart;
 
-		// размеры окна перед началом его изменений
+		// СЂР°Р·РјРµСЂС‹ РѕРєРЅР° РїРµСЂРµРґ РЅР°С‡Р°Р»РѕРј РµРіРѕ РёР·РјРµРЅРµРЅРёР№
 		IntRect mPreActionRect;
 
-		// диапазон на который трек может двигаться
+		// РґРёР°РїР°Р·РѕРЅ РЅР° РєРѕС‚РѕСЂС‹Р№ С‚СЂРµРє РјРѕР¶РµС‚ РґРІРёРіР°С‚СЊСЃСЏ
 		size_t mSkinRangeStart;
 		size_t mSkinRangeEnd;
 
 		size_t mScrollRange;
 		size_t mScrollPosition;
-		size_t mScrollPage; // на сколько перещелкивать, при щелчке на кнопке
-		size_t mScrollViewPage; // на сколько перещелкивать, при щелчке по полосе
+		size_t mScrollPage; // РЅР° СЃРєРѕР»СЊРєРѕ РїРµСЂРµС‰РµР»РєРёРІР°С‚СЊ, РїСЂРё С‰РµР»С‡РєРµ РЅР° РєРЅРѕРїРєРµ
+		size_t mScrollViewPage; // РЅР° СЃРєРѕР»СЊРєРѕ РїРµСЂРµС‰РµР»РєРёРІР°С‚СЊ, РїСЂРё С‰РµР»С‡РєРµ РїРѕ РїРѕР»РѕСЃРµ
 
 		int mMinTrackSize;
 

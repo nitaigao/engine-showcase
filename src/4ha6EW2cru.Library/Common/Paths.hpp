@@ -16,7 +16,7 @@ public:
 	static std::string GetGameFolderPath( ) { return "../game"; };
 
 	/*! Gets the Path to the Screen Information Files */
-	static std::string GetScreensPath( ) { return "../game/views/humanview/screens"; };
+	static std::string GetScreensPath( ) { return "gui/screens/"; };
 
 	/*! Gets the Path to the HumanView */
 	static std::string GetHumanViewPath( ) { return "../game/views/humanview"; };

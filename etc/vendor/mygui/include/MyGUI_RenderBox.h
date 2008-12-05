@@ -9,42 +9,42 @@
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Widget.h"
-#include "MyGUI_FrameListener.h"
 
 namespace MyGUI
 {
-	/** default RenderBox autorotation speed (if enabled) */
-	const size_t RENDER_BOX_AUTO_ROTATION_SPEED = 20;
 
 	/** @brief Widget that show one entity or anything from viewport.
 
 		This widget can show autorotaded and rotatable by mouse mesh.
 		Also you can set your own Ogre::Camera and yo'll see anything from your viewport.
 	*/
-	class _MyGUIExport RenderBox : public Widget, public FrameListener
+	class _MyGUIExport RenderBox : public Widget
 	{
-		// для вызова закрытого конструктора
-		friend class factory::RenderBoxFactory;
+		// РґР»СЏ РІС‹Р·РѕРІР° Р·Р°РєСЂС‹С‚РѕРіРѕ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
+		friend class factory::BaseWidgetFactory<RenderBox>;
 
-	protected:
-		RenderBox(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String & _name);
-		virtual ~RenderBox();
-
-		static Ogre::String WidgetTypeName;
+		MYGUI_RTTI_CHILD_HEADER;
 
 	public:
-		//! @copydoc Widget::_getType()
-		inline static const Ogre::String & _getType() {return WidgetTypeName;}
-		//! @copydoc Widget::getWidgetType()
-		virtual const Ogre::String & getWidgetType() { return _getType(); }
+		/** default RenderBox autorotation speed (if enabled) */
+		enum { RENDER_BOX_AUTO_ROTATION_SPEED = 20 };
+
 
 		/** Add mesh to scene and remove previous one
 			@remarks
-				This function will take no effect if user Viewport provided via setViewport.
+				This function will take no effect if setRenderTarget was used.
 			@param
 				_meshName The name of the Mesh it is to be based on (e.g. 'ogrehead.mesh').
 		*/
 		void injectObject(const Ogre::String& _meshName, const Ogre::Vector3 & _position = Ogre::Vector3::ZERO, const Ogre::Quaternion & _orientation = Ogre::Quaternion::IDENTITY, const Ogre::Vector3 & _scale = Ogre::Vector3::UNIT_SCALE);
+
+		/** Add scene node to scene and remove previous one
+		@remarks
+		This function will take no effect if setRenderTarget was used.
+		@param
+		_meshName The name of the Mesh it is to be based on (e.g. 'ogrehead.mesh').
+		*/
+		void injectSceneNode(Ogre::SceneManager * _manager, Ogre::SceneNode* _sceneNode);
 
 		/** Run mesh animation if animation with such name exist (else print warning in log).
 			To stop animation use empty string.
@@ -56,45 +56,45 @@ namespace MyGUI
 
 		/** Set speed of entity rotation.
 			@remarks
-				This function will take no effect if user Viewport provided via setViewport.
+				This function will take no effect if setRenderTarget was used.
 			@param
 				_speed of rotation in degrees per second.
 		*/
 		void setAutoRotationSpeed(int _speed = RENDER_BOX_AUTO_ROTATION_SPEED);
 		/** Get speed of entity rotation.*/
-		inline int getAutoRotationSpeed() {return mRotationSpeed;};
+		int getAutoRotationSpeed() {return mRotationSpeed;};
 
 		/** Enable or disable auto rotation
 			@remarks
-				This function will take no effect if user Viewport provided via setViewport.
+				This function will take no effect if setRenderTarget was used.
 		*/
 		void setAutoRotation(bool _auto);
 		/** Get auto rotation flag */
-		inline bool getAutoRotation() {return mAutoRotation;}
+		bool getAutoRotation() {return mAutoRotation;}
 
 		/** Set colour behind entity.
 			@remarks
-				This function will take no effect if user Viewport provided via setViewport.
+				This function will take no effect if setRenderTarget was used.
 		*/
 		void setBackgroungColour(const Ogre::ColourValue & _backgroundColour);
 		/** Get colour behind entity.*/
-		inline const Ogre::ColourValue & getBackgroungColour() {return mBackgroungColour;};
+		const Ogre::ColourValue & getBackgroungColour() {return mBackgroungColour;};
 
 		/** Set start rotation angle of entity.
 			@remarks
-				This function will take no effect if user Viewport provided via setViewport.
+				This function will take no effect if setRenderTarget was used.
 		*/
 		void setRotationAngle(const Ogre::Degree & _rotationAngle);
 
 		/** Get rotation angle of entity.
 			@remarks
-				This function will take no effect if user Viewport provided via setViewport.
+				This function will take no effect if setRenderTarget was used.
 		*/
 		Ogre::Degree getRotationAngle();
 
 		/** Set possibility to rotate mesh by mouse drag.
 			@remarks
-				This function will take no effect if user Viewport provided via setViewport.
+				This function will take no effect if setRenderTarget was used.
 		*/
 		void setMouseRotation(bool _enable);
 		/** Get mouse rotation flag */
@@ -102,45 +102,69 @@ namespace MyGUI
 
 		/** Set possibility to zoom mesh by mouse wheel.
 			@remarks
-				This function will take no effect if user Viewport provided via setViewport.
+				This function will take no effect if setRenderTarget was used.
 		*/
 		void setViewScale(bool _scale);
 		/** Get possibility to zoom mesh by mouse wheel flag. */
-		inline bool getViewScale() {return mUseScale;}
+		bool getViewScale() {return mUseScale;}
 
 		/** Set any user created Camera instead of showing one mesh*/
 		void setRenderTarget(Ogre::Camera * _camera);
 
-		//! @copydoc Widget::setPosition(const IntCoord& _coord)
-		void setPosition(const IntCoord& _coord);
+		bool getScreenPosition(const Ogre::Vector3 _world, Ogre::Vector2& _screen);
+
+		//! @copydoc Widget::setPosition(const IntPoint & _point)
+		virtual void setPosition(const IntPoint & _point);
 		//! @copydoc Widget::setSize(const IntSize& _size)
-		void setSize(const IntSize& _size);
-		//! @copydoc Widget::setPosition(int _left, int _top)
-		inline void setPosition(int _left, int _top) {Widget::setPosition(IntPoint(_left, _top));}
-		//! @copydoc Widget::setPosition(int _left, int _top, int _width, int _height)
-		inline void setPosition(int _left, int _top, int _width, int _height) {setPosition(IntCoord(_left, _top, _width, _height));}
-		//! @copydoc Widget::setSize(int _width, int _height)
-		inline void setSize(int _width, int _height) {setSize(IntSize(_width, _height));}
+		virtual void setSize(const IntSize & _size);
+		//! @copydoc Widget::setCoord(const IntCoord & _coord)
+		virtual void setCoord(const IntCoord & _coord);
+
+		/** @copydoc Widget::setPosition(int _left, int _top) */
+		void setPosition(int _left, int _top) { setPosition(IntPoint(_left, _top)); }
+		/** @copydoc Widget::setSize(int _width, int _height) */
+		void setSize(int _width, int _height) { setSize(IntSize(_width, _height)); }
+		/** @copydoc Widget::setCoord(int _left, int _top, int _width, int _height) */
+		void setCoord(int _left, int _top, int _width, int _height) { setCoord(IntCoord(_left, _top, _width, _height)); }
+
+		MYGUI_OBSOLETE("use Widget::setCoord(const IntCoord& _coord)")
+		void setPosition(const IntCoord & _coord) { setCoord(_coord); }
+		MYGUI_OBSOLETE("use Widget::setCoord(int _left, int _top, int _width, int _height)")
+		void setPosition(int _left, int _top, int _width, int _height) { setCoord(_left, _top, _width, _height); }
 
 	protected:
-		void _frameEntered(float _time);
+		RenderBox(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		virtual ~RenderBox();
 
-		void _onMouseDrag(int _left, int _top);
-		void _onMouseButtonPressed(int _left, int _top, MouseButton _id);
-		void _onMouseButtonReleased(int _left, int _top, MouseButton _id);
-		void _onMouseWheel(int _rel);
+		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
+
+		void onMouseDrag(int _left, int _top);
+		void onMouseButtonPressed(int _left, int _top, MouseButton _id);
+		void onMouseButtonReleased(int _left, int _top, MouseButton _id);
+		void onMouseWheel(int _rel);
 
 	private:
-		inline bool needFrameUpdate() {return mAutoRotation || mUseScale || (null != mEntityState);}
+		void initialiseWidgetSkin(WidgetSkinInfoPtr _info);
+		void shutdownWidgetSkin();
+
+		void frameEntered(float _time);
+
+		void synchronizeSceneNode(Ogre::SceneNode* _newNode, Ogre::SceneNode* _fromNode);
+		bool checkSceneNode(Ogre::SceneNode * _sceneNode, Ogre::SceneNode * _node);
+		bool needFrameUpdate() {return mAutoRotation || mUseScale || (null != mEntityState) || (mNodeForSync != null);}
 		void createRenderTexture();
 		void updateViewport();
 
+		void removeNode(Ogre::SceneNode* _node);
+		void removeEntity(const Ogre::String& _name);
+
 		bool mUserViewport;
-		// все, что касается сцены
+		// РІСЃРµ, С‡С‚Рѕ РєР°СЃР°РµС‚СЃСЏ СЃС†РµРЅС‹
 		Ogre::SceneManager * mScene;
 		Ogre::Entity * mEntity;
 		Ogre::SceneNode * mNode;
-		Ogre::RenderTexture* mTexture;
+		Ogre::TexturePtr mTexture;
+		Ogre::RenderTexture* mRenderTexture;
 
 		Ogre::Camera* mRttCam;
 		Ogre::SceneNode* mCamNode;
@@ -157,11 +181,16 @@ namespace MyGUI
 
 		Ogre::AnimationState * mEntityState;
 
-		float mScale, mCurrentScale;
+		float mScale;
+		float mCurrentScale;
 		bool mUseScale;
 
 		typedef std::vector<Ogre::Entity*> VectorEntity;
 		VectorEntity mVectorEntity;
+
+		float mSyncTime;
+		Ogre::SceneNode* mNodeForSync;
+		Ogre::SceneManager * mSceneManagerForSync;
 
 	}; // class RenderBox : public Widget
 

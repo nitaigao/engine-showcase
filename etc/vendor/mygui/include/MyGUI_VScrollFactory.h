@@ -8,29 +8,26 @@
 #define __MYGUI_VSCROLL_FACTORY_H__
 
 #include "MyGUI_Prerequest.h"
-#include "MyGUI_WidgetFactoryInterface.h"
-#include "MyGUI_WidgetDefines.h"
+#include "MyGUI_IWidgetFactory.h"
+#include "MyGUI_VScroll.h"
 
 namespace MyGUI
 {
 	namespace factory
 	{
 
-		class _MyGUIExport VScrollFactory : public WidgetFactoryInterface
+		class _MyGUIExport VScrollFactory : public BaseWidgetFactory<VScroll>
 		{
 		public:
 			VScrollFactory();
 			~VScrollFactory();
+		private:
+			// РјРµС‚РѕРґС‹ РґР»СЏ РїР°СЂСЃРёРЅРіР°, РІС‹Р·С‹РІР°СЋС‚СЃСЏ РґР»СЏ Р±Р°Р·РѕРІРѕРіРѕ РєР»Р°СЃР°, РїРѕСЌС‚РѕРјСѓ СЂР°Р±РѕС‚Р°РµС‚ Рё РґР»СЏ HScroll
+			void Scroll_Range(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Scroll_Position(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Scroll_Page(WidgetPtr _widget, const std::string &_key, const std::string &_value);
+			void Scroll_ViewPage(WidgetPtr _widget, const std::string &_key, const std::string &_value);
 
-			// реализация интерфейса фабрики
-			const Ogre::String& getType();
-			WidgetPtr createWidget(const Ogre::String& _skin, const IntCoord& _coord, Align _align, CroppedRectanglePtr _parent, WidgetCreator * _creator, const Ogre::String& _name);
-
-			// методы для парсинга, вызываются для базового класа, поэтому работает и для HScroll
-			void Scroll_Range(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Scroll_Position(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Scroll_Page(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
-			void Scroll_ViewPage(WidgetPtr _widget, const Ogre::String &_key, const Ogre::String &_value);
 		};
 
 	} // namespace factory

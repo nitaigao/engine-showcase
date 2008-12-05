@@ -9,21 +9,25 @@
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_WidgetDefines.h"
+#include "MyGUI_Any.h"
 
 namespace MyGUI
 {
+	/** UserData is parent of Widget class. Used to store any user data and strings inside widget */
 	class _MyGUIExport UserData
 	{
 	public:
-		UserData() : mInternalData(0), mUserData(0) {}
-		virtual ~UserData() {}
+		UserData() { }
+		virtual ~UserData() { }
 
-		// пользовательские данные виджета строки
-		inline void setUserString(const std::string & _key, const std::string & _value)
+		// РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёРµ РґР°РЅРЅС‹Рµ РІРёРґР¶РµС‚Р° СЃС‚СЂРѕРєРё
+		/** Set user string */
+		void setUserString(const std::string & _key, const std::string & _value)
 		{
 			mMapUserString[_key] = _value;
 		}
 
+		/** Get user string or "" if not found */
 		const std::string & getUserString(const std::string & _key)
 		{
 			MapString::iterator iter = mMapUserString.find(_key);
@@ -34,7 +38,8 @@ namespace MyGUI
 			return iter->second;
 		}
 
-		inline bool clearUserString(const std::string & _key)
+		/** Delete user string */
+		bool clearUserString(const std::string & _key)
 		{
 			MapString::iterator iter = mMapUserString.find(_key);
 			if (iter != mMapUserString.end()) {
@@ -44,34 +49,53 @@ namespace MyGUI
 			return false;
 		}
 
-		inline bool isUserString(const std::string & _key)
+		/** Return true if user string with such key exist */
+		bool isUserString(const std::string & _key)
 		{
 			return mMapUserString.find(_key) != mMapUserString.end();
 		}
 
-		inline void clearUserStrings()
+		/** Delete all user strings */
+		void clearUserStrings()
 		{
 			mMapUserString.clear();
 		}
 
-		inline int _getInternalData() {return mInternalData;}
-		inline void _setInternalData(int _data) {mInternalData = _data;}
+		/** Set any user data to store inside widget */
+		void setUserData(Any _data) { mUserData = _data; }
 
-		inline const std::string& _getInternalString() {return mInternalString;}
-		inline void _setInternalString(const std::string& _data) {mInternalString = _data;}
+		/** Get user data and cast it to ValueType */
+		template <typename ValueType>
+		ValueType * getUserData(bool _throw = true)
+		{
+			return mUserData.castType<ValueType>(_throw);
+		}
 
-		inline void setUserData(void * _data) { mUserData = _data; }
-		inline void * getUserData() { return mUserData; }
+		MYGUI_OBSOLETE("use *getUserData<ValueType>()")
+		void * getUserData()
+		{
+			return mUserData.castUnsafe();
+		}
+
+		void _setInternalData(Any _data) { mInternalData = _data; }
+
+		template <typename ValueType>
+		ValueType * _getInternalData(bool _throw = true)
+		{
+			return mInternalData.castType<ValueType>(_throw);
+		}
+
 
 	private:
-		// пользовательские данные
+		// РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёРµ РґР°РЅРЅС‹Рµ
 		MapString mMapUserString;
-		// номер для внутренниего использования
-		int mInternalData;
-		std::string mInternalString;
+		Any mUserData;
 
-		void * mUserData;
+		// РґР»СЏ РІРЅСѓС‚СЂРµРЅРЅРёРµРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ
+		Any mInternalData;
+
 	};
+
 } // namespace MyGUI
 
 #endif // __MYGUI_WIDGET_USER_DATA_H__

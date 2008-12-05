@@ -14,9 +14,10 @@
 namespace MyGUI
 {
 
+	/** This controller used for smooth changing position of widget in time */
 	class _MyGUIExport ControllerPosition : public ControllerItem
 	{
-		typedef delegates::CDelegate4<WidgetPtr, IntCoord&, IntCoord&, float> FrameAction;
+		typedef delegates::CDelegate4<const IntCoord&, const IntCoord&, IntCoord&, float> FrameAction;
 	public:
 		enum MoveMode{
 			Linear, //!< Constant speed
@@ -25,40 +26,46 @@ namespace MyGUI
 			Inertional //!< Start with zero speed increasing half time and then decreasing to zero
 		};
 
-		/** 
+		/**
 			@param _destRect destination coordinate
 			@param _time seconds in which widget will reach destination coordinate
 			@param _mode of moving (see ControllerPosition::MoveMode)
 		*/
-		ControllerPosition(IntCoord _destRect, float _time, MoveMode _mode);
-		/** 
+		ControllerPosition(const IntCoord & _destRect, float _time, MoveMode _mode);
+		ControllerPosition(const IntSize & _destSize, float _time, MoveMode _mode);
+		ControllerPosition(const IntPoint & _destPoint, float _time, MoveMode _mode);
+		/**
 			@param _destRect destination coordinate
 			@param _time seconds in which widget planned to reach destination coordinate
 			@param _action applied to widget every frame (see ControllerPosition::eventFrameAction)
 		*/
-		ControllerPosition(IntCoord _destRect, float _time, FrameAction _action);
+		ControllerPosition(const IntCoord & _destRect, float _time, FrameAction _action);
 
 	private:
-		/** Event : Every frame action while controller exist.\n
-			signature : void method(MyGUI::WidgetPtr _widget, IntRect & _startRect, IntRect & _destRect, float _current_time)\n
-			@param _widget - controlled widget
-			@param _startRect start coordinate of widget
-			@param _destRect destination coordinate
-			@param _current_time elapsed time (_current_time is real elapsed time divided by _time(see constructor) so _current_time == 1 mean that elapsed _time seconds)
-		*/
-		FrameAction eventFrameAction;
 
 		const std::string & getType();
 		bool addTime(WidgetPtr _widget, float _time);
 		void prepareItem(WidgetPtr _widget);
-		void replaseItem(WidgetPtr _widget, ControllerItem * _item);
+		//void replaseItem(WidgetPtr _widget, ControllerItem * _item);
 
-		inline float getElapsedTime() {return mElapsedTime;}
+		float getElapsedTime() {return mElapsedTime;}
 
 		IntCoord mStartRect;
 		IntCoord mDestRect;
 		float mTime;
 		float mElapsedTime;
+
+		bool mCalcPosition;
+		bool mCalcSize;
+
+		/** Event : Every frame action while controller exist.\n
+			signature : void method(const IntRect & _startRect, const IntRect & _destRect, IntRect & _result, float _current_time)\n
+			@param _startRect start coordinate of widget
+			@param _destRect destination coordinate
+			@param _result resultRect
+			@param _current_time elapsed time (_current_time is real elapsed time divided by _time(see constructor) so _current_time == 1 mean that elapsed _time seconds)
+		*/
+		FrameAction eventFrameAction;
 	};
 
 }
