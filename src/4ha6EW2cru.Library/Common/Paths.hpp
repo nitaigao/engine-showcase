@@ -15,9 +15,6 @@ public:
 	/*! Gets the Path to the default game folder */
 	static std::string GetGameFolderPath( ) { return "../game"; };
 
-	/*! Gets the Path to the Screen Information Files */
-	static std::string GetScreensPath( ) { return "gui/screens/"; };
-
 	/*! Gets the Path to the HumanView */
 	static std::string GetHumanViewPath( ) { return "../game/views/humanview"; };
 
@@ -34,7 +31,10 @@ public:
 	static std::string GetGUIPackagePath( ) { return "../game/data/gui.bad"; };
 
 	/*! Get the path to the gui controls directory */
-	static std::string GetControlsPath( ) { return "gui/controls/"; };
+	static std::string GetControllersPath( ) { return "gui/controllers/"; };
+
+	/*! Get the path to the gui controls directory */
+	static std::string GetViewsPath( ) { return "gui/views/"; };
 };
 
 #endif

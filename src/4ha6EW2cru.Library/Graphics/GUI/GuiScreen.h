@@ -17,21 +17,16 @@ class GuiScreen : public GuiComponent
 
 public: 
 
-	GuiScreen( const std::string name, const unsigned int visibilityMask = 0 )
+	GuiScreen( const std::string name )
 		: GuiComponent( name )
-		, _visibilityMask( visibilityMask )
-		, _gui( 0 )
 	{
-		_componentType = SCREEN;
+
 	};
 
 	virtual ~GuiScreen( ) { };
 
 	/*! Initializes the Screen */
 	void Initialize( );
-
-	/*! Returns the Visibility Flag of the Screen */
-	inline const unsigned int GetVisibilityMask( ) const { return _visibilityMask; };
 
 private:
 
@@ -40,13 +35,6 @@ private:
 	static void FromLua_AddControl( ); 
 	static int FromLua_GetScreenWidth( );
 	static int FromLua_GetScreenHeight( );
-
-	bool loadGUI( );
-	bool loadScript( );
-
-	const unsigned int _visibilityMask;
-
-	Gui* _gui;
 
 };
 

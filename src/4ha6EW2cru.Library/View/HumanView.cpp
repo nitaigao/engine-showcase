@@ -101,7 +101,7 @@ void HumanView::ChangeScreen( std::string screenName )
 
 std::string HumanView::LoadScreenConfig( )
 {
-	FileBuffer* configBuffer = FileManager::GetInstance( )->GetFile( "gui/screens/screens.xml" );
+	FileBuffer* configBuffer = FileManager::GetInstance( )->GetFile( "gui/screens.xml" );
 
 	std::istringstream inputStream;
 	inputStream.str( configBuffer->fileBytes );

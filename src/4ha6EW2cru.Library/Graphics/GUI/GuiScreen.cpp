@@ -15,47 +15,15 @@ using namespace MyGUI;
 #include "../../Scripting/ScriptManager.h"
 #include "../../Common/Paths.hpp"
 
-bool GuiScreen::loadGUI( )
-{
-	bool result = false;
-
-	if ( _gui != 0 )
-	{
-		std::stringstream guiPath;
-		guiPath << "gui/views/" << _name << "/" << _name << ".layout";
-		//guiPath << "gui/screens/" << _name << "/" << _name << ".layout";
-
-		if ( !FileManager::GetInstance(  )->FileExists( guiPath.str( ) ) )
-		{
-			std::stringstream cannotFindGUIFile;
-			cannotFindGUIFile << "GuiScreen Initialize: Gui Layout File: " << guiPath.str( ) << " doesnt exist";
-			Logger::GetInstance( )->Fatal( cannotFindGUIFile.str( ) );
-			return false;
-		}
-
-		_gui->destroyAllChildWidget( );
-
-		try
-		{
-			_gui->load( guiPath.str( ) );
-		}
-		catch ( MyGUIException e )
-		{
-			Logger::GetInstance( )->Fatal( e.what( ) );
-			throw;
-		}		
-
-		result = true;
-	}
-
-	return result;
-}
-
 void GuiScreen::Initialize( )
 {
+	if ( Gui::getInstancePtr( ) != 0 )
+	{
+		Gui::getInstancePtr( )->destroyAllChildWidget( );
+	}
+
 	std::stringstream scriptPath;
-	scriptPath << "gui/controllers/" << _name << ".lua";
-	//scriptPath << Paths::GetScreensPath( ) << _name << "/" << _name << ".lua";
+	scriptPath << Paths::GetControllersPath( ) << _name << ".lua";
 
 	_script = ScriptManager::GetInstance( )->CreateScript( scriptPath.str( ) );
 

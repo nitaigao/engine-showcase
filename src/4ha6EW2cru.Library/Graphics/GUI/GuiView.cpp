@@ -9,7 +9,7 @@
 void GuiView::Initialize( )
 {
 	std::stringstream layoutPath;
-	layoutPath << Paths::GetScreensPath( ) << _name << "/" << _name << ".layout";
+	layoutPath << Paths::GetViewsPath( ) << _name << "/" << _name << ".layout";
 
 	if ( !FileManager::GetInstance( )->FileExists( layoutPath.str( ) ) )
 	{

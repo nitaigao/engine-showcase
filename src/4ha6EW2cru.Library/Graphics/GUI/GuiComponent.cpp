@@ -23,7 +23,7 @@ void GuiComponent::Initialize( )
 	if ( !_script ) 
 	{	
 		std::stringstream scriptPath;
-		scriptPath << Paths::GetControlsPath( ) << _name << "/" << _name << ".lua";
+		scriptPath << Paths::GetViewsPath( ) << _name << "/" << _name << ".lua";
 	
 		_script = ScriptManager::GetInstance( )->CreateScript( scriptPath.str( ) );
 	}
