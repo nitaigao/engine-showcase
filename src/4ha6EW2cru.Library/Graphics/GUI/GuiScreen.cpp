@@ -12,15 +12,8 @@ using namespace MyGUI;
 #include "../../Events/EventListener.h"
 #include "../../Events/EventManager.h"
 #include "../../IO/FileManager.h"
-
-GuiScreen::~GuiScreen( )
-{
-	/*if( _script != 0 )
-	{	
-		delete _script;
-		_script = 0;
-	}*/
-}
+#include "../../Scripting/ScriptManager.h"
+#include "../../Common/Paths.hpp"
 
 bool GuiScreen::loadGUI( )
 {
@@ -57,56 +50,30 @@ bool GuiScreen::loadGUI( )
 	return result;
 }
 
-bool GuiScreen::loadScript( )
+void GuiScreen::Initialize( )
 {
-	bool result = false;
+	std::stringstream scriptPath;
+	scriptPath << Paths::GetScreensPath( ) << _name << "/" << _name << ".lua";
 
-	if ( _script != 0 )
-	{
-		module( _script->GetState( ) )
-		[
-			class_< GuiComponent >( "Component" )
-				.def( constructor< std::string >( ) )
-				.def( "initialize", &GuiComponent::Initialize ),
+	_script = ScriptManager::GetInstance( )->CreateScript( scriptPath.str( ) );
 
-			class_< GuiScreen >( "GuiScreen" ),
+	module( _script->GetState( ) )
+	[
+		class_< GuiComponent >( "Component" )
+			.def( constructor< std::string >( ) )
+			.def( "initialize", &GuiComponent::Initialize ),
 
-			def( "getScreenWidth", &GuiScreen::FromLua_GetScreenWidth ),
-			def( "getScreenHeight", &GuiScreen::FromLua_GetScreenHeight ),
-			def( "changeScreen", &GuiScreen::FromLua_ChangeScreen ),
-			def( "showMouse", &GuiScreen::FromLua_ShowMouse )
-		];
+		class_< GuiScreen >( "GuiScreen" ),
 
-		_script->CallFunction( "onScreenInitialized" );
-
-		result = true;
-	}
-
-	return result;
+		def( "getScreenWidth", &GuiScreen::FromLua_GetScreenWidth ),
+		def( "getScreenHeight", &GuiScreen::FromLua_GetScreenHeight ),
+		
+		def( "changeScreen", &GuiScreen::FromLua_ChangeScreen ),
+		def( "showMouse", &GuiScreen::FromLua_ShowMouse )
+	];
+	
+	GuiComponent::Initialize( );
 }
-
-/*void GuiScreen::Initialize( Gui* gui, Script* script )
-{	
-	_script = script;
-	_gui = gui;
-
-	if ( gui == 0 )
-	{
-		NullReferenceException guiNullE( "GuiScreen::Initialize - Cannot Initialize with a NULL GUI" );
-		Logger::GetInstance( )->Fatal( guiNullE.what( ) );
-		throw guiNullE;
-	}
-
-	if ( script == 0 )
-	{
-		NullReferenceException scriptNullE( "GuiScreen::Initialize - Cannot Initialize with a NULL Script" );
-		Logger::GetInstance( )->Fatal( scriptNullE.what( ) );
-		throw scriptNullE;
-	}
-
-	loadGUI( );
-	loadScript( );
-}*/
 
 void GuiScreen::FromLua_ShowMouse( )
 {

@@ -25,10 +25,10 @@ public:
 		_componentType = SCREEN;
 	};
 
-	virtual ~GuiScreen( );
+	virtual ~GuiScreen( ) { };
 
 	/*! Initializes the Screen */
-	//void Initialize( Gui* gui, Script* script );
+	void Initialize( );
 
 	/*! Returns the Visibility Flag of the Screen */
 	inline const unsigned int GetVisibilityMask( ) const { return _visibilityMask; };

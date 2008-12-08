@@ -20,23 +20,14 @@ using namespace luabind;
 
 void GuiComponent::Initialize( )
 {
-	std::stringstream scriptPath;
+	if ( !_script ) 
+	{	
+		std::stringstream scriptPath;
+		scriptPath << Paths::GetControlsPath( ) << _name << "/" << _name << ".lua";
 	
-	switch( _componentType )
-	{
-	
-		case SCREEN: 
-			scriptPath << Paths::GetScreensPath( ) << _name << "/" << _name << ".lua";
-			break;
-			
-		case CONTROL:
-			scriptPath << Paths::GetControlsPath( ) << _name << "/" << _name << ".lua";
-			break;
-			
+		_script = ScriptManager::GetInstance( )->CreateScript( scriptPath.str( ) );
 	}
-
-	_script = ScriptManager::GetInstance( )->CreateScript( scriptPath.str( ) );
-
+		
 	module( _script->GetState( ) )
 	[
 		class_< GuiModel >( "Model" )
@@ -53,7 +44,9 @@ void GuiComponent::Initialize( )
 			
 		class_< MyGUI::IntCoord >( "IntCoord" )
 			.def_readonly( "x" , &MyGUI::IntCoord::left )
-			.def_readonly( "y" , &MyGUI::IntCoord::top ),
+			.def_readonly( "y" , &MyGUI::IntCoord::top )
+			.def_readonly( "width" , &MyGUI::IntCoord::width )
+			.def_readonly( "height" , &MyGUI::IntCoord::height ),
 
 		class_< MyGUI::Widget >( "Widget" )
 			.def( "getDimensions", &MyGUI::Widget::getClientCoord )
