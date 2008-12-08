@@ -18,7 +18,9 @@ DEBUG: Loading File: gui/core/core.pointer
 DEBUG: BadArchive: Opening File gui/core/core.pointer
 INFO: Initializing Input System
 DEBUG: Loading File: gui/screens/screens.xml
-DEBUG: Loading File: gui/screens/introscreen/introscreen.lua
+DEBUG: Loading File: gui/controllers/introscreen.lua
+DEBUG: Loading File: gui/views/introscreen/introscreen.lua
+DEBUG: Loading File: gui/models/introscreen.lua
 DEBUG: Loading File: gui/screens/introscreen/introscreen.layout
 DEBUG: BadArchive: Opening File gui/screens/introscreen/introscreen.layout
 DEBUG: Loading File: gui/screens/introscreen/intro_logo.png

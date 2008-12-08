@@ -1,378 +1,378 @@
  ---------------------------------------------------------------------------------------------------------------------------------- 
-                                          loging report for : 12/08/2008   12:06:44
+                                          loging report for : 12/08/2008   16:13:26
  ---------------------------------------------------------------------------------------------------------------------------------- 
 
-12:06:44  |  General  |  Info  |  * Initialise: Gui  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_gui.cpp  |  39
-12:06:44  |  General  |  Info  |  * MyGUI version 2.2.0  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_gui.cpp  |  43
-12:06:44  |  General  |  Info  |  Viewport : 640 480  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_gui.cpp  |  51
-12:06:44  |  General  |  Info  |  * Initialise: ResourceManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_resourcemanager.cpp  |  24
-12:06:44  |  General  |  Info  |  ResourceManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_resourcemanager.cpp  |  36
-12:06:44  |  General  |  Info  |  * Initialise: LayerManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  26
-12:06:44  |  General  |  Info  |  LayerManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  46
-12:06:44  |  General  |  Info  |  * Initialise: WidgetManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  46
-12:06:44  |  General  |  Info  |  * Register widget factory 'Widget'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'Window'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'HScroll'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'VScroll'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'StaticText'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'Tab'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'TabItem'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'TabItem'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'Sheet'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'Progress'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'StaticImage'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'Message'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  Register value : 'Ok' = 1  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  158
-12:06:44  |  General  |  Info  |  Register value : 'Yes' = 2  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  159
-12:06:44  |  General  |  Info  |  Register value : 'No' = 4  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  160
-12:06:44  |  General  |  Info  |  Register value : 'Abort' = 8  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  161
-12:06:44  |  General  |  Info  |  Register value : 'Retry' = 16  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  162
-12:06:44  |  General  |  Info  |  Register value : 'Ignore' = 32  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  163
-12:06:44  |  General  |  Info  |  Register value : 'Cancel' = 64  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  164
-12:06:44  |  General  |  Info  |  Register value : 'Try' = 128  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  165
-12:06:44  |  General  |  Info  |  Register value : 'Continue' = 256  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  166
-12:06:44  |  General  |  Info  |  Register value : 'OkCancel' = 65  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  167
-12:06:44  |  General  |  Info  |  Register value : 'YesNo' = 6  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  168
-12:06:44  |  General  |  Info  |  Register value : 'YesNoCancel' = 70  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  169
-12:06:44  |  General  |  Info  |  Register value : 'RetryCancel' = 80  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  170
-12:06:44  |  General  |  Info  |  Register value : 'AbortRetryIgnore' = 56  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  171
-12:06:44  |  General  |  Info  |  Register value : 'CancelTryContinue' = 448  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  172
-12:06:44  |  General  |  Info  |  Register value : 'IconDefault' = 65536  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  174
-12:06:44  |  General  |  Info  |  Register value : 'IconInfo' = 65536  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  176
-12:06:44  |  General  |  Info  |  Register value : 'IconQuest' = 131072  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  177
-12:06:44  |  General  |  Info  |  Register value : 'IconError' = 262144  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  178
-12:06:44  |  General  |  Info  |  Register value : 'IconWarning' = 524288  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  179
-12:06:44  |  General  |  Info  |  Register value : 'Icon1' = 65536  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  181
-12:06:44  |  General  |  Info  |  Register value : 'Icon2' = 131072  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  182
-12:06:44  |  General  |  Info  |  Register value : 'Icon3' = 262144  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  183
-12:06:44  |  General  |  Info  |  Register value : 'Icon4' = 524288  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  184
-12:06:44  |  General  |  Info  |  Register value : 'Icon5' = 1048576  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  185
-12:06:44  |  General  |  Info  |  Register value : 'Icon6' = 2097152  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  186
-12:06:44  |  General  |  Info  |  Register value : 'Icon7' = 4194304  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  187
-12:06:44  |  General  |  Info  |  Register value : 'Icon8' = 8388608  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  188
-12:06:44  |  General  |  Info  |  * Register widget factory 'RenderBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'MenuCtrl'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'MenuItem'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'PopupMenu'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'MenuBar'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'ScrollView'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'DDContainer'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  * Register widget factory 'GridCtrl'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
-12:06:44  |  General  |  Info  |  WidgetManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  77
-12:06:44  |  General  |  Info  |  * Initialise: InputManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_inputmanager.cpp  |  34
-12:06:44  |  General  |  Info  |  InputManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_inputmanager.cpp  |  59
-12:06:44  |  General  |  Info  |  * Initialise: SubWidgetManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_subwidgetmanager.cpp  |  17
-12:06:44  |  General  |  Info  |  SubWidgetManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_subwidgetmanager.cpp  |  33
-12:06:44  |  General  |  Info  |  * Initialise: SkinManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  24
-12:06:44  |  General  |  Info  |  SkinManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  30
-12:06:44  |  General  |  Info  |  * Initialise: FontManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_fontmanager.cpp  |  28
-12:06:44  |  General  |  Info  |  FontManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_fontmanager.cpp  |  32
-12:06:44  |  General  |  Info  |  * Initialise: ControllerManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_controllermanager.cpp  |  20
-12:06:44  |  General  |  Info  |  ControllerManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_controllermanager.cpp  |  24
-12:06:44  |  General  |  Info  |  * Initialise: PointerManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_pointermanager.cpp  |  25
-12:06:44  |  General  |  Info  |  PointerManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_pointermanager.cpp  |  34
-12:06:44  |  General  |  Info  |  * Initialise: ClipboardManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_clipboardmanager.cpp  |  19
-12:06:44  |  General  |  Info  |  ClipboardManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_clipboardmanager.cpp  |  26
-12:06:44  |  General  |  Info  |  * Initialise: LayoutManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layoutmanager.cpp  |  25
-12:06:44  |  General  |  Info  |  LayoutManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layoutmanager.cpp  |  31
-12:06:44  |  General  |  Info  |  * Initialise: DynLibManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_dynlibmanager.cpp  |  18
-12:06:44  |  General  |  Info  |  DynLibManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_dynlibmanager.cpp  |  20
-12:06:44  |  General  |  Info  |  * Initialise: PluginManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_pluginmanager.cpp  |  21
-12:06:44  |  General  |  Info  |  PluginManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_pluginmanager.cpp  |  25
-12:06:44  |  General  |  Info  |  * Initialise: DelegateManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_delegatemanager.cpp  |  17
-12:06:44  |  General  |  Info  |  DelegateManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_delegatemanager.cpp  |  21
-12:06:44  |  General  |  Info  |  * Initialise: LanguageManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_languagemanager.cpp  |  21
-12:06:44  |  General  |  Info  |  LanguageManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_languagemanager.cpp  |  28
-12:06:44  |  General  |  Info  |  Load ini file 'gui/core/gui.layer' from resource group : General  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_resourcemanager.cpp  |  130
-12:06:44  |  General  |  Info  |  Load ini file 'gui/core/gui.skin' from resource group : General  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_resourcemanager.cpp  |  130
-12:06:44  |  General  |  Info  |  Register value : 'HCenter' = 0  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  161
-12:06:44  |  General  |  Info  |  Register value : 'VCenter' = 0  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  162
-12:06:44  |  General  |  Info  |  Register value : 'Center' = 0  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  163
-12:06:44  |  General  |  Info  |  Register value : 'Left' = 2  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  164
-12:06:44  |  General  |  Info  |  Register value : 'Right' = 4  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  165
-12:06:44  |  General  |  Info  |  Register value : 'HStretch' = 6  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  166
-12:06:44  |  General  |  Info  |  Register value : 'Top' = 8  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  167
-12:06:44  |  General  |  Info  |  Register value : 'Bottom' = 16  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  168
-12:06:44  |  General  |  Info  |  Register value : 'VStretch' = 24  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  169
-12:06:44  |  General  |  Info  |  Register value : 'Stretch' = 30  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  170
-12:06:44  |  General  |  Info  |  Register value : 'Default' = 10  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  171
-12:06:44  |  General  |  Info  |  Register value : 'LeftTop' = 10  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  173
-12:06:44  |  General  |  Info  |  Register value : 'RightTop' = 12  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  174
-12:06:44  |  General  |  Info  |  Register value : 'RightBottom' = 20  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  175
-12:06:44  |  General  |  Info  |  Register value : 'LeftBottom' = 18  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  176
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'WindowCaption'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'WindowCaption'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'WindowCaption'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'WindowX'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'WindowX'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'WindowResize'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollTop'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollTop'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollBottom'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollBottom'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollTopPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollTopPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollTopPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollTopPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollBottomPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollBottomPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollBottomPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollBottomPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollLeft'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollLeft'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollRight'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollRight'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollLeftPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollLeftPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollLeftPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollLeftPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollRightPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollRightPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollRightPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollRightPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ListLine'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'ListLine'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ListLine'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'MarkerGreen'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'MarkerGreen'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'MarkerYellow'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MarkerYellow'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ComboBoxButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ComboBoxButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ComboBoxButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'TabRight'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'TabRight'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'TabLeft'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'TabLeft'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ItemLine'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'ItemLine'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemLine'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'CheckBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'CheckBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'CheckBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'CheckBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'CheckBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'RadioBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'RadioBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'RadioBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'RadioBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'RadioBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Error  |  factory type 'ColourRect' not found. (SubWidgetManager::getStateData)  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_subwidgetmanager.cpp  |  69
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
-12:06:44  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
-12:06:44  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
-12:06:44  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
-12:06:44  |  General  |  Info  |  Load ini file 'gui/core/core.font' from resource group : General  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_resourcemanager.cpp  |  130
-12:06:44  |  General  |  Info  |  Load ini file 'gui/core/core.pointer' from resource group : General  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_resourcemanager.cpp  |  130
-12:06:44  |  General  |  Info  |  Gui successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_gui.cpp  |  95
-12:06:44  |  General  |  Info  |  load layout 'gui/screens/introscreen/introscreen.layout'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layoutmanager.cpp  |  56
-12:06:45  |  General  |  Info  |  * Shutdown: Gui  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_gui.cpp  |  102
-12:06:45  |  General  |  Info  |  * Shutdown: PointerManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_pointermanager.cpp  |  41
-12:06:45  |  General  |  Info  |  PointerManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_pointermanager.cpp  |  51
-12:06:45  |  General  |  Info  |  * Shutdown: WidgetManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  84
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'Widget'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'Window'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'HScroll'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'VScroll'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'StaticText'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'Tab'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'TabItem'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'Progress'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'StaticImage'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'Message'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'RenderBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'MenuCtrl'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'MenuItem'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'PopupMenu'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'MenuBar'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'ScrollView'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'DDContainer'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  * Unregister widget factory 'GridCtrl'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
-12:06:45  |  General  |  Info  |  WidgetManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  95
-12:06:45  |  General  |  Info  |  * Shutdown: InputManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_inputmanager.cpp  |  66
-12:06:45  |  General  |  Info  |  InputManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_inputmanager.cpp  |  72
-12:06:45  |  General  |  Info  |  * Shutdown: SkinManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  37
-12:06:45  |  General  |  Info  |  SkinManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  48
-12:06:45  |  General  |  Info  |  * Shutdown: SubWidgetManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_subwidgetmanager.cpp  |  40
-12:06:45  |  General  |  Info  |  SubWidgetManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_subwidgetmanager.cpp  |  51
-12:06:45  |  General  |  Info  |  * Shutdown: LayerManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  57
-12:06:45  |  General  |  Info  |  destroy layer 'Back'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  276
-12:06:45  |  General  |  Info  |  destroy layer 'Overlapped'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  276
-12:06:45  |  General  |  Info  |  destroy layer 'Main'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  276
-12:06:45  |  General  |  Info  |  destroy layer 'DragAndDrop'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  276
-12:06:45  |  General  |  Info  |  destroy layer 'Pointer'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  276
-12:06:45  |  General  |  Info  |  destroy layer 'Statistic'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  276
-12:06:45  |  General  |  Info  |  LayerManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  65
-12:06:45  |  General  |  Info  |  * Shutdown: FontManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_fontmanager.cpp  |  39
-12:06:45  |  General  |  Info  |  FontManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_fontmanager.cpp  |  43
-12:06:45  |  General  |  Info  |  * Shutdown: ControllerManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_controllermanager.cpp  |  31
-12:06:45  |  General  |  Info  |  ControllerManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_controllermanager.cpp  |  36
-12:06:45  |  General  |  Info  |  * Shutdown: ClipboardManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_clipboardmanager.cpp  |  33
-12:06:45  |  General  |  Info  |  ClipboardManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_clipboardmanager.cpp  |  35
-12:06:45  |  General  |  Info  |  * Shutdown: LayoutManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layoutmanager.cpp  |  38
-12:06:45  |  General  |  Info  |  LayoutManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layoutmanager.cpp  |  42
-12:06:45  |  General  |  Info  |  * Shutdown: PluginManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_pluginmanager.cpp  |  32
-12:06:45  |  General  |  Info  |  PluginManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_pluginmanager.cpp  |  37
-12:06:45  |  General  |  Info  |  * Shutdown: DynLibManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_dynlibmanager.cpp  |  27
-12:06:45  |  General  |  Info  |  DynLibManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_dynlibmanager.cpp  |  41
-12:06:45  |  General  |  Info  |  * Shutdown: DelegateManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_delegatemanager.cpp  |  28
-12:06:45  |  General  |  Info  |  DelegateManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_delegatemanager.cpp  |  32
-12:06:45  |  General  |  Info  |  * Shutdown: LanguageManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_languagemanager.cpp  |  35
-12:06:45  |  General  |  Info  |  LanguageManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_languagemanager.cpp  |  39
-12:06:45  |  General  |  Info  |  * Shutdown: ResourceManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_resourcemanager.cpp  |  43
-12:06:45  |  General  |  Info  |  ResourceManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_resourcemanager.cpp  |  54
-12:06:45  |  General  |  Info  |  Gui successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_gui.cpp  |  143
+16:13:26  |  General  |  Info  |  * Initialise: Gui  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_gui.cpp  |  39
+16:13:26  |  General  |  Info  |  * MyGUI version 2.2.0  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_gui.cpp  |  43
+16:13:26  |  General  |  Info  |  Viewport : 1024 768  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_gui.cpp  |  51
+16:13:26  |  General  |  Info  |  * Initialise: ResourceManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_resourcemanager.cpp  |  24
+16:13:26  |  General  |  Info  |  ResourceManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_resourcemanager.cpp  |  36
+16:13:26  |  General  |  Info  |  * Initialise: LayerManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  26
+16:13:26  |  General  |  Info  |  LayerManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  46
+16:13:26  |  General  |  Info  |  * Initialise: WidgetManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  46
+16:13:26  |  General  |  Info  |  * Register widget factory 'Widget'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'Window'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'HScroll'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'VScroll'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'StaticText'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'Tab'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'TabItem'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'TabItem'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'Sheet'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'Progress'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'StaticImage'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'Message'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  Register value : 'Ok' = 1  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  158
+16:13:26  |  General  |  Info  |  Register value : 'Yes' = 2  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  159
+16:13:26  |  General  |  Info  |  Register value : 'No' = 4  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  160
+16:13:26  |  General  |  Info  |  Register value : 'Abort' = 8  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  161
+16:13:26  |  General  |  Info  |  Register value : 'Retry' = 16  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  162
+16:13:26  |  General  |  Info  |  Register value : 'Ignore' = 32  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  163
+16:13:26  |  General  |  Info  |  Register value : 'Cancel' = 64  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  164
+16:13:26  |  General  |  Info  |  Register value : 'Try' = 128  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  165
+16:13:26  |  General  |  Info  |  Register value : 'Continue' = 256  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  166
+16:13:26  |  General  |  Info  |  Register value : 'OkCancel' = 65  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  167
+16:13:26  |  General  |  Info  |  Register value : 'YesNo' = 6  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  168
+16:13:26  |  General  |  Info  |  Register value : 'YesNoCancel' = 70  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  169
+16:13:26  |  General  |  Info  |  Register value : 'RetryCancel' = 80  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  170
+16:13:26  |  General  |  Info  |  Register value : 'AbortRetryIgnore' = 56  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  171
+16:13:26  |  General  |  Info  |  Register value : 'CancelTryContinue' = 448  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  172
+16:13:26  |  General  |  Info  |  Register value : 'IconDefault' = 65536  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  174
+16:13:26  |  General  |  Info  |  Register value : 'IconInfo' = 65536  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  176
+16:13:26  |  General  |  Info  |  Register value : 'IconQuest' = 131072  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  177
+16:13:26  |  General  |  Info  |  Register value : 'IconError' = 262144  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  178
+16:13:26  |  General  |  Info  |  Register value : 'IconWarning' = 524288  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  179
+16:13:26  |  General  |  Info  |  Register value : 'Icon1' = 65536  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  181
+16:13:26  |  General  |  Info  |  Register value : 'Icon2' = 131072  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  182
+16:13:26  |  General  |  Info  |  Register value : 'Icon3' = 262144  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  183
+16:13:26  |  General  |  Info  |  Register value : 'Icon4' = 524288  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  184
+16:13:26  |  General  |  Info  |  Register value : 'Icon5' = 1048576  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  185
+16:13:26  |  General  |  Info  |  Register value : 'Icon6' = 2097152  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  186
+16:13:26  |  General  |  Info  |  Register value : 'Icon7' = 4194304  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  187
+16:13:26  |  General  |  Info  |  Register value : 'Icon8' = 8388608  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_messagefactory.cpp  |  188
+16:13:26  |  General  |  Info  |  * Register widget factory 'RenderBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'MenuCtrl'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'MenuItem'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'PopupMenu'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'MenuBar'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'ScrollView'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'DDContainer'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  * Register widget factory 'GridCtrl'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  102
+16:13:26  |  General  |  Info  |  WidgetManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  77
+16:13:26  |  General  |  Info  |  * Initialise: InputManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_inputmanager.cpp  |  34
+16:13:26  |  General  |  Info  |  InputManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_inputmanager.cpp  |  59
+16:13:26  |  General  |  Info  |  * Initialise: SubWidgetManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_subwidgetmanager.cpp  |  17
+16:13:26  |  General  |  Info  |  SubWidgetManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_subwidgetmanager.cpp  |  33
+16:13:26  |  General  |  Info  |  * Initialise: SkinManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  24
+16:13:26  |  General  |  Info  |  SkinManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  30
+16:13:26  |  General  |  Info  |  * Initialise: FontManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_fontmanager.cpp  |  28
+16:13:26  |  General  |  Info  |  FontManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_fontmanager.cpp  |  32
+16:13:26  |  General  |  Info  |  * Initialise: ControllerManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_controllermanager.cpp  |  20
+16:13:26  |  General  |  Info  |  ControllerManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_controllermanager.cpp  |  24
+16:13:26  |  General  |  Info  |  * Initialise: PointerManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_pointermanager.cpp  |  25
+16:13:26  |  General  |  Info  |  PointerManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_pointermanager.cpp  |  34
+16:13:26  |  General  |  Info  |  * Initialise: ClipboardManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_clipboardmanager.cpp  |  19
+16:13:26  |  General  |  Info  |  ClipboardManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_clipboardmanager.cpp  |  26
+16:13:26  |  General  |  Info  |  * Initialise: LayoutManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layoutmanager.cpp  |  25
+16:13:26  |  General  |  Info  |  LayoutManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layoutmanager.cpp  |  31
+16:13:26  |  General  |  Info  |  * Initialise: DynLibManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_dynlibmanager.cpp  |  18
+16:13:26  |  General  |  Info  |  DynLibManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_dynlibmanager.cpp  |  20
+16:13:26  |  General  |  Info  |  * Initialise: PluginManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_pluginmanager.cpp  |  21
+16:13:26  |  General  |  Info  |  PluginManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_pluginmanager.cpp  |  25
+16:13:26  |  General  |  Info  |  * Initialise: DelegateManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_delegatemanager.cpp  |  17
+16:13:26  |  General  |  Info  |  DelegateManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_delegatemanager.cpp  |  21
+16:13:26  |  General  |  Info  |  * Initialise: LanguageManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_languagemanager.cpp  |  21
+16:13:26  |  General  |  Info  |  LanguageManager successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_languagemanager.cpp  |  28
+16:13:26  |  General  |  Info  |  Load ini file 'gui/core/gui.layer' from resource group : General  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_resourcemanager.cpp  |  130
+16:13:26  |  General  |  Info  |  Load ini file 'gui/core/gui.skin' from resource group : General  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_resourcemanager.cpp  |  130
+16:13:26  |  General  |  Info  |  Register value : 'HCenter' = 0  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  161
+16:13:26  |  General  |  Info  |  Register value : 'VCenter' = 0  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  162
+16:13:26  |  General  |  Info  |  Register value : 'Center' = 0  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  163
+16:13:26  |  General  |  Info  |  Register value : 'Left' = 2  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  164
+16:13:26  |  General  |  Info  |  Register value : 'Right' = 4  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  165
+16:13:26  |  General  |  Info  |  Register value : 'HStretch' = 6  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  166
+16:13:26  |  General  |  Info  |  Register value : 'Top' = 8  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  167
+16:13:26  |  General  |  Info  |  Register value : 'Bottom' = 16  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  168
+16:13:26  |  General  |  Info  |  Register value : 'VStretch' = 24  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  169
+16:13:26  |  General  |  Info  |  Register value : 'Stretch' = 30  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  170
+16:13:26  |  General  |  Info  |  Register value : 'Default' = 10  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  171
+16:13:26  |  General  |  Info  |  Register value : 'LeftTop' = 10  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  173
+16:13:26  |  General  |  Info  |  Register value : 'RightTop' = 12  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  174
+16:13:26  |  General  |  Info  |  Register value : 'RightBottom' = 20  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  175
+16:13:26  |  General  |  Info  |  Register value : 'LeftBottom' = 18  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\include\mygui_align.h  |  176
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ButtonSmall'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'EditStretch'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'WindowCaption'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'WindowCaption'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'WindowCaption'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'WindowX'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'WindowX'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'WindowResize'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollTop'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollTop'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollBottom'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollBottom'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollTopPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollTopPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollTopPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollTopPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollBottomPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollBottomPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'VScrollBottomPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'VScrollBottomPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollTrack'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollLeft'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollLeft'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollRight'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollRight'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollLeftPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollLeftPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollLeftPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollLeftPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollRightPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollRightPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'HScrollRightPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'HScrollRightPart'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ListLine'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'ListLine'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ListLine'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'MarkerGreen'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'MarkerGreen'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'MarkerYellow'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MarkerYellow'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ComboBoxButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ComboBoxButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ComboBoxButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'TabRight'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'TabRight'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'TabLeft'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'TabLeft'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'TabButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'ItemLine'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'ItemLine'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemLine'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'CheckBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'CheckBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'CheckBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'CheckBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'CheckBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'RadioBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'RadioBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'RadioBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'RadioBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'RadioBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Error  |  factory type 'ColourRect' not found. (SubWidgetManager::getStateData)  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_subwidgetmanager.cpp  |  69
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Warning  |  state name 'disable' is obsolete, use 'disabled'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  194
+16:13:26  |  General  |  Warning  |  state name 'active' is obsolete, use 'highlighted'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  198
+16:13:26  |  General  |  Warning  |  state name 'pressed' is obsolete, use 'normal_checked'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  211
+16:13:26  |  General  |  Warning  |  state name 'select' is obsolete, use 'pushed'. skin 'MenuBarButton'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  202
+16:13:26  |  General  |  Info  |  Load ini file 'gui/core/core.font' from resource group : General  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_resourcemanager.cpp  |  130
+16:13:26  |  General  |  Info  |  Load ini file 'gui/core/core.pointer' from resource group : General  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_resourcemanager.cpp  |  130
+16:13:26  |  General  |  Info  |  Gui successfully initialized  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_gui.cpp  |  95
+16:13:26  |  General  |  Info  |  load layout 'gui/screens/introscreen/introscreen.layout'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layoutmanager.cpp  |  56
+16:13:27  |  General  |  Info  |  * Shutdown: Gui  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_gui.cpp  |  102
+16:13:27  |  General  |  Info  |  * Shutdown: PointerManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_pointermanager.cpp  |  41
+16:13:27  |  General  |  Info  |  PointerManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_pointermanager.cpp  |  51
+16:13:27  |  General  |  Info  |  * Shutdown: WidgetManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  84
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'Widget'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'Button'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'Window'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'List'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'HScroll'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'VScroll'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'Edit'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'ComboBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'StaticText'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'Tab'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'TabItem'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'Progress'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'ItemBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'MultiList'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'StaticImage'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'Message'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'RenderBox'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'MenuCtrl'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'MenuItem'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'PopupMenu'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'MenuBar'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'ScrollView'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'DDContainer'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  * Unregister widget factory 'GridCtrl'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  109
+16:13:27  |  General  |  Info  |  WidgetManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_widgetmanager.cpp  |  95
+16:13:27  |  General  |  Info  |  * Shutdown: InputManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_inputmanager.cpp  |  66
+16:13:27  |  General  |  Info  |  InputManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_inputmanager.cpp  |  72
+16:13:27  |  General  |  Info  |  * Shutdown: SkinManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  37
+16:13:27  |  General  |  Info  |  SkinManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_skinmanager.cpp  |  48
+16:13:27  |  General  |  Info  |  * Shutdown: SubWidgetManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_subwidgetmanager.cpp  |  40
+16:13:27  |  General  |  Info  |  SubWidgetManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_subwidgetmanager.cpp  |  51
+16:13:27  |  General  |  Info  |  * Shutdown: LayerManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  57
+16:13:27  |  General  |  Info  |  destroy layer 'Back'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  276
+16:13:27  |  General  |  Info  |  destroy layer 'Overlapped'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  276
+16:13:27  |  General  |  Info  |  destroy layer 'Main'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  276
+16:13:27  |  General  |  Info  |  destroy layer 'DragAndDrop'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  276
+16:13:27  |  General  |  Info  |  destroy layer 'Pointer'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  276
+16:13:27  |  General  |  Info  |  destroy layer 'Statistic'  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  276
+16:13:27  |  General  |  Info  |  LayerManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layermanager.cpp  |  65
+16:13:27  |  General  |  Info  |  * Shutdown: FontManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_fontmanager.cpp  |  39
+16:13:27  |  General  |  Info  |  FontManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_fontmanager.cpp  |  43
+16:13:27  |  General  |  Info  |  * Shutdown: ControllerManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_controllermanager.cpp  |  31
+16:13:27  |  General  |  Info  |  ControllerManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_controllermanager.cpp  |  36
+16:13:27  |  General  |  Info  |  * Shutdown: ClipboardManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_clipboardmanager.cpp  |  33
+16:13:27  |  General  |  Info  |  ClipboardManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_clipboardmanager.cpp  |  35
+16:13:27  |  General  |  Info  |  * Shutdown: LayoutManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layoutmanager.cpp  |  38
+16:13:27  |  General  |  Info  |  LayoutManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_layoutmanager.cpp  |  42
+16:13:27  |  General  |  Info  |  * Shutdown: PluginManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_pluginmanager.cpp  |  32
+16:13:27  |  General  |  Info  |  PluginManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_pluginmanager.cpp  |  37
+16:13:27  |  General  |  Info  |  * Shutdown: DynLibManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_dynlibmanager.cpp  |  27
+16:13:27  |  General  |  Info  |  DynLibManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_dynlibmanager.cpp  |  41
+16:13:27  |  General  |  Info  |  * Shutdown: DelegateManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_delegatemanager.cpp  |  28
+16:13:27  |  General  |  Info  |  DelegateManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_delegatemanager.cpp  |  32
+16:13:27  |  General  |  Info  |  * Shutdown: LanguageManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_languagemanager.cpp  |  35
+16:13:27  |  General  |  Info  |  LanguageManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_languagemanager.cpp  |  39
+16:13:27  |  General  |  Info  |  * Shutdown: ResourceManager  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_resourcemanager.cpp  |  43
+16:13:27  |  General  |  Info  |  ResourceManager successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_resourcemanager.cpp  |  54
+16:13:27  |  General  |  Info  |  Gui successfully shutdown  |  c:\users\nicholas.kostelnik\desktop\mygui\trunk\myguiengine\src\mygui_gui.cpp  |  143

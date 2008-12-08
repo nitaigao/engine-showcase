@@ -22,7 +22,8 @@ bool GuiScreen::loadGUI( )
 	if ( _gui != 0 )
 	{
 		std::stringstream guiPath;
-		guiPath << "gui/screens/" << _name << "/" << _name << ".layout";
+		guiPath << "gui/views/" << _name << "/" << _name << ".layout";
+		//guiPath << "gui/screens/" << _name << "/" << _name << ".layout";
 
 		if ( !FileManager::GetInstance(  )->FileExists( guiPath.str( ) ) )
 		{
@@ -53,7 +54,8 @@ bool GuiScreen::loadGUI( )
 void GuiScreen::Initialize( )
 {
 	std::stringstream scriptPath;
-	scriptPath << Paths::GetScreensPath( ) << _name << "/" << _name << ".lua";
+	scriptPath << "gui/controllers/" << _name << ".lua";
+	//scriptPath << Paths::GetScreensPath( ) << _name << "/" << _name << ".lua";
 
 	_script = ScriptManager::GetInstance( )->CreateScript( scriptPath.str( ) );
 

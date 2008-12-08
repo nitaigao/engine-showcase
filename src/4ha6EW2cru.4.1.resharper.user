@@ -13,41 +13,39 @@
   </NAntValidationSettings>
   <RecentFiles>
     <RecentFiles>
-      <File id="A34EEED2-C572-46C6-8FAB-CFA9DEAA058A/f:Suites.h" caret="480" scrollPosition="0|0" />
-      <File id="A34EEED2-C572-46C6-8FAB-CFA9DEAA058A/f:main.cpp" caret="872" scrollPosition="0|18" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiController.cpp" caret="444" scrollPosition="0|9" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiView.cpp" caret="536" scrollPosition="0|0" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:HumanView.cpp" caret="154" scrollPosition="0|0" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:HumanView.h" caret="145" scrollPosition="0|0" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.h" caret="397" scrollPosition="0|6" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.cpp" caret="1729" scrollPosition="0|0" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiComponent.cpp" caret="1672" scrollPosition="0|0" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:Script.cpp" caret="5077" scrollPosition="0|0" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:Rect.h" caret="57" scrollPosition="0|0" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:Point.h" caret="56" scrollPosition="0|0" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiComponent.h" caret="0" scrollPosition="0|0" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:FileAppender.cpp" caret="383" scrollPosition="0|0" />
+      <File id="d:Miscellaneous Files/f:MyGUI_WidgetManager.cpp" caret="11" scrollPosition="0|96" />
+      <File id="d:Miscellaneous Files/f:MyGUI_XmlDocument.h" caret="1786" scrollPosition="0|58" />
+      <File id="d:Miscellaneous Files/f:MyGUI_XmlDocument.cpp" caret="6233" scrollPosition="0|189" />
+      <File id="d:Miscellaneous Files/f:xstring" caret="25212" scrollPosition="0|895" />
+      <File id="d:Miscellaneous Files/f:MyGUI_LayoutManager.cpp" caret="2752" scrollPosition="0|75" />
+      <File id="d:Miscellaneous Files/f:MyGUI_TCoord.h" caret="4215" scrollPosition="0|0" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:Game.cpp" caret="1866" scrollPosition="0|0" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:EventData.hpp" caret="1749" scrollPosition="0|90" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:FileManager.cpp" caret="2079" scrollPosition="0|0" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:HumanView.cpp" caret="2088" scrollPosition="0|51" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiView.h" caret="286" scrollPosition="0|6" />
+      <File id="d:Miscellaneous Files/f:stdthrow.cpp" caret="738" scrollPosition="0|0" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiView.cpp" caret="507" scrollPosition="0|0" />
+      <File id="d:Miscellaneous Files/f:new.cpp" caret="1147" scrollPosition="0|0" />
+      <File id="d:Miscellaneous Files/f:call_function.hpp" caret="3346" scrollPosition="0|89" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiComponent.cpp" caret="1146" scrollPosition="0|26" />
+      <File id="d:Miscellaneous Files/f:sstream" caret="16551" scrollPosition="0|502" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.cpp" caret="1415" scrollPosition="0|45" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:ScriptManager.h" caret="862" scrollPosition="0|12" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:ScriptManager.cpp" caret="706" scrollPosition="0|65" />
+      <File id="d:Miscellaneous Files/f:call.hpp" caret="8154" scrollPosition="0|262" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:Script.cpp" caret="5777" scrollPosition="0|205" />
     </RecentFiles>
     <RecentEdits>
-      <File id="A34EEED2-C572-46C6-8FAB-CFA9DEAA058A/f:main.cpp" caret="1734" scrollPosition="0|18" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:HumanView.h" caret="1440" scrollPosition="0|42" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:HumanView.cpp" caret="2838" scrollPosition="0|81" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.h" caret="1104" scrollPosition="0|7" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.h" caret="1104" scrollPosition="0|0" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.h" caret="1104" scrollPosition="0|0" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.cpp" caret="22" scrollPosition="0|0" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:HumanView.h" caret="145" scrollPosition="0|0" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.h" caret="1104" scrollPosition="0|0" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.h" caret="1104" scrollPosition="0|0" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.cpp" caret="339" scrollPosition="0|0" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.cpp" caret="2855" scrollPosition="0|99" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.cpp" caret="2739" scrollPosition="0|99" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.cpp" caret="2586" scrollPosition="0|98" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.cpp" caret="2198" scrollPosition="0|80" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.cpp" caret="1767" scrollPosition="0|56" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.h" caret="1104" scrollPosition="0|6" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiComponent.cpp" caret="1985" scrollPosition="0|33" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:Rect.h" caret="57" scrollPosition="0|0" />
-      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:Point.h" caret="60" scrollPosition="0|0" />
+      <File id="d:Miscellaneous Files/f:MyGUI_WidgetManager.cpp" caret="8191" scrollPosition="0|213" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:Game.cpp" caret="1498" scrollPosition="0|42" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.cpp" caret="552" scrollPosition="0|12" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:GuiScreen.cpp" caret="1321" scrollPosition="0|39" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:ScriptManager.cpp" caret="706" scrollPosition="0|15" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:ScriptManager.h" caret="862" scrollPosition="0|12" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:ScriptManager.cpp" caret="2643" scrollPosition="0|78" />
+      <File id="399D7AEA-884F-4884-B655-AED35E934A07/f:ScriptManager.cpp" caret="706" scrollPosition="0|8" />
     </RecentEdits>
   </RecentFiles>
   <UnitTestRunner>
