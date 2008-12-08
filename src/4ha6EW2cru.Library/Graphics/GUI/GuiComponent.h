@@ -24,12 +24,6 @@ enum GuiComponentTypes
 	CONTROL
 };
 
-struct Point
-{
-	x = 0;
-	y = 0;
-};
-
 class GuiComponent : public IGuiComponent
 {
 
@@ -48,12 +42,6 @@ public:
 	
 	/*! Returns the name of the Component*/
 	inline const std::string GetName( ) const { return _name; };
-	
-	/*! Returns the dimensions of the Component */
-	inline const Point GetDimensions( ) const { return NULL; };
-	
-	/*! Returns the position of the Component  */
-	inline const Point GetPosition( ) const { return NULL; };
 	
 protected:
 

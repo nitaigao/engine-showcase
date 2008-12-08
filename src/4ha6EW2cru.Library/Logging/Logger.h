@@ -36,6 +36,9 @@ public:
 	/*! Logs a message with the INFO prefix */
 	void Info( const std::string message );
 
+	/*! Logs a message with the WARN prefix */
+	void Warn( const std::string message );
+
 	/*! Logs a message with the FATAL prefix */
 	void Fatal( const std::string message );
 

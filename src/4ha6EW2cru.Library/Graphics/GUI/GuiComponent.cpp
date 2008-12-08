@@ -13,6 +13,7 @@ using namespace luabind;
 #include "../../Common/Paths.hpp"
 
 #include "../../IO/FileManager.h"
+#include "../../Scripting/ScriptManager.h"
 
 #include "../../Exceptions/NullReferenceException.hpp"
 #include "../../Exceptions/FileNotFoundException.hpp"
@@ -34,8 +35,7 @@ void GuiComponent::Initialize( )
 			
 	}
 
-	FileBuffer* controllerBuffer = FileManager::GetInstance( )->GetFile( scriptPath.str( ) );
-	_script = Script::CreateFromFileBuffer( controllerBuffer );
+	_script = ScriptManager::GetInstance( )->CreateScript( scriptPath.str( ) );
 
 	module( _script->GetState( ) )
 	[
@@ -50,8 +50,14 @@ void GuiComponent::Initialize( )
 
 		class_< GuiController >( "Controller" )
 			.def( constructor< std::string >( ) ),
+			
+		class_< MyGUI::IntCoord >( "IntCoord" )
+			.def_readonly( "x" , &MyGUI::IntCoord::left )
+			.def_readonly( "y" , &MyGUI::IntCoord::top ),
 
 		class_< MyGUI::Widget >( "Widget" )
+			.def( "getDimensions", &MyGUI::Widget::getClientCoord )
+			.def( "setPosition", ( void( MyGUI::Widget::* )( int, int ) ) &MyGUI::Widget::setPosition )
 			.def( "setText", &MyGUI::StaticText::setCaption )
 			.def( "getText", &MyGUI::StaticText::getCaption )
 			.def( "addEventListener", &GuiController::FromLua_AddEventListener ),
@@ -67,5 +73,5 @@ void GuiComponent::Initialize( )
 
 GuiComponent::~GuiComponent( )
 {
-	delete _script;
+	ScriptManager::GetInstance( )->DestroyScript( _script );
 }

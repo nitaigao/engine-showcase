@@ -15,11 +15,11 @@ using namespace MyGUI;
 
 GuiScreen::~GuiScreen( )
 {
-	if( _script != 0 )
+	/*if( _script != 0 )
 	{	
 		delete _script;
 		_script = 0;
-	}
+	}*/
 }
 
 bool GuiScreen::loadGUI( )

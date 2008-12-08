@@ -120,4 +120,26 @@ private:
 
 };
 
+class ScriptCommandEventData : public IEventData
+{
+
+public:
+
+	~ScriptCommandEventData( ){ };
+
+	ScriptCommandEventData( const std::string command )
+		: _command( command )
+	{
+
+	}
+
+	/*! Returns the command that has been executed */
+	inline std::string GetCommand( ) { return _command; };
+
+private:
+
+	std::string _command;
+
+};
+
 #endif

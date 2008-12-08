@@ -3,6 +3,7 @@
 #include "Events/Event.h"
 #include "Events/IEventListener.hpp"
 #include "Events/EventManager.h"
+#include "Scripting/ScriptManager.h"
 #include "Logging/Logger.h"
 #include "Logging/ConsoleAppender.h"
 #include "IO/FileManager.h"
@@ -23,18 +24,19 @@ void ScriptFixture::setUp( )
 	Logger::GetInstance( )->AddAppender( new ConsoleAppender( ) );
 	FileManager::Initialize( );
 	EventManager::Initialize( );
+	ScriptManager::Initialize( );
 
 	MockScriptBinder::handle_count = 0;
 
 	FileManager::GetInstance( )->AddFileStore( "../game/test" );
-	FileBuffer* scriptBuffer = FileManager::GetInstance( )->GetFile( "testscript.lua" );
-	_script = Script::CreateFromFileBuffer( scriptBuffer );
+	_script = ScriptManager::GetInstance( )->CreateScript( "testscript.lua" );
 }
 
 void ScriptFixture::tearDown( )
 {
 	delete _script;
 
+	ScriptManager::GetInstance( )->Release( );
 	FileManager::GetInstance( )->Release( );
 	EventManager::GetInstance( )->Release( );
 	Logger::GetInstance( )->Release( );
@@ -50,8 +52,8 @@ void ScriptFixture::Should_Initialize_Given_Valid_Script( )
 void ScriptFixture::Should_Throw_On_Initialize_Given_Invalid_Script( )
 {
 	FileManager::GetInstance( )->AddFileStore( "../game/test" );
-	FileBuffer* scriptBuffer = FileManager::GetInstance( )->GetFile( "garbage.lua" );
-	Script* script = Script::CreateFromFileBuffer( scriptBuffer );
+	Script* script = ScriptManager::GetInstance( )->CreateScript( "garbage.lua" );
+
 	CPPUNIT_ASSERT_THROW( script->Initialize( ), ScriptException );
 
 	delete script;
@@ -62,7 +64,7 @@ void ScriptFixture::Should_Throw_On_Initialize_Given_Already_Initialized( )
 	_script->Initialize( );
 	CPPUNIT_ASSERT_THROW( _script->Initialize( ), AlreadyInitializedException );
 }
-
+/*
 void ScriptFixture::Should_Throw_On_CreateFromFileBuffer_Given_NULL_FileBuffer( )
 {
 	CPPUNIT_ASSERT_THROW( Script::CreateFromFileBuffer( 0 ), NullReferenceException );
@@ -77,11 +79,10 @@ void ScriptFixture::Should_Throw_On_CreateFromFileBuffer_Given_Invalid_FileBuffe
 void ScriptFixture::Should_CreateFromFileBuffer_Given_Valid_FileBuffer( )
 {
 	FileManager::GetInstance( )->AddFileStore( "../game/test" );
-	FileBuffer* scriptBuffer = FileManager::GetInstance( )->GetFile( "testscript.lua" );
-	Script* script = Script::CreateFromFileBuffer( scriptBuffer );
+	Script* script = ScriptManager::GetInstance( )->CreateScript( "testscript.lua" );
 
 	delete script;
-}
+}*/
 
 void ScriptFixture::Should_Throw_On_CallFunction_Given_Not_Initialized( )
 {

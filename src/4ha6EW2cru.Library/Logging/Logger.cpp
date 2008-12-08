@@ -104,6 +104,11 @@ void Logger::Debug( const std::string message )
 	g_loggerInstance->LogMessage( "DEBUG", message );
 }
 
+void Logger::Warn( const std::string message )
+{
+	g_loggerInstance->LogMessage( "WARN", message );
+}
+
 void Logger::Fatal( const std::string message )
 {
 	g_loggerInstance->LogMessage( "FATAL", message );

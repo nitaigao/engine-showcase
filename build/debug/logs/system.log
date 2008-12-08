@@ -1,6 +1,7 @@
 INFO: Initializing Game
 INFO: EventManager::Initialize - Initializing Event Manager
 INFO: Initializing the File Manager
+INFO: ScriptManager::Initialize - Initializing ScriptManager
 INFO: Initializing Human View
 DEBUG: BadArchiveFactory::createInstance - of ../game/data/gui.bad
 DEBUG: Loading File: gui/core/core.xml
@@ -23,5 +24,6 @@ DEBUG: BadArchive: Opening File gui/screens/introscreen/introscreen.layout
 DEBUG: Loading File: gui/screens/introscreen/intro_logo.png
 DEBUG: BadArchive: Opening File gui/screens/introscreen/intro_logo.png
 DEBUG: BadArchiveFactory::destroyInstance - Instance of ../game/data/gui.bad
+INFO: ScriptManager::Release - Releasing Event Manager
 INFO: Releasing the File Manager
 INFO: EventManager::Release - Releasing Event Manager

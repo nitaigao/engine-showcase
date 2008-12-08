@@ -8,6 +8,8 @@
 #include "../Logging/FileAppender.h"
 #include "../Logging/EventAppender.h"
 
+#include "../Scripting/ScriptManager.h"
+
 void Game::Initialize( )
 {
 	if ( _isInitialized )
@@ -42,8 +44,9 @@ void Game::Initialize( )
 		}
 
 		FileManager::Initialize( );
-
 		FileManager::GetInstance( )->AddFileStore( Paths::GetViewPackagePath( ) );
+
+		ScriptManager::Initialize( );
 	}
 
 	{	// Initialize all Views
@@ -104,6 +107,7 @@ void Game::Release( )
 
 	{	// Release all Singletons
 
+		ScriptManager::GetInstance( )->Release( );
 		FileManager::GetInstance( )->Release( );
 		EventManager::GetInstance( )->Release( );
 		Logger::GetInstance( )->Release( );

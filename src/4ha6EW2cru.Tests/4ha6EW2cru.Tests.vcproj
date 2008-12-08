@@ -364,6 +364,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Scripting\ScriptManagerFixture.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\ScriptManagerFixture.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Suites.h"
 			>
 		</File>

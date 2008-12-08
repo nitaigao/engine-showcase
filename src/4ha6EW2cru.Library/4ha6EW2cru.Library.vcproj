@@ -398,6 +398,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Scripting\ScriptManager.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\ScriptManager.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Utility\tinyxml\ticpp.cpp"
 			>
 		</File>

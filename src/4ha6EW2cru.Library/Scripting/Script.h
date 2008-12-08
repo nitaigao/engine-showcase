@@ -13,6 +13,8 @@ extern "C"
 #include "../IO/FileBuffer.hpp"
 
 #include <luabind/luabind.hpp>
+#include <luabind/adopt_policy.hpp>
+#include <luabind/return_reference_to_policy.hpp>
 using namespace luabind;
 
 /*!
@@ -25,13 +27,11 @@ class Script
 	
 public:
 
+	Script( lua_State* parentState, FileBuffer* fileBuffer );
 	~Script( );
 
 	/*! Initializes the Script from a FileBuffer */
 	void Initialize( );
-
-	/*! Creates the Script from a FileBuffer */
-	static Script* CreateFromFileBuffer( FileBuffer* fileBuffer );
 
 	/*! Allows the specified function to be called from C++ */
 	void CallFunction( const std::string functionName );
@@ -41,6 +41,12 @@ public:
 	
 	/*! Receives addEventListener request from LUA and forwards to the Script Instance */
 	static void FromLua_AddEventListener( Script* script, EventType eventType, object handlerFunction );
+
+	/*! Recieves a removeEventListener request from LUA and forwards it to the Script Instance */
+	static void FromLua_RemoveEventListener( Script* script, EventType eventType, object handlerFunction );
+
+	/*! Loads a Script into the current state */
+	void Include( std::string scriptPath );
 
 private:
 
@@ -58,9 +64,13 @@ private:
 	/*! Adds an EventListener to the System and maps it to an Lua Function */
 	void AddEventListener( const EventType eventType, const object handlerFunction );
 
-	/*! Send a message to the Logger */
-	static void LogMessage( const std::string message );
+	/*! Removes an EventListener mapping from the Script */
+	void RemoveEventListener( const EventType eventType, const object handlerFunction );
 
+	/*! Send a message to the Logger */
+	//static void LogMessage( const std::string message );
+
+	lua_State* _parentState;
 	lua_State* _luaState;
 	EventHandlers _eventHandlers;
 	FileBuffer* _fileBuffer;

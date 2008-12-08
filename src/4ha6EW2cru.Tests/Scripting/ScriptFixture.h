@@ -15,9 +15,9 @@ class ScriptFixture : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( Should_Throw_On_Initialize_Given_Invalid_Script );
 	CPPUNIT_TEST( Should_Throw_On_Initialize_Given_Already_Initialized );
 
-	CPPUNIT_TEST( Should_Throw_On_CreateFromFileBuffer_Given_NULL_FileBuffer );
+	/*CPPUNIT_TEST( Should_Throw_On_CreateFromFileBuffer_Given_NULL_FileBuffer );
 	CPPUNIT_TEST( Should_Throw_On_CreateFromFileBuffer_Given_Invalid_FileBuffer );
-	CPPUNIT_TEST( Should_CreateFromFileBuffer_Given_Valid_FileBuffer );
+	CPPUNIT_TEST( Should_CreateFromFileBuffer_Given_Valid_FileBuffer );*/
 
 	CPPUNIT_TEST( Should_Throw_On_CallFunction_Given_Not_Initialized );
 	CPPUNIT_TEST( Should_Throw_On_CallFunction_Given_Empty_FunctionName );
@@ -40,9 +40,9 @@ protected:
 	void Should_Throw_On_Initialize_Given_Invalid_Script( );
 	void Should_Throw_On_Initialize_Given_Already_Initialized( );
 
-	void Should_Throw_On_CreateFromFileBuffer_Given_NULL_FileBuffer( );
+	/*void Should_Throw_On_CreateFromFileBuffer_Given_NULL_FileBuffer( );
 	void Should_Throw_On_CreateFromFileBuffer_Given_Invalid_FileBuffer( );
-	void Should_CreateFromFileBuffer_Given_Valid_FileBuffer( );
+	void Should_CreateFromFileBuffer_Given_Valid_FileBuffer( );*/
 
 	void Should_Throw_On_CallFunction_Given_Not_Initialized( );
 	void Should_Throw_On_CallFunction_Given_Empty_FunctionName( );
