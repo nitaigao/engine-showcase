@@ -53,11 +53,6 @@ private:
 	/*! Handler to intercept the OnChangeScreen Event */
 	void OnChangeScreen( const IEvent* event );
 
-	/*! Loads in a list of available screens 
-	* @return The BootStrap Screen 
-	*/
-	std::string LoadScreenConfig( );
-
 	std::string _bootStrapScreen;
 
 	IRenderer* _renderer;

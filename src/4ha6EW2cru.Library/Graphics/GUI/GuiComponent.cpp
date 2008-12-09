@@ -53,6 +53,8 @@ void GuiComponent::Initialize( )
 			.def( "setPosition", ( void( MyGUI::Widget::* )( int, int ) ) &MyGUI::Widget::setPosition )
 			.def( "setText", &MyGUI::StaticText::setCaption )
 			.def( "getText", &MyGUI::StaticText::getCaption )
+			.def( "hide", &MyGUI::Widget::hide )
+			.def( "show", &MyGUI::Widget::show )
 			.def( "addEventListener", &GuiController::FromLua_AddEventListener ),
 
 		class_< Ogre::UTFString >( "utfstring" ),

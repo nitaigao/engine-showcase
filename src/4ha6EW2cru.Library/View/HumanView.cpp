@@ -8,8 +8,6 @@
 
 #include "../Exceptions/UnInitializedException.hpp"
 
-#include "../Utility/tinyxml/ticpp.h"
-
 void HumanView::Initialize( int width, int height, int colorDepth, bool fullScreen )
 {
 	Logger::GetInstance( )->Info( "Initializing Human View" );
@@ -83,8 +81,7 @@ HumanView::~HumanView( )
 
 void HumanView::OnGameInitialized( const IEvent* event )
 {
-	std::string bootStrap = this->LoadScreenConfig( );
-	this->ChangeScreen( bootStrap );
+	this->ChangeScreen( "introscreen" );
 }
 
 void HumanView::OnChangeScreen( const IEvent* event )
@@ -99,36 +96,4 @@ void HumanView::ChangeScreen( std::string screenName )
 
 	_currentScreen = new GuiScreen( screenName );
 	_currentScreen->Initialize( );
-}
-
-std::string HumanView::LoadScreenConfig( )
-{
-	FileBuffer* configBuffer = FileManager::GetInstance( )->GetFile( "gui/screens.xml" );
-
-	std::istringstream inputStream;
-	inputStream.str( configBuffer->fileBytes );
-
-	delete configBuffer;
-
-	TiXmlDocument tiDoc;
-	inputStream >> tiDoc;
-
-	ticpp::Document doc( &tiDoc );
-
-	std::string bootStrap;
-
-	ticpp::Iterator< ticpp::Node > child;
-	for ( child = doc.FirstChild( )->FirstChild( ); child != child.end(); child++ )
-	{
-		ticpp::Element* element = child->ToElement( );
-		
-		std::string screenName;
-		bool isBootStrap;
-
-		element->GetAttribute( "name", &screenName );
-		element->GetAttributeOrDefault( "bootstrap", &isBootStrap, false );
-		bootStrap = ( isBootStrap ) ? screenName : bootStrap;
-	}
-
-	return bootStrap;
 }
