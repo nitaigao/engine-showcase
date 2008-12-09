@@ -1,7 +1,7 @@
-1. input button mapping for dev console
-2. introscreen bgm
-3. menuscreen 3d background
-4. menuscreen buttons ( play, settings, exit )
-5. menuscreen bgm
-6. soundmanager
-7. story
+1. input button mapping for dev console - 2 hours
+2. introscreen bgm - 2 hours
+3. menuscreen 3d background - 5 hours
+4. menuscreen buttons ( play, settings, exit ) - 5 hours
+5. menuscreen bgm - 2 hours
+6. soundmanager - 5 hours
+7. story - 20 hours
