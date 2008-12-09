@@ -5,9 +5,9 @@
 *.exe
 *.log
 _Resharper*
-build/logs/*
 build/deploy*
 build/release*
+build/debug/logs/*.log
 build/debug/bin/*.pdb
 build/debug/bin/*.exe
 build/debug/bin/*.lib
