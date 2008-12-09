@@ -8,7 +8,7 @@ _Resharper*
 build/logs*
 build/deploy*
 build/release*
-build/debug/*.pdb
-build/debug/*.exe
-build/debug/*.lib
-build/debug/*.exp
+build/debug/bin/*.pdb
+build/debug/bin/*.exe
+build/debug/bin/*.lib
+build/debug/bin/*.exp
