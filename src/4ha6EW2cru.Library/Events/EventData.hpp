@@ -22,7 +22,7 @@ public:
 	};
 
 	/* Returns the keycode of the key pressed in the Event */
-	inline OIS::KeyCode GetKeyCode( ) const { return _keyCode; };
+	inline OIS::KeyCode GetKeyCode( ) { return _keyCode; };
 
 private:
 

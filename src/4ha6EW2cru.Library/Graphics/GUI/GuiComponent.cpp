@@ -32,7 +32,8 @@ void GuiComponent::Initialize( )
 	[
 		class_< GuiModel >( "Model" )
 			.def( constructor< >( ) )
-			.def( "addEventListener", &GuiModel::FromLua_AddEventListener ),
+			.def( "addEventListener", &GuiModel::FromLua_AddEventListener )
+			.def( "executeCommand", &GuiModel::FromLua_ExecuteCommand ),
 
 		class_< GuiView >( "View" )
 			.def( constructor< std::string >( ) )

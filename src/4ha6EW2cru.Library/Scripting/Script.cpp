@@ -41,10 +41,10 @@ Script::~Script( )
 {
 	delete _fileBuffer;
 
-	for( EventHandlers::iterator i = _eventHandlers.begin( ); i != _eventHandlers.end( ); ++i )
+	/*for( EventHandlers::iterator i = _eventHandlers.begin( ); i != _eventHandlers.end( ); ++i )
 	{
 		EventManager::GetInstance( )->RemoveEventListener( ( *i ).first, this, &Script::ToLua_EventHandler );
-	}
+	}*/
 
 	_eventHandlers.clear( );
 
@@ -79,17 +79,19 @@ void Script::Initialize( )
 
 	module( _luaState )
 	[
-		//def( "print",  &Script::LogMessage ),
-		def( "addEventListener", &Script::FromLua_AddEventListener ),
-		def( "removeEventListiner", &Script::FromLua_RemoveEventListener ),
+/*		def( "addEventListener", &Script::FromLua_AddEventListener ),
+		def( "removeEventListiner", &Script::FromLua_RemoveEventListener ),*/
 
 		class_< Script >( "Script" )
-			.def( "include", &Script::Include )
-			.def( "addEventListener", &Script::AddEventListener )
-			.def( "removeEventListener", &Script::RemoveEventListener ),
+			.def( "include", &Script::Include ),
+			/*.def( "addEventListener", &Script::AddEventListener )
+			.def( "removeEventListener", &Script::RemoveEventListener ),*/
 
 		class_< AppenderEventData >( "AppenderEventData" )
 			.def( "getMessage", &AppenderEventData::GetMessage ),
+
+		class_< KeyEventData >( "KeyEventData" )
+			.def( "getKeyCode", &KeyEventData::GetKeyCode ),
 
 		class_< EventType >( "EventType" )
 			.enum_( "constants" )
@@ -126,7 +128,7 @@ void Script::CallFunction( const std::string functionName )
 	
 	call_function< int >( _luaState, functionName.c_str( ), this );
 }
-
+/*
 void Script::FromLua_AddEventListener( Script* script, EventType eventType, object handlerFunction )
 {
 	script->AddEventListener( eventType, handlerFunction );
@@ -178,7 +180,7 @@ void Script::ToLua_EventHandler( const IEvent* event )
 
 		break;
 	}
-}
+}*/
 
 int Script::FromLua_ScriptError( lua_State* luaState )
 {
