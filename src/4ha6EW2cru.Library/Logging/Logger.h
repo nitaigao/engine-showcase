@@ -5,6 +5,8 @@
 
 #include "IAppender.hpp"
 
+#include "LogLevel.hpp"
+
 /*!
 	Logging mechanism that logs to Console and a File
 */
@@ -15,7 +17,12 @@ class Logger
 
 public:
 
-	Logger( ) { };
+	Logger( LogLevel logLevel ) 
+		: _logLevel( logLevel )
+	{ 
+	
+	};
+
 	~Logger( );
 
 	/*! Retrieves an instance of the Logger Singleton */
@@ -42,6 +49,9 @@ public:
 	/*! Logs a message with the FATAL prefix */
 	void Fatal( const std::string message );
 
+	/*! Sets the current logging level */
+	inline void SetLogLevel( LogLevel logLevel ) { _logLevel = logLevel; };
+
 private:
 
 	Logger( const Logger & copy ) { };
@@ -51,7 +61,7 @@ private:
 	void LogMessage( const std::string level, const std::string message );
 
 	AppenderList _appenders;
-	
+	LogLevel _logLevel;	
 
 };
 

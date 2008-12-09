@@ -31,7 +31,7 @@ public:
 	~HumanView( );
 
 	/*! Initializes all subsystems of the View */
-	void Initialize( int width, int height, bool fullScreen );
+	void Initialize( int width, int height, int colorDepth, bool fullScreen );
 
 	/*! Cause all subsystems to refresh their data */
 	void Update( );

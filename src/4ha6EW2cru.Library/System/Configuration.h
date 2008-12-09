@@ -22,19 +22,11 @@ public:
 	/*! Adds a config entry */
 	void AddConfigItem( std::string key, std::string value );
 
-	/*! Finds a config entry */
-	template< class T >
-	T FindConfigItem( std::string key )
-	{
-		if ( _configItems.find( key ) != _configItems.end( ))
-		{
-			return ( T ) _configItems[ key ];
-		}	
+	/*! Finds a std::string config entry */
+	std::string FindConfigItemString( std::string key );
 
-		OutOfRangeException e( "Configuration::FindConfigItem - The specified key could not be found" );
-		Logger::GetInstance( )->Fatal( e.what( ) );
-		throw e;
-	};
+	/*! Finds a std::string config entry */
+	int FindConfigItemInt( std::string key );
 
 protected:
 

@@ -366,6 +366,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Logging\LogLevel.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Input\MouseListener.hpp"
 			>
 		</File>

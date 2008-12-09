@@ -33,23 +33,23 @@ void OgreRendererFixture::tearDown( )
 
 void OgreRendererFixture::Should_Intialize_Correctly( )
 {
-	_renderer->Initialize( 800, 600, false );
+	_renderer->Initialize( 800, 600, 32, false );
 }
 
 void OgreRendererFixture::Should_Throw_ScreenDimensionsException_On_Initialize_Given_Negative_Dimensions( )
 {
-	CPPUNIT_ASSERT_THROW( _renderer->Initialize( -1, -1, -1 ), ScreenDimensionsException );
+	CPPUNIT_ASSERT_THROW( _renderer->Initialize( -1, -1, -1, -1 ), ScreenDimensionsException );
 }
 
 void OgreRendererFixture::Should_Throw_ScreenDimensionsException_On_Initialize_Given_Zero_Dimensions( )
 {
-	CPPUNIT_ASSERT_THROW( _renderer->Initialize( 0, 0, 0 ), ScreenDimensionsException );
+	CPPUNIT_ASSERT_THROW( _renderer->Initialize( 0, 0, 0, 0 ), ScreenDimensionsException );
 }
 
 
 void OgreRendererFixture::Should_Render_Given_Initialized( )
 {
-	_renderer->Initialize( 1, 1, false );
+	_renderer->Initialize( 1, 1, 32, false );
 	_renderer->Render( );
 }
 
@@ -60,7 +60,7 @@ void OgreRendererFixture::Should_Throw_On_Render_Given_Not_Intiailized( )
 
 void OgreRendererFixture::Should_Update_Given_Initialized( )
 {
-	_renderer->Initialize( 1, 1, false );
+	_renderer->Initialize( 1, 1, 32, false );
 	_renderer->Update( );
 }
 
@@ -71,7 +71,7 @@ void OgreRendererFixture::Should_Throw_On_Update_Given_Not_Intialized( )
 
 void OgreRendererFixture::Should_Return_Positive_Hwnd( )
 {
-	_renderer->Initialize( 1, 1, false );
+	_renderer->Initialize( 1, 1, 32, false );
 	CPPUNIT_ASSERT( _renderer->GetHwnd( ) > 0 );
 }
 
@@ -87,6 +87,6 @@ void OgreRendererFixture::Should_Throw_On_GetGUI_Given_Not_Initialized( )
 
 void OgreRendererFixture::Should_Return_GUI_Given_Initialized( )
 {
-	_renderer->Initialize( 1, 1, false );
+	_renderer->Initialize( 1, 1, 32, false );
 	CPPUNIT_ASSERT( 0 != _renderer->GetGui( ) );
 }

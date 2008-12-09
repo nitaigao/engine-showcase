@@ -38,7 +38,7 @@ bool Logger::Initialize( )
 		throw e;
 	}
 
-	g_loggerInstance = new Logger( );
+	g_loggerInstance = new Logger( FATAL );
 
 	return true;	
 }
@@ -96,20 +96,32 @@ void Logger::LogMessage( const std::string level, const std::string message )
 
 void Logger::Info( const std::string message )
 {
-	g_loggerInstance->LogMessage( "INFO", message );
+	if ( _logLevel >= INFO )
+	{
+		g_loggerInstance->LogMessage( "INFO", message );
+	}
 }
 
 void Logger::Debug( const std::string message )
 {
-	g_loggerInstance->LogMessage( "DEBUG", message );
+	if ( _logLevel >= DEBUG )
+	{
+		g_loggerInstance->LogMessage( "DEBUG", message );
+	}
 }
 
 void Logger::Warn( const std::string message )
 {
-	g_loggerInstance->LogMessage( "WARN", message );
+	if ( _logLevel >= WARN )
+	{
+		g_loggerInstance->LogMessage( "WARN", message );
+	}
 }
 
 void Logger::Fatal( const std::string message )
 {
-	g_loggerInstance->LogMessage( "FATAL", message );
+	if ( _logLevel >= FATAL )
+	{
+		g_loggerInstance->LogMessage( "FATAL", message );
+	}
 }

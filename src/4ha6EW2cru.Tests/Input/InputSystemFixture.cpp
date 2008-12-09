@@ -22,7 +22,7 @@ void InputSystemFixture::setUp( )
 	EventManager::Initialize( );
 
 	_renderer = new OgreRenderer( );
-	_renderer->Initialize( 640, 480, false );
+	_renderer->Initialize( 640, 480, 32, false );
 
 	_inputSystem = new InputSystem( _renderer->GetHwnd( ) );
 }

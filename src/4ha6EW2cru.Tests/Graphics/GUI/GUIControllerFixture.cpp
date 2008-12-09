@@ -28,7 +28,7 @@ void GuiControllerFixture::setUp( )
 	FileManager::GetInstance( )->AddFileStore( "../game/test" );
 
 	_renderer = new OgreRenderer( );
-	_renderer->Initialize( 640, 480, false );
+	_renderer->Initialize( 640, 480, 32, false );
 }
 
 void GuiControllerFixture::tearDown( )

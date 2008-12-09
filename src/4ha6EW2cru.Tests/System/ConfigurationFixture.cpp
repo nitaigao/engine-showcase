@@ -49,7 +49,7 @@ void ConfigurationFixture::Should_Find_Config_Item_On_FindConfigItem_Given_Valid
 	std::string value = "test_value";
 
 	config->AddConfigItem( key, value );
-	std::string result = config->FindConfigItem< std::string >( key );
+	std::string result = config->FindConfigItemString( key );
 
 	CPPUNIT_ASSERT( value == result ); 
 
@@ -59,6 +59,6 @@ void ConfigurationFixture::Should_Find_Config_Item_On_FindConfigItem_Given_Valid
 void ConfigurationFixture::Should_Throw_On_FindConfigItem_Given_InValid_Key( )
 {	
 	Configuration* config = Configuration::Create( );
-	CPPUNIT_ASSERT_THROW( config->FindConfigItem< std::string >( "blah" ), OutOfRangeException );
+	CPPUNIT_ASSERT_THROW( config->FindConfigItemString( "blah" ), OutOfRangeException );
 	delete config;
 }

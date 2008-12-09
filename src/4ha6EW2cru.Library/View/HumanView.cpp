@@ -10,12 +10,14 @@
 
 #include "../Utility/tinyxml/ticpp.h"
 
-void HumanView::Initialize( int width, int height, bool fullScreen )
+void HumanView::Initialize( int width, int height, int colorDepth, bool fullScreen )
 {
 	Logger::GetInstance( )->Info( "Initializing Human View" );
 
+	FileManager::GetInstance( )->AddFileStore( Paths::GetViewPackagePath( ) );
+
 	_renderer = new OgreRenderer( );
-	_renderer->Initialize( width, height, fullScreen );
+	_renderer->Initialize( width, height, colorDepth, fullScreen );
 
 	_inputSystem = new InputSystem( _renderer->GetHwnd( ) );
 	_inputSystem->Initialize( );

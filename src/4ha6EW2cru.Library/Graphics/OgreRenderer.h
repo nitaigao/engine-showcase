@@ -25,7 +25,7 @@ public:
 
 	virtual ~OgreRenderer( );
 
-	void Initialize( int width, int height, bool fullScreen );
+	void Initialize( int width, int height, int colorDepth, bool fullScreen );
 	void Render( ) const;
 	void Update( ) const;
 	size_t GetHwnd( ) const;

@@ -51,7 +51,7 @@ Gui* OgreRenderer::GetGui( )
 	return _gui;
 }
 
-void OgreRenderer::Initialize( int width, int height, bool fullScreen )
+void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullScreen )
 {
 	{	// -- Ogre Init
 

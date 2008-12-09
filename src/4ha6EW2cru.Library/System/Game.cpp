@@ -3,6 +3,8 @@
 #include "../Exceptions/AlreadyInitializedException.hpp"
 #include "../Exceptions/UnInitializedException.hpp"
 
+#include "Configuration.h""
+
 #include "../Common/Paths.hpp"
 #include "../Logging/ConsoleAppender.h"
 #include "../Logging/FileAppender.h"
@@ -19,47 +21,79 @@ void Game::Initialize( )
 		throw e;
 	}
 
-	{	// Initialize all Singletons
+	// -- Startup Sequence -- //
 		
-		Logger::Initialize( );
+	// Bring up the basic Logging System
 
-		{
-			ConsoleAppender* consoleAppender = new ConsoleAppender( );
-			Logger::GetInstance( )->AddAppender( consoleAppender );
+	Logger::Initialize( );
 
-			FileAppender* fileAppender = new FileAppender( Paths::GetLogFilePath( ) );
-			fileAppender->Initialize(  );
-			Logger::GetInstance( )->AddAppender( fileAppender );
+	{
+		ConsoleAppender* consoleAppender = new ConsoleAppender( );
+		Logger::GetInstance( )->AddAppender( consoleAppender );
 
-			Logger::GetInstance( )->Info( "Initializing Game" );
-		}
+		FileAppender* fileAppender = new FileAppender( Paths::GetLogFilePath( ) );
+		fileAppender->Initialize(  );
+		Logger::GetInstance( )->AddAppender( fileAppender );
 
-		EventManager::Initialize( );
-
-		{
-
-			IAppender* eventAppender = new EventAppender( EventManager::GetInstance( ) );
-			Logger::GetInstance( )->AddAppender( eventAppender );
-
-		}
-
-		FileManager::Initialize( );
-		FileManager::GetInstance( )->AddFileStore( Paths::GetViewPackagePath( ) );
-
-		ScriptManager::Initialize( );
+		Logger::GetInstance( )->Info( "Initializing Game" );
 	}
 
-	{	// Initialize all Views
+	// Bring up the File System
 
-		_view = new HumanView( );
-		int desktopWidth = 1024;// = GetSystemMetrics( SM_CXSCREEN );
-		int desktopHeight = 768; //= GetSystemMetrics( SM_CYSCREEN );
-		_view->Initialize( desktopWidth, desktopHeight, false );
+	FileManager::Initialize( );
+
+	// Bring up the Events System
+
+	EventManager::Initialize( );
+
+	// Load the game configuration
+
+	Configuration* config = Configuration::Load( "config/game.cfg" );
+
+	// Setup the Logging System
+
+	LogLevel logLevel = static_cast< LogLevel >( config->FindConfigItemInt( "log_level" ) );
+	Logger::GetInstance( )->SetLogLevel( logLevel );
+
+	IAppender* eventAppender = new EventAppender( EventManager::GetInstance( ) );
+	Logger::GetInstance( )->AddAppender( eventAppender );
+
+	// Bring up the Script System
+
+	ScriptManager::Initialize( );
+
+	// Initialize all Views
+
+	int isFullScreen = config->FindConfigItemInt( "display_isfullscreen" );
+	_view = new HumanView( );
+
+	if ( !isFullScreen )
+	{
+		_view->Initialize( 
+			config->FindConfigItemInt( "display_windowed_width" ), 
+			config->FindConfigItemInt( "display_windowed_height" ), 
+			config->FindConfigItemInt( "display_windowed_depth" ), 
+			isFullScreen 
+			);			
 	}
+	else
+	{
+		_view->Initialize( 
+			config->FindConfigItemInt( "display_fullscreen_width" ), 
+			config->FindConfigItemInt( "display_fullscreen_height" ), 
+			config->FindConfigItemInt( "display_fullscreen_depth" ), 
+			isFullScreen 
+			);
+	}
+
+	// Create core dependencies
 
 	EventManager::GetInstance( )->AddEventListener( GAME_QUIT, this, &Game::OnGameQuit );
 	EventManager::GetInstance( )->QueueEvent( new Event( GAME_INITIALIZED ) );
 
+	// Cleanup and return
+
+	delete config;
 	_isInitialized = true;
 }
 
