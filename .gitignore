@@ -1,0 +1,14 @@
+*.ncb
+*.user
+*.cache
+*.dat
+*.exe
+*.log
+_Resharper*
+build/logs*
+build/deploy*
+build/release*
+build/debug/*.pdb
+build/debug/*.exe
+build/debug/*.lib
+build/debug/*.exp
