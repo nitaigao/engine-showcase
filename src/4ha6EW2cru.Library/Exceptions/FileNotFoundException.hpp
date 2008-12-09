@@ -1,6 +1,8 @@
 #ifndef __FILENOTFOUNDEXCEPTION
 #define __FILENOTFOUNDEXCEPTION
 
+#include <string>
+
 class FileNotFoundException : public std::exception
 {
 

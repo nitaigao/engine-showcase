@@ -192,6 +192,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\System\ConfigurationFixture.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\System\ConfigurationFixture.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Logging\ConsoleAppenderFixture.cpp"
 			>
 		</File>

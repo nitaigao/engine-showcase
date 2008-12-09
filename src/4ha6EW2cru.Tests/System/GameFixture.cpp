@@ -5,7 +5,7 @@
 #include "Exceptions/UnInitializedException.hpp"
 
 #include "../Suites.h"
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( GameFixture, Suites::SystemSuite( ) );
+//CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( GameFixture, Suites::SystemSuite( ) );
 
 void GameFixture::Should_Initialize( )
 {
