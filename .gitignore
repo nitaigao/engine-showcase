@@ -12,3 +12,4 @@ build/debug/bin/*.pdb
 build/debug/bin/*.exe
 build/debug/bin/*.lib
 build/debug/bin/*.exp
+*obj*
