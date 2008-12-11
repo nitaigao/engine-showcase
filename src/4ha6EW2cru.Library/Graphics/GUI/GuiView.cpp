@@ -25,4 +25,3 @@ MyGUI::WidgetPtr GuiView::FindControl( std::string name )
 {
 	return MyGUI::Gui::getInstancePtr( )->findWidgetT( name );
 }
-

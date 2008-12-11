@@ -54,6 +54,7 @@ void GuiComponent::Initialize( )
 			.def( "setPosition", ( void( MyGUI::Widget::* )( int, int ) ) &MyGUI::Widget::setPosition )
 			.def( "setText", &MyGUI::StaticText::setCaption )
 			.def( "getText", &MyGUI::StaticText::getCaption )
+			.def( "getType", &MyGUI::Widget::getClassTypeName )
 			.def( "hide", &MyGUI::Widget::hide )
 			.def( "show", &MyGUI::Widget::show )
 			.def( "addEventListener", &GuiController::FromLua_AddEventListener ),
