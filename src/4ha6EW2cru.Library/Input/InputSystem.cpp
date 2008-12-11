@@ -27,7 +27,7 @@ void InputSystem::Initialize( )
 	_inputManager = OIS::InputManager::createInputSystem( _hWnd );
 
 	_keyboard = static_cast< OIS::Keyboard* >( _inputManager->createInputObject( OIS::OISKeyboard, true ) );
-	_keyboardListener = new KeyboardListener( );
+	_keyboardListener = new KeyboardListener( _keyboard );
 	_keyboard->setEventCallback( _keyboardListener );
 
 	_mouse = static_cast< OIS::Mouse* >( _inputManager->createInputObject( OIS::OISMouse, true ) );

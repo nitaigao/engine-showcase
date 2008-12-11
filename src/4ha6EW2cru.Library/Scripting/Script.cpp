@@ -91,6 +91,7 @@ void Script::Initialize( )
 			.def( "getMessage", &AppenderEventData::GetMessage ),
 
 		class_< KeyEventData >( "KeyEventData" )
+			.def( "getKeyText", &KeyEventData::GetKeyText )
 			.def( "getKeyCode", &KeyEventData::GetKeyCode ),
 
 		class_< EventType >( "EventType" )

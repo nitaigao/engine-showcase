@@ -17,10 +17,16 @@ class KeyboardListener : public OIS::KeyListener
 
 public:
 
+	KeyboardListener( OIS::Keyboard* keyboard )
+		: _keyboard( keyboard )
+	{
+
+	};
+
 	/* Fired when the user presses a button on the keyboard */
 	bool keyPressed( const KeyEvent &arg )
 	{
-		Event* event = new Event( INPUT_KEY_DOWN, new KeyEventData( arg.key ) );
+		Event* event = new Event( INPUT_KEY_DOWN, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
 		EventManager::GetInstance( )->TriggerEvent( event );
 
 		return true;
@@ -29,11 +35,15 @@ public:
 	/* Fired when the user releases a button on the keyboard */
 	bool keyReleased( const KeyEvent &arg )
 	{
-		Event* event = new Event( INPUT_KEY_UP, new KeyEventData( arg.key ) );
+		Event* event = new Event( INPUT_KEY_UP, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
 		EventManager::GetInstance( )->TriggerEvent( event );
 
 		return true;
 	};
+
+private:
+
+	OIS::Keyboard* _keyboard;
 
 };
 

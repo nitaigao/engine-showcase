@@ -15,8 +15,9 @@ public:
 
 	~KeyEventData( ) { };
 
-	KeyEventData( const OIS::KeyCode& keyCode ) 
+	KeyEventData( const OIS::KeyCode &keyCode, const std::string keyText ) 
 		: _keyCode( keyCode )
+		, _keyText( keyText )
 	{ 
 	
 	};
@@ -24,13 +25,17 @@ public:
 	/* Returns the keycode of the key pressed in the Event */
 	inline OIS::KeyCode GetKeyCode( ) { return _keyCode; };
 
+	/* Returns the text of the key pressed in the Event */
+	inline std::string GetKeyText( ) { return _keyText; };
+
 private:
 
-	KeyEventData( ) { };
+	//KeyEventData( ) { };
 	KeyEventData( const KeyEventData & copy ) { };
 	KeyEventData & operator = ( const KeyEventData & copy ) { return *this; };
 
 	OIS::KeyCode _keyCode;
+	std::string _keyText;
 
 };
 
