@@ -117,9 +117,11 @@ namespace MyGUI
 		*/
 		EventInfo_WidgetVoid eventWindowChangeCoord;
 
+		virtual ~Window();
+			
 	protected:
 		Window(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
-		virtual ~Window();
+		
 
 		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
 

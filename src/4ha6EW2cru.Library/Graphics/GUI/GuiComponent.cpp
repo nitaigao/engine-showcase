@@ -57,7 +57,10 @@ void GuiComponent::Initialize( )
 			.def( "getType", &MyGUI::Widget::getClassTypeName )
 			.def( "hide", &MyGUI::Widget::hide )
 			.def( "show", &MyGUI::Widget::show )
-			.def( "addEventListener", &GuiController::FromLua_AddEventListener ),
+			.def( "addEventListener", &GuiController::FromLua_AddEventListener )
+			.def( "toWindow", &GuiView::CastWidget< MyGUI::Window > ),
+
+		class_< MyGUI::Window >( "Window" ),
 
 		class_< Ogre::UTFString >( "utfstring" ),
 		def( "toString", &StringUtils::ToString ),
