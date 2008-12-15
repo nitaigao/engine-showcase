@@ -286,6 +286,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Graphics\GUI\GuiTools.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Graphics\GUI\GuiView.cpp"
 			>
 		</File>
@@ -447,6 +451,14 @@
 		</File>
 		<File
 			RelativePath=".\Exceptions\UnInitializedException.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\Widgets\Window.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\GUI\Widgets\Window.h"
 			>
 		</File>
 	</Files>

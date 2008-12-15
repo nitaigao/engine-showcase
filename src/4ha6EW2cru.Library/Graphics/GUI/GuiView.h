@@ -28,7 +28,6 @@ public:
 
 	virtual void Initialize( );
 	MyGUI::WidgetPtr FindControl( std::string name );
-	void FromLua_AddEventListener( std::string eventName, luabind::object handlerFunction );
 
 private:
 

@@ -19,9 +19,7 @@ public:
 
 	virtual ~GuiModel( );
 
-	static void FromLua_AddEventListener( GuiModel* eventTarget, EventType eventType, luabind::object handlerFunction );
 	void AddEventListener( EventType eventType, luabind::object handlerFunction );
-
 	void EventHandler( const IEvent* event );
 
 	static void FromLua_ExecuteCommand( GuiModel* model, std::string command );

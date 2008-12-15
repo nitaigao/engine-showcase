@@ -14,11 +14,6 @@ GuiModel::~GuiModel( )
 	}
 }
 
-void GuiModel::FromLua_AddEventListener( GuiModel* eventTarget, EventType eventType, luabind::object handlerFunction )
-{
-	eventTarget->AddEventListener( eventType, handlerFunction );
-}
-
 void GuiModel::AddEventListener( EventType eventType, luabind::object handlerFunction )
 {
 	_eventHandlers[ eventType ] = handlerFunction;

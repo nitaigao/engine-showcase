@@ -41,11 +41,6 @@ Script::~Script( )
 {
 	delete _fileBuffer;
 
-	/*for( EventHandlers::iterator i = _eventHandlers.begin( ); i != _eventHandlers.end( ); ++i )
-	{
-		EventManager::GetInstance( )->RemoveEventListener( ( *i ).first, this, &Script::ToLua_EventHandler );
-	}*/
-
 	_eventHandlers.clear( );
 
 	lua_close( _luaState );
@@ -77,35 +72,7 @@ void Script::Initialize( )
 		throw memE;
 	}
 
-	module( _luaState )
-	[
-/*		def( "addEventListener", &Script::FromLua_AddEventListener ),
-		def( "removeEventListiner", &Script::FromLua_RemoveEventListener ),*/
-
-		class_< Script >( "Script" )
-			.def( "include", &Script::Include ),
-			/*.def( "addEventListener", &Script::AddEventListener )
-			.def( "removeEventListener", &Script::RemoveEventListener ),*/
-
-		class_< AppenderEventData >( "AppenderEventData" )
-			.def( "getMessage", &AppenderEventData::GetMessage ),
-
-		class_< KeyEventData >( "KeyEventData" )
-			.def( "getKeyText", &KeyEventData::GetKeyText )
-			.def( "getKeyCode", &KeyEventData::GetKeyCode ),
-
-		class_< EventType >( "EventType" )
-			.enum_( "constants" )
-			[
-				value( "TEST_EVENT", TEST_EVENT ),
-				value( "SCRIPT_COMMAND_EXECUTED", SCRIPT_COMMAND_EXECUTED ),
-				value( "INPUT_KEY_UP", INPUT_KEY_UP ),
-				value( "LOG_MESSAGE_APPENDED", LOG_MESSAGE_APPENDED )
-			]
-	];
-
 	luabind::globals( _luaState )[ "script" ] = this;
-	luabind::set_pcall_callback( &Script::FromLua_ScriptError );
 	lua_pcall( _luaState, 0, 0, 0 );
 
 	_isInitialized = true;
@@ -128,90 +95,6 @@ void Script::CallFunction( const std::string functionName )
 	}
 	
 	call_function< int >( _luaState, functionName.c_str( ), this );
-}
-/*
-void Script::FromLua_AddEventListener( Script* script, EventType eventType, object handlerFunction )
-{
-	script->AddEventListener( eventType, handlerFunction );
-}
-
-void Script::AddEventListener( const EventType eventType, object handlerFunction )
-{
-	_eventHandlers.insert( std::pair< EventType, object >( eventType, handlerFunction ) );
-
-	EventManager::GetInstance( )->AddEventListener( eventType, this, &Script::ToLua_EventHandler );
-}
-
-void Script::FromLua_RemoveEventListener( Script* script, EventType eventType, object handlerFunction )
-{
-	script->RemoveEventListener( eventType, handlerFunction );
-}
-
-void Script::RemoveEventListener( const EventType eventType, const object handlerFunction )
-{
-	std::pair< 
-			EventHandlers::iterator, 
-			EventHandlers::iterator
-		> handlers = _eventHandlers.equal_range( eventType ); 
-
-	for( EventHandlers::iterator i = handlers.first; i != handlers.second; ++i )
-	{
-		EventManager::GetInstance( )->RemoveEventListener( eventType, this, &Script::ToLua_EventHandler );
-		_eventHandlers.erase( i );
-		return;
-	}
-}
-
-void Script::ToLua_EventHandler( const IEvent* event )
-{
-	object eventHandler = _eventHandlers[ event->GetEventType( ) ];
-
-	switch( event->GetEventType( ) )
-	{
-		
-	case LOG_MESSAGE_APPENDED:
-
-		call_function< void >( eventHandler, static_cast< AppenderEventData* >( event->GetEventData( ) ) );
-
-		break;
-
-	default:
-
-		call_function< void >( eventHandler );
-
-		break;
-	}
-}*/
-
-int Script::FromLua_ScriptError( lua_State* luaState )
-{
-	lua_Debug d;
-
-	int result = 0;
-
-	result = lua_getstack( luaState, 0, &d );
-	result = lua_getinfo( luaState, "Sln", &d );
-	
-	std::string error = lua_tostring( luaState, -1 );
-	lua_pop( luaState, 1 );
-
-	std::stringstream errorMessage;
-	errorMessage << "Script Error: " << d.short_src << ":" << d.currentline;
-
-	if ( d.name != 0 )
-	{
-		errorMessage << "(" << d.namewhat << " " << d.name << ")";
-	}
-
-	errorMessage << " " << error;
-	
-	lua_pushstring( luaState, errorMessage.str( ).c_str( ) );
-
-	ScriptException e( errorMessage.str( ) );
-	Logger::GetInstance( )->Fatal( errorMessage.str( ) );
-	//throw e;
-	
-	return 1;	
 }
 
 void Script::Include( std::string scriptPath )

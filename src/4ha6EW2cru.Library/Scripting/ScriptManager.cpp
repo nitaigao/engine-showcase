@@ -27,6 +27,8 @@ ScriptManager::ScriptManager( )
 		def( "quit", &ScriptManager::FromLua_GameQuit )
 	];
 
+	luabind::set_pcall_callback( &ScriptManager::FromLua_ScriptError );
+
 	EventManager::GetInstance( )->AddEventListener( SCRIPT_COMMAND_EXECUTED, this, &ScriptManager::CommandExecuted );
 }
 
@@ -98,7 +100,26 @@ Script* ScriptManager::CreateScript( std::string scriptPath )
 	module( script->GetState( ) )
 	[
 
-		def( "print", &ScriptManager::FromLua_Print )
+		def( "print", &ScriptManager::FromLua_Print ),
+
+		class_< KeyEventData >( "KeyEventData" )
+			.def( "getKeyCode", &KeyEventData::GetKeyCode )
+			.def( "getKeyText", &KeyEventData::GetKeyText ),
+
+		class_< Script >( "Script" )
+			.def( "include", &Script::Include ),
+
+		class_< AppenderEventData >( "AppenderEventData" )
+			.def( "getMessage", &AppenderEventData::GetMessage ),
+
+		class_< EventType >( "EventType" )
+			.enum_( "constants" )
+			[
+				value( "TEST_EVENT", TEST_EVENT ),
+				value( "SCRIPT_COMMAND_EXECUTED", SCRIPT_COMMAND_EXECUTED ),
+				value( "INPUT_KEY_UP", INPUT_KEY_UP ),
+				value( "LOG_MESSAGE_APPENDED", LOG_MESSAGE_APPENDED )
+			]
 
 	];
 
@@ -121,4 +142,35 @@ void ScriptManager::DestroyScript( Script* script )
 void ScriptManager::FromLua_Print( const std::string message )
 {
 	Logger::GetInstance( )->Info( message );
+}
+
+int ScriptManager::FromLua_ScriptError( lua_State* luaState )
+{
+	lua_Debug d;
+
+	int result = 0;
+
+	result = lua_getstack( luaState, 0, &d );
+	result = lua_getinfo( luaState, "Sln", &d );
+	
+	std::string error = lua_tostring( luaState, -1 );
+	lua_pop( luaState, 1 );
+
+	std::stringstream errorMessage;
+	errorMessage << "Script Error: " << d.short_src << ":" << d.currentline;
+
+	if ( d.name != 0 )
+	{
+		errorMessage << "(" << d.namewhat << " " << d.name << ")";
+	}
+
+	errorMessage << " " << error;
+	
+	lua_pushstring( luaState, errorMessage.str( ).c_str( ) );
+
+	ScriptException e( errorMessage.str( ) );
+	Logger::GetInstance( )->Fatal( errorMessage.str( ) );
+	//throw e; -- otherwise the console throws errors
+	
+	return 1;	
 }

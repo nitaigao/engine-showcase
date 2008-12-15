@@ -9,6 +9,8 @@
 #include <luabind/luabind.hpp>
 using namespace luabind;
 
+#include "GuiTools.hpp"
+
 #include "../../Logging/Logger.h"
 #include "../../Common/Paths.hpp"
 
@@ -32,7 +34,7 @@ void GuiComponent::Initialize( )
 	[
 		class_< GuiModel >( "Model" )
 			.def( constructor< >( ) )
-			.def( "addEventListener", &GuiModel::FromLua_AddEventListener )
+			.def( "addEventListener", &GuiModel::AddEventListener )
 			.def( "executeCommand", &GuiModel::FromLua_ExecuteCommand ),
 
 		class_< GuiView >( "View" )
@@ -52,15 +54,18 @@ void GuiComponent::Initialize( )
 		class_< MyGUI::Widget >( "Widget" )
 			.def( "getDimensions", &MyGUI::Widget::getClientCoord )
 			.def( "setPosition", ( void( MyGUI::Widget::* )( int, int ) ) &MyGUI::Widget::setPosition )
-			.def( "setText", &MyGUI::StaticText::setCaption )
-			.def( "getText", &MyGUI::StaticText::getCaption )
 			.def( "getType", &MyGUI::Widget::getClassTypeName )
 			.def( "hide", &MyGUI::Widget::hide )
 			.def( "show", &MyGUI::Widget::show )
-			.def( "addEventListener", &GuiController::FromLua_AddEventListener )
-			.def( "toWindow", &GuiComponent::FromLua_ToWindow ),
+			.def( "toWindow", &GuiTools::FromLua_ToWindow )
+			.def( "toStaticText", &GuiTools::FromLua_ToStaticText ),		
 
-		class_< MyGUI::Window >( "Window" ),
+		class_< Window >( "Window" )
+			.def( "addEventListener", &Window::AddEventListener ),
+		
+		class_< MyGUI::StaticText, MyGUI::Widget >( "StaticText" )
+			.def( "setText", &MyGUI::StaticText::setCaption )
+			.def( "getText", &MyGUI::StaticText::getCaption ),
 
 		class_< Ogre::UTFString >( "utfstring" ),
 		def( "toString", &StringUtils::ToString ),

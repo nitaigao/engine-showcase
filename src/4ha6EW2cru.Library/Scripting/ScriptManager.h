@@ -41,6 +41,7 @@ private:
 
 	static void FromLua_GameQuit( void );
 	static void FromLua_Print( std::string message );
+	static int FromLua_ScriptError( lua_State* luaState );
 
 	lua_State* _masterState;
 

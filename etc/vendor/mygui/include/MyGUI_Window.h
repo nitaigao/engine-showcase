@@ -23,7 +23,7 @@ namespace MyGUI
 		MYGUI_RTTI_CHILD_HEADER;
 
 	public:
-
+	
 		// для мееедленного показа и скрытия
 		/** Show window smooth */
 		void showSmooth(bool _reset = false);

@@ -19,16 +19,9 @@ void GuiView::Initialize( )
 	}
 
 	MyGUI::Gui::getInstancePtr( )->load( layoutPath.str( ) );
-
-	MyGUI::Gui::getInstancePtr( )->findWidgetT( "Test" )->eventKeyButtonPressed = MyGUI::newDelegate(  );
 }
 
 MyGUI::WidgetPtr GuiView::FindControl( std::string name )
 {
 	return MyGUI::Gui::getInstancePtr( )->findWidgetT( name );
-}
-
-void GuiView::FromLua_AddEventListener( std::string eventName, luabind::object handlerFunction )
-{
-	_eventHandlers[ eventName ] = handlerFunction;
 }
