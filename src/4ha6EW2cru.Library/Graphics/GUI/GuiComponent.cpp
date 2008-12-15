@@ -58,7 +58,7 @@ void GuiComponent::Initialize( )
 			.def( "hide", &MyGUI::Widget::hide )
 			.def( "show", &MyGUI::Widget::show )
 			.def( "addEventListener", &GuiController::FromLua_AddEventListener )
-			.def( "toWindow", &GuiView::CastWidget< MyGUI::Window > ),
+			.def( "toWindow", &GuiComponent::FromLua_ToWindow ),
 
 		class_< MyGUI::Window >( "Window" ),
 
