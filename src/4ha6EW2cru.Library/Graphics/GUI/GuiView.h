@@ -28,13 +28,7 @@ public:
 
 	virtual void Initialize( );
 	MyGUI::WidgetPtr FindControl( std::string name );
-
-
-	template< class T >
-	static T* CastWidget( MyGUI::Widget widget )
-	{
-		return ( T* ) &widget;
-	}
+	void FromLua_AddEventListener( std::string eventName, luabind::object handlerFunction );
 
 private:
 

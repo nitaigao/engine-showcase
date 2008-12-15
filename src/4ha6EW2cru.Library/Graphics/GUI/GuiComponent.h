@@ -8,6 +8,9 @@
 #include "../../Scripting/Script.h"
 #include "IGuiComponent.hpp"
 
+
+#include <MyGUI.h>
+
 class StringUtils
 {
 
@@ -42,6 +45,12 @@ public:
 	
 	/*! Returns the name of the Component*/
 	inline const std::string GetName( ) const { return _name; };
+
+	/*! Casts a Widget to a Window */
+	static MyGUI::WindowPtr FromLua_ToWindow( MyGUI::WidgetPtr widget )
+	{
+		return ( MyGUI::WindowPtr ) widget;
+	};
 	
 protected:
 
