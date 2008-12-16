@@ -8,9 +8,9 @@
 class IGuiModel
 {
 
-public:
+//public:
 
-	virtual void AddEventListener( EventType eventType, luabind::object handlerFunction ) = 0;
+	//virtual void AddEventListener( IGuiModel* model, EventType eventType, luabind::object handlerFunction ) = 0;
 };
 
 #endif

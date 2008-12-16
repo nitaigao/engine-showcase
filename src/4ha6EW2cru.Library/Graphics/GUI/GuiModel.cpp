@@ -6,7 +6,7 @@
 
 GuiModel::~GuiModel( )
 {
-	for( EventHandlers::iterator i = _eventHandlers.begin( ); i != _eventHandlers.end( ); ++i )
+	for( EventHandlerList::iterator i = _eventHandlers.begin( ); i != _eventHandlers.end( ); ++i )
 	{
 		EventManager::GetInstance( )->RemoveEventListener( ( *i ).first, this, &GuiModel::EventHandler );
 		_eventHandlers.erase( i );
@@ -14,30 +14,29 @@ GuiModel::~GuiModel( )
 	}
 }
 
-void GuiModel::AddEventListener( EventType eventType, luabind::object handlerFunction )
+void GuiModel::AddEventListener( EventType eventType, std::string handlerFunction )
 {
 	_eventHandlers[ eventType ] = handlerFunction;
-
 	EventManager::GetInstance( )->AddEventListener( eventType, this, &GuiModel::EventHandler );
 }
 
 void GuiModel::EventHandler( const IEvent* event )
 {
-	luabind::object eventHandler = _eventHandlers[ event->GetEventType( ) ];
+	std::string handlerFunction = _eventHandlers[ event->GetEventType( ) ];
 
 	switch( event->GetEventType( ) )
 	{
 
 	case LOG_MESSAGE_APPENDED: 
 
-		luabind::call_function< void >( eventHandler, this, static_cast< AppenderEventData* >( event->GetEventData( ) ) );
+		//luabind::call_function< void >( eventHandler, this, static_cast< AppenderEventData* >( event->GetEventData( ) ) );
 
 		break;
 
 	case INPUT_KEY_DOWN:
 	case INPUT_KEY_UP:
 
-		luabind::call_function< void >( eventHandler, this, static_cast< KeyEventData* >( event->GetEventData( ) ) );
+		luabind::call_member< void >( _luaObject, handlerFunction.c_str( ), static_cast< KeyEventData* >( event->GetEventData( ) ) );
 
 		break;
 
