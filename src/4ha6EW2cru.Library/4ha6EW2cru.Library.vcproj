@@ -270,6 +270,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Graphics\GUI\GuiEvents.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Graphics\GUI\GuiModel.cpp"
 			>
 		</File>

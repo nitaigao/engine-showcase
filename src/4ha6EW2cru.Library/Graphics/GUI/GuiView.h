@@ -4,6 +4,7 @@
 #include <string>
 
 #include "IGuiView.hpp"
+#include "GuiEvents.hpp"
 
 #include <MyGUI.h>
 
@@ -16,55 +17,32 @@ using namespace luabind;
 class GuiView : public IGuiView
 {
 
-	typedef std::map< std::string, luabind::object > EventHandlerList;
+	typedef std::map< GuiEvents, std::string > EventHandlerList;
 	typedef std::map< MyGUI::WidgetPtr, EventHandlerList > EventListenerList;
 
 public:
 
 	virtual ~GuiView( ) { };
 
-	GuiView( std::string name )
+	GuiView( luabind::object luaObject, std::string name )
 		: _name( name )
+		, _luaObject( luaObject )
 	{
 		
 	};
 
 	virtual void Initialize( );
 	MyGUI::WidgetPtr FindControl( std::string name );
-	
-	void AddEventListener( MyGUI::WidgetPtr widget, std::string widgetType, std::string eventName, luabind::object handlerFunction )
-	{
-		if ( widgetType == "Window" )
-		{
-			MyGUI::Window* window = static_cast< MyGUI::Window* >( widget );
 
-			if( eventName == "WindowButtonPressed" )
-			{
-				window->eventWindowButtonPressed = MyGUI::newDelegate( this, &GuiView::WindowButtonPressed );	
-			}
-
-			if( eventName == "KeyButtonReleased" )
-			{
-				window->eventKeyButtonReleased = MyGUI::newDelegate( this, &GuiView::KeyButtonReleased );
-			}
-
-			_eventListeners[ widget ][ eventName ] = handlerFunction;	
-		}
-	};
-	
-	void WindowButtonPressed( MyGUI::WidgetPtr widget, const std::string& name )
-	{
-		luabind::call_function< void >( _eventListeners[ widget ][ "WindowButtonPressed" ], this, name );
-	};
-
-	void KeyButtonReleased( MyGUI::WidgetPtr widget, MyGUI::KeyCode keyCode )
-	{
-		luabind::call_function< void >( _eventListeners[ widget ][ "KeyButtonReleased" ], this, keyCode );
-	};
+	void AddEventListener( MyGUI::WidgetPtr widget, GuiEvents eventType, std::string handlerFunction );
+	void WindowButtonPressed( MyGUI::WidgetPtr widget, const std::string& name );
+	void MouseButtonReleased( MyGUI::WidgetPtr widget );
+	void KeyButtonReleased( MyGUI::WidgetPtr widget, MyGUI::KeyCode keyCode );
 
 private:
 
 	std::string _name;
+	luabind::object _luaObject;
 	EventListenerList _eventListeners;
 
 };

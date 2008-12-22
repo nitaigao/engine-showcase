@@ -22,10 +22,7 @@ ScriptManager::ScriptManager( )
 	_masterState = lua_open( );
 	luabind::open( _masterState );
 
-	module( _masterState )
-	[
-		def( "quit", &ScriptManager::FromLua_GameQuit )
-	];
+	this->RegisterScriptGlobals( _masterState );
 
 	luabind::set_pcall_callback( &ScriptManager::FromLua_ScriptError );
 
@@ -97,31 +94,7 @@ Script* ScriptManager::CreateScript( std::string scriptPath )
 	FileBuffer* scriptBuffer = FileManager::GetInstance( )->GetFile( scriptPath );
 	Script* script = new Script( _masterState, scriptBuffer );
 
-	module( script->GetState( ) )
-	[
-
-		def( "print", &ScriptManager::FromLua_Print ),
-
-		class_< KeyEventData >( "KeyEventData" )
-			.def( "getKeyCode", &KeyEventData::GetKeyCode )
-			.def( "getKeyText", &KeyEventData::GetKeyText ),
-
-		class_< Script >( "Script" )
-			.def( "include", &Script::Include ),
-
-		class_< AppenderEventData >( "AppenderEventData" )
-			.def( "getMessage", &AppenderEventData::GetMessage ),
-
-		class_< EventType >( "EventType" )
-			.enum_( "constants" )
-			[
-				value( "TEST_EVENT", TEST_EVENT ),
-				value( "SCRIPT_COMMAND_EXECUTED", SCRIPT_COMMAND_EXECUTED ),
-				value( "INPUT_KEY_UP", INPUT_KEY_UP ),
-				value( "LOG_MESSAGE_APPENDED", LOG_MESSAGE_APPENDED )
-			]
-
-	];
+	this->RegisterScriptGlobals( script->GetState( ) );
 
 	return script;
 }
@@ -173,4 +146,33 @@ int ScriptManager::FromLua_ScriptError( lua_State* luaState )
 	//throw e; -- otherwise the console throws errors
 	
 	return 1;	
+}
+
+void ScriptManager::RegisterScriptGlobals( lua_State* luaState )
+{
+	module( luaState )
+	[
+		def( "quit", &ScriptManager::FromLua_GameQuit ),
+		def( "print", &ScriptManager::FromLua_Print ),
+
+		class_< KeyEventData >( "KeyEventData" )
+			.def( "getKeyCode", &KeyEventData::GetKeyCode )
+			.def( "getKeyText", &KeyEventData::GetKeyText ),
+
+		class_< Script >( "Script" )
+			.def( "include", &Script::Include ),
+
+		class_< AppenderEventData >( "AppenderEventData" )
+			.def( "getMessage", &AppenderEventData::GetMessage ),
+
+		class_< EventType >( "EventType" )
+			.enum_( "constants" )
+			[
+				value( "TEST_EVENT", TEST_EVENT ),
+				value( "SCRIPT_COMMAND_EXECUTED", SCRIPT_COMMAND_EXECUTED ),
+				value( "INPUT_KEY_UP", INPUT_KEY_UP ),
+				value( "LOG_MESSAGE_APPENDED", LOG_MESSAGE_APPENDED )
+			]
+
+	];
 }

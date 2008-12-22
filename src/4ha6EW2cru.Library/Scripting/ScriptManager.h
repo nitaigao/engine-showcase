@@ -36,6 +36,9 @@ public:
 
 private:
 
+	/*! Registers Global Functions such as 'quit', 'print' */
+	void RegisterScriptGlobals( lua_State* luaState );
+
 	/*! Listens for Execute Commands */
 	void CommandExecuted( const IEvent* event );
 

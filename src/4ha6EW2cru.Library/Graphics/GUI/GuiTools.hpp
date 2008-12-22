@@ -19,6 +19,12 @@ public:
 		return ( MyGUI::StaticTextPtr ) widget;
 	};
 
+	/*! Casts a Widget to a Button */
+	static MyGUI::ButtonPtr FromLua_ToButton( MyGUI::WidgetPtr widget )
+	{
+		return static_cast< MyGUI::ButtonPtr >( widget );
+	};
+
 };
 
 #endif

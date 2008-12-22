@@ -29,7 +29,7 @@ void GuiModel::EventHandler( const IEvent* event )
 
 	case LOG_MESSAGE_APPENDED: 
 
-		//luabind::call_function< void >( eventHandler, this, static_cast< AppenderEventData* >( event->GetEventData( ) ) );
+		luabind::call_member< void >( _luaObject, handlerFunction.c_str( ), static_cast< AppenderEventData* >( event->GetEventData( ) ) );
 
 		break;
 

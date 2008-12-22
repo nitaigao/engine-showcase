@@ -55,9 +55,10 @@ namespace MyGUI
 		//! @copydoc Widget::setEnabled(bool _enabled)
 		virtual void setEnabled(bool _enabled);
 
+		virtual ~Button();
+
 	protected:
 		Button(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
-		virtual ~Button();
 
 		virtual void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
 

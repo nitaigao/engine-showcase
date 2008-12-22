@@ -10,6 +10,7 @@
 using namespace luabind;
 
 #include "GuiTools.hpp"
+#include "GuiEvents.hpp"
 
 #include "../../Logging/Logger.h"
 #include "../../Common/Paths.hpp"
@@ -32,13 +33,23 @@ void GuiComponent::Initialize( )
 		
 	module( _script->GetState( ) )
 	[
+		class_< GuiEvents >( "GuiEvents" )
+			.enum_( "constants" )
+			[
+				value( "WINDOW_BUTTON_PRESSED", WINDOW_BUTTON_PRESSED ),
+				value( "KEY_BUTTON_RELEASED", KEY_BUTTON_RELEASED ),
+				value( "KEY_BUTTON_PRESSED", KEY_BUTTON_PRESSED ),
+				value( "MOUSE_BUTTON_PRESSED", MOUSE_BUTTON_PRESSED ),
+				value( "MOUSE_BUTTON_RELEASED", MOUSE_BUTTON_RELEASED )
+			],
+
 		class_< GuiModel >( "Model" )
-		.def( constructor< luabind::object >( ) )
+			.def( constructor< luabind::object >( ) )
 			.def( "addEventListener", &GuiModel::AddEventListener )
 			.def( "executeCommand", &GuiModel::FromLua_ExecuteCommand ),
 
 		class_< GuiView >( "View" )
-			.def( constructor< std::string >( ) )
+			.def( constructor< luabind::object, std::string >( ) )
 			.def( "initialize", &GuiView::Initialize )
 			.def( "findControl", &GuiView::FindControl )
 			.def( "addEventListener", &GuiView::AddEventListener ),
@@ -59,10 +70,14 @@ void GuiComponent::Initialize( )
 			.def( "hide", &MyGUI::Widget::hide )
 			.def( "show", &MyGUI::Widget::show )
 			.def( "toWindow", &GuiTools::FromLua_ToWindow )
-			.def( "toStaticText", &GuiTools::FromLua_ToStaticText ),
+			.def( "toStaticText", &GuiTools::FromLua_ToStaticText )
+			.def( "toButton", &GuiTools::FromLua_ToButton ),
 			
 		class_< MyGUI::Window >( "Window" )
 			.def( "getType", MyGUI::Window::getClassTypeName ),
+
+		class_< MyGUI::Button >( "Button" )
+			.def( "getType", MyGUI::Button::getClassTypeName ),
 			
 		class_< MyGUI::StaticText, MyGUI::Widget >( "StaticText" )
 			.def( "setText", &MyGUI::StaticText::setCaption )

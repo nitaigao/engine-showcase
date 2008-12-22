@@ -39,12 +39,14 @@ void GuiViewFixture::tearDown( )
 
 void GuiViewFixture::Should_Throw_On_Initialize_Given_Layout_Not_Found( )
 {
-	GuiView view( "blah" );
+	luabind::object self;
+	GuiView view( self, "blah" );
 	CPPUNIT_ASSERT_THROW( view.Initialize( ), FileNotFoundException );
 }
 
 void GuiViewFixture::Should_Initialize_Correctly( )
 {
-	GuiView view( "test" );
+	luabind::object self;
+	GuiView view( self, "test" );
 	view.Initialize( );
 }
