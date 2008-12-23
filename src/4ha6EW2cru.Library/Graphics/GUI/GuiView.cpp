@@ -42,12 +42,9 @@ void GuiView::AddEventListener( MyGUI::WidgetPtr widget, GuiEvents eventType, st
 
 	case KEY_BUTTON_RELEASED:
 
-		window = static_cast< MyGUI::Window* >( widget );
-		window->eventKeyButtonReleased = MyGUI::newDelegate( this, &GuiView::KeyButtonReleased );
+		widget->eventKeyButtonReleased = MyGUI::newDelegate( this, &GuiView::KeyButtonReleased );
 
 		break;
-
-		_eventListeners[ widget ][ eventType ] = handlerFunction;
 
 	case MOUSE_BUTTON_RELEASED:
 

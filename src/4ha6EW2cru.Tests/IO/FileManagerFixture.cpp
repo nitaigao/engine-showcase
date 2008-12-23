@@ -78,14 +78,14 @@ void FileManagerFixture::Should_Throw_Adding_NonExistant_FileStore( )
 void FileManagerFixture::Should_Add_FileStore_Given_Existing_FileStore( )
 {
 	FileManager::Initialize( );
-	FileManager::GetInstance( )->AddFileStore( "../game/test/Test.bad" );
+	FileManager::GetInstance( )->AddFileStore( "../game/data/gui.bad" );
 	FileManager::GetInstance( )->Release( );
 }
 
 void FileManagerFixture::Should_Throw_On_GetFile_Given_NonExisting_File( )
 {
 	FileManager::Initialize( );
-	FileManager::GetInstance( )->AddFileStore( "../game/test/Test.bad" );
+	FileManager::GetInstance( )->AddFileStore( "../game/data/gui.bad" );
 
 	CPPUNIT_ASSERT_THROW( FileManager::GetInstance( )->GetFile( "bogus.txt" ), FileNotFoundException );
 
@@ -95,9 +95,9 @@ void FileManagerFixture::Should_Throw_On_GetFile_Given_NonExisting_File( )
 void FileManagerFixture::Should_Return_FileBuffer_On_GetFile_Given_Existing_File( )
 {
 	FileManager::Initialize( );
-	FileManager::GetInstance( )->AddFileStore( "../game/test/Test.bad" );
+	FileManager::GetInstance( )->AddFileStore( "../game/data/gui.bad" );
 
-	FileBuffer* fileBuffer = FileManager::GetInstance( )->GetFile( "Test.txt" );
+	FileBuffer* fileBuffer = FileManager::GetInstance( )->GetFile( "test.txt" );
 	CPPUNIT_ASSERT( fileBuffer != 0 );
 	delete fileBuffer;
 
@@ -107,8 +107,8 @@ void FileManagerFixture::Should_Return_FileBuffer_On_GetFile_Given_Existing_File
 void FileManagerFixture::Should_Return_True_Given_File_Exists( )
 {
 	FileManager::Initialize( );
-	FileManager::GetInstance( )->AddFileStore( "../game/test/" );
-	bool result = FileManager::GetInstance( )->FileExists( "Test.bad" );
+	FileManager::GetInstance( )->AddFileStore( "../game/data/" );
+	bool result = FileManager::GetInstance( )->FileExists( "gui.bad" );
 
 	CPPUNIT_ASSERT( result );
 

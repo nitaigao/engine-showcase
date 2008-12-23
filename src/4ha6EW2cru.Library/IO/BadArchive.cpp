@@ -9,14 +9,7 @@
 
 BadArchive::BadArchive( const std::string name, const std::string type ) : Archive( name, type )
 {
-	bool result = FileManager::GetInstance( )->AddFileStore( name );
-
-	if ( !result )
-	{
-		ArchiveNotFoundException e( "BadArchive, There was an error adding a BAD file location to the FileManager" );
-		Logger::GetInstance( )->Fatal( e.what( ) );
-		throw e;
-	}
+	
 }
 
 Ogre::DataStreamPtr BadArchive::open( const Ogre::String& filename ) const

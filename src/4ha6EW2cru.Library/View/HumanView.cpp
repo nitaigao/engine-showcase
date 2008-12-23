@@ -12,8 +12,6 @@ void HumanView::Initialize( int width, int height, int colorDepth, bool fullScre
 {
 	Logger::GetInstance( )->Info( "Initializing Human View" );
 
-	FileManager::GetInstance( )->AddFileStore( Paths::GetViewPackagePath( ) );
-
 	_renderer = new OgreRenderer( );
 	_renderer->Initialize( width, height, colorDepth, fullScreen );
 

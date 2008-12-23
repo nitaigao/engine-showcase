@@ -7,8 +7,11 @@
 #include "../Events/EventManager.h"
 #include "../Events/Event.h"
 
+#include "../IO/FileManager.h"
+
 #include "../Exceptions/ScreenDimensionsException.hpp"
 #include "../Exceptions/UnInitializedException.hpp"
+#include "../Exceptions/ArchiveNotFoundException.hpp"
 
 using namespace Ogre;
 using namespace MyGUI;
@@ -114,6 +117,7 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 		EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_RELEASED, this, &OgreRenderer::OnMouseReleased );
 		EventManager::GetInstance( )->AddEventListener( INPUT_KEY_DOWN, this, &OgreRenderer::OnKeyDown );
 		EventManager::GetInstance( )->AddEventListener( INPUT_KEY_UP, this, &OgreRenderer::OnKeyUp );
+		EventManager::GetInstance( )->AddEventListener( VIEW_CHANGE_SCREEN, this, &OgreRenderer::OnChangeScreen );
 	}
 
 	_isInitialized = true;
@@ -174,7 +178,26 @@ void OgreRenderer::LoadResources( )
 
 		for ( ConfigFile::SettingsMultiMap::iterator i = settings->begin( ); i != settings->end( ); ++i )
 		{
-			ResourceGroupManager::getSingleton( ).addResourceLocation( i->second, i->first );
+			/* So basically the deal here is the whole game runs on a file system that adds bad files together
+			   to make one giant directory tree. Ogre however runs on the premise that the bad files create their
+			   own individual directory tree for each seperate bad file. This hack fixes that problem by allowing only one 
+			   stub bad file to be created within ogre, but it registers each bad file with the Game Filesystem allowing
+			   the stub to still access the combined bad files as one giant filesystem */
+
+			int result = FileManager::GetInstance( )->AddFileStore( i->second );
+
+			if ( !result )
+			{
+				ArchiveNotFoundException e( "BadArchive, There was an error adding a BAD file location to the FileManager" );
+				Logger::GetInstance( )->Fatal( e.what( ) );
+				throw e;
+			}
+
+			if ( !_badStubCreated )
+			{
+				ResourceGroupManager::getSingleton( ).addResourceLocation( i->second, i->first );
+				_badStubCreated = true;
+			}
 		}
 	}
 }
@@ -207,4 +230,9 @@ void OgreRenderer::OnKeyDown( const IEvent* event )
 { 
 	KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
 	_gui->injectKeyPress( ( MyGUI::KeyCode ) eventData->GetKeyCode( ) );
+}
+
+void OgreRenderer::OnChangeScreen( const IEvent* event )
+{
+	_root->getSceneManager( "default" )->clearScene( );
 }

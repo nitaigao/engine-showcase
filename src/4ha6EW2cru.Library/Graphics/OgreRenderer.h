@@ -19,6 +19,7 @@ public:
 		, _gui( 0 )
 		, _isInitialized( false )
 		, _badFactory( 0 )
+		, _badStubCreated( false )
 	{
 
 	}
@@ -48,11 +49,15 @@ private:
 	/*! Handler to intercept OnKeyDown Events */
 	void OnKeyDown( const IEvent* event );
 
+	/*! Handler to manage Screen Changes */
+	void OnChangeScreen( const IEvent* event );
+
 	void LoadResources( );
 
 	Ogre::Root* _root;
 	MyGUI::Gui* _gui;
 	bool _isInitialized;
+	bool _badStubCreated;
 
 	Ogre::ArchiveFactory* _badFactory;
 
