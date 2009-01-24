@@ -52,6 +52,9 @@ public:
 	/*! Sets the current logging level */
 	inline void SetLogLevel( LogLevel logLevel ) { _logLevel = logLevel; };
 
+	/*! Gets the current logging level */
+	inline LogLevel GetLogLevel( ) { return _logLevel; };
+
 private:
 
 	Logger( const Logger & copy ) { };

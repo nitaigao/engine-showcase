@@ -38,6 +38,8 @@ OgreRenderer::~OgreRenderer( )
 		_root = 0;
 	}
 
+
+	delete _scene;
 	delete _badFactory;
 	_badFactory = 0;
 }
@@ -65,8 +67,12 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 
 		_root = new Root( );
 
-		Ogre::LogManager::getSingletonPtr( )->destroyLog( Ogre::LogManager::getSingletonPtr( )->getDefaultLog( ) );
-		Ogre::LogManager::getSingletonPtr( )->createLog( "default", true, false, true );
+		// Switches off the Ogre Logging unless the whole game is in debug mode
+		if ( Logger::GetInstance( )->GetLogLevel( ) < WARNA )
+		{
+			Ogre::LogManager::getSingletonPtr( )->destroyLog( Ogre::LogManager::getSingletonPtr( )->getDefaultLog( ) );
+			Ogre::LogManager::getSingletonPtr( )->createLog( "default", true, false, true );
+		}
 
 		_root->loadPlugin( "RenderSystem_Direct3D9_d" );
 		
@@ -92,7 +98,7 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 		SceneManager* sceneManager = _root->createSceneManager( ST_GENERIC, "default" );
 
 		Camera* camera = sceneManager->createCamera( "default camera" );
-		camera->setPosition( Vector3( 0, 20, 100 ) );
+		camera->setPosition( Vector3( 0, 0, 5 ) );
 		camera->lookAt( Vector3( 0, 0, 0 ) );
 		camera->setNearClipDistance( 1.0f );
 
@@ -106,7 +112,7 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 
 	{	// -- MyGUI 
 		_gui = new Gui( );
-		_gui->initialise( _root->getAutoCreatedWindow( ), "gui/core/core.xml" );
+		_gui->initialise( _root->getAutoCreatedWindow( ), "/data/gui/core/core.xml" );
 		_gui->hidePointer( );
 	}
 
@@ -119,6 +125,8 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 		EventManager::GetInstance( )->AddEventListener( INPUT_KEY_UP, this, &OgreRenderer::OnKeyUp );
 		EventManager::GetInstance( )->AddEventListener( VIEW_CHANGE_SCREEN, this, &OgreRenderer::OnChangeScreen );
 	}
+
+	_scene = new OgreMax::OgreMaxScene( );
 
 	_isInitialized = true;
 }
@@ -149,7 +157,7 @@ void OgreRenderer::Render( ) const
 	_root->renderOneFrame( );
 }
 
-void OgreRenderer::Update( ) const
+void OgreRenderer::Update( const float deltaMilliseconds ) const
 {
 	if ( !_isInitialized )
 	{
@@ -157,6 +165,8 @@ void OgreRenderer::Update( ) const
 		Logger::GetInstance( )->Fatal( e.what( ) );
 		throw e;
 	}
+
+	_scene->Update( deltaMilliseconds );
 
 	if ( _root->getAutoCreatedWindow( )->isClosed( ) )
 	{
@@ -184,7 +194,7 @@ void OgreRenderer::LoadResources( )
 			   stub bad file to be created within ogre, but it registers each bad file with the Game Filesystem allowing
 			   the stub to still access the combined bad files as one giant filesystem */
 
-			int result = FileManager::GetInstance( )->AddFileStore( i->second );
+			int result = FileManager::GetInstance( )->MountFileStore( i->second, "data/" );
 
 			if ( !result )
 			{
@@ -234,5 +244,22 @@ void OgreRenderer::OnKeyDown( const IEvent* event )
 
 void OgreRenderer::OnChangeScreen( const IEvent* event )
 {
+	_scene->Destroy( );
 	_root->getSceneManager( "default" )->clearScene( );
+
+	ChangeScreenEventData* eventData = static_cast< ChangeScreenEventData* >( event->GetEventData( ) );
+
+	std::stringstream sceneFilePath;
+	sceneFilePath << "data/gui/views/" << eventData->GetScreenName( ) << "/" << eventData->GetScreenName( ) << ".scene";
+
+	_scene->Load( sceneFilePath.str( ), _root->getAutoCreatedWindow( ), 0x4000, _root->getSceneManager( "default" ) );
+	
+	std::string mainCameraName = "camera_main";
+
+	if ( _scene->GetSceneManager( )->hasCamera( mainCameraName ) )
+	{
+		Camera* camera = _scene->GetSceneManager( )->getCamera( mainCameraName );
+		_root->getAutoCreatedWindow( )->removeAllViewports( );
+		_root->getAutoCreatedWindow( )->addViewport( camera );
+	}
 }

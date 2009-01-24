@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="mockpp_44d.lib cppunitd.lib OgreMain_d.lib OIS_static_d.lib luad.lib libluabind.lib MyGUI_d.lib"
+				AdditionalDependencies="winmm.lib mockpp_44d.lib cppunitd.lib OgreMain_d.lib OIS_static_d.lib luad.lib libluabind.lib MyGUI_d.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/ogre/lib"
 				GenerateDebugInformation="true"
@@ -377,6 +377,14 @@
 		</File>
 		<File
 			RelativePath=".\Scripting\ScriptManagerFixture.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\SearchUtilityFixture.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\SearchUtilityFixture.h"
 			>
 		</File>
 		<File

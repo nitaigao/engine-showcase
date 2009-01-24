@@ -31,10 +31,10 @@ public:
 	static std::string GetGUIPackagePath( ) { return "../game/data/gui.bad"; };
 
 	/*! Get the path to the gui controls directory */
-	static std::string GetControllersPath( ) { return "gui/controllers/"; };
+	static std::string GetControllersPath( ) { return "/data/gui/controllers/"; };
 
 	/*! Get the path to the gui controls directory */
-	static std::string GetViewsPath( ) { return "gui/views/"; };
+	static std::string GetViewsPath( ) { return "/data/gui/views/"; };
 };
 
 #endif

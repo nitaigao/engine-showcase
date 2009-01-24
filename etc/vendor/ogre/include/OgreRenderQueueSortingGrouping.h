@@ -67,13 +67,13 @@ namespace Ogre {
 		QueuedRenderableVisitor() {}
 		virtual ~QueuedRenderableVisitor() {}
 		
-		/** Called when visiting a RenderablePass, ie items in a
+		/** Called when visiting a RenderablePass, i.e. items in a
 			sorted collection where items are not grouped by pass.
 		@remarks
 			If this is called, neither of the other 2 visit methods
 			will be called.
 		*/
-		virtual void visit(const RenderablePass* rp) = 0;
+		virtual void visit(RenderablePass* rp) = 0;
 
 		/* When visiting a collection grouped by pass, this is
 			called when the grouping pass changes.
@@ -91,7 +91,7 @@ namespace Ogre {
 			If this method is called, the RenderablePass visit 
 			method will not be called for this collection. 
 		*/
-		virtual void visit(const Renderable* r) = 0;
+		virtual void visit(Renderable* r) = 0;
 		
 		
 	};
@@ -105,7 +105,7 @@ namespace Ogre {
 		causes a visit call at the Pass level, and a call for each
 		Renderable underneath.
 	*/
-	class _OgreExport QueuedRenderableCollection
+	class _OgreExport QueuedRenderableCollection : public RenderQueueAlloc
 	{
 	public:
 		/** Organisation modes required for this collection.
@@ -177,7 +177,7 @@ namespace Ogre {
 				    }
 				    else
 				    {
-				        // Sort DESCENDING by depth (ie far objects first)
+				        // Sort DESCENDING by depth (i.e. far objects first)
 					    return (adepth > bdepth);
 				    }
                 }
@@ -312,7 +312,7 @@ namespace Ogre {
 		a class implementing QueuedRenderableVisitor.
 	
     */
-    class _OgreExport RenderPriorityGroup
+    class _OgreExport RenderPriorityGroup : public RenderQueueAlloc
     {
 	protected:
 
@@ -329,6 +329,8 @@ namespace Ogre {
         QueuedRenderableCollection mSolidsDecal;
         /// Solid pass list, used when shadows are enabled but shadow receive is turned off for these passes
         QueuedRenderableCollection mSolidsNoShadowReceive;
+		/// Unsorted transparent list
+		QueuedRenderableCollection mTransparentsUnsorted;
 		/// Transparent list
 		QueuedRenderableCollection mTransparents;
 
@@ -339,6 +341,8 @@ namespace Ogre {
         void addSolidRenderable(Technique* pTech, Renderable* rend, bool toNoShadowMap);
         /// Internal method for adding a solid renderable
         void addSolidRenderableSplitByLightType(Technique* pTech, Renderable* rend);
+        /// Internal method for adding an unsorted transparent renderable
+        void addUnsortedTransparentRenderable(Technique* pTech, Renderable* rend);
         /// Internal method for adding a transparent renderable
         void addTransparentRenderable(Technique* pTech, Renderable* rend);
 
@@ -369,13 +373,16 @@ namespace Ogre {
         const QueuedRenderableCollection& getSolidsNoShadowReceive(void) const
         { return mSolidsNoShadowReceive; }
         /** Get the collection of transparent objects currently queued */
+        const QueuedRenderableCollection& getTransparentsUnsorted(void) const
+        { return mTransparentsUnsorted; }
+        /** Get the collection of transparent objects currently queued */
         const QueuedRenderableCollection& getTransparents(void) const
         { return mTransparents; }
 
 
 		/** Reset the organisation modes required for the solids in this group. 
 		@remarks
-			You can only do this when the group is empty, ie after clearing the 
+			You can only do this when the group is empty, i.e. after clearing the 
 			queue.
 		@see QueuedRenderableCollection::OrganisationMode
 		*/
@@ -383,7 +390,7 @@ namespace Ogre {
 		
 		/** Add a required sorting / grouping mode for the solids in this group.
 		@remarks
-			You can only do this when the group is empty, ie after clearing the 
+			You can only do this when the group is empty, i.e. after clearing the 
 			queue.
 		@see QueuedRenderableCollection::OrganisationMode
 		*/
@@ -391,7 +398,7 @@ namespace Ogre {
 
 		/** Set the sorting / grouping mode for the solids in this group to the default.
 		@remarks
-			You can only do this when the group is empty, ie after clearing the 
+			You can only do this when the group is empty, i.e. after clearing the 
 			queue.
 		@see QueuedRenderableCollection::OrganisationMode
 		*/
@@ -444,7 +451,7 @@ namespace Ogre {
         which are the groupings of renderables by priority for fine control
         of ordering (not required for most instances).
     */
-    class _OgreExport RenderQueueGroup
+    class _OgreExport RenderQueueGroup : public RenderQueueAlloc
     {
     public:
         typedef std::map<ushort, RenderPriorityGroup*, std::less<ushort> > PriorityMap;
@@ -458,6 +465,8 @@ namespace Ogre {
         PriorityMap mPriorityGroups;
 		/// Whether shadows are enabled for this queue
 		bool mShadowsEnabled;
+		/// Bitmask of the organisation modes requested (for new priority groups)
+		uint8 mOrganisationMode;
 
 
     public:
@@ -470,6 +479,7 @@ namespace Ogre {
             , mSplitNoShadowPasses(splitNoShadowPasses)
             , mShadowCastersNotReceivers(shadowCastersNotReceivers)
             , mShadowsEnabled(true)
+			, mOrganisationMode(0)
         {
         }
 
@@ -478,7 +488,7 @@ namespace Ogre {
             PriorityMap::iterator i;
             for (i = mPriorityGroups.begin(); i != mPriorityGroups.end(); ++i)
             {
-                delete i->second;
+                OGRE_DELETE i->second;
             }
         }
 
@@ -497,10 +507,16 @@ namespace Ogre {
             if (i == mPriorityGroups.end())
             {
                 // Missing, create
-                pPriorityGrp = new RenderPriorityGroup(this, 
+                pPriorityGrp = OGRE_NEW RenderPriorityGroup(this, 
                     mSplitPassesByLightingType,
                     mSplitNoShadowPasses, 
 					mShadowCastersNotReceivers);
+				if (mOrganisationMode)
+				{
+					pPriorityGrp->resetOrganisationModes();
+					pPriorityGrp->addOrganisationMode((QueuedRenderableCollection::OrganisationMode)mOrganisationMode);
+				}
+
                 mPriorityGroups.insert(PriorityMap::value_type(priority, pPriorityGrp));
             }
             else
@@ -516,7 +532,7 @@ namespace Ogre {
         /** Clears this group of renderables. 
         @param destroy
             If false, doesn't delete any priority groups, just empties them. Saves on 
-            memory deallocations since the chances are rougly the same kinds of 
+            memory deallocations since the chances are roughly the same kinds of 
             renderables are going to be sent to the queue again next time. If
 			true, completely destroys.
         */
@@ -527,7 +543,7 @@ namespace Ogre {
             for (i = mPriorityGroups.begin(); i != iend; ++i)
             {
 				if (destroy)
-					delete i->second;
+					OGRE_DELETE i->second;
 				else
 					i->second->clear();
             }
@@ -602,6 +618,8 @@ namespace Ogre {
 		*/
 		void resetOrganisationModes(void)
 		{
+			mOrganisationMode = 0;
+
 			PriorityMap::iterator i, iend;
 			iend = mPriorityGroups.end();
 			for (i = mPriorityGroups.begin(); i != iend; ++i)
@@ -618,6 +636,8 @@ namespace Ogre {
 		*/
 		void addOrganisationMode(QueuedRenderableCollection::OrganisationMode om)
 		{
+			mOrganisationMode |= om;
+
 			PriorityMap::iterator i, iend;
 			iend = mPriorityGroups.end();
 			for (i = mPriorityGroups.begin(); i != iend; ++i)
@@ -634,6 +654,8 @@ namespace Ogre {
 		*/
 		void defaultOrganisationMode(void)
 		{
+			mOrganisationMode = 0;
+
 			PriorityMap::iterator i, iend;
 			iend = mPriorityGroups.end();
 			for (i = mPriorityGroups.begin(); i != iend; ++i)

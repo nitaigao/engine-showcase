@@ -20,7 +20,7 @@ void HumanViewFixture::setUp( )
 	EventManager::Initialize( );
 
 	FileManager::Initialize( );
-	FileManager::GetInstance( )->AddFileStore( "../game/test" );
+	FileManager::GetInstance( )->MountFileStore( "../game/test", "/" );
 }
 
 void HumanViewFixture::tearDown( )
@@ -63,14 +63,14 @@ void HumanViewFixture::Should_Throw_On_Initialize_Given_Invalid_Dimensions( )
 void HumanViewFixture::Should_Throw_On_Update_Given_Not_Intialized( )
 {
 	HumanView humanView;
-	CPPUNIT_ASSERT_THROW( humanView.Update( ), UnInitializedException );
+	CPPUNIT_ASSERT_THROW( humanView.Update( 0 ), UnInitializedException );
 }
 
 void HumanViewFixture::Should_Update_Given_Initialized( )
 {
 	HumanView humanView;
 	humanView.Initialize( 640, 480, 32, false );
-	humanView.Update( );
+	humanView.Update( 0 );
 }
 
 void HumanViewFixture::Should_Throw_On_Render_Given_Not_Intialized( )

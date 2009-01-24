@@ -6,8 +6,8 @@ enum LogLevel
 	OFF = 0,
 	FATAL = 1,
 	INFO = 2,
-	WARN = 3,
-	DEBUG = 4,
+	WARNA = 3,
+	DEBUGA = 4,
 	ALL = 99
 };
 

@@ -35,14 +35,6 @@ void BadArchiveFactoryFixture::Should_Create_BadArchive( )
 	_bfactory->destroyInstance( archive );
 }
 
-void BadArchiveFactoryFixture::Should_Throw_On_Non_Existing_BAD_File( )
-{
-	CPPUNIT_ASSERT_THROW(
-		_bfactory->createInstance( "blah" ),
-		FileNotFoundException
-		);
-}
-
 void BadArchiveFactoryFixture::Should_Throw_On_Destroy_Given_NULL_Archive( )
 {
 	CPPUNIT_ASSERT_THROW( _bfactory->destroyInstance( 0 ), NullReferenceException );;

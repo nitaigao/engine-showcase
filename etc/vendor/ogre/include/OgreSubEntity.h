@@ -53,7 +53,7 @@ namespace Ogre {
             the same time as their parent Entity by the SceneManager method
             createEntity.
     */
-    class _OgreExport SubEntity: public Renderable
+    class _OgreExport SubEntity: public Renderable, public SubEntityAlloc
     {
         // Note no virtual functions for efficiency
         friend class Entity;
@@ -122,6 +122,14 @@ namespace Ogre {
         */
         void setMaterialName( const String& name );
 
+		/** Sets a Material to be used.
+			@remarks
+				By default a SubEntity uses the default Material that the SubMesh
+				uses. This call can alter that so that the Material is different
+				for this instance.
+		*/
+		void setMaterial( const MaterialPtr& material );
+
         /** Tells this SubEntity whether to be visible or not. */
         virtual void setVisible(bool visible);
 
@@ -150,13 +158,6 @@ namespace Ogre {
         /** Overridden - see Renderable.
         */
         void getWorldTransforms(Matrix4* xform) const;
-        /** @copydoc Renderable::getWorldOrientation */
-        const Quaternion& getWorldOrientation(void) const;
-        /** @copydoc Renderable::getWorldPosition */
-        const Vector3& getWorldPosition(void) const;
-        /** Overridden - see Renderable.
-        */
-        bool getNormaliseNormals(void) const;      
         /** Overridden - see Renderable.
         */
         unsigned short getNumWorldTransforms(void) const;
@@ -214,7 +215,7 @@ namespace Ogre {
 		*/
 		void _restoreBuffersForUnusedAnimation(bool hardwareAnimation);
 
-		/** Overridden from Renderble to provide some custom behaviour. */
+		/** Overridden from Renderable to provide some custom behaviour. */
 		void _updateCustomGpuParameter(
 			const GpuProgramParameters::AutoConstantEntry& constantEntry,
 			GpuProgramParameters* params) const;

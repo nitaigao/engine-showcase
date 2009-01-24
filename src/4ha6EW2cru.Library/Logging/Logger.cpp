@@ -104,7 +104,7 @@ void Logger::Info( const std::string message )
 
 void Logger::Debug( const std::string message )
 {
-	if ( _logLevel >= DEBUG )
+	if ( _logLevel >= DEBUGA )
 	{
 		g_loggerInstance->LogMessage( "DEBUG", message );
 	}
@@ -112,7 +112,7 @@ void Logger::Debug( const std::string message )
 
 void Logger::Warn( const std::string message )
 {
-	if ( _logLevel >= WARN )
+	if ( _logLevel >= WARNA )
 	{
 		g_loggerInstance->LogMessage( "WARN", message );
 	}

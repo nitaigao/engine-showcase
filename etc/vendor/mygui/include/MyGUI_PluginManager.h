@@ -11,7 +11,6 @@
 #include "MyGUI_Instance.h"
 #include "MyGUI_Plugin.h"
 #include "MyGUI_XmlDocument.h"
-#include "MyGUI_Version.h"
 
 #include <Ogre.h>
 
@@ -44,7 +43,7 @@ namespace MyGUI
 
 		/** Load additional MyGUI *_pluggin.xml file */
 		bool load(const std::string& _file, const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-		void _load(xml::xmlNodePtr _node, const std::string & _file, Version _version);
+		void _load(xml::xmlNodePtr _node, const std::string & _file);
 
 		/*!	Install plugin
 			

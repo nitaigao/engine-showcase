@@ -61,12 +61,12 @@ void OgreRendererFixture::Should_Throw_On_Render_Given_Not_Intiailized( )
 void OgreRendererFixture::Should_Update_Given_Initialized( )
 {
 	_renderer->Initialize( 1, 1, 32, false );
-	_renderer->Update( );
+	_renderer->Update( 0 );
 }
 
 void OgreRendererFixture::Should_Throw_On_Update_Given_Not_Intialized( )
 {
-	CPPUNIT_ASSERT_THROW( _renderer->Update( ), UnInitializedException );
+	CPPUNIT_ASSERT_THROW( _renderer->Update( 0 ), UnInitializedException );
 }
 
 void OgreRendererFixture::Should_Return_Positive_Hwnd( )

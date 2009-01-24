@@ -195,11 +195,10 @@ namespace MyGUI
 		WidgetPtr _getOwner() { return mOwner; }
 		void _setOwner(WidgetPtr _widget) { if (isRootWidget()) mOwner = _widget; }
 
+		/** Get copy of child widgets vector */
+		//virtual VectorWidgetPtr getChilds();
 		/** Get child widgets Enumerator */
-		EnumeratorWidgetPtr getEnumerator() {
-			if (mWidgetClient) return mWidgetClient->getEnumerator();
-			return Enumerator<VectorWidgetPtr>(mWidgetChild.begin(), mWidgetChild.end());
-		}
+		virtual EnumeratorWidgetPtr getEnumerator();
 
 		/** Find widget by name (search recursively through all childs starting from this widget) */
 		WidgetPtr findWidget(const std::string & _name);
@@ -281,22 +280,14 @@ namespace MyGUI
 		/** Enable or disable tooltip event */
 		void enableToolTip(bool _enable);
 
-		/** меняет скин у виджета*/
 		void changeWidgetSkin(const std::string& _skinname);
-
-		/** отсоединяет виджет от отца или от леера */
-		void detachWidget();
-		/** присоединяет виджет к лееру*/
-		void attachWidget(const std::string& _layername);
-		/** присоединяет виджет к отцу*/
-		void attachWidget(WidgetPtr _widget);
 
 		virtual ~Widget();
 		
 	protected:
 		// все создание только через фабрику
 		Widget(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
-
+	
 		virtual void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
 
 		void _updateView(); // обновления себя и детей
@@ -378,8 +369,6 @@ namespace MyGUI
 		bool mInheritsPeek;
 
 		// клиентская зона окна
-		// если виджет имеет пользовательские окна не в себе
-		// то обязательно проинициализировать Client
 		WidgetPtr mWidgetClient;
 
 		bool mNeedToolTip;

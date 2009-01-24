@@ -43,6 +43,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../etc/vendor/mygui/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/include"
+				PreprocessorDefinitions="TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -60,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="mockpp_44d.lib cppunitd.lib OgreMain_d.lib OIS_static_d.lib luad.lib libluabind.lib MyGUI_d.lib"
+				AdditionalDependencies="winmm.lib mockpp_44d.lib cppunitd.lib OgreMain_d.lib OIS_static_d.lib luad.lib libluabind.lib MyGUI_d.lib"
 				AdditionalLibraryDirectories="../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/lib;../../etc/vendor/ogre/lib"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"

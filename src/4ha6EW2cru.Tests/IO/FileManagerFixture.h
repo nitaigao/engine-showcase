@@ -23,6 +23,10 @@ class FileManagerFixture : public CPPUNIT_NS::TestFixture
   CPPUNIT_TEST( Should_Return_FileBuffer_On_GetFile_Given_Existing_File );
   CPPUNIT_TEST( Should_Return_True_Given_File_Exists );
   CPPUNIT_TEST( Should_Return_False_Given_File_Doesnt_Exist );
+  CPPUNIT_TEST( Should_Return_No_Results_On_Recursive_File_Search_Given_Invalid_File_Pattern );
+  CPPUNIT_TEST( Should_Return_Results_On_Recursive_File_Search_Given_Valid_File_Pattern );
+  CPPUNIT_TEST( Should_Return_No_Results_On_Non_Recursive_File_Search_Given_Invalid_File_Pattern );
+  CPPUNIT_TEST( Should_Return_Results_On_Non_Recursive_File_Search_Given_Valid_File_Pattern );
   CPPUNIT_TEST_SUITE_END( );
 
 public:
@@ -45,6 +49,10 @@ protected:
 	void Should_Return_FileBuffer_On_GetFile_Given_Existing_File( );
 	void Should_Return_True_Given_File_Exists( );
 	void Should_Return_False_Given_File_Doesnt_Exist( );
+	void Should_Return_No_Results_On_Recursive_File_Search_Given_Invalid_File_Pattern( );
+	void Should_Return_Results_On_Recursive_File_Search_Given_Valid_File_Pattern( );
+	void Should_Return_No_Results_On_Non_Recursive_File_Search_Given_Invalid_File_Pattern( );
+	void Should_Return_Results_On_Non_Recursive_File_Search_Given_Valid_File_Pattern( );
 };
 
 #endif

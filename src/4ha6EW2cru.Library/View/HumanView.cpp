@@ -37,7 +37,7 @@ void HumanView::Render( )
 	_renderer->Render( );
 }
 
-void HumanView::Update( )
+void HumanView::Update( const float deltaMilliseconds )
 {
 	if ( !_isIntialized )
 	{
@@ -47,7 +47,7 @@ void HumanView::Update( )
 	}
 	
 	_inputSystem->Update( );
-	_renderer->Update( );
+	_renderer->Update( deltaMilliseconds );
 }
 
 HumanView::~HumanView( )
@@ -79,7 +79,8 @@ HumanView::~HumanView( )
 
 void HumanView::OnGameInitialized( const IEvent* event )
 {
-	this->ChangeScreen( "introscreen" );
+	Event* changeScreenEvent = new Event( VIEW_CHANGE_SCREEN, new ChangeScreenEventData( "introscreen" ) );
+	EventManager::GetInstance( )->QueueEvent( changeScreenEvent );
 }
 
 void HumanView::OnChangeScreen( const IEvent* event )

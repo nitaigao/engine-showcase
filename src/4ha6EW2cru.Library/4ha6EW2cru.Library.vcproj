@@ -242,6 +242,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\IO\FileSearchResult.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Exceptions\FileWriteException.hpp"
 			>
 		</File>
@@ -386,6 +390,42 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Utility\OgreMax\OgreMaxModel.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\OgreMax\OgreMaxModel.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\OgreMax\OgreMaxPlatform.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\OgreMax\OgreMaxRenderWindowIterator.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\OgreMax\OgreMaxScene.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\OgreMax\OgreMaxScene.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\OgreMax\OgreMaxTypes.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\OgreMax\OgreMaxUtilities.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\OgreMax\OgreMaxUtilities.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Graphics\OgreRenderer.cpp"
 			>
 		</File>
@@ -399,6 +439,14 @@
 		</File>
 		<File
 			RelativePath=".\Common\Paths.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\OgreMax\ProgressCalculator.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\OgreMax\ProgressCalculator.hpp"
 			>
 		</File>
 		<File
@@ -426,35 +474,47 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\tinyxml\ticpp.cpp"
+			RelativePath=".\Utility\SearchUtility.hpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\tinyxml\ticpp.h"
+			RelativePath=".\Utility\OgreMax\tinyxml\ticpp.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\tinyxml\ticpprc.h"
+			RelativePath=".\Utility\OgreMax\tinyxml\ticpp.h"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\tinyxml\tinyxml.cpp"
+			RelativePath=".\Utility\OgreMax\tinyxml\ticpprc.h"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\tinyxml\tinyxml.h"
+			RelativePath=".\Utility\OgreMax\tinyxml\tinyxml.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\tinyxml\tinyxmlerror.cpp"
+			RelativePath=".\Utility\OgreMax\tinyxml\tinyxml.h"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\tinyxml\tinyxmlparser.cpp"
+			RelativePath=".\Utility\OgreMax\tinyxml\tinyxmlerror.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\OgreMax\tinyxml\tinyxmlparser.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Exceptions\UnInitializedException.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\OgreMax\Version.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\OgreMax\Version.hpp"
 			>
 		</File>
 	</Files>

@@ -21,7 +21,7 @@ void GuiViewFixture::setUp( )
 	EventManager::Initialize( );
 	FileManager::Initialize( );
 
-	FileManager::GetInstance( )->AddFileStore( "../game/test" );
+	FileManager::GetInstance( )->MountFileStore( "../game/test", "/" );
 
 	_renderer = new OgreRenderer( );
 	_renderer->Initialize( 640, 480, 32, false );

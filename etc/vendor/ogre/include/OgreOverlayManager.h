@@ -42,11 +42,12 @@ namespace Ogre {
 		OverlayContainers and OverlayElements, used for non-interactive 2D 
 		elements such as HUDs.
     */
-    class _OgreExport OverlayManager : public Singleton<OverlayManager>, public ScriptLoader
+    class _OgreExport OverlayManager : public Singleton<OverlayManager>, public ScriptLoader, public OverlayAlloc
     {
     public:
         typedef std::map<String, Overlay*> OverlayMap;
 		typedef std::map<String, OverlayElement*> ElementMap;
+		typedef std::map<String, OverlayElementFactory*> FactoryMap;
     protected:
         OverlayMap mOverlayMap;
         StringVector mScriptPatterns;
@@ -64,7 +65,6 @@ namespace Ogre {
 	    bool parseChildren( DataStreamPtr& chunk, const String& line,
             Overlay* pOverlay, bool isTemplate, OverlayContainer* parent = NULL);
 
-		typedef std::map<String, OverlayElementFactory*> FactoryMap;
 		FactoryMap mFactories;
 
 		ElementMap mInstances;
@@ -119,7 +119,7 @@ namespace Ogre {
 
         /** Method for determining if the viewport has changed dimensions. 
         @remarks This is used by pixel-based OverlayElements to work out if they need to
-            reclaculate their sizes.
+            recalculate their sizes.
         */
         bool hasViewportChanged(void) const;
 
@@ -170,6 +170,11 @@ namespace Ogre {
 		a new OverlayElement subclass.
 		*/
 		void addOverlayElementFactory(OverlayElementFactory* elemFactory);
+		
+		/** Get const access to the list of registered OverlayElement factories. */
+		const FactoryMap& getOverlayElementFactoryMap() const {
+			return mFactories;
+		}
 
 		OverlayElement* createOverlayElementFromTemplate(const String& templateName, const String& typeName, const String& instanceName, bool isTemplate = false);
 		/**

@@ -42,7 +42,7 @@ namespace MyGUI
 		void clear()
 		{
 			mType = "";
-			mAlign = Align::Default;
+			mAlign = 0;
 			mStates.clear();
 		}
 

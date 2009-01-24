@@ -2,6 +2,7 @@
 #define __FILEMANAGER_H
 
 #include "FileBuffer.hpp"
+#include "FileSearchResult.hpp"
 
 /*!
 	Manages the retrieval of files from the local File System
@@ -10,7 +11,7 @@ class FileManager
 {
 
 public:
-
+	
 	FileManager( );
 
 	/*! Retrieves an instance of the FileManager Singleton */
@@ -23,7 +24,7 @@ public:
 	static const bool Initialize( );
 
 	/*! Adds a BAD File Store to the File System search path */
-	bool AddFileStore( const std::string filePath );
+	bool MountFileStore( const std::string filePath, const std::string mountPoint );
 
 	/*! Gets a FileBuffer object from the File System */
 	FileBuffer* GetFile( const std::string filePath ) const;
@@ -31,7 +32,12 @@ public:
 	/*! Checks to see if a File exists */
 	bool FileExists( const std::string filePath ) const;
 
+	/*! Finds all files matching a specific file pattern */
+	FileSearchResultList* FileSearch( const std::string path, const std::string searchPattern, const bool recursive ) const;
+
 private:
+
+	FileSearchResultList* _FileSearch( const std::string path, const std::string pattern, const bool recursive, FileSearchResultList* results ) const;
 
 	~FileManager( ) { };
 	FileManager( const FileManager & copy ) { };

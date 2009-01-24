@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include <mmsystem.h> 
+
 #include "../Exceptions/AlreadyInitializedException.hpp"
 #include "../Exceptions/UnInitializedException.hpp"
 
@@ -108,15 +110,22 @@ void Game::StartLoop( bool loopOnce )
 
 	MSG msg;
 
+	float deltaMilliseconds = 0.0f;
+	DWORD endFrameTime = 0;
+	DWORD startFrameTime = 0;
+
 	while( !_isQuitting )
 	{
+		deltaMilliseconds = ( endFrameTime - startFrameTime ) / 1000.0f;
+		startFrameTime = timeGetTime( );
+
 		if ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
 		{
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
 		}
 
-		_view->Update( );
+		_view->Update( deltaMilliseconds );
 		_view->Render( );
 
 		EventManager::GetInstance( )->Update( );
@@ -125,6 +134,8 @@ void Game::StartLoop( bool loopOnce )
 		{
 			_isQuitting = true;
 		}
+
+		endFrameTime = timeGetTime( );
 	}
 }
 

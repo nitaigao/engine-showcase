@@ -3,8 +3,10 @@
 #include <windows.h>
 #include <sstream>
 #include "physfs.h"
+
 #include "../Logging/Logger.h"
 #include "../Common/Paths.hpp"
+#include "../Utility/SearchUtility.hpp"
 
 #include "../Exceptions/UnInitializedException.hpp"
 #include "../Exceptions/AlreadyInitializedException.hpp"
@@ -61,9 +63,9 @@ bool FileManager::FileExists( const std::string filePath ) const
 	return PHYSFS_exists( filePath.c_str( ) );
 }
 
-bool FileManager::AddFileStore( const std::string filePath )
+bool FileManager::MountFileStore( const std::string filePath, const std::string mountPoint )
 {
-	int result = ( PHYSFS_addToSearchPath( filePath.c_str( ), 1 ) > 0 );
+	int result = ( PHYSFS_mount( filePath.c_str( ), mountPoint.c_str( ), 1 ) > 0 );
 
 	if ( !result )
 	{
@@ -96,6 +98,63 @@ FileBuffer* FileManager::GetFile( const std::string filePath ) const
 	fileBuffer->fileSize = PHYSFS_read( pFile, fileBuffer->fileBytes, 1, fileLength );
 	fileBuffer->filePath = filePath;
 	PHYSFS_close( pFile );
-	
+
 	return fileBuffer;
+}
+
+FileSearchResultList* FileManager::FileSearch( const std::string path, const std::string searchPattern, const bool recursive ) const
+{
+	FileSearchResultList* results = new FileSearchResultList( );
+	
+	_FileSearch( path, searchPattern, recursive, results );
+	
+	return results;
+}
+
+FileSearchResultList* FileManager::_FileSearch( const std::string path, const std::string pattern, const bool recursive, FileSearchResultList* results ) const
+{
+	char **rc = PHYSFS_enumerateFiles( path.c_str( ) );
+
+	for ( char **i = rc; *i != NULL; i++ )
+	{
+		std::string fileName = *i;
+
+		std::stringstream fullPath;
+		fullPath << path << *i;
+
+		if( PHYSFS_isDirectory( fullPath.str( ).c_str( ) ) && recursive )
+		{
+			std::stringstream newPath;
+			newPath << path << *i << "/";
+
+			_FileSearch( newPath.str( ), pattern, recursive, results );
+		}
+		else
+		{
+			SearchUtility searchUtility;
+			searchUtility.SetSearchPattern( pattern );
+			searchUtility.SetWildCard( "*" );
+
+			std::string searchTerm = ( searchUtility.IsExactSearch( ) ) ? fullPath.str( ) : fileName;
+
+			if ( fileName.find( "introscreen.layout" ) != std::string::npos )
+			{
+				int a = 1;
+			}
+
+			if( searchUtility.FindMatch( searchTerm ) )
+			{
+				FileSearchResult result;
+
+				result.FileName = fileName;
+				result.FilePath = fullPath.str( );
+
+				results->push_back( result );
+			}
+		}
+	}
+
+	PHYSFS_freeList( rc );
+
+	return results;
 }

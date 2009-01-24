@@ -9,6 +9,8 @@
 #include "Ogre.h"
 #include "MyGUI.h"
 
+#include "../Utility/OgreMax/OgreMaxScene.hpp"
+
 class OgreRenderer : public IRenderer
 {
 
@@ -18,6 +20,7 @@ public:
 		: _root( 0 )
 		, _gui( 0 )
 		, _isInitialized( false )
+		, _scene( 0 )
 		, _badFactory( 0 )
 		, _badStubCreated( false )
 	{
@@ -28,7 +31,7 @@ public:
 
 	void Initialize( int width, int height, int colorDepth, bool fullScreen );
 	void Render( ) const;
-	void Update( ) const;
+	void Update( const float deltaMilliseconds ) const;
 	size_t GetHwnd( ) const;
 	Gui* GetGui( );
 
@@ -59,6 +62,7 @@ private:
 	bool _isInitialized;
 	bool _badStubCreated;
 
+	OgreMax::OgreMaxScene* _scene;
 	Ogre::ArchiveFactory* _badFactory;
 
 };

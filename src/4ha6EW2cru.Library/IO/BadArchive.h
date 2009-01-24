@@ -15,6 +15,8 @@ class BadArchive : public Ogre::Archive
 
 		inline bool isCaseSensitive( void ) const { return true; };
 
+		time_t getModifiedTime( const String& filename ) { return 0; }; 
+
 		inline void load( ) { };
 		inline void unload( ) { };
 

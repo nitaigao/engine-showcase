@@ -15,7 +15,7 @@ public:
 	virtual void Render( ) const = 0;
 	virtual size_t GetHwnd( ) const = 0;
 	virtual Gui* GetGui( ) = 0; // TODO: This is just plain wrong, i think the GUi should live outside of the renderer
-	virtual void Update( ) const = 0;
+	virtual void Update( float deltaMilliseconds ) const = 0;
 
 };
 

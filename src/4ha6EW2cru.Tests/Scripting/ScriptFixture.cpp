@@ -28,7 +28,7 @@ void ScriptFixture::setUp( )
 
 	MockScriptBinder::handle_count = 0;
 
-	FileManager::GetInstance( )->AddFileStore( "../game/test" );
+	FileManager::GetInstance( )->MountFileStore( "../game/test", "/" );
 	_script = ScriptManager::GetInstance( )->CreateScript( "testscript.lua" );
 }
 
@@ -51,7 +51,7 @@ void ScriptFixture::Should_Initialize_Given_Valid_Script( )
 
 void ScriptFixture::Should_Throw_On_Initialize_Given_Invalid_Script( )
 {
-	FileManager::GetInstance( )->AddFileStore( "../game/test" );
+	FileManager::GetInstance( )->MountFileStore( "../game/test", "/" );
 	Script* script = ScriptManager::GetInstance( )->CreateScript( "garbage.lua" );
 
 	CPPUNIT_ASSERT_THROW( script->Initialize( ), ScriptException );

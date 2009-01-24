@@ -19,11 +19,11 @@ namespace MyGUI
 		friend class factory::BaseWidgetFactory<StaticText>;
 
 		MYGUI_RTTI_CHILD_HEADER;
-		
-	public:
 
+	public:
+		
 		virtual ~StaticText();
-	
+		
 	protected:
 		StaticText(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
 

@@ -13,6 +13,8 @@ void BadArchiveFixture::setUp( )
 {
 	Logger::Initialize( );
 	FileManager::Initialize( );
+	
+	FileManager::GetInstance( )->MountFileStore( "../game/data/gui.bad", "data/" );
 }
 
 void BadArchiveFixture::tearDown( )
@@ -43,7 +45,7 @@ void BadArchiveFixture::Should_Return_True_On_Case_Sensitive( )
 void BadArchiveFixture::Should_Return_DataStreamPtr_Given_File_Found( )
 {
 	BadArchive* archive = new BadArchive( "../game/data/gui.bad", "BAD" );
-	Ogre::DataStreamPtr stream = archive->open( "test.txt" );
+	Ogre::DataStreamPtr stream = archive->open( "data/gui/test.txt" );
 
 	CPPUNIT_ASSERT( !stream.isNull( ) );
 
@@ -72,7 +74,7 @@ void BadArchiveFixture::Should_Return_False_From_Exists_Given_NON_Existing_File(
 void BadArchiveFixture::Should_Return_True_From_Exists_Given_File_Exists( )
 {
 	BadArchive* archive = new BadArchive( "../game/data/gui.bad", "BAD" );
-	bool result = archive->exists( "test.txt" );
+	bool result = archive->exists( "data/gui/test.txt" );
 
 	CPPUNIT_ASSERT( result );
 

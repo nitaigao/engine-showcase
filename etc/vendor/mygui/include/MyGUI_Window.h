@@ -23,7 +23,7 @@ namespace MyGUI
 		MYGUI_RTTI_CHILD_HEADER;
 
 	public:
-	
+
 		// для мееедленного показа и скрытия
 		/** Show window smooth */
 		void showSmooth(bool _reset = false);
@@ -105,6 +105,9 @@ namespace MyGUI
 		//! @copydoc Widget::getFontHeight
 		virtual uint16 getFontHeight();
 
+		//! @copydoc Widget::getEnumerator
+		virtual EnumeratorWidgetPtr getEnumerator();
+
 		/** Event : Window button pressed.\n
 			signature : void method(MyGUI::WidgetPtr _sender, const std::string& _name)
 			@param _name of pressed button
@@ -118,10 +121,9 @@ namespace MyGUI
 		EventInfo_WidgetVoid eventWindowChangeCoord;
 
 		virtual ~Window();
-			
+	
 	protected:
 		Window(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
-		
 
 		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
 

@@ -34,7 +34,7 @@ public:
 	void Initialize( int width, int height, int colorDepth, bool fullScreen );
 
 	/*! Cause all subsystems to refresh their data */
-	void Update( );
+	void Update( const float deltaMilliseconds );
 
 	/*! Render the current Screen */
 	void Render( );

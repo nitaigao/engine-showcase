@@ -79,7 +79,7 @@ namespace Ogre {
     {
         /// The filter used when shrinking a texture
         FT_MIN,
-        /// The filter used when magnifiying a texture
+        /// The filter used when magnifying a texture
         FT_MAG,
         /// The filter used when determining the mipmap
         FT_MIP
@@ -207,7 +207,7 @@ namespace Ogre {
             intensive because it requires at least 2 passes of the entire
             scene, more if there are multiple lights. However, it is a more
             accurate model than the modulative stencil approach and this is
-            especially apparant when using coloured lights or bump mapping.
+            especially apparent when using coloured lights or bump mapping.
         */
         SHADOWTYPE_STENCIL_ADDITIVE = 0x11,
         /** Texture-based shadow technique which involves a monochrome render-to-texture
@@ -221,7 +221,7 @@ namespace Ogre {
             shadow receivers, built up per light as additive passes. 
 			This technique can be very fillrate intensive because it requires numLights + 2 
 			passes of the entire scene. However, it is a more accurate model than the 
-			modulative approach and this is especially apparant when using coloured lights 
+			modulative approach and this is especially apparent when using coloured lights 
 			or bump mapping.
         */
         SHADOWTYPE_TEXTURE_ADDITIVE = 0x21,
@@ -333,6 +333,11 @@ namespace Ogre {
         */
         typedef TRect<float> FloatRect;
 
+		/** Structure used to define a rectangle in a 2-D floating point space, 
+			subject to double / single floating point settings.
+		*/
+		typedef TRect<Real> RealRect;
+
         /** Structure used to define a rectangle in a 2-D integer space.
         */
         typedef TRect< long > Rect;
@@ -346,6 +351,7 @@ namespace Ogre {
             size_t left, top, right, bottom, front, back;
 			/// Parameterless constructor for setting the members manually
             Box()
+				: left(0), top(0), right(1), bottom(1), front(0), back(1)
             {
             }
             /** Define a box from left, top, right and bottom coordinates
@@ -409,10 +415,10 @@ namespace Ogre {
 	/** Locate command-line options of the unary form '-blah' and of the
         binary form '-blah foo', passing back the index of the next non-option.
     @param numargs, argv The standard parameters passed to the main method
-    @param unaryOptList Map of unary options (ie those that do not require a parameter).
+    @param unaryOptList Map of unary options (i.e. those that do not require a parameter).
         Should be pre-populated with, for example '-e' in the key and false in the 
         value. Options which are found will be set to true on return.
-    @param binOptList Map of binnary options (ie those that require a parameter
+    @param binOptList Map of binary options (i.e. those that require a parameter
         e.g. '-e afile.txt').
         Should be pre-populated with, for example '-e' and the default setting. 
         Options which are found will have the value updated.
@@ -420,6 +426,16 @@ namespace Ogre {
     int _OgreExport findCommandLineOpts(int numargs, char** argv, UnaryOptionList& unaryOptList, 
         BinaryOptionList& binOptList);
 
+	/// Generic result of clipping
+	enum ClipResult
+	{
+		/// Nothing was clipped
+		CLIPPED_NONE = 0,
+		/// Partially clipped
+		CLIPPED_SOME = 1, 
+		/// Everything was clipped away
+		CLIPPED_ALL = 2
+	};
 }
 
 #endif

@@ -57,7 +57,7 @@ void ScriptManagerFixture::Should_GetInstance_Correctly_Given_Intiailized( )
 void ScriptManagerFixture::Should_Create_A_New_Script( )
 {
 	FileManager::Initialize( );
-	FileManager::GetInstance( )->AddFileStore( "../game/test" );
+	FileManager::GetInstance( )->MountFileStore( "../game/test", "/" );
 
 	ScriptManager::Initialize( );
 	Script* script = ScriptManager::GetInstance( )->CreateScript( "testscript.lua" );
@@ -73,7 +73,7 @@ void ScriptManagerFixture::Should_Create_A_New_Script( )
 void ScriptManagerFixture::Should_Destroy_Script( )
 {
 	FileManager::Initialize( );
-	FileManager::GetInstance( )->AddFileStore( "../game/test" );
+	FileManager::GetInstance( )->MountFileStore( "../game/test", "/" );
 
 	ScriptManager::Initialize( );
 	Script* script = ScriptManager::GetInstance( )->CreateScript( "testscript.lua" );

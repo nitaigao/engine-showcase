@@ -1,0 +1,131 @@
+/* OgreMain/include/config.h.in.  Generated from configure.in by autoheader.  */
+
+/* define if the Boost library is available */
+#undef HAVE_BOOST
+
+/* define if the Boost::Thread library is available */
+#undef HAVE_BOOST_THREAD
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the `Cg' library (-lCg). */
+#undef HAVE_LIBCG
+
+/* Define to 1 if you have the `dl' library (-ldl). */
+#undef HAVE_LIBDL
+
+/* Define to 1 if you have the `freeimage' library (-lfreeimage). */
+#undef HAVE_LIBFREEIMAGE
+
+/* Define to 1 if you have the `IL' library (-lIL). */
+#undef HAVE_LIBIL
+
+/* Define to 1 if you have the `ILU' library (-lILU). */
+#undef HAVE_LIBILU
+
+/* Define to 1 if you have the `m' library (-lm). */
+#undef HAVE_LIBM
+
+/* Define to 1 if you have the `pthread' library (-lpthread). */
+#undef HAVE_LIBPTHREAD
+
+/* Define to 1 if you have the `z' library (-lz). */
+#undef HAVE_LIBZ
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* snprintf */
+#undef HAVE_SNPRINTF
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* vsnprintf */
+#undef HAVE_VSNPRINTF
+
+/* Define to 1 if you have the <X11/extensions/xf86vmode.h> header file. */
+#undef HAVE_X11_EXTENSIONS_XF86VMODE_H
+
+/* Define to 1 if you have the <X11/extensions/Xrandr.h> header file. */
+#undef HAVE_X11_EXTENSIONS_XRANDR_H
+
+/* Define to 1 if you have the <X11/Intrinsic.h> header file. */
+#undef HAVE_X11_INTRINSIC_H
+
+/* Define to 1 if you have the <X11/Xaw/Command.h> header file. */
+#undef HAVE_X11_XAW_COMMAND_H
+
+/* Define to 1 if your C compiler doesn't accept -c and -o together. */
+#undef NO_MINUS_C_MINUS_O
+
+/* Big endian machine */
+#undef OGRE_CONFIG_BIG_ENDIAN
+
+/* Little endian machine */
+#undef OGRE_CONFIG_LITTLE_ENDIAN
+
+/* Build with single precision */
+#undef OGRE_DOUBLE_PRECISION
+
+/* Custom memory allocator setting */
+#undef OGRE_MEMORY_ALLOCATOR
+
+/* Build devil */
+#undef OGRE_NO_DEVIL
+
+/* Load images using the freeimage library */
+#undef OGRE_NO_FREEIMAGE
+
+/* Build with thread support */
+#undef OGRE_THREAD_SUPPORT
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Version number of package */
+#undef VERSION
+
+/* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a
+   `char[]'. */
+#undef YYTEXT_POINTER

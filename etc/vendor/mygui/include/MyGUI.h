@@ -59,7 +59,6 @@
 #include "MyGUI_Any.h"
 #include "MyGUI_Convert.h"
 #include "MyGUI_MenuItemType.h"
-#include "MyGUI_Version.h"
 
 #include "MyGUI_LastHeader.h"
 

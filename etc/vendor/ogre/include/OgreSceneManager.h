@@ -74,6 +74,8 @@ namespace Ogre {
 	{
 		/// The axis-aligned bounds of the visible objects
 		AxisAlignedBox aabb;
+		/// The axis-aligned bounds of the visible shadow receiver objects
+		AxisAlignedBox receiverAabb;
 		/// The closest a visible object is to the camera
 		Real minDistance;
 		/// The farthest a visible objects is from the camera
@@ -87,14 +89,17 @@ namespace Ogre {
 		void reset()
 		{
 			aabb.setNull();
+			receiverAabb.setNull();
 			minDistance = std::numeric_limits<Real>::infinity();
 			maxDistance = 0;
 		}
 
 		void merge(const AxisAlignedBox& boxBounds, const Sphere& sphereBounds, 
-			const Camera* cam)
+			const Camera* cam, bool receiver=true)
 		{
 			aabb.merge(boxBounds);
+			if (receiver)
+				receiverAabb.merge(boxBounds);
 			Real camDistToCenter = 
 				(cam->getDerivedPosition() - sphereBounds.getCenter()).length();
 			minDistance = (std::min)(minDistance, (std::max)((Real)0, camDistToCenter - sphereBounds.getRadius()));
@@ -102,88 +107,6 @@ namespace Ogre {
 		}
 
 
-	};
-
-	/** Interface definition for classes which can listen in on the process
-		of rendering shadows, in order to implement custom behaviour.
-	*/
-	class _OgreExport ShadowListener
-	{
-	public:
-		ShadowListener() {}
-		virtual ~ShadowListener() {}
-
-		/** Event raised after all shadow textures have been rendered into for 
-			all queues / targets but before any other geometry has been rendered
-		    (including main scene geometry and any additional shadow receiver 
-			passes). 
-		@remarks
-			This callback is useful for those that wish to perform some 
-			additional processing on shadow textures before they are used to 
-			render shadows. For example you could perform some filtering by 
-			rendering the existing shadow textures into another alternative 
-			shadow texture with a shader.]
-		@note
-			This event will only be fired when texture shadows are in use.
-		@param numberOfShadowTextures The number of shadow textures in use
-		*/
-		virtual void shadowTexturesUpdated(size_t numberOfShadowTextures) = 0;
-
-		/** This event occurs just before the view & projection matrices are
-		 	set for rendering into a shadow texture.
-		@remarks
-			You can use this event hook to perform some custom processing,
-			such as altering the camera being used for rendering the light's
-			view, including setting custom view & projection matrices if you
-			want to perform an advanced shadow technique.
-		@note
-			This event will only be fired when texture shadows are in use.
-		@param light Pointer to the light for which shadows are being rendered
-		@param camera Pointer to the camera being used to render
-		*/
-		virtual void shadowTextureCasterPreViewProj(Light* light, 
-			Camera* camera) = 0;
-		/** This event occurs just before the view & projection matrices are
-		 	set for re-rendering a shadow receiver.
-		@remarks
-			You can use this event hook to perform some custom processing,
-			such as altering the projection frustum being used for rendering 
-			the shadow onto the receiver to perform an advanced shadow 
-			technique.
-		@note
-			This event will only be fired when texture shadows are in use.
-		@param light Pointer to the light for which shadows are being rendered
-		@param frustum Pointer to the projection frustum being used to project
-			the shadow texture
-		*/
-		virtual void shadowTextureReceiverPreViewProj(Light* light, 
-			Frustum* frustum) = 0;
-
-		/** Hook to allow the listener to override the ordering of lights for
-			the entire frustum.
-		@remarks
-			Whilst ordinarily lights are sorted per rendered object 
-			(@see MovableObject::queryLights), texture shadows adds another issue
-			in that, given there is a finite number of shadow textures, we must
-			choose which lights to render texture shadows from based on the entire
-			frustum. These lights should always be listed first in every objects
-			own list, followed by any other lights which will not cast texture 
-			shadows (either because they have shadow casting off, or there aren't
-			enough shadow textures to service them).
-		@par
-			This hook allows you to override the detailed ordering of the lights
-			per frustum. The default ordering is shadow casters first (which you 
-			must also respect if you override this method), and ordered
-			by distance from the camera within those 2 groups. Obviously the closest
-			lights with shadow casting enabled will be listed first. Only lights 
-			within the range of the frustum will be in the list.
-		@param lightList The list of lights within range of the frustum which you
-			may sort.
-		@returns true if you sorted the list, false otherwise.
-		*/
-		virtual bool sortLightsAffectingFrustum(LightList& lightList) { return false; }
-
-		
 	};
 
     /** Manages the organisation and rendering of a 'scene' i.e. a collection 
@@ -215,7 +138,7 @@ namespace Ogre {
 		dependent on the Camera, which will always call back the SceneManager
 		which created it to render the scene. 
      */
-    class _OgreExport SceneManager
+	class _OgreExport SceneManager : public SceneMgtAlloc
     {
     public:
         /// Query type mask which will be used for world geometry @see SceneQuery
@@ -228,6 +151,8 @@ namespace Ogre {
 		static uint32 STATICGEOMETRY_TYPE_MASK;
 		/// Query type mask which will be used for lights  @see SceneQuery
 		static uint32 LIGHT_TYPE_MASK;
+		/// Query type mask which will be used for frusta and cameras @see SceneQuery
+		static uint32 FRUSTUM_TYPE_MASK;
 		/// User type mask limit
 		static uint32 USER_TYPE_MASK_LIMIT;
         /** Comparator for material map, for sorting materials into render order (e.g. transparent last).
@@ -289,12 +214,127 @@ namespace Ogre {
 			Real skyBoxDistance;
 		};
 
+		/** Class that allows listening in on the various stages of SceneManager
+			processing, so that custom behaviour can be implemented from outside.
+		*/
+		class Listener
+		{
+		public:
+			Listener() {}
+			virtual ~Listener() {}
+
+			/** Called prior to searching for visible objects in this SceneManager.
+			@remarks
+				Note that the render queue at this stage will be full of the last
+				render's contents and will be cleared after this method is called.
+			@param source The SceneManager instance raising this event.
+			@param irs The stage of illumination being dealt with. IRS_NONE for 
+				a regular render, IRS_RENDER_TO_TEXTURE for a shadow caster render.
+			@param v The viewport being updated. You can get the camera from here.
+			*/
+			virtual void preFindVisibleObjects(SceneManager* source, 
+				IlluminationRenderStage irs, Viewport* v) = 0;
+			/** Called after searching for visible objects in this SceneManager.
+			@remarks
+				Note that the render queue at this stage will be full of the current
+				scenes contents, ready for rendering. You may manually add renderables
+				to this queue if you wish.
+			@param source The SceneManager instance raising this event.
+			@param irs The stage of illumination being dealt with. IRS_NONE for 
+				a regular render, IRS_RENDER_TO_TEXTURE for a shadow caster render.
+			@param v The viewport being updated. You can get the camera from here.
+			*/
+			virtual void postFindVisibleObjects(SceneManager* source, 
+				IlluminationRenderStage irs, Viewport* v) = 0;
+
+			/** Event raised after all shadow textures have been rendered into for 
+				all queues / targets but before any other geometry has been rendered
+				(including main scene geometry and any additional shadow receiver 
+				passes). 
+			@remarks
+				This callback is useful for those that wish to perform some 
+				additional processing on shadow textures before they are used to 
+				render shadows. For example you could perform some filtering by 
+				rendering the existing shadow textures into another alternative 
+				shadow texture with a shader.]
+			@note
+				This event will only be fired when texture shadows are in use.
+			@param numberOfShadowTextures The number of shadow textures in use
+			*/
+			virtual void shadowTexturesUpdated(size_t numberOfShadowTextures) = 0;
+
+			/** This event occurs just before the view & projection matrices are
+		 		set for rendering into a shadow texture.
+			@remarks
+				You can use this event hook to perform some custom processing,
+				such as altering the camera being used for rendering the light's
+				view, including setting custom view & projection matrices if you
+				want to perform an advanced shadow technique.
+			@note
+				This event will only be fired when texture shadows are in use.
+			@param light Pointer to the light for which shadows are being rendered
+			@param camera Pointer to the camera being used to render
+			@param iteration For lights that use multiple shadow textures, the iteration number
+			*/
+			virtual void shadowTextureCasterPreViewProj(Light* light, 
+				Camera* camera, size_t iteration) = 0;
+			/** This event occurs just before the view & projection matrices are
+		 		set for re-rendering a shadow receiver.
+			@remarks
+				You can use this event hook to perform some custom processing,
+				such as altering the projection frustum being used for rendering 
+				the shadow onto the receiver to perform an advanced shadow 
+				technique.
+			@note
+				This event will only be fired when texture shadows are in use.
+			@param light Pointer to the light for which shadows are being rendered
+			@param frustum Pointer to the projection frustum being used to project
+				the shadow texture
+			*/
+			virtual void shadowTextureReceiverPreViewProj(Light* light, 
+				Frustum* frustum) = 0;
+
+			/** Hook to allow the listener to override the ordering of lights for
+				the entire frustum.
+			@remarks
+				Whilst ordinarily lights are sorted per rendered object 
+				(@see MovableObject::queryLights), texture shadows adds another issue
+				in that, given there is a finite number of shadow textures, we must
+				choose which lights to render texture shadows from based on the entire
+				frustum. These lights should always be listed first in every objects
+				own list, followed by any other lights which will not cast texture 
+				shadows (either because they have shadow casting off, or there aren't
+				enough shadow textures to service them).
+			@par
+				This hook allows you to override the detailed ordering of the lights
+				per frustum. The default ordering is shadow casters first (which you 
+				must also respect if you override this method), and ordered
+				by distance from the camera within those 2 groups. Obviously the closest
+				lights with shadow casting enabled will be listed first. Only lights 
+				within the range of the frustum will be in the list.
+			@param lightList The list of lights within range of the frustum which you
+				may sort.
+			@returns true if you sorted the list, false otherwise.
+			*/
+			virtual bool sortLightsAffectingFrustum(LightList& lightList) { return false; }
+
+
+
+		};
+
     protected:
+
+        /// Subclasses can override this to ensure their specialised SceneNode is used.
+        virtual SceneNode* createSceneNodeImpl(void);
+        /// Subclasses can override this to ensure their specialised SceneNode is used.
+        virtual SceneNode* createSceneNodeImpl(const String& name);
+
 		/// Instance name
 		String mName;
 
         /// Queue of objects for rendering
         RenderQueue* mRenderQueue;
+		bool mLastRenderQueueInvocationCustom;
 
         /// Current ambient light, cached for RenderSystem
         ColourValue mAmbientLight;
@@ -339,7 +379,7 @@ namespace Ogre {
         // Sky plane
         Entity* mSkyPlaneEntity;
         Entity* mSkyDomeEntity[5];
-        Entity* mSkyBoxEntity[6];
+        ManualObject* mSkyBoxObj;
 
         SceneNode* mSkyPlaneNode;
         SceneNode* mSkyDomeNode;
@@ -347,17 +387,17 @@ namespace Ogre {
 
         // Sky plane
         bool mSkyPlaneEnabled;
-        bool mSkyPlaneDrawFirst;
+        uint8 mSkyPlaneRenderQueue;
         Plane mSkyPlane;
         SkyPlaneGenParameters mSkyPlaneGenParameters;
         // Sky box
         bool mSkyBoxEnabled;
-        bool mSkyBoxDrawFirst;
+        uint8 mSkyBoxRenderQueue;
         Quaternion mSkyBoxOrientation;
         SkyBoxGenParameters mSkyBoxGenParameters;
         // Sky dome
         bool mSkyDomeEnabled;
-        bool mSkyDomeDrawFirst;
+        uint8 mSkyDomeRenderQueue;
         Quaternion mSkyDomeOrientation;
         SkyDomeGenParameters mSkyDomeGenParameters;
 
@@ -378,12 +418,16 @@ namespace Ogre {
 		bool mResetIdentityView;
 		bool mResetIdentityProj;
 
+		bool mNormaliseNormalsOnScale;
+		bool mFlipCullingOnNegativeScale;
+		CullingMode mPassCullingMode;
+
 	protected:
 
 		/** Visible objects bounding box list.
 			@remarks
 				Holds an ABB for each camera that contains the physical extends of the visible
-				scene elements by each camera. The map is crutial for shadow algorithms which
+				scene elements by each camera. The map is crucial for shadow algorithms which
 				have a focus step to limit the shadow sample distribution to only valid visible
 				scene elements.
 		*/
@@ -393,6 +437,12 @@ namespace Ogre {
 		/** ShadowCamera to light mapping */
 		typedef std::map< const Camera*, const Light* > ShadowCamLightMapping;
 		ShadowCamLightMapping mShadowCamLightMapping;
+
+		/// Array defining shadow count per light type.
+		size_t mShadowTextureCountPerType[3];
+
+		/// Array defining shadow texture index in light list.
+		std::vector<size_t> mShadowTextureIndexLightList;
 
         /// Cached light information, used to tracking light's changes
         struct _OgreExport LightInfo
@@ -536,8 +586,8 @@ namespace Ogre {
         typedef std::vector<RenderQueueListener*> RenderQueueListenerList;
         RenderQueueListenerList mRenderQueueListeners;
 
-        typedef std::vector<ShadowListener*> ShadowListenerList;
-        ShadowListenerList mShadowListeners;
+        typedef std::vector<Listener*> ListenerList;
+        ListenerList mListeners;
         /// Internal method for firing the queue start event, returns true if queue is to be skipped
         virtual bool fireRenderQueueStarted(uint8 id, const String& invocation);
         /// Internal method for firing the queue end event, returns true if queue is to be repeated
@@ -546,9 +596,13 @@ namespace Ogre {
 		/// Internal method for firing the texture shadows updated event
         virtual void fireShadowTexturesUpdated(size_t numberOfShadowTextures);
 		/// Internal method for firing the pre caster texture shadows event
-        virtual void fireShadowTexturesPreCaster(Light* light, Camera* camera);
+        virtual void fireShadowTexturesPreCaster(Light* light, Camera* camera, size_t iteration);
 		/// Internal method for firing the pre receiver texture shadows event
         virtual void fireShadowTexturesPreReceiver(Light* light, Frustum* f);
+		/// Internal method for firing find visible objects event
+		virtual void firePreFindVisibleObjects(Viewport* v);
+		/// Internal method for firing find visible objects event
+		virtual void firePostFindVisibleObjects(Viewport* v);
         /** Internal method for setting the destination viewport for the next render. */
         virtual void setViewport(Viewport *vp);
 
@@ -568,6 +622,9 @@ namespace Ogre {
             Assumes that the pass has already been set up.
         @param rend The renderable to issue to the pipeline
         @param pass The pass which is being used
+		@param lightScissoringClipping If true, passes that have the getLightScissorEnabled
+			and/or getLightClipPlanesEnabled flags will cause calculation and setting of 
+			scissor rectangle and user clip planes. 
         @param doLightIteration If true, this method will issue the renderable to
             the pipeline possibly multiple times, if the pass indicates it should be
             done once per light
@@ -575,11 +632,17 @@ namespace Ogre {
             method allows you to pass in a previously determined set of lights
             which will be used for a single render of this object.
         */
-        virtual void renderSingleObject(const Renderable* rend, const Pass* pass, 
-			bool doLightIteration, const LightList* manualLightList = 0);
+        virtual void renderSingleObject(Renderable* rend, const Pass* pass, 
+			bool lightScissoringClipping, bool doLightIteration, const LightList* manualLightList = 0);
+
+		/** Internal method for creating the AutoParamDataSource instance. */
+		virtual AutoParamDataSource* createAutoParamDataSource(void) const
+		{
+			return OGRE_NEW AutoParamDataSource();
+		}
 
         /// Utility class for calculating automatic parameters for gpu programs
-        AutoParamDataSource mAutoParamDataSource;
+        AutoParamDataSource* mAutoParamDataSource;
 
         ShadowTechnique mShadowTechnique;
         bool mDebugShadows;
@@ -602,6 +665,20 @@ namespace Ogre {
         Texture* mCurrentShadowTexture;
 		bool mShadowUseInfiniteFarPlane;
 		bool mShadowCasterRenderBackFaces;
+		bool mShadowAdditiveLightClip;
+		/// Struct for cacheing light clipping information for re-use in a frame
+		struct LightClippingInfo
+		{
+			RealRect scissorRect;
+			PlaneList clipPlanes;
+			bool scissorValid;
+			unsigned long clipPlanesValid;
+			LightClippingInfo() : scissorValid(false), clipPlanesValid(false) {}
+
+		};
+		typedef std::map<Light*, LightClippingInfo> LightClippingInfoMap;
+		LightClippingInfoMap mLightClippingInfoMap;
+		unsigned long mLightClippingInfoMapFrameNumber;
 
 		/// default shadow camera setup
 		ShadowCameraSetupPtr mDefaultShadowCameraSetup;
@@ -640,8 +717,11 @@ namespace Ogre {
             stencil buffer.
         @param light The light source
         @param cam The camera being viewed from
+		@param calcScissor Whether the method should set up any scissor state, or
+			false if that's already been done
         */
-        virtual void renderShadowVolumesToStencil(const Light* light, const Camera* cam);
+        virtual void renderShadowVolumesToStencil(const Light* light, const Camera* cam, 
+			bool calcScissor);
         /** Internal utility method for setting stencil state for rendering shadow volumes. 
         @param secondpass Is this the second pass?
         @param zfail Should we be using the zfail method?
@@ -656,8 +736,8 @@ namespace Ogre {
         ShadowCasterList mShadowCasterList;
         SphereSceneQuery* mShadowCasterSphereQuery;
         AxisAlignedBoxSceneQuery* mShadowCasterAABBQuery;
-        Real mShadowFarDist;
-        Real mShadowFarDistSquared;
+        Real mDefaultShadowFarDist;
+        Real mDefaultShadowFarDistSquared;
         Real mShadowTextureOffset; // proportion of texture offset in view direction e.g. 0.4
         Real mShadowTextureFadeStart; // as a proportion e.g. 0.6
         Real mShadowTextureFadeEnd; // as a proportion e.g. 0.9
@@ -685,7 +765,7 @@ namespace Ogre {
         GpuProgramParametersSharedPtr mFiniteExtrusionParams;
 
         /// Inner class to use as callback for shadow caster scene query
-        class _OgreExport ShadowCasterSceneQueryListener : public SceneQueryListener
+        class _OgreExport ShadowCasterSceneQueryListener : public SceneQueryListener, public SceneMgtAlloc
         {
         protected:
 			SceneManager* mSceneMgr;
@@ -750,7 +830,7 @@ namespace Ogre {
 			QueuedRenderableCollection::OrganisationMode om);
 		/** Render a set of objects, see renderSingleObject for param definitions */
 		virtual void renderObjects(const QueuedRenderableCollection& objs, 
-			QueuedRenderableCollection::OrganisationMode om, 
+			QueuedRenderableCollection::OrganisationMode om, bool lightScissoringClipping,
             bool doLightIteration, const LightList* manualLightList = 0);
 		/** Render those objects in the transparent pass list which have shadow casting forced on
 		@remarks
@@ -758,7 +838,7 @@ namespace Ogre {
 			transparency_casts_shadows set to 'on' in their material
 		*/
 		virtual void renderTransparentShadowCasterObjects(const QueuedRenderableCollection& objs, 
-			QueuedRenderableCollection::OrganisationMode om, 
+			QueuedRenderableCollection::OrganisationMode om, bool lightScissoringClipping,
 			bool doLightIteration, const LightList* manualLightList = 0);
 
 		/** Update the state of the global render queue splitting based on a shadow
@@ -768,6 +848,17 @@ namespace Ogre {
 		option change. */
 		virtual void updateRenderQueueGroupSplitOptions(RenderQueueGroup* group, 
 			bool suppressShadows, bool suppressRenderState);
+
+		/// Set up a scissor rectangle from a group of lights
+		virtual ClipResult buildAndSetScissor(const LightList& ll, const Camera* cam);
+		/// Update a scissor rectangle from a single light
+		virtual void buildScissor(const Light* l, const Camera* cam, RealRect& rect);
+		virtual void resetScissor();
+		/// Build a set of user clip planes from a single non-directional light
+		virtual ClipResult buildAndSetLightClip(const LightList& ll);
+		virtual void buildLightClip(const Light* l, PlaneList& planes);
+		virtual void resetLightClip();
+		virtual void checkCachedLightClippingInfo();
 
 		/** Inner helper class to implement the visitor pattern for rendering objects
 			in a queue. 
@@ -781,9 +872,9 @@ namespace Ogre {
 			SceneMgrQueuedRenderableVisitor() 
 				:transparentShadowCastersMode(false) {}
 			~SceneMgrQueuedRenderableVisitor() {}
-			void visit(const Renderable* r);
+			void visit(Renderable* r);
 			bool visit(const Pass* p);
-			void visit(const RenderablePass* rp);
+			void visit(RenderablePass* rp);
 
 			/// Target SM to send renderables to
 			SceneManager* targetSceneMgr;
@@ -793,6 +884,8 @@ namespace Ogre {
 			bool autoLights;
 			/// Manual light list
 			const LightList* manualLightList;
+			/// Scissoring if requested?
+			bool scissoring;
 
 		};
 		/// Allow visitor helper to access protected methods
@@ -801,6 +894,11 @@ namespace Ogre {
 		SceneMgrQueuedRenderableVisitor* mActiveQueuedRenderableVisitor;
 		/// Storage for default renderable visitor
 		SceneMgrQueuedRenderableVisitor mDefaultQueuedRenderableVisitor;
+
+		/// Whether to use camera-relative rendering
+		bool mCameraRelativeRendering;
+		Matrix4 mCachedViewMatrix;
+		Vector3 mCameraRelativePosition;
 
     public:
         /** Constructor.
@@ -915,6 +1013,14 @@ namespace Ogre {
 		/** Returns whether a light with the given name exists.
 		*/
 		virtual bool hasLight(const String& name) const;
+
+		/** Retrieve a set of clipping planes for a given light. 
+		*/
+		virtual const PlaneList& getLightClippingPlanes(Light* l);
+
+		/** Retrieve a scissor rectangle for a given light and camera. 
+		*/
+		virtual const RealRect& getLightScissorRect(Light* l, const Camera* cam);
 
 		/** Removes the named light from the scene and destroys it.
             @remarks
@@ -1031,6 +1137,13 @@ namespace Ogre {
         */
         virtual void destroySceneNode(const String& name);
 
+        /** Destroys a SceneNode.
+        @remarks
+            This allows you to physically delete an individual SceneNode if you want to.
+            Note that this is not normally recommended, it's better to allow SceneManager
+            to delete the nodes when the scene is cleared.
+        */
+        virtual void destroySceneNode(SceneNode* sn);
         /** Gets the SceneNode at the root of the scene hierarchy.
             @remarks
                 The entire scene is held as a hierarchy of nodes, which
@@ -1046,7 +1159,7 @@ namespace Ogre {
                 However, in all cases there is only ever one root node of
                 the hierarchy, and this method returns a pointer to it.
         */
-        virtual SceneNode* getRootSceneNode(void) const;
+        virtual SceneNode* getRootSceneNode(void);
 
         /** Retrieves a named SceneNode from the scene graph.
         @remarks
@@ -1285,6 +1398,43 @@ namespace Ogre {
         /** Returns the ambient light level to be used for the scene.
         */
         const ColourValue& getAmbientLight(void) const;
+
+        /** Sets the source of the 'world' geometry, i.e. the large, mainly static geometry
+            making up the world e.g. rooms, landscape etc.
+            This function can be called before setWorldGeometry in a background thread, do to
+            some slow tasks (e.g. IO) that do not involve the backend render system.
+            @remarks
+                Depending on the type of SceneManager (subclasses will be specialised
+                for particular world geometry types) you have requested via the Root or
+                SceneManagerEnumerator classes, you can pass a filename to this method and it
+                will attempt to load the world-level geometry for use. If you try to load
+                an inappropriate type of world data an exception will be thrown. The default
+                SceneManager cannot handle any sort of world geometry and so will always
+                throw an exception. However subclasses like BspSceneManager can load
+                particular types of world geometry e.g. "q3dm1.bsp".
+
+        */
+        virtual void prepareWorldGeometry(const String& filename);
+
+        /** Sets the source of the 'world' geometry, i.e. the large, mainly 
+			static geometry making up the world e.g. rooms, landscape etc.
+            This function can be called before setWorldGeometry in a background thread, do to
+            some slow tasks (e.g. IO) that do not involve the backend render system.
+            @remarks
+                Depending on the type of SceneManager (subclasses will be 
+				specialised for particular world geometry types) you have 
+				requested via the Root or SceneManagerEnumerator classes, you 
+				can pass a stream to this method and it will attempt to load 
+				the world-level geometry for use. If the manager can only 
+				handle one input format the typeName parameter is not required.
+				The stream passed will be read (and it's state updated). 
+			@param stream Data stream containing data to load
+			@param typeName String identifying the type of world geometry
+				contained in the stream - not required if this manager only 
+				supports one type of world geometry.
+        */
+		virtual void prepareWorldGeometry(DataStreamPtr& stream, 
+			const String& typeName = StringUtil::BLANK);
 
         /** Sets the source of the 'world' geometry, i.e. the large, mainly static geometry
             making up the world e.g. rooms, landscape etc.
@@ -1543,10 +1693,60 @@ namespace Ogre {
             @param groupName
                 The name of the resource group to which to assign the plane mesh.
         */
+
         virtual void setSkyPlane(
             bool enable,
             const Plane& plane, const String& materialName, Real scale = 1000,
             Real tiling = 10, bool drawFirst = true, Real bow = 0, 
+            int xsegments = 1, int ysegments = 1, 
+            const String& groupName = ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        /** Enables / disables a 'sky plane' i.e. a plane at constant
+            distance from the camera representing the sky.
+            @remarks
+                You can create sky planes yourself using the standard mesh and
+                entity methods, but this creates a plane which the camera can
+                never get closer or further away from - it moves with the camera.
+                (NB you could create this effect by creating a world plane which
+                was attached to the same SceneNode as the Camera too, but this
+                would only apply to a single camera whereas this plane applies to
+                any camera using this scene manager).
+            @note
+                To apply scaling, scrolls etc to the sky texture(s) you
+                should use the TextureUnitState class methods.
+            @param
+                enable True to enable the plane, false to disable it
+            @param
+                plane Details of the plane, i.e. it's normal and it's
+                distance from the camera.
+            @param
+                materialName The name of the material the plane will use
+            @param
+                scale The scaling applied to the sky plane - higher values
+                mean a bigger sky plane - you may want to tweak this
+                depending on the size of plane.d and the other
+                characteristics of your scene
+            @param
+                tiling How many times to tile the texture across the sky.
+                Applies to all texture layers. If you need finer control use
+                the TextureUnitState texture coordinate transformation methods.
+            @param
+                renderQueue The render queue to use when rendering this object
+			@param
+				bow If zero, the plane will be completely flat (like previous
+				versions.  If above zero, the plane will be curved, allowing
+				the sky to appear below camera level.  Curved sky planes are 
+				simular to skydomes, but are more compatable with fog.
+            @param xsegments, ysegments
+                Determines the number of segments the plane will have to it. This
+                is most important when you are bowing the plane, but may also be useful
+                if you need tesselation on the plane to perform per-vertex effects.
+            @param groupName
+                The name of the resource group to which to assign the plane mesh.
+        */        
+        virtual void _setSkyPlane(
+            bool enable,
+            const Plane& plane, const String& materialName, Real scale = 1000,
+            Real tiling = 10, uint8 renderQueue = RENDER_QUEUE_SKIES_EARLY, Real bow = 0, 
             int xsegments = 1, int ysegments = 1, 
             const String& groupName = ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
@@ -1603,6 +1803,43 @@ namespace Ogre {
         virtual void setSkyBox(
             bool enable, const String& materialName, Real distance = 5000,
             bool drawFirst = true, const Quaternion& orientation = Quaternion::IDENTITY,
+            const String& groupName = ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+        /** Enables / disables a 'sky box' i.e. a 6-sided box at constant
+            distance from the camera representing the sky.
+            @remarks
+                You could create a sky box yourself using the standard mesh and
+                entity methods, but this creates a plane which the camera can
+                never get closer or further away from - it moves with the camera.
+                (NB you could create this effect by creating a world box which
+                was attached to the same SceneNode as the Camera too, but this
+                would only apply to a single camera whereas this skybox applies
+                to any camera using this scene manager).
+            @par
+                The material you use for the skybox can either contain layers
+                which are single textures, or they can be cubic textures, i.e.
+                made up of 6 images, one for each plane of the cube. See the
+                TextureUnitState class for more information.
+            @param
+                enable True to enable the skybox, false to disable it
+            @param
+                materialName The name of the material the box will use
+            @param
+                distance Distance in world coorinates from the camera to
+                each plane of the box. The default is normally OK.
+            @param
+                renderQueue The render queue to use when rendering this object
+            @param
+                orientation Optional parameter to specify the orientation
+                of the box. By default the 'top' of the box is deemed to be
+                in the +y direction, and the 'front' at the -z direction.
+                You can use this parameter to rotate the sky if you want.
+            @param groupName
+                The name of the resource group to which to assign the plane mesh.
+        */
+        virtual void _setSkyBox(
+            bool enable, const String& materialName, Real distance = 5000,
+            uint8 renderQueue = RENDER_QUEUE_SKIES_EARLY, const Quaternion& orientation = Quaternion::IDENTITY,
             const String& groupName = ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
 		/** Return whether a skybox is enabled */
@@ -1668,10 +1905,63 @@ namespace Ogre {
                 You can use this parameter to rotate the sky if you want.
             @param groupName
                 The name of the resource group to which to assign the plane mesh.
-        */
+                */
         virtual void setSkyDome(
             bool enable, const String& materialName, Real curvature = 10,
             Real tiling = 8, Real distance = 4000, bool drawFirst = true,
+            const Quaternion& orientation = Quaternion::IDENTITY,
+            int xsegments = 16, int ysegments = 16, int ysegments_keep = -1,
+            const String& groupName = ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+		/** Enables / disables a 'sky dome' i.e. an illusion of a curved sky.
+            @remarks
+                A sky dome is actually formed by 5 sides of a cube, but with
+                texture coordinates generated such that the surface appears
+                curved like a dome. Sky domes are appropriate where you need a
+                realistic looking sky where the scene is not going to be
+                'fogged', and there is always a 'floor' of some sort to prevent
+                the viewer looking below the horizon (the distortion effect below
+                the horizon can be pretty horrible, and there is never anyhting
+                directly below the viewer). If you need a complete wrap-around
+                background, use the setSkyBox method instead. You can actually
+                combine a sky box and a sky dome if you want, to give a positional
+                backdrop with an overlayed curved cloud layer.
+            @par
+                Sky domes work well with 2D repeating textures like clouds. You
+                can change the apparant 'curvature' of the sky depending on how
+                your scene is viewed - lower curvatures are better for 'open'
+                scenes like landscapes, whilst higher curvatures are better for
+                say FPS levels where you don't see a lot of the sky at once and
+                the exaggerated curve looks good.
+            @param
+                enable True to enable the skydome, false to disable it
+            @param
+                materialName The name of the material the dome will use
+            @param
+                curvature The curvature of the dome. Good values are
+                between 2 and 65. Higher values are more curved leading to
+                a smoother effect, lower values are less curved meaning
+                more distortion at the horizons but a better distance effect.
+            @param
+                tiling How many times to tile the texture(s) across the
+                dome.
+            @param
+                distance Distance in world coorinates from the camera to
+                each plane of the box the dome is rendered on. The default
+                is normally OK.
+            @param
+                renderQueue The render queue to use when rendering this object
+            @param
+                orientation Optional parameter to specify the orientation
+                of the dome. By default the 'top' of the dome is deemed to
+                be in the +y direction, and the 'front' at the -z direction.
+                You can use this parameter to rotate the sky if you want.
+            @param groupName
+                The name of the resource group to which to assign the plane mesh.
+                */        
+        virtual void _setSkyDome(
+            bool enable, const String& materialName, Real curvature = 10,
+            Real tiling = 8, Real distance = 4000, uint8 renderQueue = RENDER_QUEUE_SKIES_EARLY,
             const Quaternion& orientation = Quaternion::IDENTITY,
             int xsegments = 16, int ysegments = 16, int ysegments_keep = -1,
             const String& groupName = ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
@@ -2174,8 +2464,9 @@ namespace Ogre {
         /** Gets the distance a shadow volume is extruded for a directional light.
         */
         virtual Real getShadowDirectionalLightExtrusionDistance(void) const;
-        /** Sets the maximum distance away from the camera that shadows
-        will be visible.
+        /** Sets the default maximum distance away from the camera that shadows
+        will be visible. You have to call this function before you create lights
+        or the default distance of zero will be used.
         @remarks
         Shadow techniques can be expensive, therefore it is a good idea
         to limit them to being rendered close to the camera if possible,
@@ -2190,11 +2481,13 @@ namespace Ogre {
         and scene setup.
         */
         virtual void setShadowFarDistance(Real distance);
-        /** Gets the maximum distance away from the camera that shadows
+        /** Gets the default maximum distance away from the camera that shadows
         will be visible.
         */
         virtual Real getShadowFarDistance(void) const
-        { return mShadowFarDist; }
+        { return mDefaultShadowFarDist; }
+        virtual Real getShadowFarDistanceSquared(void) const
+        { return mDefaultShadowFarDistSquared; }
 
 		/** Sets the maximum size of the index buffer used to render shadow
 		 	primitives.
@@ -2276,6 +2569,22 @@ namespace Ogre {
         virtual void setShadowTextureCount(size_t count);
         /// Get the number of the textures allocated for texture based shadows
         size_t getShadowTextureCount(void) const {return mShadowTextureConfigList.size(); }
+
+		/** Set the number of shadow textures a light type uses.
+		@remarks
+			The default for all light types is 1. This means that each light uses only 1 shadow
+			texture. Call this if you need more than 1 shadow texture per light, E.G. PSSM. 
+		@note
+			This feature only works with the Integrated shadow technique.
+			Also remember to increase the total number of shadow textures you request
+			appropriately (e.g. via setShadowTextureCount)!!
+		*/
+		void setShadowTextureCountPerLightType(Light::LightTypes type, size_t count)
+		{ mShadowTextureCountPerType[type] = count; }
+		/// Get the number of shadow textures is assigned for the given light type.
+		size_t getShadowTextureCountPerLightType(Light::LightTypes type) const
+		{return mShadowTextureCountPerType[type]; }
+
         /** Sets the size and count of textures used in texture-based shadows. 
         @remarks
             @see setShadowTextureSize and setShadowTextureCount for details, this
@@ -2364,8 +2673,8 @@ namespace Ogre {
 		@note
 			Individual objects may also override the vertex program in
 			your default material if their materials include 
-			shadow_caster_vertex_program_ref shadow_receiver_vertex_program_ref
-			entries, so if you use both make sure they are compatible.
+			shadow_caster_vertex_program_ref, shadow_receiver_vertex_program_ref
+			shadow_caster_material entries, so if you use both make sure they are compatible.			
 		@note
 			Only a single pass is allowed in your material, although multiple
 			techniques may be used for hardware fallback.
@@ -2387,7 +2696,7 @@ namespace Ogre {
 			Individual objects may also override the vertex program in
 			your default material if their materials include 
 			shadow_caster_vertex_program_ref shadow_receiver_vertex_program_ref
-			entries, so if you use both make sure they are compatible.
+			shadow_receiver_material entries, so if you use both make sure they are compatible.
 		@note
 			Only a single pass is allowed in your material, although multiple
 			techniques may be used for hardware fallback.
@@ -2480,14 +2789,21 @@ namespace Ogre {
 		/** Is there any shadowing technique in use? */
 		virtual bool isShadowTechniqueInUse(void) const 
 		{ return mShadowTechnique != SHADOWTYPE_NONE; }
+		/** Sets whether when using a built-in additive shadow mode, user clip
+			planes should be used to restrict light rendering.
+		*/
+		virtual void setShadowUseLightClipPlanes(bool enabled) { mShadowAdditiveLightClip = enabled; }
+		/** Gets whether when using a built-in additive shadow mode, user clip
+		planes should be used to restrict light rendering.
+		*/
+		virtual bool getShadowUseLightClipPlanes() const { return mShadowAdditiveLightClip; }
 
-		/** Add a shadow listener which will get called back on shadow
-			events.
+		/** Add a listener which will get called back on scene manager events.
 		*/
-		virtual void addShadowListener(ShadowListener* s);
-		/** Remove a shadow listener
+		virtual void addListener(Listener* s);
+		/** Remove a listener
 		*/
-		virtual void removeShadowListener(ShadowListener* s);
+		virtual void removeListener(Listener* s);
 
 		/** Creates a StaticGeometry instance suitable for use with this
 			SceneManager.
@@ -2638,6 +2954,36 @@ namespace Ogre {
  		*/
 		virtual bool getFindVisibleObjects(void) { return mFindVisibleObjects; }
 
+		/** Set whether to automatically normalise normals on objects whenever they
+			are scaled.
+		@remarks
+			Scaling can distort normals so the default behaviour is to compensate
+			for this, but it has a cost. If you would prefer to manually manage 
+			this, set this option to 'false' and use Pass::setNormaliseNormals
+			only when needed.
+		*/
+		virtual void setNormaliseNormalsOnScale(bool n) { mNormaliseNormalsOnScale = n; }
+
+		/** Get whether to automatically normalise normals on objects whenever they
+			are scaled.
+		*/
+		virtual bool getNormaliseNormalsOnScale() const { return mNormaliseNormalsOnScale; }
+
+		/** Set whether to automatically flip the culling mode on objects whenever they
+			are negatively scaled.
+		@remarks
+			Negativelyl scaling an object has the effect of flipping the triangles, 
+			so the culling mode should probably be inverted to deal with this. 
+			If you would prefer to manually manage this, set this option to 'false' 
+			and use different materials with Pass::setCullingMode set manually as needed.
+		*/
+		virtual void setFlipCullingOnNegativeScale(bool n) { mFlipCullingOnNegativeScale = n; }
+
+		/** Get whether to automatically flip the culling mode on objects whenever they
+			are negatively scaled.
+		*/
+		virtual bool getFlipCullingOnNegativeScale() const { return mFlipCullingOnNegativeScale; }
+
 		/** Render something as if it came from the current queue.
 			@param pass		Material pass to use for setting up this quad.
 			@param rend		Renderable to render
@@ -2744,7 +3090,28 @@ namespace Ogre {
 		const VisibleObjectsBoundsInfo& getVisibleObjectsBoundsInfo(const Camera* cam) const;
 
 		/**  Returns the shadow caster AAB for a specific light-camera combination */
-		const VisibleObjectsBoundsInfo& getShadowCasterBoundsInfo(const Light* light) const;
+		const VisibleObjectsBoundsInfo& getShadowCasterBoundsInfo(const Light* light, size_t iteration = 0) const;
+
+		/** Set whether to use camera-relative co-ordinates when rendering, ie
+			to always place the camera at the origin and move the world around it.
+		@remarks
+			This is a technique to alleviate some of the precision issues associated with 
+			rendering far from the origin, where single-precision floats as used in most
+			GPUs begin to lose their precision. Instead of including the camera
+			translation in the view matrix, it only includes the rotation, and
+			the world matrices of objects must be expressed relative to this.
+		@note
+			If you need this option, you will probably also need to enable double-precision
+			mode in Ogre (OGRE_DOUBLE_PRECISION), since even though this will 
+			alleviate the rendering precision, the source camera and object positions will still 
+			suffer from precision issues leading to jerky movement. 
+		*/
+		virtual void setCameraRelativeRendering(bool rel) { mCameraRelativeRendering = rel; }
+
+		/** Get whether to use camera-relative co-ordinates when rendering, ie
+			to always place the camera at the origin and move the world around it.
+		*/
+		virtual bool getCameraRelativeRendering() const { return mCameraRelativeRendering; }
     };
 
     /** Default implementation of IntersectionSceneQuery. */
@@ -2832,7 +3199,7 @@ namespace Ogre {
 
 
 	/** Class which will create instances of a given SceneManager. */
-	class _OgreExport SceneManagerFactory
+	class _OgreExport SceneManagerFactory : public SceneMgtAlloc
 	{
 	protected:
 		mutable SceneManagerMetaData mMetaData;
