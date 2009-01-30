@@ -20,11 +20,11 @@
 namespace MyGUI
 {
 
-	typedef delegates::CDelegate1<const std::string &> EventInfo_String;
+	typedef delegates::CDelegate1<const std::string &> EventHandle_String;
 
-	class _MyGUIExport InputManager : public IUnlinkWidget
+	class MYGUI_EXPORT InputManager : public IUnlinkWidget
 	{
-		INSTANCE_HEADER(InputManager);
+		MYGUI_INSTANCE_HEADER(InputManager);
 
 		typedef std::vector<Char> LangInfo;
 
@@ -57,18 +57,18 @@ namespace MyGUI
 		bool injectKeyRelease(KeyCode _key);
 
 		/** Is any widget have mouse focus */
-		bool isFocusMouse() { return mWidgetMouseFocus != null; }
+		bool isFocusMouse() { return mWidgetMouseFocus != nullptr; }
 		/** Is any widget have key focus */
-		bool isFocusKey() { return mWidgetKeyFocus != null; }
+		bool isFocusKey() { return mWidgetKeyFocus != nullptr; }
 		/** Is any widget captured mouse */
 		bool isCaptureMouse() { return mIsWidgetMouseCapture; }
 
 		/** Set key focus for _widget */
 		void setKeyFocusWidget(WidgetPtr _widget);
 		/** Drop key focus for _widget */
-		void resetKeyFocusWidget(WidgetPtr _widget) { if (mWidgetKeyFocus == _widget) setKeyFocusWidget(null); }
+		void resetKeyFocusWidget(WidgetPtr _widget) { if (mWidgetKeyFocus == _widget) setKeyFocusWidget(nullptr); }
 		/** Drop any key focus */
-		void resetKeyFocusWidget() { setKeyFocusWidget(null); }
+		void resetKeyFocusWidget() { setKeyFocusWidget(nullptr); }
 
 		/** Get mouse focused widget */
 		WidgetPtr getMouseFocusWidget() { return mWidgetMouseFocus; }
@@ -87,11 +87,11 @@ namespace MyGUI
 		void _unlinkWidget(WidgetPtr _widget);
 
 		// событие смены курсора
-		/** Event : Pointer has been changed.\n
+		/** Event : Mouse pointer has been changed.\n
 			signature : void method(const std::string & _pointerName)\n
-			@param _pointerName name of current pointer
+			@param _pointerName Name of current mouse pointer
 		*/
-		EventInfo_String eventChangeMousePointer;
+		EventHandle_String eventChangeMousePointer;
 
 		// работа с модальными окнами
 		/** Add modal widget - all other widgets inaccessible while modal widget exist */
@@ -128,7 +128,7 @@ namespace MyGUI
 		void resetKey();
 
 	public:
-		void _load(xml::xmlNodePtr _node, const std::string & _file);
+		void _load(xml::ElementPtr _node, const std::string & _file, Version _version);
 
 #ifdef MYGUI_NO_OIS
 
@@ -136,14 +136,14 @@ namespace MyGUI
 		typedef std::map<std::string, LangInfo> MapLang;
 
 		/** Load additional MyGUI *_lang.xml file */
-		bool load(const std::string & _file, const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		bool load(const std::string & _file, const std::string & _group = MyGUI::ResourceManager::GUIResourceGroupName);
 
 		// событие смены языков
 		/** Event : Language has been changed.\n
 			signature : void method(const std::string & _languageName)\n
 			@param _languageName name of current language
 		*/
-		EventInfo_String eventChangeLanguage;
+		EventHandle_String eventChangeLanguage;
 
 		/** Get current language */
 		const std::string & getCurrentLanguage() { return mCurrentLanguage->first; }
@@ -175,9 +175,6 @@ namespace MyGUI
 		// виджеты которым принадлежит фокус
 		WidgetPtr mWidgetMouseFocus;
 		WidgetPtr mWidgetKeyFocus;
-		// корневые виджеты, детям которых принадлежит фокус
-		//WidgetPtr mWidgetRootMouseFocus;
-		WidgetPtr mWidgetRootKeyFocus;
 		// захватил ли мышь активный виджет
 		bool mIsWidgetMouseCapture;
 		// таймер для двойного клика

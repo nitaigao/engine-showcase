@@ -14,7 +14,7 @@ namespace MyGUI
 {
 
 	// структура информации об отображении элемента
-	struct _MyGUIExport ItemInfo
+	struct MYGUI_EXPORT ItemInfo
 	{
 
 		ItemInfo() : index(ITEM_NONE) { }
@@ -54,7 +54,7 @@ namespace MyGUI
 		bool drag_refuse;
 	};
 
-	enum MYGUI_OBSOLETE_START("use NotifyItemData::NotifyItem")
+	enum MYGUI_OBSOLETE_START("use : NotifyItemData::NotifyItem")
 	{
 		NOTIFY_MOUSE_PRESSED,
 		NOTIFY_MOUSE_RELEASED,
@@ -62,7 +62,7 @@ namespace MyGUI
 		NOTIFY_KEY_RELEASED,
 	} MYGUI_OBSOLETE_END ;
 
-	struct _MyGUIExport NotifyItemData
+	struct MYGUI_EXPORT NotifyItemData
 	{
 		typedef enum
 		{
@@ -73,13 +73,13 @@ namespace MyGUI
 		} NotifyItem;
 
 		NotifyItemData(size_t _index, NotifyItem _notify, int _x, int _y, MouseButton _id) :
-			index(_index), notify(_notify), x(_x), y(_y), id(_id), code(KC_UNASSIGNED), key(0) {}
+			index(_index), notify(_notify), x(_x), y(_y), id(_id), code(KeyCode::None), key(0) {}
 
 		NotifyItemData(size_t _index, NotifyItem _notify, KeyCode _code, Char _key) :
-			index(_index), notify(_notify), x(0), y(0), id(MB_None), code(_code), key(_key) { }
+			index(_index), notify(_notify), x(0), y(0), id(MouseButton::None), code(_code), key(_key) { }
 
 		NotifyItemData(size_t _index, NotifyItem _notify, KeyCode _code) :
-			index(_index), notify(_notify), x(0), y(0), id(MB_None), code(_code), key(KC_UNASSIGNED) { }
+			index(_index), notify(_notify), x(0), y(0), id(MouseButton::None), code(_code), key(KeyCode::None) { }
 
 		size_t index;
 		NotifyItem notify;
@@ -91,12 +91,12 @@ namespace MyGUI
 	};
 
 	// делегат для событий айтема
-	typedef delegates::CDelegate2<WidgetPtr, const NotifyItemData &> EventInfo_WidgetNotifyItemData;
+	typedef delegates::CDelegate2<WidgetPtr, const NotifyItemData &> EventHandle_WidgetNotifyItemData;
 
 	// делегаты для обновления
-	typedef delegates::CDelegate2<WidgetPtr, WidgetPtr> EventInfo_WidgetWidget;
-	typedef delegates::CDelegate3<WidgetPtr, IntCoord&, bool> EventInfo_WidgetRefCoordBool;
-	typedef delegates::CDelegate3<WidgetPtr, WidgetPtr, const ItemInfo &> EventInfo_WidgetWidgetItemInfo;
+	typedef delegates::CDelegate2<WidgetPtr, WidgetPtr> EventHandle_WidgetWidget;
+	typedef delegates::CDelegate3<WidgetPtr, IntCoord&, bool> EventHandle_WidgetRefCoordBool;
+	typedef delegates::CDelegate3<WidgetPtr, WidgetPtr, const ItemInfo &> EventHandle_WidgetWidgetItemInfo;
 
 } // namespace MyGUI
 

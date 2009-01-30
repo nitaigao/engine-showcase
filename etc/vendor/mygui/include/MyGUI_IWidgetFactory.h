@@ -9,6 +9,7 @@
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Align.h"
+#include "MyGUI_WidgetStyle.h"
 #include "MyGUI_WidgetDefines.h"
 #include "MyGUI_ICroppedRectangle.h"
 
@@ -17,20 +18,20 @@
 
 namespace MyGUI
 {
-	class _MyGUIExport IWidgetFactory
+	class MYGUI_EXPORT IWidgetFactory
 	{
 	public:
 		virtual ~IWidgetFactory() { }
 
 		virtual const std::string & getTypeName() = 0;
-		virtual WidgetPtr createWidget(const std::string& _skin, const IntCoord& _coord, Align _align, ICroppedRectangle * _parent, IWidgetCreator * _creator, const std::string& _name) = 0;
+		virtual WidgetPtr createWidget(WidgetStyle _style, const std::string& _skin, const IntCoord& _coord, Align _align, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string& _name) = 0;
 	};
 
 	namespace factory
 	{
 
 		template <typename T>
-		class _MyGUIExport BaseWidgetFactory : public IWidgetFactory
+		class MYGUI_EXPORT BaseWidgetFactory : public IWidgetFactory
 		{
 		public:
 			BaseWidgetFactory()
@@ -52,9 +53,9 @@ namespace MyGUI
 				return T::getClassTypeName();
 			}
 
-			WidgetPtr createWidget(const std::string& _skin, const IntCoord& _coord, Align _align, ICroppedRectangle * _parent, IWidgetCreator * _creator, const std::string& _name)
+			WidgetPtr createWidget(WidgetStyle _style, const std::string& _skin, const IntCoord& _coord, Align _align, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string& _name)
 			{
-				return new T(_coord, _align, SkinManager::getInstance().getSkin(_skin), _parent, _creator, _name);
+				return new T(_style, _coord, _align, SkinManager::getInstance().getSkin(_skin), _parent, _croppedParent, _creator, _name);
 			}
 
 			bool isFalseType(WidgetPtr _ptr, const std::string &_key)

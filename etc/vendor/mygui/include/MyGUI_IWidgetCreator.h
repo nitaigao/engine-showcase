@@ -14,7 +14,7 @@
 namespace MyGUI
 {
 
-	class _MyGUIExport IWidgetCreator
+	class MYGUI_EXPORT IWidgetCreator
 	{
 		friend class WidgetManager;
 
@@ -22,7 +22,7 @@ namespace MyGUI
 		virtual ~IWidgetCreator() { }
 
 	protected:
-		virtual WidgetPtr baseCreateWidget(const std::string & _type, const std::string & _skin, const IntCoord& _coord, Align _align, const std::string & _layer, const std::string & _name) = 0;
+		virtual WidgetPtr baseCreateWidget(WidgetStyle _style, const std::string & _type, const std::string & _skin, const IntCoord& _coord, Align _align, const std::string & _layer, const std::string & _name) = 0;
 
 		// удяляет неудачника
 		virtual void _destroyChildWidget(WidgetPtr _widget) = 0;
@@ -32,6 +32,14 @@ namespace MyGUI
 
 		// удаляет виджет с закрытым конструктором
 		void _deleteWidget(WidgetPtr _widget);
+
+	public:
+		// добавляет в список виджет
+		// имплементировать только для рутовых креаторов
+		virtual void _linkChildWidget(WidgetPtr _widget) { }
+		// удаляет из списка
+		// имплементировать только для рутовых креаторов
+		virtual void _unlinkChildWidget(WidgetPtr _widget) { }
 
 	};
 

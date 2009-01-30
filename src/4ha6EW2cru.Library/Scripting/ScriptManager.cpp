@@ -117,6 +117,12 @@ void ScriptManager::FromLua_Print( const std::string message )
 	Logger::GetInstance( )->Info( message );
 }
 
+void ScriptManager::FromLua_LoadLevel( const std::string levelName )
+{
+	LevelChangedEventData* eventData = new LevelChangedEventData( levelName );
+	EventManager::GetInstance( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
+}
+
 int ScriptManager::FromLua_ScriptError( lua_State* luaState )
 {
 	lua_Debug d;
@@ -154,6 +160,7 @@ void ScriptManager::RegisterScriptGlobals( lua_State* luaState )
 	[
 		def( "quit", &ScriptManager::FromLua_GameQuit ),
 		def( "print", &ScriptManager::FromLua_Print ),
+		def( "loadLevel", &ScriptManager::FromLua_LoadLevel ),
 
 		class_< KeyEventData >( "KeyEventData" )
 			.def( "getKeyCode", &KeyEventData::GetKeyCode )

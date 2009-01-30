@@ -11,16 +11,19 @@
 #include "MyGUI_Widget.h"
 #include "MyGUI_TextChangeHistory.h"
 #include "MyGUI_TextIterator.h"
+#include "MyGUI_EventPair.h"
 
 namespace MyGUI
 {
 
-	class _MyGUIExport Edit : public Widget
+	typedef delegates::CDelegate1<EditPtr> EventHandle_EditPtr;
+
+	class MYGUI_EXPORT Edit : public Widget
 	{
 		// для вызова закрытого конструктора
 		friend class factory::BaseWidgetFactory<Edit>;
 
-		MYGUI_RTTI_CHILD_HEADER;
+		MYGUI_RTTI_CHILD_HEADER( Edit, Widget );
 
 	public:
 		/** Set edit text applying tags */
@@ -29,9 +32,9 @@ namespace MyGUI
 		virtual const Ogre::UTFString& getCaption();
 
 		/** Set edit text without tags */
-		void setOnlyText(const Ogre::UTFString & _text) {setText(TextIterator::toTagsString(_text), false);}
+		void setOnlyText(const Ogre::UTFString & _text) { setText(TextIterator::toTagsString(_text), false); }
 		/** Get edit text without tags */
-		Ogre::UTFString getOnlyText() {return TextIterator::getOnlyText(getRealString());}
+		Ogre::UTFString getOnlyText() { return TextIterator::getOnlyText(getRealString()); }
 
 		// возвращает выделение
 		/** Get selected text interval
@@ -47,7 +50,7 @@ namespace MyGUI
 		void setTextSelect(size_t _start, size_t _end);
 		// выделен ли текст
 		/** Is any text selected */
-		bool isTextSelect() {return ( (mStartSelect != ITEM_NONE) && (mStartSelect != mEndSelect) );}
+		bool isTextSelect() { return ( (mStartSelect != ITEM_NONE) && (mStartSelect != mEndSelect) ); }
 		// возвращает выделенный текст
 		/** Get selected text */
 		Ogre::UTFString getSelectedText();
@@ -55,9 +58,9 @@ namespace MyGUI
 		/** Get text length excluding tags
 			For example "#00FF00Hello" length is 5
 		*/
-		size_t getTextLength() {return mTextLength;}
+		size_t getTextLength() { return mTextLength; }
 		/** Get text cursor position */
-		size_t getTextCursor() {return mCursorPosition;}
+		size_t getTextCursor() { return mCursorPosition; }
 
 		/** Set text cursor position */
 		void setTextCursor(size_t _index);
@@ -86,30 +89,33 @@ namespace MyGUI
 		Ogre::UTFString getText(size_t _start, size_t _count);
 		// удаляет все что выделенно
 		/** Delete selected text */
-		bool deleteTextSelect() {return deleteTextSelect(false);}
+		bool deleteTextSelect() { return deleteTextSelect(false); }
 		// вставляет текст в указанную позицию
 		/** Inser text at _index position (text end by default) */
-		void insertText(const Ogre::UTFString & _text, size_t _index = ITEM_NONE) {insertText(_text, _index, false);}
+		void insertText(const Ogre::UTFString & _text, size_t _index = ITEM_NONE) { insertText(_text, _index, false); }
 		// добавляет текст в конец
 		/** Add text */
-		void addText(const Ogre::UTFString & _text) {insertText(_text, ITEM_NONE, false);}
+		void addText(const Ogre::UTFString & _text) { insertText(_text, ITEM_NONE, false); }
 		/** Erase _count characters from _start position */
-		void eraseText(size_t _start, size_t _count = 1) {eraseText(_start, _count, false);}
+		void eraseText(size_t _start, size_t _count = 1) { eraseText(_start, _count, false); }
 		// выделяет цветом выделение
 		/** Colour selected text */
-		void setTextSelectColour(const Ogre::ColourValue & _colour)
+		void setTextSelectColour(const Colour& _colour)
 		{
 			setTextSelectColour(_colour, false);
 		}
 		// выделяет цветом диапазон
 		/** Colour interval */
-		void setTextColour(size_t _start, size_t _count, const Ogre::ColourValue & _colour)
+		void setTextColour(size_t _start, size_t _count, const Colour& _colour)
 		{
-			setTextColour(_start, _count, _colour, false);
+			_setTextColour(_start, _count, _colour, false);
 		}
 
+		//! @copydoc Widget::setTextColour(const Colour& _colour)
+		void setTextColour(const Colour& _colour) { Widget::setTextColour(_colour); }
+
 		/** Get edit read only mode flag */
-		bool getEditReadOnly() {return mModeReadOnly;}
+		bool getEditReadOnly() { return mModeReadOnly; }
 		/** Enable or disable edit read only mode */
 		void setEditReadOnly(bool _read)
 		{
@@ -119,12 +125,12 @@ namespace MyGUI
 		}
 
 		/** Get edit password mode flag */
-		bool getEditPassword() {return mModePassword;}
+		bool getEditPassword() { return mModePassword; }
 		/** Enable or disable edit password mode */
 		void setEditPassword(bool _password);
 
 		/** Get edit multiline mode flag */
-		bool getEditMultiLine() {return mModeMultiline;}
+		bool getEditMultiLine() { return mModeMultiline; }
 		/** Enable or disable edit multiline mode */
 		void setEditMultiLine(bool _multi)
 		{
@@ -166,7 +172,9 @@ namespace MyGUI
 		/** Enable or disable edit word wrap mode */
 		void setEditWordWrap(bool _wordwrap);
 
+		/** Get edit tab printing wrap mode flag */
 		bool getTabPrinting() { return mTabPrinting; }
+		/** Enable or disable tab printing mode */
 		void setTabPrinting(bool _print) { mTabPrinting = _print; }
 
 
@@ -184,33 +192,56 @@ namespace MyGUI
 		/** @copydoc Widget::setCoord(int _left, int _top, int _width, int _height) */
 		void setCoord(int _left, int _top, int _width, int _height) { setCoord(IntCoord(_left, _top, _width, _height)); }
 
-		MYGUI_OBSOLETE("use Widget::setCoord(const IntCoord& _coord)")
-		void setPosition(const IntCoord & _coord) { setCoord(_coord); }
-		MYGUI_OBSOLETE("use Widget::setCoord(int _left, int _top, int _width, int _height)")
-		void setPosition(int _left, int _top, int _width, int _height) { setCoord(_left, _top, _width, _height); }
-
 		/** Show VScroll when text size larger than Edit */
-		void showVScroll(bool _show) { mShowVScroll = _show; updateView(false); }
+		void setVisibleVScroll(bool _visible) { mShowVScroll = _visible; updateView(false); }
 		/** Get Show VScroll flag */
-		bool isShowVScroll() { return mShowVScroll; }
+		bool isVisibleVScroll() { return mShowVScroll; }
 
 		/** Show HScroll when text size larger than Edit */
-		void showHScroll(bool _show) { mShowHScroll = _show; updateView(false); }
+		void setVisibleHScroll(bool _visible) { mShowHScroll = _visible; updateView(false); }
 		/** Get Show HScroll flag */
-		bool isShowHScroll() { return mShowHScroll; }
+		bool isVisibleHScroll() { return mShowHScroll; }
 
+		/** Set widget text font */
+		virtual void setFontName(const std::string & _font);
+		/** Set widget text font height */
+		virtual void setFontHeight(uint _height);
+
+	/*event:*/
 		/** Event : Enter pressed (Ctrl+enter in multiline mode).\n
-			signature : void method(MyGUI::WidgetPtr _sender)
+			signature : void method(MyGUI::EditPtr _sender)
+			@param _sender widget that called this event
 		*/
-		EventInfo_WidgetVoid eventEditSelectAccept;
+		EventPair<EventHandle_WidgetVoid, EventHandle_EditPtr> eventEditSelectAccept;
 
 		/** Event : Text changed.\n
-			signature : void method(MyGUI::WidgetPtr _sender)
+			signature : void method(MyGUI::EditPtr _sender)
+			@param _sender widget that called this event
 		*/
-		EventInfo_WidgetVoid eventEditTextChange;
+		EventPair<EventHandle_WidgetVoid, EventHandle_EditPtr> eventEditTextChange;
+
+	/*obsolete:*/
+#ifndef MYGUI_DONT_USE_OBSOLETE
+
+		MYGUI_OBSOLETE("use : void Edit::setVisibleVScroll(bool _visible)")
+		void showVScroll(bool _visible) { setVisibleVScroll(_visible); }
+		MYGUI_OBSOLETE("use : bool Edit::isVisibleVScroll()")
+		bool isShowVScroll() { return isVisibleVScroll(); }
+		MYGUI_OBSOLETE("use : void Edit::setVisibleHScroll(bool _visible)")
+		void showHScroll(bool _visible) { setVisibleHScroll(_visible); }
+		MYGUI_OBSOLETE("use : bool Edit::isVisibleHScroll()")
+		bool isShowHScroll() { return isVisibleHScroll(); }
+
+		MYGUI_OBSOLETE("use : void Widget::setCoord(const IntCoord& _coord)")
+		void setPosition(const IntCoord & _coord) { setCoord(_coord); }
+		MYGUI_OBSOLETE("use : void Widget::setCoord(int _left, int _top, int _width, int _height)")
+		void setPosition(int _left, int _top, int _width, int _height) { setCoord(_left, _top, _width, _height); }
+
+#endif // MYGUI_DONT_USE_OBSOLETE
+
 
 	protected:
-		Edit(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		Edit(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
 		virtual ~Edit();
 
 		virtual void onMouseDrag(int _left, int _top);
@@ -226,7 +257,7 @@ namespace MyGUI
 		void notifyMouseDrag(WidgetPtr _sender, int _left, int _top);
 		void notifyMouseButtonDoubleClick(WidgetPtr _sender);
 
-		void notifyScrollChangePosition(WidgetPtr _sender, size_t _position);
+		void notifyScrollChangePosition(VScrollPtr _sender, size_t _position);
 		void notifyMouseWheel(WidgetPtr _sender, int _rel);
 
 		// обновление представления
@@ -248,9 +279,9 @@ namespace MyGUI
 		// удаляет текст
 		void eraseText(size_t _start, size_t _count, bool _history);
 		// выделяет цветом выделение
-		void setTextSelectColour(const Ogre::ColourValue & _colour, bool _history);
+		void setTextSelectColour(const Colour& _colour, bool _history);
 		// выделяет цветом диапазон
-		void setTextColour(size_t _start, size_t _count, const Ogre::ColourValue & _colour, bool _history);
+		void _setTextColour(size_t _start, size_t _count, const Colour& _colour, bool _history);
 
 		void frameEntered(float _frame);
 
@@ -262,7 +293,7 @@ namespace MyGUI
 		void resetSelect();
 
 		// запись в историю данных о позиции
-		void commandPosition(size_t _undo, size_t _redo, size_t _length, VectorChangeInfo * _info = null);
+		void commandPosition(size_t _undo, size_t _redo, size_t _length, VectorChangeInfo * _info = nullptr);
 
 		// команнды отмена и повтор
 		bool commandRedo();
@@ -272,7 +303,7 @@ namespace MyGUI
 		// очистка
 		void commandResetRedo() {mVectorRedoChangeInfo.clear();}
 		void commandResetHistory() {mVectorRedoChangeInfo.clear();mVectorUndoChangeInfo.clear();}
-		void saveInHistory(VectorChangeInfo * _info = null);
+		void saveInHistory(VectorChangeInfo * _info = nullptr);
 
 		// работа с буфером обмена
 		void commandCut();

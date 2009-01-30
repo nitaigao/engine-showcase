@@ -36,5 +36,5 @@ void GuiController::ToLua_OnKeyReleased( MyGUI::WidgetPtr sender, MyGUI::KeyCode
 {
 	WidgetUserData* userData = static_cast< WidgetUserData* >( sender->getUserData( ) );
 
-	call_function< void >( *userData->first, userData->second, ( int ) keyCode );
+	call_function< void >( *userData->first, userData->second, keyCode );
 }

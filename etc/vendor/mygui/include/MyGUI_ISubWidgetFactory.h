@@ -15,14 +15,14 @@
 namespace MyGUI
 {
 
-	class _MyGUIExport ISubWidgetFactory
+	class MYGUI_EXPORT ISubWidgetFactory
 	{
 	public:
 		virtual ~ISubWidgetFactory() {};
 
 		virtual const std::string & getTypeName() = 0;
 		virtual ISubWidget * createSubWidget(const SubWidgetInfo &_info, ICroppedRectangle * _parent) = 0;
-		virtual StateInfo * createData(xml::xmlNodePtr _node, xml::xmlNodePtr _root) = 0;
+		virtual StateInfo * createData(xml::ElementPtr _node, xml::ElementPtr _root, Version _version) = 0;
 	};
 
 	template <typename T>
@@ -41,9 +41,9 @@ namespace MyGUI
 			return new T(_info, _parent);
 		}
 
-		virtual StateInfo * createData(xml::xmlNodePtr _node, xml::xmlNodePtr _root)
+		virtual StateInfo * createData(xml::ElementPtr _node, xml::ElementPtr _root, Version _version)
 		{
-			return T::createStateData(_node, _root);
+			return T::createStateData(_node, _root, _version);
 		}
 	};
 

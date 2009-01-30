@@ -18,9 +18,9 @@ namespace MyGUI
 
 	class RenderItem;
 
-	class _MyGUIExport SubSkin : public ISubWidgetRect
+	class MYGUI_EXPORT SubSkin : public ISubWidgetRect
 	{
-		MYGUI_RTTI_CHILD_HEADER;
+		MYGUI_RTTI_CHILD_HEADER(SubSkin, ISubWidgetRect);
 
 	public:
 		SubSkin(const SubWidgetInfo &_info, ICroppedRectangle * _parent);
@@ -28,8 +28,7 @@ namespace MyGUI
 
 		void setAlpha(float _alpha);
 
-		void show();
-		void hide();
+		virtual void setVisible(bool _visible);
 
 		void _updateView();
 		void _correctView();
@@ -48,7 +47,7 @@ namespace MyGUI
 		virtual size_t _drawItem(Vertex * _vertex, bool _update);
 
 		// метод для генерации данных из описания xml
-		static StateInfo * createStateData(xml::xmlNodePtr _node, xml::xmlNodePtr _root);
+		static StateInfo * createStateData(xml::ElementPtr _node, xml::ElementPtr _root, Version _version);
 
 	protected:
 

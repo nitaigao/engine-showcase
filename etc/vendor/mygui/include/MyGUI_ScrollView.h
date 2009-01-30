@@ -13,12 +13,12 @@
 namespace MyGUI
 {
 
-	class _MyGUIExport ScrollView : public Widget
+	class MYGUI_EXPORT ScrollView : public Widget
 	{
 		// для вызова закрытого конструктора
 		friend class factory::BaseWidgetFactory<ScrollView>;
 
-		MYGUI_RTTI_CHILD_HEADER;
+		MYGUI_RTTI_CHILD_HEADER( ScrollView, Widget );
 
 	public:
 		//! @copydoc Widget::setTextAlign
@@ -38,20 +38,15 @@ namespace MyGUI
 		/** @copydoc Widget::setCoord(int _left, int _top, int _width, int _height) */
 		void setCoord(int _left, int _top, int _width, int _height) { setCoord(IntCoord(_left, _top, _width, _height)); }
 
-		MYGUI_OBSOLETE("use Widget::setCoord(const IntCoord& _coord)")
-		void setPosition(const IntCoord & _coord) { setCoord(_coord); }
-		MYGUI_OBSOLETE("use Widget::setCoord(int _left, int _top, int _width, int _height)")
-		void setPosition(int _left, int _top, int _width, int _height) { setCoord(_left, _top, _width, _height); }
-
-		/** Show VScroll when canvas size larger than ScrollView */
-		void showVScroll(bool _show) { mShowVScroll = _show; updateView(); }
+		/** Show VScroll when text size larger than Edit */
+		void setVisibleVScroll(bool _visible) { mShowVScroll = _visible; updateView(); }
 		/** Get Show VScroll flag */
-		bool isShowVScroll() { return mShowVScroll; }
+		bool isVisibleVScroll() { return mShowVScroll; }
 
-		/** Show HScroll when canvas size larger than ScrollView */
-		void showHScroll(bool _show) { mShowHScroll = _show; updateView(); }
+		/** Show HScroll when text size larger than Edit */
+		void setVisibleHScroll(bool _visible) { mShowHScroll = _visible; updateView(); }
 		/** Get Show HScroll flag */
-		bool isShowHScroll() { return mShowHScroll; }
+		bool isVisibleHScroll() { return mShowHScroll; }
 
 		/** Get canvas align */
 		Align getCanvasAlign() { return mAlignCanvas; }
@@ -59,30 +54,49 @@ namespace MyGUI
 		void setCanvasAlign(Align _align) { mAlignCanvas = _align; updateView(); }
 
 		/** Get canvas size */
-		IntSize getCanvasSize() { return mWidgetCanvas->getSize(); }
+		IntSize getCanvasSize() { return mWidgetClient->getSize(); }
 		/** Set canvas size */
-		void setCanvasSize(const IntSize & _size) { mWidgetCanvas->setSize(_size); updateView(); }
+		void setCanvasSize(const IntSize & _size) { mWidgetClient->setSize(_size); updateView(); }
 		/** Set canvas size */
-		void setCanvasSize(int _width, int _height) { mWidgetCanvas->setSize(_width, _height); updateView(); }
+		void setCanvasSize(int _width, int _height) { setCanvasSize(IntSize(_width, _height)); }
 
-		/** @copydoc Widget::getEnumerator */
-		virtual EnumeratorWidgetPtr getEnumerator();
+		/** Get rect where child widgets placed */
+		const IntCoord& getClientCoord() { return mClient->getCoord(); }
+
+	/*obsolete:*/
+#ifndef MYGUI_DONT_USE_OBSOLETE
+
+		MYGUI_OBSOLETE("use : void Widget::setCoord(const IntCoord& _coord)")
+		void setPosition(const IntCoord & _coord) { setCoord(_coord); }
+		MYGUI_OBSOLETE("use : void Widget::setCoord(int _left, int _top, int _width, int _height)")
+		void setPosition(int _left, int _top, int _width, int _height) { setCoord(_left, _top, _width, _height); }
+
+		MYGUI_OBSOLETE("use : void ScrollView::setVisibleVScroll(bool _visible)")
+		void showVScroll(bool _visible) { setVisibleVScroll(_visible); }
+		MYGUI_OBSOLETE("use : bool ScrollView::isVisibleVScroll()")
+		bool isShowVScroll() { return isVisibleVScroll(); }
+		MYGUI_OBSOLETE("use : void ScrollView::setVisibleHScroll(bool _visible)")
+		void showHScroll(bool _visible) { setVisibleHScroll(_visible); }
+		MYGUI_OBSOLETE("use : bool ScrollView::isVisibleHScroll()")
+		bool isShowHScroll() { return isVisibleHScroll(); }
+
+#endif // MYGUI_DONT_USE_OBSOLETE
 
 	protected:
-		ScrollView(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		ScrollView(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
 		virtual ~ScrollView();
 
 		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
 
 		// переопределяем для присвоению холста
-		virtual WidgetPtr baseCreateWidget(const std::string & _type, const std::string & _skin, const IntCoord& _coord, Align _align, const std::string & _layer, const std::string & _name);
+		virtual WidgetPtr baseCreateWidget(WidgetStyle _style, const std::string & _type, const std::string & _skin, const IntCoord& _coord, Align _align, const std::string & _layer, const std::string & _name);
 
 		void notifyMouseSetFocus(WidgetPtr _sender, WidgetPtr _old);
 		void notifyMouseLostFocus(WidgetPtr _sender, WidgetPtr _new);
 		void notifyMousePressed(WidgetPtr _sender, int _left, int _top, MouseButton _id);
 		void notifyMouseReleased(WidgetPtr _sender, int _left, int _top, MouseButton _id);
 
-		void notifyScrollChangePosition(WidgetPtr _sender, size_t _position);
+		void notifyScrollChangePosition(VScrollPtr _sender, size_t _position);
 		void notifyMouseWheel(WidgetPtr _sender, int _rel);
 
 		virtual void onKeyLostFocus(WidgetPtr _new);
@@ -112,7 +126,7 @@ namespace MyGUI
 		size_t mVRange;
 		size_t mHRange;
 
-		WidgetPtr mWidgetCanvas;
+		WidgetPtr mClient;
 		Align mAlignCanvas;
 
 	}; // class ScrollView : public Widget

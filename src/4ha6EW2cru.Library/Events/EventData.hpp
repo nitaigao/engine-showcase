@@ -147,4 +147,26 @@ private:
 
 };
 
+class LevelChangedEventData : public IEventData
+{
+
+public:
+
+	~LevelChangedEventData( ) { };
+
+	LevelChangedEventData( const std::string levelName )
+		: _levelName( levelName )
+	{
+
+	}
+
+	/*! Returns the name of the level requested */
+	inline std::string GetLevelName( ) { return _levelName; };
+
+private:
+
+	std::string _levelName;
+
+};
+
 #endif

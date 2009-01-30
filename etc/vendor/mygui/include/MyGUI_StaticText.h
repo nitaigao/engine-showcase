@@ -13,19 +13,17 @@
 namespace MyGUI
 {
 
-	class _MyGUIExport StaticText : public Widget
+	class MYGUI_EXPORT StaticText : public Widget
 	{
 		// для вызова закрытого конструктора
 		friend class factory::BaseWidgetFactory<StaticText>;
 
-		MYGUI_RTTI_CHILD_HEADER;
+		MYGUI_RTTI_CHILD_HEADER( StaticText, Widget );
 
-	public:
-		
 		virtual ~StaticText();
 		
 	protected:
-		StaticText(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		StaticText(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
 
 		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
 

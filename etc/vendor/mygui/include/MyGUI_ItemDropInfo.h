@@ -12,7 +12,7 @@
 namespace MyGUI
 {
 
-	enum MYGUI_OBSOLETE_START("use DropItemState")
+	enum MYGUI_OBSOLETE_START("use : DropItemState")
 	{
 		//use DropItemState::None
 		DROP_NONE,
@@ -28,9 +28,9 @@ namespace MyGUI
 		DROP_REFUSE
 	} MYGUI_OBSOLETE_END;
 
-	struct _MyGUIExport DropItemState
+	struct MYGUI_EXPORT DropItemState
 	{
-		enum
+		enum DropState
 		{
 			None,
 			Start,
@@ -48,13 +48,13 @@ namespace MyGUI
 	};
 
 	// структура информации об индексах дропа
-	/** Inormation abou drag'n'drop indexes */
-	struct _MyGUIExport ItemDropInfo
+	/** Inormation about drag'n'drop indexes */
+	struct MYGUI_EXPORT ItemDropInfo
 	{
 		ItemDropInfo() :
-			sender(null),
+			sender(nullptr),
 			sender_index(ITEM_NONE),
-			reseiver(null),
+			reseiver(nullptr),
 			reseiver_index(ITEM_NONE)
 		{
 		}
@@ -77,9 +77,9 @@ namespace MyGUI
 
 		void reset()
 		{
-			reseiver = null;
+			reseiver = nullptr;
 			reseiver_index = ITEM_NONE;
-			sender = null;
+			sender = nullptr;
 			sender_index = ITEM_NONE;
 		}
 
@@ -94,7 +94,7 @@ namespace MyGUI
 		size_t reseiver_index;
 	};
 
-	struct _MyGUIExport DropWidgetInfo
+	struct MYGUI_EXPORT DropWidgetInfo
 	{
 		DropWidgetInfo(WidgetPtr _item, const IntCoord & _dimension) :
 			item(_item),
@@ -107,7 +107,7 @@ namespace MyGUI
 	};
 	typedef std::vector<DropWidgetInfo> VectorDropWidgetInfo;
 
-	struct _MyGUIExport DropWidgetState
+	struct MYGUI_EXPORT DropWidgetState
 	{
 		DropWidgetState(size_t _index) :
 			index(_index),

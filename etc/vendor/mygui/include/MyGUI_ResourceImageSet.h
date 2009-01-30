@@ -13,6 +13,7 @@
 #include "MyGUI_IResource.h"
 #include "MyGUI_ImageInfo.h"
 #include "MyGUI_Enumerator.h"
+#include "MyGUI_ResourceManager.h"
 
 namespace MyGUI
 {
@@ -38,12 +39,12 @@ namespace MyGUI
 	typedef std::vector<GroupImage> VectorGroupImage;
 	typedef Enumerator<VectorGroupImage> EnumeratorGroupImage;
 
-	class _MyGUIExport ResourceImageSet : public IResource
+	class MYGUI_EXPORT ResourceImageSet : public IResource
 	{
-		MYGUI_RESOURCE_HEADER;
+		MYGUI_RESOURCE_HEADER( ResourceImageSet, IResource );
 
 	private:
-		ResourceImageSet(xml::xmlNodeIterator _node);
+		ResourceImageSet(xml::ElementEnumerator _node, Version _version);
 		virtual ~ResourceImageSet() { }
 
 		//-------------------------------------------------------------//

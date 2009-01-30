@@ -79,8 +79,8 @@ HumanView::~HumanView( )
 
 void HumanView::OnGameInitialized( const IEvent* event )
 {
-	Event* changeScreenEvent = new Event( VIEW_CHANGE_SCREEN, new ChangeScreenEventData( "introscreen" ) );
-	EventManager::GetInstance( )->QueueEvent( changeScreenEvent );
+	//Event* changeScreenEvent = new Event( VIEW_CHANGE_SCREEN, new ChangeScreenEventData( "introscreen" ) );
+	//EventManager::GetInstance( )->QueueEvent( changeScreenEvent );
 }
 
 void HumanView::OnChangeScreen( const IEvent* event )

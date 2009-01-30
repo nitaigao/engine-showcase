@@ -16,15 +16,11 @@ namespace MyGUI
 	namespace factory
 	{
 
-		class _MyGUIExport MenuBarFactory : public BaseWidgetFactory<MenuBar>
+		class MYGUI_EXPORT MenuBarFactory : public BaseWidgetFactory<MenuBar>
 		{
 		public:
 			MenuBarFactory();
 			~MenuBarFactory();
-		private:
-			// методы для парсинга
-			void MenuBar_AddItem(WidgetPtr _widget, const std::string &_key, const std::string &_value);
-
 		};
 
 	} // namespace factory

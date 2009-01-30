@@ -9,51 +9,59 @@
 #define __MYGUI_RTTI_H__
 
 #include "MyGUI_Prerequest.h"
+#include "MyGUI_Common.h"
+#include <typeinfo>
 
 namespace MyGUI
 {
 
-	#define MYGUI_RTTI_BASE_HEADER \
+	//VC++ 7.1
+	#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC && MYGUI_COMP_VER == 1310
+		#define MYGUI_GET_TYPE_NAME( Type ) \
+			struct TypeNameHolder { const std::string & getClassTypeName() { static std::string type = #Type; return type; } }; \
+			static const std::string & getClassTypeName() { TypeNameHolder type; return type.getClassTypeName(); }
+	#else
+		#define MYGUI_GET_TYPE_NAME( Type ) \
+			static const std::string & getClassTypeName() { static std::string type = #Type; return type; }
+	#endif
+
+	#define MYGUI_RTTI_BASE_HEADER( BaseType ) \
 		public: \
-			template<typename T> bool isType() const { return isType( typeid( T )); } \
-			virtual bool isType( const std::type_info & t) const;	\
-			virtual const std::string & getTypeName(); \
-			static const std::string & getClassTypeName(); \
-			template<typename T> T* castType(bool _throw = true) \
+			/** Compare with selected type */ \
+			virtual bool isType( const std::type_info & t) const { return typeid( BaseType ) == t; }	\
+			/** Get type name as string */ \
+			virtual const std::string & getTypeName() { return BaseType::getClassTypeName(); } \
+			MYGUI_GET_TYPE_NAME( BaseType ) \
+			\
+			/** Compare with selected type */ \
+			template<typename Type> bool isType() const { return isType( typeid( Type )); } \
+			/** Try to cast pointer to selected type. \
+				@param _throw If true throw exception when casting in wrong type, else return nullptr \
+			*/ \
+			template<typename Type> Type* castType(bool _throw = true) \
 			{ \
-				if (this->isType<T>()) return static_cast<T*>( this ); \
-				MYGUI_ASSERT(!_throw, "Error cast type '" << this->getTypeName() << "' to type '" << T::getClassTypeName() << "' .") \
-				return null; \
+				if (this->isType<Type>()) return static_cast<Type*>( this ); \
+				MYGUI_ASSERT(!_throw, "Error cast type '" << this->getTypeName() << "' to type '" << Type::getClassTypeName() << "' .") \
+				return nullptr; \
 			} \
-			template<typename T> const T* castType(bool _throw = true) const \
+			/** Try to cast pointer to selected type. \
+				@param _throw If true throw exception when casting in wrong type, else return nullptr \
+			*/ \
+			template<typename Type> const Type* castType(bool _throw = true) const \
 			{ \
-				if (this->isType<T>()) return static_cast<T*>( this ); \
-				MYGUI_ASSERT(!_throw, "Error cast type '" << this->getTypeName() << "' to type '" << T::getClassTypeName() << "' .") \
-				return null; \
-			} \
-		private: \
-			static std::string mTypeName;
+				if (this->isType<Type>()) return static_cast<Type*>( this ); \
+				MYGUI_ASSERT(!_throw, "Error cast type '" << this->getTypeName() << "' to type '" << Type::getClassTypeName() << "' .") \
+				return nullptr; \
+			}
 
-	#define MYGUI_RTTI_BASE_IMPLEMENT( T ) \
-		bool T::isType( const std::type_info & t) const { return typeid( T ) == t; } \
-		const std::string & T::getTypeName() { return mTypeName; } \
-		const std::string & T::getClassTypeName() { return mTypeName; } \
-		std::string T::mTypeName = #T;
-
-
-	#define MYGUI_RTTI_CHILD_HEADER \
+	#define MYGUI_RTTI_CHILD_HEADER( DerivedType, BaseType ) \
 		public: \
-			virtual bool isType( const std::type_info &t ) const;	\
-			virtual const std::string & getTypeName(); \
-			static const std::string & getClassTypeName(); \
-		private: \
-			static std::string mTypeName;
-
-	#define MYGUI_RTTI_CHILD_IMPLEMENT( T, BT ) \
-		bool T::isType( const std::type_info &t ) const { return typeid( T ) == t || BT::isType( t ); } \
-		const std::string & T::getClassTypeName() { return mTypeName; } \
-		const std::string & T::getTypeName() { return mTypeName; } \
-		std::string T::mTypeName = #T;
+			typedef BaseType Base; \
+			/** Compare with selected type */ \
+			virtual bool isType( const std::type_info &t ) const { return typeid( DerivedType ) == t || BaseType::isType( t ); }	\
+			/** Get type name as string */ \
+			virtual const std::string & getTypeName() { return DerivedType::getClassTypeName(); } \
+			MYGUI_GET_TYPE_NAME( DerivedType )
 
 } // namespace MyGUI
 

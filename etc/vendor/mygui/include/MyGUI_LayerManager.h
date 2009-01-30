@@ -12,6 +12,7 @@
 #include "MyGUI_Enumerator.h"
 #include "MyGUI_XmlDocument.h"
 #include "MyGUI_IUnlinkWidget.h"
+#include "MyGUI_ResourceManager.h"
 
 #include <OgreRenderQueueListener.h>
 
@@ -20,44 +21,42 @@
 namespace MyGUI
 {
 
+	class LayerItemKeeper;
 	class LayerItem;
 	class LayerKeeper;
 	typedef LayerKeeper* LayerKeeperPtr;
 	typedef std::vector<LayerKeeperPtr> VectorLayerKeeperPtr;
 	typedef Enumerator<VectorLayerKeeperPtr> EnumeratorLayerKeeperPtr;
 
-	class _MyGUIExport LayerManager : public Ogre::RenderQueueListener, public IUnlinkWidget
+	class MYGUI_EXPORT LayerManager :
+		public Ogre::RenderQueueListener,
+		public Ogre::RenderSystem::Listener,
+		public IUnlinkWidget
 	{
-		INSTANCE_HEADER(LayerManager);
+		MYGUI_INSTANCE_HEADER(LayerManager);
 
 	public:
 		void initialise();
 		void shutdown();
 
 		/** Attach widget to specific layer
-			@param
-				_name of layer
-			@param
-				_item pointer to widget
+			@param _name Layer name
+			@param _item Widget pointer
 		*/
 		void attachToLayerKeeper(const std::string& _name, WidgetPtr _item);
 		/** Detach widget from layer
-			@param
-				_item pointer to widget
+			@param _item Widget pointer
 		*/
 		void detachFromLayerKeeper(WidgetPtr _item);
 
 		/** Up widget to be on top of its layer
-			@param
-				_item pointer to widget
+			@param _item Widget pointer
 		*/
 		void upLayerItem(WidgetPtr _item);
 
 		/** Load additional MyGUI *_layer.xml file */
-		bool load(const std::string & _file, const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-		void _load(xml::xmlNodePtr _node, const std::string & _file);
-
-		LayerItem * _findLayerItem(int _left, int _top, LayerItem* &_root);
+		bool load(const std::string & _file, const std::string & _group = MyGUI::ResourceManager::GUIResourceGroupName);
+		void _load(xml::ElementPtr _node, const std::string & _file, Version _version);
 
 		// удаляем данный виджет из всех возможных мест
 		void _unlinkWidget(WidgetPtr _widget);
@@ -95,6 +94,9 @@ namespace MyGUI
 		/** Get top visible and enabled widget at specified position */
 		WidgetPtr getWidgetFromPoint(int _left, int _top);
 
+		/** Check if LayerItemKeeper still exist */
+		bool isExistItem(LayerItemKeeper * _item);
+
 	private:
 		void clear();
 
@@ -103,6 +105,9 @@ namespace MyGUI
 
 		void merge(VectorLayerKeeperPtr & _layers);
 		void destroy(LayerKeeperPtr _layer);
+
+		// восстанавливаем буферы
+		virtual void eventOccurred(const Ogre::String& eventName, const Ogre::NameValuePairList* parameters);
 
 	private:
 		VectorLayerKeeperPtr mLayerKeepers;

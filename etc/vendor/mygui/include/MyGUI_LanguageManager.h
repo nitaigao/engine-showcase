@@ -22,9 +22,9 @@ namespace MyGUI
 	// делегат для смены оповещения смены языков
 	typedef delegates::CMultiDelegate1<const std::string &> MultiDelegate_String;
 
-	class _MyGUIExport LanguageManager
+	class MYGUI_EXPORT LanguageManager
 	{
-		INSTANCE_HEADER(LanguageManager);
+		MYGUI_INSTANCE_HEADER(LanguageManager);
 
 	public:
 		void initialise();
@@ -33,9 +33,9 @@ namespace MyGUI
 	public:
 
 		/** Load additional MyGUI *_language.xml file */
-		bool load(const std::string & _file, const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		bool load(const std::string & _file, const std::string & _group = MyGUI::ResourceManager::GUIResourceGroupName);
 
-		void _load(xml::xmlNodePtr _node, const std::string & _file);
+		void _load(xml::ElementPtr _node, const std::string & _file, Version _version);
 
 		/** Return true if language _name exist */
 		bool isLanguageExist(const std::string & _name) { return mMapFile.find(_name) != mMapFile.end(); }
@@ -58,7 +58,6 @@ namespace MyGUI
 		void clearUserTags() { mUserMapLanguage.clear(); }
 
 		/** Event : Change current language.\n
-			info : \n
 			signature : void method(const std::string & _language);
 			@param _language Current language.
 		*/
@@ -66,9 +65,9 @@ namespace MyGUI
 
 	private:
 		void loadLanguage(const VectorString & _list, const std::string & _group);
-		bool loadLanguage(const std::string & _file, const std::string & _group);
-		void _loadLanguage(std::ifstream & _stream);
-		void _loadLanguage(const Ogre::DataStreamPtr& stream);
+		bool loadLanguage(const std::string & _file, const std::string & _group, bool _user = false);
+		void _loadLanguage(std::ifstream & _stream, bool _user);
+		void _loadLanguage(const Ogre::DataStreamPtr& stream, bool _user);
 
 
 	private:

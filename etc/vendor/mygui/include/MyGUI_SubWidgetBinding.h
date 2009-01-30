@@ -15,7 +15,7 @@ namespace MyGUI
 {
 
 	// вспомогательный класс для инициализации сабскинов
-	class _MyGUIExport SubWidgetBinding
+	class MYGUI_EXPORT SubWidgetBinding
 	{
 		// для доступа к внутренним членам
 		friend class WidgetSkinInfo;
@@ -42,7 +42,7 @@ namespace MyGUI
 		void clear()
 		{
 			mType = "";
-			mAlign = 0;
+			mAlign = Align::Default;
 			mStates.clear();
 		}
 

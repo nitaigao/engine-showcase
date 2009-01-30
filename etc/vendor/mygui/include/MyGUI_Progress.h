@@ -14,12 +14,12 @@
 namespace MyGUI
 {
 
-	class _MyGUIExport Progress : public Widget
+	class MYGUI_EXPORT Progress : public Widget
 	{
 		// для вызова закрытого конструктора
 		friend class factory::BaseWidgetFactory<Progress>;
 
-		MYGUI_RTTI_CHILD_HEADER;
+		MYGUI_RTTI_CHILD_HEADER( Progress, Widget );
 
 	public:
 		/** Set progress range */
@@ -63,13 +63,18 @@ namespace MyGUI
 		/** @copydoc Widget::setCoord(int _left, int _top, int _width, int _height) */
 		void setCoord(int _left, int _top, int _width, int _height) { setCoord(IntCoord(_left, _top, _width, _height)); }
 
-		MYGUI_OBSOLETE("use Widget::setCoord(const IntCoord& _coord)")
+	/*obsolete:*/
+#ifndef MYGUI_DONT_USE_OBSOLETE
+
+		MYGUI_OBSOLETE("use : void Widget::setCoord(const IntCoord& _coord)")
 		void setPosition(const IntCoord & _coord) { setCoord(_coord); }
-		MYGUI_OBSOLETE("use Widget::setCoord(int _left, int _top, int _width, int _height)")
+		MYGUI_OBSOLETE("use : void Widget::setCoord(int _left, int _top, int _width, int _height)")
 		void setPosition(int _left, int _top, int _width, int _height) { setCoord(_left, _top, _width, _height); }
 
+#endif // MYGUI_DONT_USE_OBSOLETE
+
 	protected:
-		Progress(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		Progress(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
 		virtual ~Progress();
 
 		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
@@ -101,7 +106,7 @@ namespace MyGUI
 
 		Align mStartPoint;
 
-	}; // class _MyGUIExport Progress : public Widget
+	}; // class MYGUI_EXPORT Progress : public Widget
 
 } // namespace MyGUI
 

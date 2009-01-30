@@ -18,7 +18,7 @@
 namespace MyGUI
 {
 
-	class _MyGUIExport Font : public Ogre::Resource, public Ogre::ManualResourceLoader
+	class MYGUI_EXPORT Font : public Ogre::Resource, public Ogre::ManualResourceLoader
     {
 
 	public:
@@ -84,29 +84,7 @@ namespace MyGUI
 			bool isExist(Char _code) { return _code >= first && _code <= last; }
 
 			// возвращает указатель на глиф, или 0, если код не входит в диапазон
-			GlyphInfo * getInfo(Char _code) { return isExist(_code) ? &range[_code - first] : null; }
-
-			// возвращает указатель на глиф, или 0
-			/*GlyphInfo * insert(Char _code)
-			{
-				// если у же есть, то возвращаем существующий
-				if (isExist(_code)) return &range[_code - first];
-
-				// вставляем в начало
-				if (_code - 1 == first) {
-					first--;
-					range.insert(range.begin(), GlyphInfo(_code, FloatRect(), 0));
-					return &range[0];
-				}
-				// вставляем в конец
-				else if (_code + 1 == last) {
-					last++;
-					range.push_back(GlyphInfo(_code, FloatRect(), 0));
-					return &range[last - first];
-				}
-
-				return null;
-			}*/
+			GlyphInfo * getInfo(Char _code) { return isExist(_code) ? &range[_code - first] : nullptr; }
 
 		public:
 			Char first;
@@ -188,7 +166,7 @@ namespace MyGUI
 		/// @copydoc Ogre::Resource::calculateSize
 		size_t calculateSize(void) const { return 0; } // permanent resource is in the texture
 
-		void addGlyph(GlyphInfo * _info, Char _index, int _left, int _top, int _right, int _bottom, int _finalw, int _finalh, float _aspect);
+		void addGlyph(GlyphInfo * _info, Char _index, int _left, int _top, int _right, int _bottom, int _finalw, int _finalh, float _aspect, int _addHeight = 0);
 
 		void loadResourceTrueType(Ogre::Resource* res);
 		void addRange(VectorPairCodeCoord & _info, size_t _first, size_t _last, int _width, int _height, float _aspect);
@@ -253,7 +231,7 @@ namespace MyGUI
 		int getDefaultHeight() const { return mDefaultHeight; }
 		void setDefaultHeight(int _height) { mDefaultHeight = _height; }
 
-		int getHeightPix() { return mHeightPix; }
+		unsigned int getHeightPix() { return uint(mHeightPix); }
 
 		/** Implementation of ManualResourceLoader::loadResource, called
 			when the Texture that this font creates needs to (re)load. */
@@ -295,7 +273,7 @@ namespace MyGUI
 	ResourceSubclassPtr<T> : public SharedPtr<T>
 	*/
 
-	class _MyGUIExport FontPtr : public Ogre::SharedPtr<Font>
+	class MYGUI_EXPORT FontPtr : public Ogre::SharedPtr<Font>
 	{
 	public:
 		FontPtr() : Ogre::SharedPtr<Font>() {}
@@ -337,13 +315,13 @@ namespace MyGUI
             }
 			else
 			{
-				// RHS must be a null pointer
-				MYGUI_ASSERT(r.isNull(), "RHS must be null if it has no mutex!");
+				// RHS must be a nullptr pointer
+				MYGUI_ASSERT(r.isNull(), "RHS must be nullptr if it has no mutex!");
 				setNull();
 			}
 			return *this;
 		}
-	}; // class _MyGUIExport FontPtr : public Ogre::SharedPtr<Font>
+	}; // class MYGUI_EXPORT FontPtr : public Ogre::SharedPtr<Font>
 
 } // namespace MyGUI
 

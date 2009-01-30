@@ -31,7 +31,7 @@
 #include "MyGUI_MenuBar.h"
 #include "MyGUI_ScrollView.h"
 #include "MyGUI_DDContainer.h"
-#include "MyGUI_GridCtrl.h"
+#include "MyGUI_Canvas.h"
 
 #include "MyGUI_InputManager.h"
 #include "MyGUI_SubWidgetManager.h"
@@ -59,6 +59,9 @@
 #include "MyGUI_Any.h"
 #include "MyGUI_Convert.h"
 #include "MyGUI_MenuItemType.h"
+#include "MyGUI_Version.h"
+#include "MyGUI_XmlDocument.h"
+#include "MyGUI_WidgetStyle.h"
 
 #include "MyGUI_LastHeader.h"
 

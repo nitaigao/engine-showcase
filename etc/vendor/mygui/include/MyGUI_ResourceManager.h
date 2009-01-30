@@ -16,9 +16,9 @@
 
 namespace MyGUI
 {
-	typedef delegates::CDelegate2<IResourcePtr &, xml::xmlNodeIterator> CreatorDelegate;
+	typedef delegates::CDelegate3<IResourcePtr &, xml::ElementEnumerator, Version> CreatorDelegate;
 
-	typedef delegates::CDelegate2<xml::xmlNodePtr, const std::string &> LoadXmlDelegate;
+	typedef delegates::CDelegate3<xml::ElementPtr, const std::string &, Version> LoadXmlDelegate;
 	typedef std::map<Ogre::String, LoadXmlDelegate> MapLoadXmlDelegate;
 
 	typedef std::map<std::string, CreatorDelegate> MapDelegate;
@@ -26,12 +26,12 @@ namespace MyGUI
 	typedef std::map<std::string, IResourcePtr> MapResourceName;
 	typedef Enumerator<MapResource> EnumeratorMapResource;
 
-	class _MyGUIExport ResourceManager
+	class MYGUI_EXPORT ResourceManager
 	{
-		INSTANCE_HEADER(ResourceManager);
+		MYGUI_INSTANCE_HEADER(ResourceManager);
 
 	public:
-		void initialise(const Ogre::String & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		void initialise(const Ogre::String & _group = MyGUI::ResourceManager::GUIResourceGroupName);
 		void shutdown();
 
 	public:
@@ -39,15 +39,15 @@ namespace MyGUI
 		LoadXmlDelegate & registerLoadXmlDelegate(const Ogre::String & _key);
 		void unregisterLoadXmlDelegate(const Ogre::String & _key);
 
-		/** Load config with any info (file can have different data such other config files that will be loaded, skins, layers, pointers, etc) */
-		bool load(const std::string & _file, const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		/** Load additional MyGUI *_resource.xml file */
+		bool load(const std::string & _file, const std::string & _group = MyGUI::ResourceManager::GUIResourceGroupName);
 
 		bool _loadImplement(const std::string & _file, const std::string & _group, bool _match, const std::string & _type, const std::string & _instance);
-		void _load(xml::xmlNodePtr _node, const std::string & _file);
-		void _loadLocation(xml::xmlNodePtr _node, const std::string & _file);
-		void _loadList(xml::xmlNodePtr _node, const std::string & _file);
+		void _load(xml::ElementPtr _node, const std::string & _file, Version _version);
+		void _loadLocation(xml::ElementPtr _node, const std::string & _file, Version _version);
+		void _loadList(xml::ElementPtr _node, const std::string & _file, Version _version);
 
-		/** Get name of ResourceGroup*/
+		/** Get name of ResourceGroup */
 		const std::string& getResourceGroup() { return mResourceGroup; }
 
 		/** Get resource by GUID */
@@ -57,7 +57,7 @@ namespace MyGUI
 			if (iter == mResources.end()) {
 				if (_throw) MYGUI_EXCEPT("resource '" << _id.print() << "' not found");
 				MYGUI_LOG(Warning, "resource '" << _id.print() << "' not found");
-				return null;
+				return nullptr;
 			}
 			return iter->second;
 		}
@@ -69,7 +69,7 @@ namespace MyGUI
 			if (iter == mResourceNames.end()) {
 				if (_throw) MYGUI_EXCEPT("resource '" << _name << "' not found");
 				MYGUI_LOG(Warning, "resource '" << _name << "' not found");
-				return null;
+				return nullptr;
 			}
 			return iter->second;
 		}
@@ -80,7 +80,7 @@ namespace MyGUI
 			std::vector<T*> ret;
 			for (MapResource::const_iterator iter=mResources.begin(); iter!=mResources.end(); ++iter) {
 				T* resource = iter->second->castType<T>(false);
-				if (resource != null) ret.push_back(resource);
+				if (resource != nullptr) ret.push_back(resource);
 			}
 			return ret;
 		}
@@ -109,6 +109,7 @@ namespace MyGUI
 		/** Get resources Enumerator */
 		EnumeratorMapResource getEnumerator() { return EnumeratorMapResource(mResources); }
 
+		static const std::string GUIResourceGroupName;
 	private:
 
 		MapDelegate mHolders;

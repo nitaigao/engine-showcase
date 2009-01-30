@@ -18,9 +18,9 @@ namespace MyGUI
 
 	//std::
 
-	class _MyGUIExport LayoutManager
+	class MYGUI_EXPORT LayoutManager
 	{
-		INSTANCE_HEADER(LayoutManager);
+		MYGUI_INSTANCE_HEADER(LayoutManager);
 
 	public:
 		void initialise();
@@ -31,8 +31,8 @@ namespace MyGUI
 			@param _group Ogre resource group where _file is
 			@return Return vector of pointers of loaded root widgets (root == without parents)
 		*/
-		VectorWidgetPtr load(const std::string & _file, const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-		void _load(xml::xmlNodePtr _node, const std::string & _file);
+		VectorWidgetPtr load(const std::string & _file, const std::string & _group = MyGUI::ResourceManager::GUIResourceGroupName);
+		void _load(xml::ElementPtr _node, const std::string & _file, Version _version);
 
 		/** Load layout file
 			@param _file name of layout
@@ -41,14 +41,14 @@ namespace MyGUI
 			@param _group Ogre resource group where _file is
 			@return Return vector of pointers of loaded root widgets (root == without parents)
 		*/
-		VectorWidgetPtr loadLayout(const std::string & _file, const std::string & _prefix = "", WidgetPtr _parent = NULL, const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		VectorWidgetPtr loadLayout(const std::string & _file, const std::string & _prefix = "", WidgetPtr _parent = NULL, const std::string & _group = MyGUI::ResourceManager::GUIResourceGroupName);
 
 		/** Unload layout file */
 		void unloadLayout(VectorWidgetPtr & _widgets);
 
 	private:
-		void parseLayout(VectorWidgetPtr & _widgets, xml::xmlNodePtr _root);
-		void parseWidget(VectorWidgetPtr & _widgets, xml::xmlNodeIterator & _widget, WidgetPtr _parent);
+		void parseLayout(VectorWidgetPtr & _widgets, xml::ElementPtr _root);
+		void parseWidget(VectorWidgetPtr & _widgets, xml::ElementEnumerator & _widget, WidgetPtr _parent);
 
 	private:
 		// для возврата последней загрузки

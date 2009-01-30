@@ -8,25 +8,29 @@
 #define __MYGUI_I_SUB_WIDGET_TEXT_H__
 
 #include "MyGUI_Prerequest.h"
+#include "MyGUI_Common.h"
 #include "MyGUI_ISubWidget.h"
+#include "MyGUI_Colour.h"
 
 namespace MyGUI
 {
 
-	class _MyGUIExport ISubWidgetText : public ISubWidget
+	class MYGUI_EXPORT ISubWidgetText : public ISubWidget
 	{
-		MYGUI_RTTI_CHILD_HEADER;
+		MYGUI_RTTI_CHILD_HEADER( ISubWidgetText, ISubWidget );
 
 	public:
 		ISubWidgetText(const IntCoord& _coord, Align _align, ICroppedRectangle * _parent) :
 			ISubWidget(_coord, _align, _parent) { }
-		virtual ~ISubWidgetText() = 0;
+		virtual ~ISubWidgetText()  { }
 
 		virtual bool firstQueue() { return false; }
 
-		// работа с выделенным текстом
+		/** Get index of start of selection */
 		virtual size_t getSelectStart() { return 0; }
+		/** Get index of end of selection */
 		virtual size_t getSelectEnd() { return 0; }
+		/** Set text selection */
 		virtual void setTextSelect(size_t _start, size_t _end) { }
 
 		// интенсивность выделенного текста
@@ -73,14 +77,14 @@ namespace MyGUI
 		virtual void setCaption(const Ogre::UTFString & _caption) { }
 		virtual const Ogre::UTFString & getCaption() { static Ogre::UTFString caption; return caption; }
 
-		virtual void setColour(const Ogre::ColourValue & _colour) { }
-		virtual const Ogre::ColourValue & getColour() { return Ogre::ColourValue::Black; }
+		virtual void setTextColour(const Colour& _colour) { }
+		virtual const Colour& getTextColour() { return Colour::Zero; }
 
 		virtual void setFontName(const Ogre::String & _font) { }
 		virtual const Ogre::String & getFontName() { static Ogre::String name; return name; }
 
-		virtual void setFontHeight(uint16 _height) { }
-		virtual uint16 getFontHeight() { return 0; }
+		virtual void setFontHeight(uint _height) { }
+		virtual uint getFontHeight() { return 0; }
 
 		virtual void setTextAlign(Align _align) { }
 		virtual Align getTextAlign() { return Align::Default; }

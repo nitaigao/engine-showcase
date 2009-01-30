@@ -21,16 +21,15 @@ namespace MyGUI
 
 	class RenderItem;
 
-	class _MyGUIExport EditText : public ISubWidgetText
+	class MYGUI_EXPORT EditText : public ISubWidgetText
 	{
-		MYGUI_RTTI_CHILD_HEADER;
+		MYGUI_RTTI_CHILD_HEADER(EditText, ISubWidgetText);
 
 	public:
 		EditText(const SubWidgetInfo &_info, ICroppedRectangle * _parent);
 		virtual ~EditText();
 
-		void show();
-		void hide();
+		virtual void setVisible(bool _visible);
 
 		// обновляет все данные связанные с тектом
 		virtual void updateRawData();
@@ -47,8 +46,8 @@ namespace MyGUI
 		void setCaption(const Ogre::UTFString & _caption);
 		const Ogre::UTFString & getCaption();
 
-		void setColour(const Ogre::ColourValue & _colour);
-		const Ogre::ColourValue & getColour();
+		void setTextColour(const Colour& _colour);
+		const Colour& getTextColour();
 
 		void setAlpha(float _alpha);
 		float getAlpha();
@@ -56,8 +55,8 @@ namespace MyGUI
 		virtual void setFontName(const std::string & _font);
 		virtual const std::string & getFontName();
 
-		virtual void setFontHeight(uint16 _height);
-		virtual uint16 getFontHeight();
+		virtual void setFontHeight(uint _height);
+		virtual uint getFontHeight();
 
 		virtual void _createDrawItem(LayerItemKeeper * _keeper, RenderItem * _item);
 		virtual void _destroyDrawItem();
@@ -97,7 +96,7 @@ namespace MyGUI
 		virtual void _setStateData(StateInfo * _data);
 
 		// метод для генерации данных из описания xml
-		static StateInfo * createStateData(xml::xmlNodePtr _node, xml::xmlNodePtr _root);
+		static StateInfo * createStateData(xml::ElementPtr _node, xml::ElementPtr _root, Version _version);
 
 	protected:
 
@@ -110,13 +109,13 @@ namespace MyGUI
 		bool mTextOutDate;
 		Align mTextAlign;
 
-		Ogre::ColourValue mColour;
+		Colour mColour;
 		float mAlpha;
 		bool mRenderGL;
 
 		FontPtr mpFont;
 		Ogre::TexturePtr mpTexture;
-		uint16 mFontHeight;
+		uint mFontHeight;
 		Font::GlyphInfo * mSpaceGlyphInfo;
 		Font::GlyphInfo * mTabGlyphInfo;
 

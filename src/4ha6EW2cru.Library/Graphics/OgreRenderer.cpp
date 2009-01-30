@@ -13,6 +13,8 @@
 #include "../Exceptions/UnInitializedException.hpp"
 #include "../Exceptions/ArchiveNotFoundException.hpp"
 
+#include "../Scripting/ScriptManager.h"
+
 using namespace Ogre;
 using namespace MyGUI;
 
@@ -23,6 +25,11 @@ OgreRenderer::~OgreRenderer( )
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_RELEASED, this, &OgreRenderer::OnMouseReleased );
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_DOWN, this, &OgreRenderer::OnKeyDown );
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_UP, this, &OgreRenderer::OnKeyUp );
+
+	if( _uiController != 0 )
+	{
+		delete _uiController;
+	}
 
 	if ( _gui != 0 )
 	{
@@ -124,9 +131,23 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 		EventManager::GetInstance( )->AddEventListener( INPUT_KEY_DOWN, this, &OgreRenderer::OnKeyDown );
 		EventManager::GetInstance( )->AddEventListener( INPUT_KEY_UP, this, &OgreRenderer::OnKeyUp );
 		EventManager::GetInstance( )->AddEventListener( VIEW_CHANGE_SCREEN, this, &OgreRenderer::OnChangeScreen );
+		EventManager::GetInstance( )->AddEventListener( GAME_LEVEL_CHANGED, this, &OgreRenderer::OnLevelChanged );
 	}
 
 	_scene = new OgreMax::OgreMaxScene( );
+
+	_uiController = ScriptManager::GetInstance( )->CreateScript( "/data/gui/RootUIController.lua" );
+
+	module( _uiController->GetState( ) )
+	[
+		class_< UIController >( "UIController" )
+			.def( constructor< luabind::object >( ) )
+			.def( "loadComponent", &UIController::LoadComponent )
+			.def( "destroyAllComponents", &UIController::DestroyAllComponents )
+	];
+
+	_uiController->Initialize( );
+	_uiController->CallFunction( "onLoad" );
 
 	_isInitialized = true;
 }
@@ -240,6 +261,11 @@ void OgreRenderer::OnKeyDown( const IEvent* event )
 { 
 	KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
 	_gui->injectKeyPress( ( MyGUI::KeyCode ) eventData->GetKeyCode( ) );
+}
+
+void OgreRenderer::OnLevelChanged( const IEvent* event )
+{
+
 }
 
 void OgreRenderer::OnChangeScreen( const IEvent* event )

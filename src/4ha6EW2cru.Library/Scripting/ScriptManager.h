@@ -43,7 +43,8 @@ private:
 	void CommandExecuted( const IEvent* event );
 
 	static void FromLua_GameQuit( void );
-	static void FromLua_Print( std::string message );
+	static void FromLua_LoadLevel( const std::string levelName );
+	static void FromLua_Print( const std::string message );
 	static int FromLua_ScriptError( lua_State* luaState );
 
 	lua_State* _masterState;

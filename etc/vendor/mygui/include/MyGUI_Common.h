@@ -17,19 +17,25 @@
 #include "MyGUI_ResourcePath.h"
 #include "MyGUI_Utility.h"
 #include "MyGUI_InputDefine.h"
+#include "MyGUI_Version.h"
+#include "MyGUI_WidgetStyle.h"
 
-#include <OgreException.h>
+#include <Ogre.h>
+
+// for debugging
+#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
+	#include <crtdbg.h>
+#endif
 
 #include "MyGUI_LastHeader.h"
 
 namespace MyGUI
 {
-
 	#define MYGUI_LOG_SECTION "General"
 	#define MYGUI_LOG_FILENAME "MyGUI.log"
-	#define MYGUI_LOG(level, text) LOGGING(MYGUI_LOG_SECTION, level, text)
+	#define MYGUI_LOG(level, text) MYGUI_LOGGING(MYGUI_LOG_SECTION, level, text)
 
-	class _MyGUIExport MyGUIException : public Ogre::Exception
+	class MYGUI_EXPORT MyGUIException : public Ogre::Exception
 	{
 	public:
 		MyGUIException(int number, const Ogre::String& description, const Ogre::String& source, const char* file, long line)
@@ -37,9 +43,9 @@ namespace MyGUI
 	};
 
 	// just other number
-	#define ERR_MY_GUI Ogre::Exception::ERR_NOT_IMPLEMENTED+1
+	enum { ERR_MY_GUI = Ogre::Exception::ERR_NOT_IMPLEMENTED+1 };
 	static inline MyGUIException createException(
-			Ogre::ExceptionCodeType<ERR_MY_GUI> code,
+			Ogre::ExceptionCodeType<MyGUI::ERR_MY_GUI> code,
 			const Ogre::String& desc,
 			const Ogre::String& src, const char* file, long line)
 		{
@@ -47,34 +53,33 @@ namespace MyGUI
 		}
 
 	// copy of OGRE_EXCEPT with MyGUIException create
-	#define OGRE_BASED_EXCEPT(desc, src)	throw MyGUI::createException(Ogre::ExceptionCodeType<ERR_MY_GUI>(), desc, src, __FILE__, __LINE__ );
+	#define MYGUI_BASE_EXCEPT(desc, src)	throw MyGUI::createException(Ogre::ExceptionCodeType<MyGUI::ERR_MY_GUI>(), desc, src, __FILE__, __LINE__ );
+
+	// MSVC specific: sets the breakpoint
+	#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
+		#define MYGUI_DBG_BREAK _CrtDbgBreak();
+	#else
+		#define MYGUI_DBG_BREAK
+	#endif
 
 	#define MYGUI_EXCEPT(dest) \
 	{ \
 		MYGUI_LOG(Critical, dest); \
+		MYGUI_DBG_BREAK;\
 		std::ostringstream stream; \
 		stream << dest << "\n"; \
-		OGRE_BASED_EXCEPT(stream.str(), "MyGUI"); \
+		MYGUI_BASE_EXCEPT(stream.str(), "MyGUI"); \
 	}
 
 	#define MYGUI_ASSERT(exp, dest) \
 	{ \
 		if ( ! (exp) ) { \
 			MYGUI_LOG(Critical, dest); \
+			MYGUI_DBG_BREAK;\
 			std::ostringstream stream; \
 			stream << dest << "\n"; \
-			OGRE_BASED_EXCEPT(stream.str(), "MyGUI"); \
+			MYGUI_BASE_EXCEPT(stream.str(), "MyGUI"); \
 		} \
-	}
-
-	#define MYGUI_ERROR(_throw, dest)					\
-	{													\
-		MYGUI_LOG(Critical, dest); 						\
-		if(_throw){										\
-			std::ostringstream stream;					\
-			stream << dest << "\n"; 					\
-			OGRE_BASED_EXCEPT(stream.str(), "MyGUI");	\
-		}												\
 	}
 
 	#define MYGUI_ASSERT_RANGE(index, size, owner) MYGUI_ASSERT(index < size, owner << " : index number " << index << " out of range [" << size << "]");
@@ -94,10 +99,15 @@ namespace MyGUI
 	#endif
 
 
-/// for more info see: http://mdf-i.blogspot.com/2008/09/deprecated-gcc-vs-vs-vs-vs.html
+	// for more info see: http://mdf-i.blogspot.com/2008/09/deprecated-gcc-vs-vs-vs-vs.html
 	#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
-		#define MYGUI_OBSOLETE_START(text) __declspec(deprecated(text))
-        #define MYGUI_OBSOLETE_END
+		#if MYGUI_COMP_VER == 1310 	// VC++ 7.1
+			#define MYGUI_OBSOLETE_START(text)
+		    #define MYGUI_OBSOLETE_END
+		#else
+			#define MYGUI_OBSOLETE_START(text) __declspec(deprecated(text))
+		    #define MYGUI_OBSOLETE_END
+		#endif
 
 	#elif MYGUI_COMPILER == MYGUI_COMPILER_GNUC
 		#if MYGUI_PLATFORM == MYGUI_PLATFORM_LINUX && MYGUI_COMP_VER == 412
@@ -107,12 +117,14 @@ namespace MyGUI
             #define MYGUI_OBSOLETE_START(text)
 			#define MYGUI_OBSOLETE_END __attribute__((deprecated))
 		#endif
+
 	#else
 		#define MYGUI_OBSOLETE_START(text)
 		#define MYGUI_OBSOLETE_END
+
 	#endif
 
-    #define MYGUI_OBSOLETE(text) MYGUI_OBSOLETE_START(text)MYGUI_OBSOLETE_END
+    #define MYGUI_OBSOLETE(text) /*! \deprecated text */ MYGUI_OBSOLETE_START(text)MYGUI_OBSOLETE_END
 
 } // namespace MyGUI
 

@@ -20,7 +20,7 @@ namespace MyGUI
 		till only small part of widget be visible. Widget will move
 		inside screen if it have any focus.
 	*/
-	class _MyGUIExport ControllerEdgeHide : public ControllerItem
+	class MYGUI_EXPORT ControllerEdgeHide : public ControllerItem
 	{
 	public:
 		/**
@@ -34,7 +34,6 @@ namespace MyGUI
 		const std::string & getType();
 		bool addTime(WidgetPtr _widget, float _time);
 		void prepareItem(WidgetPtr _widget);
-		//void replaseItem(WidgetPtr _widget, ControllerItem * _item);
 
 		delegates::CDelegate1<WidgetPtr> eventPostAction;
 

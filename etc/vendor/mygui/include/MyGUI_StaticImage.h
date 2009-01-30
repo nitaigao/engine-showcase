@@ -16,12 +16,12 @@
 namespace MyGUI
 {
 
-	class _MyGUIExport StaticImage : public Widget
+	class MYGUI_EXPORT StaticImage : public Widget
 	{
 		// для вызова закрытого конструктора
 		friend class factory::BaseWidgetFactory<StaticImage>;
 
-		MYGUI_RTTI_CHILD_HEADER;
+		MYGUI_RTTI_CHILD_HEADER( StaticImage, Widget );
 
 	public:
 
@@ -93,39 +93,84 @@ namespace MyGUI
 		void deleteAllItems();
 
 		// работа с фреймами анимированных индексов
+		/** Add frame
+			@param _index Image item index
+			@param _item Frame coordinates at image texture
+		*/
 		void addItemFrame(size_t _index, const IntCoord & _item);
+		/** Insert frame
+			@param _index Image item index
+			@param _indexFrame Frame index where we insert frame
+			@param _item Frame coordinates at image texture
+		*/
 		void insertItemFrame(size_t _index, size_t _indexFrame, const IntCoord & _item);
 
+		/** Add copy of frame (similar to StaticImage::addItemFrame but we copy frame coordinates)
+			@param _index Image item index
+			@param _indexSourceFrame Frame index of frame that we copying
+		*/
 		void addItemFrameDublicate(size_t _index, size_t _indexSourceFrame);
+		/** Insert copy of frame (similar to StaticImage::insertItemFrame but we copy frame coordinates)
+			@param _index Image item index
+			@param _indexFrame Frame index where we insert frame
+			@param _indexSourceFrame Frame index of frame that we copying
+		*/
 		void insertItemFrameDublicate(size_t _index, size_t _indexFrame, size_t _indexSourceFrame);
 
+		/** Change frame
+			@param _index Image item index
+			@param _indexFrame Frame index to change
+			@param _item Frame coordinates at image texture
+		*/
 		void setItemFrame(size_t _index, size_t _indexFrame, const IntCoord & _item);
 
+		/** Delete frame
+			@param _index Image item index
+			@param _indexFrame Frame index that we delete
+		*/
 		void deleteItemFrame(size_t _index, size_t _indexFrame);
+		/** Delete all frames
+			@param _index Image item index
+		*/
 		void deleteAllItemsFrame(size_t _index);
 
+		/** Set item frame rate
+			@param _index Image item index
+			@param _rate Duration of one frame in seconds
+		*/
 		void setItemFrameRate(size_t _index, float _rate);
+		/** Get item frame rate
+			@param _index Image item index
+		*/
 		float getItemFrameRate(size_t _index);
 
 		//------------------------------------------------------------------------------------------------//
 		// The interface with support of resources
 		//------------------------------------------------------------------------------------------------//
 
+		/** DESCRIBE_ME */
 		void setItemResourceInfo(const ImageIndexInfo & _info);
 
+		/** DESCRIBE_ME */
 		ResourceImageSetPtr getItemResource() { return mResource; }
 
+		/** DESCRIBE_ME */
 		bool setItemResource(const Guid & _id);
+		/** DESCRIBE_ME */
 		bool setItemResource(const std::string & _name);
+		/** DESCRIBE_ME */
 		void setItemResource(ResourceImageSetPtr _resource);
+		/** DESCRIBE_ME */
 		void setItemResource(ResourceImageSetPtr _resource, const std::string & _group, const std::string & _name);
 
+		/** DESCRIBE_ME */
 		void setItemGroup(const std::string & _group);
+		/** DESCRIBE_ME */
 		void setItemName(const std::string & _name);
 
 		
 	protected:
-		StaticImage(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		StaticImage(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
 		virtual ~StaticImage();
 
 		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);

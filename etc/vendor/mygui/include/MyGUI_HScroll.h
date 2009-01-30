@@ -13,26 +13,24 @@
 namespace MyGUI
 {
 
-	class _MyGUIExport HScroll : public VScroll
+	class MYGUI_EXPORT HScroll : public VScroll
 	{
 		// для вызова закрытого конструктора
 		friend class factory::BaseWidgetFactory<HScroll>;
 
-		MYGUI_RTTI_CHILD_HEADER;
+		MYGUI_RTTI_CHILD_HEADER( HScroll, VScroll );
 
 	public:
-		/** Get size in pixels of area where scroll moves */
-		int getLineSize();
+		//! @copydoc VScroll::getLineSize()
+		virtual int getLineSize();
 
-		/** Set size of track in pixels
-			@param _size in pixels, if less than MinTrackSize, MinTrackSize used
-		*/
-		void setTrackSize(size_t _size);
-		/** Get size of track in pixels */
-		int getTrackSize();
+		//! @copydoc VScroll::setTrackSize(int _size)
+		virtual void setTrackSize(int _size);
+		//! @copydoc VScroll::getTrackSize()
+		virtual int getTrackSize();
 
 	protected:
-		HScroll(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		HScroll(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
 		virtual ~HScroll();
 
 		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);

@@ -19,16 +19,16 @@ namespace MyGUI
 
 	class RenderItem;
 
-	class _MyGUIExport MainSkin : public SubSkin
+	class MYGUI_EXPORT MainSkin : public SubSkin
 	{
-		MYGUI_RTTI_CHILD_HEADER;
+		MYGUI_RTTI_CHILD_HEADER(MainSkin, SubSkin);
 
 	public:
 		MainSkin(const SubWidgetInfo &_info, ICroppedRectangle * _parent);
 		virtual ~MainSkin();
 
 		// метод для генерации данных из описания xml
-		static StateInfo * createStateData(xml::xmlNodePtr _node, xml::xmlNodePtr _root);
+		static StateInfo * createStateData(xml::ElementPtr _node, xml::ElementPtr _root, Version _version);
 
 	};
 

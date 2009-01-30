@@ -13,10 +13,10 @@
 namespace MyGUI
 {
 
-	class _MyGUIExport IUnlinkWidget
+	class MYGUI_EXPORT IUnlinkWidget
 	{
 	public:
-		virtual ~IUnlinkWidget(){};
+		virtual ~IUnlinkWidget() { }
 		virtual void _unlinkWidget(WidgetPtr _widget) = 0;
 	};
 

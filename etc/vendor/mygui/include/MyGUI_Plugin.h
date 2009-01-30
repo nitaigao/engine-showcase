@@ -14,12 +14,12 @@ namespace MyGUI
 
 	/*!	\brief Base plugin class
 	*/
-	class _MyGUIExport Plugin
+	class MYGUI_EXPORT IPlugin
 	{
 	public:
-		Plugin() {};
+		IPlugin() { }
 
-		virtual ~Plugin() {};
+		virtual ~IPlugin() { }
 
 		/*!	Get the name of the plugin. 
 			@remarks An implementation must be supplied for this method to uniquely

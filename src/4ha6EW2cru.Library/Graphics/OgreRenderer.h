@@ -11,6 +11,13 @@
 
 #include "../Utility/OgreMax/OgreMaxScene.hpp"
 
+#include "../Scripting/Script.h"
+
+#include "UI/UIController.h"
+
+#include <luabind/luabind.hpp>
+using namespace luabind;
+
 class OgreRenderer : public IRenderer
 {
 
@@ -23,6 +30,7 @@ public:
 		, _scene( 0 )
 		, _badFactory( 0 )
 		, _badStubCreated( false )
+		, _uiController( 0 )
 	{
 
 	}
@@ -55,6 +63,9 @@ private:
 	/*! Handler to manage Screen Changes */
 	void OnChangeScreen( const IEvent* event );
 
+	/*! Handler to manager OnLevelChange Events */
+	void OnLevelChanged( const IEvent* event );
+
 	void LoadResources( );
 
 	Ogre::Root* _root;
@@ -62,6 +73,7 @@ private:
 	bool _isInitialized;
 	bool _badStubCreated;
 
+	Script* _uiController;
 	OgreMax::OgreMaxScene* _scene;
 	Ogre::ArchiveFactory* _badFactory;
 

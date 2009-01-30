@@ -63,7 +63,7 @@ void GuiView::WindowButtonPressed( MyGUI::WidgetPtr widget, const std::string& n
 
 void GuiView::KeyButtonReleased( MyGUI::WidgetPtr widget, MyGUI::KeyCode keyCode )
 {
-	luabind::call_member< void >( _luaObject, _eventListeners[ widget ][ KEY_BUTTON_RELEASED ].c_str( ), keyCode );
+	luabind::call_member< void >( _luaObject, _eventListeners[ widget ][ KEY_BUTTON_RELEASED ].c_str( ), keyCode.toValue( ) );
 }
 
 void GuiView::MouseButtonReleased( MyGUI::WidgetPtr widget )

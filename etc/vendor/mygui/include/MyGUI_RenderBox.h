@@ -18,12 +18,12 @@ namespace MyGUI
 		This widget can show autorotaded and rotatable by mouse mesh.
 		Also you can set your own Ogre::Camera and yo'll see anything from your viewport.
 	*/
-	class _MyGUIExport RenderBox : public Widget
+	class MYGUI_EXPORT RenderBox : public Widget
 	{
 		// для вызова закрытого конструктора
 		friend class factory::BaseWidgetFactory<RenderBox>;
 
-		MYGUI_RTTI_CHILD_HEADER;
+		MYGUI_RTTI_CHILD_HEADER( RenderBox, Widget );
 
 	public:
 		/** default RenderBox autorotation speed (if enabled) */
@@ -76,9 +76,9 @@ namespace MyGUI
 			@remarks
 				This function will take no effect if setRenderTarget was used.
 		*/
-		void setBackgroungColour(const Ogre::ColourValue & _backgroundColour);
+		void setBackgroungColour(const Ogre::ColourValue& _backgroundColour);
 		/** Get colour behind entity.*/
-		const Ogre::ColourValue & getBackgroungColour() {return mBackgroungColour;};
+		const Ogre::ColourValue& getBackgroungColour() { return mBackgroungColour; }
 
 		/** Set start rotation angle of entity.
 			@remarks
@@ -111,6 +111,8 @@ namespace MyGUI
 		/** Set any user created Camera instead of showing one mesh*/
 		void setRenderTarget(Ogre::Camera * _camera);
 
+		Ogre::Viewport* getViewport() { return mViewport; }
+
 		bool getScreenPosition(const Ogre::Vector3 _world, Ogre::Vector2& _screen);
 
 		//! @copydoc Widget::setPosition(const IntPoint & _point)
@@ -127,13 +129,18 @@ namespace MyGUI
 		/** @copydoc Widget::setCoord(int _left, int _top, int _width, int _height) */
 		void setCoord(int _left, int _top, int _width, int _height) { setCoord(IntCoord(_left, _top, _width, _height)); }
 
-		MYGUI_OBSOLETE("use Widget::setCoord(const IntCoord& _coord)")
+	/*obsolete:*/
+#ifndef MYGUI_DONT_USE_OBSOLETE
+
+		MYGUI_OBSOLETE("use : void Widget::setCoord(const IntCoord& _coord)")
 		void setPosition(const IntCoord & _coord) { setCoord(_coord); }
-		MYGUI_OBSOLETE("use Widget::setCoord(int _left, int _top, int _width, int _height)")
+		MYGUI_OBSOLETE("use : void Widget::setCoord(int _left, int _top, int _width, int _height)")
 		void setPosition(int _left, int _top, int _width, int _height) { setCoord(_left, _top, _width, _height); }
 
+#endif // MYGUI_DONT_USE_OBSOLETE
+
 	protected:
-		RenderBox(const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, ICroppedRectangle * _parent, IWidgetCreator * _creator, const Ogre::String & _name);
+		RenderBox(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
 		virtual ~RenderBox();
 
 		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
@@ -151,7 +158,7 @@ namespace MyGUI
 
 		void synchronizeSceneNode(Ogre::SceneNode* _newNode, Ogre::SceneNode* _fromNode);
 		bool checkSceneNode(Ogre::SceneNode * _sceneNode, Ogre::SceneNode * _node);
-		bool needFrameUpdate() {return mAutoRotation || mUseScale || (null != mEntityState) || (mNodeForSync != null);}
+		bool needFrameUpdate() {return mAutoRotation || mUseScale || (nullptr != mEntityState) || (mNodeForSync != nullptr);}
 		void createRenderTexture();
 		void updateViewport();
 
@@ -167,6 +174,7 @@ namespace MyGUI
 		Ogre::RenderTexture* mRenderTexture;
 
 		Ogre::Camera* mRttCam;
+		Ogre::Viewport* mViewport;
 		Ogre::SceneNode* mCamNode;
 
 		int mRotationSpeed;

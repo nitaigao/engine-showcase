@@ -13,13 +13,17 @@
 namespace MyGUI
 {
 
-	#define LOGGING(section, level, text) \
+	#define MYGUI_LOGGING(section, level, text) \
 		MyGUI::LogManager::out(section, MyGUI::LogManager::level) \
 		<< text \
 		<< MyGUI::LogManager::info(__FILE__, __LINE__) \
 		<< MyGUI::LogManager::end()
 
-	class _MyGUIExport LogManager
+	class LogStream;
+	struct LogStreamEnd;
+	typedef std::map<std::string, LogStream*> MapLogStream;
+
+	class MYGUI_EXPORT LogManager
 	{
 
 	public:
@@ -51,14 +55,6 @@ namespace MyGUI
 	private:
 		LogManager();
 		~LogManager();
-
-		static void lock()
-		{
-		}
-
-		static void release()
-		{
-		}
 
 	public:
 		static const std::string General;

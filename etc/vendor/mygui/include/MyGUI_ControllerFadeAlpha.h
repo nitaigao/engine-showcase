@@ -15,7 +15,7 @@ namespace MyGUI
 {
 
 	/** This controller used for smooth changing alpha of widget in time */
-	class _MyGUIExport ControllerFadeAlpha : public ControllerItem
+	class MYGUI_EXPORT ControllerFadeAlpha : public ControllerItem
 	{
 	public:
 		/**
@@ -31,7 +31,6 @@ namespace MyGUI
 		const std::string & getType();
 		bool addTime(WidgetPtr _widget, float _time);
 		void prepareItem(WidgetPtr _widget);
-		//void replaseItem(WidgetPtr _widget, ControllerItem * _item);
 
 		bool getEnabled() {return mEnabled;}
 		float getAlpha() {return mAlpha;}

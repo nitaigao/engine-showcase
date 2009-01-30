@@ -14,7 +14,7 @@
 namespace MyGUI
 {
 	/** UserData is parent of Widget class. Used to store any user data and strings inside widget */
-	class _MyGUIExport UserData
+	class MYGUI_EXPORT UserData
 	{
 	public:
 		UserData() { }
@@ -71,7 +71,7 @@ namespace MyGUI
 			return mUserData.castType<ValueType>(_throw);
 		}
 
-		MYGUI_OBSOLETE("use *getUserData<ValueType>()")
+		MYGUI_OBSOLETE("use : template <typename ValueType> ValueType * UserData::getUserData(bool _throw)")
 		void * getUserData()
 		{
 			return mUserData.castUnsafe();

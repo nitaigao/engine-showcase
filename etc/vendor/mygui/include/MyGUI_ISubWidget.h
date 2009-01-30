@@ -28,14 +28,14 @@ namespace MyGUI
 	class RenderItem;
 
 
-	class _MyGUIExport ISubWidget : public ICroppedRectangle, public DrawItem
+	class MYGUI_EXPORT ISubWidget : public ICroppedRectangle, public DrawItem
 	{
-		MYGUI_RTTI_BASE_HEADER;
+		MYGUI_RTTI_BASE_HEADER ( ISubWidget );
 
 	public:
 		ISubWidget(const IntCoord & _coord, Align _align, ICroppedRectangle * _parent) : 
 			ICroppedRectangle(_coord, _align, _parent) { }
-		virtual ~ISubWidget() = 0;
+			virtual ~ISubWidget() { }
 
 		virtual void setAlpha(float _alpha) = 0;
 		virtual float getAlpha() { return 1.0; }

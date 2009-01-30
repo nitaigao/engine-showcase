@@ -13,6 +13,7 @@
 #include "MyGUI_Font.h"
 #include "MyGUI_Instance.h"
 #include "MyGUI_XmlDocument.h"
+#include "MyGUI_ResourceManager.h"
 
 #include <OgreResource.h>
 #include <OgreResourceManager.h>
@@ -25,17 +26,17 @@ namespace MyGUI
 	typedef HashMap<Ogre::String, Ogre::ResourcePtr> ResourceMap;
 	typedef Enumerator<ResourceMap> EnumeratorFontPtr;
 
-	class _MyGUIExport FontManager : public Ogre::ResourceManager
+	class MYGUI_EXPORT FontManager : public Ogre::ResourceManager
 	{
-		INSTANCE_HEADER(FontManager);
+		MYGUI_INSTANCE_HEADER(FontManager);
 
 	public:
 		void initialise();
 		void shutdown();
 
 		/** Load additional MyGUI *_font.xml file */
-		bool load(const std::string & _file, const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-		void _load(xml::xmlNodePtr _node, const std::string & _file);
+		bool load(const std::string & _file, const std::string & _group = MyGUI::ResourceManager::GUIResourceGroupName);
+		void _load(xml::ElementPtr _node, const std::string & _file, Version _version);
 
 		/** Save already created font to texture
 			@param _font name (for example DejaVuSans.14)
@@ -61,7 +62,7 @@ namespace MyGUI
 			const Ogre::String& group, bool isManual, Ogre::ManualResourceLoader* loader, 
 			const Ogre::NameValuePairList* params);
 
-	}; // class _MyGUIExport FontManager : public Ogre::ResourceManager
+	}; // class MYGUI_EXPORT FontManager : public Ogre::ResourceManager
 
 } // namespace MyGUI
 

@@ -11,6 +11,8 @@
 #include "MyGUI_Instance.h"
 #include "MyGUI_Plugin.h"
 #include "MyGUI_XmlDocument.h"
+#include "MyGUI_Version.h"
+#include "MyGUI_ResourceManager.h"
 
 #include <Ogre.h>
 
@@ -24,9 +26,9 @@ namespace MyGUI
 
 	/*!	\brief Plugin manager. Load/unload and register plugins.
 	*/
-	class _MyGUIExport PluginManager
+	class MYGUI_EXPORT PluginManager
 	{
-		INSTANCE_HEADER(PluginManager);
+		MYGUI_INSTANCE_HEADER(PluginManager);
 
 	public:
 		//!	Initialization
@@ -41,21 +43,21 @@ namespace MyGUI
 		//!	Unload plugin
 		void unloadPlugin(const std::string& _file);
 
-		/** Load additional MyGUI *_pluggin.xml file */
-		bool load(const std::string& _file, const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-		void _load(xml::xmlNodePtr _node, const std::string & _file);
+		/** Load additional MyGUI *_plugin.xml file */
+		bool load(const std::string& _file, const std::string & _group = MyGUI::ResourceManager::GUIResourceGroupName);
+		void _load(xml::ElementPtr _node, const std::string & _file, Version _version);
 
 		/*!	Install plugin
 			
 			@remarks Calls from plugin
 		*/
-		void installPlugin(Plugin* _plugin);
+		void installPlugin(IPlugin* _plugin);
 
 		/*!	Uninstall plugin
 			
 			@remarks Calls from plugin
 		*/
-		void uninstallPlugin(Plugin* _plugin);
+		void uninstallPlugin(IPlugin* _plugin);
 
 		//!	Unload all plugins
 		void unloadAllPlugins();
@@ -65,7 +67,7 @@ namespace MyGUI
 		typedef std::map <std::string, DynLib*> DynLibList;
 
 		//!	List of plugins
-		typedef std::set <Plugin*> PluginList;
+		typedef std::set <IPlugin*> PluginList;
 
 		//!	Loaded libraries
 		DynLibList mLibs;

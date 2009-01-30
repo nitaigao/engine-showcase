@@ -12,15 +12,16 @@
 #include "MyGUI_Enumerator.h"
 #include "MyGUI_WidgetSkinInfo.h"
 #include "MyGUI_XmlDocument.h"
+#include "MyGUI_ResourceManager.h"
 
 namespace MyGUI
 {
 
 	typedef Enumerator<MapWidgetSkinInfoPtr> EnumeratorSkinPtr;
 
-	class _MyGUIExport SkinManager
+	class MYGUI_EXPORT SkinManager
 	{
-		INSTANCE_HEADER(SkinManager);
+		MYGUI_INSTANCE_HEADER(SkinManager);
 
 	public:
 		void initialise();
@@ -34,8 +35,8 @@ namespace MyGUI
 		WidgetSkinInfo * create(const Ogre::String & _name);
 
 		/** Load additional MyGUI *_skin.xml file */
-		bool load(const std::string & _file, const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-		void _load(xml::xmlNodePtr _node, const std::string & _file);
+		bool load(const std::string & _file, const std::string & _group = MyGUI::ResourceManager::GUIResourceGroupName);
+		void _load(xml::ElementPtr _node, const std::string & _file, Version _version);
 
 		/** Get texture size in pixels
 			@param _texture file name

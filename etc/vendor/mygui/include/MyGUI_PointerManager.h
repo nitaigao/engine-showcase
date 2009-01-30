@@ -17,9 +17,9 @@
 namespace MyGUI
 {
 
-	class _MyGUIExport PointerManager : public IUnlinkWidget, public IWidgetCreator
+	class MYGUI_EXPORT PointerManager : public IUnlinkWidget, public IWidgetCreator
 	{
-		INSTANCE_HEADER(PointerManager);
+		MYGUI_INSTANCE_HEADER(PointerManager);
 
 	public:
 		void initialise();
@@ -28,19 +28,23 @@ namespace MyGUI
 	public:
 
 		/** Load additional MyGUI *_pointer.xml file */
-		bool load(const std::string & _file, const std::string & _group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		bool load(const std::string & _file, const std::string & _group = MyGUI::ResourceManager::GUIResourceGroupName);
 
-		void _load(xml::xmlNodePtr _node, const std::string & _file);
+		void _load(xml::ElementPtr _node, const std::string & _file, Version _version);
 
-		/** Show pointer*/
-		void show();
-		/** Hide pointer*/
-		void hide();
+		/** Show or hide mouse pointer */
+		void setVisible(bool _visible);
+		/** Is mouse pointer visible */
+		bool isVisible() { return mShow; }
 
-		/** Return visibility of pointer*/
-		bool isShow() {return mShow;}
+		MYGUI_OBSOLETE("use : void PointerManager::setVisible(bool _visible)")
+		void show() { setVisible(true); }
+		MYGUI_OBSOLETE("use : void PointerManager::setVisible(bool _visible)")
+		void hide() { setVisible(false); }
+		MYGUI_OBSOLETE("use : bool PointerManager::isVisible()")
+		bool isShow() { return isVisible(); }
 
-		/** Set pointer position*/
+		/** Set pointer position */
 		void setPosition(const IntPoint& _pos);
 		/** Set pointer that will be shown
 			@param _name of pointer
@@ -48,7 +52,7 @@ namespace MyGUI
 		*/
 		void setPointer(const std::string & _name, WidgetPtr _owner);
 		/** Set default pointer */
-		void setDefaultPointer() {if (false == mDefaultPointer.empty()) setPointer(mDefaultPointer, null); }
+		void setDefaultPointer() {if (false == mDefaultPointer.empty()) setPointer(mDefaultPointer, nullptr); }
 
 		void _unlinkWidget(WidgetPtr _widget);
 
@@ -59,7 +63,7 @@ namespace MyGUI
 
 		void clear();
 		// создает виджет
-		virtual WidgetPtr baseCreateWidget(const std::string & _type, const std::string & _skin, const IntCoord& _coord, Align _align, const std::string & _layer, const std::string & _name);
+		virtual WidgetPtr baseCreateWidget(WidgetStyle _style, const std::string & _type, const std::string & _skin, const IntCoord& _coord, Align _align, const std::string & _layer, const std::string & _name);
 
 		// удяляет неудачника
 		virtual void _destroyChildWidget(WidgetPtr _widget);

@@ -506,6 +506,22 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Graphics\UI\UIComponent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\UI\UIComponent.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\UI\UIController.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\UI\UIController.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Exceptions\UnInitializedException.hpp"
 			>
 		</File>

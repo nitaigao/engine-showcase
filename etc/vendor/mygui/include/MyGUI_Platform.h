@@ -1,5 +1,9 @@
 /*!
-	
+	@file
+	@author		Denis Koronchik
+	@author		Georgiy Evmenov
+	@author		Albert Semenov
+	@date		09/2007
 */
 
 #ifndef __MYGUI_PLATFORM_H__
@@ -41,40 +45,39 @@
 // See if we can use __forceinline or if we need to use __inline instead
 #if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
 #   if MYGUI_COMP_VER >= 1200
-#       define FORCEINLINE __forceinline
+#       define MYGUI_FORCEINLINE __forceinline
 #   endif
 #elif defined(__MINGW32__)
-#   if !defined(FORCEINLINE)
-#       define FORCEINLINE __inline
+#   if !defined(MYGUI_FORCEINLINE)
+#       define MYGUI_FORCEINLINE __inline
 #   endif
 #else
-#   define FORCEINLINE __inline
+#   define MYGUI_FORCEINLINE __inline
 #endif
 
-#ifdef MYGUI_STATIC_LINK
-#
-# define _MyGUIExport
-#
-# ifdef _DEBUG
-#     define MYGUI_DEBUG_MODE 1
-# else
-#     define MYGUI_DEBUG_MODE 0
-# endif
-#else
 
 // Windows settings
 #if MYGUI_PLATFORM == MYGUI_PLATFORM_WIN32
 #
-#	if defined( MYGUI_NONCLIENT_BUILD )
-#     define _MyGUIExport __declspec( dllexport )
+#	if defined( MYGUI_BUILD )
+#     define MYGUI_EXPORT __declspec( dllexport )
 # else
 #     if defined( __MINGW32__ )
-#          define _MyGUIExport
+#          define MYGUI_EXPORT
 #     else
-#         define _MyGUIExport __declspec( dllimport )
+#         define MYGUI_EXPORT __declspec( dllimport )
 #     endif
 # endif
 #
+#	if defined( MYGUI_BUILD_DLL )
+#     define MYGUI_EXPORT_DLL __declspec( dllexport )
+# else
+#     if defined( __MINGW32__ )
+#          define MYGUI_EXPORT_DLL
+#     else
+#         define MYGUI_EXPORT_DLL __declspec( dllimport )
+#     endif
+# endif
 #
 #// Win32 compilers use _DEBUG for specifying debug builds.
 # ifdef _DEBUG
@@ -84,19 +87,17 @@
 # endif
 #endif
 
-#endif // #ifdef MYGUI_STATIC_LINK
 
-// ------------------------------------------------------------------------------
 // Linux/Apple Settings
 #if MYGUI_PLATFORM == MYGUI_PLATFORM_LINUX || MYGUI_PLATFORM == MYGUI_PLATFORM_APPLE
 
 // Enable GCC symbol visibility
 #   if defined( MYGUI_GCC_VISIBILITY )
-#       define _MyGUIExport  __attribute__ ((visibility("default")))
-#       define _MyGUIPrivate __attribute__ ((visibility("hidden")))
+#       define MYGUI_EXPORT  __attribute__ ((visibility("default")))
+#       define MYGUI_PRIVATE __attribute__ ((visibility("hidden")))
 #   else
-#       define _MyGUIExport
-#       define _MyGUIPrivate
+#       define MYGUI_EXPORT
+#       define MYGUI_PRIVATE
 #   endif
 
 // A quick define to overcome different names for the same function
@@ -121,9 +122,5 @@
 
 #endif
 
-////For apple, we always have a custom config.h file
-//#if MYGUI_PLATFORM == MYGUI_PLATFORM_APPLE
-//#    include "config.h"
-//#endif
 
 #endif // __MYGUI_PLATFORM_H__
