@@ -1,5 +1,5 @@
-#ifndef __UICONTROLLER_H
-#define __UICONTROLLER_H
+#ifndef __ROOTUICONTROLLER_H
+#define __ROOTUICONTROLLER_H
 
 #include <MyGUI.h>
 using namespace MyGUI;
@@ -9,31 +9,29 @@ using namespace luabind;
 
 #include "UIComponent.h"
 
-class UIController
+class RootUIController
 {
 
 	typedef std::vector< UIComponent* > UIComponentList;
 
 public:
 
-	UIController( luabind::object luaObject )
-		: _luaObject( luaObject )
-		, _gui( Gui::getInstancePtr( ) )
+	RootUIController( Gui* gui )
+		: _gui( gui )
 	{
 
 	};
 
-	~UIController( );
+	~RootUIController( );
 
 	/*! Loads a UI Component for Rendering */
-	void LoadComponent( const std::string componentName, luabind::object parentController );
+	void LoadComponent( const std::string componentName );
 
 	/*! Destroys all active UI Components */
 	void DestroyAllComponents( );
 
 private:
 
-	luabind::object _luaObject;
 	Gui* _gui;
 	UIComponentList _components;
 

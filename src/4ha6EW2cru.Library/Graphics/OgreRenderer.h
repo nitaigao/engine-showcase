@@ -13,7 +13,7 @@
 
 #include "../Scripting/Script.h"
 
-#include "UI/UIController.h"
+#include "UI/RootUIController.h"
 
 #include <luabind/luabind.hpp>
 using namespace luabind;
@@ -30,7 +30,7 @@ public:
 		, _scene( 0 )
 		, _badFactory( 0 )
 		, _badStubCreated( false )
-		, _uiController( 0 )
+		, _rootUIController( 0 )
 	{
 
 	}
@@ -73,7 +73,7 @@ private:
 	bool _isInitialized;
 	bool _badStubCreated;
 
-	Script* _uiController;
+	Script* _rootUIController;
 	OgreMax::OgreMaxScene* _scene;
 	Ogre::ArchiveFactory* _badFactory;
 

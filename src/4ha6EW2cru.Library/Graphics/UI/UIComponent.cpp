@@ -15,7 +15,7 @@ void UIComponent::Initialize( )
 
 	_gui->load( layoutPath.str( ) );
 
-	std::stringstream scriptPath;
+	/*std::stringstream scriptPath;
 	scriptPath << "/data/gui/components/" << _name << "/" << _name << ".lua";
 	
 	_script = ScriptManager::GetInstance( )->CreateScript( scriptPath.str( ) );
@@ -27,5 +27,5 @@ void UIComponent::Initialize( )
 
 	_script->Initialize( );
 
-	luabind::call_function< void >( _script->GetState( ), "onLoad", _parentController );
+	luabind::call_function< void >( _script->GetState( ), "onLoad", _parentController );*/
 }

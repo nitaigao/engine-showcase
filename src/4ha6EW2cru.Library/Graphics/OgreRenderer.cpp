@@ -26,9 +26,9 @@ OgreRenderer::~OgreRenderer( )
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_DOWN, this, &OgreRenderer::OnKeyDown );
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_UP, this, &OgreRenderer::OnKeyUp );
 
-	if( _uiController != 0 )
+	if( _rootUIController != 0 )
 	{
-		delete _uiController;
+		delete _rootUIController;
 	}
 
 	if ( _gui != 0 )
@@ -136,18 +136,18 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 
 	_scene = new OgreMax::OgreMaxScene( );
 
-	_uiController = ScriptManager::GetInstance( )->CreateScript( "/data/gui/RootUIController.lua" );
+	_rootUIController = ScriptManager::GetInstance( )->CreateScript( "/data/gui/RootUIController.lua" );
 
-	module( _uiController->GetState( ) )
+	module( _rootUIController->GetState( ) )
 	[
-		class_< UIController >( "UIController" )
-			.def( constructor< luabind::object >( ) )
-			.def( "loadComponent", &UIController::LoadComponent )
-			.def( "destroyAllComponents", &UIController::DestroyAllComponents )
+		class_< RootUIController >( "RootUIController" )
+			.def( constructor< Gui* >( ) )
+			.def( "loadComponent", &RootUIController::LoadComponent )
+			.def( "destroyAllComponents", &RootUIController::DestroyAllComponents )
 	];
 
-	_uiController->Initialize( );
-	_uiController->CallFunction( "onLoad" );
+	_rootUIController->Initialize( );
+	luabind::call_function< void >( _rootUIController->GetState( ), "onLoad", _gui );
 
 	_isInitialized = true;
 }

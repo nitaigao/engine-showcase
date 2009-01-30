@@ -13,16 +13,13 @@ using namespace MyGUI;
 #include "../../Scripting/Script.h"
 #include "../../Scripting/ScriptManager.h"
 
-#include "UIController.h"
-
 class UIComponent
 {
 
 public:
 
-	UIComponent( std::string name, luabind::object parentController, Gui* gui  )
+	UIComponent( std::string name, Gui* gui  )
 		: _name( name )
-		, _parentController( parentController )
 		, _gui( gui )
 		, _script( 0 )
 	{
@@ -36,7 +33,6 @@ public:
 private:
 
 	std::string _name;
-	luabind::object _parentController;
 	Gui* _gui;
 	Script* _script;
 

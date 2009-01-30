@@ -450,6 +450,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Graphics\UI\RootUIController.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\UI\RootUIController.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Exceptions\ScreenDimensionsException.hpp"
 			>
 		</File>
@@ -511,14 +519,6 @@
 		</File>
 		<File
 			RelativePath=".\Graphics\UI\UIComponent.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\UI\UIController.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\UI\UIController.h"
 			>
 		</File>
 		<File
