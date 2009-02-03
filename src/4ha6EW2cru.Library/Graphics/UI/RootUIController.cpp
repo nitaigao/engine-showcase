@@ -39,7 +39,8 @@ void RootUIController::LoadComponent( const std::string componentName )
 			.def( "hideMouse", &RootUIController::HideMouse ),
 
 		class_< UIController >( "UIController" )
-		.def( constructor< luabind::object, std::string, Gui* >( ) ),
+			.def( constructor< luabind::object, std::string, Gui* >( ) )
+			.def( "setWidgetScript", &UIController::SetWidgetScript ),
 
 		class_< UIView >( "UIView" )
 			.def( constructor< std::string, Gui* >( ) )
@@ -53,7 +54,8 @@ void RootUIController::LoadComponent( const std::string componentName )
 			.def( "setPosition", ( void( MyGUI::Widget::* )( int, int ) ) &MyGUI::Widget::setPosition )
 			.def( "getType", &MyGUI::Widget::getClassTypeName )
 			.def( "hide", &MyGUI::Widget::hide )
-			.def( "show", &MyGUI::Widget::show ),
+			.def( "show", &MyGUI::Widget::show )
+			.def( "setScript", &UIController::SetWidgetScript ),
 
 		class_< IntCoord >( "IntCoord" )
 			.def_readonly( "x" , &MyGUI::IntCoord::left )

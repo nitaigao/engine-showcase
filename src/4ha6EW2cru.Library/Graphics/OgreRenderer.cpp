@@ -150,7 +150,7 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 	];
 
 	_rootUIController->Initialize( );
-	luabind::call_function< void >( _rootUIController->GetState( ), "onLoad", _gui );
+	_rootUIController->CallFunction( "onLoad", _gui );
 
 	_isInitialized = true;
 }

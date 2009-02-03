@@ -12,6 +12,10 @@ using namespace luabind;
 class UIController
 {
 
+	typedef std::map< const std::string, object* > EventHandlers;
+	typedef std::pair< EventHandlers*, UIController* > WidgetUserData;
+	typedef std::vector< WidgetUserData* > WidgetUserDataList;
+
 public:
 
 	UIController( object luaObject, std::string name, Gui* gui );
@@ -19,6 +23,7 @@ public:
 	~UIController( ) { };
 
 	void EventHandler( const IEvent* event );
+	void SetWidgetScript( WidgetPtr widget, const std::string eventName, object function );
 
 private:
 
