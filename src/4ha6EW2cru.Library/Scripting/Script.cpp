@@ -1,16 +1,12 @@
 #include "Script.h"
 
-#include "../Logging/Logger.h"
-
 #include "../Events/EventType.hpp"
 #include "../Events/EventData.hpp"
 #include "../Events/EventListener.h"
 #include "../Events/EventManager.h"
 
-#include "../Exceptions/UnInitializedException.hpp"
 #include "../Exceptions/ScriptException.hpp"
 #include "../Exceptions/AlreadyInitializedException.hpp"
-#include "../Exceptions/OutOfRangeException.hpp"
 
 #include "../IO/FileBuffer.hpp"
 #include "../IO/FileManager.h"
@@ -76,25 +72,6 @@ void Script::Initialize( )
 	lua_pcall( _luaState, 0, 0, 0 );
 
 	_isInitialized = true;
-}
-
-void Script::CallFunction( const std::string functionName )
-{
-	if ( !_isInitialized )
-	{
-		UnInitializedException unE( "Script::CallFunction - Script is not Initialized" );
-		Logger::GetInstance( )->Fatal( unE.what( ) );
-		throw unE;
-	}
-
-	if( functionName.empty( ) )
-	{
-		OutOfRangeException outE( "Script::CallFunction - The given function name is empty" );
-		Logger::GetInstance( )->Fatal( outE.what( ) );
-		throw outE;
-	}
-	
-	call_function< int >( _luaState, functionName.c_str( ), this );
 }
 
 void Script::Include( std::string scriptPath )

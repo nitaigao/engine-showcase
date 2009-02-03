@@ -8,6 +8,8 @@ extern "C"
 #	include <lua.h>
 }
 
+#include "../Logging/Logger.h"
+
 #include "../Events/EventType.hpp"
 #include "../Events/IEvent.hpp"
 #include "../IO/FileBuffer.hpp"
@@ -16,6 +18,9 @@ extern "C"
 #include <luabind/adopt_policy.hpp>
 #include <luabind/return_reference_to_policy.hpp>
 using namespace luabind;
+
+#include "../Exceptions/UnInitializedException.hpp"
+#include "../Exceptions/OutOfRangeException.hpp"
 
 /*!
 	An interface for loading LUA scripts
@@ -33,14 +38,48 @@ public:
 	/*! Initializes the Script from a FileBuffer */
 	void Initialize( );
 
-	/*! Allows the specified function to be called from C++ */
-	void CallFunction( const std::string functionName );
-
 	/*! Returns the Script state */
 	inline lua_State* GetState( ) const { return _luaState; };
 
 	/*! Loads a Script into the current state */
 	void Include( std::string scriptPath );
+	
+	template< class P1, class P2, class P3 >
+	void CallFunction( std::string functionName, const P1 &p1, const P2 &p2, const P3 &p3 )
+	{
+		if ( !_isInitialized )
+		{
+			UnInitializedException unE( "Script::CallFunction - Script is not Initialized" );
+			Logger::GetInstance( )->Fatal( unE.what( ) );
+			throw unE;
+		}
+
+		if( functionName.empty( ) )
+		{
+			OutOfRangeException outE( "Script::CallFunction - The given function name is empty" ); 
+			Logger::GetInstance( )->Fatal( outE.what( ) );
+			throw outE;
+		}
+		
+		call_function< int >( _luaState, functionName.c_str( ), p1, p2, p3 );
+	}
+	
+	template< class P1, class P2 >
+	void CallFunction( std::string functionName, const P1 &p1, const P2 &p2 )
+	{
+		this->CallFunction( functionName, p1, p2, 0 );
+	}
+	
+	template< class P1 >
+	void CallFunction( std::string functionName, const P1 &p1 )
+	{
+		this->CallFunction( functionName, p1, 0 );
+	}
+	
+	void CallFunction( std::string functionName )
+	{
+		this->CallFunction( functionName, 0, 0, 0 );
+	}
 
 private:
 
@@ -54,7 +93,7 @@ private:
 	EventHandlers _eventHandlers;
 	FileBuffer* _fileBuffer;
 	bool _isInitialized;
-
+	
 };
-
+	
 #endif
