@@ -140,10 +140,13 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 
 	module( _rootUIController->GetState( ) )
 	[
+		class_< Gui >( "Gui" ),
+
 		class_< RootUIController >( "RootUIController" )
-			.def( constructor< Gui* >( ) )
+		.def( constructor< luabind::object, Gui* >( ) )
 			.def( "loadComponent", &RootUIController::LoadComponent )
 			.def( "destroyAllComponents", &RootUIController::DestroyAllComponents )
+			.def( "update", &RootUIController::Update )
 	];
 
 	_rootUIController->Initialize( );
@@ -187,6 +190,7 @@ void OgreRenderer::Update( const float deltaMilliseconds ) const
 		throw e;
 	}
 
+	luabind::call_function< void >( _rootUIController->GetState( ), "onUpdate", deltaMilliseconds );
 	_scene->Update( deltaMilliseconds );
 
 	if ( _root->getAutoCreatedWindow( )->isClosed( ) )

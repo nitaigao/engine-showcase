@@ -514,11 +514,19 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Graphics\UI\UIComponent.cpp"
+			RelativePath=".\Graphics\UI\UIController.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Graphics\UI\UIComponent.h"
+			RelativePath=".\Graphics\UI\UIController.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\UI\UIView.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\UI\UIView.h"
 			>
 		</File>
 		<File
