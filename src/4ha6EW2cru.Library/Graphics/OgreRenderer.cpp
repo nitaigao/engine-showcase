@@ -26,9 +26,9 @@ OgreRenderer::~OgreRenderer( )
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_DOWN, this, &OgreRenderer::OnKeyDown );
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_UP, this, &OgreRenderer::OnKeyUp );
 
-	if( _rootUIController != 0 )
+	if( _interfaceController != 0 )
 	{
-		delete _rootUIController;
+		delete _interfaceController;
 	}
 
 	if ( _gui != 0 )
@@ -110,7 +110,7 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 		camera->setNearClipDistance( 1.0f );
 
 		Viewport* viewPort = _root->getAutoCreatedWindow( )->addViewport( camera );
-		viewPort->setBackgroundColour( ColourValue( 0, 0, 0 ) );
+		viewPort->setBackgroundColour( ColourValue( 1, 1, 1 ) );
 
 		camera->setAspectRatio( 
 			Real( viewPort->getActualWidth( )) / Real( viewPort->getActualHeight( ) )
@@ -119,8 +119,11 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 
 	{	// -- MyGUI 
 		_gui = new Gui( );
-		_gui->initialise( _root->getAutoCreatedWindow( ), "/data/gui/core/core.xml" );
+		_gui->initialise( _root->getAutoCreatedWindow( ), "/data/interface/core/core.xml" );
 		_gui->hidePointer( );
+		
+		_interfaceController = new RootUIController( _gui );
+		_interfaceController->Initialize( );
 	}
 
 	{	// -- Event Listeners
@@ -135,22 +138,6 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 	}
 
 	_scene = new OgreMax::OgreMaxScene( );
-
-	_rootUIController = ScriptManager::GetInstance( )->CreateScript( "/data/gui/RootUIController.lua" );
-
-	module( _rootUIController->GetState( ) )
-	[
-		class_< Gui >( "Gui" ),
-
-		class_< RootUIController >( "RootUIController" )
-		.def( constructor< luabind::object, Gui* >( ) )
-			.def( "loadComponent", &RootUIController::LoadComponent )
-			.def( "destroyAllComponents", &RootUIController::DestroyAllComponents )
-			.def( "update", &RootUIController::Update )
-	];
-
-	_rootUIController->Initialize( );
-	_rootUIController->CallFunction( "onLoad", _gui );
 
 	_isInitialized = true;
 }
@@ -190,7 +177,7 @@ void OgreRenderer::Update( const float deltaMilliseconds ) const
 		throw e;
 	}
 
-	luabind::call_function< void >( _rootUIController->GetState( ), "onUpdate", deltaMilliseconds );
+	//luabind::call_function< void >( _rootUIController->GetState( ), "onUpdate", deltaMilliseconds );
 	_scene->Update( deltaMilliseconds );
 
 	if ( _root->getAutoCreatedWindow( )->isClosed( ) )

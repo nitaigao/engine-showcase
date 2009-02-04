@@ -7,31 +7,45 @@
 
 RootUIController::~RootUIController( )
 {
-	this->DestroyAllComponents( );
+	/*this->DestroyAllComponents( );*/
+	
+	if ( _script != 0 )
+	{
+		delete _script;
+	}
 }
 
 void RootUIController::Initialize( )
 {
+	_script = ScriptManager::GetInstance( )->CreateScript( "/data/interface/interface.lua" );
 	
+	module( _script->GetState( ) )
+	[
+		def( "loadComponent", &RootUIController::LoadComponent )
+	];
+	
+	_script->Initialize( );
 }
 
 void RootUIController::Update( int deltaMilliseconds )
 {
-	while( _eventQueue.size( ) > 0 )
+	/*while( _eventQueue.size( ) > 0 )
 	{
 		luabind::call_member< void >( _luaObject, "onMessage", _eventQueue.front( ) );
 
 		_eventQueue.pop( );
-	}
+	}*/
 }
 
 void RootUIController::LoadComponent( const std::string componentName )
 {
-	std::stringstream scriptPath;
-	scriptPath << "/data/gui/components/" << componentName << "/" << componentName << ".lua";
+	std::stringstream layoutPath;
+	layoutPath << "/data/interface/components/" << componentName << "/" << componentName << ".layout";
 
-	Script* script = ScriptManager::GetInstance( )->CreateScript( scriptPath.str( ) );
-	_components.push_back( script );
+	MyGUI::LayoutManager::getInstance().load( layoutPath.str( ) );
+	
+	/*Script* script = ScriptManager::GetInstance( )->CreateScript( scriptPath.str( ) );
+	/*_components.push_back( script );
 
 	module( script->GetState( ) )
 	[
@@ -67,22 +81,22 @@ void RootUIController::LoadComponent( const std::string componentName )
 			.def_readonly( "y" , &MyGUI::IntCoord::top )
 			.def_readonly( "width" , &MyGUI::IntCoord::width )
 			.def_readonly( "height" , &MyGUI::IntCoord::height )
-	];
+	];*/
 
-	script->Initialize( );
+	//script->Initialize( );
 
-	luabind::globals( script->GetState( ) )[ "root" ] = this;
+	/*luabind::globals( script->GetState( ) )[ "root" ] = this;
 
-	luabind::call_function< void >( script->GetState( ), "onLoad", this, componentName, _gui );
+	luabind::call_function< void >( script->GetState( ), "onLoad", this, componentName, _gui );*/
 }
 
 void RootUIController::DestroyAllComponents( )
 {
-	for( UIComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+	/*for( UIComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
 	{
 		delete ( *i );
 	}
 
 	_components.clear( );
-	_gui->destroyAllChildWidget( );
+	_gui->destroyAllChildWidget( );*/
 }

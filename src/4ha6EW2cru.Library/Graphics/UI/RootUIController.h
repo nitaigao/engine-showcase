@@ -35,7 +35,7 @@ public:
 	~RootUIController( );
 
 	/*! Loads a UI Component for Rendering */
-	void LoadComponent( const std::string componentName );
+	static void LoadComponent( const std::string componentName );
 
 	/*! Destroys all active UI Components */
 	void DestroyAllComponents( );
@@ -71,6 +71,7 @@ public:
 private:
 
 	Gui* _gui;
+	Script* _script;
 	UIComponentList _components;
 	luabind::object _luaObject;
 	UIEventQueue _eventQueue;

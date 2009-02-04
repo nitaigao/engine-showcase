@@ -30,7 +30,7 @@ public:
 		, _scene( 0 )
 		, _badFactory( 0 )
 		, _badStubCreated( false )
-		, _rootUIController( 0 )
+		, _interfaceController( 0 )
 	{
 
 	}
@@ -73,7 +73,8 @@ private:
 	bool _isInitialized;
 	bool _badStubCreated;
 
-	Script* _rootUIController;
+	//Script* _rootUIController;
+	RootUIController* _interfaceController;
 	OgreMax::OgreMaxScene* _scene;
 	Ogre::ArchiveFactory* _badFactory;
 
