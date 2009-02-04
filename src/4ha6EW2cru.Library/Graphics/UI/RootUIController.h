@@ -17,12 +17,20 @@ class RootUIController
 
 public:
 
+	RootUIController( Gui*  gui )
+		: _gui( gui )
+	{
+
+	}
+
 	RootUIController( luabind::object luaObject, Gui* gui )
 		: _gui( gui )
 		, _luaObject( luaObject )
 	{
 
 	};
+
+	void Initialize( );
 
 	~RootUIController( );
 

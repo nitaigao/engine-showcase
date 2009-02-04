@@ -10,6 +10,11 @@ RootUIController::~RootUIController( )
 	this->DestroyAllComponents( );
 }
 
+void RootUIController::Initialize( )
+{
+	
+}
+
 void RootUIController::Update( int deltaMilliseconds )
 {
 	while( _eventQueue.size( ) > 0 )
