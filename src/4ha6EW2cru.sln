@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{0877329D-D
 	ProjectSection(SolutionItems) = preProject
 		..\build\debug\game\data\entities.bad = ..\build\debug\game\data\entities.bad
 		..\build\debug\game\data\levels.bad = ..\build\debug\game\data\levels.bad
+		..\build\debug\game\data\interface.bad = ..\build\debug\game\data\interface.bad
 		..\build\debug\game\data\localization.bad = ..\build\debug\game\data\localization.bad
 		..\build\debug\game\data\sounds.bad = ..\build\debug\game\data\sounds.bad
 	EndProjectSection

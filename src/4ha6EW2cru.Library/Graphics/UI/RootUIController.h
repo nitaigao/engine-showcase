@@ -26,6 +26,8 @@ public:
 
 	~RootUIController( );
 
+private:
+
 	/*! Loads a UI Component for Rendering */
 	static void LoadComponent( const std::string componentName );
 
@@ -47,10 +49,8 @@ public:
 	/*! Hides the mouse */
 	static inline void HideMouse( ) { Gui::getInstancePtr( )->hidePointer( ); };
 
-	void OnMouseReleased( Widget* widget, int left, int top, MouseButton buttonId );
-
-private:
-
+	void OnMouseReleased( Widget* widget, int left, int top );
+	
 	Gui* _gui;
 	Script* _script;
 	WidgetList _widgetList;

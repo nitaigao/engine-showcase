@@ -21,17 +21,17 @@ RootUIController::~RootUIController( )
 		delete widgetUserData;
 	}
 
-	if ( _script != 0 )
+	/*if ( _script != 0 )
 	{
 		delete _script;
-	}
+	}*/
 }
 
 void RootUIController::Initialize( )
 {
-	_script = ScriptManager::GetInstance( )->CreateScript( "/data/interface/interface.lua" );
+	lua_State* luaState = ScriptManager::GetInstance( )->LoadScript( "/data/interface/interface.lua" );
 
-	module( _script->GetState( ) )
+	module( luaState )
 	[
 		def( "findWidget", &RootUIController::FindWidget ),
 		def( "loadComponent", &RootUIController::LoadComponent ),
@@ -55,7 +55,7 @@ void RootUIController::Initialize( )
 			.def_readonly( "height" , &MyGUI::IntCoord::height )
 	];
 
-	_script->Initialize( );
+	lua_pcall( luaState, 0, 0, 0 );
 }
 
 WidgetPtr RootUIController::FindWidget( const std::string widgetName )
@@ -84,7 +84,7 @@ void RootUIController::ScriptWidget( Widget* widget, const std::string eventName
 	}*/
 }
 
-void RootUIController::OnMouseReleased( Widget* widget, int left, int top, MouseButton buttonId )
+void RootUIController::OnMouseReleased( Widget* widget, int left )
 {
 	void* userData = widget->getUserData( );
 	WidgetUserData* widgetUserData = static_cast< WidgetUserData* >( userData );
@@ -109,5 +109,6 @@ void RootUIController::LoadComponent( const std::string componentName )
 	std::stringstream scriptPath;
 	scriptPath << "/data/interface/components/" << componentName << ".lua";
 
-	ScriptManager::GetInstance( )->LoadScript( scriptPath.str( ) );
+	lua_State* luaState = ScriptManager::GetInstance( )->LoadScript( scriptPath.str( ) );
+	lua_pcall( luaState, 0, 0, 0 );
 }

@@ -105,7 +105,7 @@ bool ScriptManager::Initialize( )
 	return true;	
 }
 
-void ScriptManager::LoadScript( const std::string scriptPath )
+lua_State* ScriptManager::LoadScript( const std::string scriptPath )
 {
 	FileBuffer* scriptBuffer = FileManager::GetInstance( )->GetFile( scriptPath );
 	
@@ -129,8 +129,9 @@ void ScriptManager::LoadScript( const std::string scriptPath )
 
 	delete scriptBuffer;
 
-	lua_pcall( childState, 0, 0, 0 );
 	_childStates.push_back( childState );
+	
+	return childState;
 }
 
 Script* ScriptManager::CreateScript( std::string scriptPath )

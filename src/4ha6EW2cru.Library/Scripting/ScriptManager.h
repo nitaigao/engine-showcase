@@ -34,7 +34,7 @@ public:
 	static bool Initialize( );
 
 	/*! Loads a Script */
-	void LoadScript( const std::string scriptPath );
+	lua_State* LoadScript( const std::string scriptPath );
 
 	/*! Creates a new Script */
 	Script* CreateScript( std::string scriptPath );
