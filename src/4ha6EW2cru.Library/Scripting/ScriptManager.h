@@ -6,27 +6,35 @@ extern "C"
 #	include <lua.h>
 }
 
+#include <luabind/luabind.hpp>
+using namespace luabind;
+
 #include "Script.h"
 
 class ScriptManager
 {
 
+	typedef std::pair< EventType, object > EventHandler;
+	typedef std::vector< EventHandler > EventHandlerList;
+
+	typedef std::vector< lua_State* > ChildStateList;
+
 public:
 
-	ScriptManager::ScriptManager( );
-	ScriptManager::~ScriptManager( );
+	ScriptManager( );
+	~ScriptManager( );
 
 	/*! Retrieves an instance of the ScriptManager Singleton */
 	static ScriptManager* GetInstance( );
-
+	
 	/*! Releases all resources and the ScriptManager Singleton */
 	void Release( );
 
 	/*! Initializes the Script Management mechanism */
 	static bool Initialize( );
 
-	/*! Updates the ScriptManager and it's Children */
-	//void Update( );
+	/*! Loads a Script */
+	void LoadScript( const std::string scriptPath );
 
 	/*! Creates a new Script */
 	Script* CreateScript( std::string scriptPath );
@@ -34,7 +42,11 @@ public:
 	/*! Removes a Script from the Master State and Destroys it */
 	void DestroyScript( Script* script );
 
+	void RegisterEvent( EventType eventType, object function );
+
 private:
+
+	void OnEvent( const IEvent* event );
 
 	/*! Registers Global Functions such as 'quit', 'print' */
 	void RegisterScriptGlobals( lua_State* luaState );
@@ -46,8 +58,12 @@ private:
 	static void FromLua_LoadLevel( const std::string levelName );
 	static void FromLua_Print( const std::string message );
 	static int FromLua_ScriptError( lua_State* luaState );
+	static void FromLua_BroadcastEvent( EventType eventType );
+	static void FromLua_RegisterEvent( EventType eventType, object function );
 
 	lua_State* _masterState;
+	ChildStateList _childStates;
+	EventHandlerList* _eventHandlers;
 
 };
 

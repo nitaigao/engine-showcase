@@ -1,14 +1,26 @@
 #include "RootUIController.h"
 
 #include "../../Scripting/ScriptManager.h"
+#include "../../Events/EventManager.h"
 
 #include "UIView.h"
 #include "UIController.h"
 
 RootUIController::~RootUIController( )
-{
-	/*this->DestroyAllComponents( );*/
-	
+{	
+	for ( WidgetList::iterator widget = _widgetList.begin( ); widget != _widgetList.end( ); ++widget )
+	{
+		void* userData = ( *widget )->getUserData( );
+		WidgetUserData* widgetUserData = static_cast< WidgetUserData* >( userData );
+
+		for ( WidgetUserData::iterator i = widgetUserData->begin( ); i != widgetUserData->end( ); ++i )
+		{
+			delete ( *i ).second;
+		}
+
+		delete widgetUserData;
+	}
+
 	if ( _script != 0 )
 	{
 		delete _script;
@@ -18,85 +30,84 @@ RootUIController::~RootUIController( )
 void RootUIController::Initialize( )
 {
 	_script = ScriptManager::GetInstance( )->CreateScript( "/data/interface/interface.lua" );
-	
+
 	module( _script->GetState( ) )
 	[
-		def( "loadComponent", &RootUIController::LoadComponent )
-	];
-	
-	_script->Initialize( );
-}
-
-void RootUIController::Update( int deltaMilliseconds )
-{
-	/*while( _eventQueue.size( ) > 0 )
-	{
-		luabind::call_member< void >( _luaObject, "onMessage", _eventQueue.front( ) );
-
-		_eventQueue.pop( );
-	}*/
-}
-
-void RootUIController::LoadComponent( const std::string componentName )
-{
-	std::stringstream layoutPath;
-	layoutPath << "/data/interface/components/" << componentName << "/" << componentName << ".layout";
-
-	MyGUI::LayoutManager::getInstance().load( layoutPath.str( ) );
-	
-	/*Script* script = ScriptManager::GetInstance( )->CreateScript( scriptPath.str( ) );
-	/*_components.push_back( script );
-
-	module( script->GetState( ) )
-	[
-		class_< RootUIController >( "RootUIController" )
-		.def( constructor< luabind::object, Gui* >( ) )
-			.def( "dispatchMessage", &RootUIController::QueueEvent )
-			.def( "getScreenWidth", &RootUIController::GetScreenWidth )
-			.def( "getScreenHeight", &RootUIController::GetScreenHeight )
-			.def( "showMouse", &RootUIController::ShowMouse )
-			.def( "hideMouse", &RootUIController::HideMouse ),
-
-		class_< UIController >( "UIController" )
-			.def( constructor< luabind::object, std::string, Gui* >( ) )
-			.def( "setWidgetScript", &UIController::SetWidgetScript ),
-
-		class_< UIView >( "UIView" )
-			.def( constructor< std::string, Gui* >( ) )
-			.def( "initialize", &UIView::Initialize )
-			.def( "findControl", &UIView::FindControl ),
-
-		class_< Gui >( "Gui" ),
+		def( "findWidget", &RootUIController::FindWidget ),
+		def( "loadComponent", &RootUIController::LoadComponent ),
+		def( "getScreenWidth", &RootUIController::GetScreenWidth ),
+		def( "getScreenHeight", &RootUIController::GetScreenHeight ),
+		def( "scriptWidget", &RootUIController::ScriptWidget ),
+		def( "showMouse", &RootUIController::ShowMouse ),
+		def( "hideMouse", &RootUIController::HideMouse ),
 
 		class_< Widget >( "Widget" )
 			.def( "getDimensions", &MyGUI::Widget::getClientCoord )
 			.def( "setPosition", ( void( MyGUI::Widget::* )( int, int ) ) &MyGUI::Widget::setPosition )
 			.def( "getType", &MyGUI::Widget::getClassTypeName )
 			.def( "hide", &MyGUI::Widget::hide )
-			.def( "show", &MyGUI::Widget::show )
-			.def( "setScript", &UIController::SetWidgetScript ),
+			.def( "show", &MyGUI::Widget::show ),
 
 		class_< IntCoord >( "IntCoord" )
 			.def_readonly( "x" , &MyGUI::IntCoord::left )
 			.def_readonly( "y" , &MyGUI::IntCoord::top )
 			.def_readonly( "width" , &MyGUI::IntCoord::width )
 			.def_readonly( "height" , &MyGUI::IntCoord::height )
-	];*/
+	];
 
-	//script->Initialize( );
-
-	/*luabind::globals( script->GetState( ) )[ "root" ] = this;
-
-	luabind::call_function< void >( script->GetState( ), "onLoad", this, componentName, _gui );*/
+	_script->Initialize( );
 }
 
-void RootUIController::DestroyAllComponents( )
+WidgetPtr RootUIController::FindWidget( const std::string widgetName )
 {
-	/*for( UIComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+	return Gui::getInstancePtr( )->findWidgetT( widgetName );
+}
+
+void RootUIController::ScriptWidget( Widget* widget, const std::string eventName, object function )
+{
+	/*void* userData = widget->getUserData( );
+	WidgetUserData* widgetUserData = static_cast< WidgetUserData* >( userData );
+
+	if ( widgetUserData == 0 )
 	{
-		delete ( *i );
+		widgetUserData = new WidgetUserData( );
 	}
 
-	_components.clear( );
-	_gui->destroyAllChildWidget( );*/
+	object* handlerFunctionPtr = new object( function );
+	widgetUserData->insert( std::make_pair( eventName, handlerFunctionPtr ) );
+
+	widget->setUserData( static_cast< void* >( widgetUserData ) );
+
+	if ( eventName == "onRelease" )
+	{
+		widget->eventMouseButtonReleased = newDelegate( &RootUIController::OnMouseReleased );
+	}*/
+}
+
+void RootUIController::OnMouseReleased( Widget* widget, int left, int top, MouseButton buttonId )
+{
+	void* userData = widget->getUserData( );
+	WidgetUserData* widgetUserData = static_cast< WidgetUserData* >( userData );
+
+	for ( WidgetUserData::iterator i = widgetUserData->begin( ); i != widgetUserData->end( ); ++i )
+	{
+		if ( ( *i ).first == "onRelease" )
+		{
+			object eventHandler = *( *i ).second;
+			eventHandler( left, top );
+		}
+	}
+}
+
+void RootUIController::LoadComponent( const std::string componentName )
+{
+	std::stringstream layoutPath;
+	layoutPath << "/data/interface/components/" << componentName << ".layout";
+
+	MyGUI::LayoutManager::getInstance().load( layoutPath.str( ) );
+
+	std::stringstream scriptPath;
+	scriptPath << "/data/interface/components/" << componentName << ".lua";
+
+	ScriptManager::GetInstance( )->LoadScript( scriptPath.str( ) );
 }

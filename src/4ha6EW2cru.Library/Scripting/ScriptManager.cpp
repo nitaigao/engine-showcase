@@ -22,33 +22,49 @@ ScriptManager::ScriptManager( )
 	_masterState = lua_open( );
 	luabind::open( _masterState );
 
-	this->RegisterScriptGlobals( _masterState );
+	_eventHandlers = new EventHandlerList( );
+
+	module( _masterState )
+	[
+		def( "quit", &ScriptManager::FromLua_GameQuit ),
+		def( "print", &ScriptManager::FromLua_Print ),
+		def( "registerEvent", &ScriptManager::FromLua_RegisterEvent ),
+		def( "broadcastEvent", &ScriptManager::FromLua_BroadcastEvent ),
+		def( "loadLevel", &ScriptManager::FromLua_LoadLevel ),
+
+		class_< KeyEventData >( "KeyEventData" )
+			.def( "getKeyCode", &KeyEventData::GetKeyCode )
+			.def( "getKeyText", &KeyEventData::GetKeyText ),
+
+		class_< Script >( "Script" )
+			.def( "include", &Script::Include ),
+
+		class_< AppenderEventData >( "AppenderEventData" )
+			.def( "getMessage", &AppenderEventData::GetMessage ),
+
+		class_< EventType >( "EventType" )
+			.enum_( "constants" )
+			[
+				value( "TEST_EVENT", TEST_EVENT ),
+				value( "SCRIPT_COMMAND_EXECUTED", SCRIPT_COMMAND_EXECUTED ),
+				value( "INPUT_KEY_UP", INPUT_KEY_UP ),
+				value( "LOG_MESSAGE_APPENDED", LOG_MESSAGE_APPENDED ),
+
+				value( "UI_TITLE_SCREEN", UI_TITLE_SCREEN ),
+				value( "UI_MAIN_MENU", UI_MAIN_MENU ),
+				value( "UI_CLEAR", UI_CLEAR )
+			]
+	];
 
 	luabind::set_pcall_callback( &ScriptManager::FromLua_ScriptError );
 
-	EventManager::GetInstance( )->AddEventListener( SCRIPT_COMMAND_EXECUTED, this, &ScriptManager::CommandExecuted );
-}
-
-void ScriptManager::FromLua_GameQuit( void )
-{
-	EventManager::GetInstance( )->QueueEvent( new Event( GAME_QUIT ) );
-}
-
-void ScriptManager::CommandExecuted( const IEvent* event )
-{
-	ScriptCommandEventData* eventData = static_cast< ScriptCommandEventData* >( event->GetEventData( ) );
-
-	int result = luaL_dostring( _masterState, eventData->GetCommand( ).c_str( ) );
-
-	if( 0 != result )
-	{
-		std::string error = lua_tostring( _masterState, -1 );
-		Logger::GetInstance( )->Warn( error );
-	}
+	EventManager::GetInstance( )->AddEventListener( ALL_EVENTS, this, &ScriptManager::OnEvent );
 }
 
 ScriptManager::~ScriptManager( )
 {
+	delete _eventHandlers;
+
 	lua_close( _masterState );
 	_masterState = 0;
 }
@@ -89,14 +105,38 @@ bool ScriptManager::Initialize( )
 	return true;	
 }
 
+void ScriptManager::LoadScript( const std::string scriptPath )
+{
+	FileBuffer* scriptBuffer = FileManager::GetInstance( )->GetFile( scriptPath );
+	
+	lua_State* childState = lua_newthread( _masterState );
+	
+	int result = luaL_loadbuffer( childState, scriptBuffer->fileBytes, scriptBuffer->fileSize, scriptBuffer->filePath.c_str( ) );
+
+	if ( LUA_ERRSYNTAX == result )
+	{
+		ScriptException syntaxE( "Script::Initialize - There is a syntax error within the Script" );
+		Logger::GetInstance( )->Fatal( syntaxE.what( ) );
+		throw syntaxE;
+	}
+
+	if ( LUA_ERRMEM == result )
+	{
+		ScriptException memE( "Script::Initialize - There is memory allocation error within the Script" );
+		Logger::GetInstance( )->Fatal( memE.what( ) );
+		throw memE;
+	}
+
+	delete scriptBuffer;
+
+	lua_pcall( childState, 0, 0, 0 );
+	_childStates.push_back( childState );
+}
+
 Script* ScriptManager::CreateScript( std::string scriptPath )
 {
 	FileBuffer* scriptBuffer = FileManager::GetInstance( )->GetFile( scriptPath );
-	Script* script = new Script( _masterState, scriptBuffer );
-
-	this->RegisterScriptGlobals( script->GetState( ) );
-
-	return script;
+	return new Script( _masterState, scriptBuffer );
 }
 
 void ScriptManager::DestroyScript( Script* script )
@@ -112,6 +152,25 @@ void ScriptManager::DestroyScript( Script* script )
 	script = 0;
 }
 
+void ScriptManager::RegisterEvent( EventType eventType, object function )
+{
+	EventHandler eventHandler( eventType, function );
+	_eventHandlers->push_back( eventHandler );
+}
+
+void ScriptManager::CommandExecuted( const IEvent* event )
+{
+	ScriptCommandEventData* eventData = static_cast< ScriptCommandEventData* >( event->GetEventData( ) );
+
+	int result = luaL_dostring( _masterState, eventData->GetCommand( ).c_str( ) );
+
+	if( 0 != result )
+	{
+		std::string error = lua_tostring( _masterState, -1 );
+		Logger::GetInstance( )->Warn( error );
+	}
+}
+
 void ScriptManager::FromLua_Print( const std::string message )
 {
 	Logger::GetInstance( )->Info( message );
@@ -121,6 +180,12 @@ void ScriptManager::FromLua_LoadLevel( const std::string levelName )
 {
 	LevelChangedEventData* eventData = new LevelChangedEventData( levelName );
 	EventManager::GetInstance( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
+}
+
+void ScriptManager::FromLua_BroadcastEvent( EventType eventType )
+{
+	Event* event = new Event( eventType );
+	EventManager::GetInstance( )->QueueEvent( event );
 }
 
 int ScriptManager::FromLua_ScriptError( lua_State* luaState )
@@ -154,32 +219,23 @@ int ScriptManager::FromLua_ScriptError( lua_State* luaState )
 	return 1;	
 }
 
-void ScriptManager::RegisterScriptGlobals( lua_State* luaState )
+void ScriptManager::FromLua_GameQuit( void )
 {
-	module( luaState )
-	[
-		def( "quit", &ScriptManager::FromLua_GameQuit ),
-		def( "print", &ScriptManager::FromLua_Print ),
-		def( "loadLevel", &ScriptManager::FromLua_LoadLevel ),
+	EventManager::GetInstance( )->QueueEvent( new Event( GAME_QUIT ) );
+}
 
-		class_< KeyEventData >( "KeyEventData" )
-			.def( "getKeyCode", &KeyEventData::GetKeyCode )
-			.def( "getKeyText", &KeyEventData::GetKeyText ),
+void ScriptManager::FromLua_RegisterEvent( EventType eventType, object function )
+{
+	ScriptManager::GetInstance( )->RegisterEvent( eventType, function );
+}
 
-		class_< Script >( "Script" )
-			.def( "include", &Script::Include ),
-
-		class_< AppenderEventData >( "AppenderEventData" )
-			.def( "getMessage", &AppenderEventData::GetMessage ),
-
-		class_< EventType >( "EventType" )
-			.enum_( "constants" )
-			[
-				value( "TEST_EVENT", TEST_EVENT ),
-				value( "SCRIPT_COMMAND_EXECUTED", SCRIPT_COMMAND_EXECUTED ),
-				value( "INPUT_KEY_UP", INPUT_KEY_UP ),
-				value( "LOG_MESSAGE_APPENDED", LOG_MESSAGE_APPENDED )
-			]
-
-	];
+void ScriptManager::OnEvent( const IEvent* event )
+{
+	for ( EventHandlerList::iterator i = _eventHandlers->begin( ); i != _eventHandlers->end( ); ++i )
+	{
+		if ( ( *i ).first == event->GetEventType( ) )
+		{
+			call_function< void >( ( *i ).second );
+		}
+	}
 }

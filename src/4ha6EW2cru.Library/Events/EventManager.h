@@ -15,8 +15,8 @@ class EventManager
 {
 
 	typedef std::queue< const IEvent* > EventQueue;
-	typedef std::multimap< const EventType, IEventListener* > EventListenerList;
-
+	typedef std::vector< IEventListener* > EventListenerList;
+	
 public:
 
 	/*! Retrieves an instance of the EventManager Singleton */
@@ -56,9 +56,7 @@ public:
 		}
 
 		EventListener< AT >* eventListener = new EventListener< AT >( eventType, handlerTarget, handlerFunctor );
-
-		std::pair< const EventType, IEventListener* > listenerPair( eventListener->GetEventType( ), eventListener );
-		_eventListeners.insert( listenerPair );
+		_eventListeners.push_back( eventListener );
 	}
 
 	/*! Removed an EventListener and destroys it */
@@ -79,16 +77,9 @@ public:
 			throw nullFunctor;
 		}
 
-		std::pair< 
-			EventListenerList::iterator, 
-			EventListenerList::iterator
-		> listeners;
-
-		listeners = _eventListeners.equal_range( eventType ); 
-
-		for ( EventListenerList::iterator i = listeners.first; i != listeners.second; ++i )
+		for ( EventListenerList::iterator i = _eventListeners.begin( ); i != _eventListeners.end( ); ++i )
 		{
-			EventListener< RT >* eventListener = static_cast< EventListener< RT >* >( ( *i ).second );
+			EventListener< RT >* eventListener = static_cast< EventListener< RT >* >( ( *i ) );
 
 			if ( 
 				handlerFunctor == eventListener->GetHandlerFunctor( ) &&
@@ -96,15 +87,12 @@ public:
 				handlerTarget == eventListener->GetHandlerTarget( )
 				)
 			{
-				delete ( *i ).second;
+				delete ( *i );
 				_eventListeners.erase( i );
 				return;
-			}
+			} 
 		}
 	}
-
-	/*! Gets the number of attached EventListeners */
-	//inline int GetEventListenerCount( ) const { return _eventListeners.size( ); };
 
 private:
 

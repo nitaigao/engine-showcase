@@ -29,18 +29,12 @@ Script::Script( lua_State* parentState, FileBuffer* fileBuffer ) : _parentState(
 		throw unInitE;
 	}
 
-	_luaState = lua_open( );
-	luabind::open( _luaState );
+	_luaState = _parentState;
 }
 
 Script::~Script( )
 {
 	delete _fileBuffer;
-
-	_eventHandlers.clear( );
-
-	lua_close( _luaState );
-	_luaState = 0;
 }
 
 void Script::Initialize( )
@@ -68,7 +62,6 @@ void Script::Initialize( )
 		throw memE;
 	}
 
-	luabind::globals( _luaState )[ "script" ] = this;
 	lua_pcall( _luaState, 0, 0, 0 );
 
 	_isInitialized = true;

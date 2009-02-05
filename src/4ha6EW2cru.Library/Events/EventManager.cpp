@@ -29,7 +29,7 @@ void EventManager::Release( )
 
 	for( EventListenerList::iterator i = _eventListeners.begin( ); i != _eventListeners.end( ); ++i )
 	{
-		delete ( *i ).second;
+		delete ( *i );
 	}
 
 	_eventListeners.erase( _eventListeners.begin( ), _eventListeners.end( ) );
@@ -75,18 +75,17 @@ void EventManager::TriggerEvent( const IEvent* event )
 		throw e;
 	}
 
-	std::pair< 
-		EventListenerList::iterator, 
-		EventListenerList::iterator
-	> listeners;
+	EventListenerList eventListeners( _eventListeners );
 
-	std::multimap< const EventType, IEventListener* > eventListeners( _eventListeners );
-
-	listeners = eventListeners.equal_range( ( EventType ) event->GetEventType( ) ); 
-
-	for ( EventListenerList::iterator i = listeners.first; i != listeners.second; ++i )
+	for ( EventListenerList::iterator i = eventListeners.begin( ); i != eventListeners.end( ); ++i )
 	{
-		( *i ).second->HandleEvent( event );
+		if ( 
+			( *i )->GetEventType( ) == event->GetEventType( ) || 
+			( *i )->GetEventType( ) == ALL_EVENTS 
+			)
+		{
+			( *i )->HandleEvent( event );
+		}
 	}
 
 	delete event;
@@ -94,25 +93,9 @@ void EventManager::TriggerEvent( const IEvent* event )
 
 void EventManager::Update( )
 {
-	std::pair< 
-			EventListenerList::iterator, 
-			EventListenerList::iterator
-		> listeners;
-
-	std::multimap< const EventType, IEventListener* > eventListeners( _eventListeners );
-
 	while( _eventQueue.size( ) > 0 )
 	{
-		int eventType = _eventQueue.front( )->GetEventType( );
-
-		listeners = eventListeners.equal_range( ( EventType ) eventType ); 
-
-		for ( EventListenerList::iterator i = listeners.first; i != listeners.second; ++i )
-		{
-			( *i ).second->HandleEvent( _eventQueue.front( ) );
-		}
-
-		delete _eventQueue.front( );
+		this->TriggerEvent( _eventQueue.front( ) );
 		_eventQueue.pop( );
 	}
 }

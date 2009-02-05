@@ -11,9 +11,8 @@ using namespace luabind;
 
 class RootUIController
 {
-
-	typedef std::vector< Script* > UIComponentList;
-	typedef std::queue< std::string > UIEventQueue;
+	typedef std::map< const std::string, object* > WidgetUserData;
+	typedef std::vector< WidgetPtr > WidgetList;
 
 public:
 
@@ -23,13 +22,6 @@ public:
 
 	}
 
-	RootUIController( luabind::object luaObject, Gui* gui )
-		: _gui( gui )
-		, _luaObject( luaObject )
-	{
-
-	};
-
 	void Initialize( );
 
 	~RootUIController( );
@@ -37,44 +29,31 @@ public:
 	/*! Loads a UI Component for Rendering */
 	static void LoadComponent( const std::string componentName );
 
-	/*! Destroys all active UI Components */
-	void DestroyAllComponents( );
+	/*! Retrieves a widget from the UI */
+	static WidgetPtr FindWidget( const std::string widgetName );
+	
+	/*! Attaches an LUA function to a Widget Event */
+	static void ScriptWidget( Widget* widget, const std::string eventName, object function );
+	
+	/*! Returns the Screen Width in pixels */
+	static inline int GetScreenWidth( ) { return Gui::getInstancePtr( )->getRenderWindow( )->getWidth( ); };
+	
+	/*! Returns the Screen Height in pixels */
+	static inline int GetScreenHeight( ) { return Gui::getInstancePtr( )->getRenderWindow( )->getHeight( ); };
+	
+	/*! Shows the mouse */
+	static inline void ShowMouse( ) { Gui::getInstancePtr( )->showPointer( ); };
+	
+	/*! Hides the mouse */
+	static inline void HideMouse( ) { Gui::getInstancePtr( )->hidePointer( ); };
 
-	/*! Processes the Message Queue for the GUI */
-	void Update( int deltaMilliseconds );
-
-	inline int GetScreenWidth( )
-	{
-		return _gui->getRenderWindow( )->getWidth( );
-	}
-
-	inline int GetScreenHeight( )
-	{
-		return _gui->getRenderWindow( )->getHeight( );
-	}
-
-	inline void QueueEvent( const std::string eventName )
-	{
-		_eventQueue.push( eventName );
-	}
-
-	inline void ShowMouse( )
-	{
-		_gui->showPointer( );
-	}
-
-	inline void HideMouse( )
-	{
-		_gui->hidePointer( );
-	}
+	void OnMouseReleased( Widget* widget, int left, int top, MouseButton buttonId );
 
 private:
 
 	Gui* _gui;
 	Script* _script;
-	UIComponentList _components;
-	luabind::object _luaObject;
-	UIEventQueue _eventQueue;
+	WidgetList _widgetList;
 
 };
 
