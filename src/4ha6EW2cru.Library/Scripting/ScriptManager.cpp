@@ -52,7 +52,8 @@ ScriptManager::ScriptManager( )
 
 				value( "UI_TITLE_SCREEN", UI_TITLE_SCREEN ),
 				value( "UI_MAIN_MENU", UI_MAIN_MENU ),
-				value( "UI_CLEAR", UI_CLEAR )
+				value( "UI_CLEAR", UI_CLEAR ),
+				value( "UI_OPTIONS", UI_OPTIONS )
 			]
 	];
 
