@@ -20,11 +20,6 @@ RootUIController::~RootUIController( )
 
 		delete widgetUserData;
 	}
-
-	/*if ( _script != 0 )
-	{
-		delete _script;
-	}*/
 }
 
 void RootUIController::Initialize( )
@@ -65,12 +60,14 @@ WidgetPtr RootUIController::FindWidget( const std::string widgetName )
 
 void RootUIController::ScriptWidget( Widget* widget, const std::string eventName, object function )
 {
-	/*void* userData = widget->getUserData( );
-	WidgetUserData* widgetUserData = static_cast< WidgetUserData* >( userData );
+	void* userData = widget->getUserData( );
+	boost::shared_ptr< WidgetUserData >* widgetUserData = static_cast< boost::shared_ptr< WidgetUserData >* >( userData );
+	
+	/*WidgetUserData* widgetUserData = static_cast< WidgetUserData* >( userData );
 
 	if ( widgetUserData == 0 )
 	{
-		widgetUserData = new WidgetUserData( );
+		widgetUserData = std::tr1::shared_ptr< WidgetUserData >( new WidgetUserData( ) );
 	}
 
 	object* handlerFunctionPtr = new object( function );
@@ -84,7 +81,7 @@ void RootUIController::ScriptWidget( Widget* widget, const std::string eventName
 	}*/
 }
 
-void RootUIController::OnMouseReleased( Widget* widget, int left )
+void RootUIController::OnMouseReleased( WidgetPtr widget, int left, int top, MouseButton id )
 {
 	void* userData = widget->getUserData( );
 	WidgetUserData* widgetUserData = static_cast< WidgetUserData* >( userData );
