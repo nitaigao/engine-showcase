@@ -41,7 +41,6 @@ public:
 	void Render( ) const;
 	void Update( const float deltaMilliseconds ) const;
 	size_t GetHwnd( ) const;
-	Gui* GetGui( );
 
 private:
 
@@ -59,12 +58,6 @@ private:
 
 	/*! Handler to intercept OnKeyDown Events */
 	void OnKeyDown( const IEvent* event );
-
-	/*! Handler to manage Screen Changes */
-	void OnChangeScreen( const IEvent* event );
-
-	/*! Handler to manager OnLevelChange Events */
-	void OnLevelChanged( const IEvent* event );
 
 	void LoadResources( );
 

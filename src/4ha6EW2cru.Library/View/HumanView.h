@@ -4,11 +4,7 @@
 #include "../Scripting/Script.h"
 #include "../Input/InputSystem.h"
 
-#include "../Graphics/GUI/GuiScreen.h"
 #include "../Graphics/IRenderer.hpp"
-
-#include "MyGUI.h"
-using namespace MyGUI;
 
 /*!
 	A Human interactive View of the Game
@@ -19,9 +15,7 @@ class HumanView
 public:
 
 	HumanView( ) 
-		: _viewScript( 0 )
-		, _currentScreen( 0 )
-		, _inputSystem( 0 )
+		: _inputSystem( 0 )
 		, _renderer( 0 )
 		, _isIntialized( false )
 	{ 
@@ -39,26 +33,11 @@ public:
 	/*! Render the current Screen */
 	void Render( );
 
-	/* Changes the current Screen */
-	void ChangeScreen( std::string screenName );
-
 private:
-
-	/*! Changes the current Screen of the View */
-	static void FromLua_ChangeScreen( HumanView* sender, std::string screenName, unsigned int visibilityMask );
-
-	/*! Handler to intercept the OnGameInitialized Event */
-	void OnGameInitialized( const IEvent* event );
-
-	/*! Handler to intercept the OnChangeScreen Event */
-	void OnChangeScreen( const IEvent* event );
-
-	std::string _bootStrapScreen;
 
 	IRenderer* _renderer;
 	Script* _viewScript;
 	InputSystem* _inputSystem;
-	GuiScreen* _currentScreen;
 	bool _isIntialized;
 
 };

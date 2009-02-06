@@ -280,22 +280,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Graphics\GUI\GUIControllerFixture.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\GUIControllerFixture.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\GuiViewFixture.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\GuiViewFixture.h"
-			>
-		</File>
-		<File
 			RelativePath=".\View\HumanViewFixture.cpp"
 			>
 		</File>

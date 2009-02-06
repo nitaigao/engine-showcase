@@ -79,14 +79,3 @@ void OgreRendererFixture::Should_Throw_On_GetHWND_Given_Not_Intialized( )
 {
 	CPPUNIT_ASSERT_THROW( _renderer->GetHwnd( ), UnInitializedException );
 }
-
-void OgreRendererFixture::Should_Throw_On_GetGUI_Given_Not_Initialized( )
-{
-	CPPUNIT_ASSERT_THROW( _renderer->GetGui( ), UnInitializedException );
-}
-
-void OgreRendererFixture::Should_Return_GUI_Given_Initialized( )
-{
-	_renderer->Initialize( 1, 1, 32, false );
-	CPPUNIT_ASSERT( 0 != _renderer->GetGui( ) );
-}

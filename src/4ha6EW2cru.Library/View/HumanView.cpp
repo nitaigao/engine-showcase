@@ -19,9 +19,6 @@ void HumanView::Initialize( int width, int height, int colorDepth, bool fullScre
 	_inputSystem->Initialize( );
 	_inputSystem->SetCaptureArea( width, height );
 
-	EventManager::GetInstance( )->AddEventListener( GAME_INITIALIZED, this, &HumanView::OnGameInitialized );
-	EventManager::GetInstance( )->AddEventListener( VIEW_CHANGE_SCREEN, this, &HumanView::OnChangeScreen );
-
 	_isIntialized = true;
 }
 
@@ -58,41 +55,9 @@ HumanView::~HumanView( )
 		_renderer = 0;
 	}
 
-	if ( _currentScreen != 0 )
-	{
-		delete _currentScreen;
-		_currentScreen = 0;
-	}
-
 	if ( _inputSystem != 0 )
 	{
 		delete _inputSystem;
 		_inputSystem = 0;
 	}
-
-	if ( _isIntialized )
-	{
-		EventManager::GetInstance( )->RemoveEventListener( GAME_INITIALIZED, this, &HumanView::OnGameInitialized );
-		EventManager::GetInstance( )->RemoveEventListener( VIEW_CHANGE_SCREEN, this, &HumanView::OnChangeScreen );		
-	}
-}
-
-void HumanView::OnGameInitialized( const IEvent* event )
-{
-	//Event* changeScreenEvent = new Event( VIEW_CHANGE_SCREEN, new ChangeScreenEventData( "introscreen" ) );
-	//EventManager::GetInstance( )->QueueEvent( changeScreenEvent );
-}
-
-void HumanView::OnChangeScreen( const IEvent* event )
-{
-	ChangeScreenEventData* eventData = static_cast< ChangeScreenEventData* > ( event->GetEventData( ) );
-	this->ChangeScreen( eventData->GetScreenName( ) );
-}
-
-void HumanView::ChangeScreen( std::string screenName )
-{
-	delete _currentScreen;
-
-	_currentScreen = new GuiScreen( screenName );
-	_currentScreen->Initialize( );
 }

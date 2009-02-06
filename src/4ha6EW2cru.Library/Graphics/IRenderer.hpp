@@ -14,7 +14,6 @@ public:
 	virtual void Initialize( int width, int height, int colorDepth, bool fullScreen ) = 0;
 	virtual void Render( ) const = 0;
 	virtual size_t GetHwnd( ) const = 0;
-	virtual Gui* GetGui( ) = 0; // TODO: This is just plain wrong, i think the GUi should live outside of the renderer
 	virtual void Update( float deltaMilliseconds ) const = 0;
 
 };

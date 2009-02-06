@@ -8,12 +8,10 @@ using namespace MyGUI;
 using namespace luabind;
 
 #include "../../Scripting/Script.h"
-#include <boost/shared_ptr.hpp>
 
-class RootUIController
+class RootUIController : MyGUI::IUnlinkWidget
 {
 	typedef std::map< const std::string, object* > WidgetUserData;
-	typedef std::vector< WidgetPtr > WidgetList;
 
 public:
 
@@ -25,7 +23,9 @@ public:
 
 	void Initialize( );
 
-	~RootUIController( );
+	virtual ~RootUIController( ) { };
+	
+	virtual void _unlinkWidget ( WidgetPtr widget );
 
 private:
 
@@ -50,11 +50,11 @@ private:
 	/*! Hides the mouse */
 	static inline void HideMouse( ) { Gui::getInstancePtr( )->hidePointer( ); };
 
+	/*! Forwards Mouse Button Released Events to the subscribing Widgets in Script */
 	static void OnMouseReleased( WidgetPtr widget, int left, int top, MouseButton id );
 
 	Gui* _gui;
 	Script* _script;
-	WidgetList _widgetList;
 
 };
 

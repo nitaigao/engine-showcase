@@ -25,17 +25,17 @@ OgreRenderer::~OgreRenderer( )
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_RELEASED, this, &OgreRenderer::OnMouseReleased );
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_DOWN, this, &OgreRenderer::OnKeyDown );
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_UP, this, &OgreRenderer::OnKeyUp );
-
-	if( _interfaceController != 0 )
-	{
-		delete _interfaceController;
-	}
-
+	
 	if ( _gui != 0 )
 	{
 		_gui->shutdown( );
 		delete _gui;
 		_gui = 0;
+	}
+
+	if( _interfaceController != 0 )
+	{
+		delete _interfaceController;
 	}
 
 	if ( _root != 0 )
@@ -45,22 +45,9 @@ OgreRenderer::~OgreRenderer( )
 		_root = 0;
 	}
 
-
 	delete _scene;
 	delete _badFactory;
 	_badFactory = 0;
-}
-
-Gui* OgreRenderer::GetGui( )
-{
-	if ( !_isInitialized )
-	{
-		UnInitializedException e( "OgreRenderer::GetGui - Renderer isn't initialized" );
-		Logger::GetInstance( )->Fatal( e.what( ) );
-		throw e;
-	}
-
-	return _gui;
 }
 
 void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullScreen )
@@ -120,7 +107,6 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 	{	// -- MyGUI 
 		_gui = new Gui( );
 		_gui->initialise( _root->getAutoCreatedWindow( ), "/data/interface/core/core.xml" );
-		_gui->hidePointer( );
 		
 		_interfaceController = new RootUIController( _gui );
 		_interfaceController->Initialize( );
@@ -133,8 +119,6 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 		EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_RELEASED, this, &OgreRenderer::OnMouseReleased );
 		EventManager::GetInstance( )->AddEventListener( INPUT_KEY_DOWN, this, &OgreRenderer::OnKeyDown );
 		EventManager::GetInstance( )->AddEventListener( INPUT_KEY_UP, this, &OgreRenderer::OnKeyUp );
-		EventManager::GetInstance( )->AddEventListener( VIEW_CHANGE_SCREEN, this, &OgreRenderer::OnChangeScreen );
-		EventManager::GetInstance( )->AddEventListener( GAME_LEVEL_CHANGED, this, &OgreRenderer::OnLevelChanged );
 	}
 
 	_scene = new OgreMax::OgreMaxScene( );
@@ -252,31 +236,4 @@ void OgreRenderer::OnKeyDown( const IEvent* event )
 { 
 	KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
 	_gui->injectKeyPress( ( MyGUI::KeyCode ) eventData->GetKeyCode( ) );
-}
-
-void OgreRenderer::OnLevelChanged( const IEvent* event )
-{
-
-}
-
-void OgreRenderer::OnChangeScreen( const IEvent* event )
-{
-	_scene->Destroy( );
-	_root->getSceneManager( "default" )->clearScene( );
-
-	ChangeScreenEventData* eventData = static_cast< ChangeScreenEventData* >( event->GetEventData( ) );
-
-	std::stringstream sceneFilePath;
-	sceneFilePath << "data/gui/views/" << eventData->GetScreenName( ) << "/" << eventData->GetScreenName( ) << ".scene";
-
-	_scene->Load( sceneFilePath.str( ), _root->getAutoCreatedWindow( ), 0x4000, _root->getSceneManager( "default" ) );
-	
-	std::string mainCameraName = "camera_main";
-
-	if ( _scene->GetSceneManager( )->hasCamera( mainCameraName ) )
-	{
-		Camera* camera = _scene->GetSceneManager( )->getCamera( mainCameraName );
-		_root->getAutoCreatedWindow( )->removeAllViewports( );
-		_root->getAutoCreatedWindow( )->addViewport( camera );
-	}
 }

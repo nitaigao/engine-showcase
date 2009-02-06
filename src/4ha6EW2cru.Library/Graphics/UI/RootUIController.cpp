@@ -3,25 +3,6 @@
 #include "../../Scripting/ScriptManager.h"
 #include "../../Events/EventManager.h"
 
-#include "UIView.h"
-#include "UIController.h"
-
-RootUIController::~RootUIController( )
-{	
-	for ( WidgetList::iterator widget = _widgetList.begin( ); widget != _widgetList.end( ); ++widget )
-	{
-		void* userData = ( *widget )->getUserData( );
-		WidgetUserData* widgetUserData = static_cast< WidgetUserData* >( userData );
-
-		for ( WidgetUserData::iterator i = widgetUserData->begin( ); i != widgetUserData->end( ); ++i )
-		{
-			delete ( *i ).second;
-		}
-
-		delete widgetUserData;
-	}
-}
-
 void RootUIController::Initialize( )
 {
 	lua_State* luaState = ScriptManager::GetInstance( )->LoadScript( "/data/interface/interface.lua" );
@@ -51,6 +32,22 @@ void RootUIController::Initialize( )
 	];
 
 	lua_pcall( luaState, 0, 0, 0 );
+
+	MyGUI::WidgetManager::getInstancePtr( )->registerUnlinker( this );
+}
+
+void RootUIController::LoadComponent( const std::string componentName )
+{
+	std::stringstream layoutPath;
+	layoutPath << "/data/interface/components/" << componentName << ".layout";
+
+	MyGUI::LayoutManager::getInstance().load( layoutPath.str( ) );
+
+	std::stringstream scriptPath;
+	scriptPath << "/data/interface/components/" << componentName << ".lua";
+
+	lua_State* luaState = ScriptManager::GetInstance( )->LoadScript( scriptPath.str( ) );
+	lua_pcall( luaState, 0, 0, 0 );
 }
 
 WidgetPtr RootUIController::FindWidget( const std::string widgetName )
@@ -58,16 +55,31 @@ WidgetPtr RootUIController::FindWidget( const std::string widgetName )
 	return Gui::getInstancePtr( )->findWidgetT( widgetName );
 }
 
+void RootUIController::_unlinkWidget ( WidgetPtr widget )
+{
+	void* userData = widget->getUserData( );
+	WidgetUserData* widgetUserData = static_cast< WidgetUserData* >( userData );
+	
+	if ( 0 != widgetUserData )
+	{
+		for ( WidgetUserData::iterator i = widgetUserData->begin( ); i != widgetUserData->end( ); ++i )
+		{
+			delete ( *i ).second;
+		}
+
+		delete widgetUserData;
+	}
+}
+
 void RootUIController::ScriptWidget( Widget* widget, const std::string eventName, object function )
 {
 	void* userData = widget->getUserData( );
-	boost::shared_ptr< WidgetUserData >* widgetUserData = static_cast< boost::shared_ptr< WidgetUserData >* >( userData );
-	
-	/*WidgetUserData* widgetUserData = static_cast< WidgetUserData* >( userData );
+
+	WidgetUserData* widgetUserData = static_cast< WidgetUserData* >( userData );
 
 	if ( widgetUserData == 0 )
 	{
-		widgetUserData = std::tr1::shared_ptr< WidgetUserData >( new WidgetUserData( ) );
+		widgetUserData = new WidgetUserData( );
 	}
 
 	object* handlerFunctionPtr = new object( function );
@@ -78,7 +90,7 @@ void RootUIController::ScriptWidget( Widget* widget, const std::string eventName
 	if ( eventName == "onRelease" )
 	{
 		widget->eventMouseButtonReleased = newDelegate( &RootUIController::OnMouseReleased );
-	}*/
+	}
 }
 
 void RootUIController::OnMouseReleased( WidgetPtr widget, int left, int top, MouseButton id )
@@ -94,18 +106,4 @@ void RootUIController::OnMouseReleased( WidgetPtr widget, int left, int top, Mou
 			eventHandler( left, top );
 		}
 	}
-}
-
-void RootUIController::LoadComponent( const std::string componentName )
-{
-	std::stringstream layoutPath;
-	layoutPath << "/data/interface/components/" << componentName << ".layout";
-
-	MyGUI::LayoutManager::getInstance().load( layoutPath.str( ) );
-
-	std::stringstream scriptPath;
-	scriptPath << "/data/interface/components/" << componentName << ".lua";
-
-	lua_State* luaState = ScriptManager::GetInstance( )->LoadScript( scriptPath.str( ) );
-	lua_pcall( luaState, 0, 0, 0 );
 }

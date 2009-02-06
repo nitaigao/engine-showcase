@@ -17,8 +17,6 @@ class OgreRendererFixture : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( Should_Throw_On_Update_Given_Not_Intialized );
 	CPPUNIT_TEST( Should_Return_Positive_Hwnd );
 	CPPUNIT_TEST( Should_Throw_On_GetHWND_Given_Not_Intialized );
-	CPPUNIT_TEST( Should_Throw_On_GetGUI_Given_Not_Initialized );
-	CPPUNIT_TEST( Should_Return_GUI_Given_Initialized );
 	CPPUNIT_TEST_SUITE_END( );
 
 public:
@@ -37,8 +35,6 @@ protected:
 	void Should_Throw_On_Update_Given_Not_Intialized( );
 	void Should_Return_Positive_Hwnd( );
 	void Should_Throw_On_GetHWND_Given_Not_Intialized( );
-	void Should_Throw_On_GetGUI_Given_Not_Initialized( );
-	void Should_Return_GUI_Given_Initialized( );
 
 
 private:

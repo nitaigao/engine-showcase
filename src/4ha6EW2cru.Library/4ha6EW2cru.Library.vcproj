@@ -258,54 +258,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Graphics\GUI\GuiComponent.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\GuiComponent.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\GuiController.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\GuiController.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\GuiEvents.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\GuiModel.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\GuiModel.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\GuiScreen.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\GuiScreen.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\GuiTools.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\GuiView.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\GUI\GuiView.h"
-			>
-		</File>
-		<File
 			RelativePath=".\View\HumanView.cpp"
 			>
 		</File>
@@ -511,22 +463,6 @@
 		</File>
 		<File
 			RelativePath=".\Utility\OgreMax\tinyxml\tinyxmlparser.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\UI\UIController.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\UI\UIController.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\UI\UIView.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\UI\UIView.h"
 			>
 		</File>
 		<File
