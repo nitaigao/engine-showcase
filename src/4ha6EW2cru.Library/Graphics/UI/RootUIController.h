@@ -8,6 +8,7 @@ using namespace MyGUI;
 using namespace luabind;
 
 #include "../../Scripting/Script.h"
+#include <boost/shared_ptr.hpp>
 
 class RootUIController
 {
@@ -49,8 +50,8 @@ private:
 	/*! Hides the mouse */
 	static inline void HideMouse( ) { Gui::getInstancePtr( )->hidePointer( ); };
 
-	void OnMouseReleased( Widget* widget, int left, int top );
-	
+	static void OnMouseReleased( WidgetPtr widget, int left, int top, MouseButton id );
+
 	Gui* _gui;
 	Script* _script;
 	WidgetList _widgetList;
