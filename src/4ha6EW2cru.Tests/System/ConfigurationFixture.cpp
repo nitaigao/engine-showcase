@@ -62,3 +62,27 @@ void ConfigurationFixture::Should_Throw_On_FindConfigItem_Given_InValid_Key( )
 	CPPUNIT_ASSERT_THROW( config->FindConfigItemString( "blah" ), OutOfRangeException );
 	delete config;
 }
+
+void ConfigurationFixture::Should_Return_IsFullScreen_True_Given_FullScreen_Set_To_True( )
+{
+	bool isFullScreen = true;
+
+	Configuration* config = Configuration::Create( );
+	config->SetFullScreen( isFullScreen );
+
+	CPPUNIT_ASSERT( config->IsFullScreen( ) == isFullScreen );
+
+	delete config;
+};
+
+void ConfigurationFixture::Should_Return_IsFullScreen_False_Given_FullScreen_Set_To_False( )
+{
+	bool isFullScreen = false;
+
+	Configuration* config = Configuration::Create( );
+	config->SetFullScreen( isFullScreen );
+
+	CPPUNIT_ASSERT( config->IsFullScreen( ) == isFullScreen );
+
+	delete config;
+};

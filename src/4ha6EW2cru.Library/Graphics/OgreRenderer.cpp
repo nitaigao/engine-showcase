@@ -124,6 +124,19 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 	_scene = new OgreMax::OgreMaxScene( );
 
 	_isInitialized = true;
+
+	/*ConfigOptionMap configOptions = _root->getRenderSystem()->getConfigOptions();
+
+	for( ConfigOptionMap::iterator i = configOptions.begin( ); i != configOptions.end( ); ++i )
+	{
+		std::string name = ( *i ).first;
+		
+		if ( name == "Video Mode" )
+		{
+			_ConfigOption configOption = ( *i ).second;
+			int a = 1;
+		}
+	}*/
 }
 
 size_t OgreRenderer::GetHwnd( ) const
@@ -161,8 +174,8 @@ void OgreRenderer::Update( const float deltaMilliseconds ) const
 		throw e;
 	}
 
-	//luabind::call_function< void >( _rootUIController->GetState( ), "onUpdate", deltaMilliseconds );
 	_scene->Update( deltaMilliseconds );
+	_gui->injectFrameEntered( deltaMilliseconds );
 
 	if ( _root->getAutoCreatedWindow( )->isClosed( ) )
 	{
@@ -236,4 +249,14 @@ void OgreRenderer::OnKeyDown( const IEvent* event )
 { 
 	KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
 	_gui->injectKeyPress( ( MyGUI::KeyCode ) eventData->GetKeyCode( ) );
+}
+
+void OgreRenderer::OnResolutionChanged( const IEvent* event )
+{
+
+}
+
+void OgreRenderer::OnFullScreenChanged( const IEvent* event )
+{
+
 }

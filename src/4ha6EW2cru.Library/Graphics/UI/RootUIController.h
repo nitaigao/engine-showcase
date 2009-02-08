@@ -53,6 +53,9 @@ private:
 	/*! Forwards Mouse Button Released Events to the subscribing Widgets in Script */
 	static void OnMouseReleased( WidgetPtr widget, int left, int top, MouseButton id );
 
+	/*! Casts a widget to a Button */
+	static inline ButtonPtr AsButton( WidgetPtr widget ) { return static_cast< ButtonPtr >( widget ); };
+
 	Gui* _gui;
 	Script* _script;
 

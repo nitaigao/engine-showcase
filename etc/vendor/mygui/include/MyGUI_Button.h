@@ -23,7 +23,7 @@ namespace MyGUI
 	public:
 		//! OLD Set button check state
 		void setButtonPressed(bool _check) { setStateCheck(_check); }
-		//! OLD Get buton check 
+		//! OLD Get buton check
 		bool getButtonPressed() { return getStateCheck(); }
 
 		//! Set button check state
@@ -37,13 +37,6 @@ namespace MyGUI
 		//! Get buton check
 		bool getStateCheck() {return mIsStateCheck;}
 
-		//! Set button focused state
-		void _setMouseFocus(bool _focus)
-		{
-			mIsMouseFocus = _focus;
-			updateButtonState();
-		}
-
 		//! Set image index (image should be defined in skin)
 		void setImageIndex(size_t _index);
 		//! Get image index
@@ -54,6 +47,13 @@ namespace MyGUI
 
 		//! @copydoc Widget::setEnabled(bool _enabled)
 		virtual void setEnabled(bool _enabled);
+
+	/*internal:*/
+		void _setMouseFocus(bool _focus)
+		{
+			mIsMouseFocus = _focus;
+			updateButtonState();
+		}
 
 		virtual ~Button();
 		

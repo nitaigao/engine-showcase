@@ -49,7 +49,7 @@ namespace MyGUI
 		}
 
 		//! Remove item
-		void removeItem() { mOwner->removeItem(this); } 
+		void removeItem() { mOwner->removeItem(this); }
 
 		//! Replace an item id at a specified position
 		void setItemId(const std::string & _id) { mOwner->setItemId(this, _id); }
@@ -60,20 +60,28 @@ namespace MyGUI
 		//! Get item index
 		size_t getItemIndex() { return mOwner->getItemIndex(this); }
 
+		/** Create child item (submenu), MenuItem can have only one child */
 		MenuCtrlPtr createItemChild() { return mOwner->createItemChild(this); }
 
+		/** Create specific type child item (submenu), MenuItem can have only one child */
 		template <typename Type>
 		Type * createItemChildT() { return mOwner->createItemChildT<Type>(this); }
 
+		/** Set item type (see MenuItemType) */
 		void setItemType(MenuItemType _type) { mOwner->setItemType(this, _type); }
 
+		/** Get item type (see MenuItemType) */
 		MenuItemType getItemType() { return mOwner->getItemType(this); }
 
+		/** Hide or show child item (submenu) */
 		void setItemChildVisible(bool _visible) { mOwner->setItemChildVisible(this, _visible); }
 
+		/** Get parent MenuCtrl */
 		MenuCtrlPtr getMenuCtrlParent() { return mOwner; }
 
+		/** Get child item (submenu) */
 		MenuCtrlPtr getItemChild() { return mOwner->getItemChild(this); }
+
 
 	/*obsolete:*/
 #ifndef MYGUI_DONT_USE_OBSOLETE
@@ -84,6 +92,7 @@ namespace MyGUI
 		void hideItemChild() { setItemChildVisible(false); }
 
 #endif // MYGUI_DONT_USE_OBSOLETE
+
 
 	protected:
 		MenuItem(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);

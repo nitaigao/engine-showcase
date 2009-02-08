@@ -22,7 +22,16 @@ void RootUIController::Initialize( )
 			.def( "setPosition", ( void( MyGUI::Widget::* )( int, int ) ) &MyGUI::Widget::setPosition )
 			.def( "getType", &MyGUI::Widget::getClassTypeName )
 			.def( "hide", &MyGUI::Widget::hide )
-			.def( "show", &MyGUI::Widget::show ),
+			.def( "show", &MyGUI::Widget::show )
+			.def( "asButton", &RootUIController::AsButton ),
+
+		class_< Button >( "Button" )
+			.def( "setChecked", &Button::setStateCheck )
+			.def( "getChecked", &Button::getStateCheck ),
+
+		class_< ComboBox >( "ComboBox" )
+			.def( "getIndexSelected", &ComboBox::getIndexSelected )
+			.def( "getItemAt", &ComboBox::getItemNameAt ),
 
 		class_< IntCoord >( "IntCoord" )
 			.def_readonly( "x" , &MyGUI::IntCoord::left )

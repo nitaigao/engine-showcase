@@ -69,24 +69,12 @@ void Game::Initialize( )
 	int isFullScreen = config->FindConfigItemInt( "display_isfullscreen" );
 	_view = new HumanView( );
 
-	if ( !isFullScreen )
-	{
-		_view->Initialize( 
-			config->FindConfigItemInt( "display_windowed_width" ), 
-			config->FindConfigItemInt( "display_windowed_height" ), 
-			config->FindConfigItemInt( "display_windowed_depth" ), 
-			isFullScreen 
-			);			
-	}
-	else
-	{
-		_view->Initialize( 
-			config->FindConfigItemInt( "display_fullscreen_width" ), 
-			config->FindConfigItemInt( "display_fullscreen_height" ), 
-			config->FindConfigItemInt( "display_fullscreen_depth" ), 
-			isFullScreen 
-			);
-	}
+	_view->Initialize( 
+		config->FindConfigItemInt( "display_fullscreen_width" ), 
+		config->FindConfigItemInt( "display_fullscreen_height" ), 
+		config->FindConfigItemInt( "display_fullscreen_depth" ), 
+		isFullScreen 
+		);
 
 	// Create core dependencies
 

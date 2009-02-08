@@ -7,6 +7,8 @@ using namespace luabind;
 #include "../Events/EventManager.h"
 #include "../IO/FileManager.h"
 
+#include "../System/Configuration.h"
+
 #include "../Events/Event.h"
 #include "../Events/EventData.hpp"
 
@@ -54,7 +56,10 @@ ScriptManager::ScriptManager( )
 				value( "UI_MAIN_MENU", UI_MAIN_MENU ),
 				value( "UI_CLEAR", UI_CLEAR ),
 				value( "UI_OPTIONS", UI_OPTIONS )
-			]
+			],
+
+		class_< Configuration >( "Configuration" )
+			.property( "isFullScreen", &Configuration::IsFullScreen, &Configuration::SetFullScreen )
 	];
 
 	luabind::set_pcall_callback( &ScriptManager::FromLua_ScriptError );

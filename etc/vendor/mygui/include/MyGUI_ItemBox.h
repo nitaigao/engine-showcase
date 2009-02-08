@@ -91,20 +91,20 @@ namespace MyGUI
 		/** Get vertical alignment grid mode flag */
 		bool getItemBoxAlignVert() { return mAlignVert; }
 
-		// возвращает индекс елемента, по указателю на виджет айтема
 		/** Get item index by item Widget pointer */
 		size_t getIndexByWidget(WidgetPtr _widget);
 
-		// возвращает виджет, созданный для дропа
-		/** DESCRIBE_ME */
-		WidgetPtr getWidgetDrop() { return mItemDrag; }
+		// FIXME - хреновое название функции, это виджет, на который бросают или который едет вместе с мышкой?
+		/** Get widget created for drop */
+		WidgetPtr getWidgetDrag() { return mItemDrag; }
 
-		// возвращает виджет индекса, если он виден
-		/** Get item Widget pointer by item index */
+		// FIXME - почему возвращаем виджет, только если он виден???
+		/** Get item Widget pointer by item index if it is visible */
 		WidgetPtr getWidgetByIndex(size_t _index);
 
-		/** DESCRIBE_ME */
-		void resetDrop() { endDrop(true); }
+		// FIXME - хреновое название функции, мы ж не бросание сбрасываем, а сам процесс
+		/** Interrupt drag as if widget was dropped into empty space */
+		void resetDrag() { endDrop(true); }
 
 		//! @copydoc Widget::setPosition(const IntPoint & _point)
 		virtual void setPosition(const IntPoint & _point);
@@ -173,6 +173,7 @@ namespace MyGUI
 		*/
 		EventPair<EventHandle_WidgetNotifyItemData, EventHandle_ItemBoxPtrCNotifyItemDataRef> eventNotifyItem;
 
+
 	/*obsolete:*/
 #ifndef MYGUI_DONT_USE_OBSOLETE
 
@@ -203,10 +204,15 @@ namespace MyGUI
 		MYGUI_OBSOLETE("use : void ItemBox::setIndexSelected(size_t _index)")
 		void setItemSelect(size_t _index) { setIndexSelected(_index); }
 
+		MYGUI_OBSOLETE("use : WidgetPtr ItemBox::getWidgetDrag()")
+		WidgetPtr getWidgetDrop() { return getWidgetDrag(); }
+		MYGUI_OBSOLETE("use : void ItemBox::resetDrag()")
+		void resetDrop() { resetDrag(); }
+
 #endif // MYGUI_DONT_USE_OBSOLETE
 
-	protected:
 
+	protected:
 		struct ItemDataInfo
 		{
 			ItemDataInfo(Any _data) :

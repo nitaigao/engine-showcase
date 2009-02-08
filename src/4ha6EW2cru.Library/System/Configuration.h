@@ -14,6 +14,29 @@ class Configuration
 
 public:
 
+	inline bool IsFullScreen( ) const { return true; };//this->FindConfigItemInt( "display_isfullscreen" ); };
+	inline void SetFullScreen( bool isFullScreen ) { this->SetConfigItem( "display_isfullscreen", boolToString( isFullScreen ) ); };
+
+	void SetConfigItem( std::string key, std::string value )
+	{
+		for( ConfigItemList::iterator i = _configItems.begin( ); i != _configItems.end( ); ++i )
+		{
+			if ( ( *i ).first == key )
+			{
+				( *i ).second = value;
+				return;
+			}
+		}
+
+		_configItems.insert( std::make_pair( key, value ) );
+	};
+
+	inline std::string boolToString( bool input )
+	{
+		return ( input ) ? "1" : "0";
+	};
+
+
 	inline static Configuration* Create( ) { return new Configuration( ); };
 
 	/*! Loads a config file from the FileSystem */

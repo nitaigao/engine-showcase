@@ -108,11 +108,11 @@ namespace MyGUI
 		const std::string & getName() { return mName; }
 
 
-		/** Set widget position (position of left top corner)*/
+		/** Set widget position (position of left top corner) */
 		virtual void setPosition(const IntPoint& _pos);
 		/** Set widget size */
 		virtual void setSize(const IntSize& _size);
-		/** Set widget position and size*/
+		/** Set widget position and size */
 		virtual void setCoord(const IntCoord& _coord);
 
 		/** See Widget::setPosition(const IntPoint& _pos) */
@@ -136,7 +136,7 @@ namespace MyGUI
 		/** See Widget::setRealPosition(const FloatCoord& _coord) */
 		void setRealCoord(float _left, float _top, float _width, float _height) { setRealCoord(FloatCoord(_left, _top, _width, _height)); }
 
-		/** Set Visible widget */
+		/** Hide or show widget */
 		virtual void setVisible(bool _visible);
 
 		/** Set widget caption */
@@ -273,6 +273,7 @@ namespace MyGUI
 		*/
 		void setWidgetStyle(WidgetStyle _style);
 
+
 	/*internal:*/
 		// метод для запроса номера айтема и контейнера
 		virtual void _getContainer(WidgetPtr & _container, size_t & _index);
@@ -323,13 +324,12 @@ namespace MyGUI
 		IntSize getTextSize();
 
 #endif // MYGUI_DONT_USE_OBSOLETE
-
-	virtual ~Widget();
 	
+	virtual ~Widget();
+
 	protected:
 		// все создание только через фабрику
 		Widget(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
-		
 
 		virtual void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
 

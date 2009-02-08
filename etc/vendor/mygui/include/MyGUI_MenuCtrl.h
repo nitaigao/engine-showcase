@@ -61,16 +61,17 @@ namespace MyGUI
 			std::string id;
 			/** User data */
 			Any data;
-			/** Item width*/
+			/** Item width */
 			int width;
 		};
 
 		typedef std::vector<ItemInfo> VectorMenuItemInfo;
 
 	public:
-
+		/** @copydoc Widget::setVisible */
 		virtual void setVisible(bool _visible);
 
+		/** Hide or show Menu smooth */
 		void setVisibleSmooth(bool _visible);
 
 		//------------------------------------------------------------------------------//
@@ -224,60 +225,76 @@ namespace MyGUI
 			return ITEM_NONE;
 		}
 
+		/** Show or hide item (submenu) at a specified position */
 		void setItemChildVisibleAt(size_t _index, bool _visible);
+		/** Show or hide item (submenu) */
 		void setItemChildVisible(MenuItemPtr _item, bool _visible) { setItemChildVisibleAt(getItemIndex(_item), _visible); }
 
 		//------------------------------------------------------------------------------//
 		// остальные манипуляции
 
+		/** Create specific type child item (submenu) for item by index */
 		template <typename Type>
 		Type * createItemChildTAt(size_t _index)
 		{
 			return static_cast<Type*>(createItemChildByType(_index, Type::getClassTypeName()));
 		}
 
+		/** Create specific type child item (submenu) for item */
 		template <typename Type>
 		Type * createItemChildT(MenuItemPtr _item) { return createItemChildTAt<Type>(getItemIndex(_item)); }
 
+		/** Get child item (submenu) from item by index */
 		MenuCtrlPtr getItemChildAt(size_t _index);
+
+		/** Get child item (submenu) from item */
 		MenuCtrlPtr getItemChild(MenuItemPtr _item)
 		{
 			return getItemChildAt(getItemIndex(_item));
 		}
 
-		/** Create sub menu */
+		/** Create child item (submenu) for item by index */
 		MenuCtrlPtr createItemChildAt(size_t _index) { return createItemChildTAt<MenuCtrl>(_index); }
 
-		/** Create sub menu */
+		/** Create child item (submenu) for item */
 		MenuCtrlPtr createItemChild(MenuItemPtr _item)
 		{
 			return createItemChildAt(getItemIndex(_item));
 		}
 
-
+		/** Remove child item (submenu) for item by index */
 		void removeItemChildAt(size_t _index);
+
+		/** Remove child item (submenu) for item */
 		void removeItemChild(MenuItemPtr _item)
 		{
 			removeItemChildAt(getItemIndex(_item));
 		}
 
 
+		/** Get item type (see MenuItemType) from item by index */
 		MenuItemType getItemTypeAt(size_t _index);
+
+		/** Get item type (see MenuItemType) from item */
 		MenuItemType getItemType(MenuItemPtr _item)
 		{
 			return getItemTypeAt(getItemIndex(_item));
 		}
 
+		/** Set item type (see MenuItemType) from item by index */
 		void setItemTypeAt(size_t _index, MenuItemType _type);
+		/** Set item type (see MenuItemType) from item */
 		void setItemType(MenuItemPtr _item, MenuItemType _type)
 		{
 			setItemTypeAt(getItemIndex(_item), _type);
 		}
 
-		bool getPopupAccept() { return mPopupAccept; }
+		/** Set mode when clicking on item with submenu generate eventMenuCtrlAccept and closes menu */
 		void setPopupAccept(bool _accept) { mPopupAccept = _accept; }
+		/** Get mode when clicking on item with submenu generate eventMenuCtrlAccept and closes menu */
+		bool getPopupAccept() { return mPopupAccept; }
 
-		// возвращает отца
+		/** Get parent menu item or nullptr if no item */
 		MenuItemPtr getMenuItemParent() { return mOwner; }
 
 
@@ -295,10 +312,12 @@ namespace MyGUI
 		*/
 		EventHandle_MenuCtrlPtr eventMenuCtrlClose;
 
+
 	/*internal:*/
 		void _notifyDeleteItem(MenuItemPtr _item);
 		void _notifyUpdateName(MenuItemPtr _item);
 		void _wrapItemChild(MenuItemPtr _item, MenuCtrlPtr _widget);
+
 
 	/*obsolete:*/
 #ifndef MYGUI_DONT_USE_OBSOLETE

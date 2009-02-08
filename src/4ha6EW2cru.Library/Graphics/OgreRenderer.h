@@ -59,6 +59,12 @@ private:
 	/*! Handler to intercept OnKeyDown Events */
 	void OnKeyDown( const IEvent* event );
 
+	/*! Handler to intercept OnResolutionChanged Events */
+	void OnResolutionChanged( const IEvent* event );
+
+	/*! Handler to intercept OnFullScreenChanged Events */
+	void OnFullScreenChanged( const IEvent* event );
+
 	void LoadResources( );
 
 	Ogre::Root* _root;

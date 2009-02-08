@@ -44,7 +44,7 @@ namespace MyGUI
 		//! Remove all items
 		void removeAllItems();
 
-		//! Swap items at a specified position
+		//! Swap items at a specified positions
 		void swapItemsAt(size_t _index1, size_t _index2);
 
 
@@ -155,7 +155,7 @@ namespace MyGUI
 		size_t getOptimalHeight() { return (mCoord.height - mWidgetClient->getHeight()) + (mItemsInfo.size() * mHeightLine); }
 
 
-		/*event:*/
+	/*event:*/
 		/** Event : Enter pressed or double click.\n
 			signature : void method(MyGUI::ListPtr _sender, size_t _index)\n
 			@param _sender widget that called this event

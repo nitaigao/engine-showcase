@@ -25,9 +25,9 @@ namespace MyGUI
 
 	public:
 
-		//------------------------------------------------------------------------------------------------//
+		//------------------------------------------------------------------------------//
 		// The simple interface
-		//------------------------------------------------------------------------------------------------//
+		//------------------------------------------------------------------------------//
 
 		/* Set texture and size of image _tile
 			@param _texture file name or texture name in Ogre
@@ -66,9 +66,9 @@ namespace MyGUI
 		/** Get current tile index */
 		size_t getImageIndex() { return getItemSelect(); }
 
-		//------------------------------------------------------------------------------------------------//
+		//------------------------------------------------------------------------------//
 		// The expanded interface
-		//------------------------------------------------------------------------------------------------//
+		//------------------------------------------------------------------------------//
 
 		//! Get number of items
 		size_t getItemCount() { return mItems.size(); }
@@ -144,31 +144,38 @@ namespace MyGUI
 		*/
 		float getItemFrameRate(size_t _index);
 
-		//------------------------------------------------------------------------------------------------//
+		//------------------------------------------------------------------------------//
 		// The interface with support of resources
-		//------------------------------------------------------------------------------------------------//
+		//------------------------------------------------------------------------------//
 
-		/** DESCRIBE_ME */
-		void setItemResourceInfo(const ImageIndexInfo & _info);
-
-		/** DESCRIBE_ME */
-		ResourceImageSetPtr getItemResource() { return mResource; }
-
-		/** DESCRIBE_ME */
+		/** Select current items resource used in StaticImage
+			@param _id Resource guid
+			@return false if resource with such guid not exist
+		*/
 		bool setItemResource(const Guid & _id);
-		/** DESCRIBE_ME */
+		/** Select current items resource used in StaticImage
+			@param _id Resource name
+			@return false if resource with such name not exist
+		*/
 		bool setItemResource(const std::string & _name);
-		/** DESCRIBE_ME */
-		void setItemResource(ResourceImageSetPtr _resource);
-		/** DESCRIBE_ME */
-		void setItemResource(ResourceImageSetPtr _resource, const std::string & _group, const std::string & _name);
 
-		/** DESCRIBE_ME */
+		/** Select current item group */
 		void setItemGroup(const std::string & _group);
-		/** DESCRIBE_ME */
+		/** Select current item mane */
 		void setItemName(const std::string & _name);
 
-		
+		/** Select current items resource used in StaticImage
+			@param _resource Resource pointer
+		*/
+		void setItemResourcePtr(ResourceImageSetPtr _resource);
+		/** Set current item */
+		void setItemResourceInfo(const ImageIndexInfo & _info);
+
+		/** Get current items resource used in StaticImage */
+		ResourceImageSetPtr getItemResource() { return mResource; }
+		/** Select current item resource, group and name */
+		void setItemResourceInfo(ResourceImageSetPtr _resource, const std::string & _group, const std::string & _name);
+
 	protected:
 		StaticImage(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
 		virtual ~StaticImage();
