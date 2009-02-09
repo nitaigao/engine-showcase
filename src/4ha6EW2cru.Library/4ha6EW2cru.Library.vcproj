@@ -178,6 +178,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\System\ConfigurationFile.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Logging\ConsoleAppender.cpp"
 			>
 		</File>

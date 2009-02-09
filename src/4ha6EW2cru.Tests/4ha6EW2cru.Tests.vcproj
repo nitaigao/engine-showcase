@@ -192,6 +192,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\System\ConfigurationFileFixture.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\System\ConfigurationFileFixture.h"
+			>
+		</File>
+		<File
 			RelativePath=".\System\ConfigurationFixture.cpp"
 			>
 		</File>
