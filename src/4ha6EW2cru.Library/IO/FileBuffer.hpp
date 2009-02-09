@@ -12,7 +12,7 @@ struct FileBuffer
 public:
 
 	FileBuffer( )
-		: fileBytes( 0 )
+		: fileBytes( new char[ ] )
 		, fileSize( 0 )
 		, filePath( "" )
 	{

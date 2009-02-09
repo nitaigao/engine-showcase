@@ -93,9 +93,11 @@ FileBuffer* FileManager::GetFile( const std::string filePath ) const
 	PHYSFS_file *pFile = PHYSFS_openRead( filePath.c_str( ) );
 	
 	int fileLength = PHYSFS_fileLength( pFile );
+
 	FileBuffer* fileBuffer = new FileBuffer( );
-	fileBuffer->fileBytes = new CHAR[ fileLength ];
+	fileBuffer->fileBytes = new CHAR[ fileLength + 1 ];
 	fileBuffer->fileSize = PHYSFS_read( pFile, fileBuffer->fileBytes, 1, fileLength );
+	fileBuffer->fileBytes[ fileLength ] = '\0';
 	fileBuffer->filePath = filePath;
 	PHYSFS_close( pFile );
 

@@ -39,7 +39,7 @@ void ConfigurationFileFixture::Should_Populate_Configuration_On_Load_Given_Valid
 void ConfigurationFileFixture::Should_Throw_On_FindConfigItem_Given_InValid_Key( )
 {
 	ConfigurationFile* config = ConfigurationFile::Load( "config/game.cfg" );
-	CPPUNIT_ASSERT_THROW( config->FindConfigItem<void>( "blah" ), OutOfRangeException );
+	CPPUNIT_ASSERT_THROW( config->FindConfigItem< int >( "blah" ), OutOfRangeException );
 	delete config;
 }
 
@@ -47,7 +47,7 @@ void ConfigurationFileFixture::Should_Find_Config_Item_On_FindConfigItem_Given_V
 {
 	ConfigurationFile* config = ConfigurationFile::Load( "config/game.cfg" );
 	int width = 0;
-	width = config->FindConfigItem< int >( "display_width" );
+	width = config->FindConfigItem< int >( "Display.display_width" );
 	CPPUNIT_ASSERT( width > 0 );
 	delete config;
 }
