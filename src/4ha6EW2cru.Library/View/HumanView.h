@@ -5,6 +5,7 @@
 #include "../Input/InputSystem.h"
 
 #include "../Graphics/IRenderer.hpp"
+#include "../System/Configuration.h"
 
 /*!
 	A Human interactive View of the Game
@@ -14,10 +15,11 @@ class HumanView
 
 public:
 
-	HumanView( ) 
+	HumanView( Configuration* configuration ) 
 		: _inputSystem( 0 )
 		, _renderer( 0 )
 		, _isIntialized( false )
+		, _configuration( configuration )
 	{ 
 	
 	};
@@ -25,7 +27,7 @@ public:
 	~HumanView( );
 
 	/*! Initializes all subsystems of the View */
-	void Initialize( int width, int height, int colorDepth, bool fullScreen );
+	void Initialize( );
 
 	/*! Cause all subsystems to refresh their data */
 	void Update( const float deltaMilliseconds );
@@ -35,9 +37,13 @@ public:
 
 private:
 
+	/*! Handler to intercept OnVideoSettingsChanged Events */
+	void OnViewSettingsChanged( const IEvent* event );
+
 	IRenderer* _renderer;
 	Script* _viewScript;
 	InputSystem* _inputSystem;
+	Configuration* _configuration;
 	bool _isIntialized;
 
 };

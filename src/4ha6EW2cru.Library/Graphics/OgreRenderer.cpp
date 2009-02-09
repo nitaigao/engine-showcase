@@ -124,19 +124,6 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 	_scene = new OgreMax::OgreMaxScene( );
 
 	_isInitialized = true;
-
-	/*ConfigOptionMap configOptions = _root->getRenderSystem()->getConfigOptions();
-
-	for( ConfigOptionMap::iterator i = configOptions.begin( ); i != configOptions.end( ); ++i )
-	{
-		std::string name = ( *i ).first;
-		
-		if ( name == "Video Mode" )
-		{
-			_ConfigOption configOption = ( *i ).second;
-			int a = 1;
-		}
-	}*/
 }
 
 size_t OgreRenderer::GetHwnd( ) const
@@ -221,6 +208,12 @@ void OgreRenderer::LoadResources( )
 	}
 }
 
+void OgreRenderer::ChangeResolution( int width, int height, bool fullscreen )
+{
+	_root->getAutoCreatedWindow( )->setFullscreen( fullscreen, width, height );
+	_root->getAutoCreatedWindow( )->resize( width, height );
+}
+
 void OgreRenderer::OnMouseMoved( const IEvent* event )
 {
 	MouseEventData* eventData = static_cast< MouseEventData* >( event->GetEventData( ) );
@@ -249,14 +242,4 @@ void OgreRenderer::OnKeyDown( const IEvent* event )
 { 
 	KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
 	_gui->injectKeyPress( ( MyGUI::KeyCode ) eventData->GetKeyCode( ) );
-}
-
-void OgreRenderer::OnResolutionChanged( const IEvent* event )
-{
-
-}
-
-void OgreRenderer::OnFullScreenChanged( const IEvent* event )
-{
-
 }

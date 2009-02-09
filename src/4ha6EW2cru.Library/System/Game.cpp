@@ -50,11 +50,11 @@ void Game::Initialize( )
 
 	// Load the game configuration
 
-	Configuration* config = Configuration::Load( "config/game.cfg" );
+	_configuration = Configuration::Load( "config/game.cfg" );
 
 	// Setup the Logging System
 
-	LogLevel logLevel = static_cast< LogLevel >( config->FindConfigItemInt( "log_level" ) );
+	LogLevel logLevel = static_cast< LogLevel >( _configuration->FindConfigItemInt( "log_level" ) );
 	Logger::GetInstance( )->SetLogLevel( logLevel );
 
 	IAppender* eventAppender = new EventAppender( EventManager::GetInstance( ) );
@@ -62,28 +62,18 @@ void Game::Initialize( )
 
 	// Bring up the Script System
 
-	ScriptManager::Initialize( );
+	ScriptManager::Initialize( _configuration );
 
 	// Initialize all Views
 
-	int isFullScreen = config->FindConfigItemInt( "display_isfullscreen" );
-	_view = new HumanView( );
-
-	_view->Initialize( 
-		config->FindConfigItemInt( "display_fullscreen_width" ), 
-		config->FindConfigItemInt( "display_fullscreen_height" ), 
-		config->FindConfigItemInt( "display_fullscreen_depth" ), 
-		isFullScreen 
-		);
+	_view = new HumanView( _configuration );
+	_view->Initialize( );
 
 	// Create core dependencies
 
 	EventManager::GetInstance( )->AddEventListener( GAME_QUIT, this, &Game::OnGameQuit );
 	EventManager::GetInstance( )->QueueEvent( new Event( GAME_INITIALIZED ) );
 
-	// Cleanup and return
-
-	delete config;
 	_isInitialized = true;
 }
 
@@ -137,6 +127,7 @@ void Game::Release( )
 	}
 
 	delete _view;
+	delete _configuration;
 
 	{	// Release all Singletons
 

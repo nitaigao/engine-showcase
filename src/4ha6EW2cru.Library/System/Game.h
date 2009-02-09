@@ -4,6 +4,7 @@
 #include "../Logging/Logger.h"
 #include "../Events/EventManager.h"
 #include "../IO/FileManager.h"
+#include "Configuration.h"
 
 #include "../Events/EventListener.h"
 #include  "../Events/Event.h"
@@ -44,6 +45,7 @@ private:
 	bool _isInitialized;
 
 	HumanView* _view;
+	Configuration* _configuration;
 
 };
 

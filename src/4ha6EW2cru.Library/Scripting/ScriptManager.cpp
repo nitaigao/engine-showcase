@@ -7,8 +7,6 @@ using namespace luabind;
 #include "../Events/EventManager.h"
 #include "../IO/FileManager.h"
 
-#include "../System/Configuration.h"
-
 #include "../Events/Event.h"
 #include "../Events/EventData.hpp"
 
@@ -19,8 +17,9 @@ using namespace luabind;
 
 static ScriptManager* g_ScriptManagerInstance = 0;
 
-ScriptManager::ScriptManager( )
+ScriptManager::ScriptManager( Configuration* configuration )
 {
+	_configuration = configuration;
 	_masterState = lua_open( );
 	luabind::open( _masterState );
 
@@ -55,12 +54,16 @@ ScriptManager::ScriptManager( )
 				value( "UI_TITLE_SCREEN", UI_TITLE_SCREEN ),
 				value( "UI_MAIN_MENU", UI_MAIN_MENU ),
 				value( "UI_CLEAR", UI_CLEAR ),
-				value( "UI_OPTIONS", UI_OPTIONS )
+				value( "UI_OPTIONS", UI_OPTIONS ),
+
+				value( "VIEW_SETTINGS_CHANGED", VIEW_SETTINGS_CHANGED )
 			],
 
 		class_< Configuration >( "Configuration" )
 			.property( "isFullScreen", &Configuration::IsFullScreen, &Configuration::SetFullScreen )
 	];
+
+	luabind::globals( _masterState )[ "Configuration" ] = _configuration;
 
 	luabind::set_pcall_callback( &ScriptManager::FromLua_ScriptError );
 
@@ -95,7 +98,7 @@ void ScriptManager::Release( )
 	g_ScriptManagerInstance = 0;
 }
 
-bool ScriptManager::Initialize( )
+bool ScriptManager::Initialize( Configuration* configuration )
 {
 	Logger::GetInstance( )->Info( "ScriptManager::Initialize - Initializing ScriptManager" );
 
@@ -106,7 +109,7 @@ bool ScriptManager::Initialize( )
 		throw e;
 	}
 
-	g_ScriptManagerInstance = new ScriptManager( );
+	g_ScriptManagerInstance = new ScriptManager( configuration );
 
 	return true;	
 }

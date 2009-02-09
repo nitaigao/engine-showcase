@@ -2,6 +2,7 @@
 #define __CONFIGURATION_H
 
 #include <map>
+#include <sstream>
 
 #include "../Exceptions/OutOfRangeException.hpp"
 #include "../Exceptions/FileNotFoundException.hpp"
@@ -14,8 +15,16 @@ class Configuration
 
 public:
 
-	inline bool IsFullScreen( ) const { return true; };//this->FindConfigItemInt( "display_isfullscreen" ); };
-	inline void SetFullScreen( bool isFullScreen ) { this->SetConfigItem( "display_isfullscreen", boolToString( isFullScreen ) ); };
+	inline bool IsFullScreen( ) const { return _isFullScreen; };
+	inline void SetFullScreen( bool isFullScreen ) { _isFullScreen = isFullScreen; };// this->SetConfigItem( "display_isfullscreen", BoolToString( isFullScreen ) ); };
+
+	inline int GetDisplayWidth ( ) const { return 1280; };
+	inline void SetDisplayWidth( int width ) { this->SetConfigItem( "display_width", IntToString( width ) ); };
+
+	inline int GetDisplayHeight ( ) const { return 800; };
+	inline void SetDisplayHeight( int height ) { this->SetConfigItem( "display_height", IntToString( height ) ); };
+
+	inline int GetColorDepth( ) const { return 32; };
 
 	void SetConfigItem( std::string key, std::string value )
 	{
@@ -31,11 +40,17 @@ public:
 		_configItems.insert( std::make_pair( key, value ) );
 	};
 
-	inline std::string boolToString( bool input )
+	inline std::string BoolToString( bool input )
 	{
 		return ( input ) ? "1" : "0";
 	};
 
+	inline std::string IntToString( int input )
+	{
+		std::stringstream output;
+		output << input;
+		return output.str( );
+	}
 
 	inline static Configuration* Create( ) { return new Configuration( ); };
 
@@ -54,11 +69,14 @@ public:
 protected:
 
 	Configuration( )
+		: _isFullScreen( false )
 	{
 
 	};
 
 private:
+
+	bool _isFullScreen;
 
 	ConfigItemList _configItems;
 	

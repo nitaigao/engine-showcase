@@ -15,6 +15,8 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( HumanViewFixture, Suites::ViewSuite( ) );
 
 void HumanViewFixture::setUp( )
 {
+	_configuration = Configuration::Create( );
+
 	Logger::Initialize( );
 	Logger::GetInstance( )->AddAppender( new ConsoleAppender( ) );
 	EventManager::Initialize( );
@@ -28,60 +30,46 @@ void HumanViewFixture::tearDown( )
 	FileManager::GetInstance( )->Release( );
 
 	EventManager::GetInstance( )->Release( );
+	delete _configuration;
 	Logger::GetInstance( )->Release( );
 }
 
-void HumanViewFixture::Should_Initialize_Given_Valid_Dimensions( )
+void HumanViewFixture::Should_Initialize_Correctly( )
 {
-	HumanView humanView;
+	HumanView humanView ( _configuration );
 
-	humanView.Initialize( 640, 480, 32, false );
+	humanView.Initialize( );
 }
 
-
-void HumanViewFixture::Should_Initialize_FullScreen( )
+void HumanViewFixture::Should_Throw_Given_NULL_Configuration( )
 {
-	HumanView humanView;
+	HumanView humanView ( 0 );
 
-	humanView.Initialize( 1920, 1200, 32, true );
-}
-
-void HumanViewFixture::Should_Initialize_Windowed( )
-{
-	HumanView humanView;
-
-	humanView.Initialize( 640, 480, 32, false );
-}
-
-void HumanViewFixture::Should_Throw_On_Initialize_Given_Invalid_Dimensions( )
-{
-	HumanView humanView;
-
-	CPPUNIT_ASSERT_THROW( humanView.Initialize( -1, -1, -1, false ), ScreenDimensionsException );
+	CPPUNIT_ASSERT_THROW( humanView.Initialize( ), ScreenDimensionsException );
 }
 
 void HumanViewFixture::Should_Throw_On_Update_Given_Not_Intialized( )
 {
-	HumanView humanView;
+	HumanView humanView ( _configuration );
 	CPPUNIT_ASSERT_THROW( humanView.Update( 0 ), UnInitializedException );
 }
 
 void HumanViewFixture::Should_Update_Given_Initialized( )
 {
-	HumanView humanView;
-	humanView.Initialize( 640, 480, 32, false );
+	HumanView humanView ( _configuration );
+	humanView.Initialize( );
 	humanView.Update( 0 );
 }
 
 void HumanViewFixture::Should_Throw_On_Render_Given_Not_Intialized( )
 {
-	HumanView humanView;
+	HumanView humanView ( _configuration );
 	CPPUNIT_ASSERT_THROW( humanView.Render( ), UnInitializedException );
 }
 
 void HumanViewFixture::Should_Render_Given_Initialized( )
 {
-	HumanView humanView;
-	humanView.Initialize( 640, 480, 32, false );
+	HumanView humanView ( _configuration );
+	humanView.Initialize( );
 	humanView.Render( );
 }

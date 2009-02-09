@@ -8,16 +8,18 @@
 
 #include "../Exceptions/UnInitializedException.hpp"
 
-void HumanView::Initialize( int width, int height, int colorDepth, bool fullScreen )
+void HumanView::Initialize( )
 {
 	Logger::GetInstance( )->Info( "Initializing Human View" );
 
 	_renderer = new OgreRenderer( );
-	_renderer->Initialize( width, height, colorDepth, fullScreen );
+	_renderer->Initialize( _configuration->GetDisplayWidth( ), _configuration->GetDisplayHeight( ), _configuration->GetColorDepth( ), _configuration->IsFullScreen( ) );
 
 	_inputSystem = new InputSystem( _renderer->GetHwnd( ) );
 	_inputSystem->Initialize( );
-	_inputSystem->SetCaptureArea( width, height );
+	_inputSystem->SetCaptureArea( _configuration->GetDisplayWidth( ), _configuration->GetDisplayHeight( ) );
+
+	EventManager::GetInstance( )->AddEventListener( VIEW_SETTINGS_CHANGED, this, &HumanView::OnViewSettingsChanged );
 
 	_isIntialized = true;
 }
@@ -60,4 +62,10 @@ HumanView::~HumanView( )
 		delete _inputSystem;
 		_inputSystem = 0;
 	}
+}
+
+void HumanView::OnViewSettingsChanged( const IEvent* event )
+{
+	_renderer->ChangeResolution( 800, 600, _configuration->IsFullScreen( ) );
+	_inputSystem->SetCaptureArea( 800, 600 );
 }

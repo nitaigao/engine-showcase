@@ -40,6 +40,7 @@ public:
 	void Initialize( int width, int height, int colorDepth, bool fullScreen );
 	void Render( ) const;
 	void Update( const float deltaMilliseconds ) const;
+	void ChangeResolution( int width, int height, bool fullscreen );
 	size_t GetHwnd( ) const;
 
 private:
@@ -59,12 +60,6 @@ private:
 	/*! Handler to intercept OnKeyDown Events */
 	void OnKeyDown( const IEvent* event );
 
-	/*! Handler to intercept OnResolutionChanged Events */
-	void OnResolutionChanged( const IEvent* event );
-
-	/*! Handler to intercept OnFullScreenChanged Events */
-	void OnFullScreenChanged( const IEvent* event );
-
 	void LoadResources( );
 
 	Ogre::Root* _root;
@@ -72,7 +67,6 @@ private:
 	bool _isInitialized;
 	bool _badStubCreated;
 
-	//Script* _rootUIController;
 	RootUIController* _interfaceController;
 	OgreMax::OgreMaxScene* _scene;
 	Ogre::ArchiveFactory* _badFactory;

@@ -15,6 +15,7 @@ public:
 	virtual void Render( ) const = 0;
 	virtual size_t GetHwnd( ) const = 0;
 	virtual void Update( float deltaMilliseconds ) const = 0;
+	virtual void ChangeResolution( int width, int height, bool fullscreen ) = 0;
 
 };
 

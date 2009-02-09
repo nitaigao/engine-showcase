@@ -24,7 +24,7 @@ void ScriptFixture::setUp( )
 	Logger::GetInstance( )->AddAppender( new ConsoleAppender( ) );
 	FileManager::Initialize( );
 	EventManager::Initialize( );
-	ScriptManager::Initialize( );
+	ScriptManager::Initialize( 0 );
 
 	MockScriptBinder::handle_count = 0;
 

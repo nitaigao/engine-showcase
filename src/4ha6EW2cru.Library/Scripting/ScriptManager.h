@@ -10,6 +10,7 @@ extern "C"
 using namespace luabind;
 
 #include "Script.h"
+#include "../System/Configuration.h"
 
 class ScriptManager
 {
@@ -21,7 +22,7 @@ class ScriptManager
 
 public:
 
-	ScriptManager( );
+	ScriptManager( Configuration* configuration );
 	~ScriptManager( );
 
 	/*! Retrieves an instance of the ScriptManager Singleton */
@@ -31,7 +32,7 @@ public:
 	void Release( );
 
 	/*! Initializes the Script Management mechanism */
-	static bool Initialize( );
+	static bool Initialize( Configuration* configuration );
 
 	/*! Loads a Script */
 	lua_State* LoadScript( const std::string scriptPath );
@@ -64,6 +65,7 @@ private:
 	lua_State* _masterState;
 	ChildStateList _childStates;
 	EventHandlerList* _eventHandlers;
+	Configuration* _configuration;
 
 };
 
