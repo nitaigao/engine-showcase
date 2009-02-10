@@ -35,7 +35,7 @@ void ConfigurationFileFixture::Should_Populate_Configuration_On_Load_Given_Valid
 	delete config;
 }
 
-void ConfigurationFileFixture::Should_Find_Config_Item_On_FindConfigItemInt( )
+void ConfigurationFileFixture::Should_Find_Default_Config_Item_On_FindConfigItemInt( )
 {
 	ConfigurationFile* config = ConfigurationFile::Load( "config/game.cfg" );
 	int width = 0;
@@ -44,7 +44,7 @@ void ConfigurationFileFixture::Should_Find_Config_Item_On_FindConfigItemInt( )
 	delete config;
 }
 
-void ConfigurationFileFixture::Should_Find_Config_Item_On_FindConfigItemString( )
+void ConfigurationFileFixture::Should_Find_Default_Config_Item_On_FindConfigItemString( )
 {
 	ConfigurationFile* config = ConfigurationFile::Load( "config/game.cfg" );
 	std::string result = "Hello World";
@@ -53,12 +53,20 @@ void ConfigurationFileFixture::Should_Find_Config_Item_On_FindConfigItemString( 
 	delete config;
 }
 
-void ConfigurationFileFixture::Should_Find_Config_Item_On_FindConfigItemBool( )
+void ConfigurationFileFixture::Should_Find_Default_Config_Item_On_FindConfigItemBool( )
 {
 	ConfigurationFile* config = ConfigurationFile::Load( "config/game.cfg" );
 	bool result = true;
 	bool ok = config->FindConfigItem( "Display", "blahhhh", result );
 	CPPUNIT_ASSERT( ok == result );
+	delete config;
+}
+
+void ConfigurationFileFixture::Should_Find_Stored_Config_Item_On_FindConfigItemBool( )
+{
+	ConfigurationFile* config = ConfigurationFile::Load( "test/test.cfg" );
+	bool ok = config->FindConfigItem( "Display", "fullscreen", false );
+	CPPUNIT_ASSERT( ok == true );
 	delete config;
 }
 

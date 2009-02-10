@@ -13,7 +13,7 @@
 /*! Windows main point of Entry */
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
-	//_crtBreakAlloc = 848;
+	//_crtBreakAlloc = 63689;
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF ); 
 
 	Game game;
