@@ -7,6 +7,8 @@
 #include "../Exceptions/OutOfRangeException.hpp"
 #include "../Exceptions/FileNotFoundException.hpp"
 
+#include "../Events/IEvent.hpp"
+
 #include "ConfigurationFile.h"
 
 /*! Loads and contains game specific configuration info */
@@ -14,6 +16,12 @@ class Configuration
 {
 
 public:
+
+	virtual ~Configuration( );
+
+	void Initialize( );
+
+	static Configuration* Load( const std::string& filePath );
 
 	/* -- Graphics -- */
 
@@ -32,17 +40,15 @@ public:
 
 	inline int GetLoggingLevel( ) const { return _configFile->FindConfigItem( "Logging", "level", 0 ); };
 
-	Configuration( )
+private:
+
+	Configuration( ConfigurationFile* configFile )
+		: _configFile( configFile )
 	{
-		_configFile = ConfigurationFile::Load( "config/game.cfg" );
-	};
-	
-	virtual ~Configuration( )
-	{
-		delete _configFile;
+
 	};
 
-private:
+	void OnConfigurationUpdated( const IEvent* event );
 
 	ConfigurationFile* _configFile;
 	

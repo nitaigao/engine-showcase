@@ -34,6 +34,8 @@ public:
 	/*! Initializes the Script Management mechanism */
 	static bool Initialize( Configuration* configuration );
 
+	void Update( );
+
 	/*! Loads a Script */
 	lua_State* LoadScript( const std::string scriptPath );
 
@@ -44,6 +46,7 @@ public:
 	void DestroyScript( Script* script );
 
 	void RegisterEvent( EventType eventType, object function );
+	void UnRegisterEvent( EventType eventType, object function );
 
 private:
 
@@ -61,10 +64,12 @@ private:
 	static int FromLua_ScriptError( lua_State* luaState );
 	static void FromLua_BroadcastEvent( EventType eventType );
 	static void FromLua_RegisterEvent( EventType eventType, object function );
+	static void FromLua_UnRegisterEvent( EventType eventType, object function );
 
 	lua_State* _masterState;
 	ChildStateList _childStates;
 	EventHandlerList* _eventHandlers;
+	EventHandlerList* _eventHandlersPurge;
 	Configuration* _configuration;
 
 };

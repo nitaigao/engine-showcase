@@ -24,12 +24,14 @@ ScriptManager::ScriptManager( Configuration* configuration )
 	luabind::open( _masterState );
 
 	_eventHandlers = new EventHandlerList( );
+	_eventHandlersPurge = new EventHandlerList( );
 
 	module( _masterState )
 	[
 		def( "quit", &ScriptManager::FromLua_GameQuit ),
 		def( "print", &ScriptManager::FromLua_Print ),
 		def( "registerEvent", &ScriptManager::FromLua_RegisterEvent ),
+		def( "unregisterEvent", &ScriptManager::FromLua_UnRegisterEvent ),
 		def( "broadcastEvent", &ScriptManager::FromLua_BroadcastEvent ),
 		def( "loadLevel", &ScriptManager::FromLua_LoadLevel ),
 
@@ -49,6 +51,7 @@ ScriptManager::ScriptManager( Configuration* configuration )
 				value( "TEST_EVENT", TEST_EVENT ),
 				value( "SCRIPT_COMMAND_EXECUTED", SCRIPT_COMMAND_EXECUTED ),
 				value( "INPUT_KEY_UP", INPUT_KEY_UP ),
+				value( "INPUT_MOUSE_RELEASED", INPUT_MOUSE_RELEASED ),
 				value( "LOG_MESSAGE_APPENDED", LOG_MESSAGE_APPENDED ),
 
 				value( "UI_TITLE_SCREEN", UI_TITLE_SCREEN ),
@@ -56,7 +59,7 @@ ScriptManager::ScriptManager( Configuration* configuration )
 				value( "UI_CLEAR", UI_CLEAR ),
 				value( "UI_OPTIONS", UI_OPTIONS ),
 
-				value( "VIEW_SETTINGS_CHANGED", VIEW_SETTINGS_CHANGED )
+				value( "GRAPHICS_SETTINGS_CHANGED", GRAPHICS_SETTINGS_CHANGED )
 			],
 
 		class_< Configuration >( "Configuration" )
@@ -72,6 +75,7 @@ ScriptManager::ScriptManager( Configuration* configuration )
 
 ScriptManager::~ScriptManager( )
 {
+	delete _eventHandlersPurge;
 	delete _eventHandlers;
 
 	lua_close( _masterState );
@@ -112,6 +116,20 @@ bool ScriptManager::Initialize( Configuration* configuration )
 	g_ScriptManagerInstance = new ScriptManager( configuration );
 
 	return true;	
+}
+
+void ScriptManager::Update( )
+{
+	for ( EventHandlerList::iterator ip = _eventHandlersPurge->begin( ); ip != _eventHandlersPurge->end( ); ++ip )
+	{
+		for ( EventHandlerList::iterator i = _eventHandlers->begin( ); i != _eventHandlers->end( ); ++i )
+		{
+			if ( ( *i ).first == ( *ip ).first && ( *i ).second == ( *ip ).second )
+			{
+				i = _eventHandlers->erase( i );
+			}
+		}
+	}
 }
 
 lua_State* ScriptManager::LoadScript( const std::string scriptPath )
@@ -166,6 +184,17 @@ void ScriptManager::RegisterEvent( EventType eventType, object function )
 {
 	EventHandler eventHandler( eventType, function );
 	_eventHandlers->push_back( eventHandler );
+}
+
+void ScriptManager::UnRegisterEvent( EventType eventType, object function )
+{
+	for( EventHandlerList::iterator i = _eventHandlers->begin( ); i != _eventHandlers->end( ); ++i )
+	{
+		if ( ( *i ).first == eventType && ( *i ).second == function )
+		{
+			_eventHandlersPurge->push_back( ( *i ) );
+		}
+	}
 }
 
 void ScriptManager::CommandExecuted( const IEvent* event )
@@ -237,6 +266,11 @@ void ScriptManager::FromLua_GameQuit( void )
 void ScriptManager::FromLua_RegisterEvent( EventType eventType, object function )
 {
 	ScriptManager::GetInstance( )->RegisterEvent( eventType, function );
+}
+
+void ScriptManager::FromLua_UnRegisterEvent( EventType eventType, object function )
+{
+	ScriptManager::GetInstance( )->UnRegisterEvent( eventType, function );
 }
 
 void ScriptManager::OnEvent( const IEvent* event )

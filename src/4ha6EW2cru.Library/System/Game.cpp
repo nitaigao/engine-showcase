@@ -50,7 +50,7 @@ void Game::Initialize( )
 
 	// Load the game configuration
 
-	_configuration = new Configuration( );
+	_configuration = Configuration::Load( "config/game.cfg" );
 
 	// Setup the Logging System
 
@@ -107,6 +107,7 @@ void Game::StartLoop( bool loopOnce )
 		_view->Render( );
 
 		EventManager::GetInstance( )->Update( );
+		ScriptManager::GetInstance( )->Update( );
 
 		if ( loopOnce )
 		{

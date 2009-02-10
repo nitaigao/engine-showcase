@@ -170,6 +170,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\System\Configuration.cpp"
+			>
+		</File>
+		<File
 			RelativePath=".\System\Configuration.h"
 			>
 		</File>
