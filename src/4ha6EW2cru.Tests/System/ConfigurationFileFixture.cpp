@@ -5,6 +5,7 @@
 
 #include "Exceptions/OutOfRangeException.hpp"
 #include "Exceptions/FileNotFoundException.hpp"
+#include "Exceptions/FileWriteException.hpp"
 #include "System/ConfigurationFile.h"
 
 #include "../Suites.h"
@@ -30,54 +31,55 @@ void ConfigurationFileFixture::Should_Throw_On_Load_Given_Invalid_FilePath( )
 void ConfigurationFileFixture::Should_Populate_Configuration_On_Load_Given_Valid_FilePath( )
 {
 	ConfigurationFile* config = ConfigurationFile::Load( "config/game.cfg" );
-
 	CPPUNIT_ASSERT( config != 0 );
-
 	delete config;
 }
 
-void ConfigurationFileFixture::Should_Throw_On_FindConfigItem_Given_InValid_Key( )
-{
-	ConfigurationFile* config = ConfigurationFile::Load( "config/game.cfg" );
-	CPPUNIT_ASSERT_THROW( config->FindConfigItem< int >( "blah" ), OutOfRangeException );
-	delete config;
-}
-
-void ConfigurationFileFixture::Should_Find_Config_Item_On_FindConfigItem_Given_Valid_Key( )
+void ConfigurationFileFixture::Should_Find_Config_Item_On_FindConfigItemInt( )
 {
 	ConfigurationFile* config = ConfigurationFile::Load( "config/game.cfg" );
 	int width = 0;
-	width = config->FindConfigItem< int >( "Display.display_width" );
+	width = config->FindConfigItem( "Display", "display_width", 100 );
 	CPPUNIT_ASSERT( width > 0 );
 	delete config;
 }
 
-/*
-void ConfigurationFileFixture::Should_Add_Config_Item_On_AddConfigItem_Given_Valid_Key_Value_Pair( )
+void ConfigurationFileFixture::Should_Find_Config_Item_On_FindConfigItemString( )
 {
-	ConfigurationFile* config = ConfigurationFile::Create( );
-	config->AddConfigItem( "test", "test" );
-
+	ConfigurationFile* config = ConfigurationFile::Load( "config/game.cfg" );
+	std::string result = "Hello World";
+	std::string name = config->FindConfigItem( "Display", "blahhhh", result );
+	CPPUNIT_ASSERT( name == result );
 	delete config;
 }
 
-void ConfigurationFileFixture::Should_Find_Config_Item_On_FindConfigItem_Given_Valid_Key( )
+void ConfigurationFileFixture::Should_Find_Config_Item_On_FindConfigItemBool( )
 {
-	ConfigurationFile* config = ConfigurationFile::Create( );
-	std::string key = "test_key";
-	std::string value = "test_value";
-
-	config->AddConfigItem( key, value );
-	std::string result = config->FindConfigItemString( key );
-
-	CPPUNIT_ASSERT( value == result ); 
-
+	ConfigurationFile* config = ConfigurationFile::Load( "config/game.cfg" );
+	bool result = true;
+	bool ok = config->FindConfigItem( "Display", "blahhhh", result );
+	CPPUNIT_ASSERT( ok == result );
 	delete config;
 }
 
-void ConfigurationFileFixture::Should_Throw_On_FindConfigItem_Given_InValid_Key( )
-{	
-	ConfigurationFile* config = ConfigurationFile::Create( );
-	CPPUNIT_ASSERT_THROW( config->FindConfigItemString( "blah" ), OutOfRangeException );
+void ConfigurationFileFixture::Should_Throw_On_Save_Given_File_UnWritable( )
+{
+	ConfigurationFile* config = ConfigurationFile::Load( "config/game.cfg" );
+	CPPUNIT_ASSERT_THROW( config->Save( "lsdjklasdjaskldjlkas/asdas/das/d/asd/as/das/da" ), FileWriteException );
 	delete config;
-}*/
+}
+
+void ConfigurationFileFixture::Should_Save_Correctly_Given_File_Writable( )
+{
+	ConfigurationFile* config = ConfigurationFile::Load( "config/game.cfg" );
+	config->Save( "config/game.cfg" );
+	delete config;
+}
+
+void ConfigurationFileFixture::Should_Update_Or_Add_Key( )
+{
+	ConfigurationFile* config = ConfigurationFile::Load( "config/game.cfg" );
+	config->Update( "TestSection", "test_key", "testing" );
+	config->Save( "config/game.cfg" );
+	delete config;
+}

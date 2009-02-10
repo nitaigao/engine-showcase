@@ -120,7 +120,7 @@ lua_State* ScriptManager::LoadScript( const std::string scriptPath )
 	
 	lua_State* childState = lua_newthread( _masterState );
 	
-	int result = luaL_loadbuffer( childState, scriptBuffer->fileBytes, scriptBuffer->fileSize, scriptBuffer->filePath.c_str( ) );
+	int result = luaL_loadbuffer( childState, scriptBuffer->fileBytes, scriptBuffer->fileLength, scriptBuffer->filePath.c_str( ) );
 
 	if ( LUA_ERRSYNTAX == result )
 	{

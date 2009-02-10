@@ -11,6 +11,7 @@
 #include "../Exceptions/UnInitializedException.hpp"
 #include "../Exceptions/AlreadyInitializedException.hpp"
 #include "../Exceptions/FileNotFoundException.hpp"
+#include "../Exceptions/FileWriteException.hpp"
 
 static FileManager* g_FileManagerInstance = 0;
 
@@ -56,11 +57,21 @@ FileManager::FileManager( )
 {
 	PHYSFS_init( 0 );
 	PHYSFS_addToSearchPath( Paths::GetGameFolderPath( ).c_str( ), 1 );
+	PHYSFS_setWriteDir( Paths::GetGameFolderPath( ).c_str( ) );
 }
 
-bool FileManager::FileExists( const std::string filePath ) const
+bool FileManager::FileExists( const std::string filePath, bool throwOnFail ) const
 {
-	return PHYSFS_exists( filePath.c_str( ) );
+	int exists = PHYSFS_exists( filePath.c_str( ) );
+
+	if ( !exists && throwOnFail )
+	{
+		FileNotFoundException e( "FileManager::GetFile - Could not find file within the Search Path" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
+	}
+
+	return exists;
 }
 
 bool FileManager::MountFileStore( const std::string filePath, const std::string mountPoint )
@@ -83,25 +94,35 @@ FileBuffer* FileManager::GetFile( const std::string filePath ) const
 	logMessage << "Loading File: " << filePath;
 	Logger::GetInstance( )->Debug( logMessage.str( ) );
 
-	if ( !PHYSFS_exists( filePath.c_str( ) ) )
-	{
-		FileNotFoundException e( "FileManager::GetFile - Could not find file within the Search Path" );
-		Logger::GetInstance( )->Fatal( e.what( ) );
-		throw e;
-	}
+	this->FileExists( filePath, true );
 
 	PHYSFS_file *pFile = PHYSFS_openRead( filePath.c_str( ) );
 	
 	int fileLength = PHYSFS_fileLength( pFile );
 
-	FileBuffer* fileBuffer = new FileBuffer( );
-	fileBuffer->fileBytes = new CHAR[ fileLength + 1 ];
-	fileBuffer->fileSize = PHYSFS_read( pFile, fileBuffer->fileBytes, 1, fileLength );
-	fileBuffer->fileBytes[ fileLength ] = '\0';
-	fileBuffer->filePath = filePath;
+	char* fileBytes = new char[ fileLength + 1 ];
+	PHYSFS_read( pFile, fileBytes, 1, fileLength );
+	fileBytes[ fileLength ] = '\0';
+
+	FileBuffer* fileBuffer = new FileBuffer( fileBytes, fileLength, filePath );
+
 	PHYSFS_close( pFile );
 
 	return fileBuffer;
+}
+
+void FileManager::SaveFile( const FileBuffer& fileBuffer ) const
+{
+	PHYSFS_file* file = PHYSFS_openWrite( fileBuffer.filePath.c_str( ) );	
+
+	if ( !file )
+	{
+		FileWriteException e( "FileManager::SaveFile - Unable to open the destination file for writing" );
+		Logger::GetInstance( )->Fatal( e.what( ) );
+		throw e;
+	}
+
+	PHYSFS_write( file, fileBuffer.fileBytes, 1, fileBuffer.fileLength );
 }
 
 FileSearchResultList* FileManager::FileSearch( const std::string path, const std::string searchPattern, const bool recursive ) const

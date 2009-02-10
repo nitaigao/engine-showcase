@@ -14,7 +14,7 @@ void BadArchiveFixture::setUp( )
 	Logger::Initialize( );
 	FileManager::Initialize( );
 	
-	FileManager::GetInstance( )->MountFileStore( "../game/data/gui.bad", "data/" );
+	FileManager::GetInstance( )->MountFileStore( "../game/data/test.bad", "data/" );
 }
 
 void BadArchiveFixture::tearDown( )
@@ -35,7 +35,7 @@ void BadArchiveFixture::Should_Unload( )
 
 void BadArchiveFixture::Should_Return_True_On_Case_Sensitive( )
 {
-	BadArchive* archive = new BadArchive( "../game/data/gui.bad", "BAD" );
+	BadArchive* archive = new BadArchive( "../game/data/test.bad", "BAD" );
 	
 	CPPUNIT_ASSERT( archive->isCaseSensitive( )	);
 	
@@ -44,8 +44,8 @@ void BadArchiveFixture::Should_Return_True_On_Case_Sensitive( )
 
 void BadArchiveFixture::Should_Return_DataStreamPtr_Given_File_Found( )
 {
-	BadArchive* archive = new BadArchive( "../game/data/gui.bad", "BAD" );
-	Ogre::DataStreamPtr stream = archive->open( "data/gui/test.txt" );
+	BadArchive* archive = new BadArchive( "../game/data/test.bad", "BAD" );
+	Ogre::DataStreamPtr stream = archive->open( "/data/test/test.txt" );
 
 	CPPUNIT_ASSERT( !stream.isNull( ) );
 
@@ -54,7 +54,7 @@ void BadArchiveFixture::Should_Return_DataStreamPtr_Given_File_Found( )
 
 void BadArchiveFixture::Sould_Return_Throw_Given_File_Not_Found( )
 {
-	BadArchive* archive = new BadArchive( "../game/data/gui.bad", "BAD" );
+	BadArchive* archive = new BadArchive( "../game/data/test.bad", "BAD" );
 
 	CPPUNIT_ASSERT_THROW( archive->open( "blah" ), FileNotFoundException );
 
@@ -63,7 +63,7 @@ void BadArchiveFixture::Sould_Return_Throw_Given_File_Not_Found( )
 
 void BadArchiveFixture::Should_Return_False_From_Exists_Given_NON_Existing_File( )
 {
-	BadArchive* archive = new BadArchive( "../game/data/gui.bad", "BAD" );
+	BadArchive* archive = new BadArchive( "../game/data/test.bad", "BAD" );
 	bool result = archive->exists( "blah" );
 
 	CPPUNIT_ASSERT( !result );
@@ -73,8 +73,8 @@ void BadArchiveFixture::Should_Return_False_From_Exists_Given_NON_Existing_File(
 
 void BadArchiveFixture::Should_Return_True_From_Exists_Given_File_Exists( )
 {
-	BadArchive* archive = new BadArchive( "../game/data/gui.bad", "BAD" );
-	bool result = archive->exists( "data/gui/test.txt" );
+	BadArchive* archive = new BadArchive( "../game/data/test.bad", "BAD" );
+	bool result = archive->exists( "/data/test/test.txt" );
 
 	CPPUNIT_ASSERT( result );
 
@@ -83,7 +83,7 @@ void BadArchiveFixture::Should_Return_True_From_Exists_Given_File_Exists( )
 
 void BadArchiveFixture::Should_Return_Empty_StringVectorPtr_On_List( )
 {
-	BadArchive* archive = new BadArchive( "../game/data/gui.bad", "BAD" );
+	BadArchive* archive = new BadArchive( "../game/data/test.bad", "BAD" );
 	Ogre::StringVectorPtr files = archive->list( "*" );
 
 	CPPUNIT_ASSERT( !files.isNull( ) );
@@ -93,7 +93,7 @@ void BadArchiveFixture::Should_Return_Empty_StringVectorPtr_On_List( )
 
 void BadArchiveFixture::Should_Return_Empty_FileInfoPtr_On_ListFileInfo( )
 {
-	BadArchive* archive = new BadArchive( "../game/data/gui.bad", "BAD" );
+	BadArchive* archive = new BadArchive( "../game/data/test.bad", "BAD" );
 	Ogre::FileInfoListPtr info = archive->listFileInfo( false, false );
 
 	CPPUNIT_ASSERT( !info.isNull( ) );
@@ -103,7 +103,7 @@ void BadArchiveFixture::Should_Return_Empty_FileInfoPtr_On_ListFileInfo( )
 
 void BadArchiveFixture::Should_Return_Empty_StringVectorPtr_On_Find( )
 {
-	BadArchive* archive = new BadArchive( "../game/data/gui.bad", "BAD" );
+	BadArchive* archive = new BadArchive( "../game/data/test.bad", "BAD" );
 	Ogre::StringVectorPtr files = archive->find( "*" );
 
 	CPPUNIT_ASSERT( !files.isNull( ) );
@@ -113,7 +113,7 @@ void BadArchiveFixture::Should_Return_Empty_StringVectorPtr_On_Find( )
 
 void BadArchiveFixture::Should_Return_Empty_FileInfoPtr_On_FindFileInfo( )
 {
-	BadArchive* archive = new BadArchive( "../game/data/gui.bad", "BAD" );
+	BadArchive* archive = new BadArchive( "../game/data/test.bad", "BAD" );
 	Ogre::FileInfoListPtr info = archive->findFileInfo( "*", false, false );
 
 	CPPUNIT_ASSERT( !info.isNull( ) );

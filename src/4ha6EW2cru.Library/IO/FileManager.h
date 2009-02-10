@@ -29,8 +29,11 @@ public:
 	/*! Gets a FileBuffer object from the File System */
 	FileBuffer* GetFile( const std::string filePath ) const;
 
+	/*! Saves a FileBuffer to the File System */
+	void SaveFile( const FileBuffer& fileBuffer ) const;
+
 	/*! Checks to see if a File exists */
-	bool FileExists( const std::string filePath ) const;
+	bool FileExists( const std::string filePath, bool throwOnFail = false ) const;
 
 	/*! Finds all files matching a specific file pattern */
 	FileSearchResultList* FileSearch( const std::string path, const std::string searchPattern, const bool recursive ) const;

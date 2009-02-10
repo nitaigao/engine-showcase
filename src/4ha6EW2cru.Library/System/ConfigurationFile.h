@@ -3,9 +3,10 @@
 
 #include <sstream>
 
-#include <boost/program_options.hpp>
+#include "../io/FileManager.h"
+#include "../io/FileBuffer.hpp"
 
-using namespace boost::program_options;
+#include "../Utility/SimpleIni.h"
 
 class ConfigurationFile
 {
@@ -14,52 +15,72 @@ public:
 
 	ConfigurationFile( const FileBuffer* fileBuffer )
 	{
-		options_description desc;
-		std::stringstream fileStream;
-		fileStream << fileBuffer->fileBytes;
-		std::string something = std::string( fileStream.str( ) );
+		_ini = new CSimpleIni( true );
+		SI_Error error = _ini->Load( fileBuffer->fileBytes );
+	}
 
-		int intOption;
-		std::string stringOption;
-		bool boolOption;
-
-		desc.add_options( )
-			( "Display.display_width", value< int >( &intOption )->default_value( 640 ), "Display Width" )
-			( "Display.display_height", value< int >( &intOption )->default_value( 480 ), "Display Height" )
-			( "Display.display_depth", value< int >( &intOption )->default_value( 32 ), "Display Depth" )
-			( "Display.display_isfullscreen", value< bool >( &boolOption )->default_value( 1 ), "Display Fullscreen" )
-			( "System.system_developer", value< bool >( &boolOption )->default_value( 0 ), "Developer Mode" )
-			( "Logging.log_level", value< int >( &intOption )->default_value( 1 ), "Logging Level" )
-		;
-	
-		store( parse_config_file( fileStream, desc ), _variables);
+	~ConfigurationFile( )
+	{
+		if( _ini != 0 )
+		{
+			delete _ini;
+		}
 	}
 
 	static ConfigurationFile* Load( const std::string& filePath )
 	{
 		FileBuffer* buffer = FileManager::GetInstance( )->GetFile( filePath ); 
-		return new ConfigurationFile( buffer );
+		ConfigurationFile* configFile = new ConfigurationFile( buffer );
+		delete buffer;
+		return configFile;
 	}
 
-	template< class T >
-	T FindConfigItem( const std::string& key )
-	{	
-		try
-		{
-			return _variables[ key ].as< T >( );
-		}
-		catch( boost::bad_any_cast ac )
-		{
-			OutOfRangeException e( "The specified configuration item could not be found or is an invalid value for the given type" );
-			Logger::GetInstance( )->Fatal( e.what( ) );
-			throw e;
-		}
+	int FindConfigItem( const std::string& section, const std::string& key, const int& defaultValue )
+	{
+		return _ini->GetLongValue( section.c_str( ), key.c_str( ), defaultValue );
+	}
+
+	std::string FindConfigItem( const std::string& section, const std::string& key, const std::string& defaultValue )
+	{
+		return _ini->GetValue( section.c_str( ), key.c_str( ), defaultValue.c_str( ) );
+	}
+
+	bool FindConfigItem( const std::string& section, const std::string& key, const bool& defaultValue )
+	{
+		return _ini->GetBoolValue( section.c_str( ), key.c_str( ), defaultValue );
+	}
+
+	void Update( const std::string& section, const std::string& key, const std::string& value )
+	{
+		_ini->SetValue( section.c_str( ), key.c_str( ), value.c_str( ) );	
+	}
+
+	void Update( const std::string& section, const std::string& key, const int& value )
+	{
+		_ini->SetLongValue( section.c_str( ), key.c_str( ), value );	
+	}
+
+	void Update( const std::string& section, const std::string& key, const bool& value )
+	{
+		_ini->SetBoolValue( section.c_str( ), key.c_str( ), value );	
+	}
+
+	void Save( const std::string& filePath )
+	{
+		std::string output;
+		_ini->Save( output );
+
+		char* outputBuffer = new char[ output.length( ) + 1 ];
+		memcpy( outputBuffer, output.c_str( ), output.length( ) );
+		outputBuffer[ output.length( ) ] = '\0';
+
+		FileBuffer fileBuffer( outputBuffer, output.length( ), filePath );
+		FileManager::GetInstance( )->SaveFile( fileBuffer );
 	}
 
 private:
 
-
-	boost::program_options::variables_map _variables;
+	CSimpleIni* _ini;
 
 };
 

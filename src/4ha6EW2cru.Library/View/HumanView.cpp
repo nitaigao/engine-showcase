@@ -66,6 +66,6 @@ HumanView::~HumanView( )
 
 void HumanView::OnViewSettingsChanged( const IEvent* event )
 {
-	_renderer->ChangeResolution( 800, 600, _configuration->IsFullScreen( ) );
-	_inputSystem->SetCaptureArea( 800, 600 );
+	_renderer->ChangeResolution( _configuration->GetDisplayWidth( ), _configuration->GetDisplayHeight( ), _configuration->IsFullScreen( ) );
+	_inputSystem->SetCaptureArea( _configuration->GetDisplayWidth( ), _configuration->GetDisplayHeight( ) );
 }

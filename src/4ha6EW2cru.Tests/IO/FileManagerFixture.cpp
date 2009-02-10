@@ -6,6 +6,7 @@
 
 #include "Exceptions/NullReferenceException.hpp"
 #include "Exceptions/FileNotFoundException.hpp"
+#include "Exceptions/FileWriteException.hpp"
 
 #include "../Suites.h"
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( FileManagerFixture, Suites::IOSuite( ) );
@@ -81,14 +82,14 @@ void FileManagerFixture::Should_Throw_Adding_NonExistant_FileStore( )
 void FileManagerFixture::Should_Add_FileStore_Given_Existing_FileStore( )
 {
 	FileManager::Initialize( );
-	FileManager::GetInstance( )->MountFileStore( "../game/data/gui.bad", "data/" );
+	FileManager::GetInstance( )->MountFileStore( "../game/data/test.bad", "data/" );
 	FileManager::GetInstance( )->Release( );
 }
 
 void FileManagerFixture::Should_Throw_On_GetFile_Given_NonExisting_File( )
 {
 	FileManager::Initialize( );
-	FileManager::GetInstance( )->MountFileStore( "../game/data/gui.bad", "data/" );
+	FileManager::GetInstance( )->MountFileStore( "../game/data/test.bad", "data/" );
 
 	CPPUNIT_ASSERT_THROW( FileManager::GetInstance( )->GetFile( "bogus.txt" ), FileNotFoundException );
 
@@ -98,9 +99,9 @@ void FileManagerFixture::Should_Throw_On_GetFile_Given_NonExisting_File( )
 void FileManagerFixture::Should_Return_FileBuffer_On_GetFile_Given_Existing_File( )
 {
 	FileManager::Initialize( );
-	FileManager::GetInstance( )->MountFileStore( "../game/data/gui.bad", "data/" );
+	FileManager::GetInstance( )->MountFileStore( "../game/data/test.bad", "data/" );
 
-	FileBuffer* fileBuffer = FileManager::GetInstance( )->GetFile( "data/gui/test.txt" );
+	FileBuffer* fileBuffer = FileManager::GetInstance( )->GetFile( "data/test/test.txt" );
 	CPPUNIT_ASSERT( fileBuffer != 0 );
 	delete fileBuffer;
 
@@ -111,7 +112,7 @@ void FileManagerFixture::Should_Return_True_Given_File_Exists( )
 {
 	FileManager::Initialize( );
 	FileManager::GetInstance( )->MountFileStore( "../game/data/", "data/" );
-	bool result = FileManager::GetInstance( )->FileExists( "data/gui.bad" );
+	bool result = FileManager::GetInstance( )->FileExists( "data/test.bad" );
 
 	CPPUNIT_ASSERT( result );
 
@@ -131,7 +132,7 @@ void FileManagerFixture::Should_Return_False_Given_File_Doesnt_Exist( )
 void FileManagerFixture::Should_Return_No_Results_On_Recursive_File_Search_Given_Invalid_File_Pattern( )
 {
 	FileManager::Initialize( );
-	FileManager::GetInstance( )->MountFileStore( "../game/data/gui.bad", "data/" );
+	FileManager::GetInstance( )->MountFileStore( "../game/data/test.bad", "data/" );
 
 	FileSearchResultList* results = FileManager::GetInstance( )->FileSearch( "/", "blah", true );
 
@@ -145,7 +146,7 @@ void FileManagerFixture::Should_Return_No_Results_On_Recursive_File_Search_Given
 void FileManagerFixture::Should_Return_Results_On_Recursive_File_Search_Given_Valid_File_Pattern( )
 {
 	FileManager::Initialize( );
-	FileManager::GetInstance( )->MountFileStore( "../game/data/gui.bad", "data/" );
+	FileManager::GetInstance( )->MountFileStore( "../game/data/test.bad", "data/" );
 
 	FileSearchResultList* results = FileManager::GetInstance( )->FileSearch( "/", "*test*", true );
 
@@ -159,7 +160,7 @@ void FileManagerFixture::Should_Return_Results_On_Recursive_File_Search_Given_Va
 void FileManagerFixture::Should_Return_No_Results_On_Non_Recursive_File_Search_Given_Invalid_File_Pattern( )
 {
 	FileManager::Initialize( );
-	FileManager::GetInstance( )->MountFileStore( "../game/data/gui.bad", "data/" );
+	FileManager::GetInstance( )->MountFileStore( "../game/data/test.bad", "data/" );
 
 	FileSearchResultList* results = FileManager::GetInstance( )->FileSearch( "/", "blah", false );
 
@@ -173,13 +174,52 @@ void FileManagerFixture::Should_Return_No_Results_On_Non_Recursive_File_Search_G
 void FileManagerFixture::Should_Return_Results_On_Non_Recursive_File_Search_Given_Valid_File_Pattern( )
 {
 	FileManager::Initialize( );
-	FileManager::GetInstance( )->MountFileStore( "../game/data/gui.bad", "data/" );
+	FileManager::GetInstance( )->MountFileStore( "../game/data/test.bad", "data/" );
 
 	FileSearchResultList* results = FileManager::GetInstance( )->FileSearch( "/", "*test*", false );
 
 	CPPUNIT_ASSERT( !results->empty( ) && results->size( ) == 1 );
 
 	delete results;
+
+	FileManager::GetInstance( )->Release( );
+}
+
+void FileManagerFixture::Should_Throw_On_Save_Given_File_Not_Writable( )
+{
+	FileManager::Initialize( );
+
+	FileBuffer fileBuffer( new char[ 1 ], 1, "/test/readonly.txt" );
+
+	CPPUNIT_ASSERT_THROW( FileManager::GetInstance( )->SaveFile( fileBuffer ), FileWriteException ); 
+
+	FileManager::GetInstance( )->Release( );
+}
+
+void FileManagerFixture::Should_Throw_On_Save_Given_Path_Non_Existant( )
+{
+	FileManager::Initialize( );
+
+	int contentLength = 3;
+	char* contentToWrite = new char[ contentLength ];
+
+	FileBuffer fileBuffer( contentToWrite, contentLength, "/tdsada/ds/asd/asd/asdasd" );
+
+	CPPUNIT_ASSERT_THROW( FileManager::GetInstance( )->SaveFile( fileBuffer ), FileWriteException ); 
+
+	FileManager::GetInstance( )->Release( );
+}
+
+void FileManagerFixture::Should_Save_File_Successfully( )
+{
+	FileManager::Initialize( );
+
+	int contentLength = 3;
+	char* contentToWrite = new char[ contentLength ];
+
+	FileBuffer fileBuffer( contentToWrite, contentLength, "/test/canwrite.txt" );
+
+	FileManager::GetInstance( )->SaveFile( fileBuffer );
 
 	FileManager::GetInstance( )->Release( );
 }

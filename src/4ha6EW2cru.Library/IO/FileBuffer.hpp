@@ -11,27 +11,37 @@ struct FileBuffer
 
 public:
 
-	FileBuffer( )
-		: fileBytes( new char[ ] )
-		, fileSize( 0 )
-		, filePath( "" )
+	FileBuffer( char* fileBytes, const int& fileLength, const std::string& filePath )
+		: fileBytes( fileBytes )
+		, fileLength( fileLength )
+		, filePath( filePath )
 	{
 
 	}
 
 	~FileBuffer( )
 	{
-		delete fileBytes;
+		if( fileBytes != 0 )
+		{
+			delete fileBytes;
+		}
 	}
 
 	char* fileBytes;
-	int fileSize;
-	std::string filePath;
+	int fileLength;
+	const std::string filePath;
 
 
 private:
 
-	FileBuffer( const FileBuffer & copy ) { };
+	FileBuffer( )
+		: fileBytes( 0 )
+		, fileLength( 0 )
+		, filePath( 0 )
+	{
+
+	}
+
 	FileBuffer & operator = ( const FileBuffer & copy ) { return *this; };
 
 };

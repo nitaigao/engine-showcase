@@ -7,19 +7,15 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( FileBufferFixture, Suites::IOSuite( ) );
 
 void FileBufferFixture::Should_Contain_Given_Values( )
 {
-	FileBuffer* fileBuffer = new FileBuffer( );
-
 	char* fileBytes = new char[ 1 ];
 	std::string filePath = "path";
-	int fileSize = 99;
+	int fileLength = 99;
 
-	fileBuffer->fileBytes = fileBytes;
-	fileBuffer->filePath = filePath;
-	fileBuffer->fileSize = fileSize;
+	FileBuffer* fileBuffer = new FileBuffer( fileBytes, fileLength, filePath );
 
 	CPPUNIT_ASSERT( fileBytes == fileBuffer->fileBytes );
 	CPPUNIT_ASSERT( filePath == fileBuffer->filePath );
-	CPPUNIT_ASSERT( fileSize == fileBuffer->fileSize );
+	CPPUNIT_ASSERT( fileLength == fileBuffer->fileLength );
 
 	delete fileBuffer;
 }

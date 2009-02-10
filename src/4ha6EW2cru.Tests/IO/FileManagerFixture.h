@@ -27,6 +27,9 @@ class FileManagerFixture : public CPPUNIT_NS::TestFixture
   CPPUNIT_TEST( Should_Return_Results_On_Recursive_File_Search_Given_Valid_File_Pattern );
   CPPUNIT_TEST( Should_Return_No_Results_On_Non_Recursive_File_Search_Given_Invalid_File_Pattern );
   CPPUNIT_TEST( Should_Return_Results_On_Non_Recursive_File_Search_Given_Valid_File_Pattern );
+  CPPUNIT_TEST( Should_Throw_On_Save_Given_File_Not_Writable );
+  CPPUNIT_TEST( Should_Throw_On_Save_Given_Path_Non_Existant );
+  CPPUNIT_TEST( Should_Save_File_Successfully );
   CPPUNIT_TEST_SUITE_END( );
 
 public:
@@ -53,6 +56,9 @@ protected:
 	void Should_Return_Results_On_Recursive_File_Search_Given_Valid_File_Pattern( );
 	void Should_Return_No_Results_On_Non_Recursive_File_Search_Given_Invalid_File_Pattern( );
 	void Should_Return_Results_On_Non_Recursive_File_Search_Given_Valid_File_Pattern( );
+	void Should_Throw_On_Save_Given_File_Not_Writable( );
+	void Should_Throw_On_Save_Given_Path_Non_Existant( );
+	void Should_Save_File_Successfully( );
 };
 
 #endif

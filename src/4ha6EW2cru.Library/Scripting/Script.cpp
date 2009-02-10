@@ -20,7 +20,7 @@ Script::Script( lua_State* parentState, FileBuffer* fileBuffer ) : _parentState(
 		throw nullE;
 	}
 
-	if ( fileBuffer->fileBytes == 0 || fileBuffer->fileSize == 0 )
+	if ( fileBuffer->fileBytes == 0 || fileBuffer->fileLength == 0 )
 	{
 		delete fileBuffer;
 
@@ -46,7 +46,7 @@ void Script::Initialize( )
 		throw aiE;
 	}
 
-	int result = luaL_loadbuffer( _luaState, _fileBuffer->fileBytes, _fileBuffer->fileSize, _fileBuffer->filePath.c_str( ) );
+	int result = luaL_loadbuffer( _luaState, _fileBuffer->fileBytes, _fileBuffer->fileLength, _fileBuffer->filePath.c_str( ) );
 
 	if ( LUA_ERRSYNTAX == result )
 	{
@@ -78,7 +78,7 @@ void Script::Include( std::string scriptPath )
 		throw nullE;
 	}
 
-	if ( scriptBuffer->fileBytes == 0 || scriptBuffer->fileSize == 0 )
+	if ( scriptBuffer->fileBytes == 0 || scriptBuffer->fileLength == 0 )
 	{
 		delete scriptBuffer;
 
@@ -87,7 +87,7 @@ void Script::Include( std::string scriptPath )
 		throw unInitE;
 	}
 
-	int result = luaL_loadbuffer( _luaState, scriptBuffer->fileBytes, scriptBuffer->fileSize, scriptBuffer->filePath.c_str( ) );
+	int result = luaL_loadbuffer( _luaState, scriptBuffer->fileBytes, scriptBuffer->fileLength, scriptBuffer->filePath.c_str( ) );
 	delete scriptBuffer;
 
 	lua_pcall( _luaState, 0, 0, 0 );

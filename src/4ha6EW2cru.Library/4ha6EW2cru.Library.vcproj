@@ -170,10 +170,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\System\Configuration.cpp"
-			>
-		</File>
-		<File
 			RelativePath=".\System\Configuration.h"
 			>
 		</File>
@@ -439,6 +435,10 @@
 		</File>
 		<File
 			RelativePath=".\Utility\SearchUtility.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\SimpleIni.h"
 			>
 		</File>
 		<File

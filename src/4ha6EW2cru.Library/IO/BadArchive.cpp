@@ -24,7 +24,7 @@ Ogre::DataStreamPtr BadArchive::open( const Ogre::String& filename ) const
 
 	if ( fileBuffer != 0 )
 	{
-		MemoryDataStream memoryStream( fileBuffer->fileBytes, fileBuffer->fileSize, false );
+		MemoryDataStream memoryStream( fileBuffer->fileBytes, fileBuffer->fileLength, false );
 		stream = DataStreamPtr( new MemoryDataStream( memoryStream, true ) );
 		delete fileBuffer;
 	}

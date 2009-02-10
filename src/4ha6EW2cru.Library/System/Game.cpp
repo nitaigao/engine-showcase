@@ -50,11 +50,11 @@ void Game::Initialize( )
 
 	// Load the game configuration
 
-	_configuration = Configuration::Load( "config/game.cfg" );
+	_configuration = new Configuration( );
 
 	// Setup the Logging System
 
-	LogLevel logLevel = static_cast< LogLevel >( _configuration->FindConfigItemInt( "log_level" ) );
+	LogLevel logLevel = static_cast< LogLevel >( _configuration->GetLoggingLevel( ) );
 	Logger::GetInstance( )->SetLogLevel( logLevel );
 
 	IAppender* eventAppender = new EventAppender( EventManager::GetInstance( ) );
