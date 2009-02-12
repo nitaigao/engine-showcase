@@ -15,11 +15,13 @@ void HumanView::Initialize( )
 	_renderer = new OgreRenderer( );
 	_renderer->Initialize( _configuration->GetDisplayWidth( ), _configuration->GetDisplayHeight( ), _configuration->GetColorDepth( ), _configuration->IsFullScreen( ) );
 
+	_configuration->SetAvailableVideoModes( _renderer->GetVideoModes( ) );
+
 	_inputSystem = new InputSystem( _renderer->GetHwnd( ) );
 	_inputSystem->Initialize( );
 	_inputSystem->SetCaptureArea( _configuration->GetDisplayWidth( ), _configuration->GetDisplayHeight( ) );
 
-	EventManager::GetInstance( )->AddEventListener( VIEW_SETTINGS_CHANGED, this, &HumanView::OnViewSettingsChanged );
+	EventManager::GetInstance( )->AddEventListener( GRAPHICS_SETTINGS_CHANGED, this, &HumanView::OnViewSettingsChanged );
 
 	_isIntialized = true;
 }

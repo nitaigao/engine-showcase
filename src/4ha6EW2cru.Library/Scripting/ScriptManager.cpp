@@ -1,6 +1,8 @@
 #include "ScriptManager.h"
 
 #include <luabind/luabind.hpp>
+#include <luabind/iterator_policy.hpp>
+#include <luabind/copy_policy.hpp>
 using namespace luabind;
 
 #include "../Logging/Logger.h"
@@ -30,6 +32,7 @@ ScriptManager::ScriptManager( Configuration* configuration )
 		def( "quit", &ScriptManager::FromLua_GameQuit ),
 		def( "print", &ScriptManager::FromLua_Print ),
 		def( "registerEvent", &ScriptManager::FromLua_RegisterEvent ),
+		def( "unregisterEvent", &ScriptManager::FromLua_UnRegisterEvent ),
 		def( "broadcastEvent", &ScriptManager::FromLua_BroadcastEvent ),
 		def( "loadLevel", &ScriptManager::FromLua_LoadLevel ),
 
@@ -48,19 +51,26 @@ ScriptManager::ScriptManager( Configuration* configuration )
 			[
 				value( "TEST_EVENT", TEST_EVENT ),
 				value( "SCRIPT_COMMAND_EXECUTED", SCRIPT_COMMAND_EXECUTED ),
-				value( "INPUT_KEY_UP", INPUT_KEY_UP ),
 				value( "LOG_MESSAGE_APPENDED", LOG_MESSAGE_APPENDED ),
+
+				value( "INPUT_KEY_UP", INPUT_KEY_UP ),
+				value( "INPUT_MOUSE_RELEASED", INPUT_MOUSE_RELEASED ),
 
 				value( "UI_TITLE_SCREEN", UI_TITLE_SCREEN ),
 				value( "UI_MAIN_MENU", UI_MAIN_MENU ),
 				value( "UI_CLEAR", UI_CLEAR ),
 				value( "UI_OPTIONS", UI_OPTIONS ),
 
-				value( "VIEW_SETTINGS_CHANGED", VIEW_SETTINGS_CHANGED )
+				value( "GRAPHICS_SETTINGS_CHANGED", GRAPHICS_SETTINGS_CHANGED ),
+
+				value( "GAME_INITIALIZED", GAME_INITIALIZED )
 			],
 
-		class_< Configuration >( "Configuration" )
+		class_< Configuration >( "Config" )
 			.property( "isFullScreen", &Configuration::IsFullScreen, &Configuration::SetFullScreen )
+			.property( "availableVideoModes", &Configuration::GetAvailableVideoModes, &Configuration::SetAvailableVideoModes, return_stl_iterator )
+
+		//class_< std::vector< std::string > >( "StringVector" )
 	];
 
 	luabind::globals( _masterState )[ "Configuration" ] = _configuration;
@@ -168,6 +178,18 @@ void ScriptManager::RegisterEvent( EventType eventType, object function )
 	_eventHandlers->push_back( eventHandler );
 }
 
+void ScriptManager::UnRegisterEvent( EventType eventType, object function )
+{
+	for( EventHandlerList::iterator i = _eventHandlers->begin( ); i != _eventHandlers->end( ); ++i )
+	{
+		if ( ( *i ).first == eventType && ( *i ).second == function )
+		{
+			_eventHandlers->erase( i );
+			return;
+		}
+	}
+}
+
 void ScriptManager::CommandExecuted( const IEvent* event )
 {
 	ScriptCommandEventData* eventData = static_cast< ScriptCommandEventData* >( event->GetEventData( ) );
@@ -239,9 +261,16 @@ void ScriptManager::FromLua_RegisterEvent( EventType eventType, object function 
 	ScriptManager::GetInstance( )->RegisterEvent( eventType, function );
 }
 
+void ScriptManager::FromLua_UnRegisterEvent( EventType eventType, object function )
+{
+	ScriptManager::GetInstance( )->UnRegisterEvent( eventType, function );
+}
+
 void ScriptManager::OnEvent( const IEvent* event )
 {
-	for ( EventHandlerList::iterator i = _eventHandlers->begin( ); i != _eventHandlers->end( ); ++i )
+	EventHandlerList handlers( *_eventHandlers );
+
+	for ( EventHandlerList::iterator i = handlers.begin( ); i != handlers.end( ); ++i )
 	{
 		if ( ( *i ).first == event->GetEventType( ) )
 		{

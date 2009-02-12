@@ -50,7 +50,7 @@ void Game::Initialize( )
 
 	// Load the game configuration
 
-	_configuration = new Configuration( );
+	_configuration = Configuration::Load( "config/game.cfg" );
 
 	// Setup the Logging System
 
@@ -69,9 +69,12 @@ void Game::Initialize( )
 	_view = new HumanView( _configuration );
 	_view->Initialize( );
 
-	// Create core dependencies
+	// Subscribe to Events
 
 	EventManager::GetInstance( )->AddEventListener( GAME_QUIT, this, &Game::OnGameQuit );
+
+	// Broadcast Loaded
+
 	EventManager::GetInstance( )->QueueEvent( new Event( GAME_INITIALIZED ) );
 
 	_isInitialized = true;
@@ -129,13 +132,10 @@ void Game::Release( )
 	delete _view;
 	delete _configuration;
 
-	{	// Release all Singletons
-
-		ScriptManager::GetInstance( )->Release( );
-		FileManager::GetInstance( )->Release( );
-		EventManager::GetInstance( )->Release( );
-		Logger::GetInstance( )->Release( );
-	}
+	ScriptManager::GetInstance( )->Release( );
+	FileManager::GetInstance( )->Release( );
+	EventManager::GetInstance( )->Release( );
+	Logger::GetInstance( )->Release( );
 }
 
 void Game::OnGameQuit( const IEvent* event )

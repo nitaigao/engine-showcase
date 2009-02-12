@@ -36,7 +36,15 @@ struct iterator
     {
         iterator* self = static_cast<iterator*>(
             lua_touserdata(L, lua_upvalueindex(1)));
+<<<<<<< HEAD:etc/vendor/luabind/include/luabind/iterator_policy.hpp
         self->~iterator();
+=======
+		if( self != 0 )
+		{
+			self->~iterator();
+		}
+
+>>>>>>> 38f8ee945f436c59dbb52a349727ae99b73fc8f5:etc/vendor/luabind/include/luabind/iterator_policy.hpp
         return 0;
     }
 

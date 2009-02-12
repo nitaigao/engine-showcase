@@ -3,17 +3,30 @@
 
 #include <map>
 #include <sstream>
+#include <string>
+#include <vector>
 
 #include "../Exceptions/OutOfRangeException.hpp"
 #include "../Exceptions/FileNotFoundException.hpp"
 
+#include "../Events/IEvent.hpp"
+
 #include "ConfigurationFile.h"
+
 
 /*! Loads and contains game specific configuration info */
 class Configuration
 {
 
+	typedef std::vector< std::string > VideoModeList;
+
 public:
+
+	virtual ~Configuration( );
+
+	void Initialize( );
+
+	static Configuration* Load( const std::string& filePath );
 
 	/* -- Graphics -- */
 
@@ -28,24 +41,42 @@ public:
 
 	inline int GetColorDepth( ) const { return _configFile->FindConfigItem( "Graphics", "depth", 32 ); };
 
+	inline const VideoModeList& GetAvailableVideoModes( ) const { return _availableVideoModes; }
+	inline void SetAvailableVideoModes( VideoModeList modes ) { _availableVideoModes.assign( modes.begin( ), modes.end( ) ); };
+
 	/* -- Logging -- */
 
 	inline int GetLoggingLevel( ) const { return _configFile->FindConfigItem( "Logging", "level", 0 ); };
 
+<<<<<<< HEAD:src/4ha6EW2cru.Library/System/Configuration.h
 	Configuration( )
 	{
 		_configFile = ConfigurationFile::Load( "config/game.cfg" );
 	};
 
 	virtual ~Configuration( )
-	{
-		delete _configFile;
-	};
-
+=======
 private:
 
-	ConfigurationFile* _configFile;
+	Configuration( const Configuration & copy ) { };
+	Configuration & operator = ( const Configuration & copy ) { return *this; };
 
+	Configuration( ConfigurationFile* configFile )
+		: _configFile( configFile )
+>>>>>>> 38f8ee945f436c59dbb52a349727ae99b73fc8f5:src/4ha6EW2cru.Library/System/Configuration.h
+	{
+
+	};
+
+	void OnConfigurationUpdated( const IEvent* event );
+
+	ConfigurationFile* _configFile;
+<<<<<<< HEAD:src/4ha6EW2cru.Library/System/Configuration.h
+
+=======
+	VideoModeList _availableVideoModes;
+	
+>>>>>>> 38f8ee945f436c59dbb52a349727ae99b73fc8f5:src/4ha6EW2cru.Library/System/Configuration.h
 };
 
 #endif

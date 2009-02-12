@@ -15,7 +15,7 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( HumanViewFixture, Suites::ViewSuite( ) );
 
 void HumanViewFixture::setUp( )
 {
-	_configuration = new Configuration( );
+	_configuration = Configuration::Load( "config/game.cfg" );
 
 	Logger::Initialize( );
 	Logger::GetInstance( )->AddAppender( new ConsoleAppender( ) );

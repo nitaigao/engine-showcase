@@ -123,6 +123,7 @@ void FileManager::SaveFile( const FileBuffer& fileBuffer ) const
 	}
 
 	PHYSFS_write( file, fileBuffer.fileBytes, 1, fileBuffer.fileLength );
+	PHYSFS_close( file );
 }
 
 FileSearchResultList* FileManager::FileSearch( const std::string path, const std::string searchPattern, const bool recursive ) const

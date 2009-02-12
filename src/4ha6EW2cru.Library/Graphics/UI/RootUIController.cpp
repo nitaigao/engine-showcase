@@ -23,21 +23,28 @@ void RootUIController::Initialize( )
 			.def( "getType", &MyGUI::Widget::getClassTypeName )
 			.def( "hide", &MyGUI::Widget::hide )
 			.def( "show", &MyGUI::Widget::show )
-			.def( "asButton", &RootUIController::AsButton ),
+			.def( "asButton", &RootUIController::AsButton )
+			.def( "asComboBox", &RootUIController::AsComboBox ),
 
 		class_< Button >( "Button" )
 			.def( "setChecked", &Button::setStateCheck )
 			.def( "getChecked", &Button::getStateCheck ),
 
-		class_< ComboBox >( "ComboBox" )
+		class_< ComboBox, Widget >( "ComboBox" )
 			.def( "getIndexSelected", &ComboBox::getIndexSelected )
+			.def( "addItem", &ComboBox::addItem )
 			.def( "getItemAt", &ComboBox::getItemNameAt ),
 
 		class_< IntCoord >( "IntCoord" )
 			.def_readonly( "x" , &MyGUI::IntCoord::left )
 			.def_readonly( "y" , &MyGUI::IntCoord::top )
 			.def_readonly( "width" , &MyGUI::IntCoord::width )
-			.def_readonly( "height" , &MyGUI::IntCoord::height )
+			.def_readonly( "height" , &MyGUI::IntCoord::height ),
+
+		class_< Ogre::UTFString >( "utf" )
+			.def( constructor< std::string >( ) ),
+
+		class_< Any >( "Any" )
 	];
 
 	lua_pcall( luaState, 0, 0, 0 );
