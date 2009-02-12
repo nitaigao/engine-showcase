@@ -25,7 +25,7 @@ OgreRenderer::~OgreRenderer( )
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_RELEASED, this, &OgreRenderer::OnMouseReleased );
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_DOWN, this, &OgreRenderer::OnKeyDown );
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_UP, this, &OgreRenderer::OnKeyUp );
-	
+
 	if ( _gui != 0 )
 	{
 		_gui->shutdown( );
@@ -69,7 +69,7 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 		}
 
 		_root->loadPlugin( "RenderSystem_Direct3D9_d" );
-		
+
 		_badFactory = new BadArchiveFactory( );
 		ArchiveManager::getSingletonPtr( )->addArchiveFactory( _badFactory );
 		this->LoadResources( );
@@ -80,7 +80,7 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 		RenderSystemList::iterator renderSystemIterator = renderSystems->begin( );
 
 		_root->setRenderSystem( *renderSystemIterator );
-	
+
 		std::stringstream videoModeDesc;
 		videoModeDesc << width << " x " << height << " @ 32-bit colour";
 
@@ -99,15 +99,15 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 		Viewport* viewPort = _root->getAutoCreatedWindow( )->addViewport( camera );
 		viewPort->setBackgroundColour( ColourValue( 0, 0, 0 ) );
 
-		camera->setAspectRatio( 
+		camera->setAspectRatio(
 			Real( viewPort->getActualWidth( )) / Real( viewPort->getActualHeight( ) )
 			);
 	}
 
-	{	// -- MyGUI 
+	{	// -- MyGUI
 		_gui = new Gui( );
 		_gui->initialise( _root->getAutoCreatedWindow( ), "/data/interface/core/core.xml" );
-		
+
 		_interfaceController = new RootUIController( _gui );
 		_interfaceController->Initialize( );
 	}
@@ -186,7 +186,7 @@ void OgreRenderer::LoadResources( )
 		{
 			/* So basically the deal here is the whole game runs on a file system that adds bad files together
 			   to make one giant directory tree. Ogre however runs on the premise that the bad files create their
-			   own individual directory tree for each seperate bad file. This hack fixes that problem by allowing only one 
+			   own individual directory tree for each seperate bad file. This hack fixes that problem by allowing only one
 			   stub bad file to be created within ogre, but it registers each bad file with the Game Filesystem allowing
 			   the stub to still access the combined bad files as one giant filesystem */
 
@@ -223,23 +223,23 @@ void OgreRenderer::OnMouseMoved( const IEvent* event )
 void OgreRenderer::OnMousePressed( const IEvent* event )
 {
 	MouseEventData* eventData = static_cast< MouseEventData* >( event->GetEventData( ) );
-	_gui->injectMousePress( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, ( MyGUI::MouseButton ) eventData->GetMouseButtonId( ) );
+	_gui->injectMousePress( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, MyGUI::MouseButton::Enum( eventData->GetMouseButtonId( ) ) );
 }
 
 void OgreRenderer::OnMouseReleased( const IEvent* event )
 {
 	MouseEventData* eventData = static_cast< MouseEventData* >( event->GetEventData( ) );
-	_gui->injectMouseRelease( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, ( MyGUI::MouseButton ) eventData->GetMouseButtonId( ) );
+	_gui->injectMouseRelease( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, MyGUI::MouseButton::Enum( eventData->GetMouseButtonId( ) ) );
 }
 
 void OgreRenderer::OnKeyUp( const IEvent* event )
 {
 	KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
-	_gui->injectKeyRelease( ( MyGUI::KeyCode ) eventData->GetKeyCode( ) );
+	_gui->injectKeyRelease( MyGUI::KeyCode::Enum( eventData->GetKeyCode( ) ) );
 }
 
 void OgreRenderer::OnKeyDown( const IEvent* event )
-{ 
+{
 	KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
-	_gui->injectKeyPress( ( MyGUI::KeyCode ) eventData->GetKeyCode( ) );
+	_gui->injectKeyPress( MyGUI::KeyCode::Enum( eventData->GetKeyCode( ) ) );
 }

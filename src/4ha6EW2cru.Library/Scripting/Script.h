@@ -3,7 +3,7 @@
 
 #include <map>
 
-extern "C" 
+extern "C"
 {
 #	include <lua.h>
 }
@@ -29,7 +29,7 @@ class Script
 {
 
 	typedef std::map< EventType, object > EventHandlers;
-	
+
 public:
 
 	Script( lua_State* parentState, FileBuffer* fileBuffer );
@@ -43,7 +43,7 @@ public:
 
 	/*! Loads a Script into the current state */
 	void Include( std::string scriptPath );
-	
+
 	template< class P1, class P2, class P3 >
 	void CallFunction( std::string functionName, const P1 &p1, const P2 &p2, const P3 &p3 )
 	{
@@ -56,26 +56,26 @@ public:
 
 		if( functionName.empty( ) )
 		{
-			OutOfRangeException outE( "Script::CallFunction - The given function name is empty" ); 
+			OutOfRangeException outE( "Script::CallFunction - The given function name is empty" );
 			Logger::GetInstance( )->Fatal( outE.what( ) );
 			throw outE;
 		}
-		
+
 		call_function< int >( _luaState, functionName.c_str( ), p1, p2, p3 );
 	}
-	
+
 	template< class P1, class P2 >
 	void CallFunction( std::string functionName, const P1 &p1, const P2 &p2 )
 	{
 		this->CallFunction( functionName, p1, p2, 0 );
 	}
-	
+
 	template< class P1 >
 	void CallFunction( std::string functionName, const P1 &p1 )
 	{
 		this->CallFunction( functionName, p1, 0 );
 	}
-	
+
 	void CallFunction( std::string functionName )
 	{
 		this->CallFunction( functionName, 0, 0, 0 );
@@ -93,7 +93,7 @@ private:
 	EventHandlers _eventHandlers;
 	FileBuffer* _fileBuffer;
 	bool _isInitialized;
-	
+
 };
-	
+
 #endif

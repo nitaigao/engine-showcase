@@ -44,7 +44,7 @@ void HumanView::Update( const float deltaMilliseconds )
 		Logger::GetInstance( )->Fatal( e.what( ) );
 		throw e;
 	}
-	
+
 	_inputSystem->Update( );
 	_renderer->Update( deltaMilliseconds );
 }

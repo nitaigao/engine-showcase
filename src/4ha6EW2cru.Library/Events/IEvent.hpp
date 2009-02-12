@@ -4,8 +4,8 @@
 #include "EventType.hpp"
 #include "IEventData.hpp"
 
-/*! 
-	Interface for all Events 
+/*!
+	Interface for all Events
 */
 class IEvent
 {

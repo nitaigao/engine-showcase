@@ -13,11 +13,11 @@ class Event : public IEvent
 
 public:
 
-	Event( const EventType& eventType, IEventData* eventData = 0 ) 
-		: _eventType( eventType ) 
+	Event( const EventType& eventType, IEventData* eventData = 0 )
+		: _eventType( eventType )
 		, _eventData( eventData )
-	{ 
-	
+	{
+
 	};
 
 	~Event( )

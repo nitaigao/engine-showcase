@@ -3,8 +3,8 @@
 
 #include <string>
 
-/*! 
-	Interface for all Logging Appenders 
+/*!
+	Interface for all Logging Appenders
 */
 class IAppender
 {

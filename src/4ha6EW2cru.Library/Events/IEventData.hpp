@@ -4,7 +4,7 @@
 /*!
 	Interface for all EventData
 */
-class IEventData 
+class IEventData
 {
 
 public:

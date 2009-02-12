@@ -10,8 +10,8 @@
 #include "EventType.hpp"
 #include "IEventListener.hpp"
 
-/*! 
-	Listener for Events and handles the appropriate action 
+/*!
+	Listener for Events and handles the appropriate action
 */
 template< class T >
 class EventListener : public IEventListener
@@ -30,7 +30,7 @@ public:
 	}
 
 	/*! Passes the incoming event function handling it */
-	void HandleEvent( const IEvent* event ) const 
+	void HandleEvent( const IEvent* event ) const
 	{
 		if ( _handlerTarget == 0 )
 		{

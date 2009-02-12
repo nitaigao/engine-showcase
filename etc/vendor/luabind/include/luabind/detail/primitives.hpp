@@ -25,6 +25,7 @@
 #define LUABIND_PRIMITIVES_HPP_INCLUDED
 
 #include <algorithm>
+#include <cstring>
 
 #include <luabind/config.hpp>
 #include <luabind/detail/yes_no.hpp>
@@ -60,14 +61,6 @@ namespace luabind { namespace detail
 	{
 		bool operator()(const char* s1, const char* s2) const { return std::strcmp(s1, s2) < 0; }
 	};
-
-	inline char* dup_string(const char* s)
-	{
-		std::size_t l = std::strlen(s);
-		char* c = new char[l+1];
-		std::copy(s, s+l+1, c);
-		return c;
-	}
 
 	template<int N>
 	struct aligned 

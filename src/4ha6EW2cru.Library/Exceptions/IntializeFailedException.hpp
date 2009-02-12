@@ -7,13 +7,13 @@ class IntializeFailedException : public std::exception
 public:
 
 	IntializeFailedException( )
-		: std::exception( "Component was unable to initialize correctly" )
+		//: std::exception( "Component was unable to initialize correctly" )
 	{
 
 	}
 
 	IntializeFailedException( const std::string message )
-		: std::exception( message.c_str( ) )
+		//: std::exception( message.c_str( ) )
 	{
 
 	}

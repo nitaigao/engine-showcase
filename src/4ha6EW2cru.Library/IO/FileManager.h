@@ -11,7 +11,7 @@ class FileManager
 {
 
 public:
-	
+
 	FileManager( );
 
 	/*! Retrieves an instance of the FileManager Singleton */
@@ -49,3 +49,4 @@ private:
 };
 
 #endif
+

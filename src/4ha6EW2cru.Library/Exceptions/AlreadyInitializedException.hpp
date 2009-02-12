@@ -7,13 +7,13 @@ class AlreadyInitializedException : public std::exception
 public:
 
 	AlreadyInitializedException( )
-		: std::exception( "Object has already been Initialized" )
+		//: std::exception( "Object has already been Initialized" )
 	{
 
 	}
 
 	AlreadyInitializedException( const std::string message )
-		: std::exception( message.c_str( ) )
+		//: std::exception( message.c_str( ) )
 	{
 
 	}

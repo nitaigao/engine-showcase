@@ -10,8 +10,8 @@
 using OIS::MouseEvent;
 using OIS::MouseButtonID;
 
-/*! 
-	Listens for input from the Mouse 
+/*!
+	Listens for input from the Mouse
 */
 class MouseListener : public OIS::MouseListener
 {
@@ -38,7 +38,7 @@ public:
 
 	/* Fired when the user releases a button on the mouse */
 	bool mouseReleased( const MouseEvent &arg, MouseButtonID id )
-	{	
+	{
 		Event* event = new Event( INPUT_MOUSE_RELEASED, new MouseEventData( arg.state, id ) );
 		EventManager::GetInstance( )->TriggerEvent( event );
 

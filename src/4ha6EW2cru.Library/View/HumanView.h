@@ -15,13 +15,13 @@ class HumanView
 
 public:
 
-	HumanView( Configuration* configuration ) 
+	HumanView( Configuration* configuration )
 		: _inputSystem( 0 )
 		, _renderer( 0 )
 		, _isIntialized( false )
 		, _configuration( configuration )
-	{ 
-	
+	{
+
 	};
 
 	~HumanView( );

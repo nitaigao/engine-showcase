@@ -36,7 +36,7 @@ public:
 	{
 		_configFile = ConfigurationFile::Load( "config/game.cfg" );
 	};
-	
+
 	virtual ~Configuration( )
 	{
 		delete _configFile;
@@ -45,7 +45,7 @@ public:
 private:
 
 	ConfigurationFile* _configFile;
-	
+
 };
 
 #endif

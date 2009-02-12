@@ -29,7 +29,7 @@ public:
 
 	static ConfigurationFile* Load( const std::string& filePath )
 	{
-		FileBuffer* buffer = FileManager::GetInstance( )->GetFile( filePath ); 
+		FileBuffer* buffer = FileManager::GetInstance( )->GetFile( filePath );
 		ConfigurationFile* configFile = new ConfigurationFile( buffer );
 		delete buffer;
 		return configFile;
@@ -52,17 +52,17 @@ public:
 
 	void Update( const std::string& section, const std::string& key, const std::string& value )
 	{
-		_ini->SetValue( section.c_str( ), key.c_str( ), value.c_str( ) );	
+		_ini->SetValue( section.c_str( ), key.c_str( ), value.c_str( ) );
 	}
 
 	void Update( const std::string& section, const std::string& key, const int& value )
 	{
-		_ini->SetLongValue( section.c_str( ), key.c_str( ), value );	
+		_ini->SetLongValue( section.c_str( ), key.c_str( ), value );
 	}
 
 	void Update( const std::string& section, const std::string& key, const bool& value )
 	{
-		_ini->SetBoolValue( section.c_str( ), key.c_str( ), value );	
+		_ini->SetBoolValue( section.c_str( ), key.c_str( ), value );
 	}
 
 	void Save( const std::string& filePath )

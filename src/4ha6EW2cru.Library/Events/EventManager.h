@@ -16,7 +16,7 @@ class EventManager
 
 	typedef std::queue< const IEvent* > EventQueue;
 	typedef std::vector< IEventListener* > EventListenerList;
-	
+
 public:
 
 	/*! Retrieves an instance of the EventManager Singleton */
@@ -81,7 +81,7 @@ public:
 		{
 			EventListener< RT >* eventListener = static_cast< EventListener< RT >* >( ( *i ) );
 
-			if ( 
+			if (
 				handlerFunctor == eventListener->GetHandlerFunctor( ) &&
 				eventType == eventListener->GetEventType( ) &&
 				handlerTarget == eventListener->GetHandlerTarget( )
@@ -90,7 +90,7 @@ public:
 				delete ( *i );
 				_eventListeners.erase( i );
 				return;
-			} 
+			}
 		}
 	}
 

@@ -4,7 +4,7 @@
 /*!
 	A list of all possible Events within the Game
 */
-enum EventType 
+enum EventType
 {
 	ALL_EVENTS,
 	TEST_EVENT,
@@ -24,7 +24,7 @@ enum EventType
 	LOG_MESSAGE_APPENDED,
 	SCRIPT_COMMAND_EXECUTED,
 	EVENTTYPE_MAX
-	
+
 };
 
 #endif

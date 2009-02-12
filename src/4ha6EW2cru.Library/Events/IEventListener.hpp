@@ -5,8 +5,8 @@
 
 #include "EventType.hpp"
 
-/*! 
-	Interface that listenens for Events and handles the appropriate action 
+/*!
+	Interface that listenens for Events and handles the appropriate action
 */
 class IEventListener
 {

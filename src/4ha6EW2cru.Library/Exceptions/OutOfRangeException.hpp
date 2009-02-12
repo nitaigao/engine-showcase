@@ -7,13 +7,13 @@ class OutOfRangeException : public std::exception
 public:
 
 	OutOfRangeException( )
-		: std::exception( "A given argument was out of range" )
+		//: std::exception( "A given argument was out of range" )
 	{
 
 	}
 
 	OutOfRangeException( const std::string message )
-		: std::exception( message.c_str( ) )
+		//: std::exception( message.c_str( ) )
 	{
 
 	}

@@ -25,7 +25,7 @@ public:
 		, _mouse( 0 )
 		, _mouseListener( 0 )
 		, _hWnd( hWnd )
-	{ 
+	{
 
 	};
 

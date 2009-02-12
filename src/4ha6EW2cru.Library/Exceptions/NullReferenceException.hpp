@@ -7,13 +7,13 @@ class NullReferenceException : public std::exception
 public:
 
 	NullReferenceException( )
-		: std::exception( "The referenced object is NULL" )
+		//: std::exception( "The referenced object is NULL" )
 	{
 
 	}
 
 	NullReferenceException( const std::string message )
-		: std::exception( message.c_str( ) )
+		//: std::exception( message.c_str( ) )
 	{
 
 	}

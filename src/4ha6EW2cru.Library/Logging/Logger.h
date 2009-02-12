@@ -17,10 +17,10 @@ class Logger
 
 public:
 
-	Logger( LogLevel logLevel ) 
+	Logger( LogLevel logLevel )
 		: _logLevel( logLevel )
-	{ 
-	
+	{
+
 	};
 
 	~Logger( );
@@ -64,7 +64,7 @@ private:
 	void LogMessage( const std::string level, const std::string message );
 
 	AppenderList _appenders;
-	LogLevel _logLevel;	
+	LogLevel _logLevel;
 
 };
 

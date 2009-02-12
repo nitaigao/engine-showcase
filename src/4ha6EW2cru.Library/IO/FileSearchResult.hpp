@@ -3,7 +3,7 @@
 
 #include <vector>
 
-struct FileSearchResult 
+struct FileSearchResult
 {
 
 public:

@@ -5,8 +5,8 @@
 #include "ois/OISMouse.h"
 #include "OIS/OISKeyboard.h"
 
-/*! 
-	Contains Key information for use with Key Events 
+/*!
+	Contains Key information for use with Key Events
 */
 class KeyEventData : public IEventData
 {
@@ -15,11 +15,11 @@ public:
 
 	~KeyEventData( ) { };
 
-	KeyEventData( const OIS::KeyCode &keyCode, const std::string keyText ) 
+	KeyEventData( const OIS::KeyCode &keyCode, const std::string keyText )
 		: _keyCode( keyCode )
 		, _keyText( keyText )
-	{ 
-	
+	{
+
 	};
 
 	/* Returns the keycode of the key pressed in the Event */
@@ -30,7 +30,7 @@ public:
 
 private:
 
-	//KeyEventData( ) { };
+	KeyEventData( ) { };
 	KeyEventData( const KeyEventData & copy ) { };
 	KeyEventData & operator = ( const KeyEventData & copy ) { return *this; };
 
@@ -39,8 +39,8 @@ private:
 
 };
 
-/*! 
-	Contains MouseState information for use with Mouse Events 
+/*!
+	Contains MouseState information for use with Mouse Events
 */
 class MouseEventData : public IEventData
 {
@@ -49,11 +49,11 @@ public:
 
 	~MouseEventData( ) { };
 
-	MouseEventData( const OIS::MouseState& mouseState, const OIS::MouseButtonID& mouseButtonId ) 
+	MouseEventData( const OIS::MouseState& mouseState, const OIS::MouseButtonID& mouseButtonId )
 		: _mouseState( mouseState )
 		, _mouseButtonId( mouseButtonId )
-	{ 
-	
+	{
+
 	};
 
 	/* Returns the MouseState of the mouse firing the Event */
@@ -75,7 +75,7 @@ private:
 
 
 /*!
-	Contains the information required to change the current screen 
+	Contains the information required to change the current screen
 */
 class ChangeScreenEventData : public IEventData
 {
@@ -92,7 +92,7 @@ public:
 
 	/*! Returns the name of the new Screen */
 	inline const std::string GetScreenName( ) const { return _screenName; };
-	
+
 private:
 
 	ChangeScreenEventData( ) { };

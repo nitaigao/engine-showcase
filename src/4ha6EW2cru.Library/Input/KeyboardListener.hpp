@@ -9,8 +9,8 @@
 
 using OIS::KeyEvent;
 
-/*! 
-	Listens for input from the Keboard 
+/*!
+	Listens for input from the Keboard
 */
 class KeyboardListener : public OIS::KeyListener
 {
