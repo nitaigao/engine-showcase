@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="4ha6EW2cru.Library" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option output="lib" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="..\..\build\debug\obj\$(ParentName)" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-DTIXML_USE_STL" />
+					<Add option="-W" />
+					<Add option="-g" />
+					<Add option="-O0" />
+					<Add directory="..\..\etc\vendor\physfs" />
+					<Add directory="..\..\etc\vendor\lua\include" />
+					<Add directory="..\..\etc\vendor\mygui\include" />
+					<Add directory="..\..\etc\vendor\ois\includes" />
+					<Add directory="..\..\etc\vendor\luabind\include" />
+					<Add directory="..\..\etc\vendor\boost\include" />
+					<Add directory="..\..\etc\vendor\ogre\include" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="..\..\etc\vendor\physfs" />
+					<Add directory="..\..\etc\vendor\lua\include" />
+					<Add directory="..\..\etc\vendor\mygui\include" />
+					<Add directory="..\..\etc\vendor\ois\includes" />
+					<Add directory="..\..\etc\vendor\luabind\include" />
+					<Add directory="..\..\etc\vendor\boost\include" />
+					<Add directory="..\..\etc\vendor\ogre\include" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="OgreMain_d" />
+					<Add library="physfsd" />
+					<Add library="MyGui_d" />
+					<Add directory="..\..\etc\vendor\physfs" />
+					<Add directory="..\..\etc\vendor\lua" />
+					<Add directory="..\..\etc\vendor\mygui\lib" />
+					<Add directory="..\..\etc\vendor\luabind\lib" />
+					<Add directory="..\..\etc\vendor\ois\lib" />
+					<Add directory="..\..\etc\vendor\ogre\lib" />
+				</Linker>
+			</Target>
+			<Target title="Release Win32">
+				<Option output="lib" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="..\..\build\release\obj\$(ParentName)" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-W" />
+					<Add option="-O2" />
+					<Add directory="..\..\etc\vendor\physfs" />
+					<Add directory="..\..\etc\vendor\lua\include" />
+					<Add directory="..\..\etc\vendor\mygui\include" />
+					<Add directory="..\..\etc\vendor\ois\includes" />
+					<Add directory="..\..\etc\vendor\luabind\include" />
+					<Add directory="..\..\etc\vendor\boost\include" />
+					<Add directory="..\..\etc\vendor\ogre\include" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="..\..\etc\vendor\physfs" />
+					<Add directory="..\..\etc\vendor\lua\include" />
+					<Add directory="..\..\etc\vendor\mygui\include" />
+					<Add directory="..\..\etc\vendor\ois\includes" />
+					<Add directory="..\..\etc\vendor\luabind\include" />
+					<Add directory="..\..\etc\vendor\boost\include" />
+					<Add directory="..\..\etc\vendor\ogre\include" />
+				</ResourceCompiler>
+			</Target>
+		</Build>
+		<Unit filename="Common\Paths.hpp" />
+		<Unit filename="Events\Event.h" />
+		<Unit filename="Events\EventData.hpp" />
+		<Unit filename="Events\EventListener.h" />
+		<Unit filename="Events\EventManager.cpp" />
+		<Unit filename="Events\EventManager.h" />
+		<Unit filename="Events\EventType.hpp" />
+		<Unit filename="Events\IEvent.hpp" />
+		<Unit filename="Events\IEventData.hpp" />
+		<Unit filename="Events\IEventListener.hpp" />
+		<Unit filename="Exceptions\AlreadyInitializedException.hpp" />
+		<Unit filename="Exceptions\ArchiveNotFoundException.hpp" />
+		<Unit filename="Exceptions\FileNotFoundException.hpp" />
+		<Unit filename="Exceptions\FileWriteException.hpp" />
+		<Unit filename="Exceptions\IntializeFailedException.hpp" />
+		<Unit filename="Exceptions\NullReferenceException.hpp" />
+		<Unit filename="Exceptions\OutOfRangeException.hpp" />
+		<Unit filename="Exceptions\ScreenDimensionsException.hpp" />
+		<Unit filename="Exceptions\ScriptException.hpp" />
+		<Unit filename="Exceptions\UnInitializedException.hpp" />
+		<Unit filename="Graphics\IRenderer.hpp" />
+		<Unit filename="Graphics\OgreRenderer.cpp" />
+		<Unit filename="Graphics\OgreRenderer.h" />
+		<Unit filename="Graphics\UI\RootUIController.cpp" />
+		<Unit filename="Graphics\UI\RootUIController.h" />
+		<Unit filename="IO\BadArchive.cpp" />
+		<Unit filename="IO\BadArchive.h" />
+		<Unit filename="IO\BadArchiveFactory.cpp" />
+		<Unit filename="IO\BadArchiveFactory.h" />
+		<Unit filename="IO\FileBuffer.hpp" />
+		<Unit filename="IO\FileManager.cpp" />
+		<Unit filename="IO\FileManager.h" />
+		<Unit filename="IO\FileSearchResult.hpp" />
+		<Unit filename="Input\IInputSystem.hpp" />
+		<Unit filename="Input\InputSystem.cpp" />
+		<Unit filename="Input\InputSystem.h" />
+		<Unit filename="Input\KeyboardListener.hpp" />
+		<Unit filename="Input\MouseListener.hpp" />
+		<Unit filename="Logging\ConsoleAppender.cpp" />
+		<Unit filename="Logging\ConsoleAppender.h" />
+		<Unit filename="Logging\EventAppender.cpp" />
+		<Unit filename="Logging\EventAppender.h" />
+		<Unit filename="Logging\FileAppender.cpp" />
+		<Unit filename="Logging\FileAppender.h" />
+		<Unit filename="Logging\IAppender.hpp" />
+		<Unit filename="Logging\LogLevel.hpp" />
+		<Unit filename="Logging\Logger.cpp" />
+		<Unit filename="Logging\Logger.h" />
+		<Unit filename="Scripting\Script.cpp" />
+		<Unit filename="Scripting\Script.h" />
+		<Unit filename="Scripting\ScriptManager.cpp" />
+		<Unit filename="Scripting\ScriptManager.h" />
+		<Unit filename="System\Configuration.h" />
+		<Unit filename="System\ConfigurationFile.h" />
+		<Unit filename="System\Game.cpp" />
+		<Unit filename="System\Game.h" />
+		<Unit filename="Utility\OgreMax\OgreMaxModel.cpp" />
+		<Unit filename="Utility\OgreMax\OgreMaxModel.hpp" />
+		<Unit filename="Utility\OgreMax\OgreMaxPlatform.hpp" />
+		<Unit filename="Utility\OgreMax\OgreMaxRenderWindowIterator.hpp" />
+		<Unit filename="Utility\OgreMax\OgreMaxScene.cpp" />
+		<Unit filename="Utility\OgreMax\OgreMaxScene.hpp" />
+		<Unit filename="Utility\OgreMax\OgreMaxTypes.hpp" />
+		<Unit filename="Utility\OgreMax\OgreMaxUtilities.cpp" />
+		<Unit filename="Utility\OgreMax\OgreMaxUtilities.hpp" />
+		<Unit filename="Utility\OgreMax\ProgressCalculator.cpp" />
+		<Unit filename="Utility\OgreMax\ProgressCalculator.hpp" />
+		<Unit filename="Utility\OgreMax\Version.cpp" />
+		<Unit filename="Utility\OgreMax\Version.hpp" />
+		<Unit filename="Utility\OgreMax\tinyxml\ticpp.cpp" />
+		<Unit filename="Utility\OgreMax\tinyxml\ticpp.h" />
+		<Unit filename="Utility\OgreMax\tinyxml\ticpprc.h" />
+		<Unit filename="Utility\OgreMax\tinyxml\tinyxml.cpp" />
+		<Unit filename="Utility\OgreMax\tinyxml\tinyxml.h" />
+		<Unit filename="Utility\OgreMax\tinyxml\tinyxmlerror.cpp" />
+		<Unit filename="Utility\OgreMax\tinyxml\tinyxmlparser.cpp" />
+		<Unit filename="Utility\SearchUtility.hpp" />
+		<Unit filename="Utility\SimpleIni.h" />
+		<Unit filename="View\HumanView.cpp" />
+		<Unit filename="View\HumanView.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

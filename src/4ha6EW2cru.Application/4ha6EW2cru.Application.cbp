@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="4ha6EW2cru.Applicaton" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option output="4ha6EW2cru.Application" prefix_auto="1" extension_auto="1" />
+				<Option object_output="..\..\build\debug\obj\$(ParentName)" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-DTIXML_USE_STL" />
+					<Add option="-W" />
+					<Add option="-g" />
+					<Add option="-O0" />
+					<Add directory="..\..\etc\vendor\mygui\include" />
+					<Add directory="..\..\etc\vendor\lua\include" />
+					<Add directory="..\4ha6EW2cru.Library" />
+					<Add directory="..\..\etc\vendor\physfs" />
+					<Add directory="..\..\etc\vendor\luabind\include" />
+					<Add directory="..\..\etc\vendor\boost\include" />
+					<Add directory="..\..\etc\vendor\ois\includes" />
+					<Add directory="..\..\etc\vendor\ogre\include" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="..\..\etc\vendor\mygui\include" />
+					<Add directory="..\..\etc\vendor\lua\include" />
+					<Add directory="..\4ha6EW2cru.Library" />
+					<Add directory="..\..\etc\vendor\physfs" />
+					<Add directory="..\..\etc\vendor\luabind\include" />
+					<Add directory="..\..\etc\vendor\boost\include" />
+					<Add directory="..\..\etc\vendor\ois\includes" />
+					<Add directory="..\..\etc\vendor\ogre\include" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="winmm" />
+					<Add library="mockpp_44d" />
+					<Add library="cppunitd" />
+					<Add library="OgreMain_d" />
+					<Add library="OIS_static_d" />
+					<Add library="luad" />
+					<Add library="libluabind" />
+					<Add library="MyGUI_d" />
+					<Add directory="..\..\etc\vendor\cppunit\lib" />
+					<Add directory="..\..\etc\vendor\ois\lib" />
+					<Add directory="..\..\etc\vendor\mockpp\lib" />
+					<Add directory="..\..\etc\vendor\lua" />
+					<Add directory="..\..\etc\vendor\luabind\lib" />
+					<Add directory="..\..\etc\vendor\mygui\lib" />
+					<Add directory="..\..\etc\vendor\ogre\lib" />
+				</Linker>
+			</Target>
+			<Target title="Release Win32">
+				<Option output="4ha6EW2cru.Application" prefix_auto="1" extension_auto="1" />
+				<Option object_output="..\..\build\release\obj\$(ParentName)" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-W" />
+					<Add option="-O2" />
+					<Add directory="..\..\etc\vendor\mygui\include" />
+					<Add directory="..\..\etc\vendor\lua\include" />
+					<Add directory="..\4ha6EW2cru.Library" />
+					<Add directory="..\..\etc\vendor\physfs" />
+					<Add directory="..\..\etc\vendor\luabind\include" />
+					<Add directory="..\..\etc\vendor\boost\include" />
+					<Add directory="..\..\etc\vendor\ois\includes" />
+					<Add directory="..\..\etc\vendor\ogre\include" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="..\..\etc\vendor\mygui\include" />
+					<Add directory="..\..\etc\vendor\lua\include" />
+					<Add directory="..\4ha6EW2cru.Library" />
+					<Add directory="..\..\etc\vendor\physfs" />
+					<Add directory="..\..\etc\vendor\luabind\include" />
+					<Add directory="..\..\etc\vendor\boost\include" />
+					<Add directory="..\..\etc\vendor\ois\includes" />
+					<Add directory="..\..\etc\vendor\ogre\include" />
+				</ResourceCompiler>
+			</Target>
+		</Build>
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -32,7 +32,7 @@ void RootUIController::Initialize( )
 
 		class_< ComboBox, Widget >( "ComboBox" )
 			.def( "getIndexSelected", &ComboBox::getIndexSelected )
-			.def( "addItem", &ComboBox::addItem )
+			//.def( "addItem", &ComboBox::addItem )
 			.def( "getItemAt", &ComboBox::getItemNameAt ),
 
 		class_< IntCoord >( "IntCoord" )

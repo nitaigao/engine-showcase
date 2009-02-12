@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug Win32" />
+	<File name="Common\Paths.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="1226" topLine="0" />
+	</File>
+	<File name="Events\Event.h" open="0" top="0" tabpos="0">
+		<Cursor position="622" topLine="0" />
+	</File>
+	<File name="Events\EventData.hpp" open="0" top="0" tabpos="5">
+		<Cursor position="385" topLine="99" />
+	</File>
+	<File name="Events\EventListener.h" open="0" top="0" tabpos="0">
+		<Cursor position="1958" topLine="25" />
+	</File>
+	<File name="Events\EventManager.h" open="0" top="0" tabpos="0">
+		<Cursor position="2999" topLine="58" />
+	</File>
+	<File name="Events\EventType.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="478" topLine="0" />
+	</File>
+	<File name="Events\IEventData.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="154" topLine="0" />
+	</File>
+	<File name="Events\IEventListener.hpp" open="0" top="0" tabpos="2">
+		<Cursor position="492" topLine="0" />
+	</File>
+	<File name="Exceptions\FileWriteException.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="339" topLine="0" />
+	</File>
+	<File name="Exceptions\IntializeFailedException.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="313" topLine="0" />
+	</File>
+	<File name="Exceptions\ScriptException.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="246" topLine="0" />
+	</File>
+	<File name="Graphics\IRenderer.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="469" topLine="0" />
+	</File>
+	<File name="Graphics\OgreRenderer.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="6465" topLine="194" />
+	</File>
+	<File name="Graphics\OgreRenderer.h" open="0" top="0" tabpos="0">
+		<Cursor position="1628" topLine="25" />
+	</File>
+	<File name="Graphics\UI\RootUIController.h" open="0" top="0" tabpos="0">
+		<Cursor position="1768" topLine="14" />
+	</File>
+	<File name="IO\BadArchiveFactory.h" open="0" top="0" tabpos="3">
+		<Cursor position="394" topLine="0" />
+	</File>
+	<File name="IO\FileBuffer.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="672" topLine="0" />
+	</File>
+	<File name="IO\FileManager.h" open="0" top="0" tabpos="0">
+		<Cursor position="1498" topLine="0" />
+	</File>
+	<File name="IO\FileSearchResult.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="236" topLine="0" />
+	</File>
+	<File name="Input\IInputSystem.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="401" topLine="0" />
+	</File>
+	<File name="Input\InputSystem.h" open="0" top="0" tabpos="0">
+		<Cursor position="989" topLine="6" />
+	</File>
+	<File name="Input\KeyboardListener.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="850" topLine="0" />
+	</File>
+	<File name="Input\MouseListener.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="1175" topLine="0" />
+	</File>
+	<File name="Logging\IAppender.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="280" topLine="0" />
+	</File>
+	<File name="Logging\LogLevel.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="139" topLine="0" />
+	</File>
+	<File name="Logging\Logger.h" open="0" top="0" tabpos="0">
+		<Cursor position="1462" topLine="20" />
+	</File>
+	<File name="Scripting\Script.h" open="0" top="0" tabpos="0">
+		<Cursor position="2166" topLine="48" />
+	</File>
+	<File name="System\Configuration.h" open="0" top="0" tabpos="0">
+		<Cursor position="1464" topLine="0" />
+	</File>
+	<File name="System\ConfigurationFile.h" open="0" top="0" tabpos="0">
+		<Cursor position="2244" topLine="36" />
+	</File>
+	<File name="Utility\OgreMax\OgreMaxPlatform.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="1676" topLine="0" />
+	</File>
+	<File name="View\HumanView.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1987" topLine="20" />
+	</File>
+	<File name="View\HumanView.h" open="0" top="0" tabpos="0">
+		<Cursor position="965" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="4ha6EW2cru.Tests" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option output="4ha6EW2cru.Tests" prefix_auto="1" extension_auto="1" />
+				<Option object_output="..\..\build\debug\obj\$(ParentName)" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-DWIN32" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_CONSOLE" />
+					<Add option="-W" />
+					<Add option="-g" />
+					<Add option="-O0" />
+					<Add directory="..\4ha6EW2cru.Library" />
+					<Add directory="..\..\etc\vendor\cppunit\include" />
+					<Add directory="..\..\etc\vendor\ois\includes" />
+					<Add directory="..\..\etc\vendor\physfs" />
+					<Add directory="..\..\etc\vendor\luabind\include" />
+					<Add directory="..\..\etc\vendor\boost\include" />
+					<Add directory="..\..\etc\vendor\mygui\include" />
+					<Add directory="..\..\etc\vendor\mockpp" />
+					<Add directory="..\..\etc\vendor\ogre\include" />
+					<Add directory="..\..\etc\vendor\lua\include" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="..\4ha6EW2cru.Library" />
+					<Add directory="..\..\etc\vendor\cppunit\include" />
+					<Add directory="..\..\etc\vendor\ois\includes" />
+					<Add directory="..\..\etc\vendor\physfs" />
+					<Add directory="..\..\etc\vendor\luabind\include" />
+					<Add directory="..\..\etc\vendor\boost\include" />
+					<Add directory="..\..\etc\vendor\mygui\include" />
+					<Add directory="..\..\etc\vendor\mockpp" />
+					<Add directory="..\..\etc\vendor\ogre\include" />
+					<Add directory="..\..\etc\vendor\lua\include" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="winmm" />
+					<Add library="mockpp_44d" />
+					<Add library="cppunitd" />
+					<Add library="OgreMain_d" />
+					<Add library="OIS_static_d" />
+					<Add library="luad" />
+					<Add library="libluabind" />
+					<Add library="MyGUI_d" />
+					<Add directory="..\..\etc\vendor\cppunit\lib" />
+					<Add directory="..\..\etc\vendor\ois\lib" />
+					<Add directory="..\..\etc\vendor\lua" />
+					<Add directory="..\..\etc\vendor\luabind\lib" />
+					<Add directory="..\..\etc\vendor\mygui\lib" />
+					<Add directory="..\..\etc\vendor\mockpp\lib" />
+					<Add directory="..\..\etc\vendor\ogre\lib" />
+					<Add directory="..\..\etc\vendor\boost\lib" />
+				</Linker>
+			</Target>
+			<Target title="Release Win32">
+				<Option output="4ha6EW2cru.Tests" prefix_auto="1" extension_auto="1" />
+				<Option object_output="..\..\build\release\obj\$(ParentName)" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-DWIN32" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_CONSOLE" />
+					<Add option="-W" />
+					<Add option="-O2" />
+					<Add directory="..\4ha6EW2cru.Library" />
+					<Add directory="..\..\etc\vendor\cppunit\include" />
+					<Add directory="..\..\etc\vendor\ois\includes" />
+					<Add directory="..\..\etc\vendor\physfs" />
+					<Add directory="..\..\etc\vendor\luabind\include" />
+					<Add directory="..\..\etc\vendor\boost\include" />
+					<Add directory="..\..\etc\vendor\mygui\include" />
+					<Add directory="..\..\etc\vendor\mockpp" />
+					<Add directory="..\..\etc\vendor\ogre\include" />
+					<Add directory="..\..\etc\vendor\lua\include" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="..\4ha6EW2cru.Library" />
+					<Add directory="..\..\etc\vendor\cppunit\include" />
+					<Add directory="..\..\etc\vendor\ois\includes" />
+					<Add directory="..\..\etc\vendor\physfs" />
+					<Add directory="..\..\etc\vendor\luabind\include" />
+					<Add directory="..\..\etc\vendor\boost\include" />
+					<Add directory="..\..\etc\vendor\mygui\include" />
+					<Add directory="..\..\etc\vendor\mockpp" />
+					<Add directory="..\..\etc\vendor\ogre\include" />
+					<Add directory="..\..\etc\vendor\lua\include" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="cppunit" />
+					<Add library="mockpp_44" />
+					<Add library="OgreMain" />
+					<Add library="OIS_static" />
+					<Add library="lua" />
+					<Add library="libluabind" />
+					<Add library="MyGUI" />
+					<Add directory="..\..\etc\vendor\cppunit\lib" />
+					<Add directory="..\..\etc\vendor\ois\lib" />
+					<Add directory="..\..\etc\vendor\lua" />
+					<Add directory="..\..\etc\vendor\luabind\lib" />
+					<Add directory="..\..\etc\vendor\mygui\lib" />
+					<Add directory="..\..\etc\vendor\mockpp\lib" />
+					<Add directory="..\..\etc\vendor\ogre\lib" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="IO\BadArchiveFactoryFixture.cpp" />
+		<Unit filename="IO\BadArchiveFactoryFixture.h" />
+		<Unit filename="IO\BadArchiveFixture.cpp" />
+		<Unit filename="IO\BadArchiveFixture.h" />
+		<Unit filename="System\ConfigurationFileFixture.cpp" />
+		<Unit filename="System\ConfigurationFileFixture.h" />
+		<Unit filename="System\ConfigurationFixture.cpp" />
+		<Unit filename="System\ConfigurationFixture.h" />
+		<Unit filename="Logging\ConsoleAppenderFixture.cpp" />
+		<Unit filename="Logging\ConsoleAppenderFixture.h" />
+		<Unit filename="Logging\EventAppenderFixture.cpp" />
+		<Unit filename="Logging\EventAppenderFixture.h" />
+		<Unit filename="Events\EventDataFixture.cpp" />
+		<Unit filename="Events\EventDataFixture.h" />
+		<Unit filename="Events\EventFixture.cpp" />
+		<Unit filename="Events\EventFixture.h" />
+		<Unit filename="Events\EventListenerFixture.cpp" />
+		<Unit filename="Events\EventListenerFixture.h" />
+		<Unit filename="Events\EventManagerFixture.cpp" />
+		<Unit filename="Events\EventManagerFixture.h" />
+		<Unit filename="Logging\FileAppenderFixture.cpp" />
+		<Unit filename="Logging\FileAppenderFixture.h" />
+		<Unit filename="IO\FileBufferFixture.cpp" />
+		<Unit filename="IO\FileBufferFixture.h" />
+		<Unit filename="IO\FileManagerFixture.cpp" />
+		<Unit filename="IO\FileManagerFixture.h" />
+		<Unit filename="System\GameFixture.cpp" />
+		<Unit filename="System\GameFixture.h" />
+		<Unit filename="View\HumanViewFixture.cpp" />
+		<Unit filename="View\HumanViewFixture.h" />
+		<Unit filename="Input\InputSystemFixture.cpp" />
+		<Unit filename="Input\InputSystemFixture.h" />
+		<Unit filename="Input\KeyboardListenerFixture.cpp" />
+		<Unit filename="Input\KeyboardListenerFixture.h" />
+		<Unit filename="Logging\LoggerFixture.cpp" />
+		<Unit filename="Logging\LoggerFixture.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="Mocks\MockEventData.hpp" />
+		<Unit filename="Mocks\MockEventTrigger.hpp" />
+		<Unit filename="Mocks\MockLogAppender.hpp" />
+		<Unit filename="Mocks\MockScriptBinder.hpp" />
+		<Unit filename="Input\MouseListenerFixture.cpp" />
+		<Unit filename="Input\MouseListenerFixture.h" />
+		<Unit filename="Graphics\OgreRendererFixture.cpp" />
+		<Unit filename="Graphics\OgreRendererFixture.h" />
+		<Unit filename="Scripting\ScriptFixture.cpp" />
+		<Unit filename="Scripting\ScriptFixture.h" />
+		<Unit filename="Scripting\ScriptManagerFixture.cpp" />
+		<Unit filename="Scripting\ScriptManagerFixture.h" />
+		<Unit filename="Utility\SearchUtilityFixture.cpp" />
+		<Unit filename="Utility\SearchUtilityFixture.h" />
+		<Unit filename="Suites.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

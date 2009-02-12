@@ -48,14 +48,6 @@ public:
 
 	inline int GetLoggingLevel( ) const { return _configFile->FindConfigItem( "Logging", "level", 0 ); };
 
-<<<<<<< HEAD:src/4ha6EW2cru.Library/System/Configuration.h
-	Configuration( )
-	{
-		_configFile = ConfigurationFile::Load( "config/game.cfg" );
-	};
-
-	virtual ~Configuration( )
-=======
 private:
 
 	Configuration( const Configuration & copy ) { };
@@ -63,7 +55,6 @@ private:
 
 	Configuration( ConfigurationFile* configFile )
 		: _configFile( configFile )
->>>>>>> 38f8ee945f436c59dbb52a349727ae99b73fc8f5:src/4ha6EW2cru.Library/System/Configuration.h
 	{
 
 	};
@@ -71,12 +62,8 @@ private:
 	void OnConfigurationUpdated( const IEvent* event );
 
 	ConfigurationFile* _configFile;
-<<<<<<< HEAD:src/4ha6EW2cru.Library/System/Configuration.h
-
-=======
 	VideoModeList _availableVideoModes;
 	
->>>>>>> 38f8ee945f436c59dbb52a349727ae99b73fc8f5:src/4ha6EW2cru.Library/System/Configuration.h
 };
 
 #endif
