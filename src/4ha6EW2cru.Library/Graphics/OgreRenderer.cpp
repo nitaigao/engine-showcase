@@ -140,6 +140,35 @@ size_t OgreRenderer::GetHwnd( ) const
 	return hWnd;
 }
 
+std::vector< std::string > OgreRenderer::GetVideoModes( ) const
+{
+	std::vector< std::string > availableDisplayModes;
+	ConfigOptionMap options = _root->getRenderSystem( )->getConfigOptions( );
+	for( ConfigOptionMap::iterator cm = options.begin( ); cm != options.end( ); ++cm )
+	{
+		if ( ( *cm ).first == "Video Mode" )
+		{
+			StringVector possibleModes = ( *cm ).second.possibleValues;
+
+			for( StringVector::iterator i = possibleModes.begin( ); i != possibleModes.end( ); ++i )
+			{
+				std::stringstream currentColorDepth;
+				currentColorDepth << _root->getAutoCreatedWindow( )->getColourDepth( );
+
+				int result = ( *i ).find( currentColorDepth.str( ) );
+
+				if ( result > -1 )
+				{
+					std::string mode = ( *i ).substr( 0, ( *i ).find( " @ " ) );
+					availableDisplayModes.push_back( mode );
+				}
+			}
+		}
+	}
+
+	return availableDisplayModes;
+}
+
 void OgreRenderer::Render( ) const
 {
 	if ( !_isInitialized )

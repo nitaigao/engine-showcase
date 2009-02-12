@@ -42,6 +42,7 @@ public:
 	void Update( const float deltaMilliseconds ) const;
 	void ChangeResolution( int width, int height, bool fullscreen );
 	size_t GetHwnd( ) const;
+	std::vector< std::string > GetVideoModes( ) const;
 
 private:
 

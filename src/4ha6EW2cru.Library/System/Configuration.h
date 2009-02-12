@@ -3,6 +3,8 @@
 
 #include <map>
 #include <sstream>
+#include <string>
+#include <vector>
 
 #include "../Exceptions/OutOfRangeException.hpp"
 #include "../Exceptions/FileNotFoundException.hpp"
@@ -11,9 +13,12 @@
 
 #include "ConfigurationFile.h"
 
+
 /*! Loads and contains game specific configuration info */
 class Configuration
 {
+
+	typedef std::vector< std::string > VideoModeList;
 
 public:
 
@@ -36,11 +41,17 @@ public:
 
 	inline int GetColorDepth( ) const { return _configFile->FindConfigItem( "Graphics", "depth", 32 ); };
 
+	inline const VideoModeList& GetAvailableVideoModes( ) const { return _availableVideoModes; }
+	inline void SetAvailableVideoModes( VideoModeList modes ) { _availableVideoModes.assign( modes.begin( ), modes.end( ) ); };
+
 	/* -- Logging -- */
 
 	inline int GetLoggingLevel( ) const { return _configFile->FindConfigItem( "Logging", "level", 0 ); };
 
 private:
+
+	Configuration( const Configuration & copy ) { };
+	Configuration & operator = ( const Configuration & copy ) { return *this; };
 
 	Configuration( ConfigurationFile* configFile )
 		: _configFile( configFile )
@@ -51,6 +62,7 @@ private:
 	void OnConfigurationUpdated( const IEvent* event );
 
 	ConfigurationFile* _configFile;
+	VideoModeList _availableVideoModes;
 	
 };
 

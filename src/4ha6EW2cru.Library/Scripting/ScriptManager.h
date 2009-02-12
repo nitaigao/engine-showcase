@@ -34,8 +34,6 @@ public:
 	/*! Initializes the Script Management mechanism */
 	static bool Initialize( Configuration* configuration );
 
-	void Update( );
-
 	/*! Loads a Script */
 	lua_State* LoadScript( const std::string scriptPath );
 
@@ -68,8 +66,8 @@ private:
 
 	lua_State* _masterState;
 	ChildStateList _childStates;
+
 	EventHandlerList* _eventHandlers;
-	EventHandlerList* _eventHandlersPurge;
 	Configuration* _configuration;
 
 };

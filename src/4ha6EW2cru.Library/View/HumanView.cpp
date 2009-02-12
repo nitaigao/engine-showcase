@@ -15,6 +15,8 @@ void HumanView::Initialize( )
 	_renderer = new OgreRenderer( );
 	_renderer->Initialize( _configuration->GetDisplayWidth( ), _configuration->GetDisplayHeight( ), _configuration->GetColorDepth( ), _configuration->IsFullScreen( ) );
 
+	_configuration->SetAvailableVideoModes( _renderer->GetVideoModes( ) );
+
 	_inputSystem = new InputSystem( _renderer->GetHwnd( ) );
 	_inputSystem->Initialize( );
 	_inputSystem->SetCaptureArea( _configuration->GetDisplayWidth( ), _configuration->GetDisplayHeight( ) );

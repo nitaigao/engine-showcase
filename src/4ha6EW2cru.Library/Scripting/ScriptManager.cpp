@@ -1,6 +1,8 @@
 #include "ScriptManager.h"
 
 #include <luabind/luabind.hpp>
+#include <luabind/iterator_policy.hpp>
+#include <luabind/copy_policy.hpp>
 using namespace luabind;
 
 #include "../Logging/Logger.h"
@@ -24,7 +26,6 @@ ScriptManager::ScriptManager( Configuration* configuration )
 	luabind::open( _masterState );
 
 	_eventHandlers = new EventHandlerList( );
-	_eventHandlersPurge = new EventHandlerList( );
 
 	module( _masterState )
 	[
@@ -50,20 +51,26 @@ ScriptManager::ScriptManager( Configuration* configuration )
 			[
 				value( "TEST_EVENT", TEST_EVENT ),
 				value( "SCRIPT_COMMAND_EXECUTED", SCRIPT_COMMAND_EXECUTED ),
+				value( "LOG_MESSAGE_APPENDED", LOG_MESSAGE_APPENDED ),
+
 				value( "INPUT_KEY_UP", INPUT_KEY_UP ),
 				value( "INPUT_MOUSE_RELEASED", INPUT_MOUSE_RELEASED ),
-				value( "LOG_MESSAGE_APPENDED", LOG_MESSAGE_APPENDED ),
 
 				value( "UI_TITLE_SCREEN", UI_TITLE_SCREEN ),
 				value( "UI_MAIN_MENU", UI_MAIN_MENU ),
 				value( "UI_CLEAR", UI_CLEAR ),
 				value( "UI_OPTIONS", UI_OPTIONS ),
 
-				value( "GRAPHICS_SETTINGS_CHANGED", GRAPHICS_SETTINGS_CHANGED )
+				value( "GRAPHICS_SETTINGS_CHANGED", GRAPHICS_SETTINGS_CHANGED ),
+
+				value( "GAME_INITIALIZED", GAME_INITIALIZED )
 			],
 
-		class_< Configuration >( "Configuration" )
+		class_< Configuration >( "Config" )
 			.property( "isFullScreen", &Configuration::IsFullScreen, &Configuration::SetFullScreen )
+			.property( "availableVideoModes", &Configuration::GetAvailableVideoModes, &Configuration::SetAvailableVideoModes, return_stl_iterator )
+
+		//class_< std::vector< std::string > >( "StringVector" )
 	];
 
 	luabind::globals( _masterState )[ "Configuration" ] = _configuration;
@@ -75,7 +82,6 @@ ScriptManager::ScriptManager( Configuration* configuration )
 
 ScriptManager::~ScriptManager( )
 {
-	delete _eventHandlersPurge;
 	delete _eventHandlers;
 
 	lua_close( _masterState );
@@ -116,20 +122,6 @@ bool ScriptManager::Initialize( Configuration* configuration )
 	g_ScriptManagerInstance = new ScriptManager( configuration );
 
 	return true;	
-}
-
-void ScriptManager::Update( )
-{
-	for ( EventHandlerList::iterator ip = _eventHandlersPurge->begin( ); ip != _eventHandlersPurge->end( ); ++ip )
-	{
-		for ( EventHandlerList::iterator i = _eventHandlers->begin( ); i != _eventHandlers->end( ); ++i )
-		{
-			if ( ( *i ).first == ( *ip ).first && ( *i ).second == ( *ip ).second )
-			{
-				i = _eventHandlers->erase( i );
-			}
-		}
-	}
 }
 
 lua_State* ScriptManager::LoadScript( const std::string scriptPath )
@@ -192,7 +184,8 @@ void ScriptManager::UnRegisterEvent( EventType eventType, object function )
 	{
 		if ( ( *i ).first == eventType && ( *i ).second == function )
 		{
-			_eventHandlersPurge->push_back( ( *i ) );
+			_eventHandlers->erase( i );
+			return;
 		}
 	}
 }
@@ -275,7 +268,9 @@ void ScriptManager::FromLua_UnRegisterEvent( EventType eventType, object functio
 
 void ScriptManager::OnEvent( const IEvent* event )
 {
-	for ( EventHandlerList::iterator i = _eventHandlers->begin( ); i != _eventHandlers->end( ); ++i )
+	EventHandlerList handlers( *_eventHandlers );
+
+	for ( EventHandlerList::iterator i = handlers.begin( ); i != handlers.end( ); ++i )
 	{
 		if ( ( *i ).first == event->GetEventType( ) )
 		{

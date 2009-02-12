@@ -56,6 +56,9 @@ private:
 	/*! Casts a widget to a Button */
 	static inline ButtonPtr AsButton( WidgetPtr widget ) { return static_cast< ButtonPtr >( widget ); };
 
+	/*! Casts a widget to a ComboBox */
+	static inline ComboBoxPtr AsComboBox( WidgetPtr widget ) { return static_cast< ComboBoxPtr >( widget ); };
+
 	Gui* _gui;
 	Script* _script;
 

@@ -42,15 +42,6 @@
 #include <luabind/handle.hpp>
 #include <luabind/detail/primitives.hpp>
 
-#ifdef BOOST_MSVC
-// msvc doesn't have two-phase, but requires
-// method_rep (and overload_rep) to be complete
-// because of its std::list implementation.
-// gcc on the other hand has two-phase but doesn't
-// require method_rep to be complete.
-#include <luabind/detail/method_rep.hpp>
-#endif
-
 namespace luabind
 {
 
@@ -62,12 +53,15 @@ namespace luabind
 namespace luabind { namespace detail
 {
 
-	struct method_rep;
 	LUABIND_API std::string stack_content_by_name(lua_State* L, int start_index);
-	int construct_lua_class_callback(lua_State* L);
 
 	struct class_registration;
-	
+
+	struct conversion_storage;
+
+	// This function is used as a tag to identify "properties".
+	LUABIND_API int property_tag(lua_State*);
+
 	// this is class-specific information, poor man's vtable
 	// this is allocated statically (removed by the compiler)
 	// a pointer to this structure is stored in the lua tables'
@@ -92,10 +86,6 @@ namespace luabind { namespace detail
 			cpp_class = 0,
 			lua_class = 1
 		};
-
-#ifndef NDEBUG
-		std::string class_info_string(lua_State*) const;
-#endif
 
 		// destructor is a lua callback function that is hooked as garbage collector event on every instance
 		// of this class (including those that is not owned by lua). It gets an object_rep as argument
@@ -180,6 +170,7 @@ namespace luabind { namespace detail
 		void get_table(lua_State* L) const { m_table.push(L); }
 		void get_default_table(lua_State* L) const { m_default_table.push(L); }
 
+		void(*construct_holder() const)(void*, void*) { return m_construct_holder; }
 		void(*destructor() const)(void*) { return m_destructor; }
 		void(*const_holder_destructor() const)(void*) { return m_const_holder_destructor; }
 		typedef const void*(*t_const_extractor)(void*);
@@ -192,8 +183,6 @@ namespace luabind { namespace detail
 		class_type get_class_type() const { return m_class_type; }
 
 		void add_static_constant(const char* name, int val);
-		void add_method(detail::method_rep const& m);
-		void register_methods(lua_State* L);
 
 		// takes a pointer to the instance object
 		// and if it has a wrapper, the wrapper
@@ -203,7 +192,6 @@ namespace luabind { namespace detail
 		static int super_callback(lua_State* L);
 
 		static int lua_settable_dispatcher(lua_State* L);
-		static int construct_lua_class_callback(lua_State* L);
 
 		// called from the metamethod for __index
 		// obj is the object pointer
@@ -217,7 +205,9 @@ namespace luabind { namespace detail
 		// obj is the object pointer
 		static int static_class_gettable(lua_State* L);
 
-		void* convert_to(LUABIND_TYPE_INFO target_type, const object_rep* obj, void*) const;
+		void* convert_to(
+			LUABIND_TYPE_INFO target_type
+		  , const object_rep* obj, conversion_storage&) const;
 
 		bool has_operator_in_lua(lua_State*, int id);
 
@@ -366,11 +356,6 @@ namespace luabind { namespace detail
 		int m_instance_metatable;
 
 		// ***** the maps below contains all members in this class *****
-
-		// list of methods. pointers into this list is put in the m_table and
-		// m_default_table for access. The struct contains the function-
-		// signatures for every overload
-		std::list<method_rep> m_methods;
 
 		// datamembers, some members may be readonly, and
 		// only have a getter function
