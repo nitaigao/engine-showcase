@@ -7,16 +7,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "4ha6EW2cru.Library", "4ha6E
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "4ha6EW2cru.Tests", "4ha6EW2cru.Tests\4ha6EW2cru.Tests.vcproj", "{A34EEED2-C572-46C6-8FAB-CFA9DEAA058A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{0877329D-D47A-4A6F-9F31-4F5114286C05}"
-	ProjectSection(SolutionItems) = preProject
-		..\build\debug\game\data\entities.bad = ..\build\debug\game\data\entities.bad
-		..\build\debug\game\data\levels.bad = ..\build\debug\game\data\levels.bad
-		..\build\debug\game\data\localization.bad = ..\build\debug\game\data\localization.bad
-		..\build\debug\game\data\sounds.bad = ..\build\debug\game\data\sounds.bad
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Game", "Game", "{027C031E-E3E1-4B6D-A846-B65F75CC745D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -38,10 +28,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{399D7AEA-884F-4884-B655-AED35E934A07} = {027C031E-E3E1-4B6D-A846-B65F75CC745D}
-		{A34EEED2-C572-46C6-8FAB-CFA9DEAA058A} = {027C031E-E3E1-4B6D-A846-B65F75CC745D}
-		{AD4BF66A-BD18-4E12-AE35-2025E5190266} = {027C031E-E3E1-4B6D-A846-B65F75CC745D}
 	EndGlobalSection
 EndGlobal
