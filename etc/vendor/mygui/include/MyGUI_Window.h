@@ -3,6 +3,21 @@
 	@author		Albert Semenov
 	@date		11/2007
 	@module
+*//*
+	This file is part of MyGUI.
+	
+	MyGUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Lesser General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	MyGUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License
+	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef __MYGUI_WINDOW_H__
 #define __MYGUI_WINDOW_H__
@@ -78,28 +93,8 @@ namespace MyGUI
 		/** Enable or disable snap to borders mode */
 		void setSnap(bool _snap) { mSnap = _snap; }
 
-		//! @copydoc Widget::setTextAlign
-		virtual void setTextAlign(Align _align);
-		//! @copydoc Widget::getTextAlign
-		virtual Align getTextAlign();
 
-		//! @copydoc Widget::setTextColour
-		virtual void setTextColour(const Colour& _colour);
-		//! @copydoc Widget::getTextColour
-		virtual const Colour& getTextColour();
-
-		//! @copydoc Widget::setFontName
-		virtual void setFontName(const Ogre::String & _font);
-		//! @copydoc Widget::getFontName
-		virtual const Ogre::String & getFontName();
-
-		//! @copydoc Widget::setFontHeight
-		virtual void setFontHeight(uint _height);
-		//! @copydoc Widget::getFontHeight
-		virtual uint getFontHeight();
-
-
-	/*event:*/
+		/*event:*/
 		/** Event : Window button pressed.\n
 			signature : void method(MyGUI::WindowPtr _sender, const std::string& _name)
 			@param _sender widget that called this event
@@ -134,9 +129,10 @@ namespace MyGUI
 
 #endif // MYGUI_DONT_USE_OBSOLETE
 
+		virtual ~Window();
+
 	protected:
 		Window(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
-		virtual ~Window();
 
 		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
 

@@ -3,6 +3,21 @@
 	@author		Albert Semenov
 	@date		11/2007
 	@module
+*//*
+	This file is part of MyGUI.
+	
+	MyGUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Lesser General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	MyGUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License
+	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef __MYGUI_WIDGET_H__
 #define __MYGUI_WIDGET_H__
@@ -144,26 +159,6 @@ namespace MyGUI
 		/** Get widget caption */
 		virtual const Ogre::UTFString & getCaption();
 
-		/** Set widget text font */
-		virtual void setFontName(const std::string & _font);
-		/** Get widget text font name */
-		virtual const std::string & getFontName();
-
-		/** Set widget text font height */
-		virtual void setFontHeight(uint _height);
-		/** Get widget text font height */
-		virtual uint getFontHeight();
-
-		/** Set widget text align */
-		virtual void setTextAlign(Align _align);
-		/** Get widget text align */
-		virtual Align getTextAlign();
-
-		/** Set widget text colour */
-		virtual void setTextColour(const Colour& _colour);
-		/** Get widget text colour */
-		virtual const Colour& getTextColour();
-
 		/** Set widget opacity */
 		void setAlpha(float _alpha);
 		/** Get widget opacity */
@@ -189,6 +184,14 @@ namespace MyGUI
 		{
 			if (mWidgetClient) return mWidgetClient->getEnumerator();
 			return Enumerator<VectorWidgetPtr>(mWidgetChild.begin(), mWidgetChild.end());
+		}
+
+		size_t getChildCount() { return mWidgetChild.size(); }
+
+		WidgetPtr getChildAt(size_t _index)
+		{
+			MYGUI_ASSERT_RANGE(_index, mWidgetChild.size(), "Widget::getChildAt");
+			return mWidgetChild[_index];
 		}
 
 		/** Find widget by name (search recursively through all childs starting from this widget) */
@@ -294,6 +297,17 @@ namespace MyGUI
 		IWidgetCreator * _getIWidgetCreator() { return mIWidgetCreator; }
 
 
+		IntCoord _getTextRegion();
+		IntSize _getTextSize();
+		void _setFontName(const std::string & _font);
+		const std::string & _getFontName();
+		void _setFontHeight(uint _height);
+		uint _getFontHeight();
+		void _setTextAlign(Align _align);
+		Align _getTextAlign();
+		void _setTextColour(const Colour& _colour);
+		const Colour& _getTextColour();
+
 	/*obsolete:*/
 #ifndef MYGUI_DONT_USE_OBSOLETE
 
@@ -313,19 +327,39 @@ namespace MyGUI
 		MYGUI_OBSOLETE("use : void setMaskPick(const std::string & _filename)")
 		void setMaskPeek(const std::string & _filename) { setMaskPick(_filename); }
 
-		MYGUI_OBSOLETE("use : void Widget::setTextColour(const Colour& _colour)")
-		void setColour(const Colour& _colour) { setTextColour(_colour); }
-		MYGUI_OBSOLETE("use : const Colour& Widget::getTextColour()")
-		const Colour& getColour() { return getTextColour(); }
+		MYGUI_OBSOLETE("use : const IntCoord& StaticText::getTextRegion()")
+		IntCoord getTextCoord() { return _getTextRegion(); }
+		MYGUI_OBSOLETE("use : IntSize StaticText::getTextSize()")
+		IntSize getTextSize() { return _getTextSize(); }
 
-		MYGUI_OBSOLETE("use : const IntCoord& ISubWidgetText::getCoord()")
-		IntCoord getTextCoord();
-		MYGUI_OBSOLETE("use : IntSize ISubWidgetText::getTextSize()")
-		IntSize getTextSize();
+		MYGUI_OBSOLETE("use : void StaticText::setTextColour(const Colour& _colour)")
+		void setColour(const Colour& _colour) { _setTextColour(_colour); }
+		MYGUI_OBSOLETE("use : const Colour& StaticText::getTextColour()")
+		const Colour& getColour() { return _getTextColour(); }
+
+		MYGUI_OBSOLETE("use : void StaticText::setFontName(const std::string & _font)")
+		void setFontName(const std::string & _font) { _setFontName(_font); }
+		MYGUI_OBSOLETE("use : const std::string & StaticText::getFontName()")
+		const std::string & getFontName() { return _getFontName(); }
+
+		MYGUI_OBSOLETE("use : void StaticText::setFontHeight(uint _height)")
+		void setFontHeight(uint _height) { _setFontHeight(_height); }
+		MYGUI_OBSOLETE("use : uint StaticText::getFontHeight()")
+		uint getFontHeight() { return _getFontHeight(); }
+
+		MYGUI_OBSOLETE("use : void StaticText::setTextAlign(Align _align)")
+		void setTextAlign(Align _align) { _setTextAlign(_align); }
+		MYGUI_OBSOLETE("use : Align StaticText::getTextAlign()")
+		Align getTextAlign() { return _getTextAlign(); }
+
+		MYGUI_OBSOLETE("use : void StaticText::setTextColour(const Colour& _colour)")
+		void setTextColour(const Colour& _colour) { _setTextColour(_colour); }
+		MYGUI_OBSOLETE("use : const Colour& StaticText::getTextColour()")
+		const Colour& getTextColour() { return _getTextColour(); }
 
 #endif // MYGUI_DONT_USE_OBSOLETE
-	
-	virtual ~Widget();
+
+		virtual ~Widget();
 
 	protected:
 		// все создание только через фабрику

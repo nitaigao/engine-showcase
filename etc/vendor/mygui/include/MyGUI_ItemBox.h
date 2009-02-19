@@ -3,13 +3,28 @@
 	@author		Albert Semenov
 	@date		01/2008
 	@module
+*//*
+	This file is part of MyGUI.
+	
+	MyGUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Lesser General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	MyGUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License
+	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef __MYGUI_ITEM_BOX_H__
 #define __MYGUI_ITEM_BOX_H__
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_DDContainer.h"
-#include "MyGUI_ItemInfo.h"
+#include "MyGUI_IBItemInfo.h"
 #include "MyGUI_Any.h"
 #include "MyGUI_EventPair.h"
 
@@ -18,9 +33,9 @@ namespace MyGUI
 
 	typedef delegates::CDelegate2<ItemBoxPtr, WidgetPtr> EventHandle_ItemBoxPtrWidgetPtr;
 	typedef delegates::CDelegate3<ItemBoxPtr, IntCoord&, bool> EventHandle_ItemBoxPtrIntCoordRefBool;
-	typedef delegates::CDelegate3<ItemBoxPtr, WidgetPtr, const ItemInfo &> EventHandle_ItemBoxPtrWidgetPtrCItemInfoRef;
+	typedef delegates::CDelegate3<ItemBoxPtr, WidgetPtr, const IBDrawItemInfo &> EventHandle_ItemBoxPtrWidgetPtrCIBCellDrawInfoRef;
 	typedef delegates::CDelegate2<ItemBoxPtr, size_t> EventHandle_ItemBoxPtrSizeT;
-	typedef delegates::CDelegate2<ItemBoxPtr, const NotifyItemData &> EventHandle_ItemBoxPtrCNotifyItemDataRef;
+	typedef delegates::CDelegate2<ItemBoxPtr, const IBNotifyItemData &> EventHandle_ItemBoxPtrCIBNotifyCellDataRef;
 
 	class MYGUI_EXPORT ItemBox : public DDContainer
 	{
@@ -94,15 +109,16 @@ namespace MyGUI
 		/** Get item index by item Widget pointer */
 		size_t getIndexByWidget(WidgetPtr _widget);
 
-		// FIXME - хреновое название функции, это виджет, на который бросают или который едет вместе с мышкой?
 		/** Get widget created for drop */
 		WidgetPtr getWidgetDrag() { return mItemDrag; }
 
-		// FIXME - почему возвращаем виджет, только если он виден???
-		/** Get item Widget pointer by item index if it is visible */
+		/** Get item Widget pointer by item index if it is visible
+			@note returned widget can be deleted, so this pointer
+			is valid only at time when you got it and can be invalid
+			next frame
+		*/
 		WidgetPtr getWidgetByIndex(size_t _index);
 
-		// FIXME - хреновое название функции, мы ж не бросание сбрасываем, а сам процесс
 		/** Interrupt drag as if widget was dropped into empty space */
 		void resetDrag() { endDrop(true); }
 
@@ -122,56 +138,56 @@ namespace MyGUI
 
 
 	/*event:*/
-		/** Event : запрос на создание айтема
+		/** Event : request for creating new item
 			signature : void method(MyGUI::ItemBoxPtr _sender, MyGUI::WidgetPtr _item)
 			@param _sender widget that called this event
-			@param _item
+			@param _item widget item pointer
 		*/
-		EventPair<EventHandle_WidgetWidget, EventHandle_ItemBoxPtrWidgetPtr> requestCreateWidgetItem;
+		EventHandle_ItemBoxPtrWidgetPtr requestCreateWidgetItem;
 
-		/** Event : запрос на размер айтема
-			signature : void method(MyGUI::ItemBoxPtr _sender, MyGUI::IntCoord & _coord, bool _drop)
+		/** Event : request for item coordinate
+			signature : void method(MyGUI::ItemBoxPtr _sender, MyGUI::IntCoord & _coord, bool _drag)
 			@param _sender widget that called this event
-			@param _coord
-			@param _drop
+			@param _coord write heer item coordinate
+			@param _drag is this item dragging
 		*/
-		EventPair<EventHandle_WidgetRefCoordBool, EventHandle_ItemBoxPtrIntCoordRefBool> requestCoordWidgetItem;
+		EventHandle_ItemBoxPtrIntCoordRefBool requestCoordItem;
 
-		/** Event : запрос на обновление айтема
-			signature : void method(MyGUI::ItemBoxPtr _sender, MyGUI::WidgetPtr _item, const MyGUI::ItemInfo & _info)
+		/** Event : request for item redraw
+			signature : void method(MyGUI::ItemBoxPtr _sender, MyGUI::WidgetPtr _item, const MyGUI::IBDrawItemInfo & _info)
 			@param _sender widget that called this event
-			@param _item
-			@param _info
+			@param _item widget item pointer
+			@param _info item info
 		*/
-		EventPair<EventHandle_WidgetWidgetItemInfo, EventHandle_ItemBoxPtrWidgetPtrCItemInfoRef> requestUpdateWidgetItem;
+		EventHandle_ItemBoxPtrWidgetPtrCIBCellDrawInfoRef requestDrawItem;
 
-		/** Event : двойной щелчек мыши или Enter на елементе
+		/** Event : doubleclick or enter pressed on item
 			signature : void method(MyGUI::ItemBoxPtr _sender, size_t _index)
 			@param _sender widget that called this event
-			@param _index
+			@param _index item index
 		*/
-		EventPair<EventHandle_WidgetSizeT, EventHandle_ItemBoxPtrSizeT> eventSelectItemAccept;
+		EventHandle_ItemBoxPtrSizeT eventSelectItemAccept;
 
-		/** Event : изменилась позиция выделенного элемента
+		/** Event : position of selected item was changed
 			signature : void method(MyGUI::ItemBoxPtr _sender, size_t _index)
 			@param _sender widget that called this event
-			@param _index
+			@param _index item index
 		*/
-		EventPair<EventHandle_WidgetSizeT, EventHandle_ItemBoxPtrSizeT> eventChangeItemPosition;
+		EventHandle_ItemBoxPtrSizeT eventChangeItemPosition;
 
-		/** Event : щелчек мыши на элементе
+		/** Event : click on item
 			signature : void method(MyGUI::ItemBoxPtr _sender, size_t _index)
 			@param _sender widget that called this event
-			@param _index
+			@param _index item index
 		*/
-		EventPair<EventHandle_WidgetSizeT, EventHandle_ItemBoxPtrSizeT> eventMouseItemActivate;
+		EventHandle_ItemBoxPtrSizeT eventMouseItemActivate;
 
-		/** Event : событие связанной с конкретным айтемом
-			signature : void method(MyGUI::ItemBoxPtr _sender, const MyGUI::NotifyItemData & _info)
+		/** Event : notify about event in item widget
+			signature : void method(MyGUI::ItemBoxPtr _sender, const MyGUI::IBNotifyItemData & _info)
 			@param _sender widget that called this event
-			@param _info
+			@param _info info about item notify
 		*/
-		EventPair<EventHandle_WidgetNotifyItemData, EventHandle_ItemBoxPtrCNotifyItemDataRef> eventNotifyItem;
+		EventHandle_ItemBoxPtrCIBNotifyCellDataRef eventNotifyItem;
 
 
 	/*obsolete:*/
@@ -211,6 +227,7 @@ namespace MyGUI
 
 #endif // MYGUI_DONT_USE_OBSOLETE
 
+	virtual ~ItemBox();
 
 	protected:
 		struct ItemDataInfo
@@ -224,7 +241,6 @@ namespace MyGUI
 		typedef std::vector<ItemDataInfo> VectorItemInfo;
 
 		ItemBox(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
-		virtual ~ItemBox();
 
 		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
 
@@ -252,7 +268,7 @@ namespace MyGUI
 
 		virtual void removeDropItems();
 		virtual void updateDropItems();
-		virtual void updateDropItemsState(const DropWidgetState & _state);
+		virtual void updateDropItemsState(const DDWidgetState & _state);
 
 		// Обновляет данные о айтемах, при изменении размеров
 		void updateMetrics();
@@ -338,6 +354,8 @@ namespace MyGUI
 		IntPoint mPointDragOffset;
 
 		bool mAlignVert;
+
+		std::string mDragLayer;
 
 	}; // class ItemBox
 

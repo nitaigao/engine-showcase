@@ -23,8 +23,7 @@ void RootUIController::Initialize( )
 			.def( "getDimensions", &MyGUI::Widget::getClientCoord )
 			.def( "setPosition", ( void( MyGUI::Widget::* )( int, int ) ) &MyGUI::Widget::setPosition )
 			.def( "getType", &MyGUI::Widget::getClassTypeName )
-			.def( "hide", &MyGUI::Widget::hide )
-			.def( "show", &MyGUI::Widget::show )
+			.def( "setVisible", &MyGUI::Widget::setVisible )
 			.def( "asButton", &RootUIController::AsButton )
 			.def( "asComboBox", &RootUIController::AsComboBox ),
 
@@ -33,9 +32,10 @@ void RootUIController::Initialize( )
 			.def( "getChecked", &Button::getStateCheck ),
 
 		class_< ComboBox, Widget >( "ComboBox" )
-			.def( "getIndexSelected", &ComboBox::getIndexSelected )
-			.def( "addItem", &ComboBox::addItem )
-			.def( "getItemAt", &ComboBox::getItemNameAt ),
+			.def( "addItem", ( void ( ComboBox::* ) ( const std::string&, const std::string& ) ) &ComboBox::addItem )
+			.def( "getValueAt", ( const std::string& ( ComboBox::* ) ( int ) ) &ComboBox::getItemNameAt )
+			.def( "getSelectedIndex", &ComboBox::getIndexSelected )
+			.def( "setSelectedIndex", &ComboBox::setIndexSelected ),
 
 		class_< IntCoord >( "IntCoord" )
 			.def_readonly( "x" , &MyGUI::IntCoord::left )

@@ -3,6 +3,21 @@
 	@author		Georgiy Evmenov
 	@date		08/2008
 	@module
+*//*
+	This file is part of MyGUI.
+	
+	MyGUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Lesser General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	MyGUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License
+	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef __MYGUI_DELEGATE_MANAGER_H__
 #define __MYGUI_DELEGATE_MANAGER_H__
@@ -119,20 +134,20 @@ namespace MyGUI
 		//EventHandle_WidgetVoid eventInvalideContainer;
 
 		//// event : запрос на начало дропа
-		//// signature : void method(MyGUI::WidgetPtr _sender, const MyGUI::ItemDropInfo& _info, bool & _result)
-		//EventHandle_WidgetCItemDropInfoRefBoolRef eventStartDrop;
+		//// signature : void method(MyGUI::WidgetPtr _sender, const MyGUI::DDItemInfo& _info, bool & _result)
+		//EventHandle_WidgetCItemDropInfoRefBoolRef eventStartDrag;
 
 		//// event : запрос на дроп айтема
-		//// signature : void method(MyGUI::WidgetPtr _sender, const MyGUI::ItemDropInfo& _info, bool & _result)
+		//// signature : void method(MyGUI::WidgetPtr _sender, const MyGUI::DDItemInfo& _info, bool & _result)
 		//EventHandle_WidgetCItemDropInfoRefBoolRef eventRequestDrop;
 
 		//// event : завершение дропа
-		//// signature : void method(MyGUI::WidgetPtr _sender, const MyGUI::ItemDropInfo& _info, bool _result)
-		//EventHandle_WidgetCItemDropInfoRefBool eventEndDrop;
+		//// signature : void method(MyGUI::WidgetPtr _sender, const MyGUI::DDItemInfo& _info, bool _result)
+		//EventHandle_WidgetCItemDropInfoRefBool eventDropResult;
 
 		//// event : текущее состояние дропа
 		//// signature : void method(MyGUI::WidgetPtr _sender, DropState _state)
-		//EventHandle_WidgetDropState eventDropState;
+		//EventHandle_WidgetDropState eventChangeDDState;
 
 		DELEGATE_MANAGER_EVENT1(eventToolTip, const MyGUI::ToolTipInfo & _info);
 

@@ -23,6 +23,7 @@ ScriptManager::ScriptManager( Configuration* configuration )
 {
 	_configuration = configuration;
 	_masterState = lua_open( );
+	luaL_openlibs( _masterState );
 	luabind::open( _masterState );
 
 	_eventHandlers = new EventHandlerList( );
@@ -68,6 +69,8 @@ ScriptManager::ScriptManager( Configuration* configuration )
 
 		class_< Configuration >( "Config" )
 			.property( "isFullScreen", &Configuration::IsFullScreen, &Configuration::SetFullScreen )
+			.property( "displayWidth", &Configuration::GetDisplayWidth, &Configuration::SetDisplayWidth )
+			.property( "displayHeight", &Configuration::GetDisplayHeight, &Configuration::SetDisplayHeight )
 			.property( "availableVideoModes", &Configuration::GetAvailableVideoModes, &Configuration::SetAvailableVideoModes, return_stl_iterator )
 
 		//class_< std::vector< std::string > >( "StringVector" )

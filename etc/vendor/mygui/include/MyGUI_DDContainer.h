@@ -3,31 +3,39 @@
 	@author		Albert Semenov
 	@date		10/2008
 	@module
+*//*
+	This file is part of MyGUI.
+	
+	MyGUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Lesser General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	MyGUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License
+	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef __MYGUI_DDCONTAINER_H__
 #define __MYGUI_DDCONTAINER_H__
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Widget.h"
-#include "MyGUI_ItemDropInfo.h"
+#include "MyGUI_DDItemInfo.h"
 #include "MyGUI_EventPair.h"
 
 namespace MyGUI
 {
 
-	//OBSOLETE
-	//typedef delegates::CDelegate2<WidgetPtr, VectorDropWidgetInfo&> EventHandle_WidgetRefDropWidgetInfo;
-	//typedef delegates::CDelegate3<WidgetPtr, VectorDropWidgetInfo&, const DropWidgetState&> EventHandle_WidgetRefDropWidgetInfoState;
-	typedef delegates::CDelegate3<WidgetPtr, const ItemDropInfo&, bool&> EventHandle_WidgetCItemDropInfoRefBoolRef;
-	typedef delegates::CDelegate3<WidgetPtr, const ItemDropInfo&, bool> EventHandle_WidgetCItemDropInfoRefBool;
-	typedef delegates::CDelegate2<WidgetPtr, DropItemState> EventHandle_WidgetDropState;
-
 	typedef delegates::CDelegate1<DDContainerPtr> EventHandle_DDContainerPtr;
 	typedef delegates::CDelegate3<DDContainerPtr, WidgetPtr&, IntCoord&> EventHandle_DDContainerPtrWidgetPtrRefIntCoordRef;
-	typedef delegates::CDelegate3<DDContainerPtr, WidgetPtr, const DropWidgetState&> EventHandle_DDContainerPtrWidgetPtrCDropWidgetStateRef;
-	typedef delegates::CDelegate3<DDContainerPtr, const ItemDropInfo&, bool&> EventHandle_DDContainerPtrCItemDropInfoRefBoolRef;
-	typedef delegates::CDelegate3<DDContainerPtr, const ItemDropInfo&, bool> EventHandle_DDContainerPtrCItemDropInfoRefBool;
-	typedef delegates::CDelegate2<DDContainerPtr, DropItemState> EventHandle_DDContainerPtrDropState;
+	typedef delegates::CDelegate3<DDContainerPtr, WidgetPtr, const DDWidgetState&> EventHandle_DDContainerPtrWidgetPtrCDDWidgetStateRef;
+	typedef delegates::CDelegate3<DDContainerPtr, const DDItemInfo&, bool&> EventHandle_DDContainerPtrCDDItemInfoRefBoolRef;
+	typedef delegates::CDelegate3<DDContainerPtr, const DDItemInfo&, bool> EventHandle_DDContainerPtrCDDItemInfoRefBool;
+	typedef delegates::CDelegate2<DDContainerPtr, DDItemState> EventHandle_DDContainerPtrDDItemState;
 
 
 	class MYGUI_EXPORT DDContainer : public Widget
@@ -45,54 +53,47 @@ namespace MyGUI
 		bool getNeedDragDrop() { return mNeedDragDrop; }
 
 	/*event:*/
-		/** Event : запрос на начало дропа
-			signature : void method(MyGUI::DDContainerPtr _sender, const MyGUI::ItemDropInfo& _info, bool & _result)
+		/** Event : request for start drag
+			signature : void method(MyGUI::DDContainerPtr _sender, const MyGUI::DDItemInfo& _info, bool & _result)
 			@param _sender widget that called this event
-			@param _info
-			@param _result
+			@param _info information about DDContainers
+			@param _result write here true if container can be draggedor false if it can't
 		*/
-		EventPair<EventHandle_WidgetCItemDropInfoRefBoolRef, EventHandle_DDContainerPtrCItemDropInfoRefBoolRef> eventStartDrop;
+		EventHandle_DDContainerPtrCDDItemInfoRefBoolRef eventStartDrag;
 
-		/** Event : запрос на дроп айтема
-			signature : void method(MyGUI::DDContainerPtr _sender, const MyGUI::ItemDropInfo& _info, bool & _result)
+		/** Event : request for start drag (moving mouse over container, but not dropped yet)
+			signature : void method(MyGUI::DDContainerPtr _sender, const MyGUI::DDItemInfo& _info, bool & _result)
 			@param _sender widget that called this event
-			@param _info
-			@param _result
+			@param _info information about DDContainers
+			@param _result write here true if container accept dragged widget or false if it isn't
 		*/
-		EventPair<EventHandle_WidgetCItemDropInfoRefBoolRef, EventHandle_DDContainerPtrCItemDropInfoRefBoolRef > eventRequestDrop;
+		EventHandle_DDContainerPtrCDDItemInfoRefBoolRef eventRequestDrop;
 
-		/** Event : завершение дропа
-			signature : void method(MyGUI::DDContainerPtr _sender, const MyGUI::ItemDropInfo& _info, bool _result)
+		/** Event : end drag (drop)
+			signature : void method(MyGUI::DDContainerPtr _sender, const MyGUI::DDItemInfo& _info, bool _result)
 			@param _sender widget that called this event
-			@param _info
-			@param _result
+			@param _info information about DDContainers
+			@param _result if true then drop was successfull
 		*/
-		EventPair<EventHandle_WidgetCItemDropInfoRefBool, EventHandle_DDContainerPtrCItemDropInfoRefBool> eventEndDrop;
+		EventHandle_DDContainerPtrCDDItemInfoRefBool eventDropResult;
 
-		/** Event : текущее состояние дропа
-			signature : void method(MyGUI::DDContainerPtr _sender, MyGUI::DropState _state)
+		/** Event : drag'n'drop state changed
+			signature : void method(MyGUI::DDContainerPtr _sender, MyGUI::DDItemState _state)
 			@param _sender widget that called this event
-			@param _state
+			@param _state new state
 		*/
-		EventPair<EventHandle_WidgetDropState, EventHandle_DDContainerPtrDropState> eventDropState;
+		EventHandle_DDContainerPtrDDItemState eventChangeDDState;
 
-		/** Event : запрашиваем виджет для дропа
+		/** Event : [not used] request widget for dragging
 			signature : void method(MyGUI::DDContainerPtr _sender, MyGUI::WidgetPtr& _item, MyGUI::IntCoord& _dimension)
 			@param _sender widget that called this event
-			@param _items
+			@param _item write widget pointer here
+			@param _dimension write widget coordinate here
 		*/
-		/*EventPair<EventHandle_WidgetRefDropWidgetInfo, */EventHandle_DDContainerPtrWidgetPtrRefIntCoordRef/*>*/ requestDropWidgetInfo;
-
-		/** Event : обновить виджеты дропа
-			signature : void method(MyGUI::DDContainerPtr _sender, MyGUI::WidgetPtr _item, const MyGUI::DropWidgetState & _state)
-			@param _sender widget that called this event
-			@param _items
-			@param _state
-		*/
-		/*EventPair<EventHandle_WidgetRefDropWidgetInfoState, */EventHandle_DDContainerPtrWidgetPtrCDropWidgetStateRef/*>*/ eventUpdateDropState;
+		EventHandle_DDContainerPtrWidgetPtrRefIntCoordRef requestDragWidgetInfo;
 
 
-		/*internal:*/
+	/*internal:*/
 		// метод для установления стейта айтема
 		virtual void _setContainerItemInfo(size_t _index, bool _set, bool _accept) { }
 
@@ -102,10 +103,18 @@ namespace MyGUI
 		*/
 		EventPair<EventHandle_WidgetVoid, EventHandle_DDContainerPtr> _eventInvalideContainer;
 
+		/** Event : !!обновить виджеты дропа DD_FIXME наверное internal
+			signature : void method(MyGUI::DDContainerPtr _sender, MyGUI::WidgetPtr _item, const MyGUI::DDWidgetState & _state)
+			@param _sender widget that called this event
+			@param _items
+			@param _state
+		*/
+		EventHandle_DDContainerPtrWidgetPtrCDDWidgetStateRef eventUpdateDropState;
+
+		virtual ~DDContainer();
 
 	protected:
 		DDContainer(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
-		virtual ~DDContainer();
 
 		void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
 
@@ -119,7 +128,7 @@ namespace MyGUI
 
 		virtual void removeDropItems();
 		virtual void updateDropItems();
-		virtual void updateDropItemsState(const DropWidgetState & _state);
+		virtual void updateDropItemsState(const DDWidgetState & _state);
 
 		void mouseDrag();
 		void mouseButtonReleased(MouseButton _id);
@@ -140,12 +149,11 @@ namespace MyGUI
 		WidgetPtr mOldDrop;
 		WidgetPtr mCurrentSender;
 
-		ItemDropInfo mDropInfo;
+		DDItemInfo mDropInfo;
 
 		size_t mDropSenderIndex;
 
 		// список виджетов для дропа
-		//VectorDropWidgetInfo mDropItems;
 		WidgetPtr mDropItem;
 		IntCoord mDropDimension;
 

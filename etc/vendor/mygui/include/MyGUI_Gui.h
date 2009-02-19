@@ -3,6 +3,21 @@
 	@author		Albert Semenov
 	@date		11/2007
 	@module
+*//*
+	This file is part of MyGUI.
+	
+	MyGUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Lesser General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	MyGUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License
+	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef __MYGUI_GUI_H__
 #define __MYGUI_GUI_H__
@@ -139,14 +154,14 @@ namespace MyGUI
 		/** OIS backend for injectMouseMove(int _absx, int _absy, int _absz) */
 		bool injectMouseMove( const OIS::MouseEvent & _arg) { return injectMouseMove(_arg.state.X.abs, _arg.state.Y.abs, _arg.state.Z.abs); }
 		/** OIS backend injectMousePress(int _absx, int _absy, MouseButton _id) */
-		bool injectMousePress( const OIS::MouseEvent & _arg , OIS::MouseButtonID _id ) { return injectMousePress(_arg.state.X.abs, _arg.state.Y.abs, MouseButton(_id)); }
+		bool injectMousePress( const OIS::MouseEvent & _arg , OIS::MouseButtonID _id ) { return injectMousePress(_arg.state.X.abs, _arg.state.Y.abs, MouseButton::Enum(_id)); }
 		/** OIS backend for injectMouseRelease(int _absx, int _absy, MouseButton _id) */
-		bool injectMouseRelease( const OIS::MouseEvent & _arg , OIS::MouseButtonID _id ) { return injectMouseRelease(_arg.state.X.abs, _arg.state.Y.abs, MouseButton(_id)); }
+		bool injectMouseRelease( const OIS::MouseEvent & _arg , OIS::MouseButtonID _id ) { return injectMouseRelease(_arg.state.X.abs, _arg.state.Y.abs, MouseButton::Enum(_id)); }
 
 		/** OIS backend for injectKeyPress(KeyCode _key) */
-		bool injectKeyPress(const OIS::KeyEvent & _arg) { return injectKeyPress((KeyCode)_arg.key, _arg.text); }
+		bool injectKeyPress(const OIS::KeyEvent & _arg) { return injectKeyPress(KeyCode::Enum(_arg.key), _arg.text); }
 		/** OIS backend for injectKeyRelease(KeyCode _key) */
-		bool injectKeyRelease(const OIS::KeyEvent & _arg) { return injectKeyRelease((KeyCode)_arg.key); }
+		bool injectKeyRelease(const OIS::KeyEvent & _arg) { return injectKeyRelease(KeyCode::Enum(_arg.key)); }
 #endif
 
 		// mirror of WidgetManager method

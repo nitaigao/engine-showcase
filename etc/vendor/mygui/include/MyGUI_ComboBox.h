@@ -3,6 +3,21 @@
 	@author		Albert Semenov
 	@date		12/2007
 	@module
+*//*
+	This file is part of MyGUI.
+	
+	MyGUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Lesser General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	MyGUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License
+	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef __MYGUI_COMBO_BOX_H__
 #define __MYGUI_COMBO_BOX_H__
@@ -33,9 +48,10 @@ namespace MyGUI
 		size_t getItemCount() { return mList->getItemCount(); }
 
 		//! Insert an item into a array at a specified position
-		void insertItemAt(size_t _index, const Ogre::UTFString & _name, Any _data = Any::Null);
+		void insertItemAt(size_t _index, const Ogre::UTFString & _name, Any _data = Any::Null); 
 
 		//! Add an item to the end of a array
+		void addItem(const std::string & _name, const std::string& _data) { this->addItem(Ogre::UTFString(_name), Any( _data )); }
 		void addItem(const Ogre::UTFString & _name, Any _data = Any::Null) { return insertItemAt(ITEM_NONE, _name, _data); }
 
 		//! Remove item at a specified position
@@ -56,7 +72,7 @@ namespace MyGUI
 		// манипуляции выделениями
 
 		//! Get index of selected item (ITEM_NONE if none selected)
-		size_t getIndexSelected() { return mItemIndex; }
+		int getIndexSelected() { return mItemIndex; }
 
 		//! Select specified _index
 		void setIndexSelected(size_t _index);
@@ -76,6 +92,13 @@ namespace MyGUI
 
 		//! Get item data from specified position
 		template <typename ValueType>
+		ValueType * getItemDataAt(size_t _index)
+		{
+			return mList->getItemDataAt<ValueType>(_index, true);
+		}
+
+		//! Get item data from specified position
+		template <typename ValueType>
 		ValueType * getItemDataAt(size_t _index, bool _throw = true)
 		{
 			return mList->getItemDataAt<ValueType>(_index, _throw);
@@ -89,6 +112,7 @@ namespace MyGUI
 		void setItemNameAt(size_t _index, const Ogre::UTFString & _name);
 
 		//! Get item name from specified position
+		const std::string & getItemNameAt(int _index) { return getItemNameAt(size_t(_index)).asUTF8(); }
 		const Ogre::UTFString & getItemNameAt(size_t _index) { return mList->getItemNameAt(_index); }
 
 
@@ -171,8 +195,8 @@ namespace MyGUI
 
 #endif // MYGUI_DONT_USE_OBSOLETE
 
-		virtual ~ComboBox();
-		
+	virtual ~ComboBox();
+
 	protected:
 		ComboBox(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
 
@@ -208,6 +232,7 @@ namespace MyGUI
 		bool mModeDrop;
 		bool mDropMouse;
 		bool mShowSmooth;
+		bool mManualList;
 
 	}; // class MYGUI_EXPORT ComboBox : public Edit
 
