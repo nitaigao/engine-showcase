@@ -64,10 +64,11 @@ namespace MyGUI
 	class MYGUI_EXPORT Any
 	{
 
-	private:
-		struct AnyEmpty { };
+	//private:
+		
 
 	public:
+		struct AnyEmpty { };
 		static AnyEmpty Null;
 
 	public:

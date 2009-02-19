@@ -3,6 +3,8 @@
 #include "../../Scripting/ScriptManager.h"
 #include "../../Events/EventManager.h"
 
+#include "MyGUI_Any.h"
+
 void RootUIController::Initialize( )
 {
 	lua_State* luaState = ScriptManager::GetInstance( )->LoadScript( "/data/interface/interface.lua" );
@@ -32,7 +34,7 @@ void RootUIController::Initialize( )
 
 		class_< ComboBox, Widget >( "ComboBox" )
 			.def( "getIndexSelected", &ComboBox::getIndexSelected )
-			//.def( "addItem", &ComboBox::addItem )
+			.def( "addItem", &ComboBox::addItem )
 			.def( "getItemAt", &ComboBox::getItemNameAt ),
 
 		class_< IntCoord >( "IntCoord" )
@@ -45,6 +47,7 @@ void RootUIController::Initialize( )
 			.def( constructor< std::string >( ) ),
 
 		class_< Any >( "Any" )
+			.def( constructor<>( ) )
 	];
 
 	lua_pcall( luaState, 0, 0, 0 );
