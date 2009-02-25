@@ -1,4 +1,4 @@
-#include <cppunit/BriefTestProgressListener.h>
+/*#include <cppunit/BriefTestProgressListener.h>
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/TestResult.h>
@@ -32,7 +32,7 @@ int main (int argc, char* argv[])
 	// Add the top suite to the test runner
 	CPPUNIT_NS::TestRunner runner;
 
-	/*runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::EventsSuite( ) ).makeTest( ) );
+	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::EventsSuite( ) ).makeTest( ) );
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::GraphicsSuite( ) ).makeTest( ) );
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::InputSuite( ) ).makeTest( ) );
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::LoggingSuite( ) ).makeTest( ) );
@@ -40,7 +40,7 @@ int main (int argc, char* argv[])
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::TypesSuite( ) ).makeTest( ) );
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::ViewSuite( ) ).makeTest( ) );
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::UtilitySuite( ) ).makeTest( ) );
-	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::IOSuite( ) ).makeTest( ) );*/
+	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::IOSuite( ) ).makeTest( ) );
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::SystemSuite( ) ).makeTest( ) );
 
 	runner.run( controller );
@@ -50,4 +50,13 @@ int main (int argc, char* argv[])
 	outputter.write( ); 
 
 	return result.wasSuccessful( ) ? 0 : 1;
+}*/
+
+#include "SpecRunner.h"
+#include "Logic/LevelCoordinator_Specs.hpp"
+
+int main( int argc, char* argv[ ] )
+{
+	CppSpec::SpecRunner::runSpecifications( argc, argv );
+	return 0;
 }

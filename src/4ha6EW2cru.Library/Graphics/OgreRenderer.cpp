@@ -108,7 +108,7 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 		_gui = new Gui( );
 		_gui->initialise( _root->getAutoCreatedWindow( ), "/data/interface/core/core.xml" );
 
-		_interfaceController = new RootUIController( _gui );
+		_interfaceController = new Interface( _gui );
 		_interfaceController->Initialize( );
 	}
 

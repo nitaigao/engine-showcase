@@ -61,7 +61,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="OgreMain_d.lib  physfsd.lib MyGui_d.lib"
-				AdditionalLibraryDirectories="../../etc/vendor/physfs;../../etc/vendor/lua;../../etc/vendor/mygui/lib;../../etc/vendor/luabind/lib;../../etc/vendor/ois/lib;../../etc/vendor/ogre/lib"
+				AdditionalLibraryDirectories="../../etc/vendor/physfs;../../etc/vendor/lua;../../etc/vendor/mygui/lib;../../etc/vendor/luabind/lib;../../etc/vendor/ois/lib;../../etc/vendor/ogre/lib;../../etc/vendor/boost/lib"
 				IgnoreDefaultLibraryNames=""
 			/>
 			<Tool
@@ -314,6 +314,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Graphics\Interface.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\Interface.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Exceptions\IntializeFailedException.hpp"
 			>
 		</File>
@@ -403,14 +411,6 @@
 		</File>
 		<File
 			RelativePath=".\Utility\OgreMax\ProgressCalculator.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\UI\RootUIController.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\UI\RootUIController.h"
 			>
 		</File>
 		<File
