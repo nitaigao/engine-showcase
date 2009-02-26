@@ -7,27 +7,33 @@ using namespace MyGUI;
 #include <luabind/luabind.hpp>
 using namespace luabind;
 
-#include "../Scripting/Script.h"
+#include "IInterface.hpp"
 
-class Interface : MyGUI::IUnlinkWidget
+#include "../Events/IEvent.hpp"
+#include "../Events/EventData.hpp"
+
+class Interface : MyGUI::IUnlinkWidget, public IInterface
 {
 	typedef std::map< const std::string, object* > WidgetUserData;
 
 public:
 
-	Interface( Gui*  gui )
-		: _gui( gui )
+	Interface( Ogre::Root* ogreRoot )
+		: _ogreRoot( ogreRoot )
 	{
-
+		_gui = new Gui( );
 	}
 
 	void Initialize( );
+	void Update( const float deltaMilliseconds ) const;
 
-	virtual ~Interface( ) { };
+	virtual ~Interface( );
 
 	virtual void _unlinkWidget ( WidgetPtr widget );
 
 private:
+
+	/* -- Script Helpers -- */
 
 	/*! Loads a UI Component for Rendering */
 	static void LoadComponent( const std::string componentName );
@@ -59,8 +65,26 @@ private:
 	/*! Casts a widget to a ComboBox */
 	static inline ComboBoxPtr AsComboBox( WidgetPtr widget ) { return static_cast< ComboBoxPtr >( widget ); };
 
+	/* -- Internal Event Handlers --*/
+
+	/*! Handler to intercept OnMouseMoved Events */
+	void OnMouseMoved( const IEvent* event );
+
+	/*! Handler to intercept OnMouseMoved Events */
+	void OnMousePressed( const IEvent* event );
+
+	/*! Handler to intercept OnMouseMoved Events */
+	void OnMouseReleased( const IEvent* event );
+
+	/*! Handler to intercept OnKeyUp Events */
+	void OnKeyUp( const IEvent* event );
+
+	/*! Handler to intercept OnKeyDown Events */
+	void OnKeyDown( const IEvent* event );
+
+
+	Ogre::Root* _ogreRoot;
 	Gui* _gui;
-	Script* _script;
 
 };
 

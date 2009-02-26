@@ -11,7 +11,7 @@
 /*!
 	Manages all Events distributed thoughout the Game
 */
-class EventManager
+class EventManager 
 {
 
 	typedef std::queue< const IEvent* > EventQueue;

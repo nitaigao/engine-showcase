@@ -61,9 +61,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib mockpp_44d.lib cppunitd.lib OgreMain_d.lib OIS_static_d.lib luad.lib luabind.lib MyGUI_d.lib cppspec_d.lib"
+				AdditionalDependencies="winmm.lib mockpp_44d.lib cppunitd.lib OgreMain_d.lib OIS_static_d.lib luad.lib luabind.lib MyGUI_d.lib cppspec_d.lib yamlcppd.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/ogre/lib;../../etc/vendor/cppspec/lib"
+				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/ogre/lib;../../etc/vendor/cppspec/lib;../../etc/vendor/yaml/lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="cppunit.lib mockpp_44.lib OgreMain.lib OIS_static.lib lua.lib libluabind.lib MyGUI.lib"
+				AdditionalDependencies="cppunit.lib mockpp_44.lib OgreMain.lib OIS_static.lib lua.lib libluabind.lib MyGUI.lib yamlcpp.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/ogre/lib"
 				GenerateDebugInformation="true"
@@ -288,6 +288,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Logic\GameState_Tests.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Logic\GameState_Tests.h"
+			>
+		</File>
+		<File
 			RelativePath=".\View\HumanViewFixture.cpp"
 			>
 		</File>
@@ -312,7 +320,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Logic\LevelCoordinator_Specs.hpp"
+			RelativePath=".\Logic\LevelLoader_Tests.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Logic\LevelLoader_Tests.h"
 			>
 		</File>
 		<File
@@ -325,6 +337,14 @@
 		</File>
 		<File
 			RelativePath=".\main.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Mocks\Mock_LevelLoader.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Mocks\Mock_World.hpp"
 			>
 		</File>
 		<File

@@ -3,9 +3,6 @@
 
 #include "IRenderer.hpp"
 
-#include "../Events/IEvent.hpp"
-#include "../Events/EventData.hpp"
-
 #include "Ogre.h"
 #include "MyGUI.h"
 
@@ -30,7 +27,7 @@ public:
 		, _scene( 0 )
 		, _badFactory( 0 )
 		, _badStubCreated( false )
-		, _interfaceController( 0 )
+		, _interface( 0 )
 	{
 
 	}
@@ -46,21 +43,6 @@ public:
 
 private:
 
-	/*! Handler to intercept OnMouseMoved Events */
-	void OnMouseMoved( const IEvent* event );
-
-	/*! Handler to intercept OnMouseMoved Events */
-	void OnMousePressed( const IEvent* event );
-
-	/*! Handler to intercept OnMouseMoved Events */
-	void OnMouseReleased( const IEvent* event );
-
-	/*! Handler to intercept OnKeyUp Events */
-	void OnKeyUp( const IEvent* event );
-
-	/*! Handler to intercept OnKeyDown Events */
-	void OnKeyDown( const IEvent* event );
-
 	void LoadResources( );
 
 	Ogre::Root* _root;
@@ -68,7 +50,7 @@ private:
 	bool _isInitialized;
 	bool _badStubCreated;
 
-	Interface* _interfaceController;
+	IInterface* _interface;
 	OgreMax::OgreMaxScene* _scene;
 	Ogre::ArchiveFactory* _badFactory;
 

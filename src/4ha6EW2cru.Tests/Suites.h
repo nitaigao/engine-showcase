@@ -13,6 +13,7 @@ public:
 	static std::string InputSuite( ) { return "Input"; };
 	static std::string IOSuite( ) { return "IO"; };
 	static std::string LoggingSuite( ) { return "Logging"; };
+	static std::string LogicSuite( ) { return "Logic"; };
 	static std::string ScriptingSuite( ) { return "Scripting"; };
 	static std::string SystemSuite( ) { return "System"; };
 	static std::string ViewSuite( ) { return "View"; };

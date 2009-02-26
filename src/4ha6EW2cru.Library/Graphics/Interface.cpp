@@ -5,8 +5,32 @@
 
 #include "MyGUI_Any.h"
 
+Interface::~Interface( )
+{
+	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_PRESSED, this, &Interface::OnMousePressed );
+	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_MOVED, this, &Interface::OnMouseMoved );
+	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_RELEASED, this, &Interface::OnMouseReleased );
+	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_DOWN, this, &Interface::OnKeyDown );
+	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_UP, this, &Interface::OnKeyUp );
+
+	if ( _gui != 0 )
+	{
+		_gui->shutdown( );
+		delete _gui;
+		_gui = 0;
+	}
+}
+
 void Interface::Initialize( )
 {
+	_gui->initialise( _ogreRoot->getAutoCreatedWindow( ), "/data/interface/core/core.xml" );
+
+	EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_PRESSED, this, &Interface::OnMousePressed );
+	EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_MOVED, this, &Interface::OnMouseMoved );
+	EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_RELEASED, this, &Interface::OnMouseReleased );
+	EventManager::GetInstance( )->AddEventListener( INPUT_KEY_DOWN, this, &Interface::OnKeyDown );
+	EventManager::GetInstance( )->AddEventListener( INPUT_KEY_UP, this, &Interface::OnKeyUp );
+
 	lua_State* luaState = ScriptManager::GetInstance( )->LoadScript( "/data/interface/interface.lua" );
 
 	module( luaState )
@@ -53,6 +77,11 @@ void Interface::Initialize( )
 	lua_pcall( luaState, 0, 0, 0 );
 
 	MyGUI::WidgetManager::getInstancePtr( )->registerUnlinker( this );
+}
+
+void Interface::Update( const float deltaMilliseconds ) const
+{
+	_gui->injectFrameEntered( deltaMilliseconds );
 }
 
 void Interface::LoadComponent( const std::string componentName )
@@ -125,4 +154,34 @@ void Interface::OnMouseReleased( WidgetPtr widget, int left, int top, MouseButto
 			eventHandler( left, top );
 		}
 	}
+}
+
+void Interface::OnMouseMoved( const IEvent* event )
+{
+	MouseEventData* eventData = static_cast< MouseEventData* >( event->GetEventData( ) );
+	_gui->injectMouseMove( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, eventData->GetMouseState( ).Z.abs );
+}
+
+void Interface::OnMousePressed( const IEvent* event )
+{
+	MouseEventData* eventData = static_cast< MouseEventData* >( event->GetEventData( ) );
+	_gui->injectMousePress( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, MyGUI::MouseButton::Enum( eventData->GetMouseButtonId( ) ) );
+}
+
+void Interface::OnMouseReleased( const IEvent* event )
+{
+	MouseEventData* eventData = static_cast< MouseEventData* >( event->GetEventData( ) );
+	_gui->injectMouseRelease( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, MyGUI::MouseButton::Enum( eventData->GetMouseButtonId( ) ) );
+}
+
+void Interface::OnKeyUp( const IEvent* event )
+{
+	KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
+	_gui->injectKeyRelease( MyGUI::KeyCode::Enum( eventData->GetKeyCode( ) ) );
+}
+
+void Interface::OnKeyDown( const IEvent* event )
+{
+	KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
+	_gui->injectKeyPress( MyGUI::KeyCode::Enum( eventData->GetKeyCode( ) ) );
 }

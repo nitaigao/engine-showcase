@@ -1,0 +1,89 @@
+
+static const int MAX_MATRICES = 48; 
+float3x4    g_mLocalMatrixArray[MAX_MATRICES] : WorldMatrixArray;
+
+float4x4    g_mWorld;
+float4x4    g_mWorldViewProj;
+float4x4    g_mWorldInvTranspose;
+
+// support for one dir light
+float4 g_vLightDir : Direction  = {0.0f, 1.0f, 0.0f, 1.0f}; // world space
+float4 g_cLightColor : LightDiffuse = {1.0f, 1.0f, 1.0f, 1.0f};
+
+// support for diffuse mat
+float4 g_cAmbientColor	: MaterialAmbient = {0.0f, 0.0f, 0.0f, 1.0f};
+float4 g_cDiffuseColor	: MaterialDiffuse = {1.0f, 1.0f, 1.0f, 1.0f};
+
+// Support for one diffuse tex at time, no shadows
+sampler g_sSamplerZero : TEXUNIT0;   
+
+
+struct VS_INPUT
+{
+    float4  Pos             : POSITION;
+    float3  Normal          : NORMAL;
+    float3  Tex0            : TEXCOORD0;
+	float4  BlendWeights    : TEXCOORD5; // set offset (same as instancing)
+    float4  BlendIndices    : TEXCOORD6;
+};
+
+struct VS_OUTPUT
+{
+    float4  Pos     : POSITION;
+    float4  Diffuse : COLOR;
+    float2  Tex0    : TEXCOORD0;
+};
+
+struct PS_OUTPUT
+{
+    float4 RGBColor : COLOR0;  // Pixel color    
+};
+
+
+VS_OUTPUT mainVS(VS_INPUT i)
+{
+    VS_OUTPUT   o;
+    
+	
+	// 4 bones
+	float3 Pos = mul(g_mLocalMatrixArray[i.BlendIndices.x], i.Pos ) * i.BlendWeights.x;
+    float3 Normal = mul((float3x3)g_mLocalMatrixArray[i.BlendIndices.x], i.Normal) * i.BlendWeights.x;
+    
+	Pos += mul(g_mLocalMatrixArray[i.BlendIndices.y], i.Pos) * i.BlendWeights.y;
+    Normal += mul((float3x3)g_mLocalMatrixArray[i.BlendIndices.y], i.Normal) * i.BlendWeights.y;
+    
+    Pos += mul(g_mLocalMatrixArray[i.BlendIndices.z], i.Pos) * i.BlendWeights.z;
+    Normal += mul((float3x3)g_mLocalMatrixArray[i.BlendIndices.z], i.Normal) * i.BlendWeights.z;
+    
+	float LastWeight = 1.0f - i.BlendWeights.x - i.BlendWeights.y - i.BlendWeights.z; 
+    Pos += mul(g_mLocalMatrixArray[i.BlendIndices.w], i.Pos) * LastWeight;
+    Normal += mul((float3x3)g_mLocalMatrixArray[i.BlendIndices.w], i.Normal) * LastWeight;
+    
+	// transform position from world space into view and then projection space
+    o.Pos = mul(g_mWorldViewProj, float4(Pos.xyz, 1.0f) );
+
+    // normalize normals
+    Normal = mul(g_mWorldInvTranspose, float4(Normal.xyz, 1.0f) );
+    Normal = normalize(Normal);
+
+    // Shade (Ambient + etc.)
+    float4 diffuseLight = max(0.0f, dot(Normal, g_vLightDir.xyz)) * g_cLightColor;
+ 
+    o.Diffuse.xyz = g_cAmbientColor.xyz + ( diffuseLight.xyz * g_cDiffuseColor.xyz );
+    o.Diffuse.w = 1.0f;
+
+    // copy the input texture coordinate through
+    o.Tex0  = i.Tex0.xy;
+
+    return o;
+}
+
+
+PS_OUTPUT mainPS( VS_OUTPUT In ) 
+{ 
+    PS_OUTPUT Output;
+
+    Output.RGBColor = tex2D(g_sSamplerZero, In.Tex0) * In.Diffuse; 
+
+    return Output;
+}

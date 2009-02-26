@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include"
+				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include"
 				PreprocessorDefinitions="TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,7 +61,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="OgreMain_d.lib  physfsd.lib MyGui_d.lib"
-				AdditionalLibraryDirectories="../../etc/vendor/physfs;../../etc/vendor/lua;../../etc/vendor/mygui/lib;../../etc/vendor/luabind/lib;../../etc/vendor/ois/lib;../../etc/vendor/ogre/lib;../../etc/vendor/boost/lib"
+				AdditionalLibraryDirectories="../../etc/vendor/physfs;../../etc/vendor/lua;../../etc/vendor/mygui/lib;../../etc/vendor/luabind/lib;../../etc/vendor/ois/lib;../../etc/vendor/ogre/lib;../../etc/vendor/boost/lib;../../etc/vendor/yaml/lib"
 				IgnoreDefaultLibraryNames=""
 			/>
 			<Tool
@@ -262,6 +262,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Logic\GameState.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Logic\GameState.h"
+			>
+		</File>
+		<File
 			RelativePath=".\View\HumanView.cpp"
 			>
 		</File>
@@ -286,6 +294,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Logic\IGameState.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Graphics\GUI\IGuiComponent.hpp"
 			>
 		</File>
@@ -303,6 +315,14 @@
 		</File>
 		<File
 			RelativePath=".\Input\IInputSystem.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\IInterface.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Logic\ILevelLoader.hpp"
 			>
 		</File>
 		<File
@@ -330,7 +350,19 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Logic\IWorld.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Input\KeyboardListener.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Logic\LevelLoader.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Logic\LevelLoader.h"
 			>
 		</File>
 		<File

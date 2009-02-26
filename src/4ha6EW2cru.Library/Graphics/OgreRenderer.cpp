@@ -20,22 +20,9 @@ using namespace MyGUI;
 
 OgreRenderer::~OgreRenderer( )
 {
-	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_PRESSED, this, &OgreRenderer::OnMousePressed );
-	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_MOVED, this, &OgreRenderer::OnMouseMoved );
-	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_RELEASED, this, &OgreRenderer::OnMouseReleased );
-	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_DOWN, this, &OgreRenderer::OnKeyDown );
-	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_UP, this, &OgreRenderer::OnKeyUp );
-
-	if ( _gui != 0 )
+	if( _interface != 0 )
 	{
-		_gui->shutdown( );
-		delete _gui;
-		_gui = 0;
-	}
-
-	if( _interfaceController != 0 )
-	{
-		delete _interfaceController;
+		delete _interface;
 	}
 
 	if ( _root != 0 )
@@ -104,21 +91,9 @@ void OgreRenderer::Initialize( int width, int height, int colorDepth, bool fullS
 			);
 	}
 
-	{	// -- MyGUI
-		_gui = new Gui( );
-		_gui->initialise( _root->getAutoCreatedWindow( ), "/data/interface/core/core.xml" );
-
-		_interfaceController = new Interface( _gui );
-		_interfaceController->Initialize( );
-	}
-
-	{	// -- Event Listeners
-
-		EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_PRESSED, this, &OgreRenderer::OnMousePressed );
-		EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_MOVED, this, &OgreRenderer::OnMouseMoved );
-		EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_RELEASED, this, &OgreRenderer::OnMouseReleased );
-		EventManager::GetInstance( )->AddEventListener( INPUT_KEY_DOWN, this, &OgreRenderer::OnKeyDown );
-		EventManager::GetInstance( )->AddEventListener( INPUT_KEY_UP, this, &OgreRenderer::OnKeyUp );
+	{	// -- Interface
+		_interface = new Interface( _root );
+		_interface->Initialize( );
 	}
 
 	_scene = new OgreMax::OgreMaxScene( );
@@ -191,7 +166,7 @@ void OgreRenderer::Update( const float deltaMilliseconds ) const
 	}
 
 	_scene->Update( deltaMilliseconds );
-	_gui->injectFrameEntered( deltaMilliseconds );
+	_interface->Update( deltaMilliseconds );
 
 	if ( _root->getAutoCreatedWindow( )->isClosed( ) )
 	{
@@ -241,34 +216,4 @@ void OgreRenderer::ChangeResolution( int width, int height, bool fullscreen )
 {
 	_root->getAutoCreatedWindow( )->setFullscreen( fullscreen, width, height );
 	_root->getAutoCreatedWindow( )->resize( width, height );
-}
-
-void OgreRenderer::OnMouseMoved( const IEvent* event )
-{
-	MouseEventData* eventData = static_cast< MouseEventData* >( event->GetEventData( ) );
-	_gui->injectMouseMove( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, eventData->GetMouseState( ).Z.abs );
-}
-
-void OgreRenderer::OnMousePressed( const IEvent* event )
-{
-	MouseEventData* eventData = static_cast< MouseEventData* >( event->GetEventData( ) );
-	_gui->injectMousePress( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, MyGUI::MouseButton::Enum( eventData->GetMouseButtonId( ) ) );
-}
-
-void OgreRenderer::OnMouseReleased( const IEvent* event )
-{
-	MouseEventData* eventData = static_cast< MouseEventData* >( event->GetEventData( ) );
-	_gui->injectMouseRelease( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, MyGUI::MouseButton::Enum( eventData->GetMouseButtonId( ) ) );
-}
-
-void OgreRenderer::OnKeyUp( const IEvent* event )
-{
-	KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
-	_gui->injectKeyRelease( MyGUI::KeyCode::Enum( eventData->GetKeyCode( ) ) );
-}
-
-void OgreRenderer::OnKeyDown( const IEvent* event )
-{
-	KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
-	_gui->injectKeyPress( MyGUI::KeyCode::Enum( eventData->GetKeyCode( ) ) );
 }
