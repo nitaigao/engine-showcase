@@ -1,15 +1,13 @@
 #ifndef __Game_H
 #define __Game_H
 
-#include "../Logging/Logger.h"
-#include "../Events/EventManager.h"
-#include "../IO/FileManager.h"
-#include "Configuration.h"
+#include <vector>
 
-#include "../Events/EventListener.h"
-#include  "../Events/Event.h"
+#include "ISystem.hpp"
+#include "IConfiguration.hpp"
 
-#include "../View/HumanView.h"
+#include "../Logic/IWorld.hpp"
+#include "../Events/IEvent.hpp"
 
 /*!
 	Represents the Operating System Entry Point of the Game
@@ -17,35 +15,41 @@
 class Game
 {
 
+	typedef std::vector< ISystem* > SystemList;
+
 public:
 
-	Game( )
-		: _loopCount( 0 )
-		, _isQuitting( false )
+	Game( IConfiguration* configuration )
+		: _isQuitting( false )
 		, _isInitialized( false )
-		, _view( 0 )
-	{ };
+		, _configuration( configuration )
+	{
+
+	}
+
+	~Game( ) { };
 	
 	/*! Initializes the Game and all Subsystems */
 	void Initialize( );
 
-	/*! Entry point to start the main Game Loop */
-	void StartLoop( bool loopOnce );
+	void Update( float deltaMilliseconds );
 
 	/*! Releases all of the Game Subsystems */
 	void Release( );
+
+	/*! Returns whether or not the Game is ready to Quit */
+	inline bool IsQuitting( ) { return _isQuitting; };
 
 private:
 
 	/*! Receives the GAME_QUIT Event and starts the Quit Process */
 	void OnGameQuit( const IEvent* event );
 
-	int _loopCount;
 	bool _isQuitting;
 	bool _isInitialized;
 
-	HumanView* _view;
-	Configuration* _configuration;
+	SystemList _systems;
+	IConfiguration* _configuration;
 
 };
 

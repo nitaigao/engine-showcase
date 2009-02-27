@@ -1,6 +1,9 @@
 #ifndef __NULLREFERENCEEXCEPTION_H
 #define __NULLREFERENCEEXCEPTION_H
 
+#include <exception>
+#include <string>
+
 class NullReferenceException : public std::exception
 {
 

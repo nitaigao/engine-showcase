@@ -5,13 +5,17 @@
 
 #include "MyGUI_Any.h"
 
+#include "../System/Management.h"
+#include "../Scripting/ScriptSystem.h"
+#include "../Scripting/ScriptObject.h"
+
 Interface::~Interface( )
 {
-	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_PRESSED, this, &Interface::OnMousePressed );
-	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_MOVED, this, &Interface::OnMouseMoved );
-	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_RELEASED, this, &Interface::OnMouseReleased );
-	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_DOWN, this, &Interface::OnKeyDown );
-	EventManager::GetInstance( )->RemoveEventListener( INPUT_KEY_UP, this, &Interface::OnKeyUp );
+	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_MOUSE_PRESSED, this, &Interface::OnMousePressed );
+	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_MOUSE_MOVED, this, &Interface::OnMouseMoved );
+	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_MOUSE_RELEASED, this, &Interface::OnMouseReleased );
+	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_KEY_DOWN, this, &Interface::OnKeyDown );
+	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_KEY_UP, this, &Interface::OnKeyUp );
 
 	if ( _gui != 0 )
 	{
@@ -25,56 +29,61 @@ void Interface::Initialize( )
 {
 	_gui->initialise( _ogreRoot->getAutoCreatedWindow( ), "/data/interface/core/core.xml" );
 
-	EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_PRESSED, this, &Interface::OnMousePressed );
-	EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_MOVED, this, &Interface::OnMouseMoved );
-	EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_RELEASED, this, &Interface::OnMouseReleased );
-	EventManager::GetInstance( )->AddEventListener( INPUT_KEY_DOWN, this, &Interface::OnKeyDown );
-	EventManager::GetInstance( )->AddEventListener( INPUT_KEY_UP, this, &Interface::OnKeyUp );
+	Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_PRESSED, this, &Interface::OnMousePressed );
+	Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_MOVED, this, &Interface::OnMouseMoved );
+	Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_RELEASED, this, &Interface::OnMouseReleased );
+	Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_KEY_DOWN, this, &Interface::OnKeyDown );
+	Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_KEY_UP, this, &Interface::OnKeyUp );
 
-	lua_State* luaState = ScriptManager::GetInstance( )->LoadScript( "/data/interface/interface.lua" );
+	ISystem* scriptSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( ScriptSystemType );
 
-	module( luaState )
-	[
-		def( "findWidget", &Interface::FindWidget ),
-		def( "loadComponent", &Interface::LoadComponent ),
-		def( "getScreenWidth", &Interface::GetScreenWidth ),
-		def( "getScreenHeight", &Interface::GetScreenHeight ),
-		def( "scriptWidget", &Interface::ScriptWidget ),
-		def( "showMouse", &Interface::ShowMouse ),
-		def( "hideMouse", &Interface::HideMouse ),
+	if ( scriptSystem != 0 )
+	{
+		ScriptObject* scriptObject = ( ScriptObject* ) scriptSystem->CreateObject( "/data/interface/interface.lua", ScriptSystemType );
 
-		class_< Widget >( "Widget" )
-			.def( "getDimensions", &MyGUI::Widget::getClientCoord )
-			.def( "setPosition", ( void( MyGUI::Widget::* )( int, int ) ) &MyGUI::Widget::setPosition )
-			.def( "getType", &MyGUI::Widget::getClassTypeName )
-			.def( "setVisible", &MyGUI::Widget::setVisible )
-			.def( "asButton", &Interface::AsButton )
-			.def( "asComboBox", &Interface::AsComboBox ),
+		module( scriptObject->GetState( ) )
+		[
+			def( "findWidget", &Interface::FindWidget ),
+			def( "loadComponent", &Interface::LoadComponent ),
+			def( "getScreenWidth", &Interface::GetScreenWidth ),
+			def( "getScreenHeight", &Interface::GetScreenHeight ),
+			def( "scriptWidget", &Interface::ScriptWidget ),
+			def( "showMouse", &Interface::ShowMouse ),
+			def( "hideMouse", &Interface::HideMouse ),
 
-		class_< Button >( "Button" )
-			.def( "setChecked", &Button::setStateCheck )
-			.def( "getChecked", &Button::getStateCheck ),
+			class_< Widget >( "Widget" )
+				.def( "getDimensions", &MyGUI::Widget::getClientCoord )
+				.def( "setPosition", ( void( MyGUI::Widget::* )( int, int ) ) &MyGUI::Widget::setPosition )
+				.def( "getType", &MyGUI::Widget::getClassTypeName )
+				.def( "setVisible", &MyGUI::Widget::setVisible )
+				.def( "asButton", &Interface::AsButton )
+				.def( "asComboBox", &Interface::AsComboBox ),
 
-		class_< ComboBox, Widget >( "ComboBox" )
-			.def( "addItem", ( void ( ComboBox::* ) ( const std::string&, const std::string& ) ) &ComboBox::addItem )
-			.def( "getValueAt", ( const std::string& ( ComboBox::* ) ( int ) ) &ComboBox::getItemNameAt )
-			.def( "getSelectedIndex", &ComboBox::getIndexSelected )
-			.def( "setSelectedIndex", &ComboBox::setIndexSelected ),
+			class_< Button >( "Button" )
+				.def( "setChecked", &Button::setStateCheck )
+				.def( "getChecked", &Button::getStateCheck ),
 
-		class_< IntCoord >( "IntCoord" )
-			.def_readonly( "x" , &MyGUI::IntCoord::left )
-			.def_readonly( "y" , &MyGUI::IntCoord::top )
-			.def_readonly( "width" , &MyGUI::IntCoord::width )
-			.def_readonly( "height" , &MyGUI::IntCoord::height ),
+			class_< ComboBox, Widget >( "ComboBox" )
+				.def( "addItem", ( void ( ComboBox::* ) ( const std::string&, const std::string& ) ) &ComboBox::addItem )
+				.def( "getValueAt", ( const std::string& ( ComboBox::* ) ( int ) ) &ComboBox::getItemNameAt )
+				.def( "getSelectedIndex", &ComboBox::getIndexSelected )
+				.def( "setSelectedIndex", &ComboBox::setIndexSelected ),
 
-		class_< Ogre::UTFString >( "utf" )
-			.def( constructor< std::string >( ) ),
+			class_< IntCoord >( "IntCoord" )
+				.def_readonly( "x" , &MyGUI::IntCoord::left )
+				.def_readonly( "y" , &MyGUI::IntCoord::top )
+				.def_readonly( "width" , &MyGUI::IntCoord::width )
+				.def_readonly( "height" , &MyGUI::IntCoord::height ),
 
-		class_< Any >( "Any" )
-			.def( constructor<>( ) )
-	];
+			class_< Ogre::UTFString >( "utf" )
+				.def( constructor< std::string >( ) ),
 
-	lua_pcall( luaState, 0, 0, 0 );
+			class_< Any >( "Any" )
+				.def( constructor<>( ) )
+		];
+
+		lua_pcall( scriptObject->GetState( ), 0, 0, 0 );
+	}
 
 	MyGUI::WidgetManager::getInstancePtr( )->registerUnlinker( this );
 }

@@ -91,7 +91,7 @@ void EventManager::TriggerEvent( const IEvent* event )
 	delete event;
 }
 
-void EventManager::Update( )
+void EventManager::Update( float deltaMilliseconds )
 {
 	while( _eventQueue.size( ) > 0 )
 	{

@@ -41,12 +41,6 @@ ScriptManager::ScriptManager( Configuration* configuration )
 			.def( "getKeyCode", &KeyEventData::GetKeyCode )
 			.def( "getKeyText", &KeyEventData::GetKeyText ),
 
-		class_< Script >( "Script" )
-			.def( "include", &Script::Include ),
-
-		class_< AppenderEventData >( "AppenderEventData" )
-			.def( "getMessage", &AppenderEventData::GetMessage ),
-
 		class_< EventType >( "EventType" )
 			.enum_( "constants" )
 			[
@@ -72,8 +66,6 @@ ScriptManager::ScriptManager( Configuration* configuration )
 			.property( "displayWidth", &Configuration::GetDisplayWidth, &Configuration::SetDisplayWidth )
 			.property( "displayHeight", &Configuration::GetDisplayHeight, &Configuration::SetDisplayHeight )
 			.property( "availableVideoModes", &Configuration::GetAvailableVideoModes, &Configuration::SetAvailableVideoModes, return_stl_iterator )
-
-		//class_< std::vector< std::string > >( "StringVector" )
 	];
 
 	luabind::globals( _masterState )[ "Configuration" ] = _configuration;

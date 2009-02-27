@@ -1,18 +1,17 @@
 #include "Game.h"
 
-#include <mmsystem.h> 
+#include "../Events/Event.h"
+#include "../Logging/Logger.h"
+
+#include "../Scripting/ScriptSystem.h"
+#include "../Graphics/OgreRenderSystem.h"
 
 #include "../Exceptions/AlreadyInitializedException.hpp"
 #include "../Exceptions/UnInitializedException.hpp"
 
-#include "Configuration.h""
-
-#include "../Common/Paths.hpp"
 #include "../Logging/ConsoleAppender.h"
-#include "../Logging/FileAppender.h"
-#include "../Logging/EventAppender.h"
 
-#include "../Scripting/ScriptManager.h"
+#include "Management.h"
 
 void Game::Initialize( )
 {
@@ -24,63 +23,32 @@ void Game::Initialize( )
 	}
 
 	// -- Startup Sequence -- //
-		
-	// Bring up the basic Logging System
+
+	// -- Intitialize All Singletons
 
 	Logger::Initialize( );
+	ConsoleAppender* consoleAppender = new ConsoleAppender( );
+	Logger::GetInstance( )->AddAppender( consoleAppender );
+	Logger::GetInstance( )->Info( "Initializing Game" );
 
-	{
-		ConsoleAppender* consoleAppender = new ConsoleAppender( );
-		Logger::GetInstance( )->AddAppender( consoleAppender );
+	Management::Initialize( );
 
-		FileAppender* fileAppender = new FileAppender( Paths::GetLogFilePath( ) );
-		fileAppender->Initialize(  );
-		Logger::GetInstance( )->AddAppender( fileAppender );
+	// -- Intialize All Systems
 
-		Logger::GetInstance( )->Info( "Initializing Game" );
-	}
+	Management::GetInstance( )->GetSystemManager( )->AddSystem( new ScriptSystem( _configuration ) );
+	Management::GetInstance( )->GetSystemManager( )->AddSystem( new OgreRenderSystem( _configuration ) );
 
-	// Bring up the File System
+	Management::GetInstance( )->GetSystemManager( )->InitializeAllSystems( );
 
-	FileManager::Initialize( );
+	// -- Register Events
 
-	// Bring up the Events System
-
-	EventManager::Initialize( );
-
-	// Load the game configuration
-
-	_configuration = Configuration::Load( "config/game.cfg" );
-
-	// Setup the Logging System
-
-	LogLevel logLevel = static_cast< LogLevel >( _configuration->GetLoggingLevel( ) );
-	Logger::GetInstance( )->SetLogLevel( logLevel );
-
-	IAppender* eventAppender = new EventAppender( EventManager::GetInstance( ) );
-	Logger::GetInstance( )->AddAppender( eventAppender );
-
-	// Bring up the Script System
-
-	ScriptManager::Initialize( _configuration );
-
-	// Initialize all Views
-
-	_view = new HumanView( _configuration );
-	_view->Initialize( );
-
-	// Subscribe to Events
-
-	EventManager::GetInstance( )->AddEventListener( GAME_QUIT, this, &Game::OnGameQuit );
-
-	// Broadcast Loaded
-
-	EventManager::GetInstance( )->QueueEvent( new Event( GAME_INITIALIZED ) );
+	Management::GetInstance( )->GetEventManager( )->AddEventListener( GAME_QUIT, this, &Game::OnGameQuit );
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_INITIALIZED ) );
 
 	_isInitialized = true;
 }
 
-void Game::StartLoop( bool loopOnce )
+void Game::Update( float deltaMilliseconds )
 {
 	if ( !_isInitialized )
 	{
@@ -89,35 +57,7 @@ void Game::StartLoop( bool loopOnce )
 		throw e;
 	}
 
-	MSG msg;
-
-	float deltaMilliseconds = 0.0f;
-	DWORD endFrameTime = 0;
-	DWORD startFrameTime = 0;
-
-	while( !_isQuitting )
-	{
-		deltaMilliseconds = ( endFrameTime - startFrameTime ) / 1000.0f;
-		startFrameTime = timeGetTime( );
-
-		if ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
-		{
-			TranslateMessage( &msg );
-			DispatchMessage( &msg );
-		}
-
-		_view->Update( deltaMilliseconds );
-		_view->Render( );
-
-		EventManager::GetInstance( )->Update( );
-
-		if ( loopOnce )
-		{
-			_isQuitting = true;
-		}
-
-		endFrameTime = timeGetTime( );
-	}
+	Management::GetInstance( )->Update( deltaMilliseconds );
 }
 
 void Game::Release( )
@@ -129,19 +69,15 @@ void Game::Release( )
 		throw e;
 	}
 
-	delete _view;
-	delete _configuration;
-
-	ScriptManager::GetInstance( )->Release( );
-	FileManager::GetInstance( )->Release( );
-	EventManager::GetInstance( )->Release( );
+	Management::GetInstance( )->Release( );
+	
 	Logger::GetInstance( )->Release( );
 }
 
 void Game::OnGameQuit( const IEvent* event )
 {
 	_isQuitting = true;
-	EventManager::GetInstance( )->RemoveEventListener( GAME_QUIT, this, &Game::OnGameQuit );
+	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GAME_QUIT, this, &Game::OnGameQuit );
 }
 
 // EOF

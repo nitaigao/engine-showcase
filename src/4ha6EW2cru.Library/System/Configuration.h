@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "IConfiguration.hpp"
+
 #include "../Exceptions/OutOfRangeException.hpp"
 #include "../Exceptions/FileNotFoundException.hpp"
 
@@ -15,7 +17,7 @@
 
 
 /*! Loads and contains game specific configuration info */
-class Configuration
+class Configuration : public IConfiguration
 {
 
 	typedef std::vector< std::string > VideoModeList;
@@ -23,6 +25,67 @@ class Configuration
 public:
 
 	virtual ~Configuration( );
+
+	int Find( const std::string& section, const std::string& key, const int& defaultValue )
+	{
+		return defaultValue;
+	}
+
+	std::string Find( const std::string& section, const std::string& key, const std::string& defaultValue )
+	{
+		return defaultValue;
+	}
+
+	bool Find( const std::string& section, const std::string& key, const bool& defaultValue )
+	{
+		return defaultValue;
+	}
+
+	void Set( const std::string& section, const std::string& key, const std::string& value )
+	{
+		
+	}
+
+	void Set( const std::string& section, const std::string& key, const int& value )
+	{
+		
+	}
+
+	void Set( const std::string& section, const std::string& key, const bool& value )
+	{
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	void Initialize( );
 

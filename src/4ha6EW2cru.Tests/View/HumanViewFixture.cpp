@@ -11,7 +11,7 @@
 #include "Exceptions/UnInitializedException.hpp"
 
 #include "../Suites.h"
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( HumanViewFixture, Suites::ViewSuite( ) );
+//CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( HumanViewFixture, Suites::ViewSuite( ) );
 
 void HumanViewFixture::setUp( )
 {

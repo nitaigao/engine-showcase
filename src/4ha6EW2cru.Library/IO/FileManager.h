@@ -1,13 +1,15 @@
 #ifndef __FILEMANAGER_H
 #define __FILEMANAGER_H
 
+#include "IFileManager.hpp"
+
 #include "FileBuffer.hpp"
 #include "FileSearchResult.hpp"
 
 /*!
 	Manages the retrieval of files from the local File System
 */
-class FileManager
+class FileManager : public IFileManager
 {
 
 public:

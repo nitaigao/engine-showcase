@@ -8,7 +8,7 @@
 #include "System/Configuration.h"
 
 #include "../Suites.h"
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ConfigurationFixture, Suites::SystemSuite( ) );
+//CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ConfigurationFixture, Suites::SystemSuite( ) );
 
 void ConfigurationFixture::setUp( )
 {

@@ -340,7 +340,19 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Mocks\Mock_Configuration.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Mocks\Mock_FileManager.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Mocks\Mock_LevelLoader.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Mocks\Mock_System.hpp"
 			>
 		</File>
 		<File
@@ -377,6 +389,14 @@
 		</File>
 		<File
 			RelativePath=".\Graphics\OgreRendererFixture.h"
+			>
+		</File>
+		<File
+			RelativePath=".\View\OgreRenderSystem_Tests.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\View\OgreRenderSystem_Tests.h"
 			>
 		</File>
 		<File

@@ -4,6 +4,8 @@
 #include <queue>
 #include <map>
 
+#include "IEventManager.hpp"
+
 #include "IEvent.hpp"
 #include "EventListener.h"
 #include "IEventListener.hpp"
@@ -11,13 +13,16 @@
 /*!
 	Manages all Events distributed thoughout the Game
 */
-class EventManager 
+class EventManager : public IEventManager
 {
 
 	typedef std::queue< const IEvent* > EventQueue;
 	typedef std::vector< IEventListener* > EventListenerList;
 
 public:
+
+	EventManager( ) { };
+	~EventManager( ) { };
 
 	/*! Retrieves an instance of the EventManager Singleton */
 	static EventManager* GetInstance( );
@@ -35,7 +40,7 @@ public:
 	void TriggerEvent( const IEvent* event );
 
 	/*! Fires all events in the Event Queue */
-	void Update( );
+	void Update( float deltaMilliseconds );
 
 	/*! Adds an EventListener for Event processing */
 	template< class AT >
@@ -96,8 +101,6 @@ public:
 
 private:
 
-	EventManager( ) { };
-	~EventManager( ) { };
 	EventManager( const EventManager & copy ) { };
 	EventManager & operator = ( const EventManager & copy ) { return *this; };
 

@@ -33,7 +33,7 @@ void MouseListenerFixture::Should_Fire_Left_MouseReleased_Event( )
 	OIS::MouseState state;
 	listener->mouseReleased( OIS::MouseEvent( 0, state ), OIS::MB_Left );
 
-	EventManager::GetInstance( )->Update( );
+	EventManager::GetInstance( )->Update( 0 );
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_RELEASED, _eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	_eventTriggerMock->verify( );
@@ -51,7 +51,7 @@ void MouseListenerFixture::Should_Fire_Left_MousePressed_Event( )
 	OIS::MouseState state;
 	listener->mousePressed( OIS::MouseEvent( 0, state ), OIS::MB_Left );
 
-	EventManager::GetInstance( )->Update( );
+	EventManager::GetInstance( )->Update( 0 );
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_PRESSED, _eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	_eventTriggerMock->verify( );
@@ -69,7 +69,7 @@ void MouseListenerFixture::Should_Fire_Right_MouseReleased_Event( )
 	OIS::MouseState state;
 	listener->mouseReleased( OIS::MouseEvent( 0, state ), OIS::MB_Right );
 
-	EventManager::GetInstance( )->Update( );
+	EventManager::GetInstance( )->Update( 0 );
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_RELEASED, _eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	_eventTriggerMock->verify( );
@@ -87,7 +87,7 @@ void MouseListenerFixture::Should_Fire_Right_MousePressed_Event( )
 	OIS::MouseState state;
 	listener->mousePressed( OIS::MouseEvent( 0, state ), OIS::MB_Right );
 
-	EventManager::GetInstance( )->Update( );
+	EventManager::GetInstance( )->Update( 0 );
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_PRESSED, _eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	_eventTriggerMock->verify( );
@@ -105,7 +105,7 @@ void MouseListenerFixture::Should_Fire_MouseMoved_Event( )
 	OIS::MouseState state;
 	listener->mouseMoved( OIS::MouseEvent( 0, state ) );
 
-	EventManager::GetInstance( )->Update( );
+	EventManager::GetInstance( )->Update( 0 );
 	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_MOVED, _eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	_eventTriggerMock->verify( );

@@ -107,7 +107,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include"
+				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -282,6 +282,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\System\IConfiguration.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Events\IEvent.hpp"
 			>
 		</File>
@@ -291,6 +295,14 @@
 		</File>
 		<File
 			RelativePath=".\Events\IEventListener.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Events\IEventManager.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\IO\IFileManager.hpp"
 			>
 		</File>
 		<File
@@ -350,6 +362,18 @@
 			>
 		</File>
 		<File
+			RelativePath=".\System\ISystem.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\System\ISystemManager.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\System\ISystemObject.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Logic\IWorld.hpp"
 			>
 		</File>
@@ -375,6 +399,14 @@
 		</File>
 		<File
 			RelativePath=".\Logging\LogLevel.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\System\Management.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\System\Management.h"
 			>
 		</File>
 		<File
@@ -430,6 +462,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Graphics\OgreRenderSystem.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\OgreRenderSystem.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Exceptions\OutOfRangeException.hpp"
 			>
 		</File>
@@ -470,11 +510,31 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Scripting\ScriptObject.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\ScriptSystem.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\ScriptSystem.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Utility\SearchUtility.hpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Utility\SimpleIni.h"
+			>
+		</File>
+		<File
+			RelativePath=".\System\SystemManager.h"
+			>
+		</File>
+		<File
+			RelativePath=".\System\SystemType.hpp"
 			>
 		</File>
 		<File

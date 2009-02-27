@@ -73,13 +73,13 @@ void EventManagerFixture:: Should_Throw_Given_NULL_Event_To_QueueEvent( )
 void EventManagerFixture:: Should_Update_Given_Intialized( )
 {
 	EventManager::Initialize( );
-	EventManager::GetInstance( )->Update( );
+	EventManager::GetInstance( )->Update( 0 );
 	EventManager::GetInstance( )->Release( );
 }
 
 void EventManagerFixture:: Should_Throw_On_Update_Given_UnInitialized( )
 {
-	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->Update( ), UnInitializedException );
+	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->Update( 0 ), UnInitializedException );
 }
 
 void EventManagerFixture:: Should_Throw_On_AddEventListener_Given_Uninitialized( )

@@ -17,12 +17,12 @@ static FileManager* g_FileManagerInstance = 0;
 
 FileManager* FileManager::GetInstance( )
 {
-	if ( g_FileManagerInstance == 0 )
+	/*if ( g_FileManagerInstance == 0 )
 	{
 		UnInitializedException e( "FileManager::GetInstance - FileManager has not been Intialized" );
 		Logger::GetInstance( )->Fatal( e.what( ) );
 		throw e;
-	}
+	}*/
 
 	return g_FileManagerInstance;
 }
@@ -39,14 +39,14 @@ void FileManager::Release( )
 
 const bool FileManager::Initialize( )
 {
-	if ( g_FileManagerInstance != 0 )
+	/*if ( g_FileManagerInstance != 0 )
 	{
 		std::string errorMessage = "FileMananger has already been Intialized";
 		Logger::GetInstance( )->Fatal( errorMessage );
 		throw AlreadyInitializedException( errorMessage );
-	}
+	}*/
 
-	Logger::GetInstance( )->Info( "Initializing the File Manager" );
+	//Logger::GetInstance( )->Info( "Initializing the File Manager" );
 
 	g_FileManagerInstance = new FileManager( );
 
