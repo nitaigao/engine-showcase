@@ -14,8 +14,6 @@ public:
 	/* Performs a capture loop on all Input Devices */
 	virtual void Update( ) const = 0;
 
-	/*! Resets the input capture area of the Input System */
-	virtual void SetCaptureArea( int width, int height ) = 0;
 };
 
 #endif

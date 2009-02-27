@@ -59,34 +59,6 @@ void InputSystemFixture::Should_Not_Initialize_With_NULL_HWND( )
 	delete inputSystem;
 }
 
-void InputSystemFixture::Should_Throw_Given_Invalid_Capture_Area( )
-{
-	InputSystem* inputSystem = new InputSystem( 0 );
-	inputSystem->Initialize( );
-
-	CPPUNIT_ASSERT_THROW( inputSystem->SetCaptureArea( 0, 0 ), OutOfRangeException );
-
-	delete inputSystem;
-}
-
-void InputSystemFixture::Should_Accept_Valid_Capture_Area( )
-{
-	InputSystem* inputSystem = new InputSystem( 0 );
-	inputSystem->Initialize( );
-
-	inputSystem->SetCaptureArea( 1, 1 );
-
-	delete inputSystem;
-}
-
-void InputSystemFixture::Should_Throw_Given_Unitialized_SetCaptureArea( )
-{
-	InputSystem* inputSystem = new InputSystem( 0 );
-	CPPUNIT_ASSERT_THROW( inputSystem->SetCaptureArea( 1, 1 ), UnInitializedException );
-
-	delete inputSystem;
-}
-
 void InputSystemFixture::Should_Update_Given_Initialized( )
 {
 	InputSystem* inputSystem = new InputSystem( 0 );

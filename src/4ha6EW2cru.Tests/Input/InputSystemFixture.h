@@ -11,13 +11,7 @@ class InputSystemFixture : public CPPUNIT_NS::TestFixture
   CPPUNIT_TEST_SUITE( InputSystemFixture );
   CPPUNIT_TEST( Should_Initialize_Properly );
   CPPUNIT_TEST( Should_Throw_Given_Already_Initialized );
-  CPPUNIT_TEST( Should_Not_Initialize_With_NULL_HWND );
-
-  CPPUNIT_TEST( Should_Throw_Given_Invalid_Capture_Area );
-  CPPUNIT_TEST( Should_Accept_Valid_Capture_Area );
-
-  CPPUNIT_TEST( Should_Throw_Given_Unitialized_SetCaptureArea );
-  
+  CPPUNIT_TEST( Should_Not_Initialize_With_NULL_HWND );  
   CPPUNIT_TEST( Should_Update_Given_Initialized );
   CPPUNIT_TEST( Should_Throw_Given_UnIntialized_Update );
 
@@ -33,9 +27,6 @@ protected:
   void Should_Initialize_Properly( );
   void Should_Throw_Given_Already_Initialized( );
   void Should_Not_Initialize_With_NULL_HWND( );
-  void Should_Throw_Given_Invalid_Capture_Area( );
-  void Should_Accept_Valid_Capture_Area( );
-  void Should_Throw_Given_Unitialized_SetCaptureArea( );
   void Should_Update_Given_Initialized( );
   void Should_Throw_Given_UnIntialized_Update( );
 

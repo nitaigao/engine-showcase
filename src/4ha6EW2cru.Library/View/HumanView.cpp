@@ -19,7 +19,6 @@ void HumanView::Initialize( )
 
 	_inputSystem = new InputSystem( 0 );
 	_inputSystem->Initialize( );
-	_inputSystem->SetCaptureArea( _configuration->GetDisplayWidth( ), _configuration->GetDisplayHeight( ) );
 
 	EventManager::GetInstance( )->AddEventListener( GRAPHICS_SETTINGS_CHANGED, this, &HumanView::OnViewSettingsChanged );
 
@@ -69,5 +68,4 @@ HumanView::~HumanView( )
 void HumanView::OnViewSettingsChanged( const IEvent* event )
 {
 	_renderer->ChangeResolution( _configuration->GetDisplayWidth( ), _configuration->GetDisplayHeight( ), _configuration->IsFullScreen( ) );
-	_inputSystem->SetCaptureArea( _configuration->GetDisplayWidth( ), _configuration->GetDisplayHeight( ) );
 }

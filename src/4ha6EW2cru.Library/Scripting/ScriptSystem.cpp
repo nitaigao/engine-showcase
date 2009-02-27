@@ -4,6 +4,7 @@
 #include "../IO/FileManager.h"
 
 #include "../System/Management.h"
+#include "../Events/Event.h"
 
 #include "../Exceptions/ScriptException.hpp"
 
@@ -52,9 +53,11 @@ void ScriptSystem::Initialize( )
 
 	module( _state )
 	[
+		def( "quit", &ScriptSystem::FromLua_Quit ),
 		def( "print", &ScriptSystem::FromLua_Print ),
 		def( "registerEvent", &ScriptSystem::FromLua_RegisterEvent ),
 		def( "unregisterEvent", &ScriptSystem::FromLua_UnRegisterEvent ),
+		def( "broadcastEvent", &ScriptSystem::FromLua_BroadcastEvent ),
 
 		class_< EventType >( "EventType" )
 			.enum_( "constants" )
@@ -168,6 +171,11 @@ int ScriptSystem::FromLua_ScriptError( lua_State* luaState )
 	return 1;	
 }
 
+void ScriptSystem::FromLua_Quit( void )
+{
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
+}
+
 void ScriptSystem::FromLua_Print( const std::string message )
 {
 	Logger::GetInstance( )->Info( message );
@@ -181,4 +189,9 @@ void ScriptSystem::FromLua_RegisterEvent( EventType eventType, object function )
 void ScriptSystem::FromLua_UnRegisterEvent( EventType eventType, object function )
 {
 	g_scriptSystem->UnRegisterEvent( eventType, function );
+}
+
+void ScriptSystem::FromLua_BroadcastEvent( EventType eventType )
+{
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( eventType ) );
 }

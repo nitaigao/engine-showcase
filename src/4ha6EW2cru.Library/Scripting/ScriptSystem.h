@@ -53,10 +53,12 @@ private:
 
 	void Constructor( IConfiguration* configuration, IFileManager* fileManager );
 
+	static void FromLua_Quit( void );
 	static void FromLua_Print( const std::string message );
+	static int FromLua_ScriptError( lua_State* luaState );
 	static void FromLua_RegisterEvent( EventType eventType, object function );
 	static void FromLua_UnRegisterEvent( EventType eventType, object function );
-	static int FromLua_ScriptError( lua_State* luaState );
+	static void FromLua_BroadcastEvent( EventType eventType );
 
 	void OnEvent( const IEvent* event );
 

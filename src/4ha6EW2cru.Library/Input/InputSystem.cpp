@@ -10,8 +10,6 @@
 
 void InputSystem::Initialize( ) 
 { 	
-	ISystem* renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
-
 	if( _inputManager != 0 )
 	{
 		Logger::GetInstance( )->Fatal( "InputManager::Initialize - InputManager has already been intitialized" );
@@ -20,7 +18,7 @@ void InputSystem::Initialize( )
 
 	Logger::GetInstance( )->Info( "Initializing Input System" );
 
-	_inputManager = OIS::InputManager::createInputSystem( renderSystem->GetProperties( )[ "hwnd" ].GetValue( ).Size );
+	_inputManager = OIS::InputManager::createInputSystem( _renderSystem->GetProperties( )[ "hwnd" ].GetValue( ).Size );
 
 	_keyboard = static_cast< OIS::Keyboard* >( _inputManager->createInputObject( OIS::OISKeyboard, true ) );
 	_keyboardListener = new KeyboardListener( _keyboard );
@@ -39,24 +37,6 @@ InputSystem::~InputSystem( )
 	delete _mouseListener;
 }
 
-void InputSystem::SetCaptureArea( int width, int height )
-{
-	if ( _inputManager == 0 )
-	{
-		Logger::GetInstance( )->Fatal( "InputManager::SetCaptureArea - InputManager has not been intitialized" );
-		throw UnInitializedException( "InputManager::SetCaptureArea - InputManager has not been intitialized" );
-	}
-
-	if ( width < 1 && height < 1 )
-	{
-		Logger::GetInstance( )->Fatal( "InputSystem::SetCaptureArea - Either width or height was out of range" );
-		throw OutOfRangeException( "InputSystem::SetCaptureArea - Either width or height was out of range" );
-	}
-
-	_mouse->getMouseState( ).width = width;
-	_mouse->getMouseState( ).height = height;
-}
-
 void InputSystem::Update( float deltaMilliseconds )
 {
 	if ( _inputManager == 0 )
@@ -64,6 +44,9 @@ void InputSystem::Update( float deltaMilliseconds )
 		Logger::GetInstance( )->Fatal( "InputManager::Update - InputManager has not been intitialized" );
 		throw UnInitializedException( "InputManager::Update - InputManager has not been intitialized" );
 	}
+
+	_mouse->getMouseState( ).width = _configuration->Find( "Graphics", "Width", 640 );
+	_mouse->getMouseState( ).height = _configuration->Find( "Graphics", "Height", 480 );
 
 	_mouse->capture( );
 	_keyboard->capture( );

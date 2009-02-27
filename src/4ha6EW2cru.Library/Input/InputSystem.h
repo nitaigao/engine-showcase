@@ -28,7 +28,7 @@ public:
 		, _configuration( configuration )
 		, _hWnd( 0 )
 	{
-
+		_renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
 	};
 
 	~InputSystem( );
@@ -48,9 +48,6 @@ public:
 
 	ISystemObject* CreateObject( const std::string& name, SystemType systemType ) { return 0; };
 
-	/*! Resets the input capture area of the Input System */
-	void SetCaptureArea( int width, int height );
-
 private:
 
 	std::size_t _hWnd;
@@ -64,6 +61,8 @@ private:
 
 	OIS::Keyboard* _keyboard;
 	KeyboardListener* _keyboardListener;
+
+	ISystem* _renderSystem;
 
 };
 
