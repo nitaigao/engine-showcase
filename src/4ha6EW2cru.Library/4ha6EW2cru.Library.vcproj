@@ -486,6 +486,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\System\Property.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Exceptions\ScreenDimensionsException.hpp"
 			>
 		</File>

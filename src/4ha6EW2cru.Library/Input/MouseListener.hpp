@@ -3,9 +3,10 @@
 
 #include "ois/OISMouse.h"
 
-#include "../Events/EventManager.h"
 #include "../Events/Event.h"
 #include "../Events/EventData.hpp"
+
+#include "../System/Management.h"
 
 using OIS::MouseEvent;
 using OIS::MouseButtonID;
@@ -22,7 +23,7 @@ public:
 	bool mouseMoved( const MouseEvent &arg )
 	{
 		Event* event = new Event( INPUT_MOUSE_MOVED, new MouseEventData( arg.state, OIS::MB_Left ) );
-		EventManager::GetInstance( )->TriggerEvent( event );
+		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 
 		return true;
 	}
@@ -31,7 +32,7 @@ public:
 	bool mousePressed( const MouseEvent &arg, MouseButtonID id )
 	{
 		Event* event = new Event( INPUT_MOUSE_PRESSED, new MouseEventData( arg.state, id ) );
-		EventManager::GetInstance( )->TriggerEvent( event );
+		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 
 		return true;
 	}
@@ -40,7 +41,7 @@ public:
 	bool mouseReleased( const MouseEvent &arg, MouseButtonID id )
 	{
 		Event* event = new Event( INPUT_MOUSE_RELEASED, new MouseEventData( arg.state, id ) );
-		EventManager::GetInstance( )->TriggerEvent( event );
+		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 
 		return true;
 	}

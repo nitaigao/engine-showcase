@@ -38,6 +38,8 @@ public:
 
 	inline SystemType GetSystemType( ) { return ScriptSystemType; };
 
+	inline PropertyMap GetProperties( ) { return _properties; };
+
 	ISystemObject* CreateObject( const std::string& name, SystemType systemType );
 
 	void RegisterEvent( EventType eventType, object function );
@@ -58,6 +60,7 @@ private:
 
 	void OnEvent( const IEvent* event );
 
+	PropertyMap _properties;
 	IConfiguration* _configuration;
 	IFileManager* _fileManager;
 

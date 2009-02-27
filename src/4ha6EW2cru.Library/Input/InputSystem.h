@@ -1,7 +1,8 @@
 #ifndef __INPUTMANAGER_H
 #define __INPUTMANAGER_H
 
-#include "IInputSystem.hpp"
+#include "../System/ISystem.hpp"
+#include "../System/IConfiguration.hpp"
 
 #include "OIS/OISInputManager.h"
 #include "OIS/OISKeyboard.h"
@@ -13,18 +14,19 @@
 /*!
 	Receives all Input from the User(s) and translates it into Game Events
 */
-class InputSystem : public IInputSystem
+class InputSystem : public ISystem
 {
 
 public:
 
-	InputSystem( std::size_t hWnd )
+	InputSystem( IConfiguration* configuration )
 		: _inputManager( 0 )
 		, _keyboard( 0 )
 		, _keyboardListener( 0 )
 		, _mouse( 0 )
 		, _mouseListener( 0 )
-		, _hWnd( hWnd )
+		, _configuration( configuration )
+		, _hWnd( 0 )
 	{
 
 	};
@@ -35,7 +37,16 @@ public:
 	void Initialize( );
 
 	/* Performs a capture loop on all Input Devices */
-	void Update( ) const;
+	void Update( float deltaMilliseconds );
+
+	/*! Releases the Input System */
+	void Release( ) { };
+
+	SystemType GetSystemType( ) { return InputSystemType; };
+
+	inline PropertyMap GetProperties( ) { return _properties; };
+
+	ISystemObject* CreateObject( const std::string& name, SystemType systemType ) { return 0; };
 
 	/*! Resets the input capture area of the Input System */
 	void SetCaptureArea( int width, int height );
@@ -43,6 +54,8 @@ public:
 private:
 
 	std::size_t _hWnd;
+	PropertyMap _properties;
+	IConfiguration* _configuration;
 
 	OIS::InputManager* _inputManager;
 

@@ -27,6 +27,8 @@ public:
 
 	inline SystemType GetSystemType( ) { return RenderSystemType; };
 
+	inline PropertyMap GetProperties( ) { return _properties; };
+
 	ISystemObject* CreateObject( const std::string& name, SystemType systemType )
 	{
 		return 0;
@@ -50,6 +52,7 @@ private:
 
 	void LoadResources( );
 
+	PropertyMap _properties;
 	IConfiguration* _configuration;
 	IFileManager* _fileManager;
 	bool _isIntialized;

@@ -4,7 +4,6 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "Graphics/IRenderer.hpp"
-#include "Input/IInputSystem.hpp"
 
 class InputSystemFixture : public CPPUNIT_NS::TestFixture
 {
@@ -43,7 +42,6 @@ protected:
 private:
 
 	IRenderer* _renderer;
-	IInputSystem* _inputSystem;
 
 };
 

@@ -10,21 +10,17 @@
 
 void InputSystem::Initialize( ) 
 { 	
+	ISystem* renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
+
 	if( _inputManager != 0 )
 	{
 		Logger::GetInstance( )->Fatal( "InputManager::Initialize - InputManager has already been intitialized" );
 		throw AlreadyInitializedException( "InputManager::Initialize - InputManager has already been intitialized" );
 	}
 
-	if ( _hWnd < 1 )
-	{
-		Logger::GetInstance( )->Fatal( "InputSystem::Initialize - hWnd was 0" );
-		throw IntializeFailedException( "InputSystem::Initialize - hWnd was 0" );
-	}
-
 	Logger::GetInstance( )->Info( "Initializing Input System" );
 
-	_inputManager = OIS::InputManager::createInputSystem( _hWnd );
+	_inputManager = OIS::InputManager::createInputSystem( renderSystem->GetProperties( )[ "hwnd" ].GetValue( ).Size );
 
 	_keyboard = static_cast< OIS::Keyboard* >( _inputManager->createInputObject( OIS::OISKeyboard, true ) );
 	_keyboardListener = new KeyboardListener( _keyboard );
@@ -61,7 +57,7 @@ void InputSystem::SetCaptureArea( int width, int height )
 	_mouse->getMouseState( ).height = height;
 }
 
-void InputSystem::Update( ) const
+void InputSystem::Update( float deltaMilliseconds )
 {
 	if ( _inputManager == 0 )
 	{

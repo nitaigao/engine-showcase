@@ -23,13 +23,10 @@ void InputSystemFixture::setUp( )
 
 	_renderer = new OgreRenderer( );
 	_renderer->Initialize( 640, 480, 32, false );
-
-	_inputSystem = new InputSystem( _renderer->GetHwnd( ) );
 }
 
 void InputSystemFixture::tearDown( )
 {
-	delete _inputSystem;
 	delete _renderer;
 
 	EventManager::GetInstance( )->Release();
@@ -39,55 +36,70 @@ void InputSystemFixture::tearDown( )
 
 void InputSystemFixture::Should_Initialize_Properly( )
 {
-	_inputSystem->Initialize( );
+	InputSystem* inputSystem = new InputSystem( 0 );
+	inputSystem->Initialize( );
+
+	delete inputSystem;
 }
 
 void InputSystemFixture::Should_Throw_Given_Already_Initialized( )
 {
-	_inputSystem->Initialize( );
-	CPPUNIT_ASSERT_THROW( _inputSystem->Initialize( ), AlreadyInitializedException );
+	InputSystem* inputSystem = new InputSystem( 0 );
+	inputSystem->Initialize( );
+	CPPUNIT_ASSERT_THROW( inputSystem->Initialize( ), AlreadyInitializedException );
+
+	delete inputSystem;
 }
 
 void InputSystemFixture::Should_Not_Initialize_With_NULL_HWND( )
 {	
-	delete _inputSystem;
+	InputSystem* inputSystem = new InputSystem( 0 );
+	CPPUNIT_ASSERT_THROW( inputSystem->Initialize( ), IntializeFailedException );
 
-	_inputSystem = new InputSystem( 0 );
-	CPPUNIT_ASSERT_THROW( _inputSystem->Initialize( ), IntializeFailedException );
+	delete inputSystem;
 }
 
 void InputSystemFixture::Should_Throw_Given_Invalid_Capture_Area( )
 {
-	_inputSystem->Initialize( );
+	InputSystem* inputSystem = new InputSystem( 0 );
+	inputSystem->Initialize( );
 
-	CPPUNIT_ASSERT_THROW( _inputSystem->SetCaptureArea( 0, 0 ), OutOfRangeException );
+	CPPUNIT_ASSERT_THROW( inputSystem->SetCaptureArea( 0, 0 ), OutOfRangeException );
+
+	delete inputSystem;
 }
 
 void InputSystemFixture::Should_Accept_Valid_Capture_Area( )
 {
-	_inputSystem->Initialize( );
+	InputSystem* inputSystem = new InputSystem( 0 );
+	inputSystem->Initialize( );
 
-	_inputSystem->SetCaptureArea( 1, 1 );
+	inputSystem->SetCaptureArea( 1, 1 );
+
+	delete inputSystem;
 }
 
 void InputSystemFixture::Should_Throw_Given_Unitialized_SetCaptureArea( )
 {
-	delete _inputSystem;
+	InputSystem* inputSystem = new InputSystem( 0 );
+	CPPUNIT_ASSERT_THROW( inputSystem->SetCaptureArea( 1, 1 ), UnInitializedException );
 
-	_inputSystem = new InputSystem( 0 );
-	CPPUNIT_ASSERT_THROW( _inputSystem->SetCaptureArea( 1, 1 ), UnInitializedException );
+	delete inputSystem;
 }
 
 void InputSystemFixture::Should_Update_Given_Initialized( )
 {
-	_inputSystem->Initialize( );
-	_inputSystem->Update( );
+	InputSystem* inputSystem = new InputSystem( 0 );
+	inputSystem->Initialize( );
+	inputSystem->Update( 0 );
+
+	delete inputSystem;
 }
 
 void InputSystemFixture::Should_Throw_Given_UnIntialized_Update( )
 {
-	delete _inputSystem;
+	InputSystem* inputSystem = new InputSystem( 0 );
+	CPPUNIT_ASSERT_THROW( inputSystem->Update( 0 ), UnInitializedException );
 
-	_inputSystem = new InputSystem( 0 );
-	CPPUNIT_ASSERT_THROW( _inputSystem->Update( ), UnInitializedException );
+	delete inputSystem;
 }

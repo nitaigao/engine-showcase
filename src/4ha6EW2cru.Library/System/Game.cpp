@@ -4,6 +4,7 @@
 #include "../Logging/Logger.h"
 
 #include "../Scripting/ScriptSystem.h"
+#include "../Input/InputSystem.h"
 #include "../Graphics/OgreRenderSystem.h"
 
 #include "../Exceptions/AlreadyInitializedException.hpp"
@@ -37,6 +38,7 @@ void Game::Initialize( )
 
 	Management::GetInstance( )->GetSystemManager( )->AddSystem( new ScriptSystem( _configuration ) );
 	Management::GetInstance( )->GetSystemManager( )->AddSystem( new OgreRenderSystem( _configuration ) );
+	Management::GetInstance( )->GetSystemManager( )->AddSystem( new InputSystem( _configuration ) );
 
 	Management::GetInstance( )->GetSystemManager( )->InitializeAllSystems( );
 

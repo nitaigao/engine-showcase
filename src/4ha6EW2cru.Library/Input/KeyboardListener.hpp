@@ -3,9 +3,10 @@
 
 #include "OIS/OISKeyboard.h"
 
-#include "../Events/EventManager.h"
 #include "../Events/Event.h"
 #include "../Events/EventData.hpp"
+
+#include "../System/Management.h"
 
 using OIS::KeyEvent;
 
@@ -27,7 +28,7 @@ public:
 	bool keyPressed( const KeyEvent &arg )
 	{
 		Event* event = new Event( INPUT_KEY_DOWN, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
-		EventManager::GetInstance( )->TriggerEvent( event );
+		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 
 		return true;
 	};
@@ -36,7 +37,7 @@ public:
 	bool keyReleased( const KeyEvent &arg )
 	{
 		Event* event = new Event( INPUT_KEY_UP, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
-		EventManager::GetInstance( )->TriggerEvent( event );
+		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 
 		return true;
 	};

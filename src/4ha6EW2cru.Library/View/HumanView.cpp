@@ -17,7 +17,7 @@ void HumanView::Initialize( )
 
 	_configuration->SetAvailableVideoModes( _renderer->GetVideoModes( ) );
 
-	_inputSystem = new InputSystem( _renderer->GetHwnd( ) );
+	_inputSystem = new InputSystem( 0 );
 	_inputSystem->Initialize( );
 	_inputSystem->SetCaptureArea( _configuration->GetDisplayWidth( ), _configuration->GetDisplayHeight( ) );
 
@@ -47,7 +47,7 @@ void HumanView::Update( const float deltaMilliseconds )
 		throw e;
 	}
 
-	_inputSystem->Update( );
+	_inputSystem->Update( deltaMilliseconds );
 	_renderer->Update( deltaMilliseconds );
 }
 

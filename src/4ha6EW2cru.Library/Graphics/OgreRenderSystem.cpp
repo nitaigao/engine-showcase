@@ -89,6 +89,13 @@ void OgreRenderSystem::Initialize( )
 	( *renderSystemIterator )->setConfigOption( "Video Mode", videoModeDesc.str( ) );
 
 	_root->initialise( true, "Interactive View" );
+	
+	size_t hWnd = 0;
+	_root->getAutoCreatedWindow( )->getCustomAttribute( "WINDOW", &hWnd );
+	
+	Property hWndProperty;
+	hWndProperty.SetValue( hWnd );
+	_properties[ "hwnd" ] = hWndProperty;
 
 	SceneManager* sceneManager = _root->createSceneManager( ST_GENERIC, "default" );
 

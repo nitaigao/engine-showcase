@@ -5,6 +5,7 @@ enum SystemType
 {
 	ScriptSystemType,
 	RenderSystemType,
+	InputSystemType,
 	Max_SystemTypes
 };
 
