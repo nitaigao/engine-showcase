@@ -1,16 +1,18 @@
 #ifndef __SYSTEMMANAGER_H
 #define __SYSTEMMANAGER_H
 
+#include <deque>
+
 class SystemManager : public ISystemManager
 {
 
-	typedef std::vector< ISystem* > SystemList;
+	typedef std::deque< ISystem* > SystemList;
 
 public:
 
 	virtual ~SystemManager( )
 	{
-		for( SystemList::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
+		for( SystemList::reverse_iterator i = _systems.rbegin( ); i != _systems.rend( ); ++i )
 		{
 			delete ( *i );
 		}

@@ -103,8 +103,9 @@ void Interface::LoadComponent( const std::string componentName )
 	std::stringstream scriptPath;
 	scriptPath << "/data/interface/components/" << componentName << ".lua";
 
-	lua_State* luaState = ScriptManager::GetInstance( )->LoadScript( scriptPath.str( ) );
-	lua_pcall( luaState, 0, 0, 0 );
+	ISystem* scriptSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( ScriptSystemType );
+	ScriptObject* scriptObject = ( ScriptObject* ) scriptSystem->CreateObject( scriptPath.str( ), ScriptSystemType );
+	lua_pcall( scriptObject->GetState( ), 0, 0, 0 );
 }
 
 WidgetPtr Interface::FindWidget( const std::string widgetName )

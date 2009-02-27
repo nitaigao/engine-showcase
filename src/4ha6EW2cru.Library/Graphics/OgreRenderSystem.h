@@ -40,6 +40,7 @@ private:
 	inline void Constructor( IConfiguration* configuration, IFileManager* fileManager )
 	{
 		_configuration = configuration;
+		_badStubCreated = false;
 		_isIntialized = false;
 		_root = 0;
 		_interface = 0;

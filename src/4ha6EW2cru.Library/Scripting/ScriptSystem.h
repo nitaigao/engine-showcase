@@ -7,6 +7,9 @@
 #include "../IO/IFileManager.hpp"
 #include "../System/IConfiguration.hpp"
 
+#include "../Events/IEvent.hpp"
+#include "../Events/EventType.hpp"
+
 extern "C" 
 {
 #	include <lua.h>
@@ -18,6 +21,8 @@ using namespace luabind;
 
 class ScriptSystem : public ISystem
 {
+	typedef std::pair< EventType, object > EventHandler;
+	typedef std::vector< EventHandler > EventHandlerList;
 	typedef std::vector< ScriptObject* > ScriptObjectList;
 
 public:
@@ -35,24 +40,30 @@ public:
 
 	ISystemObject* CreateObject( const std::string& name, SystemType systemType );
 
+	void RegisterEvent( EventType eventType, object function );
+
+	void UnRegisterEvent( EventType eventType, object function );
+
 private:
 
 	ScriptSystem( const ScriptSystem & copy ) { };
 	ScriptSystem & operator = ( const ScriptSystem & copy ) { return *this; };
 
-	void Constructor( IConfiguration* configuration, IFileManager* fileManager )
-	{
-		_fileManager = fileManager;
+	void Constructor( IConfiguration* configuration, IFileManager* fileManager );
 
-		_configuration = configuration;
-		_state = lua_open( );
-	}
+	static void FromLua_Print( const std::string message );
+	static void FromLua_RegisterEvent( EventType eventType, object function );
+	static void FromLua_UnRegisterEvent( EventType eventType, object function );
+	static int FromLua_ScriptError( lua_State* luaState );
+
+	void OnEvent( const IEvent* event );
 
 	IConfiguration* _configuration;
 	IFileManager* _fileManager;
 
 	lua_State* _state;
 	ScriptObjectList _scriptObjects;
+	EventHandlerList* _eventHandlers;
 
 };
 
