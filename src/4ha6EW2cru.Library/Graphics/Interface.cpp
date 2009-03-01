@@ -1,6 +1,5 @@
 #include "Interface.h"
 
-#include "../Scripting/ScriptManager.h"
 #include "../Events/EventManager.h"
 
 #include "MyGUI_Any.h"
@@ -27,7 +26,8 @@ Interface::~Interface( )
 
 void Interface::Initialize( )
 {
-	_gui->initialise( _ogreRoot->getAutoCreatedWindow( ), "/data/interface/core/core.xml" );
+	Ogre::RenderWindow* window = static_cast< Ogre::RenderWindow* >( _ogreRoot->getRenderTarget(  _configuration->Find< std::string >( "Graphics", "window_title" ) ) );
+	_gui->initialise( window, "/data/interface/core/core.xml" );
 
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_PRESSED, this, &Interface::OnMousePressed );
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_MOVED, this, &Interface::OnMouseMoved );

@@ -29,7 +29,8 @@ public:
 
 	static ConfigurationFile* Load( const std::string& filePath )
 	{
-		FileBuffer* buffer = FileManager::GetInstance( )->GetFile( filePath );
+		FileManager fileManager;
+		FileBuffer* buffer = fileManager.GetFile( filePath );
 		ConfigurationFile* configFile = new ConfigurationFile( buffer );
 		delete buffer;
 		return configFile;

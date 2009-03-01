@@ -15,6 +15,7 @@ class FileManager : public IFileManager
 public:
 
 	FileManager( );
+	~FileManager( ) { };
 
 	/*! Retrieves an instance of the FileManager Singleton */
 	static  FileManager* GetInstance( );
@@ -44,7 +45,6 @@ private:
 
 	FileSearchResultList* _FileSearch( const std::string path, const std::string pattern, const bool recursive, FileSearchResultList* results ) const;
 
-	~FileManager( ) { };
 	FileManager( const FileManager & copy ) { };
 	FileManager & operator = ( const FileManager & copy ) { return *this; };
 

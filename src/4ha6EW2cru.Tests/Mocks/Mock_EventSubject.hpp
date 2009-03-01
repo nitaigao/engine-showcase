@@ -1,0 +1,32 @@
+#ifndef __MOCK_EVENTSUBJECT_H
+#define __MOCK_EVENTSUBJECT_H
+
+#include "mockpp/mockpp.h"
+#include "mockpp/MockObject.h"
+#include "mockpp/ExpectationCounter.h"
+
+USING_NAMESPACE_MOCKPP
+
+#include "Events/IEvent.hpp"
+
+class Mock_EventSubject
+{
+
+public:
+
+	Mock_EventSubject( )
+		: eventHandler_counter( 0 )
+	{ };
+
+	void EventHandler( const IEvent* const event )
+	{
+		eventHandler_counter++;
+	};
+
+	void FalseEventHandler( const IEvent* const event ) { };
+
+	int eventHandler_counter;
+
+};
+
+#endif

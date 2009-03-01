@@ -3,6 +3,8 @@
 #include "../Events/Event.h"
 #include "../Logging/Logger.h"
 
+#include "Configuration.h"
+
 #include "../Scripting/ScriptSystem.h"
 #include "../Input/InputSystem.h"
 #include "../Graphics/OgreRenderSystem.h"
@@ -32,6 +34,8 @@ void Game::Initialize( )
 	Logger::GetInstance( )->AddAppender( consoleAppender );
 	Logger::GetInstance( )->Info( "Initializing Game" );
 
+	_configuration = Configuration::Load( "config/game.cfg" );
+
 	Management::Initialize( );
 
 	// -- Intialize All Systems
@@ -48,6 +52,11 @@ void Game::Initialize( )
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_INITIALIZED ) );
 
 	_isInitialized = true;
+}
+
+Game::~Game( )
+{
+	delete _configuration;
 }
 
 void Game::Update( float deltaMilliseconds )

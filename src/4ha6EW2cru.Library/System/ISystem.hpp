@@ -5,7 +5,7 @@
 #include <map>
 
 #include "SystemType.hpp"
-#include "Property.hpp"
+#include "SystemProperty.hpp"
 #include "ISystemObject.hpp"
 
 class ISystem
@@ -13,7 +13,7 @@ class ISystem
 
 protected:
 
-	typedef std::map< std::string, Property > PropertyMap;
+	typedef std::map< std::string, SystemProperty > PropertyMap;
 
 public:
 

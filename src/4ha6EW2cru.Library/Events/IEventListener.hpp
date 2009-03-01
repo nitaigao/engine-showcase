@@ -3,6 +3,7 @@
 
 #include <boost/function.hpp>
 
+#include "IEvent.hpp"
 #include "EventType.hpp"
 
 /*!

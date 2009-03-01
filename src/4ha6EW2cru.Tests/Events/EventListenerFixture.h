@@ -3,9 +3,8 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "../Mocks/MockEventSubject.hpp"
-
 #include "Events/IEventListener.hpp"
+#include "../Mocks/Mock_EventSubject.hpp"
 
 class EventListenerFixture : public CPPUNIT_NS::TestFixture
 {
@@ -37,7 +36,7 @@ protected:
 
 private:
 
-	EventSubjectMock* _eventTarget;
+	Mock_EventSubject* _eventTarget;
 	IEventListener* _eventListener;
 };
 

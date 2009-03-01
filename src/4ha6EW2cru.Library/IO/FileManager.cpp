@@ -5,7 +5,6 @@
 #include "physfs.h"
 
 #include "../Logging/Logger.h"
-#include "../Common/Paths.hpp"
 #include "../Utility/SearchUtility.hpp"
 
 #include "../Exceptions/UnInitializedException.hpp"
@@ -56,8 +55,8 @@ const bool FileManager::Initialize( )
 FileManager::FileManager( )
 {
 	PHYSFS_init( 0 );
-	PHYSFS_addToSearchPath( Paths::GetGameFolderPath( ).c_str( ), 1 );
-	PHYSFS_setWriteDir( Paths::GetGameFolderPath( ).c_str( ) );
+	PHYSFS_addToSearchPath( "../game", 1 );
+	PHYSFS_setWriteDir( "../game" );
 }
 
 bool FileManager::FileExists( const std::string filePath, bool throwOnFail ) const

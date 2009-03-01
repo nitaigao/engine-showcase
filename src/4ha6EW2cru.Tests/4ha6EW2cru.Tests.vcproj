@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/cppunit/include;../../etc/vendor/ois/includes;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/mygui/include;../../etc/vendor/mockpp;../../etc/vendor/ogre/include;../../etc/vendor/lua/include;../../etc/vendor/cppspec/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -118,7 +118,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/cppunit/include;../../etc/vendor/ois/includes;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/mygui/include;../../etc/vendor/mockpp;../../etc/vendor/ogre/include;../../etc/vendor/lua/include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -200,27 +200,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\System\ConfigurationFixture.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\System\ConfigurationFixture.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Logging\ConsoleAppenderFixture.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Logging\ConsoleAppenderFixture.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Logging\EventAppenderFixture.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Logging\EventAppenderFixture.h"
 			>
 		</File>
 		<File
@@ -288,22 +272,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Logic\GameState_Tests.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Logic\GameState_Tests.h"
-			>
-		</File>
-		<File
-			RelativePath=".\View\HumanViewFixture.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\View\HumanViewFixture.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Input\InputSystemFixture.cpp"
 			>
 		</File>
@@ -320,14 +288,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Logic\LevelLoader_Tests.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Logic\LevelLoader_Tests.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Logging\LoggerFixture.cpp"
 			>
 		</File>
@@ -340,15 +300,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Mocks\Mock_Configuration.hpp"
+			RelativePath=".\Mocks\Mock_EventSubject.hpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Mocks\Mock_FileManager.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Mocks\Mock_LevelLoader.hpp"
 			>
 		</File>
 		<File
@@ -389,30 +345,6 @@
 		</File>
 		<File
 			RelativePath=".\Graphics\OgreRendererFixture.h"
-			>
-		</File>
-		<File
-			RelativePath=".\View\OgreRenderSystem_Tests.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\View\OgreRenderSystem_Tests.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ScriptFixture.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ScriptFixture.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ScriptManagerFixture.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ScriptManagerFixture.h"
 			>
 		</File>
 		<File

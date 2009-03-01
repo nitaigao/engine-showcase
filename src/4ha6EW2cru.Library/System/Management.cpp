@@ -2,13 +2,14 @@
 
 #include "../Exceptions/UnInitializedException.hpp"
 
-#include "../Events/EventManager.h"
 #include "../System/SystemManager.h"
+#include "../System/PlatformManager.h"
 
 static Management* g_ManagementInstance = 0;
 
 Management::Management( )
 {
+	_platformManager = new PlatformManager( );
 	_eventManager = new EventManager( );
 	_systemManager = new SystemManager( );
 }
@@ -17,6 +18,7 @@ Management::~Management( )
 {
 	delete _systemManager;
 	delete _eventManager;
+	delete _platformManager;
 }
 
 void Management::Initialize( )
@@ -43,6 +45,7 @@ void Management::Release( )
 
 void Management::Update( float deltaMilliseconds )
 {
+	_platformManager->Update( deltaMilliseconds );
 	_systemManager->Update( deltaMilliseconds );
 	_eventManager->Update( deltaMilliseconds );
 }

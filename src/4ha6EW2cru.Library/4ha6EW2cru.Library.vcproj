@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include"
-				PreprocessorDefinitions="TIXML_USE_STL"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -108,6 +108,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -170,10 +171,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\System\Configuration.cpp"
-			>
-		</File>
-		<File
 			RelativePath=".\System\Configuration.h"
 			>
 		</File>
@@ -191,14 +188,6 @@
 		</File>
 		<File
 			RelativePath=".\Events\Event.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Logging\EventAppender.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Logging\EventAppender.h"
 			>
 		</File>
 		<File
@@ -262,27 +251,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Logic\GameState.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Logic\GameState.h"
-			>
-		</File>
-		<File
-			RelativePath=".\View\HumanView.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\View\HumanView.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Logging\IAppender.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\System\IConfiguration.hpp"
 			>
 		</File>
 		<File
@@ -303,10 +272,6 @@
 		</File>
 		<File
 			RelativePath=".\IO\IFileManager.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Logic\IGameState.hpp"
 			>
 		</File>
 		<File
@@ -334,10 +299,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Logic\ILevelLoader.hpp"
-			>
-		</File>
-		<File
 			RelativePath=".\Input\InputSystem.cpp"
 			>
 		</File>
@@ -358,7 +319,15 @@
 			>
 		</File>
 		<File
+			RelativePath=".\System\IPlatformManager.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Graphics\IRenderer.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\IScriptConfiguration.hpp"
 			>
 		</File>
 		<File
@@ -374,19 +343,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Logic\IWorld.hpp"
-			>
-		</File>
-		<File
 			RelativePath=".\Input\KeyboardListener.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Logic\LevelLoader.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Logic\LevelLoader.h"
 			>
 		</File>
 		<File
@@ -454,14 +411,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Graphics\OgreRenderer.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\OgreRenderer.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Graphics\OgreRenderSystem.cpp"
 			>
 		</File>
@@ -474,7 +423,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Common\Paths.hpp"
+			RelativePath=".\System\PlatformManager.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\System\PlatformManager.h"
 			>
 		</File>
 		<File
@@ -486,31 +439,15 @@
 			>
 		</File>
 		<File
-			RelativePath=".\System\Property.hpp"
-			>
-		</File>
-		<File
 			RelativePath=".\Exceptions\ScreenDimensionsException.hpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Scripting\Script.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\Script.h"
+			RelativePath=".\Scripting\ScriptConfiguration.h"
 			>
 		</File>
 		<File
 			RelativePath=".\Exceptions\ScriptException.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ScriptManager.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ScriptManager.h"
 			>
 		</File>
 		<File
@@ -535,6 +472,10 @@
 		</File>
 		<File
 			RelativePath=".\System\SystemManager.h"
+			>
+		</File>
+		<File
+			RelativePath=".\System\SystemProperty.hpp"
 			>
 		</File>
 		<File

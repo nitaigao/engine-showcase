@@ -6,7 +6,6 @@
 
 #include <vector>
 
-#include "../Common/Paths.hpp"
 #include "../Exceptions/UnInitializedException.hpp"
 #include "../Exceptions/AlreadyInitializedException.hpp"
 #include "../Exceptions/NullReferenceException.hpp"

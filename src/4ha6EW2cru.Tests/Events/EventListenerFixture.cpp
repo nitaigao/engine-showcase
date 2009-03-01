@@ -5,6 +5,8 @@
 
 #include "Exceptions/NullReferenceException.hpp"
 
+#include "../Mocks/Mock_EventSubject.hpp"
+
 #include "../Suites.h"
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( EventListenerFixture, Suites::EventsSuite( ) );
 
@@ -13,9 +15,9 @@ void EventListenerFixture::setUp( )
 	Logger::Initialize( );
 
 	_eventTarget = 0;
-	_eventTarget = new EventSubjectMock( );
+	_eventTarget = new Mock_EventSubject( );
 
-	_eventListener = new EventListener< EventSubjectMock >( TEST_EVENT, _eventTarget, &EventSubjectMock::EventHandler );
+	_eventListener = new EventListener< Mock_EventSubject >( TEST_EVENT, _eventTarget, &Mock_EventSubject::EventHandler );
 }
 
 void EventListenerFixture::tearDown( )
@@ -46,17 +48,17 @@ void EventListenerFixture::EventListener_Should_Handle_Event( )
 
 void EventListenerFixture::Should_Return_Correct_EventHandler_Function( )
 {
-	EventListener< EventSubjectMock >* fullEventListener = static_cast< EventListener< EventSubjectMock >* >( _eventListener );
+	EventListener< Mock_EventSubject >* fullEventListener = static_cast< EventListener< Mock_EventSubject >* >( _eventListener );
 
-	CPPUNIT_ASSERT( &EventSubjectMock::EventHandler == fullEventListener->GetHandlerFunctor( ) );
-	CPPUNIT_ASSERT( &EventSubjectMock::FalseEventHandler != fullEventListener->GetHandlerFunctor( ) );
+	CPPUNIT_ASSERT( &Mock_EventSubject::EventHandler == fullEventListener->GetHandlerFunctor( ) );
+	CPPUNIT_ASSERT( &Mock_EventSubject::FalseEventHandler != fullEventListener->GetHandlerFunctor( ) );
 }
 
 void EventListenerFixture::Should_Throw_NullReferenceException_On_HandleEvent_Given_Handler_Is_NULL( )
 {
 	delete _eventListener;
 
-	_eventListener = new EventListener< EventSubjectMock >( TEST_EVENT, _eventTarget, 0 );
+	_eventListener = new EventListener< Mock_EventSubject >( TEST_EVENT, _eventTarget, 0 );
 	CPPUNIT_ASSERT_THROW( _eventListener->HandleEvent( 0 ), NullReferenceException );
 }
 
@@ -64,8 +66,8 @@ void EventListenerFixture::Should_Return_NULL_Handler_Given_Constructed_With_NUL
 {
 	delete _eventListener;
 
-	_eventListener = new EventListener< EventSubjectMock >( TEST_EVENT, _eventTarget, 0 );
-	EventListener< EventSubjectMock >* fullEventListener = static_cast< EventListener< EventSubjectMock >* >( _eventListener );
+	_eventListener = new EventListener< Mock_EventSubject >( TEST_EVENT, _eventTarget, 0 );
+	EventListener< Mock_EventSubject >* fullEventListener = static_cast< EventListener< Mock_EventSubject >* >( _eventListener );
 	CPPUNIT_ASSERT( 0 == fullEventListener->GetHandlerFunctor( ) );
 }
 
@@ -73,13 +75,13 @@ void EventListenerFixture::Should_Return_NULL_Handler_Given_Constructed_With_NUL
 {
 	delete _eventListener;
 
-	_eventListener = new EventListener< EventSubjectMock >( TEST_EVENT, 0, &EventSubjectMock::EventHandler );
-	EventListener< EventSubjectMock >* fullEventListener = static_cast< EventListener< EventSubjectMock >* >( _eventListener );
+	_eventListener = new EventListener< Mock_EventSubject >( TEST_EVENT, 0, &Mock_EventSubject::EventHandler );
+	EventListener< Mock_EventSubject >* fullEventListener = static_cast< EventListener< Mock_EventSubject >* >( _eventListener );
 	CPPUNIT_ASSERT( 0 == fullEventListener->GetHandlerTarget( ) );
 }
 
 void EventListenerFixture::Should_Return_Correct_Handler_Target( )
 {
-	EventListener< EventSubjectMock >* fullEventListener = static_cast< EventListener< EventSubjectMock >* >( _eventListener );
+	EventListener< Mock_EventSubject >* fullEventListener = static_cast< EventListener< Mock_EventSubject >* >( _eventListener );
 	CPPUNIT_ASSERT( _eventTarget == fullEventListener->GetHandlerTarget( ) );
 }

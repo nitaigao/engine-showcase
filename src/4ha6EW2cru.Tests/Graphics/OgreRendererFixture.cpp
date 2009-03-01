@@ -1,7 +1,5 @@
 #include "OgreRendererFixture.h"
 
-#include "Graphics/OgreRenderer.h"
-
 #include "Exceptions/ScreenDimensionsException.hpp"
 
 #include "Events/EventManager.h"
@@ -18,8 +16,6 @@ void OgreRendererFixture::setUp( )
 	Logger::Initialize( );
 	EventManager::Initialize( );
 	FileManager::Initialize( );
-
-	_renderer = new OgreRenderer( );
 }
 
 void OgreRendererFixture::tearDown( )

@@ -5,7 +5,8 @@
 #include "ScriptObject.h"
 
 #include "../IO/IFileManager.hpp"
-#include "../System/IConfiguration.hpp"
+#include "../System/Configuration.h"
+#include "ScriptConfiguration.h"
 
 #include "../Events/IEvent.hpp"
 #include "../Events/EventType.hpp"
@@ -27,8 +28,8 @@ class ScriptSystem : public ISystem
 
 public:
 
-	ScriptSystem( IConfiguration* configuration );
-	ScriptSystem( IConfiguration* configuration, IFileManager* fileManager );
+	ScriptSystem( Configuration* configuration );
+	ScriptSystem( Configuration* configuration, IFileManager* fileManager, ScriptConfiguration* scriptConfiguration );
 
 	virtual ~ScriptSystem( );
 
@@ -51,7 +52,7 @@ private:
 	ScriptSystem( const ScriptSystem & copy ) { };
 	ScriptSystem & operator = ( const ScriptSystem & copy ) { return *this; };
 
-	void Constructor( IConfiguration* configuration, IFileManager* fileManager );
+	void Constructor( Configuration* configuration, IFileManager* fileManager, ScriptConfiguration* scriptConfiguration );
 
 	static void FromLua_Quit( void );
 	static void FromLua_Print( const std::string message );
@@ -63,7 +64,8 @@ private:
 	void OnEvent( const IEvent* event );
 
 	PropertyMap _properties;
-	IConfiguration* _configuration;
+	Configuration* _configuration;
+	ScriptConfiguration* _scriptConfiguration;
 	IFileManager* _fileManager;
 
 	lua_State* _state;

@@ -14,20 +14,26 @@
 #include "../IO/FileManager.h"
 #include "../IO/BadArchiveFactory.h"
 
-OgreRenderSystem::OgreRenderSystem( IConfiguration* configuration )
+OgreRenderSystem::OgreRenderSystem( Configuration* configuration )
 {
 	FileManager* fileManager = new FileManager( );
 	fileManager->Initialize( );
 	this->Constructor( configuration, fileManager );
 }
 
-OgreRenderSystem::OgreRenderSystem( IConfiguration* configuration, IFileManager* fileManager )
+OgreRenderSystem::OgreRenderSystem( Configuration* configuration, IFileManager* fileManager )
 {
 	this->Constructor( configuration, fileManager );
 }
 
 OgreRenderSystem::~OgreRenderSystem( )
 {
+	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GRAPHICS_SETTINGS_CHANGED, this, &OgreRenderSystem::OnGraphicsSettingsUpdated );
+	
+	Ogre::WindowEventUtilities::removeWindowEventListener( _window, this );
+
+	delete this->GetProperties( )[ "availableVideoModes" ].GetValue< std::vector< std::string >* >( );
+
 	if( _interface != 0 )
 	{
 		delete _interface;
@@ -60,6 +66,12 @@ void OgreRenderSystem::Initialize( )
 		throw e;
 	}
 
+	_configuration->SetDefault( "Graphics", "fullscreen", false );
+	_configuration->SetDefault( "Graphics", "width", 640 );
+	_configuration->SetDefault( "Graphics", "height", 480 );
+	_configuration->SetDefault( "Graphics", "depth", 32 );
+	_configuration->SetDefault( "Graphics", "window_title", std::string( "Interactive View" ) );
+
 	_root = new Root( );
 
 	// Switches off the Ogre Logging unless the whole game is in debug mode
@@ -69,7 +81,11 @@ void OgreRenderSystem::Initialize( )
 		Ogre::LogManager::getSingletonPtr( )->createLog( "default", true, false, true );
 	}
 
+#ifdef _DEBUG
 	_root->loadPlugin( "RenderSystem_Direct3D9_d" );
+#else
+	_root->loadPlugin( "RenderSystem_Direct3D9" );
+#endif // _DEBUG	
 
 	_badFactory = new BadArchiveFactory( );
 	ArchiveManager::getSingletonPtr( )->addArchiveFactory( _badFactory );
@@ -83,19 +99,33 @@ void OgreRenderSystem::Initialize( )
 	_root->setRenderSystem( *renderSystemIterator );
 
 	std::stringstream videoModeDesc;
-	videoModeDesc << _configuration->Find( "Graphics", "Width", 640 ) << " x " << _configuration->Find( "Graphics", "Height", 480 ) << " @ 32-bit colour";
-
-	( *renderSystemIterator )->setConfigOption( "Full Screen", _configuration->Find( "Graphics", "FullScreen", false ) ? "Yes" : "No" );
+	videoModeDesc << _configuration->Find< int >( "Graphics", "width" ) << " x " << _configuration->Find< int >( "Graphics", "height" ) << " @ 32-bit colour";
 	( *renderSystemIterator )->setConfigOption( "Video Mode", videoModeDesc.str( ) );
+	( *renderSystemIterator )->setConfigOption( "Full Screen", _configuration->Find< bool >( "Graphics", "fullscreen" ) ? "Yes" : "No" );
 
-	_root->initialise( true, "Interactive View" );
-	
-	size_t hWnd = 0;
-	_root->getAutoCreatedWindow( )->getCustomAttribute( "WINDOW", &hWnd );
-	
-	Property hWndProperty;
-	hWndProperty.SetValue( hWnd );
-	_properties[ "hwnd" ] = hWndProperty;
+	_root->initialise( false );
+
+	Management::GetInstance( )->GetPlatformManager( )->CreateInteractiveWindow( 
+		_configuration->Find< std::string >( "Graphics", "window_title" ), 
+		_configuration->Find< int >( "Graphics", "width" ), 
+		_configuration->Find< int >( "Graphics", "height" ),
+		_configuration->Find< bool >( "Graphics", "fullscreen" )
+		);
+
+	NameValuePairList params;
+	params[ "externalWindowHandle" ] = StringConverter::toString( ( int ) Management::GetInstance( )->GetPlatformManager( )->GetHwnd( ) );
+
+	_window = _root->createRenderWindow( 
+		_configuration->Find< std::string >( "Graphics", "window_title" ), 
+		_configuration->Find< int >( "Graphics", "width" ), 
+		_configuration->Find< int >( "Graphics", "height" ),
+		_configuration->Find< bool >( "Graphics", "fullscreen" ), 
+		&params 
+		);
+
+	Ogre::WindowEventUtilities::addWindowEventListener( _window, this );
+
+	_properties[ "availableVideoModes" ] = SystemProperty( "availableVideoModes", new std::vector< std::string >( this->GetVideoModes( ) ) ); 
 
 	SceneManager* sceneManager = _root->createSceneManager( ST_GENERIC, "default" );
 
@@ -104,15 +134,19 @@ void OgreRenderSystem::Initialize( )
 	camera->lookAt( Vector3( 0, 0, 0 ) );
 	camera->setNearClipDistance( 1.0f );
 
-	Viewport* viewPort = _root->getAutoCreatedWindow( )->addViewport( camera );
+	Viewport* viewPort = _window->addViewport( camera );
 	viewPort->setBackgroundColour( ColourValue( 0, 0, 0 ) );
 
 	camera->setAspectRatio(
 		Real( viewPort->getActualWidth( )) / Real( viewPort->getActualHeight( ) )
 		);
 
-	_interface = new Interface( _root );
+	_root->renderOneFrame( );
+
+	_interface = new Interface( _configuration, _root );
 	_interface->Initialize( );
+
+	Management::GetInstance( )->GetEventManager( )->AddEventListener( GRAPHICS_SETTINGS_CHANGED, this, &OgreRenderSystem::OnGraphicsSettingsUpdated );
 
 	_isIntialized = true;
 }
@@ -128,11 +162,11 @@ void OgreRenderSystem::Update( float deltaMilliseconds )
 
 	_interface->Update( deltaMilliseconds );
 	_root->renderOneFrame( );
+}
 
-	if ( _root->getAutoCreatedWindow( )->isClosed( ) )
-	{
-		Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
-	}
+void OgreRenderSystem::windowClosed( RenderWindow* rw )
+{
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
 }
 
 void OgreRenderSystem::LoadResources( )
@@ -171,4 +205,44 @@ void OgreRenderSystem::LoadResources( )
 			}
 		}
 	}
+}
+
+std::vector< std::string > OgreRenderSystem::GetVideoModes( ) const
+{
+	std::vector< std::string > availableDisplayModes;
+	ConfigOptionMap options = _root->getRenderSystem( )->getConfigOptions( );
+	for( ConfigOptionMap::iterator cm = options.begin( ); cm != options.end( ); ++cm )
+	{
+		if ( ( *cm ).first == "Video Mode" )
+		{
+			StringVector possibleModes = ( *cm ).second.possibleValues;
+
+			for( StringVector::iterator i = possibleModes.begin( ); i != possibleModes.end( ); ++i )
+			{
+				std::stringstream currentColorDepth;
+				currentColorDepth << _window->getColourDepth( );
+
+				int result = ( *i ).find( currentColorDepth.str( ) );
+
+				if ( result > -1 )
+				{
+					std::string mode = ( *i ).substr( 0, ( *i ).find( " @ " ) );
+					availableDisplayModes.push_back( mode );
+				}
+			}
+		}
+	}
+
+	return availableDisplayModes;
+}
+
+void OgreRenderSystem::OnGraphicsSettingsUpdated( const IEvent* event )
+{
+	Ogre::RenderWindow* window = static_cast< Ogre::RenderWindow* >( _root->getRenderTarget(  _configuration->Find< std::string >( "Graphics", "window_title" ) ) );
+	
+	window->setFullscreen(
+		_configuration->Find< bool >( "Graphics", "fullscreen" ),
+		_configuration->Find< int >( "Graphics", "width" ), 
+		_configuration->Find< int >( "Graphics", "height" )
+		);
 }

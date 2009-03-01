@@ -6,8 +6,6 @@
 #include <string>
 #include <vector>
 
-#include "IConfiguration.hpp"
-
 #include "../Exceptions/OutOfRangeException.hpp"
 #include "../Exceptions/FileNotFoundException.hpp"
 
@@ -15,101 +13,78 @@
 
 #include "ConfigurationFile.h"
 
+#include <boost/any.hpp>
+
 
 /*! Loads and contains game specific configuration info */
-class Configuration : public IConfiguration
+class Configuration
 {
-
-	typedef std::vector< std::string > VideoModeList;
+	typedef std::map< std::string, boost::any > DefaultPropertyList;
 
 public:
 
-	virtual ~Configuration( );
-
-	int Find( const std::string& section, const std::string& key, const int& defaultValue )
+	virtual ~Configuration( )
 	{
-		return defaultValue;
+		delete _configFile;
 	}
 
-	std::string Find( const std::string& section, const std::string& key, const std::string& defaultValue )
+	static Configuration* Load( const std::string& filePath )
 	{
-		return defaultValue;
+		ConfigurationFile* configFile = ConfigurationFile::Load( filePath );
+		return new Configuration( configFile );
+	};
+
+	void SetDefault( const std::string& section, const std::string& key, const boost::any& value )
+	{	
+		_defaultPropertyList[ key ] = value;
 	}
 
-	bool Find( const std::string& section, const std::string& key, const bool& defaultValue )
+	template< class T >
+	T Find( const std::string& section, const std::string& key )
 	{
-		return defaultValue;
+		boost::any result;
+
+		for( DefaultPropertyList::iterator i = _defaultPropertyList.begin( ); i != _defaultPropertyList.end( ); ++i )
+		{
+			if ( ( *i ).first == key )
+			{
+				if ( ( *i ).second.type( ) == typeid( std::string ) )
+				{
+					result = boost::any( _configFile->FindConfigItem( section, key, boost::any_cast< std::string >( ( *i ).second ) ) );
+				}
+
+				if ( ( *i ).second.type( ) == typeid( int ) )
+				{
+					result = boost::any( _configFile->FindConfigItem( section, key, boost::any_cast< int >( ( *i ).second ) ) );
+				}
+
+				if ( ( *i ).second.type( ) == typeid( bool ) )
+				{
+					result = boost::any( _configFile->FindConfigItem( section, key, boost::any_cast< bool >( ( *i ).second ) ) );
+				}
+			}
+		}
+
+		return boost::any_cast< T >( result );
 	}
 
 	void Set( const std::string& section, const std::string& key, const std::string& value )
 	{
-		
+		_configFile->Update( section, key, value );
+		_configFile->Save( "config/game.cfg" );
 	}
 
 	void Set( const std::string& section, const std::string& key, const int& value )
 	{
-		
+		_configFile->Update( section, key, value );
+		_configFile->Save( "config/game.cfg" );
 	}
 
 	void Set( const std::string& section, const std::string& key, const bool& value )
 	{
-		
+		_configFile->Update( section, key, value );
+		_configFile->Save( "config/game.cfg" );
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	void Initialize( );
-
-	static Configuration* Load( const std::string& filePath );
-
-	/* -- Graphics -- */
-
-	inline bool IsFullScreen( ) const { return _configFile->FindConfigItem( "Graphics", "fullscreen", true ); };
-	inline void SetFullScreen( bool isFullScreen ) { _configFile->Update( "Graphics", "fullscreen", isFullScreen );  };
-
-	inline int GetDisplayWidth ( ) const { return _configFile->FindConfigItem( "Graphics", "width", 640 ); };
-	inline void SetDisplayWidth( int width ) { _configFile->Update( "Graphics", "width", width );  };
-
-	inline int GetDisplayHeight ( ) const { return _configFile->FindConfigItem( "Graphics", "height", 480 ); };
-	inline void SetDisplayHeight( int height ) { _configFile->Update( "Graphics", "height", height );  };
-
-	inline int GetColorDepth( ) const { return _configFile->FindConfigItem( "Graphics", "depth", 32 ); };
-
-	inline const VideoModeList& GetAvailableVideoModes( ) const { return _availableVideoModes; }
-	inline void SetAvailableVideoModes( VideoModeList modes ) { _availableVideoModes.assign( modes.begin( ), modes.end( ) ); };
-
-	/* -- Logging -- */
-
-	inline int GetLoggingLevel( ) const { return _configFile->FindConfigItem( "Logging", "level", 0 ); };
 
 private:
 
@@ -122,10 +97,8 @@ private:
 
 	};
 
-	void OnConfigurationUpdated( const IEvent* event );
-
 	ConfigurationFile* _configFile;
-	VideoModeList _availableVideoModes;
+	DefaultPropertyList _defaultPropertyList;
 	
 };
 

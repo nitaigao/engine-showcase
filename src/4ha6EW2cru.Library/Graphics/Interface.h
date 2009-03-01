@@ -9,6 +9,8 @@ using namespace luabind;
 
 #include "IInterface.hpp"
 
+#include "../System/Configuration.h"
+
 #include "../Events/IEvent.hpp"
 #include "../Events/EventData.hpp"
 
@@ -18,8 +20,9 @@ class Interface : MyGUI::IUnlinkWidget, public IInterface
 
 public:
 
-	Interface( Ogre::Root* ogreRoot )
+	Interface( Configuration* configuration, Ogre::Root* ogreRoot )
 		: _ogreRoot( ogreRoot )
+		, _configuration( configuration )
 	{
 		_gui = new Gui( );
 	}
@@ -45,10 +48,10 @@ private:
 	static void ScriptWidget( Widget* widget, const std::string eventName, object function );
 
 	/*! Returns the Screen Width in pixels */
-	static inline int GetScreenWidth( ) { return Gui::getInstancePtr( )->getRenderWindow( )->getWidth( ); };
+	static inline int GetScreenWidth( ) { return Ogre::Root::getSingletonPtr( )->getRenderTarget( "Interactive View" )->getWidth( ); };
 
 	/*! Returns the Screen Height in pixels */
-	static inline int GetScreenHeight( ) { return Gui::getInstancePtr( )->getRenderWindow( )->getHeight( ); };
+	static inline int GetScreenHeight( ) { return Ogre::Root::getSingletonPtr( )->getRenderTarget( "Interactive View" )->getHeight( ); };
 
 	/*! Shows the mouse */
 	static inline void ShowMouse( ) { Gui::getInstancePtr( )->showPointer( ); };
@@ -83,6 +86,7 @@ private:
 	void OnKeyDown( const IEvent* event );
 
 
+	Configuration* _configuration;
 	Ogre::Root* _ogreRoot;
 	Gui* _gui;
 

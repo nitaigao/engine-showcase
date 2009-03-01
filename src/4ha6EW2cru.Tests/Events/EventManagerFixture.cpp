@@ -2,9 +2,9 @@
 #include "Logging/Logger.h"
 #include "Events/Event.h"
 #include "Events/EventManager.h"
-#include "../Mocks/MockEventSubject.hpp"
 
 #include "../Mocks/MockEventTrigger.hpp"
+#include "../Mocks/Mock_EventSubject.hpp"
 
 #include "../Suites.h"
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( EventManagerFixture, Suites::EventsSuite( ) );
@@ -84,21 +84,21 @@ void EventManagerFixture:: Should_Throw_On_Update_Given_UnInitialized( )
 
 void EventManagerFixture:: Should_Throw_On_AddEventListener_Given_Uninitialized( )
 {
-	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->AddEventListener< EventSubjectMock >( TEST_EVENT, 0, &EventSubjectMock::EventHandler ), UnInitializedException );
+	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->AddEventListener< Mock_EventSubject >( TEST_EVENT, 0, &Mock_EventSubject::EventHandler ), UnInitializedException );
 }
 
 void EventManagerFixture:: Should_Throw_On_AddEventListener_Given_NULL_Target( )
 {
 	EventManager::Initialize( );
-	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->AddEventListener< EventSubjectMock >( TEST_EVENT, 0, &EventSubjectMock::EventHandler ), NullReferenceException );
+	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->AddEventListener< Mock_EventSubject >( TEST_EVENT, 0, &Mock_EventSubject::EventHandler ), NullReferenceException );
 	EventManager::GetInstance( )->Release( );
 }
 
 void EventManagerFixture:: Should_Throw_On_AddEventListener_Given_NULL_HandlerFunctor( )
 {
-	EventSubjectMock* eventSubject = new EventSubjectMock( );
+	Mock_EventSubject* eventSubject = new Mock_EventSubject( );
 	EventManager::Initialize( );
-	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->AddEventListener< EventSubjectMock >( TEST_EVENT, eventSubject, 0 ), NullReferenceException );
+	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->AddEventListener< Mock_EventSubject >( TEST_EVENT, eventSubject, 0 ), NullReferenceException );
 	EventManager::GetInstance( )->Release( );
 
 	delete eventSubject;
@@ -106,9 +106,9 @@ void EventManagerFixture:: Should_Throw_On_AddEventListener_Given_NULL_HandlerFu
 
 void EventManagerFixture:: Should_Add_Listener_Given_Correct_Listener_And_Initialized( )
 {
-	EventSubjectMock* eventSubject = new EventSubjectMock( );
+	Mock_EventSubject* eventSubject = new Mock_EventSubject( );
 	EventManager::Initialize( );
-	EventManager::GetInstance( )->AddEventListener< EventSubjectMock >( TEST_EVENT, eventSubject, &EventSubjectMock::EventHandler );
+	EventManager::GetInstance( )->AddEventListener< Mock_EventSubject >( TEST_EVENT, eventSubject, &Mock_EventSubject::EventHandler );
 	EventManager::GetInstance( )->Release( );
 
 	delete eventSubject;
@@ -116,22 +116,22 @@ void EventManagerFixture:: Should_Add_Listener_Given_Correct_Listener_And_Initia
 
 void EventManagerFixture:: Should_Throw_On_RemoveEventListener_Given_Uninitialized( )
 {
-	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->RemoveEventListener< EventSubjectMock > ( TEST_EVENT, 0, 0 ), UnInitializedException );
+	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->RemoveEventListener< Mock_EventSubject > ( TEST_EVENT, 0, 0 ), UnInitializedException );
 }
 
 void EventManagerFixture:: Should_Throw_On_RemoveEventListener_Given_NULL_Target( )
 {
 	EventManager::Initialize( );
-	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->RemoveEventListener< EventSubjectMock > ( TEST_EVENT, 0, &EventSubjectMock::EventHandler ), NullReferenceException );
+	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->RemoveEventListener< Mock_EventSubject > ( TEST_EVENT, 0, &Mock_EventSubject::EventHandler ), NullReferenceException );
 	EventManager::GetInstance( )->Release( );
 }
 
 void EventManagerFixture:: Should_Throw_On_RemoveEventListener_Given_NULL_HandlerFunctor( )
 {
-	EventSubjectMock* eventSubject = new EventSubjectMock( );
+	Mock_EventSubject* eventSubject = new Mock_EventSubject( );
 
 	EventManager::Initialize( );
-	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->RemoveEventListener< EventSubjectMock > ( TEST_EVENT, eventSubject, 0 ), NullReferenceException );
+	CPPUNIT_ASSERT_THROW( EventManager::GetInstance( )->RemoveEventListener< Mock_EventSubject > ( TEST_EVENT, eventSubject, 0 ), NullReferenceException );
 	EventManager::GetInstance( )->Release( );
 
 	delete eventSubject;
@@ -139,11 +139,11 @@ void EventManagerFixture:: Should_Throw_On_RemoveEventListener_Given_NULL_Handle
 
 void EventManagerFixture:: Should_Remove_Listener_Given_Correct_Listener_And_Initialized( )
 {
-	EventSubjectMock* eventSubject = new EventSubjectMock( );
+	Mock_EventSubject* eventSubject = new Mock_EventSubject( );
 
 	EventManager::Initialize( );
-	EventManager::GetInstance( )->AddEventListener( TEST_EVENT, eventSubject, &EventSubjectMock::EventHandler );
-	EventManager::GetInstance( )->RemoveEventListener( TEST_EVENT, eventSubject, &EventSubjectMock::EventHandler );
+	EventManager::GetInstance( )->AddEventListener( TEST_EVENT, eventSubject, &Mock_EventSubject::EventHandler );
+	EventManager::GetInstance( )->RemoveEventListener( TEST_EVENT, eventSubject, &Mock_EventSubject::EventHandler );
 	EventManager::GetInstance( )->Release( );
 
 	delete eventSubject;
@@ -151,10 +151,10 @@ void EventManagerFixture:: Should_Remove_Listener_Given_Correct_Listener_And_Ini
 
 void EventManagerFixture:: Should_Still_Remove_Listener_Given_Non_Existant_Listener_And_Initialized( )
 {
-	EventSubjectMock* eventSubject = new EventSubjectMock( );
+	Mock_EventSubject* eventSubject = new Mock_EventSubject( );
 
 	EventManager::Initialize( );
-	EventManager::GetInstance( )->RemoveEventListener( TEST_EVENT, eventSubject, &EventSubjectMock::EventHandler );
+	EventManager::GetInstance( )->RemoveEventListener( TEST_EVENT, eventSubject, &Mock_EventSubject::EventHandler );
 	EventManager::GetInstance( )->Release( );
 	
 	delete eventSubject;

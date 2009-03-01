@@ -1,5 +1,6 @@
 #include "ScriptSystem.h"
 
+#include "ScriptConfiguration.h"
 #include "../Logging/Logger.h"
 #include "../IO/FileManager.h"
 
@@ -8,24 +9,27 @@
 
 #include "../Exceptions/ScriptException.hpp"
 
+#include <luabind/iterator_policy.hpp>
+
 static ScriptSystem* g_scriptSystem = 0;
 
-ScriptSystem::ScriptSystem( IConfiguration* configuration )
+ScriptSystem::ScriptSystem( Configuration* configuration )
 {
-	this->Constructor( configuration, new FileManager( ) );
+	this->Constructor( configuration, new FileManager( ), new ScriptConfiguration( configuration ) );
 }
 
-ScriptSystem::ScriptSystem( IConfiguration* configuration, IFileManager* fileManager )
+ScriptSystem::ScriptSystem( Configuration* configuration, IFileManager* fileManager, ScriptConfiguration* scriptConfiguration )
 {
-	this->Constructor( configuration, fileManager );
+	this->Constructor( configuration, fileManager, scriptConfiguration );
 }
 
-void ScriptSystem::Constructor( IConfiguration* configuration, IFileManager* fileManager )
+void ScriptSystem::Constructor( Configuration* configuration, IFileManager* fileManager, ScriptConfiguration* scriptConfiguration )
 {
 	g_scriptSystem = this;
 	_fileManager = fileManager;
 
 	_configuration = configuration;
+	_scriptConfiguration = scriptConfiguration;
 	_state = lua_open( );
 	_eventHandlers = new EventHandlerList( );
 }
@@ -41,6 +45,7 @@ ScriptSystem::~ScriptSystem( )
 
 	delete _eventHandlers;
 	delete _fileManager;
+	delete _scriptConfiguration;
 
 	lua_close( _state );
 	_state = 0;
@@ -59,11 +64,21 @@ void ScriptSystem::Initialize( )
 		def( "unregisterEvent", &ScriptSystem::FromLua_UnRegisterEvent ),
 		def( "broadcastEvent", &ScriptSystem::FromLua_BroadcastEvent ),
 
+		class_< ScriptConfiguration >( "Config" )
+			.property( "isFullScreen", &ScriptConfiguration::IsFullScreen, &ScriptConfiguration::SetFullScreen )
+			.property( "displayWidth", &ScriptConfiguration::GetDisplayWidth, &ScriptConfiguration::SetDisplayWidth )
+			.property( "displayHeight", &ScriptConfiguration::GetDisplayHeight, &ScriptConfiguration::SetDisplayHeight )
+			.property( "availableVideoModes", &ScriptConfiguration::GetAvailableVideoModes, &ScriptConfiguration::SetAvailableVideoModes, return_stl_iterator ),
+		
+		class_< std::vector< std::string > >( "StringList" ),
+
 		class_< EventType >( "EventType" )
 			.enum_( "constants" )
 			[
 				value( "INPUT_KEY_UP", INPUT_KEY_UP ),
 				value( "INPUT_MOUSE_RELEASED", INPUT_MOUSE_RELEASED ),
+
+				value( "GRAPHICS_SETTINGS_CHANGED", GRAPHICS_SETTINGS_CHANGED ),
 
 				value( "UI_TITLE_SCREEN", UI_TITLE_SCREEN ),
 				value( "UI_MAIN_MENU", UI_MAIN_MENU ),
@@ -73,6 +88,8 @@ void ScriptSystem::Initialize( )
 				value( "GAME_INITIALIZED", GAME_INITIALIZED )
 			]
 	];
+
+	luabind::globals( _state )[ "Configuration" ] = _scriptConfiguration;
 
 	luabind::set_pcall_callback( &ScriptSystem::FromLua_ScriptError );
 
@@ -166,7 +183,6 @@ int ScriptSystem::FromLua_ScriptError( lua_State* luaState )
 
 	ScriptException e( errorMessage.str( ) );
 	Logger::GetInstance( )->Fatal( errorMessage.str( ) );
-	//throw e; -- otherwise the console throws errors
 	
 	return 1;	
 }

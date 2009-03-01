@@ -10,8 +10,6 @@
 #include "Exceptions/AlreadyInitializedException.hpp"
 #include "Exceptions/UnInitializedException.hpp"
 
-#include "Graphics/OgreRenderer.h"
-
 #include "../Suites.h"
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( InputSystemFixture, Suites::InputSuite( ) );
 
@@ -20,9 +18,6 @@ void InputSystemFixture::setUp( )
 	Logger::Initialize( );
 	FileManager::Initialize( );
 	EventManager::Initialize( );
-
-	_renderer = new OgreRenderer( );
-	_renderer->Initialize( 640, 480, 32, false );
 }
 
 void InputSystemFixture::tearDown( )

@@ -4,9 +4,8 @@
 #include <vector>
 
 #include "ISystem.hpp"
-#include "IConfiguration.hpp"
+#include "Configuration.h"
 
-#include "../Logic/IWorld.hpp"
 #include "../Events/IEvent.hpp"
 
 /*!
@@ -19,15 +18,14 @@ class Game
 
 public:
 
-	Game( IConfiguration* configuration )
+	Game( )
 		: _isQuitting( false )
 		, _isInitialized( false )
-		, _configuration( configuration )
 	{
 
 	}
 
-	~Game( ) { };
+	~Game( );
 	
 	/*! Initializes the Game and all Subsystems */
 	void Initialize( );
@@ -49,7 +47,7 @@ private:
 	bool _isInitialized;
 
 	SystemList _systems;
-	IConfiguration* _configuration;
+	Configuration* _configuration;
 
 };
 

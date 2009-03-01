@@ -18,7 +18,7 @@ void InputSystem::Initialize( )
 
 	Logger::GetInstance( )->Info( "Initializing Input System" );
 
-	_inputManager = OIS::InputManager::createInputSystem( _renderSystem->GetProperties( )[ "hwnd" ].GetValue( ).Size );
+	_inputManager = OIS::InputManager::createInputSystem( Management::GetInstance( )->GetPlatformManager( )->GetHwnd( ) );
 
 	_keyboard = static_cast< OIS::Keyboard* >( _inputManager->createInputObject( OIS::OISKeyboard, true ) );
 	_keyboardListener = new KeyboardListener( _keyboard );
@@ -27,6 +27,9 @@ void InputSystem::Initialize( )
 	_mouse = static_cast< OIS::Mouse* >( _inputManager->createInputObject( OIS::OISMouse, true ) );
 	_mouseListener = new MouseListener( );
 	_mouse->setEventCallback( _mouseListener );
+
+	_mouse->getMouseState( ).width = _configuration->Find< int >( "Graphics", "width" );
+	_mouse->getMouseState( ).height = _configuration->Find< int >( "Graphics", "height" );
 }
 
 InputSystem::~InputSystem( )
@@ -44,9 +47,6 @@ void InputSystem::Update( float deltaMilliseconds )
 		Logger::GetInstance( )->Fatal( "InputManager::Update - InputManager has not been intitialized" );
 		throw UnInitializedException( "InputManager::Update - InputManager has not been intitialized" );
 	}
-
-	_mouse->getMouseState( ).width = _configuration->Find( "Graphics", "Width", 640 );
-	_mouse->getMouseState( ).height = _configuration->Find( "Graphics", "Height", 480 );
 
 	_mouse->capture( );
 	_keyboard->capture( );

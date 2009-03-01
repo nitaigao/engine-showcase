@@ -2,7 +2,7 @@
 #define __INPUTMANAGER_H
 
 #include "../System/ISystem.hpp"
-#include "../System/IConfiguration.hpp"
+#include "../System/Configuration.h"
 
 #include "OIS/OISInputManager.h"
 #include "OIS/OISKeyboard.h"
@@ -19,7 +19,7 @@ class InputSystem : public ISystem
 
 public:
 
-	InputSystem( IConfiguration* configuration )
+	InputSystem( Configuration* configuration )
 		: _inputManager( 0 )
 		, _keyboard( 0 )
 		, _keyboardListener( 0 )
@@ -52,7 +52,7 @@ private:
 
 	std::size_t _hWnd;
 	PropertyMap _properties;
-	IConfiguration* _configuration;
+	Configuration* _configuration;
 
 	OIS::InputManager* _inputManager;
 
