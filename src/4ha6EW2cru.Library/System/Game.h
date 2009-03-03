@@ -7,6 +7,7 @@
 #include "Configuration.h"
 
 #include "../Events/IEvent.hpp"
+#include "../State/IWorld.hpp"
 
 /*!
 	Represents the Operating System Entry Point of the Game
@@ -14,13 +15,12 @@
 class Game
 {
 
-	typedef std::vector< ISystem* > SystemList;
-
 public:
 
 	Game( )
 		: _isQuitting( false )
 		, _isInitialized( false )
+		, _world( 0 )
 	{
 
 	}
@@ -46,8 +46,8 @@ private:
 	bool _isQuitting;
 	bool _isInitialized;
 
-	SystemList _systems;
 	Configuration* _configuration;
+	IWorld* _world;
 
 };
 

@@ -3,6 +3,8 @@
 #include <sstream>
 #include "../Logging/Logger.h"
 
+#include "InputSystemScene.h"
+
 #include "../Exceptions/IntializeFailedException.hpp"
 #include "../Exceptions/OutOfRangeException.hpp"
 #include "../Exceptions/UnInitializedException.hpp"
@@ -50,4 +52,9 @@ void InputSystem::Update( float deltaMilliseconds )
 
 	_mouse->capture( );
 	_keyboard->capture( );
+}
+
+ISystemScene* InputSystem::CreateScene()
+{
+	return new InputSystemScene( this );
 }

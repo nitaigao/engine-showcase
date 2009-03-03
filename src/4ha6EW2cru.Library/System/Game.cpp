@@ -2,19 +2,20 @@
 
 #include "../Events/Event.h"
 #include "../Logging/Logger.h"
+#include "../Logging/ConsoleAppender.h"
 
+#include "Management.h"
 #include "Configuration.h"
+#include "../State/World.h"
+#include "../State/WorldLoader.h"
 
 #include "../Scripting/ScriptSystem.h"
 #include "../Input/InputSystem.h"
 #include "../Graphics/OgreRenderSystem.h"
+#include "../Geometry/GeometrySystem.h"
 
 #include "../Exceptions/AlreadyInitializedException.hpp"
 #include "../Exceptions/UnInitializedException.hpp"
-
-#include "../Logging/ConsoleAppender.h"
-
-#include "Management.h"
 
 void Game::Initialize( )
 {
@@ -24,8 +25,6 @@ void Game::Initialize( )
 		Logger::GetInstance( )->Fatal( e.what( ) );
 		throw e;
 	}
-
-	// -- Startup Sequence -- //
 
 	// -- Intitialize All Singletons
 
@@ -40,11 +39,27 @@ void Game::Initialize( )
 
 	// -- Intialize All Systems
 
-	Management::GetInstance( )->GetSystemManager( )->AddSystem( new ScriptSystem( _configuration ) );
-	Management::GetInstance( )->GetSystemManager( )->AddSystem( new OgreRenderSystem( _configuration ) );
-	Management::GetInstance( )->GetSystemManager( )->AddSystem( new InputSystem( _configuration ) );
+	ISystemManager* systemManager = Management::GetInstance( )->GetSystemManager( );
+	systemManager->AddSystem( new GeometrySystem( ) );
+	systemManager->AddSystem( new ScriptSystem( _configuration ) );
+	systemManager->AddSystem( new OgreRenderSystem( _configuration ) );
+	systemManager->AddSystem( new InputSystem( _configuration ) );
+	systemManager->InitializeAllSystems( );
 
-	Management::GetInstance( )->GetSystemManager( )->InitializeAllSystems( );
+	// -- Setup the World
+
+	_world = new World( );
+
+	SystemList systemList = systemManager->GetAllSystems( );
+	for( SystemList::iterator i = systemList.begin( ); i != systemList.end( ); ++i )
+	{
+		_world->RegisterSystem( ( *i ) );
+	}
+
+	FileManager fileManager;
+	fileManager.MountFileStore( "../game/data/levels.bad", "data/" );
+	WorldLoader loader( _world, &fileManager );
+	loader.Load( "/data/levels/level0.yaml" );
 
 	// -- Register Events
 
@@ -79,6 +94,8 @@ void Game::Release( )
 		Logger::GetInstance( )->Fatal( e.what( ) );
 		throw e;
 	}
+
+	delete _world;
 
 	Management::GetInstance( )->Release( );
 	

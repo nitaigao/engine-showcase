@@ -1,6 +1,7 @@
 #ifndef __PROPERTY_H
 #define __PROPERTY_H
 
+#include <vector>
 #include <string>
 #include <boost/any.hpp>
 
@@ -31,5 +32,7 @@ private:
 	boost::any _value;
 
 };
+
+typedef std::vector< SystemProperty > SystemPropertyList;
 
 #endif

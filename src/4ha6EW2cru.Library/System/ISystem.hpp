@@ -2,11 +2,12 @@
 #define __ISYSTEM_H
 
 #include <string>
+#include <deque>
 #include <map>
 
 #include "SystemType.hpp"
 #include "SystemProperty.hpp"
-#include "ISystemObject.hpp"
+#include "ISystemScene.hpp"
 
 class ISystem
 {
@@ -23,11 +24,13 @@ public:
 	virtual void Update( float deltaMilliseconds ) = 0;
 	virtual void Release( ) = 0;
 
-	virtual SystemType GetSystemType( ) = 0;
-	virtual ISystemObject* CreateObject( const std::string& name, SystemType systemType ) = 0;
+	virtual ISystemScene* CreateScene( ) = 0;
 
+	virtual SystemType GetSystemType( ) = 0;
 	virtual PropertyMap GetProperties( ) = 0;
 
 };
+
+typedef std::deque< ISystem* > SystemList;
 
 #endif

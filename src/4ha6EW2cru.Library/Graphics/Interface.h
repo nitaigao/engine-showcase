@@ -10,6 +10,7 @@ using namespace luabind;
 #include "IInterface.hpp"
 
 #include "../System/Configuration.h"
+#include "../System/ISystemScene.hpp"
 
 #include "../Events/IEvent.hpp"
 #include "../Events/EventData.hpp"
@@ -23,8 +24,9 @@ public:
 	Interface( Configuration* configuration, Ogre::Root* ogreRoot )
 		: _ogreRoot( ogreRoot )
 		, _configuration( configuration )
+		, _gui( new Gui( ) )
 	{
-		_gui = new Gui( );
+
 	}
 
 	void Initialize( );
@@ -68,6 +70,14 @@ private:
 	/*! Casts a widget to a ComboBox */
 	static inline ComboBoxPtr AsComboBox( WidgetPtr widget ) { return static_cast< ComboBoxPtr >( widget ); };
 
+	static void RegisterEvent( EventType eventType, object function );
+
+	static void UnRegisterEvent( EventType eventType, object function );
+
+	static void BroadcastEvent( EventType eventType );
+
+	static void Quit( void );
+
 	/* -- Internal Event Handlers --*/
 
 	/*! Handler to intercept OnMouseMoved Events */
@@ -84,7 +94,6 @@ private:
 
 	/*! Handler to intercept OnKeyDown Events */
 	void OnKeyDown( const IEvent* event );
-
 
 	Configuration* _configuration;
 	Ogre::Root* _ogreRoot;

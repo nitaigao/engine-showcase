@@ -1,12 +1,8 @@
 #ifndef __SYSTEMMANAGER_H
 #define __SYSTEMMANAGER_H
 
-#include <deque>
-
 class SystemManager : public ISystemManager
 {
-
-	typedef std::deque< ISystem* > SystemList;
 
 public:
 
@@ -50,6 +46,11 @@ public:
 		{
 			 ( *i )->Update( deltaMilliseconds );
 		}
+	}
+
+	const SystemList& GetAllSystems( )
+	{
+		return _systems;
 	}
 
 private:

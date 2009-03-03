@@ -3,6 +3,8 @@
 #include "../System/Management.h"
 #include "../Events/Event.h"
 
+#include "OgreSystemScene.h"
+
 #include "../Logging/Logger.h"
 
 #include "../Exceptions/NullReferenceException.hpp"
@@ -24,6 +26,18 @@ OgreRenderSystem::OgreRenderSystem( Configuration* configuration )
 OgreRenderSystem::OgreRenderSystem( Configuration* configuration, IFileManager* fileManager )
 {
 	this->Constructor( configuration, fileManager );
+}
+
+void OgreRenderSystem::Constructor( Configuration* configuration, IFileManager* fileManager )
+{
+	_configuration = configuration;
+	_badStubCreated = false;
+	_isIntialized = false;
+	_root = 0;
+	_window = 0;
+	_interface = 0;
+	_badFactory = 0;
+	_fileManager = fileManager;
 }
 
 OgreRenderSystem::~OgreRenderSystem( )
@@ -130,12 +144,13 @@ void OgreRenderSystem::Initialize( )
 	SceneManager* sceneManager = _root->createSceneManager( ST_GENERIC, "default" );
 
 	Camera* camera = sceneManager->createCamera( "default camera" );
-	camera->setPosition( Vector3( 0, 0, 5 ) );
+	camera->setPosition( Vector3( 0, 100, 500 ) );
+	camera->yaw( Radian( 45 ) );
 	camera->lookAt( Vector3( 0, 0, 0 ) );
 	camera->setNearClipDistance( 1.0f );
 
 	Viewport* viewPort = _window->addViewport( camera );
-	viewPort->setBackgroundColour( ColourValue( 0, 0, 0 ) );
+	viewPort->setBackgroundColour( ColourValue( 1, 1, 1 ) );
 
 	camera->setAspectRatio(
 		Real( viewPort->getActualWidth( )) / Real( viewPort->getActualHeight( ) )
@@ -162,6 +177,11 @@ void OgreRenderSystem::Update( float deltaMilliseconds )
 
 	_interface->Update( deltaMilliseconds );
 	_root->renderOneFrame( );
+}
+
+ISystemScene* OgreRenderSystem::CreateScene()
+{
+	return new OgreSystemScene( this );
 }
 
 void OgreRenderSystem::windowClosed( RenderWindow* rw )

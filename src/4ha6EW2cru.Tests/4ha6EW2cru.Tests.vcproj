@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/cppunit/include;../../etc/vendor/ois/includes;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/mygui/include;../../etc/vendor/mockpp;../../etc/vendor/ogre/include;../../etc/vendor/lua/include;../../etc/vendor/cppspec/include"
+				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/cppunit/include;../../etc/vendor/ois/includes;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/mygui/include;../../etc/vendor/mockpp;../../etc/vendor/ogre/include;../../etc/vendor/lua/include;../../etc/vendor/yaml/include"
 				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -272,6 +272,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Geometry\GeometrySystem_Tests.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Geometry\GeometrySystem_Tests.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Input\InputSystemFixture.cpp"
 			>
 		</File>
@@ -300,6 +308,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Mocks\Mock_Entity.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Mocks\Mock_EventSubject.hpp"
 			>
 		</File>
@@ -309,6 +321,14 @@
 		</File>
 		<File
 			RelativePath=".\Mocks\Mock_System.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Mocks\Mock_SystemComponent.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Mocks\Mock_SystemScene.hpp"
 			>
 		</File>
 		<File
@@ -357,6 +377,22 @@
 		</File>
 		<File
 			RelativePath=".\Suites.h"
+			>
+		</File>
+		<File
+			RelativePath=".\State\World_Tests.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\World_Tests.h"
+			>
+		</File>
+		<File
+			RelativePath=".\State\WorldLoader_Tests.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\WorldLoader_Tests.h"
 			>
 		</File>
 	</Files>

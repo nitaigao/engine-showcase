@@ -16,9 +16,6 @@ public:
 	virtual void SetDisplayHeight( int height ) = 0;
 
 	virtual int GetColorDepth( ) const = 0;
-
-	//virtual const VideoModeList& GetAvailableVideoModes( ) const = 0;
-	//virtual void SetAvailableVideoModes( VideoModeList modes ) = 0;
 };
 
 #endif

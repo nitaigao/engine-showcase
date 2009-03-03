@@ -28,7 +28,7 @@ public:
 		, _configuration( configuration )
 		, _hWnd( 0 )
 	{
-		_renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
+
 	};
 
 	~InputSystem( );
@@ -42,18 +42,19 @@ public:
 	/*! Releases the Input System */
 	void Release( ) { };
 
+	ISystemScene* CreateScene( );
+
 	SystemType GetSystemType( ) { return InputSystemType; };
 
 	inline PropertyMap GetProperties( ) { return _properties; };
 
-	ISystemObject* CreateObject( const std::string& name, SystemType systemType ) { return 0; };
+	ISystemComponent* CreateComponent( const std::string& name, SystemType systemType ) { return 0; };
 
 private:
 
 	std::size_t _hWnd;
 	PropertyMap _properties;
 	Configuration* _configuration;
-
 	OIS::InputManager* _inputManager;
 
 	OIS::Mouse* _mouse;
@@ -61,8 +62,6 @@ private:
 
 	OIS::Keyboard* _keyboard;
 	KeyboardListener* _keyboardListener;
-
-	ISystem* _renderSystem;
 
 };
 

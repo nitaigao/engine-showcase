@@ -187,6 +187,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\State\Entity.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Entity.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Events\Event.h"
 			>
 		</File>
@@ -251,7 +259,31 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Geometry\GeometrySystem.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Geometry\GeometrySystem.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Geometry\GeometrySystemComponent.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Geometry\GeometrySystemScene.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Geometry\GeometrySystemScene.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Logging\IAppender.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\IEntity.hpp"
 			>
 		</File>
 		<File
@@ -307,6 +339,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Input\InputSystemScene.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Graphics\Interface.cpp"
 			>
 		</File>
@@ -335,11 +371,23 @@
 			>
 		</File>
 		<File
+			RelativePath=".\System\ISystemComponent.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\System\ISystemManager.hpp"
 			>
 		</File>
 		<File
-			RelativePath=".\System\ISystemObject.hpp"
+			RelativePath=".\System\ISystemScene.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\IWorld.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\IWorldLoader.hpp"
 			>
 		</File>
 		<File
@@ -419,6 +467,22 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Graphics\OgreRenderSystemComponent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\OgreRenderSystemComponent.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\OgreSystemScene.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\OgreSystemScene.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Exceptions\OutOfRangeException.hpp"
 			>
 		</File>
@@ -443,6 +507,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Scripting\ScriptComponent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\ScriptComponent.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Scripting\ScriptConfiguration.h"
 			>
 		</File>
@@ -451,15 +523,19 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Scripting\ScriptObject.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Scripting\ScriptSystem.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Scripting\ScriptSystem.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\ScriptSystemScene.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\ScriptSystemScene.h"
 			>
 		</File>
 		<File
@@ -515,11 +591,31 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Maths\Vector3.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Utility\OgreMax\Version.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Utility\OgreMax\Version.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\World.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\World.h"
+			>
+		</File>
+		<File
+			RelativePath=".\State\WorldLoader.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\WorldLoader.h"
 			>
 		</File>
 	</Files>

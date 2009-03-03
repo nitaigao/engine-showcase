@@ -15,7 +15,7 @@
 
 int main (int argc, char* argv[])
 {
-	//_crtBreakAlloc = 10738;
+	//_crtBreakAlloc = 10875;
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF ); 
 
 	// Create the event manager and test controller
@@ -39,10 +39,11 @@ int main (int argc, char* argv[])
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::ScriptingSuite( ) ).makeTest( ) );
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::TypesSuite( ) ).makeTest( ) );
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::UtilitySuite( ) ).makeTest( ) );
-	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::IOSuite( ) ).makeTest( ) );*/
+	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::IOSuite( ) ).makeTest( ) );
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::ViewSuite( ) ).makeTest( ) );
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::SystemSuite( ) ).makeTest( ) );
-	/*runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::LogicSuite( ) ).makeTest( ) );*/
+	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::StateSuite( ) ).makeTest( ) );*/
+	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::GeometrySuite( ) ).makeTest( ) );
 
 	runner.run( controller );
 

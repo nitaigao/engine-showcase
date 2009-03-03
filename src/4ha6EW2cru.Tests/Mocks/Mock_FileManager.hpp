@@ -16,6 +16,7 @@ public:
 
 	Mock_FileManager( )
 		: MockObject( "Mock_FileManager", 0 )
+		, getFile_count( "Mock_FileManager/GetFile", this )
 	{ };
 
 	virtual ~Mock_FileManager( ) { };
@@ -25,7 +26,16 @@ public:
 		return false;
 	}
 
-	FileBuffer* GetFile( const std::string filePath ) const = 0;
+	ExpectationCounter getFile_count;
+
+	FileBuffer* GetFile( const std::string filePath ) const
+	{
+		Mock_FileManager* fileManager = const_cast< Mock_FileManager* >( this );
+		fileManager->getFile_count.inc( );
+		int length = 5;
+		char* fileBytes = new char[ length ];
+		return new FileBuffer( fileBytes, length, "" );
+	}
 
 	void SaveFile( const FileBuffer& fileBuffer ) const { };
 
@@ -43,7 +53,5 @@ private:
 
 	Mock_FileManager & operator = ( const Mock_FileManager & copy ) { return *this; };
 };
-
-#endif
 
 #endif
