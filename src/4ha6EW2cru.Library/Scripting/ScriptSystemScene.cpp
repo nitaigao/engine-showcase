@@ -40,7 +40,7 @@ ISystemComponent* ScriptSystemScene::CreateComponent( const std::string& name )
 {
 	lua_State* childState = lua_newthread( _state );
 
-	ScriptComponent* scriptComponent = new ScriptComponent( childState );
+	ScriptComponent* scriptComponent = new ScriptComponent( name, childState );
 
 	_scriptObjects.push_back( scriptComponent );
 

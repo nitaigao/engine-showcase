@@ -1,7 +1,10 @@
 #ifndef __Entity_H
 #define __Entity_H
 
-class Entity : public IEntity
+#include "IEntity.hpp"
+#include "../System/ISystemComponent.hpp"
+
+class Entity : public IEntity, public IObserver
 {
 
 public:
@@ -15,13 +18,15 @@ public:
 	}
 
 	inline const std::string& GetName( ) { return _name; };
-	inline void AddComponent( ISystemComponent* component ) { _components.push_back( component ); };
-	inline ComponentList& GetComponents( ) { return _components; };
+
+	void AddComponent( ISystemComponent* component );
+	void Observe( ISubject* subject );
+	inline SystemComponentList& GetComponents( ) { return _components; };
 
 private:
 
 	std::string _name;
-	ComponentList _components;
+	SystemComponentList _components;
 
 };
 

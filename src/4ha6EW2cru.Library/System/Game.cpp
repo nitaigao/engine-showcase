@@ -56,14 +56,10 @@ void Game::Initialize( )
 		_world->RegisterSystem( ( *i ) );
 	}
 
-	FileManager fileManager;
-	fileManager.MountFileStore( "../game/data/levels.bad", "data/" );
-	WorldLoader loader( _world, &fileManager );
-	loader.Load( "/data/levels/level0.yaml" );
-
 	// -- Register Events
 
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( GAME_QUIT, this, &Game::OnGameQuit );
+	Management::GetInstance( )->GetEventManager( )->AddEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_INITIALIZED ) );
 
 	_isInitialized = true;
@@ -106,6 +102,20 @@ void Game::OnGameQuit( const IEvent* event )
 {
 	_isQuitting = true;
 	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GAME_QUIT, this, &Game::OnGameQuit );
+}
+
+void Game::OnGameLevelChanged( const IEvent* event )
+{
+	LevelChangedEventData* eventData = static_cast< LevelChangedEventData* >( event->GetEventData( ) );
+
+	FileManager fileManager;
+	fileManager.MountFileStore( "../game/data/levels.bad", "data/" );
+	WorldLoader loader( _world, &fileManager );
+
+	std::stringstream levelPath;
+	levelPath << "/data/levels/" << eventData->GetLevelName( ) << ".yaml";
+
+	loader.Load( levelPath.str( ) );
 }
 
 // EOF

@@ -13,22 +13,28 @@ class ScriptComponent : public ISystemComponent
 
 public:
 
-	ScriptComponent( lua_State* state )
-		: _state( state )
+	virtual ~ScriptComponent( ) { };
+
+	ScriptComponent( const std::string& name, lua_State* state )
+		: _name( name )
+		, _state( state )
 	{
 
 	};
 
-	virtual ~ScriptComponent( ) { };
-
-	inline SystemType GetType( ) { return ScriptSystemType; };
 	void Initialize( SystemPropertyList properties );
+	void AddObserver( IObserver* observer ) { };
+	void Observe( ISubject* subject ) { };
+
+	inline const std::string& GetName( ) { return _name; };
+	inline SystemType GetType( ) { return ScriptSystemType; };
 
 	inline lua_State* GetState( ) { return _state; };
 
 private:
 
 	lua_State* _state;
+	std::string _name;
 
 };
 

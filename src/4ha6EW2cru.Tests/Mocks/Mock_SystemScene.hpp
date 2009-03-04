@@ -27,6 +27,8 @@ public:
 	ExpectationCounter createEntity_count;
 	ExpectationCounter destroyEntity_count;
 
+	
+
 	ISystemComponent* CreateComponent( const std::string& name )
 	{
 		createEntity_count.inc( );
@@ -39,7 +41,7 @@ public:
 		delete component;
 	}
 
-	SystemType GetType( ) { return SystemType::TestSystemType; };
+	inline SystemType GetType( ) { return SystemType::TestSystemType; };
 
 private:
 

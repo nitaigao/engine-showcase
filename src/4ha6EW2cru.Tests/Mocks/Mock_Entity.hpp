@@ -23,7 +23,7 @@ public:
 
 	const std::string& GetName( ) { return "test_entity"; };
 	void AddComponent( ISystemComponent* component ) { };
-	ComponentList& GetComponents( ) { return ComponentList( ); };
+	SystemComponentList& GetComponents( ) { return SystemComponentList( ); };
 
 private:
 

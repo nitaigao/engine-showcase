@@ -78,6 +78,8 @@ private:
 
 	static void Quit( void );
 
+	static void LoadLevel( const std::string& levelName );
+
 	/* -- Internal Event Handlers --*/
 
 	/*! Handler to intercept OnMouseMoved Events */

@@ -20,8 +20,12 @@ public:
 	
 	};
 
-	SystemType GetType( ) { return SystemType::TestSystemType; };
 	void Initialize( SystemPropertyList properties ) { };
+	void AddObserver( IObserver* observer ) { } ;
+	void Observe( ISubject* subject ) { };
+
+	inline const std::string& GetName( ) { return "test"; }
+	inline SystemType GetType( ) { return SystemType::TestSystemType; };
 
 private:
 

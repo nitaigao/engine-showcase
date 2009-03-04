@@ -3,7 +3,8 @@
 #include <sstream>
 #include "../System/Management.h"
 
-#include "../Maths/Vector3.hpp"
+#include "../Maths/MathVector3.hpp"
+#include "../Maths/MathQuaternion.hpp"
 
 void WorldLoader::Load( const std::string& levelPath )
 {
@@ -20,7 +21,7 @@ void WorldLoader::Load( const std::string& levelPath )
 		
 		for( YAML::Iterator documentRoot = doc.begin( ); documentRoot != doc.end( ); ++documentRoot ) 
 		{
-			const YAML::Node& rootNode = ( * documentRoot );
+			const YAML::Node& rootNode = ( *documentRoot );
 
 			for( YAML::Iterator entityNode = rootNode.begin( ); entityNode != rootNode.end( ); ++entityNode ) 
 			{
@@ -68,33 +69,46 @@ void WorldLoader::LoadEntityComponents( const YAML::Node& node, IEntity* entity 
 
 			if ( key == "graphics" )
 			{
-				std::string modelProperty = "model";
-
-				std::string model;
-				componentDetail[ modelProperty ] >> model;
-				properties.push_back( SystemProperty( modelProperty, model ) );
-
 				ISystemComponent* systemComponent = systemScenes[ RenderSystemType ]->CreateComponent( entity->GetName( ) );
-				systemComponent->Initialize( properties );
 
+				for( YAML::Iterator componentProperties = componentDetail.begin( ); componentProperties != componentDetail.end( ); ++componentProperties ) 
+				{
+					std::string propertyKey, propertyValue;
+
+					componentProperties.first( ) >> propertyKey;
+					componentProperties.second( ) >> propertyValue;
+
+					properties.push_back( SystemProperty( propertyKey, propertyValue ) );
+				}
+				
+				systemComponent->Initialize( properties );
 				entity->AddComponent( systemComponent );
 			}
 
 			if ( key == "geometry" )
 			{
-				float x, y, z;
+				float x, y, z, w;
 
 				componentDetail[ "position" ][ 0 ] >> x;
 				componentDetail[ "position" ][ 1 ] >> y;
 				componentDetail[ "position" ][ 2 ] >> z;
+				properties.push_back( SystemProperty( "position", MathVector3( x, y, z ) ) );
 
-				Vector3 positionVector( x, y, z );
-				properties.push_back( SystemProperty( "positon", positionVector ) );
+				componentDetail[ "scale" ][ 0 ] >> x;
+				componentDetail[ "scale" ][ 1 ] >> y;
+				componentDetail[ "scale" ][ 2 ] >> z;
+				properties.push_back( SystemProperty( "scale", MathVector3( x, y, z ) ) );
+
+				componentDetail[ "orientation" ][ 0 ] >> x;
+				componentDetail[ "orientation" ][ 1 ] >> y;
+				componentDetail[ "orientation" ][ 2 ] >> z;
+				componentDetail[ "orientation" ][ 3 ] >> w;
+				properties.push_back( SystemProperty( "orientation", MathQuaternion( x, y, z, w ) ) );
 
 				ISystemComponent* systemComponent = systemScenes[ GeometrySystemType ]->CreateComponent( entity->GetName( ) );
-				systemComponent->Initialize( properties );
-
 				entity->AddComponent( systemComponent );
+
+				systemComponent->Initialize( properties );
 			}
 		}		
 	}

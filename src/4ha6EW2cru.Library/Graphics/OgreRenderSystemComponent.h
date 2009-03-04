@@ -4,26 +4,34 @@
 #include "../Utility/OgreMax/OgreMaxModel.hpp"
 #include "../System/ISystemComponent.hpp"
 
-class OgreRenderSystemComponent : public Ogre::SceneNode, public ISystemComponent
+#include "OgreSystemScene.h"
+
+class OgreRenderSystemComponent : public ISystemComponent
 {
 
 public:
 
-	virtual ~OgreRenderSystemComponent( ) { };
+	virtual ~OgreRenderSystemComponent( );
 
-	OgreRenderSystemComponent( const std::string& name, Ogre::SceneManager* creator )
-		: Ogre::SceneNode( creator, name ) 
-		, _name( name )
+	OgreRenderSystemComponent( const std::string& name, OgreSystemScene* scene )
+		: _name( name )
+		, _scene( scene )
 	{
 
 	}
 
-	SystemType GetType( ) { return RenderSystemType; };
 	void Initialize( SystemPropertyList properties );
+	void AddObserver( IObserver* observer ) { };
+	void Observe( ISubject* subject );
+	unsigned int GetRequiredSystemChanges ( );
+
+	inline const std::string& GetName( ) { return _name; };
+	inline SystemType GetType( ) { return RenderSystemType; };
 
 private:
 
 	std::string _name;
+	OgreSystemScene* _scene;
 
 };
 

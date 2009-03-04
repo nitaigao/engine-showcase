@@ -43,6 +43,9 @@ private:
 	/*! Receives the GAME_QUIT Event and starts the Quit Process */
 	void OnGameQuit( const IEvent* event );
 
+	/*! Receives the GAME_LEVEL_CHANGED and starts the WorldLoader */
+	void OnGameLevelChanged( const IEvent* event );
+
 	bool _isQuitting;
 	bool _isInitialized;
 

@@ -267,6 +267,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Geometry\GeometrySystemComponent.cpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Geometry\GeometrySystemComponent.h"
 			>
 		</File>
@@ -355,6 +359,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\System\IObserver.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\System\IPlatformManager.h"
 			>
 		</File>
@@ -364,6 +372,10 @@
 		</File>
 		<File
 			RelativePath=".\Scripting\IScriptConfiguration.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\System\ISubject.hpp"
 			>
 		</File>
 		<File
@@ -412,6 +424,14 @@
 		</File>
 		<File
 			RelativePath=".\System\Management.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Maths\MathQuaternion.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Maths\MathVector3.hpp"
 			>
 		</File>
 		<File
@@ -588,10 +608,6 @@
 		</File>
 		<File
 			RelativePath=".\Exceptions\UnInitializedException.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Maths\Vector3.hpp"
 			>
 		</File>
 		<File

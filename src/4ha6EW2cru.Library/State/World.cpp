@@ -12,6 +12,8 @@ World::~World()
 		{
 			_systemScenes[ ( *c )->GetType( ) ]->DestroyComponent( ( *c ) );
 		}
+
+		delete ( *e );
 	}
 
 	for ( SystemSceneList::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )

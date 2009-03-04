@@ -143,14 +143,13 @@ void OgreRenderSystem::Initialize( )
 
 	SceneManager* sceneManager = _root->createSceneManager( ST_GENERIC, "default" );
 
-	Camera* camera = sceneManager->createCamera( "default camera" );
-	camera->setPosition( Vector3( 0, 100, 500 ) );
-	camera->yaw( Radian( 45 ) );
+	Camera* camera = sceneManager->createCamera( "default" );
+	camera->setPosition( Vector3( 0, 0, 0 ) );
 	camera->lookAt( Vector3( 0, 0, 0 ) );
 	camera->setNearClipDistance( 1.0f );
 
 	Viewport* viewPort = _window->addViewport( camera );
-	viewPort->setBackgroundColour( ColourValue( 1, 1, 1 ) );
+	viewPort->setBackgroundColour( ColourValue( 0, 0, 0 ) );
 
 	camera->setAspectRatio(
 		Real( viewPort->getActualWidth( )) / Real( viewPort->getActualHeight( ) )
@@ -176,6 +175,13 @@ void OgreRenderSystem::Update( float deltaMilliseconds )
 	}
 
 	_interface->Update( deltaMilliseconds );
+
+	if ( _root->getSceneManager( "default" )->hasSceneNode( "player_camera" ) )
+	{
+		SceneNode* cameraNode = _root->getSceneManager( "default" )->getSceneNode( "player_camera" );
+		//cameraNode->lookAt( Vector3( 0, 0, 0 ), Node::TransformSpace::TS_WORLD );
+		//cameraNode->setPosition( cameraNode->getPosition( ) + Vector3( 0, 0.1, 0.1 ) );
+	}
 	_root->renderOneFrame( );
 }
 

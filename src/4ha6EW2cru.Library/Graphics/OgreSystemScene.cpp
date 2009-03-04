@@ -8,12 +8,10 @@ using namespace Ogre;
 
 ISystemComponent* OgreSystemScene::CreateComponent( const std::string& name )
 {
-	Root* root = ( ( OgreRenderSystem* ) _system )->GetRoot( );
-	OgreRenderSystemComponent* component = new OgreRenderSystemComponent( name, root->getSceneManager( "default" ) );
-	return component;
+	return new OgreRenderSystemComponent( name, this );
 }
 
 void OgreSystemScene::DestroyComponent( ISystemComponent* component )
 {
-	OgreRenderSystemComponent* renderComponent = ( OgreRenderSystemComponent* ) component;
+	delete component;
 }

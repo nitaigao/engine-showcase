@@ -66,6 +66,7 @@ void Interface::Initialize( )
 		def( "hideMouse", &Interface::HideMouse ),
 
 		def( "quit", &Interface::Quit ),
+		def( "loadLevel", &Interface::LoadLevel ),
 
 		def( "registerEvent", &Interface::RegisterEvent ),
 		def( "unregisterEvent", &Interface::UnRegisterEvent ),
@@ -237,4 +238,10 @@ void Interface::BroadcastEvent( EventType eventType )
 void Interface::Quit( void )
 {
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
+}
+
+void Interface::LoadLevel( const std::string& levelName )
+{
+	IEventData* eventData = new LevelChangedEventData( levelName );
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
 }
