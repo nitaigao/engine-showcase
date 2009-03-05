@@ -21,7 +21,7 @@ void GameFixture::tearDown( )
 
 void GameFixture::Should_Initialize( )
 {
-	/*Game game( _configuration );
+	/*Game game;
 	game.Initialize( );
 	game.Release( );*/
 }

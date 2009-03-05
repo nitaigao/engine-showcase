@@ -380,6 +380,22 @@
 			>
 		</File>
 		<File
+			RelativePath=".\TeamCity\teamcity_cppunit.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\TeamCity\teamcity_cppunit.h"
+			>
+		</File>
+		<File
+			RelativePath=".\TeamCity\teamcity_messages.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\TeamCity\teamcity_messages.h"
+			>
+		</File>
+		<File
 			RelativePath=".\State\World_Tests.cpp"
 			>
 		</File>

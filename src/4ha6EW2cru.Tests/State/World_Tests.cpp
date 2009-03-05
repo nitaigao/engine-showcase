@@ -1,7 +1,7 @@
 #include "World_Tests.h"
 
 #include "../Suites.h"
-//CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( World_Tests, Suites::StateSuite( ) );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( World_Tests, Suites::StateSuite( ) );
 
 #include "../Mocks/Mock_System.hpp"
 #include "State/IEntity.hpp"
@@ -24,8 +24,6 @@ void World_Tests::Entity_Should_Be_Created_on_CreateEntity()
 	IEntity* entity = world.CreateEntity( "test" );
 
 	CPPUNIT_ASSERT( entity != 0 );
-
-	delete entity;
 }
 
 void World_Tests::GetSystemScenes_Should_Return_All_Extended_Scenes()

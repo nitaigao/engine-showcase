@@ -9,7 +9,7 @@
 #include "System/ConfigurationFile.h"
 
 #include "../Suites.h"
-//CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ConfigurationFileFixture, Suites::SystemSuite( ) );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ConfigurationFileFixture, Suites::SystemSuite( ) );
 
 void ConfigurationFileFixture::setUp( )
 {

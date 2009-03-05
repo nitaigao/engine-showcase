@@ -33,7 +33,7 @@ void FileAppenderFixture::Should_Append_Message( )
 
 void FileAppenderFixture::Should_Throw_On_Initialize_Given_File_Create_Error( )
 {
-	FileAppender* fileAppender = new FileAppender( "../logs/readonly.log" );
+	FileAppender* fileAppender = new FileAppender( "../lasdasdasdasVadvdvavs/readonly.log" );
 	
 	CPPUNIT_ASSERT_THROW( fileAppender->Initialize( ), FileWriteException );
 

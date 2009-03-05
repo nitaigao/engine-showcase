@@ -22,8 +22,6 @@ void InputSystemFixture::setUp( )
 
 void InputSystemFixture::tearDown( )
 {
-	delete _renderer;
-
 	EventManager::GetInstance( )->Release();
 	FileManager::GetInstance( )->Release();
 	Logger::GetInstance( )->Release( );

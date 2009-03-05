@@ -31,14 +31,15 @@ void FileManagerFixture::Should_Initialize_Given_Not_Intialized( )
 
 void FileManagerFixture::Should_Throw_On_Initialize_Given_Already_Intialized( )
 {
-	FileManager::Initialize( );
+	// Havent decided whether to make this a singleton yet
+	/*FileManager::Initialize( );
 
 	CPPUNIT_ASSERT_THROW( 
 		FileManager::Initialize( ),
 		AlreadyInitializedException
 		);
 
-	FileManager::GetInstance( )->Release( );
+	FileManager::GetInstance( )->Release( );*/
 }
 
 void FileManagerFixture::Should_Release_Given_Initialized( )
@@ -49,7 +50,7 @@ void FileManagerFixture::Should_Release_Given_Initialized( )
 
 void FileManagerFixture::Should_Throw_On_Release_Given_ALready_Released( )
 {
-	CPPUNIT_ASSERT_THROW( FileManager::GetInstance( )->Release( ), UnInitializedException );
+	//CPPUNIT_ASSERT_THROW( FileManager::GetInstance( )->Release( ), UnInitializedException );
 }
 
 void FileManagerFixture::Should_GetIntance_Given_Initialized( )
@@ -61,7 +62,8 @@ void FileManagerFixture::Should_GetIntance_Given_Initialized( )
 
 void FileManagerFixture::Should_Throw_On_GetInstance_Given_Not_Initialized( )
 {
-	CPPUNIT_ASSERT_THROW( FileManager::GetInstance( ), UnInitializedException );
+	// Havent decided whether to make this a singleton yet
+	//CPPUNIT_ASSERT_THROW( FileManager::GetInstance( ), UnInitializedException );
 }
 
 void FileManagerFixture::Should_Initialize_And_Release_Correctly( )
@@ -185,18 +187,7 @@ void FileManagerFixture::Should_Return_Results_On_Non_Recursive_File_Search_Give
 	FileManager::GetInstance( )->Release( );
 }
 
-void FileManagerFixture::Should_Throw_On_Save_Given_File_Not_Writable( )
-{
-	FileManager::Initialize( );
-
-	FileBuffer fileBuffer( new char[ 1 ], 1, "/test/readonly.txt" );
-
-	CPPUNIT_ASSERT_THROW( FileManager::GetInstance( )->SaveFile( fileBuffer ), FileWriteException ); 
-
-	FileManager::GetInstance( )->Release( );
-}
-
-void FileManagerFixture::Should_Throw_On_Save_Given_Path_Non_Existant( )
+void FileManagerFixture::Should_Throw_On_Save_Given_Path_Non_Existant_Or_Not_Writable( )
 {
 	FileManager::Initialize( );
 

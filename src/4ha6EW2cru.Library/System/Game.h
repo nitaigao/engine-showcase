@@ -17,6 +17,8 @@ class Game
 
 public:
 
+	~Game( );
+
 	Game( )
 		: _isQuitting( false )
 		, _isInitialized( false )
@@ -24,8 +26,6 @@ public:
 	{
 
 	}
-
-	~Game( );
 	
 	/*! Initializes the Game and all Subsystems */
 	void Initialize( );
@@ -39,6 +39,9 @@ public:
 	inline bool IsQuitting( ) { return _isQuitting; };
 
 private:
+	
+	Game( const Game & copy ) { };
+	Game & operator = ( const Game & copy ) { return *this; };
 
 	/*! Receives the GAME_QUIT Event and starts the Quit Process */
 	void OnGameQuit( const IEvent* event );

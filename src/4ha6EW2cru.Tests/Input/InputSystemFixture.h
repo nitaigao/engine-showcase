@@ -30,10 +30,6 @@ protected:
   void Should_Update_Given_Initialized( );
   void Should_Throw_Given_UnIntialized_Update( );
 
-private:
-
-	IRenderer* _renderer;
-
 };
 
 #endif
