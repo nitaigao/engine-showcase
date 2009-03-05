@@ -2,7 +2,7 @@ require 'yaml'
 require 'rexml/document'
 include REXML
 
-file = File.new( "box.scene" );
+file = File.new( ARGV[ 0 ].to_s );
 
 doc = Document.new( file );
 root = doc.root;
@@ -173,17 +173,25 @@ end
 
 entities = Array.new;
 
+puts ''
+puts 'Processing Scene File: ' + ARGV[ 0 ].to_s
+puts ''
+
 root.each_element( "//node" ) { | node |
 
-    entity = Entity.new( node );
+    entity = Entity.new( node );	
     entities.push( entity );
+	
+	puts 'Processed Entity: ' + entity.name;
 }
 
-levelName = ARGV[ 0 ].to_s
-levelFilePath = levelName + '.yaml'
+puts ''
+puts 'Processing Finished'
+puts ''
+
+levelName = ARGV[ 0 ]
+levelFilePath = levelName.to_s.gsub( '.scene', '.yaml' );
 
 outputFile = File.new( levelFilePath,  "w+" );
 outputFile.write( entities.to_yaml );
 outputFile.close( );
-
-puts 'written ' + levelName + ' to ' + levelFilePath
