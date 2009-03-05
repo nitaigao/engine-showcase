@@ -634,6 +634,14 @@
 			RelativePath=".\State\WorldLoader.h"
 			>
 		</File>
+		<File
+			RelativePath=".\State\WorldLoaderStrategies.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\WorldLoaderStrategies.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

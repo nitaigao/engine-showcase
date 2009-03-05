@@ -13,7 +13,7 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( WorldLoader_Tests, Suites::StateSuite( ) 
 
 void WorldLoader_Tests::Should_Call_FileManager_On_Load_To_Load_Level_File( )
 {
-	Mock_FileManager fileManager;
+	/*Mock_FileManager fileManager;
 	fileManager.getFile_count.setExpected( 1 );
 
 	Mock_World world;
@@ -21,22 +21,26 @@ void WorldLoader_Tests::Should_Call_FileManager_On_Load_To_Load_Level_File( )
 	WorldLoader loader( &world, &fileManager );
 	loader.Load( "/path/to/level/file" );
 
-	fileManager.verify( );
+	fileManager.verify( );*/
 }
 
 void WorldLoader_Tests::Should_Load_And_Parse_A_YAML_File( )
 {
-	/*Logger::Initialize( );
+	Logger::Initialize( );
 	FileManager fileManager;
 	fileManager.MountFileStore( "../game/data/levels.bad", "data/" );
 
 	Mock_World world;
 
-	world.RegisterSystem( new Mock_System( ) );
+	Mock_System system1( RenderSystemType );
+	world.RegisterSystem( &system1 );
+
+	Mock_System system2( GeometrySystemType );
+	world.RegisterSystem( &system2 );
 
 	WorldLoader loader( &world, &fileManager );
 	loader.Load( "/data/levels/level0.yaml" );
 
 	fileManager.Release( );
-	Logger::GetInstance( )->Release( );*/
+	Logger::GetInstance( )->Release( );
 }

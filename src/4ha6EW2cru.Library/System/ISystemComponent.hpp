@@ -6,7 +6,7 @@
 
 #include "IObserver.hpp"
 
-class ISystemComponent : public IObserver
+class ISystemComponent : public IObserver, public ISubject
 {
 
 public:

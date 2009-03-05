@@ -24,7 +24,9 @@ public:
 
 	void Initialize( SystemPropertyList properties );
 	void AddObserver( IObserver* observer ) { };
+	
 	void Observe( ISubject* subject ) { };
+	void PushChanges( unsigned int systemChanges ) { };
 
 	inline const std::string& GetName( ) { return _name; };
 	inline SystemType GetType( ) { return ScriptSystemType; };

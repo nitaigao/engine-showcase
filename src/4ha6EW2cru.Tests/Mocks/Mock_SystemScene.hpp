@@ -18,21 +18,22 @@ public:
 
 	~Mock_SystemScene( ) { };
 
-	Mock_SystemScene( )
+	Mock_SystemScene( SystemType systemType )
 		: MockObject( "Mock_SystemScene", 0 )
 		, createEntity_count( "Mock_SystemScene/CreateComponent", this )
 		, destroyEntity_count( "Mock_SystemScene/DestroyComponent", this )
-	{ };
+		, _systemType( systemType )
+	{ 
+	
+	};
 
 	ExpectationCounter createEntity_count;
 	ExpectationCounter destroyEntity_count;
 
-	
-
 	ISystemComponent* CreateComponent( const std::string& name )
 	{
 		createEntity_count.inc( );
-		return new Mock_SystemComponent( );
+		return new Mock_SystemComponent( _systemType );
 	}
 
 	void DestroyComponent( ISystemComponent* component )
@@ -41,11 +42,13 @@ public:
 		delete component;
 	}
 
-	inline SystemType GetType( ) { return SystemType::TestSystemType; };
+	inline SystemType GetType( ) { return _systemType; };
 
 private:
 
 	Mock_SystemScene & operator = ( const Mock_SystemScene & copy ) { return *this; };
+
+	SystemType _systemType;
 };
 
 #endif

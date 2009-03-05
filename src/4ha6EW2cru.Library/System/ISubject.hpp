@@ -4,6 +4,10 @@
 class ISubject
 {
 
+public:
+
+	virtual void PushChanges( unsigned int systemChanges ) = 0;
+
 };
 
 #endif

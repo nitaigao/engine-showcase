@@ -16,12 +16,13 @@ class Mock_System : public ISystem, public MockObject
 
 public:
 
-	Mock_System( )
+	Mock_System( SystemType systemType )
 		: MockObject( "Mock_System", 0 )
 		, update_count( "Mock_System/Update", this )
 		, initialize_count( "Mock_System/Initialize", this )
 		, release_count( "Mock_System/Release", this )
 		, createScene_count( "Mock_System/CreateScene", this )
+		, _systemType( systemType )
 	{ };
 
 	virtual ~Mock_System( ) { };
@@ -49,15 +50,17 @@ public:
 	ISystemScene* CreateScene( )
 	{
 		createScene_count.inc( );
-		return new Mock_SystemScene( );
+		return new Mock_SystemScene( _systemType );
 	}
 
-	SystemType GetSystemType( ) { return RenderSystemType; };
+	SystemType GetSystemType( ) { return _systemType; };
 	PropertyMap GetProperties( ) { return PropertyMap( ); };
 
 private:
 
 	Mock_System & operator = ( const Mock_System & copy ) { return *this; };
+
+	SystemType _systemType;
 };
 
 

@@ -22,12 +22,14 @@ public:
 	}
 
 	const std::string& GetName( ) { return "test_entity"; };
-	void AddComponent( ISystemComponent* component ) { };
-	SystemComponentList& GetComponents( ) { return SystemComponentList( ); };
+	void AddComponent( ISystemComponent* component ) { _components.push_back( component ); }
+	SystemComponentList& GetComponents( ) { return _components; };
 
 private:
 
 	Mock_Entity & operator = ( const Mock_Entity & copy ) { return *this; };
+
+	SystemComponentList _components;
 };
 
 #endif

@@ -10,7 +10,7 @@
 #include "../Maths/MathVector3.hpp"
 #include "../Maths/MathQuaternion.hpp"
 
-class GeometrySystemComponent : public ISystemComponent, public ISubject
+class GeometrySystemComponent : public ISystemComponent
 {
 
 public:
