@@ -37,7 +37,7 @@ namespace :build do
 	task :test do
 		begin
 		
-			tests_path = "../build/" + $build_configuration.to_s + "/bin/" + $application_name + ".Tests.exe";
+			tests_path = "cd ../build/" + $build_configuration.to_s + "/bin & " + $application_name + ".Tests.exe";
 			system( tests_path );
 		    
 		rescue Exception => e
@@ -89,4 +89,4 @@ $solution_file = $application_name + '.sln'
 task :continuous_integration => [:build]#, "deploy:store"]
 task :build => ["build:clean", "build:compile", "build:test"]
 task :test => ["build:test"]
-task :default => :build_full
+task :default => :build#_full

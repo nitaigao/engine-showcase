@@ -1,5 +1,8 @@
 #include "PlatformManager.h"
 
+#include "../Events/Event.h"
+#include "../System/Management.h"
+
 #include <windows.h>
 
 #include <stdio.h>
@@ -14,30 +17,41 @@ using namespace std;
 
 #endif
 
-LRESULT CALLBACK WindowProcedure(HWND han_Wind,UINT uint_Message,WPARAM parameter1,LPARAM parameter2)
+LRESULT CALLBACK WindowProcedure( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
-	return DefWindowProc(han_Wind,uint_Message,parameter1,parameter2);
+	switch( msg )
+	{
+
+	case WM_DESTROY:
+
+		PostQuitMessage( 0 );
+		return 0;
+		break;
+
+	}
+
+	return DefWindowProc( hWnd, msg, wParam, lParam );
 }
 
 void PlatformManager::CreateInteractiveWindow( const std::string& title, const int& width, const int& height, const bool& fullScreen )
 {
-	WNDCLASSEX wnd_Structure;
+	WNDCLASSEX wnd;
 
-	wnd_Structure.cbSize = sizeof( WNDCLASSEX );
-	wnd_Structure.style = CS_HREDRAW | CS_VREDRAW;
+	wnd.cbSize = sizeof( WNDCLASSEX );
+	wnd.style = CS_HREDRAW | CS_VREDRAW;
 
-	wnd_Structure.lpfnWndProc = WindowProcedure;
-	wnd_Structure.cbClsExtra = 0;
-	wnd_Structure.cbWndExtra = 0;
-	wnd_Structure.hInstance = GetModuleHandle( NULL );
-	wnd_Structure.hIcon = NULL;
-	wnd_Structure.hCursor = NULL;
-	wnd_Structure.hbrBackground = GetSysColorBrush( COLOR_BTNFACE );
-	wnd_Structure.lpszMenuName = NULL;
-	wnd_Structure.lpszClassName = "WindowClassName";
-	wnd_Structure.hIconSm = LoadIcon( NULL,IDI_APPLICATION );
+	wnd.lpfnWndProc = WindowProcedure;
+	wnd.cbClsExtra = 0;
+	wnd.cbWndExtra = 0;
+	wnd.hInstance = GetModuleHandle( NULL );
+	wnd.hIcon = NULL;
+	wnd.hCursor = NULL;
+	wnd.hbrBackground = GetSysColorBrush( COLOR_BTNFACE );
+	wnd.lpszMenuName = NULL;
+	wnd.lpszClassName = "WindowClassName";
+	wnd.hIconSm = LoadIcon( NULL,IDI_APPLICATION );
 
-	RegisterClassEx(&wnd_Structure);
+	RegisterClassEx(&wnd);
 
 	int screenWidth = GetSystemMetrics( SM_CXSCREEN ) ;
 	int screenHeight = GetSystemMetrics( SM_CYSCREEN ) ;
@@ -84,6 +98,11 @@ void PlatformManager::Update( float deltaMilliseconds )
 
 	if ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
 	{
+		if ( msg.message == WM_QUIT )
+		{
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
+		}
+
 		TranslateMessage( &msg );
 		DispatchMessage( &msg );
 	}
