@@ -87,7 +87,7 @@ bool FileManager::MountFileStore( const std::string filePath, const std::string 
 	return result;
 }
 
-FileBuffer* FileManager::GetFile( const std::string filePath ) const
+FileBuffer* FileManager::GetFile( const std::string filePath, bool binary ) const
 {
 	std::stringstream logMessage;
 	logMessage << "Loading File: " << filePath;
@@ -101,7 +101,11 @@ FileBuffer* FileManager::GetFile( const std::string filePath ) const
 
 	char* fileBytes = new char[ fileLength + 1 ];
 	PHYSFS_read( pFile, fileBytes, 1, fileLength );
-	fileBytes[ fileLength ] = '\0';
+
+	if( !binary )
+	{
+		fileBytes[ fileLength ] = '\0';
+	}
 
 	FileBuffer* fileBuffer = new FileBuffer( fileBytes, fileLength, filePath );
 

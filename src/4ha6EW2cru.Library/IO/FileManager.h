@@ -31,7 +31,7 @@ public:
 	bool MountFileStore( const std::string filePath, const std::string mountPoint );
 
 	/*! Gets a FileBuffer object from the File System */
-	FileBuffer* GetFile( const std::string filePath ) const;
+	FileBuffer* GetFile( const std::string filePath, bool binary = false ) const;
 
 	/*! Saves a FileBuffer to the File System */
 	void SaveFile( const FileBuffer& fileBuffer ) const;

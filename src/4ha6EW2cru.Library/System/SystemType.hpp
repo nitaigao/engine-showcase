@@ -7,6 +7,7 @@ enum SystemType
 	RenderSystemType,
 	GeometrySystemType,
 	InputSystemType,
+	PhysicsSystemType,
 	TestSystemType,
 	Max_SystemTypes
 };

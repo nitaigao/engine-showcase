@@ -41,8 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN"
+				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -107,7 +107,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include"
+				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
 				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -280,6 +280,22 @@
 		</File>
 		<File
 			RelativePath=".\Geometry\GeometrySystemScene.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Physics\HavokPhysicsSystem.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Physics\HavokPhysicsSystem.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Physics\HavokPhysicsSystemScene.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Physics\HavokPhysicsSystemScene.h"
 			>
 		</File>
 		<File
@@ -504,6 +520,14 @@
 		</File>
 		<File
 			RelativePath=".\Exceptions\OutOfRangeException.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Physics\PhysicsSystemComponent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Physics\PhysicsSystemComponent.h"
 			>
 		</File>
 		<File

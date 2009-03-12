@@ -2,6 +2,7 @@
 #define __ISYSTEMWORLD_H
 
 #include <string>
+#include <map>
 
 #include "ISystemComponent.hpp"
 

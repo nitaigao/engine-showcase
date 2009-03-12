@@ -41,8 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/cppunit/include;../../etc/vendor/ois/includes;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/mygui/include;../../etc/vendor/mockpp;../../etc/vendor/ogre/include;../../etc/vendor/lua/include;../../etc/vendor/yaml/include"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN"
+				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/cppunit/include;../../etc/vendor/ois/includes;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/mygui/include;../../etc/vendor/mockpp;../../etc/vendor/ogre/include;../../etc/vendor/lua/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -61,9 +61,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib mockpp_44d.lib cppunitd.lib OgreMain_d.lib OIS_static_d.lib luad.lib luabind.lib MyGUI_d.lib cppspec_d.lib yamlcppd.lib"
+				AdditionalDependencies="winmm.lib mockpp_44d.lib cppunitd.lib OgreMain_d.lib OIS_static_d.lib luad.lib luabind.lib MyGUI_d.lib cppspec_d.lib yamlcppd.lib  hkBase.lib hkSerialize.lib hkSceneData.lib hkInternal.lib hkGeometryUtilities.lib hkVisualize.lib hkCompat.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/ogre/lib;../../etc/vendor/cppspec/lib;../../etc/vendor/yaml/lib"
+				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/ogre/lib;../../etc/vendor/cppspec/lib;../../etc/vendor/yaml/lib;../../etc/vendor/havok/lib/debug_multithreaded_dll"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -277,6 +277,22 @@
 		</File>
 		<File
 			RelativePath=".\Geometry\GeometrySystem_Tests.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Physics\HavokPhysicsSystem_Tests.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Physics\HavokPhysicsSystem_Tests.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Physics\HavokPhysicsSystemScene_Tests.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Physics\HavokPhysicsSystemScene_Tests.h"
 			>
 		</File>
 		<File

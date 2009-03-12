@@ -39,6 +39,8 @@ Management* Management::GetInstance( )
 
 void Management::Release( )
 {
+	_systemManager->Release( );
+
 	delete g_ManagementInstance;
 	g_ManagementInstance = 0;
 }

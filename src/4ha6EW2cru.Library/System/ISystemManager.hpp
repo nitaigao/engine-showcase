@@ -16,6 +16,7 @@ public:
 
 	virtual void InitializeAllSystems( ) = 0;
 	virtual void Update( float deltaMilliseconds ) = 0;
+	virtual void Release( ) = 0;
 
 };
 

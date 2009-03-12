@@ -665,7 +665,7 @@
 				OutputFile="$(OUTDIR)\ConsoleExampleMt_win32-net_8-0_debug_multithreaded_dll.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\..\..\Lib\win32_net_8-0\debug_multithreaded_dll;..\..\..\Lib\win32_net_8-0\debug_multithreaded_dll"
+				AdditionalLibraryDirectories="..\..\..\Lib\debug_multithreaded_dll;..\..\..\Lib\debug_multithreaded_dll"
 				ManifestFile="$(IntDir)\LinkerManifestFile.manifest"
 				IgnoreDefaultLibraryNames=""
 				DelayLoadDLLs="$(NOINHERIT);"

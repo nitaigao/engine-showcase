@@ -13,6 +13,7 @@
 #include "../Input/InputSystem.h"
 #include "../Graphics/OgreRenderSystem.h"
 #include "../Geometry/GeometrySystem.h"
+#include "../Physics/HavokPhysicsSystem.h"
 
 #include "../Exceptions/AlreadyInitializedException.hpp"
 #include "../Exceptions/UnInitializedException.hpp"
@@ -41,6 +42,7 @@ void Game::Initialize( )
 
 	ISystemManager* systemManager = Management::GetInstance( )->GetSystemManager( );
 	systemManager->AddSystem( new GeometrySystem( ) );
+	systemManager->AddSystem( new HavokPhysicsSystem( ) );
 	systemManager->AddSystem( new ScriptSystem( _configuration ) );
 	systemManager->AddSystem( new OgreRenderSystem( _configuration ) );
 	systemManager->AddSystem( new InputSystem( _configuration ) );

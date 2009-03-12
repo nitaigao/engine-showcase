@@ -42,4 +42,13 @@ public:
 
 };
 
+class WorldLoader_PhysicsComponentStrategy : public IWorldLoader_ComponentStrategy
+{
+
+public:
+
+	ISystemComponent* CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneList& systemScenes );
+
+};
+
 #endif

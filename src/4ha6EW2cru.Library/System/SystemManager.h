@@ -47,6 +47,14 @@ public:
 			 ( *i )->Update( deltaMilliseconds );
 		}
 	}
+	
+	void Release( )
+	{
+		for( SystemList::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
+		{
+			( *i )->Release( );
+		}
+	}
 
 	const SystemList& GetAllSystems( )
 	{

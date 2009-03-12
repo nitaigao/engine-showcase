@@ -1,0 +1,37 @@
+#ifndef __HAVOKPHYSICS_SYSTEMSCENE
+#define __HAVOKPHYSICS_SYSTEMSCENE
+
+#include "../System/ISystemScene.hpp"
+
+#include <Common/Base/hkBase.h>
+#include <Physics/Dynamics/World/hkpWorld.h>
+
+#include <Common/Visualize/hkVisualDebugger.h>
+#include <Physics/Utilities/VisualDebugger/hkpPhysicsContext.h>			
+
+class HavokPhysicsSystemScene : public ISystemScene
+{
+
+public:
+
+	virtual ~HavokPhysicsSystemScene( );
+
+	HavokPhysicsSystemScene( const hkpWorldCinfo& worldInfo );
+
+	ISystemComponent* CreateComponent( const std::string& name );
+	void DestroyComponent( ISystemComponent* component );
+	SystemType GetType( ) { return PhysicsSystemType; };
+
+	void Update( float deltaMilliseconds );
+
+	hkpWorld* GetWorld( ) { return _world; };
+
+private:
+
+	hkpWorld* _world;
+	hkVisualDebugger* _vdb;
+	hkpPhysicsContext* _context;
+
+};
+
+#endif

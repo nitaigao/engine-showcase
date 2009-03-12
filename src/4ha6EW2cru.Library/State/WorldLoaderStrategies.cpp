@@ -15,6 +15,10 @@ IWorldLoader_ComponentStrategy* WorldLoader_ComponentStrategy_Factory::Create( c
 	{
 		strategy = new WorldLoader_GeometryComponentStrategy( );
 	}
+	else if ( componentType == "physics" )
+	{
+		strategy = new WorldLoader_PhysicsComponentStrategy( );
+	}
 
 	return strategy;
 }
@@ -64,6 +68,28 @@ ISystemComponent* WorldLoader_GeometryComponentStrategy::CreateComponent( const 
 	properties.push_back( SystemProperty( "orientation", MathQuaternion( x, y, z, w ) ) );
 
 	SystemSceneList::const_iterator systemScene = systemScenes.find( GeometrySystemType );
+
+	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName );
+	systemComponent->Initialize( properties );
+
+	return systemComponent;
+}
+
+ISystemComponent* WorldLoader_PhysicsComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneList& systemScenes )
+{
+	SystemPropertyList properties;
+
+	for( YAML::Iterator componentProperty = componentNode.begin( ); componentProperty != componentNode.end( ); ++componentProperty ) 
+	{
+		std::string propertyKey, propertyValue;
+
+		componentProperty.first( ) >> propertyKey;
+		componentProperty.second( ) >> propertyValue;
+
+		properties.push_back( SystemProperty( propertyKey, propertyValue ) );
+	}
+
+	SystemSceneList::const_iterator systemScene = systemScenes.find( PhysicsSystemType );
 
 	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName );
 	systemComponent->Initialize( properties );

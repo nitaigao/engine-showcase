@@ -20,6 +20,7 @@ public:
 	static std::string TypesSuite( ) { return "Types"; };
 	static std::string UtilitySuite( ) { return "Utility"; };
 	static std::string GeometrySuite( ) { return "Geometry"; };
+	static std::string PhysicsSuite( ) { return "physics"; };
 	
 };
 
