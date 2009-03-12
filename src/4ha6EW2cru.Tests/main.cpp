@@ -47,7 +47,7 @@ int main (int argc, char* argv[])
 
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::EventsSuite( ) ).makeTest( ) );
 	//runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::GraphicsSuite( ) ).makeTest( ) );
-	//runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::InputSuite( ) ).makeTest( ) );
+	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::InputSuite( ) ).makeTest( ) );
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::LoggingSuite( ) ).makeTest( ) );
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::ScriptingSuite( ) ).makeTest( ) );
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry( Suites::UtilitySuite( ) ).makeTest( ) );

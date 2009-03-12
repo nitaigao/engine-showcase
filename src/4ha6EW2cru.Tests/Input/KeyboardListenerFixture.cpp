@@ -6,7 +6,7 @@
 #include "../Mocks/MockEventTrigger.hpp"
 
 #include "../Suites.h"
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( KeyboardListenerFixture, Suites::InputSuite( ) );
+//CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( KeyboardListenerFixture, Suites::InputSuite( ) );
 
 void KeyboardListenerFixture::setUp( )
 {

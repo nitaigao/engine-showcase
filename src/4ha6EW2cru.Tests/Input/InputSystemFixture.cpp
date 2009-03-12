@@ -11,7 +11,7 @@
 #include "Exceptions/UnInitializedException.hpp"
 
 #include "../Suites.h"
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( InputSystemFixture, Suites::InputSuite( ) );
+//CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( InputSystemFixture, Suites::InputSuite( ) );
 
 void InputSystemFixture::setUp( )
 {

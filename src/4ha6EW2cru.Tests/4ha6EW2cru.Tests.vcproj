@@ -304,6 +304,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Input\InputSystemScene_Tests.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Input\InputSystemScene_Tests.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Input\KeyboardListenerFixture.cpp"
 			>
 		</File>

@@ -6,12 +6,22 @@
 
 #include "../System/ISystemScene.hpp"
 
+
 class IWorldLoader_ComponentStrategy
 {
 
 public:
 
 	virtual ISystemComponent* CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneList& systemScenes ) = 0;
+
+};
+
+class WorldLoader_ComponentStrategy_Factory
+{
+
+public:
+
+	static IWorldLoader_ComponentStrategy* Create( const std::string& componentType );
 
 };
 
@@ -33,16 +43,16 @@ public:
 
 };
 
-class WorldLoader_ComponentStrategy_Factory
+class WorldLoader_PhysicsComponentStrategy : public IWorldLoader_ComponentStrategy
 {
 
 public:
 
-	static IWorldLoader_ComponentStrategy* Create( const std::string& componentType );
+	ISystemComponent* CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneList& systemScenes );
 
 };
 
-class WorldLoader_PhysicsComponentStrategy : public IWorldLoader_ComponentStrategy
+class WorldLoader_InputComponentStrategy : public IWorldLoader_ComponentStrategy
 {
 
 public:

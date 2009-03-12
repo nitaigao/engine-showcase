@@ -56,5 +56,5 @@ void InputSystem::Update( float deltaMilliseconds )
 
 ISystemScene* InputSystem::CreateScene()
 {
-	return new InputSystemScene( this );
+	return new InputSystemScene( );
 }

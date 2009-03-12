@@ -359,6 +359,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Input\InputSystemComponent.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Input\InputSystemScene.cpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Input\InputSystemScene.h"
 			>
 		</File>

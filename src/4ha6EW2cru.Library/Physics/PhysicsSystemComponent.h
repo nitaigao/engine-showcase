@@ -28,6 +28,8 @@ public:
 	void Initialize( SystemPropertyList properties );
 
 	inline void AddObserver( IObserver* observer ) { _observer = observer; };
+
+	void Observe( ISubject* subject, unsigned int systemChanges );
 	void PushChanges( unsigned int systemChanges );
 
 	inline unsigned int GetRequestedChanges( ) 
@@ -38,8 +40,6 @@ public:
 			System::Changes::Geometry::Scale |
 			System::Changes::Geometry::All;
 	};
-
-	void Observe( ISubject* subject, unsigned int systemChanges );
 
 	inline const std::string& GetName( ) { return _name; };
 	inline SystemType GetType( ) { return PhysicsSystemType; };

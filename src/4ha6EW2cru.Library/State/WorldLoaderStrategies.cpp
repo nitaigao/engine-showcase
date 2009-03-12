@@ -19,6 +19,10 @@ IWorldLoader_ComponentStrategy* WorldLoader_ComponentStrategy_Factory::Create( c
 	{
 		strategy = new WorldLoader_PhysicsComponentStrategy( );
 	}
+	else if ( componentType == "input" )
+	{
+		strategy = new WorldLoader_InputComponentStrategy( );
+	}
 
 	return strategy;
 }
@@ -90,6 +94,28 @@ ISystemComponent* WorldLoader_PhysicsComponentStrategy::CreateComponent( const s
 	}
 
 	SystemSceneList::const_iterator systemScene = systemScenes.find( PhysicsSystemType );
+
+	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName );
+	systemComponent->Initialize( properties );
+
+	return systemComponent;
+}
+
+ISystemComponent* WorldLoader_InputComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneList& systemScenes )
+{
+	SystemPropertyList properties;
+
+	for( YAML::Iterator componentProperty = componentNode.begin( ); componentProperty != componentNode.end( ); ++componentProperty ) 
+	{
+		std::string propertyKey, propertyValue;
+
+		componentProperty.first( ) >> propertyKey;
+		componentProperty.second( ) >> propertyValue;
+
+		properties.push_back( SystemProperty( propertyKey, propertyValue ) );
+	}
+
+	SystemSceneList::const_iterator systemScene = systemScenes.find( InputSystemType );
 
 	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName );
 	systemComponent->Initialize( properties );
