@@ -4,6 +4,8 @@
 #include "../System/ISystemComponent.hpp"
 #include "HavokPhysicsSystemScene.h"
 
+#include "../Maths/MathVector3.hpp"
+
 #include <Common/Base/hkBase.h>
 #include <Common/Serialize/Util/hkLoader.h>
 
@@ -24,18 +26,32 @@ public:
 	}
 
 	void Initialize( SystemPropertyList properties );
-	void AddObserver( IObserver* observer ) { };
 
-	void Observe( ISubject* subject );
+	inline void AddObserver( IObserver* observer ) { _observer = observer; };
 	void PushChanges( unsigned int systemChanges );
 
-	const std::string& GetName( ) { return _name; };
-	SystemType GetType( ) { return PhysicsSystemType; };
+	inline unsigned int GetRequestedChanges( ) 
+	{ 
+		return 
+			System::Changes::Geometry::Position | 
+			System::Changes::Geometry::Orientation | 
+			System::Changes::Geometry::Scale |
+			System::Changes::Geometry::All;
+	};
+
+	void Observe( ISubject* subject, unsigned int systemChanges );
+
+	inline const std::string& GetName( ) { return _name; };
+	inline SystemType GetType( ) { return PhysicsSystemType; };
+
+	MathVector3 GetPosition( );
 
 private:
 
 	std::string _name;
+	IObserver* _observer;
 	HavokPhysicsSystemScene* _scene;
+	
 	hkPackfileData* _loadedData;
 	hkpRigidBody* _body;
 

@@ -21,10 +21,20 @@ public:
 	}
 
 	void Initialize( SystemPropertyList properties );
-	void AddObserver( IObserver* observer ) { };
 
-	void Observe( ISubject* subject );
-	void PushChanges( unsigned int systemChanges ) { };
+	void AddObserver( IObserver* observer ) { };
+	void PushChanges( unsigned int systemChanges ){ };
+
+	inline unsigned int GetRequestedChanges( ) 
+	{ 
+		return 
+			System::Changes::Geometry::Position | 
+			System::Changes::Geometry::Orientation | 
+			System::Changes::Geometry::Scale |
+			System::Changes::Geometry::All;
+	};
+
+	void Observe( ISubject* subject, unsigned int systemChanges );
 
 	unsigned int GetRequiredSystemChanges ( );
 

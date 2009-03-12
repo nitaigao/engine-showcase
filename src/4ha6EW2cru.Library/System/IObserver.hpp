@@ -8,7 +8,8 @@ class IObserver
 
 public:
 
-	virtual void Observe( ISubject* subject ) = 0;
+	virtual unsigned int GetRequestedChanges( ) = 0;
+	virtual void Observe( ISubject* subject, unsigned int systemChanges ) = 0;
 
 };
 

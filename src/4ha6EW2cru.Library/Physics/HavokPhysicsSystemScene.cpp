@@ -41,6 +41,8 @@ HavokPhysicsSystemScene::HavokPhysicsSystemScene( const hkpWorldCinfo& worldInfo
 	_context->addWorld( _world );
 	contexts.pushBack( _context );
 
+	hkpAgentRegisterUtil::registerAllAgents( _world->getCollisionDispatcher( ) );
+
 	_vdb = new hkVisualDebugger( contexts );
 	_vdb->serve( );
 }
@@ -56,16 +58,38 @@ HavokPhysicsSystemScene::~HavokPhysicsSystemScene()
 
 ISystemComponent* HavokPhysicsSystemScene::CreateComponent( const std::string& name )
 {
-	return new PhysicsSystemComponent( name, this );
+	PhysicsSystemComponent* component = new PhysicsSystemComponent( name, this );
+
+	_components.push_back( component );
+
+	return component;
 }
 
 void HavokPhysicsSystemScene::Update( float deltaMilliseconds )
 {
 	_world->stepDeltaTime( deltaMilliseconds );
 	_vdb->step( deltaMilliseconds );
+
+	for( PhysicsSystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+	{
+		( *i )->PushChanges( 
+			System::Changes::Physics::Orientation |
+			System::Changes::Physics::Position |
+			System::Changes::Physics::Scale
+			);
+	}
 }
 
 void HavokPhysicsSystemScene::DestroyComponent( ISystemComponent* component )
 {
+	for( PhysicsSystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+	{
+		if ( component->GetName( ) == ( *i )->GetName( ) )
+		{
+			_components.erase( i );
+			break;
+		}
+	}
+
 	delete component;
 }

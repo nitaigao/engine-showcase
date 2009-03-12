@@ -1,5 +1,7 @@
 #include "GeometrySystemComponent.h"
 
+#include "../Physics/PhysicsSystemComponent.h"
+
 void GeometrySystemComponent::Initialize( SystemPropertyList properties )
 {
 	for( SystemPropertyList::iterator i = properties.begin( ); i != properties.end( ); ++i )
@@ -28,6 +30,17 @@ void GeometrySystemComponent::PushChanges( unsigned int systemChanges )
 {
 	if ( _observer != 0 )
 	{
-		_observer->Observe( this );
+		_observer->Observe( this, systemChanges );
+	}
+}
+
+void GeometrySystemComponent::Observe( ISubject* subject, unsigned int systemChanges )
+{
+	PhysicsSystemComponent* component = static_cast< PhysicsSystemComponent* >( subject );
+
+	if ( component->GetName( ) == "Box01" )
+	{
+		_position = component->GetPosition( );
+		this->PushChanges( System::Changes::Geometry::Position );
 	}
 }

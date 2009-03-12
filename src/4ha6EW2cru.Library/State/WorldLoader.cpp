@@ -56,6 +56,8 @@ void WorldLoader::LoadEntity( const YAML::Node& entityNode )
 
 void WorldLoader::LoadEntityComponents( const YAML::Node& node, IEntity* entity )
 {
+	ISystemComponent* geometryComponent = 0;
+
 	for( YAML::Iterator components = node.begin( ); components != node.end( ); ++components ) 
 	{
 		const YAML::Node& componentNode = ( *components );
@@ -67,8 +69,17 @@ void WorldLoader::LoadEntityComponents( const YAML::Node& node, IEntity* entity 
 		ISystemComponent* entityComponent = componentStrategy->CreateComponent( entity->GetName( ), componentNode, _world->GetSystemScenes( ) );
 
 		entity->AddComponent( entityComponent );
-		entityComponent->PushChanges( System::Changes::All );
+
+		if ( entityComponent->GetType( ) == GeometrySystemType )
+		{
+			geometryComponent = entityComponent;
+		}
 
 		delete componentStrategy;
+	}
+
+	if ( geometryComponent != 0 )
+	{
+		geometryComponent->PushChanges( System::Changes::Geometry::All );
 	}
 }

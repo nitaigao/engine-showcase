@@ -2,6 +2,7 @@
 #define __HAVOKPHYSICS_SYSTEMSCENE
 
 #include "../System/ISystemScene.hpp"
+#include "../System/ISystemComponent.hpp"
 
 #include <Common/Base/hkBase.h>
 #include <Physics/Dynamics/World/hkpWorld.h>
@@ -11,6 +12,8 @@
 
 class HavokPhysicsSystemScene : public ISystemScene
 {
+
+	typedef std::vector< ISystemComponent* > PhysicsSystemComponentList;
 
 public:
 
@@ -31,6 +34,7 @@ private:
 	hkpWorld* _world;
 	hkVisualDebugger* _vdb;
 	hkpPhysicsContext* _context;
+	PhysicsSystemComponentList _components;
 
 };
 

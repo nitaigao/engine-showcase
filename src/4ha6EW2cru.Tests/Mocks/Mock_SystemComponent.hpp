@@ -22,10 +22,12 @@ public:
 	};
 
 	void Initialize( SystemPropertyList properties ) { };
+
 	void AddObserver( IObserver* observer ) { } ;
-	
-	void Observe( ISubject* subject ) { };
 	void PushChanges( unsigned int systemChanges ) { };
+	
+	inline unsigned int GetRequestedChanges( ) { return 0; };
+	void Observe( ISubject* subject, unsigned int systemChanges ) { };
 
 	inline const std::string& GetName( ) { return "test"; }
 	inline SystemType GetType( ) { return _systemType; };

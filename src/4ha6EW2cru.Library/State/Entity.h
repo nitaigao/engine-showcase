@@ -20,7 +20,10 @@ public:
 	inline const std::string& GetName( ) { return _name; };
 
 	void AddComponent( ISystemComponent* component );
-	void Observe( ISubject* subject );
+
+	inline unsigned int GetRequestedChanges( ) { return 0; };
+	void Observe( ISubject* subject, unsigned int systemChanges );
+
 	inline SystemComponentList& GetComponents( ) { return _components; };
 
 private:

@@ -2,6 +2,7 @@
 #define __MATHVECTOR3_H
 
 #include <OgreVector3.h>
+#include <Common/Base/hkBase.h>
 
 class MathVector3
 {
@@ -25,6 +26,7 @@ public:
 	}
 
 	Ogre::Vector3 AsOgreVector3( ) { return Ogre::Vector3( _x, _y, _z ); };
+	hkVector4 AshkVector4( ) { return hkVector4( _x, _y, _z ); };
 
 private:
 

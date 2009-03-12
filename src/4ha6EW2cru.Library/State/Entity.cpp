@@ -6,10 +6,15 @@ void Entity::AddComponent( ISystemComponent* component )
 	_components.push_back( component );
 }
 
-void Entity::Observe( ISubject* subject )
+void Entity::Observe( ISubject* subject, unsigned int systemChanges )
 {
 	for( SystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
 	{
-		( *i )->Observe( subject );
+		ISystemComponent* component = ( *i );
+		
+		if ( component->GetRequestedChanges( ) & systemChanges )
+		{
+			( *i )->Observe( subject, systemChanges );
+		}
 	}
 }

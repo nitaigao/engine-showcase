@@ -13,7 +13,6 @@ public:
 
 	virtual ~ISystemComponent( ) { };
 
-
 	virtual void Initialize( SystemPropertyList properties ) = 0;
 	virtual void AddObserver( IObserver* observer ) = 0;
 

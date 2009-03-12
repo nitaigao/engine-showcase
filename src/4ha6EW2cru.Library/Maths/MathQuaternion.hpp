@@ -1,6 +1,7 @@
 #ifndef __MATHQUATERNION_H
 #define __MATHQUATERNION_H
 
+#include <OgreMatrix3.h>
 #include <OgreQuaternion.h>
 
 class MathQuaternion
@@ -27,6 +28,29 @@ public:
 	}
 
 	Ogre::Quaternion AsOgreQuaternion( ) { return Ogre::Quaternion( _w, _x, _y, _z ); };
+	hkQuaternion AshkQuaternion( ) 
+	{ 
+		Ogre::Quaternion rotationAmount( Ogre::Degree( 90 ), Ogre::Vector3( 1.0f, 0.0f, 0.0f ) );
+		Ogre::Quaternion rotationResult = this->AsOgreQuaternion( ) * rotationAmount;
+
+		return hkQuaternion( rotationResult.x, rotationResult.y, rotationResult.z, rotationResult.w ); 
+	};
+	
+	MathQuaternion Normalize( )
+	{
+		float length = sqrt( 
+			_x * _x + _y * _y +
+			_z * _z + _w * _w
+			);
+
+		return MathQuaternion(
+			_x /= length,
+			_y /= length,
+			_z /= length,
+			_w /= length
+			);
+	};
+
 
 
 private:

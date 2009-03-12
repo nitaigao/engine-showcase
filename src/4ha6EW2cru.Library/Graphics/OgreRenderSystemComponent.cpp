@@ -62,7 +62,7 @@ unsigned int OgreRenderSystemComponent::GetRequiredSystemChanges()
 
 }
 
-void OgreRenderSystemComponent::Observe( ISubject* subject )
+void OgreRenderSystemComponent::Observe( ISubject* subject, unsigned int systemChanges )
 {
 	GeometrySystemComponent* geometryComponent = static_cast< GeometrySystemComponent* >( subject );
 

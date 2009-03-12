@@ -1,0 +1,9 @@
+hkpShapeKey:hkUint32
+hkObjectIndex:hkUint16
+hkChar:char
+hkUchar:char
+hkUFloat8:hkUint8
+hkHalf:hkInt16
+hkTime:hkReal
+hclConvexHeightFieldSample:hkUint32
+hclPlanarHeightFieldSample:hkUint32
