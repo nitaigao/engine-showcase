@@ -27,10 +27,9 @@ public:
 		}
 	}
 
-	char* fileBytes;
 	int fileLength;
 	const std::string filePath;
-
+	char* fileBytes;
 
 private:
 

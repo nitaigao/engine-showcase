@@ -384,6 +384,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Physics\PhysicsSystemComponent_Tests.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Physics\PhysicsSystemComponent_Tests.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Utility\SearchUtilityFixture.cpp"
 			>
 		</File>

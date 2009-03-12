@@ -15,7 +15,7 @@ public:
 
 	virtual bool MountFileStore( const std::string filePath, const std::string mountPoint ) = 0;
 
-	virtual FileBuffer* GetFile( const std::string filePath, bool binary = false ) const = 0;
+	virtual FileBuffer* GetFile( const std::string filePath, bool binary ) const = 0;
 
 	virtual void SaveFile( const FileBuffer& fileBuffer ) const = 0;
 

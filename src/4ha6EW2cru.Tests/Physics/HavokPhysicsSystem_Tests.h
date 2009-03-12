@@ -14,6 +14,11 @@ class HavokPhysicsSystem_Tests : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( Should_Return_PhysicsScene_On_CreateScene );
 	CPPUNIT_TEST_SUITE_END( );
 
+public:
+
+	void setUp( );
+	void tearDown( );
+
 protected:
 
 	void Should_Initialize_Correctly( );

@@ -38,6 +38,9 @@ void WorldLoader_Tests::Should_Load_And_Parse_A_YAML_File( )
 	Mock_System system2( GeometrySystemType );
 	world.RegisterSystem( &system2 );
 
+	Mock_System system3( PhysicsSystemType );
+	world.RegisterSystem( &system3 );
+
 	WorldLoader loader( &world, &fileManager );
 	loader.Load( "/data/levels/level0.yaml" );
 

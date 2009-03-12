@@ -7,7 +7,7 @@
 
 void WorldLoader::Load( const std::string& levelPath )
 {
-	FileBuffer* levelBuffer = _fileManager->GetFile( levelPath );
+	FileBuffer* levelBuffer = _fileManager->GetFile( levelPath, false );
 
 	std::istringstream inputStream( levelBuffer->fileBytes );
 	YAML::Parser parser( inputStream );

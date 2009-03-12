@@ -40,6 +40,12 @@ Management* Management::GetInstance( )
 void Management::Release( )
 {
 	_systemManager->Release( );
+	
+	/* This has been commented so we can see that we have not 
+	 * released some of the EventListeners properly, go find those
+	 * EventListeners and delete them! */
+
+	//_eventManager->Release( );
 
 	delete g_ManagementInstance;
 	g_ManagementInstance = 0;

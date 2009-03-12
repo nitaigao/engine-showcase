@@ -41,8 +41,8 @@ HavokPhysicsSystemScene::HavokPhysicsSystemScene( const hkpWorldCinfo& worldInfo
 	_context->addWorld( _world );
 	contexts.pushBack( _context );
 
-	_vdb = new hkVisualDebugger(contexts);
-	_vdb->serve();
+	_vdb = new hkVisualDebugger( contexts );
+	_vdb->serve( );
 }
 
 HavokPhysicsSystemScene::~HavokPhysicsSystemScene()

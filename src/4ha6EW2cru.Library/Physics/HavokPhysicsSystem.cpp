@@ -45,7 +45,7 @@ ISystemScene* HavokPhysicsSystem::CreateScene()
 
 	HavokPhysicsSystemScene* scene = new HavokPhysicsSystemScene( info );
 
-	_scenes.push_back( scene );
+	//_scenes.push_back( scene );
 
 	return scene;
 }

@@ -99,11 +99,18 @@ FileBuffer* FileManager::GetFile( const std::string filePath, bool binary ) cons
 	
 	int fileLength = PHYSFS_fileLength( pFile );
 
-	char* fileBytes = new char[ fileLength + 1 ];
-	PHYSFS_read( pFile, fileBytes, 1, fileLength );
+	char* fileBytes = 0;
 
-	if( !binary )
+	
+	if( binary )
 	{
+		fileBytes = new char[ fileLength ];
+		PHYSFS_read( pFile, fileBytes, 1, fileLength );
+	}
+	else
+	{
+		fileBytes = new char[ fileLength + 1 ];
+		PHYSFS_read( pFile, fileBytes, 1, fileLength );
 		fileBytes[ fileLength ] = '\0';
 	}
 

@@ -93,6 +93,9 @@ void Game::Release( )
 		throw e;
 	}
 
+	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GAME_QUIT, this, &Game::OnGameQuit );
+	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
+
 	delete _world;
 
 	Management::GetInstance( )->Release( );
@@ -103,7 +106,6 @@ void Game::Release( )
 void Game::OnGameQuit( const IEvent* event )
 {
 	_isQuitting = true;
-	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GAME_QUIT, this, &Game::OnGameQuit );
 }
 
 void Game::OnGameLevelChanged( const IEvent* event )
