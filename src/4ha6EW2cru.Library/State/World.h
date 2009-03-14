@@ -10,24 +10,24 @@ class World : public IWorld
 
 public:
 
-	~World( );
-
-	World( )
-	{
-
-	}
+	virtual ~World( );
+	World( ) { };
 
 	IEntity* CreateEntity( const std::string& name );
 
-	void RegisterSystem( ISystem* system );
+	inline void AddSystemScene( ISystemScene* systemScene ) { _systemScenes[ systemScene->GetType( ) ] = systemScene; }
+	inline const SystemSceneList& GetSystemScenes( ) { return _systemScenes; };
 
-	const SystemSceneList& GetSystemScenes( ) { return _systemScenes; }
+	void Update( float deltaMilliseconds );
 
 private:
 
 	std::string _name;
 	EntityList _entities;
 	SystemSceneList _systemScenes;
+
+	World( const World & copy ) { };
+	World & operator = ( const World & copy ) { return *this; };
 
 };
 

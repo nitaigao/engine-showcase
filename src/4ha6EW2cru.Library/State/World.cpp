@@ -22,14 +22,17 @@ World::~World()
 	}
 }
 
-void World::RegisterSystem( ISystem* system )
-{
-	_systemScenes[ system->GetSystemType( ) ] = system->CreateScene( );
-}
-
 IEntity* World::CreateEntity( const std::string& name )
 {
 	IEntity* entity = new Entity( name );
 	_entities.push_back( entity );
 	return entity;
+}
+
+void World::Update( float deltaMilliseconds )
+{
+	for( SystemSceneList::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
+	{
+		( *i ).second->Update( deltaMilliseconds );
+	}
 }

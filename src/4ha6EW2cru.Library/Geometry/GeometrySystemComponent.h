@@ -56,6 +56,10 @@ private:
 	MathVector3 _scale;
 	MathQuaternion _orientation;
 
+	GeometrySystemComponent( ) { };
+	GeometrySystemComponent( const GeometrySystemComponent & copy ) { };
+	GeometrySystemComponent & operator = ( const GeometrySystemComponent & copy ) { return *this; };
+
 };
 
 #endif

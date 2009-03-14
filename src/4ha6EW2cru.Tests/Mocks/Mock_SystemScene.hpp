@@ -22,6 +22,7 @@ public:
 		: MockObject( "Mock_SystemScene", 0 )
 		, createEntity_count( "Mock_SystemScene/CreateComponent", this )
 		, destroyEntity_count( "Mock_SystemScene/DestroyComponent", this )
+		, update_count( "Mock_SystemScene/Update", this )
 		, _systemType( systemType )
 	{ 
 	
@@ -29,6 +30,7 @@ public:
 
 	ExpectationCounter createEntity_count;
 	ExpectationCounter destroyEntity_count;
+	ExpectationCounter update_count;
 
 	ISystemComponent* CreateComponent( const std::string& name )
 	{
@@ -43,6 +45,10 @@ public:
 	}
 
 	inline SystemType GetType( ) { return _systemType; };
+	inline void Update( float deltaMilliseconds )
+	{
+		update_count.inc( );
+	}
 
 private:
 

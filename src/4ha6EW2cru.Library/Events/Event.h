@@ -13,20 +13,20 @@ class Event : public IEvent
 
 public:
 
-	Event( const EventType& eventType, IEventData* eventData = 0 )
-		: _eventType( eventType )
-		, _eventData( eventData )
-	{
-
-	};
-
-	~Event( )
+	virtual ~Event( )
 	{
 		if ( _eventData != 0 )
 		{
 			delete _eventData;
 		}
 	}
+
+	Event( const EventType& eventType, IEventData* eventData = 0 )
+		: _eventType( eventType )
+		, _eventData( eventData )
+	{
+
+	};
 
 	/*! Gets the Type of the Event */
 	inline const EventType& GetEventType( ) const { return _eventType; };
@@ -36,12 +36,12 @@ public:
 
 private:
 
+	EventType _eventType;
+	IEventData* _eventData;
+
 	Event( ) { };
 	Event( const Event & copy ) { };
 	Event & operator = ( const Event & copy ) { return *this; };
-
-	EventType _eventType;
-	IEventData* _eventData;
 
 };
 

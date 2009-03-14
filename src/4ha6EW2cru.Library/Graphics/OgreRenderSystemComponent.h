@@ -46,6 +46,10 @@ private:
 	std::string _name;
 	OgreSystemScene* _scene;
 
+	OgreRenderSystemComponent( ) { };
+	OgreRenderSystemComponent( const OgreRenderSystemComponent & copy ) { };
+	OgreRenderSystemComponent & operator = ( const OgreRenderSystemComponent & copy ) { return *this; };
+
 };
 
 #endif

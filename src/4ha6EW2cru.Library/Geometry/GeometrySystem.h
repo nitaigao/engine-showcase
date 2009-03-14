@@ -11,14 +11,19 @@ class GeometrySystem : public ISystem
 public:
 
 	virtual ~GeometrySystem( ) { };
+	GeometrySystem( ) { };
 
 	inline void Initialize( ) { };
-	inline void Update( float deltaMilliseconds ) { };
 	inline void Release( ) { };
 
 	ISystemScene* CreateScene( );
 	inline SystemType GetSystemType( ) { return GeometrySystemType; };
 	inline PropertyMap GetProperties( ) { return PropertyMap( ); };
+
+private:
+
+	GeometrySystem( const GeometrySystem & copy ) { };
+	GeometrySystem & operator = ( const GeometrySystem & copy ) { return *this; };
 
 };
 

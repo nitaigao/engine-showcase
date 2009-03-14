@@ -41,12 +41,10 @@ public:
 		: MockObject( "Mock_World", 0 )
 		, createEntity_count( "Mock_World/CreateComponent", this )
 		, destroyEntity_count( "Mock_World/DestroyComponent", this )
-		, extend_count( "Mock_World/RegisterSystem", this )
 	{ };
 
 	ExpectationCounter createEntity_count;
 	ExpectationCounter destroyEntity_count;
-	ExpectationCounter extend_count;
 
 	IEntity* CreateEntity( const std::string& name )
 	{
@@ -60,13 +58,14 @@ public:
 
 	}
 
-	void RegisterSystem( ISystem* system )
+	void AddSystemScene( ISystemScene* systemScene )
 	{
-		_systemScenes[ system->GetSystemType( ) ] = system->CreateScene( );
-		extend_count.inc( );
+		_systemScenes[ systemScene->GetType( ) ] = systemScene;
 	}
 
 	const SystemSceneList& GetSystemScenes( ) { return _systemScenes; };
+
+	void Update( float deltaMilliseconds ) { };
 
 private:
 

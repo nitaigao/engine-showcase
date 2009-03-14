@@ -10,13 +10,14 @@ public:
 
 	InputSystemComponent( const std::string& name )
 		: _name( name )
+		, _observer( 0 )
 	{
 
 	}
 
 	void Initialize( SystemPropertyList properties ) { };
 
-	inline void AddObserver( IObserver* observer ) { };
+	inline void AddObserver( IObserver* observer ) { _observer = observer; };
 
 	void Observe( ISubject* subject, unsigned int systemChanges ) { };
 	void PushChanges( unsigned int systemChanges ) { };
@@ -29,6 +30,12 @@ public:
 private:
 
 	std::string _name;
+	IObserver* _observer;
+
+	InputSystemComponent( ) { };
+	InputSystemComponent( const InputSystemComponent & copy ) { };
+	InputSystemComponent & operator = ( const InputSystemComponent & copy ) { return *this; };
+
 };
 
 #endif

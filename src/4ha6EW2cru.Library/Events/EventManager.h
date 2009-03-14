@@ -21,8 +21,8 @@ class EventManager : public IEventManager
 
 public:
 
+	virtual ~EventManager( ) { };
 	EventManager( ) { };
-	~EventManager( ) { };
 
 	/*! Retrieves an instance of the EventManager Singleton */
 	static EventManager* GetInstance( );
@@ -101,11 +101,11 @@ public:
 
 private:
 
-	EventManager( const EventManager & copy ) { };
-	EventManager & operator = ( const EventManager & copy ) { return *this; };
-
 	EventQueue _eventQueue;
 	EventListenerList _eventListeners;
+
+	EventManager( const EventManager & copy ) { };
+	EventManager & operator = ( const EventManager & copy ) { return *this; };
 
 };
 

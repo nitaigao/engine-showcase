@@ -6,6 +6,8 @@ class IScriptConfiguration
 
 public:
 
+	virtual ~IScriptConfiguration( ) { };
+
 	virtual bool IsFullScreen( ) const  = 0;
 	virtual void SetFullScreen( bool isFullScreen ) = 0;
 

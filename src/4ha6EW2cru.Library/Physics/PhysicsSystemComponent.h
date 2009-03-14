@@ -55,6 +55,9 @@ private:
 	hkPackfileData* _loadedData;
 	hkpRigidBody* _body;
 
+	PhysicsSystemComponent( const PhysicsSystemComponent & copy ) { };
+	PhysicsSystemComponent & operator = ( const PhysicsSystemComponent & copy ) { return *this; };
+
 };
 
 #endif

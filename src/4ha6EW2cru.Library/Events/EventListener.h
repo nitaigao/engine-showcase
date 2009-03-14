@@ -71,6 +71,11 @@ private:
 	EventType _eventType;
 	T* _handlerTarget;
 
+	virtual ~EventListener( ) { };
+	EventListener( ) { };
+	EventListener( const EventListener & copy ) { };
+	EventListener & operator = ( const EventListener & copy ) { return *this; };
+
 };
 
 #endif

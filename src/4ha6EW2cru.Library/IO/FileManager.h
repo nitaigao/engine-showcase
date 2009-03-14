@@ -14,7 +14,7 @@ class FileManager : public IFileManager
 
 public:
 
-	~FileManager( ) { };
+	virtual ~FileManager( ) { };
 
 	FileManager( );
 
@@ -24,7 +24,7 @@ public:
 	/*! Releases all resources and the FileManager Singleton */
 	void Release( );
 
-	/*! Initlaized the Logging mechanism */
+	/*! Initialized the Logging mechanism */
 	static const bool Initialize( );
 
 	/*! Adds a BAD File Store to the File System search path */
@@ -44,10 +44,10 @@ public:
 
 private:
 
+	FileSearchResultList* _FileSearch( const std::string path, const std::string pattern, const bool recursive, FileSearchResultList* results ) const;
+
 	FileManager( const FileManager & copy ) { };
 	FileManager & operator = ( const FileManager & copy ) { return *this; };
-
-	FileSearchResultList* _FileSearch( const std::string path, const std::string pattern, const bool recursive, FileSearchResultList* results ) const;
 
 };
 

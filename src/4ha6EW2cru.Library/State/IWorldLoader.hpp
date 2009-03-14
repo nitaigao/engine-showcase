@@ -8,6 +8,8 @@ class IWorldLoader
 
 public:
 
+	virtual ~IWorldLoader( ) { };
+
 	virtual void Load( const std::string& levelPath ) = 0;
 
 };

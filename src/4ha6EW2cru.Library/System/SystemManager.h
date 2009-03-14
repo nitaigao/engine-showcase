@@ -14,6 +14,8 @@ public:
 		}
 	}
 
+	SystemManager( ) { };
+
 	void AddSystem( ISystem* system )
 	{
 		_systems.push_back( system );
@@ -39,14 +41,6 @@ public:
 			( *i )->Initialize( );
 		}
 	}
-
-	void Update( float deltaMilliseconds )
-	{
-		for( SystemList::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
-		{
-			 ( *i )->Update( deltaMilliseconds );
-		}
-	}
 	
 	void Release( )
 	{
@@ -64,6 +58,9 @@ public:
 private:
 
 	SystemList _systems;
+
+	SystemManager( const SystemManager & copy ) { };
+	SystemManager & operator = ( const SystemManager & copy ) { return *this; };
 
 };
 

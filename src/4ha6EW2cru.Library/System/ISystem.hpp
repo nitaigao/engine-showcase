@@ -21,7 +21,6 @@ public:
 	virtual ~ISystem( ) { };
 
 	virtual void Initialize( ) = 0;
-	virtual void Update( float deltaMilliseconds ) = 0;
 	virtual void Release( ) = 0;
 
 	virtual ISystemScene* CreateScene( ) = 0;

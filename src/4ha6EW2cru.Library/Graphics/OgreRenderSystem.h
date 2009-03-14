@@ -16,10 +16,10 @@ class OgreRenderSystem : public ISystem, public Ogre::WindowEventListener
 
 public:
 
+	virtual ~OgreRenderSystem( );
+
 	OgreRenderSystem( Configuration* configuration, IFileManager* fileManager );
 	OgreRenderSystem( Configuration* configuration );
-
-	virtual ~OgreRenderSystem( );
 
 	virtual void Initialize( );
 	virtual void Update( float deltaMilliseconds );
@@ -35,13 +35,9 @@ public:
 
 private:
 
-	OgreRenderSystem( const OgreRenderSystem & copy ) { };
-	OgreRenderSystem & operator = ( const OgreRenderSystem & copy ) { return *this; };
-
-	inline void Constructor( Configuration* configuration, IFileManager* fileManager );
-
 	void OnGraphicsSettingsUpdated( const IEvent* event );
 
+	void Constructor( Configuration* configuration, IFileManager* fileManager );
 	void LoadResources( );
 	std::vector< std::string > GetVideoModes( ) const;
 
@@ -55,6 +51,10 @@ private:
 	Ogre::Root* _root;
 	Ogre::RenderWindow* _window;
 	Ogre::ArchiveFactory* _badFactory;
+
+	OgreRenderSystem( ) { };
+	OgreRenderSystem( const OgreRenderSystem & copy ) { };
+	OgreRenderSystem & operator = ( const OgreRenderSystem & copy ) { return *this; };
 
 };
 

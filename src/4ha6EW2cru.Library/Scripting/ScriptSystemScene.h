@@ -35,6 +35,7 @@ public:
 	ISystemComponent* CreateComponent( const std::string& name );
 	void DestroyComponent( ISystemComponent* component );;
 	inline SystemType GetType( ) { return ScriptSystemType; };
+	inline void Update( float deltaMilliseconds ) { };
 
 	void Initialize( );
 
@@ -57,6 +58,10 @@ private:
 	lua_State* _state;
 	ScriptObjectList _scriptObjects;
 	EventHandlerList* _eventHandlers;
+
+	ScriptSystemScene( ) { };
+	ScriptSystemScene( const ScriptSystemScene & copy ) { };
+	ScriptSystemScene & operator = ( const ScriptSystemScene & copy ) { return *this; };
 
 };
 

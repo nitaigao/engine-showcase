@@ -4,6 +4,7 @@
 #include "Logging/Logger.h"
 #include "IO/FileManager.h"
 #include "Graphics/IRenderer.hpp"
+#include "Events/EventManager.h"
 
 #include "Exceptions/IntializeFailedException.hpp"
 #include "Exceptions/OutOfRangeException.hpp"
@@ -48,23 +49,6 @@ void InputSystemFixture::Should_Not_Initialize_With_NULL_HWND( )
 {	
 	InputSystem* inputSystem = new InputSystem( 0 );
 	CPPUNIT_ASSERT_THROW( inputSystem->Initialize( ), IntializeFailedException );
-
-	delete inputSystem;
-}
-
-void InputSystemFixture::Should_Update_Given_Initialized( )
-{
-	InputSystem* inputSystem = new InputSystem( 0 );
-	inputSystem->Initialize( );
-	inputSystem->Update( 0 );
-
-	delete inputSystem;
-}
-
-void InputSystemFixture::Should_Throw_Given_UnIntialized_Update( )
-{
-	InputSystem* inputSystem = new InputSystem( 0 );
-	CPPUNIT_ASSERT_THROW( inputSystem->Update( 0 ), UnInitializedException );
 
 	delete inputSystem;
 }

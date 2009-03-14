@@ -10,16 +10,16 @@ class SystemProperty
 
 public:
 
-	SystemProperty( ) { };
+	virtual ~SystemProperty( ) { };
 	
+	SystemProperty( ) { };
+
 	SystemProperty( const std::string& name, const boost::any& value )
 		: _name( name )
 		, _value( value )
 	{
 
 	}
-
-	~SystemProperty( ) { };
 
 	std::string GetName( ) { return _name; };
 

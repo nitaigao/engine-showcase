@@ -33,16 +33,16 @@ void WorldLoader_Tests::Should_Load_And_Parse_A_YAML_File( )
 	Mock_World world;
 
 	Mock_System system1( RenderSystemType );
-	world.RegisterSystem( &system1 );
+	world.AddSystemScene( system1.CreateScene( ) );
 
 	Mock_System system2( GeometrySystemType );
-	world.RegisterSystem( &system2 );
+	world.AddSystemScene( system2.CreateScene( ) );
 
 	Mock_System system3( PhysicsSystemType );
-	world.RegisterSystem( &system3 );
+	world.AddSystemScene( system3.CreateScene( ) );
 
 	Mock_System system4( InputSystemType );
-	world.RegisterSystem( &system4 );
+	world.AddSystemScene( system4.CreateScene( ) );
 
 	WorldLoader loader( &world, &fileManager );
 	loader.Load( "/data/levels/level0.yaml" );

@@ -54,6 +54,5 @@ void Management::Release( )
 void Management::Update( float deltaMilliseconds )
 {
 	_platformManager->Update( deltaMilliseconds );
-	_systemManager->Update( deltaMilliseconds );
 	_eventManager->Update( deltaMilliseconds );
 }

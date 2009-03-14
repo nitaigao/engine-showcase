@@ -21,6 +21,8 @@ class Interface : MyGUI::IUnlinkWidget, public IInterface
 
 public:
 
+	virtual ~Interface( );
+
 	Interface( Configuration* configuration, Ogre::Root* ogreRoot )
 		: _ogreRoot( ogreRoot )
 		, _configuration( configuration )
@@ -31,8 +33,6 @@ public:
 
 	void Initialize( );
 	void Update( const float deltaMilliseconds ) const;
-
-	virtual ~Interface( );
 
 	virtual void _unlinkWidget ( WidgetPtr widget );
 
@@ -100,6 +100,10 @@ private:
 	Configuration* _configuration;
 	Ogre::Root* _ogreRoot;
 	Gui* _gui;
+
+	Interface( ) { };
+	Interface( const Interface & copy ) { };
+	Interface & operator = ( const Interface & copy ) { return *this; };
 
 };
 

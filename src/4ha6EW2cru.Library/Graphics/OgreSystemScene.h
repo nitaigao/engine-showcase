@@ -26,11 +26,16 @@ public:
 	
 	ISystemComponent* CreateComponent( const std::string& name );
 	void DestroyComponent( ISystemComponent* component );
+	void Update( float deltaMilliseconds );
 	
 
 private:
 
 	OgreRenderSystem* _system;
+
+	OgreSystemScene( ) { };
+	OgreSystemScene( const OgreSystemScene & copy ) { };
+	OgreSystemScene & operator = ( const OgreSystemScene & copy ) { return *this; };
 
 };
 

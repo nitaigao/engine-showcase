@@ -9,16 +9,15 @@ class ScriptSystem : public ISystem
 
 public:
 
+	virtual ~ScriptSystem( ) { };
+
 	ScriptSystem( Configuration* configuration )
 		: _configuration( configuration )
 	{
 		
 	}
 
-	virtual ~ScriptSystem( ) { };
-
 	void Initialize( );
-	void Update( float deltaMilliseconds ) { };
 	void Release( ) { };
 
 	ISystemScene* CreateScene( );
@@ -28,11 +27,11 @@ public:
 
 private:
 
-	ScriptSystem( const ScriptSystem & copy ) { };
-	ScriptSystem & operator = ( const ScriptSystem & copy ) { return *this; };
-
 	PropertyMap _properties;
 	Configuration* _configuration;
+
+	ScriptSystem( const ScriptSystem & copy ) { };
+	ScriptSystem & operator = ( const ScriptSystem & copy ) { return *this; };
 
 };
 

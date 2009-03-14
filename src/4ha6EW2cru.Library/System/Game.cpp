@@ -1,6 +1,7 @@
 #include "Game.h"
 
 #include "../Events/Event.h"
+#include "../Events/EventData.hpp"
 #include "../Logging/Logger.h"
 #include "../Logging/ConsoleAppender.h"
 
@@ -53,9 +54,10 @@ void Game::Initialize( )
 	_world = new World( );
 
 	SystemList systemList = systemManager->GetAllSystems( );
+	
 	for( SystemList::iterator i = systemList.begin( ); i != systemList.end( ); ++i )
 	{
-		_world->RegisterSystem( ( *i ) );
+		_world->AddSystemScene( ( *i )->CreateScene( ) );
 	}
 
 	// -- Register Events
@@ -81,6 +83,7 @@ void Game::Update( float deltaMilliseconds )
 		throw e;
 	}
 
+	_world->Update( deltaMilliseconds );
 	Management::GetInstance( )->Update( deltaMilliseconds );
 }
 

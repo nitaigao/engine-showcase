@@ -11,8 +11,8 @@ class ConsoleAppender : public IAppender
 
 public:
 
-	ConsoleAppender( ) { };
 	~ConsoleAppender( ) { };
+	ConsoleAppender( ) { };
 
 	/* Appends a message to the Appender */
 	void Append( const std::string message ) const;

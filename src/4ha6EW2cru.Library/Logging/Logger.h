@@ -17,13 +17,13 @@ class Logger
 
 public:
 
+	~Logger( );
+
 	Logger( LogLevel logLevel )
 		: _logLevel( logLevel )
 	{
 
 	};
-
-	~Logger( );
 
 	/*! Retrieves an instance of the Logger Singleton */
 	static Logger* GetInstance( );
@@ -31,7 +31,7 @@ public:
 	/*! Releases all resources and the Logger Singleton */
 	void Release( );
 
-	/*! Initlaized the Logging mechanism */
+	/*! Initialized the Logging mechanism */
 	static bool Initialize( );
 
 	/*! Adds a Logging Appender to the List */
@@ -57,14 +57,14 @@ public:
 
 private:
 
-	Logger( const Logger & copy ) { };
-	Logger & operator = ( const Logger & copy ) { return *this; };
-
 	/*! Logs a message */
 	void LogMessage( const std::string level, const std::string message );
 
 	AppenderList _appenders;
 	LogLevel _logLevel;
+
+	Logger( const Logger & copy ) { };
+	Logger & operator = ( const Logger & copy ) { return *this; };
 
 };
 

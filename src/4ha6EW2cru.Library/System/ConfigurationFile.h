@@ -13,18 +13,18 @@ class ConfigurationFile
 
 public:
 
-	ConfigurationFile( const FileBuffer* fileBuffer )
-	{
-		_ini = new CSimpleIni( true );
-		SI_Error error = _ini->Load( fileBuffer->fileBytes );
-	}
-
-	~ConfigurationFile( )
+	virtual ~ConfigurationFile( )
 	{
 		if( _ini != 0 )
 		{
 			delete _ini;
 		}
+	}
+
+	ConfigurationFile( const FileBuffer* fileBuffer )
+	{
+		_ini = new CSimpleIni( true );
+		SI_Error error = _ini->Load( fileBuffer->fileBytes );
 	}
 
 	static ConfigurationFile* Load( const std::string& filePath )
@@ -82,6 +82,9 @@ public:
 private:
 
 	CSimpleIni* _ini;
+
+	ConfigurationFile( const ConfigurationFile & copy ) { };
+	ConfigurationFile & operator = ( const ConfigurationFile & copy ) { return *this; };
 
 };
 

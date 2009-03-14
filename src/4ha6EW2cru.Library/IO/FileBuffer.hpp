@@ -41,6 +41,7 @@ private:
 
 	}
 
+	FileBuffer( const FileBuffer & copy ) { };
 	FileBuffer & operator = ( const FileBuffer & copy ) { return *this; };
 
 };

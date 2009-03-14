@@ -13,7 +13,7 @@ class KeyEventData : public IEventData
 
 public:
 
-	~KeyEventData( ) { };
+	virtual ~KeyEventData( ) { };
 
 	KeyEventData( const OIS::KeyCode &keyCode, const std::string keyText )
 		: _keyCode( keyCode )
@@ -30,12 +30,12 @@ public:
 
 private:
 
+	OIS::KeyCode _keyCode;
+	std::string _keyText;
+
 	KeyEventData( ) { };
 	KeyEventData( const KeyEventData & copy ) { };
 	KeyEventData & operator = ( const KeyEventData & copy ) { return *this; };
-
-	OIS::KeyCode _keyCode;
-	std::string _keyText;
 
 };
 
@@ -47,7 +47,7 @@ class MouseEventData : public IEventData
 
 public:
 
-	~MouseEventData( ) { };
+	virtual ~MouseEventData( ) { };
 
 	MouseEventData( const OIS::MouseState& mouseState, const OIS::MouseButtonID& mouseButtonId )
 		: _mouseState( mouseState )
@@ -64,12 +64,12 @@ public:
 
 private:
 
+	OIS::MouseState _mouseState;
+	OIS::MouseButtonID _mouseButtonId;
+
 	MouseEventData( ) { };
 	MouseEventData( const MouseEventData & copy ) { };
 	MouseEventData & operator = ( const MouseEventData & copy ) { return *this; };
-
-	OIS::MouseState _mouseState;
-	OIS::MouseButtonID _mouseButtonId;
 
 };
 
@@ -82,7 +82,7 @@ class ChangeScreenEventData : public IEventData
 
 public:
 
-	~ChangeScreenEventData( ) { };
+	virtual ~ChangeScreenEventData( ) { };
 
 	ChangeScreenEventData( const std::string screenName )
 		: _screenName( screenName )
@@ -95,33 +95,11 @@ public:
 
 private:
 
+	std::string _screenName;
+
 	ChangeScreenEventData( ) { };
 	ChangeScreenEventData( const ChangeScreenEventData & copy ) { };
 	ChangeScreenEventData & operator = ( const ChangeScreenEventData & copy ) { return *this; };
-
-	std::string _screenName;
-
-};
-
-class AppenderEventData : public IEventData
-{
-
-public:
-
-	~AppenderEventData( ) { };
-
-	AppenderEventData( const std::string message )
-		: _message( message )
-	{
-
-	}
-
-	/*! Returns the Message that has been Appended */
-	inline std::string GetMessage( ) { return _message; };
-
-private:
-
-	std::string _message;
 
 };
 
@@ -130,7 +108,7 @@ class ScriptCommandEventData : public IEventData
 
 public:
 
-	~ScriptCommandEventData( ){ };
+	virtual ~ScriptCommandEventData( ){ };
 
 	ScriptCommandEventData( const std::string command )
 		: _command( command )
@@ -145,6 +123,10 @@ private:
 
 	std::string _command;
 
+	ScriptCommandEventData( ) { };
+	ScriptCommandEventData( const ScriptCommandEventData & copy ) { };
+	ScriptCommandEventData & operator = ( const ScriptCommandEventData & copy ) { return *this; };
+
 };
 
 class LevelChangedEventData : public IEventData
@@ -152,7 +134,7 @@ class LevelChangedEventData : public IEventData
 
 public:
 
-	~LevelChangedEventData( ) { };
+	virtual ~LevelChangedEventData( ) { };
 
 	LevelChangedEventData( const std::string levelName )
 		: _levelName( levelName )
@@ -166,6 +148,10 @@ public:
 private:
 
 	std::string _levelName;
+
+	LevelChangedEventData( ) { };
+	LevelChangedEventData( const LevelChangedEventData & copy ) { };
+	LevelChangedEventData & operator = ( const LevelChangedEventData & copy ) { return *this; };
 
 };
 

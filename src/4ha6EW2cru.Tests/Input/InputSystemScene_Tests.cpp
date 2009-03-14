@@ -3,11 +3,23 @@
 #include "../Suites.h"
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( InputSystemScene_Tests, Suites::InputSuite( ) );
 
+#include "System/ISystemComponent.hpp"
 #include "Input/InputSystemScene.h"
+
+void InputSystemScene_Tests::setUp()
+{
+	Management::Initialize( );
+	Management::GetInstance( )->GetPlatformManager( )->CreateInteractiveWindow( "Test Window", 1, 1, false );
+}
+
+void InputSystemScene_Tests::tearDown()
+{
+	Management::GetInstance( )->Release( );
+}
 
 void InputSystemScene_Tests::Should_Return_An_InputSystemComponent_On_CreateComponent()
 {
-	InputSystemScene scene;
+	InputSystemScene scene( 0, 0 );
 
 	ISystemComponent* component = scene.CreateComponent( "Test Component" );
 
@@ -18,9 +30,10 @@ void InputSystemScene_Tests::Should_Return_An_InputSystemComponent_On_CreateComp
 
 void InputSystemScene_Tests::Should_Destroy_Component_On_DestroyComponent()
 {
-	InputSystemScene scene;
+	InputSystemScene scene( 0, 0 );
 
 	ISystemComponent* component = scene.CreateComponent( "Test Component" );
 
 	scene.DestroyComponent( component );
 }
+

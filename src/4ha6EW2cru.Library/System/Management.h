@@ -11,9 +11,9 @@ class Management
 
 public:
 
-	Management( );
+	virtual ~Management( );
 
-	~Management( );
+	Management( );
 
 	static Management* GetInstance( );
 
@@ -32,6 +32,9 @@ private:
 	ISystemManager* _systemManager;
 	IPlatformManager* _platformManager;
 	EventManager* _eventManager;
+
+	Management( const Management & copy ) { };
+	Management & operator = ( const Management & copy ) { return *this; };
 
 };
 

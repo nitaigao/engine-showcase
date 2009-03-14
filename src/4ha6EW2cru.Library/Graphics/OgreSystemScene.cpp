@@ -15,3 +15,8 @@ void OgreSystemScene::DestroyComponent( ISystemComponent* component )
 {
 	delete component;
 }
+
+void OgreSystemScene::Update( float deltaMilliseconds )
+{
+	_system->Update( deltaMilliseconds );
+}

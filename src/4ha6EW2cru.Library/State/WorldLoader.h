@@ -11,6 +11,8 @@ class WorldLoader : public IWorldLoader
 
 public:
 
+	virtual ~WorldLoader( ) { };
+
 	WorldLoader( IWorld* world, IFileManager* fileManager )
 		: _world( world )
 		, _fileManager( fileManager )
@@ -27,6 +29,10 @@ private:
 
 	IWorld* _world;
 	IFileManager* _fileManager;
+
+	WorldLoader( ) { };
+	WorldLoader( const WorldLoader & copy ) { };
+	WorldLoader & operator = ( const WorldLoader & copy ) { return *this; };
 
 };
 

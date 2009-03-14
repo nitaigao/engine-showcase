@@ -9,6 +9,8 @@ class MathQuaternion
 
 public:
 
+	virtual ~MathQuaternion( ) { };
+
 	MathQuaternion( )
 		: _x( 0 )
 		, _y( 0 )

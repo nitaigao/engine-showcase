@@ -17,7 +17,7 @@ class Game
 
 public:
 
-	~Game( );
+	virtual ~Game( );
 
 	Game( )
 		: _isQuitting( false )
@@ -39,9 +39,6 @@ public:
 	inline bool IsQuitting( ) { return _isQuitting; };
 
 private:
-	
-	Game( const Game & copy ) { };
-	Game & operator = ( const Game & copy ) { return *this; };
 
 	/*! Receives the GAME_QUIT Event and starts the Quit Process */
 	void OnGameQuit( const IEvent* event );
@@ -54,6 +51,9 @@ private:
 
 	Configuration* _configuration;
 	IWorld* _world;
+
+	Game( const Game & copy ) { };
+	Game & operator = ( const Game & copy ) { return *this; };
 
 };
 

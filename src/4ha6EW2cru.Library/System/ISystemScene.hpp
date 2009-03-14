@@ -16,6 +16,7 @@ public:
 	virtual ISystemComponent* CreateComponent( const std::string& name ) = 0;
 	virtual void DestroyComponent( ISystemComponent* component ) = 0;
 	virtual SystemType GetType( ) = 0;
+	virtual void Update( float deltaMilliseconds ) = 0;
 
 };
 

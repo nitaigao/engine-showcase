@@ -36,6 +36,10 @@ private:
 	hkpPhysicsContext* _context;
 	PhysicsSystemComponentList _components;
 
+	HavokPhysicsSystemScene( ) { };
+	HavokPhysicsSystemScene( const HavokPhysicsSystemScene & copy ) { };
+	HavokPhysicsSystemScene & operator = ( const HavokPhysicsSystemScene & copy ) { return *this; };
+
 };
 
 #endif

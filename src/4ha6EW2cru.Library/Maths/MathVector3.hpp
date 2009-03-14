@@ -9,6 +9,8 @@ class MathVector3
 
 public:
 
+	~MathVector3( ) { };
+
 	MathVector3( )
 		: _x( 0 )
 		, _y( 0 )

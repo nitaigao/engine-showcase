@@ -14,6 +14,8 @@ class ScriptConfiguration : public IScriptConfiguration
 
 public:
 
+	virtual ~ScriptConfiguration( ) { };
+
 	ScriptConfiguration( Configuration* configuration )
 		: _configuration( configuration )
 	{
@@ -41,6 +43,9 @@ public:
 private:
 
 	Configuration* _configuration;
+
+	ScriptConfiguration( const ScriptConfiguration & copy ) { };
+	ScriptConfiguration & operator = ( const ScriptConfiguration & copy ) { return *this; };
 
 };
 

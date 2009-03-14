@@ -67,6 +67,8 @@ ISystemComponent* HavokPhysicsSystemScene::CreateComponent( const std::string& n
 
 void HavokPhysicsSystemScene::Update( float deltaMilliseconds )
 {
+	deltaMilliseconds = 0.0166f;
+
 	_world->stepDeltaTime( deltaMilliseconds );
 	_vdb->step( deltaMilliseconds );
 

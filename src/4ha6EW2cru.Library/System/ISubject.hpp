@@ -6,6 +6,8 @@ class ISubject
 
 public:
 
+	virtual ~ISubject( ) { };
+
 	virtual void PushChanges( unsigned int systemChanges ) = 0;
 
 };

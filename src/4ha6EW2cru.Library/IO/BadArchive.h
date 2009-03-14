@@ -8,26 +8,31 @@ using namespace Ogre;
 class BadArchive : public Ogre::Archive
 {
 
-	public:
+public:
 
-		BadArchive( const std::string name, const std::string type );
-		~BadArchive( ) { };
+	virtual ~BadArchive( ) { };
 
-		inline bool isCaseSensitive( void ) const { return true; };
+	BadArchive( const std::string name, const std::string type );
 
-		time_t getModifiedTime( const String& filename ) { return 0; }; 
+	inline bool isCaseSensitive( void ) const { return true; };
 
-		inline void load( ) { };
-		inline void unload( ) { };
+	time_t getModifiedTime( const String& filename ) { return 0; }; 
 
-		DataStreamPtr open( const String& filename ) const;
-		bool exists( const String& filename );
+	inline void load( ) { };
+	inline void unload( ) { };
 
-		StringVectorPtr list( bool recursive = true, bool dirs = false );
-		FileInfoListPtr listFileInfo( bool recursive = true, bool dirs = false );
+	DataStreamPtr open( const String& filename ) const;
+	bool exists( const String& filename );
 
-		StringVectorPtr find( const String& pattern, bool recursive = true, bool dirs = false );
-		FileInfoListPtr findFileInfo( const String& pattern, bool recursive = true, bool dirs = false );
+	StringVectorPtr list( bool recursive = true, bool dirs = false );
+	FileInfoListPtr listFileInfo( bool recursive = true, bool dirs = false );
+
+	StringVectorPtr find( const String& pattern, bool recursive = true, bool dirs = false );
+	FileInfoListPtr findFileInfo( const String& pattern, bool recursive = true, bool dirs = false );
+
+private:
+
+	BadArchive & operator = ( const BadArchive & copy ) { return *this; };
 
 };
 

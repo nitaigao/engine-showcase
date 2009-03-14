@@ -16,18 +16,16 @@ class Mock_System : public ISystem, public MockObject
 
 public:
 
+	virtual ~Mock_System( ) { };
+
 	Mock_System( SystemType systemType )
 		: MockObject( "Mock_System", 0 )
-		, update_count( "Mock_System/Update", this )
 		, initialize_count( "Mock_System/Initialize", this )
 		, release_count( "Mock_System/Release", this )
 		, createScene_count( "Mock_System/CreateScene", this )
 		, _systemType( systemType )
 	{ };
 
-	virtual ~Mock_System( ) { };
-
-	ExpectationCounter update_count;
 	ExpectationCounter initialize_count;
 	ExpectationCounter release_count;
 	ExpectationCounter createScene_count;
@@ -35,11 +33,6 @@ public:
 	void Initialize( )
 	{
 		initialize_count.inc( );
-	}
-
-	void Update( float deltaMilliseconds )
-	{
-		update_count.inc( );
 	}
 
 	void Release( )

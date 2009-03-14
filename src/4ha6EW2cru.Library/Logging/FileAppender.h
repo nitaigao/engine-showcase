@@ -13,14 +13,11 @@ class FileAppender : public IAppender
 
 public:
 
+	~FileAppender( ) { };
+
 	FileAppender( const std::string filePath )
 		: _isIntialized( false )
 		, _filePath( filePath )
-	{
-
-	}
-
-	~FileAppender( )
 	{
 
 	}
@@ -33,11 +30,11 @@ public:
 
 private:
 
-	FileAppender( const FileAppender & copy ) { };
-	FileAppender & operator = ( const FileAppender & copy ) { return *this; };
-
 	std::string _filePath;
 	bool _isIntialized;
+
+	FileAppender( const FileAppender & copy ) { };
+	FileAppender & operator = ( const FileAppender & copy ) { return *this; };
 
 };
 

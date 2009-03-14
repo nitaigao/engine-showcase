@@ -88,9 +88,6 @@ public:
 
 private:
 
-	Configuration( const Configuration & copy ) { };
-	Configuration & operator = ( const Configuration & copy ) { return *this; };
-
 	Configuration( ConfigurationFile* configFile )
 		: _configFile( configFile )
 	{
@@ -99,6 +96,9 @@ private:
 
 	ConfigurationFile* _configFile;
 	DefaultPropertyList _defaultPropertyList;
+
+	Configuration( const Configuration & copy ) { };
+	Configuration & operator = ( const Configuration & copy ) { return *this; };
 	
 };
 

@@ -11,12 +11,14 @@
 using OIS::KeyEvent;
 
 /*!
-	Listens for input from the Keboard
+	Listens for input from the Keyboard
 */
 class KeyboardListener : public OIS::KeyListener
 {
 
 public:
+
+	virtual ~KeyboardListener( ) { };
 
 	KeyboardListener( OIS::Keyboard* keyboard )
 		: _keyboard( keyboard )
@@ -45,6 +47,10 @@ public:
 private:
 
 	OIS::Keyboard* _keyboard;
+
+	KeyboardListener( ) { };
+	KeyboardListener( const KeyboardListener & copy ) { };
+	KeyboardListener & operator = ( const KeyboardListener & copy ) { return *this; };
 
 };
 

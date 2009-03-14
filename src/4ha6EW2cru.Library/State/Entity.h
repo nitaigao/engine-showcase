@@ -31,6 +31,10 @@ private:
 	std::string _name;
 	SystemComponentList _components;
 
+	Entity( ) { };
+	Entity( const Entity & copy ) { };
+	Entity & operator = ( const Entity & copy ) { return *this; };
+
 };
 
 #endif

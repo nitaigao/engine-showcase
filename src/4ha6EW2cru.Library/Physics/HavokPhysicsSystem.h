@@ -21,7 +21,6 @@ public:
 	}
 
 	void Initialize( );
-	void Update( float deltaMilliseconds );
 	void Release( );
 
 	ISystemScene* CreateScene( );
@@ -31,15 +30,15 @@ public:
 
 private:
 
-	HavokPhysicsSystem( const HavokPhysicsSystem & copy ) { };
-	HavokPhysicsSystem & operator = ( const HavokPhysicsSystem & copy ) { return *this; };
-
 	static void errorReportFunction( const char* str, void* errorOutputObject );
 
 	hkThreadMemory* _threadMemory;
 	char* _stackBuffer;
 
 	SceneList _scenes;
+
+	HavokPhysicsSystem( const HavokPhysicsSystem & copy ) { };
+	HavokPhysicsSystem & operator = ( const HavokPhysicsSystem & copy ) { return *this; };
 
 };
 

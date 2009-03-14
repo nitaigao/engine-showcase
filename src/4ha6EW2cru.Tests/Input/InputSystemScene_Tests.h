@@ -11,6 +11,11 @@ class InputSystemScene_Tests : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( Should_Destroy_Component_On_DestroyComponent );
 	CPPUNIT_TEST_SUITE_END( );
 
+public:
+
+	void setUp( );
+	void tearDown( );
+
 protected:
 
 	void Should_Return_An_InputSystemComponent_On_CreateComponent( );

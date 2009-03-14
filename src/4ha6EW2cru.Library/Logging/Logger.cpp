@@ -60,7 +60,7 @@ void Logger::AddAppender( IAppender* appender )
 	{
 		NullReferenceException nullAppender( "Logger::AddAppender - Attempted to add a NULL Appender" );
 		Logger::GetInstance( )->Fatal( nullAppender.what( ) );
-		throw NullReferenceException( nullAppender );
+		throw nullAppender;
 	}
 
 	for( AppenderList::iterator i = _appenders.begin( ); i != _appenders.end( ); ++i )

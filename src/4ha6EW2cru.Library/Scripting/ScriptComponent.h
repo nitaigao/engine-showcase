@@ -40,6 +40,9 @@ private:
 	lua_State* _state;
 	std::string _name;
 
+	ScriptComponent( const ScriptComponent & copy ) { };
+	ScriptComponent & operator = ( const ScriptComponent & copy ) { return *this; };
+
 };
 
 #endif

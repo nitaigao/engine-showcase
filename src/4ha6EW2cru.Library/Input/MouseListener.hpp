@@ -19,6 +19,10 @@ class MouseListener : public OIS::MouseListener
 
 public:
 
+	virtual ~MouseListener( ) { }
+
+	MouseListener( ) { };
+
 	/* Fired when the user moves the mouse */
 	bool mouseMoved( const MouseEvent &arg )
 	{
@@ -45,6 +49,12 @@ public:
 
 		return true;
 	}
+
+private:
+
+	MouseListener( const MouseListener & copy ) { };
+	MouseListener & operator = ( const MouseListener & copy ) { return *this; };
+
 };
 
 #endif

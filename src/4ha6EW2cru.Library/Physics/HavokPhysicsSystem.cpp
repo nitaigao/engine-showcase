@@ -71,17 +71,6 @@ void HavokPhysicsSystem::Release()
 	hkBaseSystem::quit( );
 }
 
-void HavokPhysicsSystem::Update( float deltaMilliseconds )
-{
-	if ( deltaMilliseconds > 0 )
-	{
-		for ( SceneList::iterator i = _scenes.begin( ); i != _scenes.end( ); ++i )
-		{
-			( *i )->Update( 0.0166f );
-		}
-	}
-}
-
 void HavokPhysicsSystem::errorReportFunction( const char* errorMessage, void* errorOutputObject )
 {
 	Logger::GetInstance( )->Warn( errorMessage );
