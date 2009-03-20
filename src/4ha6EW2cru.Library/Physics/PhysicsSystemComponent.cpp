@@ -23,12 +23,18 @@
 #include <Physics/Utilities/Serialize/hkpPhysicsData.h>
 #include <Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
 
+hkpSurfaceInfo* m_previousGround;
+int m_framesInAir;
+
 void PhysicsSystemComponent::Initialize( SystemPropertyList properties )
 {
 	std::string type = properties[ "type" ].GetValue< std::string >( );
 
 	if ( type == "character" )
 	{
+		m_previousGround = new hkpSurfaceInfo( );
+		m_framesInAir = 0;
+
 		hkpCharacterStateManager* characterManager = new hkpCharacterStateManager( );
 
 		hkpCharacterState* state = new hkpCharacterStateOnGround( );
@@ -54,9 +60,8 @@ void PhysicsSystemComponent::Initialize( SystemPropertyList properties )
 
 		hkpCharacterRigidBodyCinfo characterInfo;
 		characterInfo.m_mass = 100.0f;
-		characterInfo.m_shape = new hkpCapsuleShape( hkVector4( 0.0f, 0.0f, 0.4f ), hkVector4( 0.0f, 0.0f, -0.4f ), .6f );
+		characterInfo.m_shape = new hkpCapsuleShape( hkVector4( 0.0f, 0.0f, 0.4f ), hkVector4( 0.0f, 0.0f, -0.4f ), 0.6f );
 		characterInfo.m_maxForce = 1000.0f;
-		characterInfo.m_up = hkVector4( 0.0f, 1.0f, 0.0f );
 
 		_characterBody = new hkpCharacterRigidBody( characterInfo );
 		_scene->GetWorld( )->addEntity( _characterBody->getRigidBody( ) );
@@ -166,17 +171,49 @@ void PhysicsSystemComponent::Update( float deltaMilliseconds )
 {
 	if( _characterContext != 0 )
 	{
+		hkpCharacterStateType state = _characterContext->getState( );
+
+		std::stringstream outputMessage;
+
+		switch (state)
+		{
+		case HK_CHARACTER_ON_GROUND:
+			outputMessage << "On Ground";	break;
+		case HK_CHARACTER_JUMPING:
+			outputMessage << "Jumping"; break;
+		case HK_CHARACTER_IN_AIR:
+			outputMessage << "In Air"; break;
+		case HK_CHARACTER_CLIMBING:
+			outputMessage << "Climbing"; break;
+		default:
+			outputMessage << "Other";	break;
+		}
+
+		Logger::GetInstance( )->Debug( outputMessage.str( ) );
+
 		hkpCharacterInput input;
+
+		input.m_wantJump = false;
+		input.m_atLadder = false;
 
 		input.m_inputLR = 0.0f;
 		input.m_inputUD = 0.0f;
+
 		input.m_up = hkVector4( 0.0f, 1.0f, 0.0f );
 		input.m_forward = hkVector4( 0.0f, 0.0f, 1.0f );
 
-		input.m_stepInfo.m_deltaTime = deltaMilliseconds;
-		input.m_stepInfo.m_invDeltaTime = 1.0f / deltaMilliseconds;
+		hkQuaternion orientation;
+		orientation.setAxisAngle( hkVector4( 0.0f, 1.0f, 0.0f ), 0.0f );
 
-		input.m_characterGravity = _scene->GetWorld( )->getGravity( );
+		input.m_forward.setRotatedDir( orientation, input.m_up );
+
+		hkStepInfo stepInfo;
+		stepInfo.m_deltaTime = deltaMilliseconds;
+		stepInfo.m_invDeltaTime = 1.0f / deltaMilliseconds;
+
+		input.m_stepInfo = stepInfo;
+
+		input.m_characterGravity.set( 0.0f, -16.0f, 0.0f ); //_scene->GetWorld( )->getGravity( );
 
 		input.m_velocity = _characterBody->getRigidBody( )->getLinearVelocity( );
 		input.m_position = _characterBody->getRigidBody( )->getPosition( );
@@ -184,20 +221,58 @@ void PhysicsSystemComponent::Update( float deltaMilliseconds )
 		hkpSurfaceInfo ground;
 		_characterBody->checkSupport( input.m_stepInfo, ground );
 
-		if ( ground.m_supportedState == hkpSurfaceInfo::SUPPORTED )
+		const int skipFramesInAir = 3;
+
+		if (input.m_wantJump)
 		{
-			input.m_isSupported =  true;
+			m_framesInAir = skipFramesInAir;
+		}
+
+		if ( ground.m_supportedState != hkpSurfaceInfo::SUPPORTED )
+		{
+			if (m_framesInAir < skipFramesInAir)
+			{
+				input.m_isSupported = true;
+				input.m_surfaceNormal = m_previousGround->m_surfaceNormal;
+				input.m_surfaceVelocity = m_previousGround->m_surfaceVelocity;
+				input.m_surfaceMotionType = m_previousGround->m_surfaceMotionType;
+			}
+			else
+			{
+				input.m_isSupported = false;
+				input.m_surfaceNormal = ground.m_surfaceNormal;
+				input.m_surfaceVelocity = ground.m_surfaceVelocity;	
+				input.m_surfaceMotionType = ground.m_surfaceMotionType;
+			}			
+
+			m_framesInAir++;
+		}
+		else
+		{
+			input.m_isSupported = true;
 			input.m_surfaceNormal = ground.m_surfaceNormal;
 			input.m_surfaceVelocity = ground.m_surfaceVelocity;
 			input.m_surfaceMotionType = ground.m_surfaceMotionType;
+
+			m_previousGround->set(ground);
+
+			if (m_framesInAir > skipFramesInAir)
+			{
+				m_framesInAir = 0;
+			}			
 		}
 
 		hkpCharacterOutput output;
 		_characterContext->update( input, output );
-		_characterBody->setLinearVelocity( output.m_velocity, deltaMilliseconds );
+		
+		hkVector4 currentVel; 
+		currentVel = _characterBody->getRigidBody()->getLinearVelocity();
 
-		std::stringstream outputMessage;
-		outputMessage << _characterBody->getPosition( )( 1 );
-		Logger::GetInstance( )->Debug( outputMessage.str( ) );
+		hkVector4 currentAcc; 
+		currentAcc.setSub4(output.m_velocity, currentVel);
+		currentAcc.mul4(1/deltaMilliseconds);
+
+		_characterBody->setLinearAccelerationToMassModifier(currentAcc);
+		_characterBody->setLinearVelocity( output.m_velocity, deltaMilliseconds );
 	}
 }
