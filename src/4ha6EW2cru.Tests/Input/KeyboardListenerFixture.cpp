@@ -5,8 +5,11 @@
 
 #include "../Mocks/MockEventTrigger.hpp"
 
+#include "../Mocks/Mock_InputSystemComponent.hpp"
+#include "../Mocks/Mock_Keyboard.hpp"
+
 #include "../Suites.h"
-//CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( KeyboardListenerFixture, Suites::InputSuite( ) );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( KeyboardListenerFixture, Suites::InputSuite( ) );
 
 void KeyboardListenerFixture::setUp( )
 {
@@ -56,4 +59,34 @@ void KeyboardListenerFixture::Should_Fire_RETURN_KeyDown_Event( )
 
 	delete eventTriggerMock;
 	delete listener;*/
+}
+
+void KeyboardListenerFixture::Should_Call_All_Components_On_KeyDown()
+{
+	Mock_InputSystemComponent component( "Test" );
+	component.keyDown_count.setExpected( 1 );
+	Mock_Keyboard keyboard;
+
+	KeyboardListener listener( &keyboard );
+	listener.AddInputComponent( &component );
+
+	KeyEvent event( 0, OIS::KC_0, 0 );
+	listener.keyPressed( event );
+
+	component.verify( );
+}
+
+void KeyboardListenerFixture::Should_Call_All_Components_On_KeyUp()
+{
+	Mock_InputSystemComponent component( "Test" );
+	component.keyUp_count.setExpected( 1 );
+	Mock_Keyboard keyboard;
+
+	KeyboardListener listener( &keyboard );
+	listener.AddInputComponent( &component );
+
+	KeyEvent event( 0, OIS::KC_0, 0 );
+	listener.keyReleased( event );
+
+	component.verify( );
 }

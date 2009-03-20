@@ -30,6 +30,20 @@ public:
 	Ogre::Vector3 AsOgreVector3( ) { return Ogre::Vector3( _x, _y, _z ); };
 	hkVector4 AshkVector4( ) { return hkVector4( _x, _y, _z ); };
 
+	MathVector3 operator + ( const MathVector3& input )
+	{
+		return MathVector3(
+			input._x + _x,
+			input._y + _y,
+			input._z + _z
+			);
+	};
+
+	MathVector3 operator += ( const MathVector3& input )
+	{
+		return *this + input;
+	}
+
 private:
 
 	float _x, _y, _z;

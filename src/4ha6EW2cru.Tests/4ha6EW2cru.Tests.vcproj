@@ -344,6 +344,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Mocks\Mock_InputSystemComponent.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Mocks\Mock_Keyboard.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Mocks\Mock_System.hpp"
 			>
 		</File>

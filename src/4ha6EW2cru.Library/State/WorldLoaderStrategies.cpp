@@ -38,7 +38,7 @@ ISystemComponent* WorldLoader_GraphicsComponentStrategy::CreateComponent( const 
 		componentProperty.first( ) >> propertyKey;
 		componentProperty.second( ) >> propertyValue;
 
-		properties.push_back( SystemProperty( propertyKey, propertyValue ) );
+		properties.insert( std::make_pair( propertyKey, SystemProperty( propertyKey, propertyValue ) ) );
 	}
 
 	SystemSceneList::const_iterator systemScene = systemScenes.find( RenderSystemType );
@@ -58,18 +58,18 @@ ISystemComponent* WorldLoader_GeometryComponentStrategy::CreateComponent( const 
 	componentNode[ "position" ][ "x" ] >> x;
 	componentNode[ "position" ][ "y" ] >> y;
 	componentNode[ "position" ][ "z" ] >> z;
-	properties.push_back( SystemProperty( "position", MathVector3( x, y, z ) ) );
+	properties.insert( std::make_pair( "position", SystemProperty( "position", MathVector3( x, y, z ) ) ) );
 
 	componentNode[ "scale" ][ "x" ] >> x;
 	componentNode[ "scale" ][ "y" ] >> y;
 	componentNode[ "scale" ][ "z" ] >> z;
-	properties.push_back( SystemProperty( "scale", MathVector3( x, y, z ) ) );
+	properties.insert( std::make_pair( "scale", SystemProperty( "scale", MathVector3( x, y, z ) ) ) );
 
 	componentNode[ "orientation" ][ "w" ] >> w;
 	componentNode[ "orientation" ][ "x" ] >> x;
 	componentNode[ "orientation" ][ "y" ] >> y;
 	componentNode[ "orientation" ][ "z" ] >> z;
-	properties.push_back( SystemProperty( "orientation", MathQuaternion( x, y, z, w ) ) );
+	properties.insert( std::make_pair( "orientation", SystemProperty( "orientation", MathQuaternion( x, y, z, w ) ) ) );
 
 	SystemSceneList::const_iterator systemScene = systemScenes.find( GeometrySystemType );
 
@@ -90,7 +90,7 @@ ISystemComponent* WorldLoader_PhysicsComponentStrategy::CreateComponent( const s
 		componentProperty.first( ) >> propertyKey;
 		componentProperty.second( ) >> propertyValue;
 
-		properties.push_back( SystemProperty( propertyKey, propertyValue ) );
+		properties.insert( std::make_pair( propertyKey, SystemProperty( propertyKey, propertyValue ) ) );
 	}
 
 	SystemSceneList::const_iterator systemScene = systemScenes.find( PhysicsSystemType );
@@ -112,7 +112,7 @@ ISystemComponent* WorldLoader_InputComponentStrategy::CreateComponent( const std
 		componentProperty.first( ) >> propertyKey;
 		componentProperty.second( ) >> propertyValue;
 
-		properties.push_back( SystemProperty( propertyKey, propertyValue ) );
+		properties.insert( std::make_pair( propertyKey, SystemProperty( propertyKey, propertyValue ) ) );
 	}
 
 	SystemSceneList::const_iterator systemScene = systemScenes.find( InputSystemType );

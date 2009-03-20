@@ -1,7 +1,7 @@
 #ifndef __PROPERTY_H
 #define __PROPERTY_H
 
-#include <vector>
+#include <map>
 #include <string>
 #include <boost/any.hpp>
 
@@ -33,6 +33,6 @@ private:
 
 };
 
-typedef std::vector< SystemProperty > SystemPropertyList;
+typedef std::map< std::string, SystemProperty > SystemPropertyList;
 
 #endif

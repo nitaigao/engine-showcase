@@ -4,6 +4,8 @@
 #include <OgreMatrix3.h>
 #include <OgreQuaternion.h>
 
+#include <Common/Base/hkBase.h>
+
 class MathQuaternion
 {
 
@@ -30,12 +32,10 @@ public:
 	}
 
 	Ogre::Quaternion AsOgreQuaternion( ) { return Ogre::Quaternion( _w, _x, _y, _z ); };
+
 	hkQuaternion AshkQuaternion( ) 
 	{ 
-		Ogre::Quaternion rotationAmount( Ogre::Degree( 90 ), Ogre::Vector3( 1.0f, 0.0f, 0.0f ) );
-		Ogre::Quaternion rotationResult = this->AsOgreQuaternion( ) * rotationAmount;
-
-		return hkQuaternion( rotationResult.x, rotationResult.y, rotationResult.z, rotationResult.w ); 
+		return hkQuaternion( _x, _y, _z, _w ); 
 	};
 	
 	MathQuaternion Normalize( )
@@ -52,6 +52,16 @@ public:
 			_w /= length
 			);
 	};
+
+	MathQuaternion operator * ( const MathQuaternion& input )
+	{
+		return MathQuaternion(
+			_w * input._x + _x * input._w + _y * input._z - _z * input._y,
+			_w * input._y + _y * input._w + _z * input._x - _x * input._z,
+			_w * input._z + _z * input._w + _x * input._y - _y * input._x,
+			_w * input._w - _x * input._x - _y * input._y - _z * input._z
+		);
+	}
 
 
 

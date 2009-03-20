@@ -359,6 +359,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Input\InputSystemComponent.cpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Input\InputSystemComponent.h"
 			>
 		</File>
@@ -528,6 +532,14 @@
 		</File>
 		<File
 			RelativePath=".\Exceptions\OutOfRangeException.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Physics\PhysicsSystemCharacterComponent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Physics\PhysicsSystemCharacterComponent.h"
 			>
 		</File>
 		<File

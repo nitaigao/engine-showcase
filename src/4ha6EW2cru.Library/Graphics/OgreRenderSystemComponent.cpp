@@ -20,9 +20,9 @@ void OgreRenderSystemComponent::Initialize( SystemPropertyList properties )
 
 	for ( SystemPropertyList::iterator i = properties.begin( ); i != properties.end( ); ++i )
 	{
-		if ( ( *i ).GetName( ) == "model" || ( *i ).GetName( ) == "camera" )
+		if ( ( *i ).first == "model" || ( *i ).first == "camera" )
 		{
-			std::string modelPath = ( *i ).GetValue< std::string >( );
+			std::string modelPath = ( *i ).second.GetValue< std::string >( );
 
 			OgreMaxModel* model = new OgreMaxModel( );
 			model->Load( modelPath );

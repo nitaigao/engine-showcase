@@ -52,7 +52,7 @@ void Interface::Initialize( )
 
 	SystemPropertyList properties;
 	std::string scriptPath = "/data/interface/interface.lua";
-	properties.push_back( SystemProperty( "scriptPath", scriptPath ) );
+	properties.insert( std::make_pair( "scriptPath", SystemProperty( "scriptPath", scriptPath ) ) );
 	scriptComponent->Initialize( properties );
 
 	module( scriptComponent->GetState( ) )
@@ -126,7 +126,7 @@ void Interface::LoadComponent( const std::string componentName )
 	ScriptComponent* scriptComponent = ( ScriptComponent* ) g_InterfaceScriptScene->CreateComponent( componentName );
 
 	SystemPropertyList properties;
-	properties.push_back( SystemProperty( "scriptPath", scriptPath.str( ) ) );
+	properties.insert( std::make_pair( "scriptPath", SystemProperty( "scriptPath", scriptPath.str( ) ) ) );
 	scriptComponent->Initialize( properties );
 
 	lua_pcall( scriptComponent->GetState( ), 0, 0, 0 );

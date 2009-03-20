@@ -1,26 +1,27 @@
 #include "GeometrySystemComponent.h"
 
 #include "../Physics/PhysicsSystemComponent.h"
+#include "../Input/InputSystemComponent.h"
 
 void GeometrySystemComponent::Initialize( SystemPropertyList properties )
 {
 	for( SystemPropertyList::iterator i = properties.begin( ); i != properties.end( ); ++i )
 	{
-		if ( ( *i ).GetName( ) == "position" )
+		if ( ( *i ).first == "position" )
 		{
-			_position = ( *i ).GetValue< MathVector3 >( );
+			_position = ( *i ).second.GetValue< MathVector3 >( );
 			this->PushChanges( System::Changes::Geometry::Position );
 		}
 
-		if ( ( *i ).GetName( ) == "scale" )
+		if ( ( *i ).first == "scale" )
 		{
-			_scale = ( *i ).GetValue< MathVector3 >( );
+			_scale = ( *i ).second.GetValue< MathVector3 >( );
 			this->PushChanges( System::Changes::Geometry::Scale );
 		}
 
-		if ( ( *i ).GetName( ) == "orientation" )
+		if ( ( *i ).first == "orientation" )
 		{
-			_orientation = ( *i ).GetValue< MathQuaternion >( );
+			_orientation = ( *i ).second.GetValue< MathQuaternion >( );
 			this->PushChanges( System::Changes::Geometry::Orientation );
 		}
 	}
@@ -36,11 +37,13 @@ void GeometrySystemComponent::PushChanges( unsigned int systemChanges )
 
 void GeometrySystemComponent::Observe( ISubject* subject, unsigned int systemChanges )
 {
-	PhysicsSystemComponent* component = static_cast< PhysicsSystemComponent* >( subject );
+	PhysicsSystemComponent* physicsComponent = static_cast< PhysicsSystemComponent* >( subject );
 
-	if ( component->GetName( ) == "Box01" )
-	{
-		_position = component->GetPosition( );
-		this->PushChanges( System::Changes::Geometry::Position );
-	}
+	_position = physicsComponent->GetPosition( );
+	_orientation = physicsComponent->GetRotation( );
+
+	this->PushChanges( 
+		System::Changes::Geometry::Position |
+		System::Changes::Geometry::Orientation
+		);
 }

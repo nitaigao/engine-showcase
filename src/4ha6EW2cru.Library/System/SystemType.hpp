@@ -33,6 +33,16 @@ namespace System
 			static const unsigned int Orientation	=	( 1 << 6 );
 			static const unsigned int Scale			=	( 1 << 7 );
 		};
+
+		namespace Input
+		{
+			static const unsigned int Move_Forward	=	( 1 << 8 );
+			static const unsigned int Move_Backward	=	( 1 << 9 );
+			static const unsigned int Strafe_Left	=	( 1 << 10 );
+			static const unsigned int Strafe_Right	=	( 1 << 11 );
+			static const unsigned int Turn_Left		=	( 1 << 12 );
+			static const unsigned int Turn_Right	=	( 1 << 13 );
+		};
 	};
 };
 

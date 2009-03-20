@@ -16,6 +16,10 @@
 #include "../IO/FileManager.h"
 #include "../IO/BadArchiveFactory.h"
 
+#include "../Maths/MathQuaternion.hpp"
+
+#include <complex>
+
 OgreRenderSystem::OgreRenderSystem( Configuration* configuration )
 {
 	FileManager* fileManager = new FileManager( );
@@ -175,6 +179,16 @@ void OgreRenderSystem::Update( float deltaMilliseconds )
 	}
 
 	_interface->Update( deltaMilliseconds );
+
+	if ( _root->getSceneManager( "default" )->hasSceneNode( "Box01" ) )
+	{
+		SceneNode* boxNode = _root->getSceneManager( "default" )->getSceneNode( "Box01" );
+
+		Ogre::Quaternion rotation;
+		rotation.FromAngleAxis( Degree( 1.0f ), Vector3( 0.0f, 1.0f, 0.0f ) );
+
+		//boxNode->rotate( rotation );
+	}
 
 	if ( _root->getSceneManager( "default" )->hasSceneNode( "player_camera" ) )
 	{

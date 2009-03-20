@@ -9,6 +9,8 @@ class KeyboardListenerFixture : public CPPUNIT_NS::TestFixture
   CPPUNIT_TEST_SUITE( KeyboardListenerFixture );
   CPPUNIT_TEST( Should_Fire_RETURN_KeyUp_Event );
   CPPUNIT_TEST( Should_Fire_RETURN_KeyDown_Event );
+  CPPUNIT_TEST( Should_Call_All_Components_On_KeyDown );
+  CPPUNIT_TEST( Should_Call_All_Components_On_KeyUp );
   CPPUNIT_TEST_SUITE_END( );
 
 public:
@@ -17,6 +19,9 @@ public:
 	void tearDown( );
 
 protected:
+
+	void Should_Call_All_Components_On_KeyDown( );
+	void Should_Call_All_Components_On_KeyUp( );
 
 	void Should_Fire_RETURN_KeyUp_Event( );
 	void Should_Fire_RETURN_KeyDown_Event( );

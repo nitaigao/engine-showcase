@@ -67,14 +67,18 @@ ISystemComponent* HavokPhysicsSystemScene::CreateComponent( const std::string& n
 
 void HavokPhysicsSystemScene::Update( float deltaMilliseconds )
 {
-	deltaMilliseconds = 0.0166f;
+	deltaMilliseconds = 0.00166f;
 
 	_world->stepDeltaTime( deltaMilliseconds );
 	_vdb->step( deltaMilliseconds );
 
 	for( PhysicsSystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
 	{
-		( *i )->PushChanges( 
+		PhysicsSystemComponent* physicsComponent = static_cast< PhysicsSystemComponent* >( ( *i ) );
+
+		physicsComponent->Update( deltaMilliseconds );
+
+		physicsComponent->PushChanges( 
 			System::Changes::Physics::Orientation |
 			System::Changes::Physics::Position |
 			System::Changes::Physics::Scale

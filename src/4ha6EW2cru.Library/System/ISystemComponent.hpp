@@ -1,6 +1,8 @@
 #ifndef __ISYSTEMENTITY_H
 #define __ISYSTEMENTITY_H
 
+#include <vector>
+
 #include "SystemType.hpp"
 #include "SystemProperty.hpp"
 

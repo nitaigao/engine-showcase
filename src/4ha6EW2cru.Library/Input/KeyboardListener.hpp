@@ -7,6 +7,7 @@
 #include "../Events/EventData.hpp"
 
 #include "../System/Management.h"
+#include "InputSystemComponent.h"
 
 using OIS::KeyEvent;
 
@@ -15,6 +16,8 @@ using OIS::KeyEvent;
 */
 class KeyboardListener : public OIS::KeyListener
 {
+
+	typedef std::vector< InputSystemComponent* > InputSystemComponentList;
 
 public:
 
@@ -26,9 +29,19 @@ public:
 
 	};
 
+	void AddInputComponent( InputSystemComponent* inputComponent )
+	{
+		_inputComponents.push_back( inputComponent );
+	}
+
 	/* Fired when the user presses a button on the keyboard */
 	bool keyPressed( const KeyEvent &arg )
 	{
+		for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
+		{
+			( *i )->KeyDown( arg.key, _keyboard->getAsString( arg.key ) );
+		}
+
 		Event* event = new Event( INPUT_KEY_DOWN, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 
@@ -38,6 +51,11 @@ public:
 	/* Fired when the user releases a button on the keyboard */
 	bool keyReleased( const KeyEvent &arg )
 	{
+		for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
+		{
+			( *i )->KeyUp( arg.key, _keyboard->getAsString( arg.key ) );
+		}
+
 		Event* event = new Event( INPUT_KEY_UP, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 
@@ -47,6 +65,8 @@ public:
 private:
 
 	OIS::Keyboard* _keyboard;
+
+	InputSystemComponentList _inputComponents;
 
 	KeyboardListener( ) { };
 	KeyboardListener( const KeyboardListener & copy ) { };

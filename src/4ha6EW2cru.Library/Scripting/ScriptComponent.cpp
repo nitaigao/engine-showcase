@@ -14,10 +14,10 @@ void ScriptComponent::Initialize( SystemPropertyList properties )
 {
 	for ( SystemPropertyList::iterator i = properties.begin( ); i != properties.end( ); ++i )
 	{
-		if ( ( *i ).GetName( ) == "scriptPath" )
+		if ( ( *i ).first == "scriptPath" )
 		{
 			FileManager* fileManager = new FileManager( );
-			FileBuffer* scriptBuffer = fileManager->GetFile( ( *i ).GetValue< std::string >( ) );
+			FileBuffer* scriptBuffer = fileManager->GetFile( ( *i ).second.GetValue< std::string >( ) );
 			delete fileManager;
 
 			int result = luaL_loadbuffer( _state, scriptBuffer->fileBytes, scriptBuffer->fileLength, scriptBuffer->filePath.c_str( ) );

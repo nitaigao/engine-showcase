@@ -13,7 +13,7 @@ InputSystemScene::~InputSystemScene()
 InputSystemScene::InputSystemScene( const int& screenWidth, const int& screenHeight ) 
 {
 	_inputManager = OIS::InputManager::createInputSystem( Management::GetInstance( )->GetPlatformManager( )->GetHwnd( ) );
-
+	
 	_keyboard = static_cast< OIS::Keyboard* >( _inputManager->createInputObject( OIS::OISKeyboard, true ) );
 	_keyboardListener = new KeyboardListener( _keyboard );
 	_keyboard->setEventCallback( _keyboardListener );
@@ -28,7 +28,9 @@ InputSystemScene::InputSystemScene( const int& screenWidth, const int& screenHei
 
 ISystemComponent* InputSystemScene::CreateComponent( const std::string& name )
 {
-	return new InputSystemComponent( name );
+	InputSystemComponent* inputComponent = new InputSystemComponent( name );
+	_keyboardListener->AddInputComponent( inputComponent );
+	return inputComponent;
 }
 
 void InputSystemScene::DestroyComponent( ISystemComponent* component )
