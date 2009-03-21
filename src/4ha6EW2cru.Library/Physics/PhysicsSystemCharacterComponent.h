@@ -20,6 +20,7 @@ public:
 	}
 
 	virtual void Initialize( SystemPropertyList properties );
+	virtual void Observe( ISubject* subject, unsigned int systemChanges );
 
 	void Update( float deltaMilliseconds );
 
@@ -27,6 +28,7 @@ private:
 
 	hkpCharacterContext* _characterContext;
 	hkpCharacterRigidBody* _characterBody;
+	hkpCharacterInput _characterInput;
 
 	hkpSurfaceInfo* _previousGround;
 	int _framesInAir;

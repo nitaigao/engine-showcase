@@ -30,9 +30,8 @@ public:
 
 	}
 
-	void Observe( ISubject* subject, unsigned int systemChanges );
-	void PushChanges( unsigned int systemChanges );
-
+	virtual void Observe( ISubject* subject, unsigned int systemChanges );
+	virtual void PushChanges( unsigned int systemChanges );
 	virtual void Initialize( SystemPropertyList properties );
 	virtual void Update( float deltaMilliseconds ) { };
 

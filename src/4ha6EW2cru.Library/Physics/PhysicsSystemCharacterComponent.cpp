@@ -59,6 +59,15 @@ void PhysicsSystemCharacterComponent::Initialize( SystemPropertyList properties 
 
 	_body = _characterBody->getRigidBody( );
 	_scene->GetWorld( )->addEntity( _body );
+
+	_characterInput.m_wantJump = false;
+	_characterInput.m_atLadder = false;
+	_characterInput.m_inputLR = 0.0f;
+	_characterInput.m_inputUD = 0.0f;
+
+	_characterInput.m_up = hkVector4( 0.0f, 1.0f, 0.0f );
+	_characterInput.m_forward = hkVector4( 0.0f, 0.0f, 1.0f );
+	_characterInput.m_characterGravity = hkVector4( 0.0f, -16.0f, 0.0f );
 }
 
 PhysicsSystemCharacterComponent::~PhysicsSystemCharacterComponent()
@@ -70,29 +79,18 @@ PhysicsSystemCharacterComponent::~PhysicsSystemCharacterComponent()
 
 void PhysicsSystemCharacterComponent::Update( float deltaMilliseconds )
 {
-	hkpCharacterInput input;
+	_characterInput.m_stepInfo.m_deltaTime = deltaMilliseconds;
+	_characterInput.m_stepInfo.m_invDeltaTime = 1.0f / deltaMilliseconds;
 
-	input.m_wantJump = false;
-	input.m_atLadder = false;
-	input.m_inputLR = 0.0f;
-	input.m_inputUD = 0.0f;
-
-	input.m_up = hkVector4( 0.0f, 1.0f, 0.0f );
-	input.m_forward = hkVector4( 0.0f, 0.0f, 1.0f );
-	input.m_characterGravity = hkVector4( 0.0f, -16.0f, 0.0f );
-
-	input.m_stepInfo.m_deltaTime = deltaMilliseconds;
-	input.m_stepInfo.m_invDeltaTime = 1.0f / deltaMilliseconds;
-
-	input.m_velocity = _characterBody->getRigidBody( )->getLinearVelocity( );
-	input.m_position = _characterBody->getRigidBody( )->getPosition( );
+	_characterInput.m_velocity = _characterBody->getRigidBody( )->getLinearVelocity( );
+	_characterInput.m_position = _characterBody->getRigidBody( )->getPosition( );
 
 	hkpSurfaceInfo ground;
-	_characterBody->checkSupport( input.m_stepInfo, ground );
+	_characterBody->checkSupport( _characterInput.m_stepInfo, ground );
 
 	const int skipFramesInAir = 3; 
 
-	if (input.m_wantJump)
+	if (_characterInput.m_wantJump)
 	{
 		_framesInAir = skipFramesInAir;
 	}
@@ -101,27 +99,27 @@ void PhysicsSystemCharacterComponent::Update( float deltaMilliseconds )
 	{
 		if (_framesInAir < skipFramesInAir)
 		{
-			input.m_isSupported = true;
-			input.m_surfaceNormal = _previousGround->m_surfaceNormal;
-			input.m_surfaceVelocity = _previousGround->m_surfaceVelocity;
-			input.m_surfaceMotionType = _previousGround->m_surfaceMotionType;
+			_characterInput.m_isSupported = true;
+			_characterInput.m_surfaceNormal = _previousGround->m_surfaceNormal;
+			_characterInput.m_surfaceVelocity = _previousGround->m_surfaceVelocity;
+			_characterInput.m_surfaceMotionType = _previousGround->m_surfaceMotionType;
 		}
 		else
 		{
-			input.m_isSupported = false;
-			input.m_surfaceNormal = ground.m_surfaceNormal;
-			input.m_surfaceVelocity = ground.m_surfaceVelocity;	
-			input.m_surfaceMotionType = ground.m_surfaceMotionType;
+			_characterInput.m_isSupported = false;
+			_characterInput.m_surfaceNormal = ground.m_surfaceNormal;
+			_characterInput.m_surfaceVelocity = ground.m_surfaceVelocity;	
+			_characterInput.m_surfaceMotionType = ground.m_surfaceMotionType;
 		}			
 
 		_framesInAir++;
 	}
 	else
 	{
-		input.m_isSupported = true;
-		input.m_surfaceNormal = ground.m_surfaceNormal;
-		input.m_surfaceVelocity = ground.m_surfaceVelocity;
-		input.m_surfaceMotionType = ground.m_surfaceMotionType;
+		_characterInput.m_isSupported = true;
+		_characterInput.m_surfaceNormal = ground.m_surfaceNormal;
+		_characterInput.m_surfaceVelocity = ground.m_surfaceVelocity;
+		_characterInput.m_surfaceMotionType = ground.m_surfaceMotionType;
 
 		_previousGround->set(ground);
 
@@ -132,6 +130,29 @@ void PhysicsSystemCharacterComponent::Update( float deltaMilliseconds )
 	}
 
 	hkpCharacterOutput output;
-	_characterContext->update( input, output );
+	_characterContext->update( _characterInput, output );
 	_characterBody->setLinearVelocity( output.m_velocity, deltaMilliseconds );
+}
+
+void PhysicsSystemCharacterComponent::Observe( ISubject* subject, unsigned int systemChanges )
+{
+	PhysicsSystemComponent::Observe( subject, systemChanges );
+
+	ISystemComponent* component = static_cast< ISystemComponent* >( subject );
+
+	if ( component->GetType( ) == InputSystemType )
+	{
+		InputSystemComponent* inputComponent = static_cast< InputSystemComponent* >( component );
+
+		switch( systemChanges )
+		{
+
+		case System::Changes::Input::Move_Forward:
+
+			_characterInput.m_inputUD = 1.0f;
+
+			break;
+
+		}
+	}
 }
