@@ -26,14 +26,6 @@ namespace System
 
 		};
 
-		namespace Physics
-		{
-			static const unsigned int All			=	( 1 << 4 );
-			static const unsigned int Position		=	( 1 << 5 );
-			static const unsigned int Orientation	=	( 1 << 6 );
-			static const unsigned int Scale			=	( 1 << 7 );
-		};
-
 		namespace Input
 		{
 			static const unsigned int Move_Forward	=	( 1 << 8 );
@@ -42,6 +34,7 @@ namespace System
 			static const unsigned int Strafe_Right	=	( 1 << 11 );
 			static const unsigned int Turn_Left		=	( 1 << 12 );
 			static const unsigned int Turn_Right	=	( 1 << 13 );
+			static const unsigned int Pause_Game	=	( 1 << 14 );
 		};
 	};
 };

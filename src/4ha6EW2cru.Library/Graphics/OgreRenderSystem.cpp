@@ -180,22 +180,6 @@ void OgreRenderSystem::Update( float deltaMilliseconds )
 
 	_interface->Update( deltaMilliseconds );
 
-	if ( _root->getSceneManager( "default" )->hasSceneNode( "Box01" ) )
-	{
-		SceneNode* boxNode = _root->getSceneManager( "default" )->getSceneNode( "Box01" );
-
-		Ogre::Quaternion rotation;
-		rotation.FromAngleAxis( Degree( 1.0f ), Vector3( 0.0f, 1.0f, 0.0f ) );
-
-		//boxNode->rotate( rotation );
-	}
-
-	if ( _root->getSceneManager( "default" )->hasSceneNode( "player_camera" ) )
-	{
-		SceneNode* cameraNode = _root->getSceneManager( "default" )->getSceneNode( "player_camera" );
-		//cameraNode->lookAt( Vector3( 0, 0, 0 ), Node::TransformSpace::TS_WORLD );
-		//cameraNode->setPosition( cameraNode->getPosition( ) + Vector3( 0, 0.1, 0.1 ) );
-	}
 	_root->renderOneFrame( );
 }
 

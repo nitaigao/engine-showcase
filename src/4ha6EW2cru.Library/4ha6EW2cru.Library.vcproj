@@ -551,6 +551,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Physics\PhysicsSystemRigidBodyComponent.h"
+			>
+		</File>
+		<File
 			RelativePath=".\System\PlatformManager.cpp"
 			>
 		</File>

@@ -36,7 +36,7 @@ ScriptSystemScene::ScriptSystemScene( ISystem* scriptSystem, Configuration* conf
 	_system = scriptSystem;
 }
 
-ISystemComponent* ScriptSystemScene::CreateComponent( const std::string& name )
+ISystemComponent* ScriptSystemScene::CreateComponent( const std::string& name, const std::string& type )
 {
 	lua_State* childState = lua_newthread( _state );
 
@@ -79,6 +79,7 @@ void ScriptSystemScene::Initialize( )
 
 				value( "UI_TITLE_SCREEN", UI_TITLE_SCREEN ),
 				value( "UI_MAIN_MENU", UI_MAIN_MENU ),
+				value( "UI_PAUSE_MENU", UI_PAUSE_MENU ),
 				value( "UI_CLEAR", UI_CLEAR ),
 				value( "UI_OPTIONS", UI_OPTIONS ),
 

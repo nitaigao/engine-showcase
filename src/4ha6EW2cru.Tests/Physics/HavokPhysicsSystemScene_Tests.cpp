@@ -37,7 +37,7 @@ void HavokPhysicsSystemScene_Tests::Should_Return_A_PhysicsSystemComponent_On_Cr
 	info.setupSolverInfo( hkpWorldCinfo::SOLVER_TYPE_4ITERS_MEDIUM );
 
 	HavokPhysicsSystemScene scene( info );
-	ISystemComponent* component = scene.CreateComponent( "test" );
+	ISystemComponent* component = scene.CreateComponent( "test", "default" );
 
 	CPPUNIT_ASSERT( component != 0 );
 

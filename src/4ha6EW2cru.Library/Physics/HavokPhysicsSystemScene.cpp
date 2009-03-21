@@ -29,6 +29,7 @@
 #include <Physics/Utilities/VisualDebugger/hkpPhysicsContext.h>			
 
 #include "PhysicsSystemComponent.h"
+#include "PhysicsSystemCharacterComponent.h"
 
 HavokPhysicsSystemScene::HavokPhysicsSystemScene( const hkpWorldCinfo& worldInfo )
 {
@@ -52,13 +53,22 @@ HavokPhysicsSystemScene::~HavokPhysicsSystemScene()
 	_world->markForWrite( );
 	_world->removeReference( );
 
-	_vdb->removeReference( );
+	_vdb->removeReference( ); 
 	_context->removeReference( );
 }
 
-ISystemComponent* HavokPhysicsSystemScene::CreateComponent( const std::string& name )
+ISystemComponent* HavokPhysicsSystemScene::CreateComponent( const std::string& name, const std::string& type )
 {
-	PhysicsSystemComponent* component = new PhysicsSystemComponent( name, this );
+	PhysicsSystemComponent* component = 0;
+
+	if ( type == "character" )
+	{
+		component = new PhysicsSystemCharacterComponent( name, this );
+	}
+	else
+	{
+		component = new PhysicsSystemComponent( name, this );
+	}
 
 	_components.push_back( component );
 
@@ -79,9 +89,9 @@ void HavokPhysicsSystemScene::Update( float deltaMilliseconds )
 		physicsComponent->Update( deltaMilliseconds );
 
 		physicsComponent->PushChanges( 
-			System::Changes::Physics::Orientation |
-			System::Changes::Physics::Position |
-			System::Changes::Physics::Scale
+			System::Changes::Geometry::Orientation |
+			System::Changes::Geometry::Position |
+			System::Changes::Geometry::Scale
 			);
 	}
 }

@@ -24,7 +24,7 @@ public:
 	inline SystemType GetType( ) { return RenderSystemType; };
 	inline Root* GetRoot( ) { return _system->GetRoot( ); };
 	
-	ISystemComponent* CreateComponent( const std::string& name );
+	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 	void DestroyComponent( ISystemComponent* component );
 	void Update( float deltaMilliseconds );
 	

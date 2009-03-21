@@ -26,7 +26,7 @@ InputSystemScene::InputSystemScene( const int& screenWidth, const int& screenHei
 	_mouse->getMouseState( ).height = screenHeight;
 }
 
-ISystemComponent* InputSystemScene::CreateComponent( const std::string& name )
+ISystemComponent* InputSystemScene::CreateComponent( const std::string& name, const std::string& type )
 {
 	InputSystemComponent* inputComponent = new InputSystemComponent( name );
 	_keyboardListener->AddInputComponent( inputComponent );

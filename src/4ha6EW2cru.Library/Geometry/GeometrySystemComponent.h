@@ -32,10 +32,10 @@ public:
 	inline unsigned int GetRequestedChanges( )
 	{
 		return 
-			System::Changes::Physics::All |
-			System::Changes::Physics::Orientation |
-			System::Changes::Physics::Position |
-			System::Changes::Physics::Scale;
+			System::Changes::Geometry::All |
+			System::Changes::Geometry::Orientation |
+			System::Changes::Geometry::Position |
+			System::Changes::Geometry::Scale;
 	};
 
 	void Observe( ISubject* subject, unsigned int systemChanges );

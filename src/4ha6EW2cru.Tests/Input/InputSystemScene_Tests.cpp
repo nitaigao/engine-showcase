@@ -21,7 +21,7 @@ void InputSystemScene_Tests::Should_Return_An_InputSystemComponent_On_CreateComp
 {
 	InputSystemScene scene( 0, 0 );
 
-	ISystemComponent* component = scene.CreateComponent( "Test Component" );
+	ISystemComponent* component = scene.CreateComponent( "Test Component", "default" );
 
 	CPPUNIT_ASSERT( component != 0 );
 
@@ -32,7 +32,7 @@ void InputSystemScene_Tests::Should_Destroy_Component_On_DestroyComponent()
 {
 	InputSystemScene scene( 0, 0 );
 
-	ISystemComponent* component = scene.CreateComponent( "Test Component" );
+	ISystemComponent* component = scene.CreateComponent( "Test Component", "default" );
 
 	scene.DestroyComponent( component );
 }

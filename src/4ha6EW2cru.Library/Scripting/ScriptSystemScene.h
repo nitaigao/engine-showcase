@@ -32,7 +32,7 @@ public:
 
 	ScriptSystemScene( ISystem* scriptSystem, Configuration* configuration );
 
-	ISystemComponent* CreateComponent( const std::string& name );
+	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 	void DestroyComponent( ISystemComponent* component );;
 	inline SystemType GetType( ) { return ScriptSystemType; };
 	inline void Update( float deltaMilliseconds ) { };

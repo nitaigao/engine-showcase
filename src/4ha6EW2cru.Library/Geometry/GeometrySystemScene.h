@@ -16,7 +16,7 @@ public:
 
 	}
 
-	ISystemComponent* CreateComponent( const std::string& name );
+	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 	void DestroyComponent( ISystemComponent* component );
 	SystemType GetType( ) { return GeometrySystemType; };
 	inline void Update( float deltaMilliseconds ) { };

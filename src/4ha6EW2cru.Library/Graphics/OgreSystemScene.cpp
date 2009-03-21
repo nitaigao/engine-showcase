@@ -6,7 +6,7 @@
 #include <Ogre.h>
 using namespace Ogre;
 
-ISystemComponent* OgreSystemScene::CreateComponent( const std::string& name )
+ISystemComponent* OgreSystemScene::CreateComponent( const std::string& name, const std::string& type )
 {
 	return new OgreRenderSystemComponent( name, this );
 }

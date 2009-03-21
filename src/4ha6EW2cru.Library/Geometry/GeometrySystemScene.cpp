@@ -2,7 +2,7 @@
 
 #include "GeometrySystemComponent.h"
 
-ISystemComponent* GeometrySystemScene::CreateComponent( const std::string& name )
+ISystemComponent* GeometrySystemScene::CreateComponent( const std::string& name, const std::string& type )
 {
 	return new GeometrySystemComponent( name );
 }

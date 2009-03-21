@@ -12,7 +12,7 @@ void Entity::Observe( ISubject* subject, unsigned int systemChanges )
 	{
 		ISystemComponent* component = ( *i );
 		
-		if ( component->GetRequestedChanges( ) & systemChanges )
+		if ( component->GetRequestedChanges( ) & systemChanges && component != subject )
 		{
 			( *i )->Observe( subject, systemChanges );
 		}

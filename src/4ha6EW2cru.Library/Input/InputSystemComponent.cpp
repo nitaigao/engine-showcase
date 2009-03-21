@@ -29,6 +29,12 @@ void InputSystemComponent::KeyDown( const OIS::KeyCode& keyCode, const std::stri
 
 		break;
 
+	case OIS::KC_ESCAPE:
+
+		this->PushChanges( System::Changes::Input::Pause_Game );
+
+		break;
+
 	}
 }
 

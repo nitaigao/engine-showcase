@@ -43,7 +43,7 @@ ISystemComponent* WorldLoader_GraphicsComponentStrategy::CreateComponent( const 
 
 	SystemSceneList::const_iterator systemScene = systemScenes.find( RenderSystemType );
 
-	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName );
+	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
 	systemComponent->Initialize( properties );
 
 	return systemComponent;
@@ -73,7 +73,7 @@ ISystemComponent* WorldLoader_GeometryComponentStrategy::CreateComponent( const 
 
 	SystemSceneList::const_iterator systemScene = systemScenes.find( GeometrySystemType );
 
-	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName );
+	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
 	systemComponent->Initialize( properties );
 
 	return systemComponent;
@@ -95,7 +95,9 @@ ISystemComponent* WorldLoader_PhysicsComponentStrategy::CreateComponent( const s
 
 	SystemSceneList::const_iterator systemScene = systemScenes.find( PhysicsSystemType );
 
-	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName );
+	std::string type = properties[ "type" ].GetValue< std::string >( );
+
+	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, ( type == "character" ) ? type : "default" );
 	systemComponent->Initialize( properties );
 
 	return systemComponent;
@@ -117,7 +119,7 @@ ISystemComponent* WorldLoader_InputComponentStrategy::CreateComponent( const std
 
 	SystemSceneList::const_iterator systemScene = systemScenes.find( InputSystemType );
 
-	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName );
+	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
 	systemComponent->Initialize( properties );
 
 	return systemComponent;

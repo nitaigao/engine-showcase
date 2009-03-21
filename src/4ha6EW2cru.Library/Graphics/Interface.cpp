@@ -48,7 +48,7 @@ void Interface::Initialize( )
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_KEY_DOWN, this, &Interface::OnKeyDown );
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_KEY_UP, this, &Interface::OnKeyUp );
 
-	ScriptComponent* scriptComponent = ( ScriptComponent* ) g_InterfaceScriptScene->CreateComponent( "interface" );
+	ScriptComponent* scriptComponent = ( ScriptComponent* ) g_InterfaceScriptScene->CreateComponent( "interface", "default" );
 
 	SystemPropertyList properties;
 	std::string scriptPath = "/data/interface/interface.lua";
@@ -123,7 +123,7 @@ void Interface::LoadComponent( const std::string componentName )
 	std::stringstream scriptPath;
 	scriptPath << "/data/interface/components/" << componentName << ".lua";
 
-	ScriptComponent* scriptComponent = ( ScriptComponent* ) g_InterfaceScriptScene->CreateComponent( componentName );
+	ScriptComponent* scriptComponent = ( ScriptComponent* ) g_InterfaceScriptScene->CreateComponent( componentName, "default" );
 
 	SystemPropertyList properties;
 	properties.insert( std::make_pair( "scriptPath", SystemProperty( "scriptPath", scriptPath.str( ) ) ) );

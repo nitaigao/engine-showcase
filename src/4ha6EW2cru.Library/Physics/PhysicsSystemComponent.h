@@ -24,21 +24,21 @@ public:
 	PhysicsSystemComponent( const std::string& name, HavokPhysicsSystemScene* scene )
 		: _name ( name )
 		, _scene( scene )
-		, _body( 0 )
-		, _characterBody( 0 )
-		, _characterContext( 0 )
 		, _loadedData( 0 )
+		, _body( 0 )
 	{
 
 	}
 
-	virtual void Initialize( SystemPropertyList properties );
-
-	inline void AddObserver( IObserver* observer ) { _observer = observer; };
-
 	void Observe( ISubject* subject, unsigned int systemChanges );
 	void PushChanges( unsigned int systemChanges );
 
+	virtual void Initialize( SystemPropertyList properties );
+	virtual void Update( float deltaMilliseconds ) { };
+
+	inline const std::string& GetName( ) { return _name; };
+	inline SystemType GetType( ) { return PhysicsSystemType; };
+	inline void AddObserver( IObserver* observer ) { _observer = observer; };
 	inline unsigned int GetRequestedChanges( ) 
 	{ 
 		return 
@@ -54,25 +54,17 @@ public:
 			System::Changes::Input::Turn_Right;
 	};
 
-	inline const std::string& GetName( ) { return _name; };
-	inline SystemType GetType( ) { return PhysicsSystemType; };
-
-	void Update( float deltaMilliseconds );
-
 	MathVector3 GetPosition( );
 	MathQuaternion GetRotation( );
 
-private:
+protected:
 
 	std::string _name;
 	IObserver* _observer;
 	HavokPhysicsSystemScene* _scene;
 	
-	hkPackfileData* _loadedData;
 	hkpRigidBody* _body;
-
-	hkpCharacterContext* _characterContext;
-	hkpCharacterRigidBody* _characterBody;
+	hkPackfileData* _loadedData;
 
 	PhysicsSystemComponent( const PhysicsSystemComponent & copy ) { };
 	PhysicsSystemComponent & operator = ( const PhysicsSystemComponent & copy ) { return *this; };
