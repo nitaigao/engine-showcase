@@ -10,8 +10,8 @@ public:
 
 	virtual ~PhysicsSystemCharacterComponent( );
 
-	PhysicsSystemCharacterComponent( const std::string& name, HavokPhysicsSystemScene* scene )
-		: PhysicsSystemComponent( name, scene )
+	PhysicsSystemCharacterComponent( const std::string& name, HavokPhysicsSystemScene* scene, int componentId )
+		: PhysicsSystemComponent( name, scene, componentId )
 		, _characterBody( 0 )
 		, _characterContext( 0 )
 		, _framesInAir( 0 )
@@ -29,6 +29,8 @@ private:
 	hkpCharacterContext* _characterContext;
 	hkpCharacterRigidBody* _characterBody;
 	hkpCharacterInput _characterInput;
+
+	float _mouseXDelta;
 
 	hkpSurfaceInfo* _previousGround;
 	int _framesInAir;

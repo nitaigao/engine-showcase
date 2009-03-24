@@ -36,10 +36,15 @@ public:
 	virtual void KeyDown( const OIS::KeyCode& keyCode, const std::string& keyText );
 	virtual void KeyUp( const OIS::KeyCode& keyCode, const std::string& keyText );
 
+	SystemPropertyList GetProperties( ) { return _systemProperties; };
+	void SetProperties( SystemPropertyList systemProperties ) { _systemProperties = systemProperties; };
+
 private:
 
 	std::string _name;
 	IObserver* _observer;
+
+	SystemPropertyList _systemProperties;
 
 	InputSystemComponent( ) { };
 	InputSystemComponent( const InputSystemComponent & copy ) { };

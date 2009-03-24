@@ -35,6 +35,8 @@ namespace System
 			static const unsigned int Turn_Left		=	( 1 << 12 );
 			static const unsigned int Turn_Right	=	( 1 << 13 );
 			static const unsigned int Pause_Game	=	( 1 << 14 );
+			static const unsigned int Mouse_Moved	=	( 1 << 15 );
+			static const unsigned int Jump			=	( 1 << 16 );
 		};
 	};
 };

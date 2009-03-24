@@ -7,6 +7,8 @@ using namespace OgreMax;
 using namespace Ogre;
 
 #include "../Geometry/GeometrySystemComponent.h"
+#include "../Input/InputSystemComponent.h"
+#include "../Logging/Logger.h"
 
 OgreRenderSystemComponent::~OgreRenderSystemComponent( )
 {
@@ -27,13 +29,13 @@ void OgreRenderSystemComponent::Initialize( SystemPropertyList properties )
 			OgreMaxModel* model = new OgreMaxModel( );
 			model->Load( modelPath );
 
-			SceneNode* modelNode = sceneManager->createSceneNode( _name );
+			_sceneNode = sceneManager->createSceneNode( _name );
 			model->CreateInstance( sceneManager, Ogre::StringUtil::BLANK, 0, 
-				OgreMaxModel::NO_OPTIONS, 0, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, modelNode );
+				OgreMaxModel::NO_OPTIONS, 0, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, _sceneNode );
 
-			sceneManager->getRootSceneNode( )->addChild( modelNode );
+			sceneManager->getRootSceneNode( )->addChild( _sceneNode );
 
-			SceneNode::ObjectIterator objects = modelNode->getAttachedObjectIterator( );
+			SceneNode::ObjectIterator objects = _sceneNode->getAttachedObjectIterator( );
 
 			while( objects.hasMoreElements( ) )
 			{
@@ -46,6 +48,7 @@ void OgreRenderSystemComponent::Initialize( SystemPropertyList properties )
 
 					camera->setPosition( 0, 0, 0 );
 					camera->lookAt( 0, 0, 0 );
+					camera->setFarClipDistance( 5000.0f );
 				}
 			}
 
@@ -64,12 +67,58 @@ unsigned int OgreRenderSystemComponent::GetRequiredSystemChanges()
 
 void OgreRenderSystemComponent::Observe( ISubject* subject, unsigned int systemChanges )
 {
-	GeometrySystemComponent* geometryComponent = static_cast< GeometrySystemComponent* >( subject );
+	float mouseSmooth = 0.15f;
 
-	SceneManager* sceneManager = _scene->GetRoot( )->getSceneManager( "default" );
-	SceneNode* sceneNode = sceneManager->getSceneNode( _name );
+	ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 
-	sceneNode->setPosition( geometryComponent->GetPosition( ).AsOgreVector3( ) );
-	sceneNode->setScale( geometryComponent->GetScale( ).AsOgreVector3( ) );
-	sceneNode->setOrientation( geometryComponent->GetOrientation( ).AsOgreQuaternion( ) );
+	if ( component->GetType( ) == InputSystemType )
+	{
+		InputSystemComponent* inputComponent = static_cast< InputSystemComponent* >( component );
+
+		if ( System::Changes::Input::Mouse_Moved & systemChanges )
+		{
+			float mouseYDelta = inputComponent->GetProperties( )[ "mouseYDelta" ].GetValue< int >( );
+
+			SceneNode::ObjectIterator objects = _sceneNode->getAttachedObjectIterator( );
+
+			while( objects.hasMoreElements( ) )
+			{
+				MovableObject* object = objects.getNext( );
+
+				if( object->getMovableType( ) == "Camera" )
+				{
+					Camera* camera = _scene->GetRoot( )->getSceneManager( "default" )->getCamera( object->getName( ) );
+					camera->pitch( Degree( mouseYDelta * mouseSmooth ) );
+				}
+			}
+		}
+	}
+
+	if ( component->GetType( ) == GeometrySystemType )
+	{
+		GeometrySystemComponent* geometryComponent = static_cast< GeometrySystemComponent* >( subject );
+
+		SceneManager* sceneManager = _scene->GetRoot( )->getSceneManager( "default" );
+		SceneNode* sceneNode = sceneManager->getSceneNode( _name );
+
+		SceneNode::ObjectIterator objects = _sceneNode->getAttachedObjectIterator( );
+
+		while( objects.hasMoreElements( ) )
+		{
+			MovableObject* object = objects.getNext( );
+
+			if( object->getMovableType( ) == "Camera" )
+			{
+				MathVector3 cameraPosition = geometryComponent->GetPosition( ) + MathVector3( 0.0f, 2.0f, 0.0f );
+				sceneNode->setPosition( cameraPosition.AsOgreVector3( ) );
+			}
+			else
+			{
+				sceneNode->setPosition( geometryComponent->GetPosition( ).AsOgreVector3( ) );
+			}
+		}
+
+		sceneNode->setScale( geometryComponent->GetScale( ).AsOgreVector3( ) );
+		sceneNode->setOrientation( geometryComponent->GetOrientation( ).AsOgreQuaternion( ) );
+	}
 }

@@ -27,7 +27,6 @@ public:
 	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 	void DestroyComponent( ISystemComponent* component );
 	void Update( float deltaMilliseconds );
-	
 
 private:
 

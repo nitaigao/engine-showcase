@@ -1,0 +1,7 @@
+
+--- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Scripting\ScriptSystemScene.cpp
+    (C++)
+         _
+#include "ScriptSystemScene.h"
+C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Scripting\ScriptSystemScene.cpp 
+    1  Error 322: Unable to open include file 'ScriptSystemScene.h'

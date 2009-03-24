@@ -11,8 +11,9 @@
 #include "KeyboardListener.hpp"
 #include "MouseListener.hpp"
 
-class InputSystemScene : public ISystemScene
+class InputSystemScene : public ISystemScene, public OIS::KeyListener, public OIS::MouseListener
 {
+	typedef std::vector< InputSystemComponent* > InputSystemComponentList;
 
 public:
 
@@ -23,17 +24,32 @@ public:
 	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 	void DestroyComponent( ISystemComponent* component );
 	SystemType GetType( ) { return InputSystemType; }
+
 	void Update( float deltaMilliseconds );
+
+	/* Fired when the user presses a button on the keyboard */
+	bool InputSystemScene::keyPressed( const KeyEvent &arg );
+
+	/* Fired when the user releases a button on the keyboard */
+	bool InputSystemScene::keyReleased( const KeyEvent &arg );
+
+	/* Fired when the user moves the mouse */
+	bool mouseMoved( const MouseEvent &arg );
+
+	/* Fired when the user presses a button on the mouse */
+	bool mousePressed( const MouseEvent &arg, MouseButtonID id );
+
+	/* Fired when the user releases a button on the mouse */
+	bool mouseReleased( const MouseEvent &arg, MouseButtonID id );
 
 private:
 
 	OIS::InputManager* _inputManager;
 
 	OIS::Mouse* _mouse;
-	MouseListener* _mouseListener;
-
 	OIS::Keyboard* _keyboard;
-	KeyboardListener* _keyboardListener;
+
+	InputSystemComponentList _inputComponents;
 
 	InputSystemScene( ) { };
 	InputSystemScene( const InputSystemScene & copy ) { };

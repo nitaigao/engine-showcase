@@ -1,0 +1,7 @@
+
+--- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\State\WorldLoaderStrategies.cpp
+    (C++)
+         _
+#include "WorldLoaderStrategies.h"
+C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\State\WorldLoaderStrategies.cpp 
+    1  Error 322: Unable to open include file 'WorldLoaderStrategies.h'

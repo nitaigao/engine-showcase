@@ -1,0 +1,7 @@
+
+--- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Utility\OgreMax\tinyxml\tinyxmlerror.cpp
+    (C++)
+         _
+#include "tinyxml.h"
+C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Utility\OgreMax\tinyxml\tinyxmlerror.cpp 
+    34  Error 322: Unable to open include file 'tinyxml.h'

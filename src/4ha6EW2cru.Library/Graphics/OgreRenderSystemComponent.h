@@ -15,6 +15,7 @@ public:
 
 	OgreRenderSystemComponent( const std::string& name, OgreSystemScene* scene )
 		: _name( name )
+		, _sceneNode( 0 )
 		, _scene( scene )
 	{
 
@@ -31,7 +32,8 @@ public:
 			System::Changes::Geometry::Position | 
 			System::Changes::Geometry::Orientation | 
 			System::Changes::Geometry::Scale |
-			System::Changes::Geometry::All;
+			System::Changes::Geometry::All |
+			System::Changes::Input::Mouse_Moved;
 	};
 
 	void Observe( ISubject* subject, unsigned int systemChanges );
@@ -45,6 +47,7 @@ private:
 
 	std::string _name;
 	OgreSystemScene* _scene;
+	Ogre::SceneNode* _sceneNode;
 
 	OgreRenderSystemComponent( ) { };
 	OgreRenderSystemComponent( const OgreRenderSystemComponent & copy ) { };

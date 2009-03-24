@@ -1,0 +1,7 @@
+
+--- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Scripting\ScriptSystem.cpp
+    (C++)
+         _
+#include "ScriptSystem.h"
+C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Scripting\ScriptSystem.cpp 
+    1  Error 322: Unable to open include file 'ScriptSystem.h'

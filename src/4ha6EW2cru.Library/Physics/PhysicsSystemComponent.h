@@ -21,9 +21,10 @@ public:
 
 	virtual ~PhysicsSystemComponent( );
 
-	PhysicsSystemComponent( const std::string& name, HavokPhysicsSystemScene* scene )
+	PhysicsSystemComponent( const std::string& name, HavokPhysicsSystemScene* scene, int componentId )
 		: _name ( name )
 		, _scene( scene )
+		, _componentId( componentId )
 		, _loadedData( 0 )
 		, _body( 0 )
 	{
@@ -50,7 +51,9 @@ public:
 			System::Changes::Input::Strafe_Left |
 			System::Changes::Input::Strafe_Right |
 			System::Changes::Input::Turn_Left |
-			System::Changes::Input::Turn_Right;
+			System::Changes::Input::Turn_Right |
+			System::Changes::Input::Mouse_Moved |
+			System::Changes::Input::Jump;
 	};
 
 	MathVector3 GetPosition( );
@@ -61,6 +64,7 @@ protected:
 	std::string _name;
 	IObserver* _observer;
 	HavokPhysicsSystemScene* _scene;
+	int _componentId;
 	
 	hkpRigidBody* _body;
 	hkPackfileData* _loadedData;

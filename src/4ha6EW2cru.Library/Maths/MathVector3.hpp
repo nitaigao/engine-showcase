@@ -44,6 +44,9 @@ public:
 		return *this + input;
 	}
 
+	static MathVector3 Up( ) { return MathVector3( 0.0f, 1.0f, 0.0f ); };
+	static MathVector3 Forward( ) { return MathVector3( 0.0f, 1.0f, 0.0f ); };
+
 private:
 
 	float _x, _y, _z;

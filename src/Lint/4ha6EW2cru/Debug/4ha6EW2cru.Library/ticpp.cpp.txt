@@ -1,0 +1,7 @@
+
+--- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Utility\OgreMax\tinyxml\ticpp.cpp
+    (C++)
+         _
+#include "ticpp.h"
+C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Utility\OgreMax\tinyxml\ticpp.cpp 
+    30  Error 322: Unable to open include file 'ticpp.h'

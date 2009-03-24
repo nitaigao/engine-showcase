@@ -37,11 +37,10 @@ ISystemScene* HavokPhysicsSystem::CreateScene()
 {
 	hkpWorldCinfo info;
 
-	//info.m_simulationType = hkpWorldCinfo::SIMULATION_TYPE_DISCRETE;
-	info.m_gravity.set( 0, -9.8f, 0 );
-	info.m_collisionTolerance = 0.01f; 
-	info.m_contactPointGeneration = hkpWorldCinfo::CONTACT_POINT_ACCEPT_ALWAYS;
-	info.setBroadPhaseWorldSize( 2050.0f );
+	info.m_simulationType = hkpWorldCinfo::SIMULATION_TYPE_DISCRETE;
+	info.m_gravity.set( 0,-9.8f,0);
+	info.m_collisionTolerance = 0.1f; 
+	info.setBroadPhaseWorldSize( 2000.0f );
 	info.setupSolverInfo( hkpWorldCinfo::SOLVER_TYPE_4ITERS_MEDIUM );
 
 	HavokPhysicsSystemScene* scene = new HavokPhysicsSystemScene( info );

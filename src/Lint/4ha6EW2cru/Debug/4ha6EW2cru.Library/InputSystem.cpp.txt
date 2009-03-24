@@ -1,0 +1,7 @@
+
+--- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Input\InputSystem.cpp
+    (C++)
+         _
+#include "InputSystem.h"
+C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Input\InputSystem.cpp  1 
+    Error 322: Unable to open include file 'InputSystem.h'

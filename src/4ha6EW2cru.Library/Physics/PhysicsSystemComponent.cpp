@@ -40,6 +40,7 @@ void PhysicsSystemComponent::Initialize( SystemPropertyList properties )
 	hkpPhysicsData* physicsData = static_cast< hkpPhysicsData* >( container->findObjectByType("hkpPhysicsData") );
 
 	_body = physicsData->findRigidBodyByName( _name.c_str( ) );
+	_body->setUserData( _componentId );
 	_scene->GetWorld( )->addEntity( _body );
 
 	delete bodyBuffer;
@@ -72,19 +73,9 @@ void PhysicsSystemComponent::Observe( ISubject* subject, unsigned int systemChan
 	{
 		GeometrySystemComponent* geometrySystemComponent = static_cast< GeometrySystemComponent* >( subject );
 
-		Ogre::Quaternion rotationAmount( Ogre::Degree( 90 ), Ogre::Vector3( 1.0f, 0.0f, 0.0f ) );
-		Ogre::Quaternion rotationResult = geometrySystemComponent->GetOrientation( ).AsOgreQuaternion( ) * rotationAmount;
-
-		MathQuaternion correctRotation(
-			rotationResult.x,
-			rotationResult.y,
-			rotationResult.z,
-			rotationResult.w
-			);
-
 		_body->setPositionAndRotation( 
 			geometrySystemComponent->GetPosition( ).AshkVector4( ),	
-			correctRotation.AshkQuaternion( )
+			geometrySystemComponent->GetOrientation( ).AshkQuaternion( )
 		);
 	};
 }
@@ -102,24 +93,14 @@ MathVector3 PhysicsSystemComponent::GetPosition()
 
 MathQuaternion PhysicsSystemComponent::GetRotation()
 {
-	hkQuaternion rotation = _body->getRotation( );
+	hkQuaternion physicsRotation = _body->getRotation( );
 
-	MathQuaternion oldRotation(
-		rotation( 0 ),
-		rotation( 1 ),
-		rotation( 2 ),
-		rotation( 3 )
+	MathQuaternion rotation(
+		physicsRotation( 0 ),
+		physicsRotation( 1 ),
+		physicsRotation( 2 ),
+		physicsRotation( 3 )
 		);
 
-	Ogre::Quaternion rotationAmount( Ogre::Degree( -90 ), Ogre::Vector3( 1.0f, 0.0f, 0.0f ) );
-	Ogre::Quaternion rotationResult = oldRotation.AsOgreQuaternion( ) * rotationAmount;
-
-	MathQuaternion correctRotation(
-		rotationResult.x,
-		rotationResult.y,
-		rotationResult.z,
-		rotationResult.w
-		);
-
-	return correctRotation;
+	return rotation;
 }

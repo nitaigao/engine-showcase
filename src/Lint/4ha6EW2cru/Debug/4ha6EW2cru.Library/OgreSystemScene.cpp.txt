@@ -1,0 +1,7 @@
+
+--- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Graphics\OgreSystemScene.cpp
+    (C++)
+         _
+#include "OgreSystemScene.h"
+C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Graphics\OgreSystemScene.cpp 
+    1  Error 322: Unable to open include file 'OgreSystemScene.h'

@@ -1,0 +1,7 @@
+
+--- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\System\PlatformManager.cpp
+    (C++)
+         _
+#include "PlatformManager.h"
+C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\System\PlatformManager.cpp 
+    1  Error 322: Unable to open include file 'PlatformManager.h'

@@ -6,14 +6,16 @@
 
 #include <Common/Base/hkBase.h>
 #include <Physics/Dynamics/World/hkpWorld.h>
+#include <Physics/Dynamics/World/Listener/hkpIslandActivationListener.h>
+#include <Physics/Dynamics/World/Listener/hkpIslandPostIntegrateListener.h>
 
 #include <Common/Visualize/hkVisualDebugger.h>
 #include <Physics/Utilities/VisualDebugger/hkpPhysicsContext.h>			
 
-class HavokPhysicsSystemScene : public ISystemScene
+class HavokPhysicsSystemScene : public ISystemScene, public hkpIslandPostIntegrateListener
 {
 
-	typedef std::vector< ISystemComponent* > PhysicsSystemComponentList;
+	typedef std::map< int, ISystemComponent* > PhysicsSystemComponentList;
 
 public:
 
@@ -29,12 +31,16 @@ public:
 
 	hkpWorld* GetWorld( ) { return _world; };
 
+	virtual void postIntegrateCallback( hkpSimulationIsland *island, const hkStepInfo &stepInfo );
+
 private:
 
 	hkpWorld* _world;
 	hkVisualDebugger* _vdb;
 	hkpPhysicsContext* _context;
 	PhysicsSystemComponentList _components;
+
+	int _lastComponentId;
 
 	HavokPhysicsSystemScene( ) { };
 	HavokPhysicsSystemScene( const HavokPhysicsSystemScene & copy ) { };

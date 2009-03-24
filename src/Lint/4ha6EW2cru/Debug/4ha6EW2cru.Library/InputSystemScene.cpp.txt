@@ -1,0 +1,7 @@
+
+--- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Input\InputSystemScene.cpp
+    (C++)
+         _
+#include "InputSystemScene.h"
+C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Input\InputSystemScene.cpp 
+    1  Error 322: Unable to open include file 'InputSystemScene.h'
