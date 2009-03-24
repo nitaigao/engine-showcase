@@ -1,3 +1,6 @@
+require 'find'
+require 'zip/zipfilesystem'
+
 class MSBuild
   def initialize(solutionFile, clrVersion = 'v3.5')
     @solutionFile = solutionFile
@@ -12,6 +15,22 @@ class MSBuild
 	def compile(compileMode = 'Debug')
 		sh "#{@msbuildExecutable} #{@solutionFile} /m /property:BuildInParallel=false /property:Configuration=#{compileMode} /t:Rebuild"
 	end
+end
+
+def delete_empty_directories(root_directory)
+  iterations = deleted_total = 0
+  loop do # a directory containing an directory will become empty when the subdir is removed
+    iterations += 1
+    deleted = 0
+    Dir[File.join(root_directory,'**','*')].each do |e|
+      next unless File.directory?(e)
+      next unless (Dir.entries(e)-['.','..']).empty?
+      Dir.delete(e) # will fail if e is not, in fact, an empty dir
+      deleted += 1
+    end
+    break if deleted.zero?
+    deleted_total += deleted
+  end
 end
 
 namespace :build do
@@ -47,27 +66,32 @@ namespace :build do
 end
 
 namespace :deploy do
+  task :clean do
+  
+	build_file_list = FileList.new( File.join( $outputdir,'**/*.*' ) ).exclude( File.join( $outputdir,'**/*.exe' ), File.join( $outputdir,'**/*.dll' ), File.join( $outputdir,'**/*.cfg' ), File.join( $outputdir,'**/*.bad' ) );
+	FileUtils.rm build_file_list, :force => true
+	
+	test_files_list = FileList.new( File.join( $outputdir, '**/*test*' ), File.join( $outputdir, '**/*cpp*' ), File.join( $outputdir, '**/*mockpp*' ) );
+	FileUtils.rm test_files_list, :force => true
+	
+	delete_empty_directories( $outputdir );
+	
+  end
   task :store do
-	begin
-	    artifacts_path = File.join(Configuration.getBasePath, Configuration.getArtifactsPath)
-		puts "Artifacts path is #{artifacts_path}"
-		
-	    deployment_file_path = File.join(Configuration.getBasePath, Configuration.getDeploymentFilename)
-		deployment_target_path = File.join(artifacts_path, 'deployment.xml')
-	    zip_path = File.join(artifacts_path, 'buildoutput.zip')
+	begin	
+		buildDate = DateTime.now.year.to_s + DateTime.now.month.to_s + DateTime.now.day.to_s + DateTime.now.hour.to_s + DateTime.now.min.to_s + DateTime.now.sec.to_s 
+	
+		artifacts_path = $packagesdir
+	    latest_path = File.join(artifacts_path, 'latest.zip')
+		output_path = File.join(artifacts_path, buildDate + '.zip')
 	  
-	    cleanDirectory(artifacts_path)
+	    FileUtils.rm_rf(artifacts_path)
 	    Dir.mkdir(artifacts_path)
 		
-	    copy(deployment_file_path, artifacts_path)
-		
-		build_output_dir = File.join(Configuration.getBasePath, Configuration.getBuildOutputBaseDir)
+		build_output_dir = $outputdir
 	      
-	    Zip::ZipFile.open(zip_path, Zip::ZipFile::CREATE) do |zipfile|
-	      Find.find(build_output_dir) do |path|     
-			Find.prune if Configuration.getExtensionsExcludedFromBuildOutput.include? File.extname(path)
-			Find.prune if Configuration.getFilenamesExcludedFromBuildOutput.include? File.basename(path)
-			
+	    Zip::ZipFile.open(output_path, Zip::ZipFile::CREATE) do |zipfile|
+	      Find.find(build_output_dir) do |path|     			
 			if File.directory?(path) == false then       
 				dest = path.slice(build_output_dir.length + 1, path.length - build_output_dir.length - 1)
 				puts "Adding #{dest} to buildoutput.zip"
@@ -76,15 +100,20 @@ namespace :deploy do
 	      end
 	    end
 		
+		copy( output_path, latest_path );
+		
 	rescue Exception => e
 		raise "\n\nFailed: There was an error while creating the build output\n#{e}"
 	end
   end
 end
 
-$build_configuration = 'Debug'
+$build_configuration = 'Release'
 $application_name = '4ha6EW2cru'
 $solution_file = $application_name + '.sln'
+$builddir = '../build/'
+$packagesdir = $builddir + '/packages/'
+$outputdir = $builddir + $build_configuration
 
 task :continuous_integration => [:build]#, "deploy:store"]
 task :build => ["build:clean", "build:compile", "build:test"]

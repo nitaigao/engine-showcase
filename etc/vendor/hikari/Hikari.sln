@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hikari", "Hikari\Hikari.vcproj", "{EE63115E-70F7-49D4-BADD-9C6D0F4DC295}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HikariDemo", "HikariDemo\HikariDemo.vcproj", "{A3D7694E-2F64-4803-A877-D1A58B43A6D9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EE63115E-70F7-49D4-BADD-9C6D0F4DC295} = {EE63115E-70F7-49D4-BADD-9C6D0F4DC295}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE63115E-70F7-49D4-BADD-9C6D0F4DC295}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EE63115E-70F7-49D4-BADD-9C6D0F4DC295}.Debug|Win32.Build.0 = Debug|Win32
+		{EE63115E-70F7-49D4-BADD-9C6D0F4DC295}.Release|Win32.ActiveCfg = Release|Win32
+		{EE63115E-70F7-49D4-BADD-9C6D0F4DC295}.Release|Win32.Build.0 = Release|Win32
+		{A3D7694E-2F64-4803-A877-D1A58B43A6D9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A3D7694E-2F64-4803-A877-D1A58B43A6D9}.Debug|Win32.Build.0 = Debug|Win32
+		{A3D7694E-2F64-4803-A877-D1A58B43A6D9}.Release|Win32.ActiveCfg = Release|Win32
+		{A3D7694E-2F64-4803-A877-D1A58B43A6D9}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

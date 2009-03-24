@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HikariLua", "HikariLua.vcproj", "{E8D2D9DF-8AE7-4908-A37E-4B5B5B1013CE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HikariLuaDemo", "..\HikariLuaDemo\HikariLuaDemo.vcproj", "{D65AF0B9-6389-481C-8CC0-13F5D4363545}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8D2D9DF-8AE7-4908-A37E-4B5B5B1013CE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E8D2D9DF-8AE7-4908-A37E-4B5B5B1013CE}.Debug|Win32.Build.0 = Debug|Win32
+		{E8D2D9DF-8AE7-4908-A37E-4B5B5B1013CE}.Release|Win32.ActiveCfg = Release|Win32
+		{E8D2D9DF-8AE7-4908-A37E-4B5B5B1013CE}.Release|Win32.Build.0 = Release|Win32
+		{D65AF0B9-6389-481C-8CC0-13F5D4363545}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D65AF0B9-6389-481C-8CC0-13F5D4363545}.Debug|Win32.Build.0 = Debug|Win32
+		{D65AF0B9-6389-481C-8CC0-13F5D4363545}.Release|Win32.ActiveCfg = Release|Win32
+		{D65AF0B9-6389-481C-8CC0-13F5D4363545}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

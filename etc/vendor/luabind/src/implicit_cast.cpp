@@ -20,8 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
-#define LUABIND_BUILDING
-
 #include <luabind/lua_include.hpp>
 
 #include <luabind/luabind.hpp>
@@ -48,12 +46,12 @@ namespace luabind { namespace detail {
       , LUABIND_TYPE_INFO const& type_id
       , int& pointer_offset)
     {
+        int offset = 0;
         if (LUABIND_TYPE_INFO_EQUAL(crep->type(), type_id)) return 0;
 
         for (std::vector<class_rep::base_info>::const_iterator i = 
             crep->bases().begin(); i != crep->bases().end(); ++i)
         {
-            int offset = 0;
             int steps = implicit_cast(i->base, type_id, offset);
             pointer_offset = offset + i->pointer_offset;
             if (steps >= 0) return steps + 2;

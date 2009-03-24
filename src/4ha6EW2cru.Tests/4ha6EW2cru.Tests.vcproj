@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="cppunit.lib mockpp_44.lib OgreMain.lib OIS_static.lib lua.lib luabind.lib MyGUI_d.lib yamlcpp.lib  hkBase.lib hkSerialize.lib hkSceneData.lib hkInternal.lib hkGeometryUtilities.lib hkVisualize.lib hkCompat.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib"
+				AdditionalDependencies="cppunit.lib mockpp_44.lib OgreMain.lib OIS_static.lib lua.lib luabind.lib MyGUI.lib yamlcpp.lib  hkBase.lib hkSerialize.lib hkSceneData.lib hkInternal.lib hkGeometryUtilities.lib hkVisualize.lib hkCompat.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/lib;../../etc/vendor/ogre/lib;../../etc/vendor/yaml/lib;../../etc/vendor/havok/lib/release_multithreaded_dll"
 				GenerateDebugInformation="true"

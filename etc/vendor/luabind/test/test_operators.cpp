@@ -98,20 +98,6 @@ COUNTER_GUARD(operator_tester);
 COUNTER_GUARD(operator_tester2);
 COUNTER_GUARD(operator_tester3);
 
-struct len_tester
-{
-	len_tester(int len)
-	  : len_(len)
-	{}
-
-	int len() const
-	{
-		return len_;
-	}
-
-	int len_;
-};
-
 void test_main(lua_State* L)
 {
 	using namespace luabind;
@@ -128,6 +114,7 @@ void test_main(lua_State* L)
 			.def(self())
 			.def(const_self(int()))
 			.def(self(int()))
+			.def(tostring(const_self))
 //			.def(const_self * other<operator_tester const&>())
 			.def(const_self * const_self)
 			.def(const_self * other<int>()),
@@ -146,11 +133,7 @@ void test_main(lua_State* L)
 
 		class_<op_test2, op_test1>("op_test2")
 			.def(constructor<>())
-			.def(self == self),
-
-		class_<len_tester>("len_tester")
-			.def(constructor<int>())
-			.def("__len", &len_tester::len)
+			.def(self == self)
 	];
 	
 	DOSTRING(L, "test = operator_tester()");
@@ -204,12 +187,5 @@ void test_main(lua_State* L)
 		"a = op_test1()\n"
 		"b = op_test2()\n"
 		"assert(a == b)");
-
-	DOSTRING(L,
-		"x = len_tester(0)\n");
-
-	DOSTRING(L,
-		"x = len_tester(3)\n"
-		"assert(#x == 3)");
 }
 

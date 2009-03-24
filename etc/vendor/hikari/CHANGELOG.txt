@@ -1,0 +1,60 @@
+Current Version: Hikari v0.4
+
+API Changes since v0.3:
+- In HikariManager:
+-- HikariManager::createFlashOverlay has an extra parameter, 'tier'
+-- HikariManager::getFocusedControl has been added
+- In FlashControl:
+-- FlashControl::setPosition has been added
+-- FlashControl::resetPosition has been added
+-- FlashControl::getCoordinates has been added
+
+Core Changes since v0.3:
+- Tiered z-ordering has been implemented. When an overlay is focused, it is still popped to the front but it now stays within its tier (there are a total of six possible tiers, specified within the range [0, 5]). This feature makes it possible to group layers of overlays together (to say, keep all the background overlays from the foreground overlays).
+
+Bugfixes since v0.3:
+- The dimensions of a certain temporary render buffer were being improperly defined as a static variable instead of as a member variable-- causing undefined behavior when multiple FlashControls were instantiated. This bug has been fixed (thanks truwater).
+
+Current Version: Hikari v0.3
+
+API Changes since v0.2:
+- In FlashControl:
+-- FlashControl::getName has been added
+-- FlashControl::getExtents has been added
+-- FlashControl::setDraggable has been added
+-- FlashControl::getUVScale has been added
+-- FlashControl::setIgnoreTransparentPixels has been added
+-- FlashControl::getVisibility has been added
+-- FlashControl::setScaleMode has been added
+-- FlashControl::gotoFrame has been added
+-- FlashControl::injectMouseWheel has been added
+- In HikariManager:
+-- HikariManager::injectKeyEvent has been added
+-- HikariManager::injectMouseWheel has been added
+-- HikariManager::setKeyboardHookEnabled has been added
+-- HikariManager::destroyAllControls has been added
+-- HikariManager::createFlashOverlay now allows automatic z-order incrementation
+- Added enum 'ScaleMode'
+
+Core Changes since v0.2:
+- FlashValue now supports value-type interpretation
+- Removed dependency upon shlwapi.
+- As a workaround for better IME support, you may now disable the internal keyboard-hook and inject keyboard/IME messages directly from the main window's WindowProc.
+- Alpha-picking (the filtering of mouse clicks by transparency) is now implemented.
+- In the HikariManager, global mouse-movement events are now broadcast to all Flash overlays instead of only the top-most control
+- Mouse-wheel injection is now supported
+
+Bugfixes since v0.2:
+- FlashControl overlays weren't being sorted correctly by z-order during focus, this has been fixed.
+- Patched up a memory leak in FlashControl, thanks to Adis.
+- Applied a potential workaround for heap corruption due to Ogre::DisplayString in FlashControl::callFunction.
+- Applied a potential fix for certain FlashControl destruction assertions.
+- Fixed a bug with transmitting apostrophes using FlashControl::callFunction and function callbacks.
+- Made FlashValue more compatible with major string types.
+
+Demo changes since v0.2:
+- Removed dependency upon the Terrain Scene Manager.
+
+Current Version: Hikari v0.2
+
+- Foundation implemented

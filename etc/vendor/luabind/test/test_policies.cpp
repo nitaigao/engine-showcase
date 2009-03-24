@@ -77,7 +77,6 @@ policies_test_class global;
 
 void out_val(float* f) { *f = 3.f; }
 policies_test_class* copy_val() { return &global; }
-policies_test_class const* copy_val_const() { return &global; }
 
 secret_type* secret() { return &sec_; }
 
@@ -95,12 +94,7 @@ struct MI1
 	void add(MI2 *) {}
 };
 
-struct MI2 : public MI1
-{
-	virtual ~MI2()
-	{}
-};
-
+struct MI2 : public MI1 {};
 struct MI2W : public MI2, public luabind::wrap_base {};
 
 void test_main(lua_State* L)
@@ -127,7 +121,6 @@ void test_main(lua_State* L)
 
 		def("out_val", &out_val, pure_out_value(_1)),
 		def("copy_val", &copy_val, copy(result)),
-		def("copy_val_const", &copy_val_const, copy(result)),
 		def("secret", &secret, discard_result),
 
 		class_<MI1>("mi1")
@@ -144,14 +137,11 @@ void test_main(lua_State* L)
 	TEST_CHECK(policies_test_class::count == 1);
 
 	DOSTRING(L, "a = copy_val()\n");
-	TEST_CHECK(policies_test_class::count == 2);
 
-	DOSTRING(L, "b = copy_val_const()\n");
-	TEST_CHECK(policies_test_class::count == 3);
+	TEST_CHECK(policies_test_class::count == 2);
 
 	DOSTRING(L,
 		"a = nil\n"
-		"b = nil\n"
 		"collectgarbage()\n");
 
 	// only the global variable left here

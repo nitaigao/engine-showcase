@@ -22,16 +22,6 @@ SOURCES =
     test_separation.cpp
     test_simple_class.cpp
     test_yield.cpp
-    test_private_destructors.cpp
-    test_exception_handlers.cpp
-    test_shadow.cpp
-    test_tag_function.cpp
-    test_adopt.cpp
-    test_properties.cpp
-    test_user_defined_converter.cpp
-    test_adopt_wrapper.cpp
-    test_builtin_converters.cpp
-    test_class_info.cpp
  ;
 
 obj main : main.cpp : <library>..//luabind : : <library>..//luabind ;

@@ -52,15 +52,10 @@ namespace luabind { namespace detail
 
 namespace luabind
 {
-  detail::policy_cons<detail::yield_policy, detail::null_type> const yield = {};
-
-  namespace detail
-  {
-    inline void ignore_unused_yield()
-    {
-        (void)yield;
-    }
-  }
+	namespace 
+	{
+		LUABIND_ANONYMOUS_FIX detail::policy_cons<detail::yield_policy, detail::null_type> yield;
+	}
 }
 
 #endif // LUABIND_YIELD_POLICY_HPP_INCLUDED
