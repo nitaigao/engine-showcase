@@ -73,6 +73,27 @@ int function_should_never_be_called(lua_State* L)
     return 1;
 }
 
+namespace luabind { namespace converters
+{
+    yes_t is_user_defined(by_value<int>);
+
+    int convert_lua_to_cpp(lua_State* L, by_value<int>, int index)
+    {
+        return static_cast<int>(lua_tonumber(L, index));
+    }
+
+    int match_lua_to_cpp(lua_State* L, by_value<int>, int index)
+    {
+        if (lua_isnumber(L, index)) return 0; else return -1;
+    }
+
+    void convert_cpp_to_lua(lua_State* L, const  int& v)
+    {
+        lua_pushnumber(L, v);
+    }
+
+}}
+
 void test_main(lua_State* L)
 {
     using namespace luabind;
@@ -131,9 +152,10 @@ void test_main(lua_State* L)
 #endif
 
     DOSTRING_EXPECTED(L, "f('incorrect', 'parameters')",
-        "No matching overload found, candidates:\n"
-        "int f(int,int)\n"
-        "int f(int)");
+        "no match for function call 'f' with the parameters (string, string)\n"
+        "candidates are:\n"
+        "f(number)\n"
+        "f(number, number)\n");
 
 
     DOSTRING(L, "function failing_fun() error('expected error message') end");

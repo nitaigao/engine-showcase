@@ -89,16 +89,16 @@ void test_main(lua_State* L)
     DOSTRING_EXPECTED(L,
         "x = abstract()\n"
         "x:hello()\n"
-      , "std::runtime_error: 'Attempt to call nonexistent function'");
+      , "pure virtual function called");
 
     DOSTRING_EXPECTED(L, 
         "call_hello(x)\n"
-      , "std::runtime_error: 'Attempt to call nonexistent function'");
+      , "pure virtual function called");
     
     DOSTRING(L,
         "class 'concrete' (abstract)\n"
         "  function concrete:__init()\n"
-        "      abstract.__init(self)\n"
+        "      super()\n"
         "  end\n"
 
         "  function concrete:hello()\n"

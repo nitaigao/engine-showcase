@@ -61,21 +61,20 @@ void test_main(lua_State* L)
             .def("h", &exception_thrower::h)
     ];
 
-    DOSTRING_EXPECTED(L, "a = throw(1)", "std::exception: 'exception description'");
-    DOSTRING_EXPECTED(L, "a = throw(1,1)", "c-string: 'a string exception'");
-    DOSTRING_EXPECTED(L, "a = throw(1,1,1)", "Unknown C++ exception");
+    DOSTRING_EXPECTED(L, "a = throw(1)", "exception description");
+    DOSTRING_EXPECTED(L, "a = throw(1,1)", "a string exception");
+    DOSTRING_EXPECTED(L, "a = throw(1,1,1)", "throw() threw an exception");
     DOSTRING(L, "a = throw()");
-    DOSTRING_EXPECTED(L, "a:f()", "std::exception: 'exception from a member function'");
-    DOSTRING_EXPECTED(L, "a:g()", "c-string: 'a string exception'");
+    DOSTRING_EXPECTED(L, "a:f()", "exception from a member function");
+    DOSTRING_EXPECTED(L, "a:g()", "a string exception");
 
-    DOSTRING_EXPECTED(L, "a:h()", "Unknown C++ exception");
+    DOSTRING_EXPECTED(L, "a:h()", "throw:h() threw an exception");
     DOSTRING_EXPECTED(L, 
         "obj = throw('incorrect', 'parameters', 'constructor')",
-        "No matching overload found, candidates:\n"
-        "void __init(luabind::argument const&,int,int,int)\n"
-        "void __init(luabind::argument const&,int,int)\n"
-        "void __init(luabind::argument const&,int)\n"
-        "void __init(luabind::argument const&)");
+        "no constructor of 'throw' matched the arguments "
+        "(string, string, string)\n candidates are:\n"
+        "throw()\nthrow(number)\nthrow(number, number)\n"
+        "throw(number, number, number)\n");
 
 #endif
 }

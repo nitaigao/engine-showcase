@@ -125,7 +125,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="OgreMain.lib  physfs.lib MyGui_d.lib"
+				AdditionalDependencies="OgreMain.lib  physfs.lib MyGui.lib"
 				AdditionalLibraryDirectories="../../etc/vendor/physfs;../../etc/vendor/lua;../../etc/vendor/mygui/lib;../../etc/vendor/luabind/lib;../../etc/vendor/ois/lib;../../etc/vendor/ogre/lib;../../etc/vendor/boost/lib;../../etc/vendor/yaml/lib"
 			/>
 			<Tool

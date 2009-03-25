@@ -2,11 +2,7 @@ import docutils ;
 import os ;
 import errors ;
 import notfile ;
-import package ;
-import path ;
-import virtual-target ;
 
-VERSION = 0.8.1 ;
 BOOST_ROOT = [ os.environ BOOST_ROOT ] ;
 
 rule debug-message ( txt * )
@@ -82,19 +78,13 @@ else if [ os.name ] in LINUX MACOSX FREEBSD
     }
 
     local lib = $(prefix)/lib ;
-
-    local names = liblua5.1 liblua51 liblua ;
-    local extensions = .a .so ;
-
     library = [ GLOB $(lib)/lua51 $(lib)/lua5.1 $(lib)/lua $(lib) :
-        $(names)$(extensions) ] ;
+        liblua5.1.* liblua51.* liblua.* ] ;
     lib-name = [ MATCH "lib(.*)" : $(library[1]:B) ] ;
 
     debug-message prefix: $(prefix) ;
     debug-message includes: $(includes) ;
     debug-message lib: $(library:D) ;
-    debug-message candidates: $(library) ;
-    debug-message linking to: $(lib-name) ;
 
     if ! $(lib-name)
     {
@@ -113,26 +103,6 @@ else if [ os.name ] in LINUX MACOSX FREEBSD
     lib lua : m dl : <name>$(lib-name) <search>$(library:D) : : <include>$(includes) ;
 }
 
-rule tag-names ( name : type ? : property-set )
-{
-    if $(type) in STATIC_LIB SHARED_LIB IMPORT_LIB &&
-        [ $(property-set).get <variant> ] = debug
-    {
-        name = $(name)d ;
-    }
-
-    local result = [ virtual-target.add-prefix-and-suffix $(name) : $(type) : $(property-set) ] ;
-
-    if $(type) = SHARED_LIB &&
-        ( ! ( [ $(property-set).get <target-os> ] in windows cygwin darwin aix ) &&
-          ! ( [ $(property-set).get <toolset> ] in pgi ) )
-    {
-        result = $(result).$(VERSION) ;
-    }
-
-    return $(result) ;
-}
-
 SOURCES =
     class.cpp
     class_info.cpp
@@ -140,7 +110,6 @@ SOURCES =
     class_rep.cpp
     create_class.cpp
     error.cpp
-    exception_handler.cpp
     find_best_match.cpp
     function.cpp
     implicit_cast.cpp
@@ -157,14 +126,15 @@ SOURCES =
 
 usage-requirements =
     <library>lua
-    <toolset>msvc,<link>shared:<cxxflags>/wd4251
-    <link>shared:<define>LUABIND_DYNAMIC_LINK
-    <tag>@tag-names ;
+    <toolset>msvc,<link>shared:<define>LUABIND_IMPORT=__declspec(dllimport)
+    <toolset>msvc,<link>shared:<define>LUABIND_EXPORT=__declspec(dllexport)
+    <toolset>msvc,<link>shared:<cxxflags>/wd4251 ;
 
 lib luabind
     : src/$(SOURCES)
     # requirements
-    : <include>. <include>$(BOOST_ROOT)
+    : <define>LUABIND_BUILDING
+      <include>. <include>$(BOOST_ROOT)
       $(usage-requirements)
     # default-build
     :
@@ -226,26 +196,3 @@ html docs.html
 stage docs : docs.html : <location>doc ;
 explicit docs docs.html make-version-file ;
 
-headers = [ path.glob-tree luabind : *.hpp ] ;
-
-package.install install
-  : <install-header-subdir>luabind
-    <install-source-root>luabind
-    <install-no-version-symlinks>on
-  :
-  : luabind
-  : $(headers)
-  ;
-
-local stage-locate = [ MATCH "^--stagedir=(.*)" : [ modules.peek : ARGV ] ] ;
-stage-locate ?= stage ;
-
-install stage
-  : luabind
-  : <location>$(stage-locate)
-    <install-no-version-symlinks>on
-    <install-dependencies>on
-    <install-type>LIB
-  ;
-
-explicit stage ;

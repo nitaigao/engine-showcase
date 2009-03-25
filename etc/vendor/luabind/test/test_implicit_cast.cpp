@@ -127,14 +127,16 @@ void test_main(lua_State* L)
 	DOSTRING_EXPECTED(L,
 		"a = A()\n"
 		"no_convert(a)",
-		("No matching overload found, candidates:\n"
-		"void no_convert(custom ["
-		+ std::string(typeid(boost::shared_ptr<A>).name()) + "])").c_str());
+		("no match for function call 'no_convert' with the parameters (A)\n"
+		"candidates are:\n"
+		"no_convert(custom ["
+		+ std::string(typeid(boost::shared_ptr<A>).name()) + "])\n").c_str());
 
 	DOSTRING_EXPECTED(L,
 		"a = nil\n"
 		"f(a)",
-		"No matching overload found, candidates:\n"
-		"int f(int&)");
+		"no match for function call 'f' with the parameters (nil)\n"
+		"candidates are:\n"
+		"f(number&)\n");
 }
 

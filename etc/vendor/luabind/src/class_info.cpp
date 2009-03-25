@@ -20,8 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
-#define LUABIND_BUILDING
-
 #include <luabind/lua_include.hpp>
 
 #include <luabind/luabind.hpp>
@@ -29,51 +27,40 @@
 
 namespace luabind
 {
-	LUABIND_API class_info get_class_info(argument const& o)
+	class_info get_class_info(const object& o)
 	{
 		lua_State* L = o.interpreter();
 	
+		class_info result;
+	
 		o.push(L);
-        detail::object_rep* obj = detail::is_class_object(L, -1);
+		detail::object_rep* obj = static_cast<detail::object_rep*>(lua_touserdata(L, -1));
 		lua_pop(L, 1);
 
-        obj->crep()->get_table(L);
-        object table(from_stack(L, -1));
-        lua_pop(L, 1);
+		result.name = obj->crep()->name();
+		obj->crep()->get_table(L);
 
-        class_info result;
-        result.name = obj->crep()->name();
-        result.methods = newtable(L);
-        result.attributes = newtable(L);
+		object methods(from_stack(L, -1));
+		
+		methods.swap(result.methods);
+		lua_pop(L, 1);
+		
+		result.attributes = newtable(L);
 
-        std::size_t index = 1;
+		typedef detail::class_rep::property_map map_type;
+		
+		std::size_t index = 1;
+		
+		for (map_type::const_iterator i = obj->crep()->properties().begin();
+				i != obj->crep()->properties().end(); ++i, ++index)
+		{
+			result.attributes[index] = i->first;
+		}
 
-        for (iterator i(table), e; i != e; ++i)
-        {
-            if (type(*i) != LUA_TFUNCTION)
-                continue;
-
-            // We have to create a temporary `object` here, otherwise the proxy
-            // returned by operator->() will mess up the stack. This is a known
-            // problem that probably doesn't show up in real code very often.
-            object member(*i);
-            member.push(L);
-            detail::stack_pop pop(L, 1);
-
-            if (lua_tocfunction(L, -1) == &detail::property_tag)
-            {
-                result.attributes[index++] = i.key();
-            }
-            else
-            {
-                result.methods[i.key()] = *i;
-            }
-        }
-
-        return result;
+		return result;
 	}
 
-	LUABIND_API void bind_class_info(lua_State* L)
+	void bind_class_info(lua_State* L)
 	{
 		module(L)
 		[

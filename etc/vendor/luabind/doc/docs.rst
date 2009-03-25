@@ -960,102 +960,6 @@ units.
 To separate the module registration and the classes to be registered, see
 `Splitting up the registration`_.
 
-
-Adding converters for user defined types
-========================================
-
-It is possible to get luabind to handle user defined types like it does
-the built in types by specializing ``luabind::default_converter<>``:
-
-::
-
-  struct int_wrapper
-  {
-      int_wrapper(int value)
-        : value(value)
-      {}
-
-      int value;
-  };
-
-  namespace luabind
-  {
-      template <>
-      struct default_converter<X>
-        : native_converter_base<X>
-      {
-          static int compute_score(lua_State* L, int index)
-          {
-              return lua_type(L, index) == LUA_TNUMBER ? 0 : -1;
-          }
-
-          X from(lua_State* L, int index)
-          {
-              return X(lua_tonumber(L, index));
-          }
-
-          void to(lua_State* L, X const& x)
-          {
-              lua_pushnumber(L, x.value);
-          }
-      };
-
-      template <>
-      struct default_converter<X const&>
-        : default_converter<X>
-      {};
-  }
-
-Note that ``default_converter<>`` is instantiated for the actual argument and
-return types of the bound functions. In the above example, we add a
-specialization for ``X const&`` that simply forwards to the ``X`` converter.
-This lets us export functions which accept ``X`` by const reference.
-
-``native_converter_base<>`` should be used as the base class for the
-specialized converters. It simplifies the converter interface, and
-provides a mean for backward compatibility since the underlying
-interface is in flux.
-
-
-Binding function objects with explicit signatures
-=================================================
-
-Using ``luabind::tag_function<>`` it is possible to export function objects
-from which luabind can't automatically deduce a signature. This can be used to
-slightly alter the signature of a bound function, or even to bind stateful
-function objects.
-
-Synopsis:
-
-.. parsed-literal::
-
-  template <class Signature, class F>
-  *implementation-defined* tag_function(F f);
-
-Where ``Signature`` is a function type describing the signature of ``F``.
-It can be used like this::
-
-  int f(int x);
-
-  // alter the signature so that the return value is ignored
-  def("f", tag_function<void(int)>(f));
-
-  struct plus
-  {
-      plus(int x)
-        : x(x)
-      {}
-
-      int operator()(int y) const
-      {
-          return x + y;
-      }
-  };
-
-  // bind a stateful function object
-  def("plus3", tag_function<int(int)>(plus(3)));
-
-
 Object
 ======
 
@@ -1338,27 +1242,6 @@ These functions return the global environment table and the registry table respe
 
 This function creates a new table and returns it as an object.
 
-::
-
-  object getmetatable(object const& obj);
-  void setmetatable(object const& obj, object const& metatable);
-
-These functions get and set the metatable of a Lua object.
-
-::
-
-  lua_CFunction tocfunction(object const& value);
-  template <class T> T* touserdata(object const& value)
-
-These extract values from the object at a lower level than ``object_cast()``.
-
-::
-
-  object getupvalue(object const& function, int index);
-  void setupvalue(object const& function, int index, object const& value);
-
-These get and set the upvalues of ``function``.
-
 Assigning nil
 -------------
 
@@ -1401,8 +1284,7 @@ Inheritance can be used between lua-classes::
 
     class 'derived' (lua_testclass)
 
-    function derived:__init()
-        lua_testclass.__init(self, 'derived name')
+    function derived:__init() super('derived name')
     end
 
     function derived:print()
@@ -1410,8 +1292,8 @@ Inheritance can be used between lua-classes::
         lua_testclass.print(self)
     end
 
-The base class is initialized explicitly by calling its ``__init()``
-function.
+Here the ``super`` keyword is used in the constructor to initialize the base
+class. The user is required to call ``super`` first in the constructor.
 
 As you can see in this example, you can call the base class member functions.
 You can find all member functions in the base class, but you will have to give
@@ -1568,7 +1450,6 @@ metamethods in Lua). The operators you can overload are:
  - ``__call`` 
  - ``__unm`` 
  - ``__tostring``
- - ``__len``
 
 ``__tostring`` isn't really an operator, but it's the metamethod that is called
 by the standard library's ``tostring()`` function. There's one strange behavior
@@ -1705,27 +1586,9 @@ will be the string returned by ``std::exception::what()`` or the string itself
 respectively. If the exception is unknown, a generic string saying that the
 function threw an exception will be pushed.
 
-If you have an exception type that isn't derived from
-``std::exception``, or you wish to change the error message from the
-default result of ``what()``, it is possible to register custom
-exception handlers::
-
-  struct my_exception
-  {};
-
-  void translate_my_exception(lua_State* L, my_exception const&)
-  {
-      lua_pushstring(L, "my_exception");
-  }
-
-  …
-
-  luabind::register_exception_handler<my_exception>(&translate_my_exception);
-
-``translate_my_exception()`` will be called by luabind whenever a
-``my_exception`` is caught. ``lua_error()`` will be called after the
-handler function returns, so it is expected that the function will push
-an error string on the stack.
+Exceptions thrown from user defined functions have to be caught by luabind. If
+they weren't they would be thrown through Lua itself, which is usually compiled
+as C code and doesn't support the stack-unwinding that exceptions imply.
 
 Any function that invokes Lua code may throw ``luabind::error``. This exception
 means that a Lua run-time error occurred. The error message is found on top of
@@ -2552,15 +2415,6 @@ constructor to call its base class' constructor. So, if you have a global
 variable named super it may be overwritten. This is probably not the best
 solution, and this restriction may be removed in the future.
 
-.. note:: Deprecated
-
-  ``super()`` has been deprecated since version 0.8 in favor of directly
-  invoking the base class' ``__init()`` function::
-
-    function Derived:__init()
-        Base.__init(self)
-    end
-
 Luabind uses two upvalues for functions that it registers. The first is a
 userdata containing a list of overloads for the function, the other is a light
 userdata with the value 0x1337, this last value is used to identify functions
@@ -2687,7 +2541,7 @@ Known issues
 Acknowledgments
 ===============
 
-Written by Daniel Wallin and Arvid Norberg. © Copyright 2003.
+Written by Daniel Wallin and Arvid Norberg. � Copyright 2003.
 All rights reserved.
 
 Evan Wies has contributed with thorough testing, countless bug reports

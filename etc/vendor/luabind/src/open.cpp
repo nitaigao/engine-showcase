@@ -20,36 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
-#define LUABIND_BUILDING
-
 #include <luabind/lua_include.hpp>
 
 #include <luabind/luabind.hpp>
 #include <luabind/function.hpp>
 
 namespace luabind {
-
-namespace
-{
-
-  int make_property(lua_State* L)
-  {
-      int args = lua_gettop(L);
-
-      if (args == 0 || args > 2)
-      {
-          lua_pushstring(L, "make_property() called with wrong number of arguments.");
-          lua_error(L);
-      }
-
-      if (args == 1)
-          lua_pushnil(L);
-
-      lua_pushcclosure(L, &detail::property_tag, 2);
-      return 1;
-  }
-
-} // namespace unnamed
 
     void open(lua_State* L)
     {
@@ -85,10 +61,6 @@ namespace
         // add functions (class, cast etc...)
         lua_pushstring(L, "class");
         lua_pushcclosure(L, detail::create_class::stage1, 0);
-        lua_settable(L, LUA_GLOBALSINDEX);
-
-        lua_pushstring(L, "property");
-        lua_pushcclosure(L, &make_property, 0);
         lua_settable(L, LUA_GLOBALSINDEX);
     }
 
