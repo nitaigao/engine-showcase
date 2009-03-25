@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
+				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
 				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,7 +61,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="OgreMain_d.lib  physfsd.lib MyGui_d.lib"
-				AdditionalLibraryDirectories="../../etc/vendor/physfs;../../etc/vendor/lua;../../etc/vendor/mygui/lib;../../etc/vendor/luabind/lib;../../etc/vendor/ois/lib;../../etc/vendor/ogre/lib;../../etc/vendor/boost/lib;../../etc/vendor/yaml/lib"
+				AdditionalLibraryDirectories="../../etc/vendor/physfs;../../etc/vendor/lua;../../etc/vendor/mygui/myguiengine/lib/debug;../../etc/vendor/luabind/lib;../../etc/vendor/ois/lib;../../etc/vendor/ogre/lib;../../etc/vendor/boost/lib;../../etc/vendor/yaml/lib"
 				IgnoreDefaultLibraryNames=""
 			/>
 			<Tool
@@ -107,7 +107,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
+				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
 				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -126,7 +126,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="OgreMain.lib  physfs.lib MyGui.lib"
-				AdditionalLibraryDirectories="../../etc/vendor/physfs;../../etc/vendor/lua;../../etc/vendor/mygui/lib;../../etc/vendor/luabind/lib;../../etc/vendor/ois/lib;../../etc/vendor/ogre/lib;../../etc/vendor/boost/lib;../../etc/vendor/yaml/lib"
+				AdditionalLibraryDirectories="../../etc/vendor/physfs;../../etc/vendor/lua;../../etc/vendor/mygui/myguiengine/lib/release;../../etc/vendor/luabind/lib;../../etc/vendor/ois/lib;../../etc/vendor/ogre/lib;../../etc/vendor/boost/lib;../../etc/vendor/yaml/lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
