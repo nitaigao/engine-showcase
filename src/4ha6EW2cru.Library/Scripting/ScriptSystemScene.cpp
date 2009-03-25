@@ -65,7 +65,8 @@ void ScriptSystemScene::Initialize( )
 			.property( "isFullScreen", &ScriptConfiguration::IsFullScreen, &ScriptConfiguration::SetFullScreen )
 			.property( "displayWidth", &ScriptConfiguration::GetDisplayWidth, &ScriptConfiguration::SetDisplayWidth )
 			.property( "displayHeight", &ScriptConfiguration::GetDisplayHeight, &ScriptConfiguration::SetDisplayHeight )
-			.property( "availableVideoModes", &ScriptConfiguration::GetAvailableVideoModes, &ScriptConfiguration::SetAvailableVideoModes, return_stl_iterator ),
+			.property( "availableVideoModes", &ScriptConfiguration::GetAvailableVideoModes, &ScriptConfiguration::SetAvailableVideoModes, return_stl_iterator )
+			.property( "isConsole", &ScriptConfiguration::IsConsole, &ScriptConfiguration::SetConsole ),
 
 		class_< std::vector< std::string > >( "StringList" ),
 

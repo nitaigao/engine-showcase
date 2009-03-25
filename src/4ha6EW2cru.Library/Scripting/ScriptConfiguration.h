@@ -33,6 +33,9 @@ public:
 
 	inline int GetColorDepth( ) const { return _configuration->Find< int >( "Graphics", "depth" ); };
 
+	inline bool IsConsole( ) const { return _configuration->Find< bool >( "Developer", "console" ); };
+	inline void SetConsole( bool isConsole ) { _configuration->Set( "Developer", "console", isConsole ); };
+
 	inline const std::vector< std::string >& GetAvailableVideoModes( ) const
 	{ 
 		return *Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType )->GetProperties( )[ "availableVideoModes" ].GetValue< std::vector< std::string >* >( );

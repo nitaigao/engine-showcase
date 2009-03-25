@@ -153,7 +153,7 @@ void OgreRenderSystem::Initialize( )
 	camera->setNearClipDistance( 1.0f );
 
 	Viewport* viewPort = _window->addViewport( camera );
-	viewPort->setBackgroundColour( ColourValue( 1, 1, 1 ) );
+	viewPort->setBackgroundColour( ColourValue( 0, 0, 0 ) );
 
 	camera->setAspectRatio(
 		Real( viewPort->getActualWidth( )) / Real( viewPort->getActualHeight( ) )

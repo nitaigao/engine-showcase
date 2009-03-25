@@ -8,7 +8,7 @@
 -D_MBCS                         // CharacterSet = "2"
 -D_MT;_DEBUG;_DLL               // RuntimeLibrary = "3"
 
-                                // AdditionalIncludeDirectories = "../../etc/vendor/mygui/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include"
+                                // AdditionalIncludeDirectories = "../../etc/vendor/mygui/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
 -i"..\..\etc\vendor\mygui\include"
 -i"..\..\etc\vendor\lua\include"
 -i"..\4ha6EW2cru.Library"       // 
@@ -18,5 +18,6 @@
 -i"..\..\etc\vendor\ois\includes"
 -i"..\..\etc\vendor\ogre\include"
 -i"..\..\etc\vendor\yaml\include"
+-i"..\..\etc\vendor\havok\Source"
 
 main.cpp                        // RelativePath = "main.cpp"

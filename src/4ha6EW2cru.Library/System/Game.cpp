@@ -36,6 +36,7 @@ void Game::Initialize( )
 	Logger::GetInstance( )->Info( "Initializing Game" );
 
 	_configuration = Configuration::Load( "config/game.cfg" );
+	_configuration->SetDefault( "Developer", "console", false );
 
 	Management::Initialize( );
 

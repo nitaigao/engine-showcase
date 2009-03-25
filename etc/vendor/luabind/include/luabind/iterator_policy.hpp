@@ -36,7 +36,10 @@ struct iterator
     {
         iterator* self = static_cast<iterator*>(
             lua_touserdata(L, lua_upvalueindex(1)));
-        self->~iterator();
+		if( self != 0 )
+		{
+			self->~iterator();
+		}
         return 0;
     }
 
