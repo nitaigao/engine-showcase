@@ -152,12 +152,17 @@ class Entity
 
     def initialize( ogreNode )
     
-        @components = Array.new
-        
-        @components.push( GraphicsComponent.new( ogreNode ) );        
+		@name = ogreNode.attributes[ 'name' ];
+		
+		@components = Array.new
+		
+		if @name != 'player_spawn' then
+		
+			@components.push( GraphicsComponent.new( ogreNode ) );        
+		
+		end
+	
         @components.push( GeometryComponent.new( ogreNode ) );
-        
-        @name = ogreNode.attributes[ 'name' ];
         
     end
     
