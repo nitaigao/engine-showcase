@@ -3,13 +3,15 @@
 
 #include <vector>
 
+#include "../IO/IFileManager.hpp"
+#include "../System/Configuration.h"
 #include "ScriptConfiguration.h"
 #include "../System/ISystem.hpp"
 #include "../System/ISystemComponent.hpp"
-#include "../System/Configuration.h"
-#include "../IO/IFileManager.hpp"
+
 #include "../Events/IEvent.hpp"
 #include "../Events/EventType.hpp"
+#include "../Events/EventData.hpp"
 
 extern "C" 
 {
@@ -45,8 +47,19 @@ public:
 
 private:
 
-	static void FromLua_Print( const std::string message );
-	static int FromLua_ScriptError( lua_State* luaState );
+	/*! -- Script Helpers -- */
+
+	/*! Prints the specified message to the console */
+	static void Print( const std::string message );
+
+	/*! Gets called when an error occurs inside a running script */
+	static int ScriptError( lua_State* luaState );
+
+	/*! Quits the game */
+	static void Quit( );
+
+	/*! Loads the specified level */
+	static void LoadLevel( const std::string& levelName );
 
 	void OnEvent( const IEvent* event );
 

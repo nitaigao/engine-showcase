@@ -108,6 +108,11 @@ bool InputSystemScene::keyReleased( const KeyEvent &arg )
 	Event* event = new Event( INPUT_KEY_UP, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
 	Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 
+	if ( arg.key == OIS::KC_GRAVE )
+	{
+		Management::GetInstance( )->GetEventManager( )->TriggerEvent( new Event( UI_CONSOLE ) );
+	}
+
 	return true;
 };
 

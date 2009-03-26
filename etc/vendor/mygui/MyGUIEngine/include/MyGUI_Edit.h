@@ -300,10 +300,10 @@ namespace MyGUI
 
 #endif // MYGUI_DONT_USE_OBSOLETE
 
+		virtual ~Edit();
 
 	protected:
 		Edit(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
-		virtual ~Edit();
 
 		virtual void onMouseDrag(int _left, int _top);
 		virtual void onKeyLostFocus(WidgetPtr _new);

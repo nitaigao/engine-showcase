@@ -8,14 +8,14 @@
 -D_MBCS                         // CharacterSet = "2"
 -D_MT;_DEBUG;_DLL               // RuntimeLibrary = "3"
 
-                                // AdditionalIncludeDirectories = "../4ha6EW2cru.Library;../../etc/vendor/cppunit/include;../../etc/vendor/ois/includes;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/mygui/include;../../etc/vendor/mockpp;../../etc/vendor/ogre/include;../../etc/vendor/lua/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
+                                // AdditionalIncludeDirectories = "../4ha6EW2cru.Library;../../etc/vendor/cppunit/include;../../etc/vendor/ois/includes;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/mockpp;../../etc/vendor/ogre/include;../../etc/vendor/lua/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
 -i"..\4ha6EW2cru.Library"       // 
 -i"..\..\etc\vendor\cppunit\include"
 -i"..\..\etc\vendor\ois\includes"
 -i"..\..\etc\vendor\physfs"     // 
 -i"..\..\etc\vendor\luabind\include"
 -i"..\..\etc\vendor\boost\include"
--i"..\..\etc\vendor\mygui\include"
+-i"..\..\etc\vendor\mygui\myguiengine\include"
 -i"..\..\etc\vendor\mockpp"     // 
 -i"..\..\etc\vendor\ogre\include"
 -i"..\..\etc\vendor\lua\include"

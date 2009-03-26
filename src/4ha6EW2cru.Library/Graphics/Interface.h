@@ -38,7 +38,7 @@ public:
 
 private:
 
-	/* -- Script Helpers -- */
+	/* -- UI Script Helpers -- */
 
 	/*! Loads a UI Component for Rendering */
 	static void LoadComponent( const std::string componentName );
@@ -49,12 +49,6 @@ private:
 	/*! Attaches an LUA function to a Widget Event */
 	static void ScriptWidget( Widget* widget, const std::string eventName, object function );
 
-	/*! Returns the Screen Width in pixels */
-	static inline int GetScreenWidth( ) { return Ogre::Root::getSingletonPtr( )->getRenderTarget( "Interactive View" )->getWidth( ); };
-
-	/*! Returns the Screen Height in pixels */
-	static inline int GetScreenHeight( ) { return Ogre::Root::getSingletonPtr( )->getRenderTarget( "Interactive View" )->getHeight( ); };
-
 	/*! Shows the mouse */
 	static inline void ShowMouse( ) { Gui::getInstancePtr( )->showPointer( ); };
 
@@ -64,21 +58,37 @@ private:
 	/*! Forwards Mouse Button Released Events to the subscribing Widgets in Script */
 	static void OnMouseReleased( WidgetPtr widget, int left, int top, MouseButton id );
 
+	/*! Forwards Key Up Events to the subscribing Widgets in Script */
+	static void OnKeyUp( WidgetPtr widget, KeyCode key );
+
 	/*! Casts a widget to a Button */
 	static inline ButtonPtr AsButton( WidgetPtr widget ) { return static_cast< ButtonPtr >( widget ); };
 
 	/*! Casts a widget to a ComboBox */
 	static inline ComboBoxPtr AsComboBox( WidgetPtr widget ) { return static_cast< ComboBoxPtr >( widget ); };
 
+	/*! Casts a widget to an EditBox */
+	static inline EditPtr AsEditBox( WidgetPtr widget ) { return static_cast< EditPtr >( widget ); };
+
+	/*! Converts the given type to a std::string */
+	static inline std::string AsString( Ogre::UTFString input ) { return std::string( input ); };
+
+	/* -- Game Script Helpers -- */
+
+	/*! Registers a script method to receive in-game events */
 	static void RegisterEvent( EventType eventType, object function );
 
+	/*! UnRegisters a script method to receive in-game events */
 	static void UnRegisterEvent( EventType eventType, object function );
 
+	/*! Fires an in-game event */
 	static void BroadcastEvent( EventType eventType );
 
-	static void Quit( void );
+	/*! Returns the Screen Width in pixels */
+	static inline int GetScreenWidth( ) { return Ogre::Root::getSingletonPtr( )->getRenderTarget( "Interactive View" )->getWidth( ); };
 
-	static void LoadLevel( const std::string& levelName );
+	/*! Returns the Screen Height in pixels */
+	static inline int GetScreenHeight( ) { return Ogre::Root::getSingletonPtr( )->getRenderTarget( "Interactive View" )->getHeight( ); };
 
 	/* -- Internal Event Handlers --*/
 
@@ -106,6 +116,5 @@ private:
 	Interface & operator = ( const Interface & copy ) { return *this; };
 
 };
-
 
 #endif

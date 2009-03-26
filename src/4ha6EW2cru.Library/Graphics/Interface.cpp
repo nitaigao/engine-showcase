@@ -65,9 +65,6 @@ void Interface::Initialize( )
 		def( "showMouse", &Interface::ShowMouse ),
 		def( "hideMouse", &Interface::HideMouse ),
 
-		def( "quit", &Interface::Quit ),
-		def( "loadLevel", &Interface::LoadLevel ),
-
 		def( "registerEvent", &Interface::RegisterEvent ),
 		def( "unregisterEvent", &Interface::UnRegisterEvent ),
 		def( "broadcastEvent", &Interface::BroadcastEvent ),
@@ -77,8 +74,10 @@ void Interface::Initialize( )
 			.def( "setPosition", ( void( MyGUI::Widget::* )( int, int ) ) &MyGUI::Widget::setPosition )
 			.def( "getType", &MyGUI::Widget::getClassTypeName )
 			.def( "setVisible", &MyGUI::Widget::setVisible )
+			.def( "isVisible", &MyGUI::Widget::isVisible )
 			.def( "asButton", &Interface::AsButton )
-			.def( "asComboBox", &Interface::AsComboBox ),
+			.def( "asComboBox", &Interface::AsComboBox )
+			.def( "asEditBox", &Interface::AsEditBox ),
 
 		class_< Button >( "Button" )
 			.def( "setChecked", &Button::setStateCheck )
@@ -90,6 +89,10 @@ void Interface::Initialize( )
 			.def( "getSelectedIndex", &ComboBox::getIndexSelected )
 			.def( "setSelectedIndex", &ComboBox::setIndexSelected ),
 
+		class_< Edit, Widget >( "EditBox" )
+			.def( "getText", &Edit::getCaption )
+			.def( "setText", &Edit::setCaption ),
+
 		class_< IntCoord >( "IntCoord" )
 			.def_readonly( "x" , &MyGUI::IntCoord::left )
 			.def_readonly( "y" , &MyGUI::IntCoord::top )
@@ -97,7 +100,8 @@ void Interface::Initialize( )
 			.def_readonly( "height" , &MyGUI::IntCoord::height ),
 
 		class_< Ogre::UTFString >( "utf" )
-			.def( constructor< std::string >( ) ),
+			.def( constructor< std::string >( ) )
+			.def( "asString", &Interface::AsString ),
 
 		class_< Any >( "Any" )
 			.def( constructor<>( ) )
@@ -173,6 +177,11 @@ void Interface::ScriptWidget( Widget* widget, const std::string eventName, objec
 	{
 		widget->eventMouseButtonReleased = newDelegate( &Interface::OnMouseReleased );
 	}
+
+	if ( eventName == "onKeyUp" )
+	{
+		widget->eventKeyButtonReleased = newDelegate( &Interface::OnKeyUp );
+	}
 }
 
 void Interface::OnMouseReleased( WidgetPtr widget, int left, int top, MouseButton id )
@@ -186,6 +195,24 @@ void Interface::OnMouseReleased( WidgetPtr widget, int left, int top, MouseButto
 		{
 			object eventHandler = *( *i ).second;
 			eventHandler( left, top );
+		}
+	}
+}
+
+void Interface::OnKeyUp( WidgetPtr widget, KeyCode key )
+{
+	void* userData = widget->getUserData( );
+	WidgetUserData* widgetUserData = static_cast< WidgetUserData* >( userData );
+
+	for ( WidgetUserData::iterator i = widgetUserData->begin( ); i != widgetUserData->end( ); ++i )
+	{
+		if ( ( *i ).first == "onKeyUp" )
+		{
+			Char keyCode = InputManager::getInstancePtr( )->getKeyChar( key, 0 );
+			char* keyText = ( char* ) &keyCode;
+
+			object eventHandler = *( *i ).second;
+			eventHandler( keyCode, std::string( keyText ) );
 		}
 	}
 }
@@ -233,15 +260,4 @@ void Interface::UnRegisterEvent( EventType eventType, object function )
 void Interface::BroadcastEvent( EventType eventType )
 {
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( eventType ) );
-}
-
-void Interface::Quit( void )
-{
-	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
-}
-
-void Interface::LoadLevel( const std::string& levelName )
-{
-	IEventData* eventData = new LevelChangedEventData( levelName );
-	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
 }

@@ -127,11 +127,12 @@ namespace MyGUI
 		*/
 		void resetMouseCaptureWidget() { mIsWidgetMouseCapture = false; }
 
+		Char getKeyChar(KeyCode keyEvent, Char _text); // возвращает символ по его скан коду
+
 	private:
 		void frameEntered(float _frame);
 
 		void firstEncoding(KeyCode _key, bool bIsKeyPressed);
-		Char getKeyChar(KeyCode keyEvent, Char _text); // возвращает символ по его скан коду
 
 		// создает латинскую раскладку
 		void createDefaultCharSet();

@@ -59,7 +59,9 @@ void ScriptSystemScene::Initialize( )
 
 	module( _state )
 	[
-		def( "print", &ScriptSystemScene::FromLua_Print ),
+		def( "print", &ScriptSystemScene::Print ),
+		def( "quit", &ScriptSystemScene::Quit ),
+		def( "loadLevel", &ScriptSystemScene::LoadLevel ),
 
 		class_< ScriptConfiguration >( "Config" )
 			.property( "isFullScreen", &ScriptConfiguration::IsFullScreen, &ScriptConfiguration::SetFullScreen )
@@ -83,13 +85,14 @@ void ScriptSystemScene::Initialize( )
 				value( "UI_PAUSE_MENU", UI_PAUSE_MENU ),
 				value( "UI_CLEAR", UI_CLEAR ),
 				value( "UI_OPTIONS", UI_OPTIONS ),
+				value( "UI_CONSOLE", UI_CONSOLE ),
 
 				value( "GAME_INITIALIZED", GAME_INITIALIZED )
 			]
 	];
 
 	luabind::globals( _state )[ "Configuration" ] = _scriptConfiguration;
-	luabind::set_pcall_callback( &ScriptSystemScene::FromLua_ScriptError );
+	luabind::set_pcall_callback( &ScriptSystemScene::ScriptError );
 
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( ALL_EVENTS, this, &ScriptSystemScene::OnEvent );
 }
@@ -130,7 +133,7 @@ void ScriptSystemScene::OnEvent( const IEvent* event )
 	}
 }
 
-int ScriptSystemScene::FromLua_ScriptError( lua_State* luaState )
+int ScriptSystemScene::ScriptError( lua_State* luaState )
 {
 	lua_Debug d;
 
@@ -160,8 +163,18 @@ int ScriptSystemScene::FromLua_ScriptError( lua_State* luaState )
 	return 1;	
 }
 
-void ScriptSystemScene::FromLua_Print( const std::string message )
+void ScriptSystemScene::Print( const std::string message )
 {
 	Logger::GetInstance( )->Info( message );
 }
 
+void ScriptSystemScene::Quit( )
+{
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
+}
+
+void ScriptSystemScene::LoadLevel( const std::string& levelName )
+{
+	IEventData* eventData = new LevelChangedEventData( levelName );
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
+}
