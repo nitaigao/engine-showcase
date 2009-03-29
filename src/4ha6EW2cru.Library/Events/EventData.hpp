@@ -155,4 +155,31 @@ private:
 
 };
 
+class MessageLoggedEventData : public IEventData
+{
+
+public:
+
+	virtual ~MessageLoggedEventData( ) { };
+
+	MessageLoggedEventData( const std::string message )
+		: _message( message )
+	{
+
+	}
+
+	/*! Returns the message that has been logged */
+	inline std::string GetMessage( ) { return _message; };
+
+private:
+
+	std::string _message;
+
+	MessageLoggedEventData( ) { };
+	MessageLoggedEventData( const MessageLoggedEventData & copy ) { };
+	MessageLoggedEventData & operator = ( const MessageLoggedEventData & copy ) { return *this; };
+
+
+};
+
 #endif

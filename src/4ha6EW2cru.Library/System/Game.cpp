@@ -2,6 +2,8 @@
 
 #include "../Events/Event.h"
 #include "../Events/EventData.hpp"
+#include "../Scripting/ScriptEvent.hpp"
+
 #include "../Logging/Logger.h"
 #include "../Logging/ConsoleAppender.h"
 
@@ -28,19 +30,17 @@ void Game::Initialize( )
 		throw e;
 	}
 
-	// -- Intitialize All Singletons
+	// -- Initialize All Singletons
 
 	Logger::Initialize( );
-	ConsoleAppender* consoleAppender = new ConsoleAppender( );
-	Logger::GetInstance( )->AddAppender( consoleAppender );
-	Logger::GetInstance( )->Info( "Initializing Game" );
+	Logger::GetInstance( )->AddAppender( new ConsoleAppender( ) );
+
+	Management::Initialize( );
 
 	_configuration = Configuration::Load( "config/game.cfg" );
 	_configuration->SetDefault( "Developer", "console", false );
 
-	Management::Initialize( );
-
-	// -- Intialize All Systems
+	// -- Initialize All Systems
 
 	ISystemManager* systemManager = Management::GetInstance( )->GetSystemManager( );
 	systemManager->AddSystem( new GeometrySystem( ) );
@@ -65,7 +65,8 @@ void Game::Initialize( )
 
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( GAME_QUIT, this, &Game::OnGameQuit );
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
-	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_INITIALIZED ) );
+	//Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_INITIALIZED ) );
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_INITIALIZED" ) );
 
 	_isInitialized = true;
 }

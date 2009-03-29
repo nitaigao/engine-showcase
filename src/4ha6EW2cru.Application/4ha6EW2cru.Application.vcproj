@@ -87,7 +87,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
+				CommandLine="copy /Y ..\..\etc\vendor\mygui\shared\debug\mygui_d.dll ..\..\build\debug\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\ogremain_d.dll ..\..\build\debug\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\RenderSystem_Direct3D9_d.dll ..\..\build\debug\bin&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -162,6 +162,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy /Y ..\..\etc\vendor\mygui\shared\release\mygui.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\ogremain.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\RenderSystem_Direct3D9.dll ..\..\build\release\bin&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

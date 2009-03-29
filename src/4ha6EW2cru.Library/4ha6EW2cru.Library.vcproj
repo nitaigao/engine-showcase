@@ -589,6 +589,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Scripting\ScriptEvent.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Exceptions\ScriptException.hpp"
 			>
 		</File>

@@ -73,7 +73,16 @@ private:
 	/*! Converts the given type to a std::string */
 	static inline std::string AsString( Ogre::UTFString input ) { return std::string( input ); };
 
+	/*! Converts the given type to an Ogre::UTFString */
+	static inline Ogre::UTFString AsUtf( std::string input ) { return Ogre::UTFString( input ); };
+
 	/* -- Game Script Helpers -- */
+
+	/*! Executes the specified string as if it were LUA code */
+	static void ExecuteString( const std::string& input );
+
+	/*! Registers a script method to receive all broadcast events */
+	static void RegisterEventHandler( object function );
 
 	/*! Registers a script method to receive in-game events */
 	static void RegisterEvent( EventType eventType, object function );

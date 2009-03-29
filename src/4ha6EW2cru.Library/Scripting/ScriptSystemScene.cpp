@@ -1,12 +1,16 @@
 #include "ScriptSystemScene.h"
 
+
+#include "../Events/IEvent.hpp"
+#include "../Events/Event.h"
+
+#include "ScriptEvent.hpp"
 #include "ScriptComponent.h"
 #include "ScriptConfiguration.h"
 
 #include "../Logging/Logger.h"
 #include "../IO/FileManager.h"
 #include "../System/Management.h"
-#include "../Events/Event.h"
 #include "../Exceptions/ScriptException.hpp"
 #include <luabind/iterator_policy.hpp>
 
@@ -86,6 +90,7 @@ void ScriptSystemScene::Initialize( )
 				value( "UI_CLEAR", UI_CLEAR ),
 				value( "UI_OPTIONS", UI_OPTIONS ),
 				value( "UI_CONSOLE", UI_CONSOLE ),
+				value( "LOG_MESSAGE_APPENDED", LOG_MESSAGE_APPENDED ),
 
 				value( "GAME_INITIALIZED", GAME_INITIALIZED )
 			]
@@ -128,7 +133,16 @@ void ScriptSystemScene::OnEvent( const IEvent* event )
 	{
 		if ( ( *i ).first == event->GetEventType( ) )
 		{
-			call_function< void >( ( *i ).second );
+			EventType eventType = event->GetEventType( );
+			if ( event->GetEventType( ) == ALL_EVENTS )
+			{
+				ScriptEvent* scriptEvent = ( ScriptEvent* ) event;
+				call_function< void >( ( *i ).second, scriptEvent->GetEventName( ), scriptEvent->GetValue1( ), scriptEvent->GetValue2( ) );
+			}
+			else
+			{
+				call_function< void >( ( *i ).second );
+			}
 		}
 	}
 }
@@ -177,4 +191,9 @@ void ScriptSystemScene::LoadLevel( const std::string& levelName )
 {
 	IEventData* eventData = new LevelChangedEventData( levelName );
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
+}
+
+void ScriptSystemScene::ExecuteString( const std::string input )
+{
+	luaL_dostring( _state, input.c_str( ) );
 }

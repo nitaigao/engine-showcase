@@ -3,12 +3,15 @@
 #include <fstream>
 #include <ostream>
 #include <sstream>
-
 #include <vector>
 
 #include "../Exceptions/UnInitializedException.hpp"
 #include "../Exceptions/AlreadyInitializedException.hpp"
 #include "../Exceptions/NullReferenceException.hpp"
+
+#include "../Scripting/ScriptEvent.hpp"
+#include "../Events/EventData.hpp"
+#include "../System/Management.h"
 
 static Logger* g_loggerInstance = 0;
 
@@ -92,6 +95,9 @@ void Logger::LogMessage( const std::string level, const std::string message )
 	{
 		( *i )->Append( outputMessage.str( ) );
 	}
+
+	IEvent* event = new ScriptEvent( "LOG_MESSAGE_APPENDED", outputMessage.str( ) );
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( event );
 }
 
 void Logger::Info( const std::string message )

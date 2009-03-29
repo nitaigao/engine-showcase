@@ -45,6 +45,9 @@ public:
 	void UnRegisterEvent( EventType eventType, object function );
 	void BroadcastEvent( EventType eventType );
 
+	/*! Executes the specified string */
+	void ExecuteString( const std::string input );
+
 private:
 
 	/*! -- Script Helpers -- */

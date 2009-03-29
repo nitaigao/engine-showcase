@@ -8,8 +8,8 @@
 -D_MBCS                         // CharacterSet = "2"
 -D_MT;_DLL                      // RuntimeLibrary = "2"
 
-                                // AdditionalIncludeDirectories = "../../etc/vendor/mygui/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
--i"..\..\etc\vendor\mygui\include"
+                                // AdditionalIncludeDirectories = "../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
+-i"..\..\etc\vendor\mygui\myguiengine\include"
 -i"..\..\etc\vendor\lua\include"
 -i"..\4ha6EW2cru.Library"       // 
 -i"..\..\etc\vendor\physfs"     // 

@@ -62,19 +62,23 @@ void Interface::Initialize( )
 		def( "getScreenWidth", &Interface::GetScreenWidth ),
 		def( "getScreenHeight", &Interface::GetScreenHeight ),
 		def( "scriptWidget", &Interface::ScriptWidget ),
+		def( "executeString", &Interface::ExecuteString ),
 		def( "showMouse", &Interface::ShowMouse ),
 		def( "hideMouse", &Interface::HideMouse ),
 
+		def( "registerEventHandler", &Interface::RegisterEventHandler ),
 		def( "registerEvent", &Interface::RegisterEvent ),
 		def( "unregisterEvent", &Interface::UnRegisterEvent ),
 		def( "broadcastEvent", &Interface::BroadcastEvent ),
 
 		class_< Widget >( "Widget" )
-			.def( "getDimensions", &MyGUI::Widget::getClientCoord )
-			.def( "setPosition", ( void( MyGUI::Widget::* )( int, int ) ) &MyGUI::Widget::setPosition )
-			.def( "getType", &MyGUI::Widget::getClassTypeName )
-			.def( "setVisible", &MyGUI::Widget::setVisible )
-			.def( "isVisible", &MyGUI::Widget::isVisible )
+			.def( "getDimensions", &Widget::getClientCoord )
+			.def( "setPosition", ( void( Widget::* )( int, int ) ) &Widget::setPosition )
+			.def( "getType", &Widget::getClassTypeName )
+			.def( "setVisible", &Widget::setVisible )
+			.def( "isVisible", &Widget::isVisible )
+			.def( "getText", &Widget::getCaption )
+			.def( "setText", &Widget::setCaption )
 			.def( "asButton", &Interface::AsButton )
 			.def( "asComboBox", &Interface::AsComboBox )
 			.def( "asEditBox", &Interface::AsEditBox ),
@@ -89,15 +93,13 @@ void Interface::Initialize( )
 			.def( "getSelectedIndex", &ComboBox::getIndexSelected )
 			.def( "setSelectedIndex", &ComboBox::setIndexSelected ),
 
-		class_< Edit, Widget >( "EditBox" )
-			.def( "getText", &Edit::getCaption )
-			.def( "setText", &Edit::setCaption ),
+		class_< Edit, Widget >( "EditBox" ),
 
 		class_< IntCoord >( "IntCoord" )
-			.def_readonly( "x" , &MyGUI::IntCoord::left )
-			.def_readonly( "y" , &MyGUI::IntCoord::top )
-			.def_readonly( "width" , &MyGUI::IntCoord::width )
-			.def_readonly( "height" , &MyGUI::IntCoord::height ),
+			.def_readonly( "x" , &IntCoord::left )
+			.def_readonly( "y" , &IntCoord::top )
+			.def_readonly( "width" , &IntCoord::width )
+			.def_readonly( "height" , &IntCoord::height ),
 
 		class_< Ogre::UTFString >( "utf" )
 			.def( constructor< std::string >( ) )
@@ -109,7 +111,7 @@ void Interface::Initialize( )
 
 	lua_pcall( scriptComponent->GetState( ), 0, 0, 0 );
 
-	MyGUI::WidgetManager::getInstancePtr( )->registerUnlinker( this );
+	WidgetManager::getInstancePtr( )->registerUnlinker( this );
 }
 
 void Interface::Update( const float deltaMilliseconds ) const
@@ -122,7 +124,7 @@ void Interface::LoadComponent( const std::string componentName )
 	std::stringstream layoutPath;
 	layoutPath << "/data/interface/components/" << componentName << ".layout";
 
-	MyGUI::LayoutManager::getInstance().load( layoutPath.str( ) );
+	LayoutManager::getInstance().load( layoutPath.str( ) );
 
 	std::stringstream scriptPath;
 	scriptPath << "/data/interface/components/" << componentName << ".lua";
@@ -226,25 +228,25 @@ void Interface::OnMouseMoved( const IEvent* event )
 void Interface::OnMousePressed( const IEvent* event )
 {
 	MouseEventData* eventData = static_cast< MouseEventData* >( event->GetEventData( ) );
-	_gui->injectMousePress( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, MyGUI::MouseButton::Enum( eventData->GetMouseButtonId( ) ) );
+	_gui->injectMousePress( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, MouseButton::Enum( eventData->GetMouseButtonId( ) ) );
 }
 
 void Interface::OnMouseReleased( const IEvent* event )
 {
 	MouseEventData* eventData = static_cast< MouseEventData* >( event->GetEventData( ) );
-	_gui->injectMouseRelease( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, MyGUI::MouseButton::Enum( eventData->GetMouseButtonId( ) ) );
+	_gui->injectMouseRelease( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, MouseButton::Enum( eventData->GetMouseButtonId( ) ) );
 }
 
 void Interface::OnKeyUp( const IEvent* event )
 {
 	KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
-	_gui->injectKeyRelease( MyGUI::KeyCode::Enum( eventData->GetKeyCode( ) ) );
+	_gui->injectKeyRelease( KeyCode::Enum( eventData->GetKeyCode( ) ) );
 }
 
 void Interface::OnKeyDown( const IEvent* event )
 {
 	KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
-	_gui->injectKeyPress( MyGUI::KeyCode::Enum( eventData->GetKeyCode( ) ) );
+	_gui->injectKeyPress( KeyCode::Enum( eventData->GetKeyCode( ) ) );
 }
 
 void Interface::RegisterEvent( EventType eventType, object function )
@@ -260,4 +262,14 @@ void Interface::UnRegisterEvent( EventType eventType, object function )
 void Interface::BroadcastEvent( EventType eventType )
 {
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( eventType ) );
+}
+
+void Interface::ExecuteString( const std::string& input )
+{
+	g_InterfaceScriptScene->ExecuteString( input );
+}
+
+void Interface::RegisterEventHandler( object function )
+{
+	g_InterfaceScriptScene->RegisterEvent( ALL_EVENTS, function );
 }
