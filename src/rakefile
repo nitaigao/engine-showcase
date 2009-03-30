@@ -117,5 +117,6 @@ $outputdir = $builddir + $build_configuration
 
 task :build => ["build:clean", "build:compile"]
 task :test => ["build:test"]
-task :continuous_integration => [":build", ":test", ":deploy"]
+task :deploy => [ "deploy:clean", "deploy:store" ]
+task :continuous_integration => [ :build, :test, :deploy]
 task :default => :build#_full
