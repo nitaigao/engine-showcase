@@ -1,0 +1,8 @@
+<node name="Box01">
+    <rotation qx="0" qy="0" qz="0" qw="1" />
+    <entity name="Box01" id="1" meshFile="/data/entities/meshes/box.mesh" castShadows="true" receiveShadows="true">
+        <subentities>
+            <subentity index="0" materialName="level0_red" />
+        </subentities>
+    </entity>
+</node>

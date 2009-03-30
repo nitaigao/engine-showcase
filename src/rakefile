@@ -1,5 +1,6 @@
 require 'find'
 require 'zip/zipfilesystem'
+require '../etc/scripts/version'
 
 class MSBuild
   def initialize(solutionFile, clrVersion = 'v3.5')
@@ -52,6 +53,45 @@ namespace :build do
 		end
 	end
 	
+	desc "Copies all required data to the build output"
+	task :data do
+		begin
+			game_dir = File.join( $outputdir, 'game' );
+			
+			FileUtils.rm_rf game_dir
+			FileUtils.mkdir game_dir
+			
+			etc_data_dir = File.join( '..', 'etc', 'data' );
+			game_data_dir = File.join( game_dir, 'data' );
+			FileUtils.mkdir game_data_dir
+			
+			Dir.foreach( etc_data_dir ) { | dir |
+				if !dir.to_s.include? "." then
+				
+					etc_data = File.join( etc_data_dir, dir )
+					game_data = File.join( game_data_dir, dir )
+					game_data_zip = game_data + '.bad'
+					
+					Zip::ZipFile.open(game_data_zip, Zip::ZipFile::CREATE) do |zipfile|
+						Find.find(etc_data) do |path|     	
+							if File.directory?(path) == false then       
+								dest = path.slice(etc_data.length + 1, path.length - etc_data.length - 1)
+								zipfile.add( dest, path ) if dest
+							end
+						end
+					end
+				end
+			}
+			
+			etc_config_dir = File.join( '..', 'etc', 'config' );
+			game_config_dir = File.join( game_dir, 'config' );
+			FileUtils.cp_r etc_config_dir, game_dir
+		
+		rescue Exception => e
+			raise "\n\nFailed: There was an error when copying build data\n#{e}"
+		end
+	end
+	
 	desc "Test the build output"
 	task :test do
 		begin
@@ -79,11 +119,9 @@ namespace :deploy do
   end
   task :store do
 	begin	
-		buildDate = DateTime.now.year.to_s + DateTime.now.month.to_s + DateTime.now.day.to_s + DateTime.now.hour.to_s + DateTime.now.min.to_s + DateTime.now.sec.to_s 
-	
+		versionInfo = VersionInfo.new
 		artifacts_path = $packagesdir
-	    latest_path = File.join(artifacts_path, 'latest.zip')
-		output_path = File.join(artifacts_path, buildDate + '.zip')
+		output_path = File.join(artifacts_path, versionInfo.getVersion( ) + '.zip')
 	  
 	    FileUtils.rm_rf(artifacts_path)
 	    Dir.mkdir(artifacts_path)
@@ -94,13 +132,11 @@ namespace :deploy do
 	      Find.find(build_output_dir) do |path|     			
 			if File.directory?(path) == false then       
 				dest = path.slice(build_output_dir.length + 1, path.length - build_output_dir.length - 1)
-				puts "Adding #{dest} to buildoutput.zip"
+				puts "Adding #{dest} to #{output_path}.zip"
 				zipfile.add(dest,path) if dest
 			end
 	      end
 	    end
-		
-		copy( output_path, latest_path );
 		
 	rescue Exception => e
 		raise "\n\nFailed: There was an error while creating the build output\n#{e}"
@@ -111,12 +147,12 @@ end
 $build_configuration = 'Release'
 $application_name = '4ha6EW2cru'
 $solution_file = $application_name + '.sln'
-$builddir = '../build/'
-$packagesdir = $builddir + '/packages/'
-$outputdir = $builddir + $build_configuration
+$builddir = '../build'
+$packagesdir = File.join( $builddir, 'packages' );
+$outputdir = File.join( $builddir, $build_configuration )
 
-task :build => ["build:clean", "build:compile"]
+task :build => ["build:clean", "build:compile", "build:data"]
 task :test => ["build:test"]
 task :deploy => [ "deploy:clean", "deploy:store" ]
-task :continuous_integration => [ :build, :test, :deploy]
-task :default => :build#_full
+task :continuous_integration => [ :build, :test, :deploy ]
+task :default => :build

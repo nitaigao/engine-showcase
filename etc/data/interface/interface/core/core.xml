@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<MyGUI type="List">
+  
+  <List file="/data/interface/core/core_location.xml" group="General"/>
+  <List file="/data/interface/core/core_keyboard.xml" group="General"/>
+  <List file="/data/interface/core/core_language.xml" group="General"/>
+  <List file="/data/interface/core/core_layer.xml" group="General"/>
+  <List file="/data/interface/core/core_font.xml" group="General"/>
+  <!--<List file="/data/interface/core/themes/core_theme.xml" group="General"/>-->
+  <!--List file="core_theme_black_blue.xml" group="General"/-->
+  <List file="/data/interface/core/themes/core_theme_black_orange.xml" group="General" />
+  <List file="/data/interface/core/core_resource.xml" group="General"/>
+  <List file="/data/interface/core/core_skin.xml" group="General"/>
+  <List file="/data/interface/core/core_pointer.xml" group="General"/>
+  
+</MyGUI>

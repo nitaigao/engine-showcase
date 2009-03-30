@@ -1,0 +1,53 @@
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="1" minOgreVersion="1.7" author="OgreMax Scene Exporter by Derek Nedelman (www.ogremax.com)">
+    <environment>
+        <colourAmbient r="0" g="0" b="0" />
+        <colourBackground r="0" g="0" b="0" />
+    </environment>
+    <nodes>
+        <node name="Floor">
+            <scale x="1" y="1" z="1" />
+            <position x="2.44238" y="0" z="-2.80279" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <plane name="Floor" id="2" distance="-0" width="105" height="105" xSegments="4" ySegments="4" numTexCoordSets="1" uTile="1" vTile="1" material="level0_yellow" normals="true" movablePlane="true" castShadows="true" receiveShadows="true">
+                <normal x="-0" y="1" z="0" />
+                <upVector x="0" y="0" z="-1" />
+            </plane>
+        </node>
+        <node name="Side1">
+            <scale x="1" y="1" z="1" />
+            <position x="2.96346" y="0" z="-52.4202" />
+            <rotation qx="0.707107" qy="0" qz="0" qw="0.707107" />
+            <plane name="Side1" id="6" distance="-0" width="100" height="20" xSegments="4" ySegments="4" numTexCoordSets="1" uTile="1" vTile="1" material="level0_blue" normals="true" movablePlane="true" castShadows="true" receiveShadows="true">
+                <normal x="-0" y="1" z="0" />
+                <upVector x="0" y="0" z="-1" />
+            </plane>
+        </node>
+        <node name="Side2">
+            <scale x="1" y="1" z="1" />
+            <position x="2.96346" y="0" z="48.4479" />
+            <rotation qx="-0.707107" qy="0" qz="0" qw="0.707107" />
+            <plane name="Side2" id="12" distance="-0" width="100" height="20" xSegments="4" ySegments="4" numTexCoordSets="1" uTile="1" vTile="1" material="level0_red" normals="true" movablePlane="true" castShadows="true" receiveShadows="true">
+                <normal x="-0" y="1" z="0" />
+                <upVector x="0" y="0" z="-1" />
+            </plane>
+        </node>
+        <node name="Side3">
+            <scale x="1" y="1" z="1" />
+            <position x="-47.4706" y="0" z="-1.98614" />
+            <rotation qx="-0.5" qy="-0.5" qz="0.5" qw="-0.5" />
+            <plane name="Side3" id="16" distance="-0" width="100" height="20" xSegments="4" ySegments="4" numTexCoordSets="1" uTile="1" vTile="1" material="level0_turquoise" normals="true" movablePlane="true" castShadows="true" receiveShadows="true">
+                <normal x="-0" y="1" z="0" />
+                <upVector x="0" y="0" z="-1" />
+            </plane>
+        </node>
+        <node name="Side04">
+            <scale x="1" y="1" z="1" />
+            <position x="53.3975" y="0" z="-1.98614" />
+            <rotation qx="-0.5" qy="0.5" qz="0.5" qw="0.5" />
+            <plane name="Side04" id="17" distance="-0" width="100" height="20" xSegments="4" ySegments="4" numTexCoordSets="1" uTile="1" vTile="1" material="level0_green" normals="true" movablePlane="true" castShadows="true" receiveShadows="true">
+                <normal x="-0" y="1" z="0" />
+                <upVector x="0" y="0" z="-1" />
+            </plane>
+        </node>
+    </nodes>
+</scene>

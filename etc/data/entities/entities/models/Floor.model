@@ -1,0 +1,7 @@
+<node name="Floor">
+    <rotation qx="0" qy="0" qz="0" qw="1" />
+    <plane name="Floor" id="2" distance="-0" width="105" height="105" xSegments="4" ySegments="4" numTexCoordSets="1" uTile="1" vTile="1" material="level0_yellow" normals="true" movablePlane="true" castShadows="true" receiveShadows="true">
+        <normal x="-0" y="1" z="0" />
+        <upVector x="0" y="0" z="-1" />
+    </plane>
+</node>

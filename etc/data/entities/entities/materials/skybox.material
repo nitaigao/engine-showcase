@@ -1,0 +1,100 @@
+material bk
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.588235 0.588235 0.588235 
+			specular 0 0 0 10
+			emissive 1 1 1 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/city_BK.jpg
+			}
+		}
+	}
+}
+
+
+material fr
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.588235 0.588235 0.588235 
+			specular 0 0 0 10
+			emissive 1 1 1 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/city_FR.jpg
+			}
+		}
+	}
+}
+
+
+material lf
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.588235 0.588235 0.588235 
+			specular 0 0 0 10
+			emissive 1 1 1 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/city_LF.jpg
+			}
+		}
+	}
+}
+
+
+material rt
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.588235 0.588235 0.588235 
+			specular 0 0 0 10
+			emissive 1 1 1 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/city_RT.jpg
+			}
+		}
+	}
+}
+
+
+material up
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.588235 0.588235 0.588235 
+			specular 0 0 0 10
+			emissive 1 1 1 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/city_UP.jpg
+			}
+		}
+	}
+}
+
+

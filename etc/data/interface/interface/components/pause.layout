@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout">
+    <Widget type="Widget" skin="DefaultClient" position_real="0.386076 0.61911 0.299842 0.282723" align="HCenter Bottom" layer="Overlapped" name="pause">
+        <Widget type="Button" skin="Button" position_real="0.205805 0.439815 0.580475 0.152778" name="pause_button_quit">
+            <Property key="Widget_Caption" value="Quit"/>
+        </Widget>
+    </Widget>
+</MyGUI>
