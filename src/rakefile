@@ -115,7 +115,7 @@ $builddir = '../build/'
 $packagesdir = $builddir + '/packages/'
 $outputdir = $builddir + $build_configuration
 
-task :continuous_integration => [:build]#, "deploy:store"]
-task :build => ["build:clean", "build:compile", "build:test"]
+task :continuous_integration => [":build", ":test", ":deploy"]
+task :build => ["build:clean", "build:compile"]
 task :test => ["build:test"]
 task :default => :build#_full
