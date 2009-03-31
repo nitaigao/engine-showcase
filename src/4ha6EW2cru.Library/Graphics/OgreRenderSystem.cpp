@@ -20,17 +20,6 @@
 
 #include <complex>
 
-OgreRenderSystem::OgreRenderSystem( Configuration* configuration )
-{
-	_configuration = configuration;
-	_badStubCreated = false;
-	_isIntialized = false;
-	_root = 0;
-	_window = 0;
-	_interface = 0;
-	_badFactory = 0;
-}
-
 OgreRenderSystem::~OgreRenderSystem( )
 {
 	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GRAPHICS_SETTINGS_CHANGED, this, &OgreRenderSystem::OnGraphicsSettingsUpdated );

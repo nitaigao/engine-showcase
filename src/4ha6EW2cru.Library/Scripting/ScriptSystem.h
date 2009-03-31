@@ -23,7 +23,9 @@ public:
 	ISystemScene* CreateScene( );
 
 	inline SystemType GetSystemType( ) { return ScriptSystemType; };
+
 	inline PropertyMap GetProperties( ) { return _properties; };
+	inline void SetProperties( PropertyMap properties ) { };
 
 private:
 

@@ -18,7 +18,9 @@ public:
 
 	ISystemScene* CreateScene( );
 	inline SystemType GetSystemType( ) { return GeometrySystemType; };
+	
 	inline PropertyMap GetProperties( ) { return PropertyMap( ); };
+	inline void SetProperties( PropertyMap properties ) { };
 
 private:
 

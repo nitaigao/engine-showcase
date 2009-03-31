@@ -47,7 +47,9 @@ public:
 	}
 
 	SystemType GetSystemType( ) { return _systemType; };
+
 	PropertyMap GetProperties( ) { return PropertyMap( ); };
+	inline void SetProperties( PropertyMap properties ) { };
 
 private:
 

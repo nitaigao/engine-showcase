@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout">
-    <Widget type="Window" skin="WindowCSX" position_real="0.25 0.25 0.50 0.50" align="Stretch" layer="Popup" name="console">
+    <Widget type="Window" skin="WindowCS" position_real="0.25 0.25 0.5 0.5" align="Stretch" layer="Popup" name="console">
         <Property key="Widget_Caption" value="Developer Console"/>
-        <Widget type="Edit" skin="Edit" position_real="0 0.93 1.0029 0.0714286" align="HStretch Bottom" name="console_input"/>
-		<Widget type="Edit" skin="WordWrap" position_real="0 0 1 0.914601" align="HStretch VStretch" name="console_output">
+        <Widget type="Edit" skin="Edit" position_real="0 0.928375 1.00159 0.0688705" align="HStretch Bottom" name="console_input"/>
+        <Widget type="Edit" skin="WordWrap" position_real="0 0 1 0.914601" align="HStretch VStretch" name="console_output">
             <Property key="Edit_ReadOnly" value="true"/>
+            <Property key="Edit_MaxTextLength" value="999999999"/>
         </Widget>
-	</Widget>
+    </Widget>
 </MyGUI>

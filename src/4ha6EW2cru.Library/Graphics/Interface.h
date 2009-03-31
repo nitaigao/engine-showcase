@@ -72,6 +72,9 @@ private:
 	/*! Casts a widget to an EditBox */
 	static inline EditPtr AsEditBox( WidgetPtr widget ) { return static_cast< EditPtr >( widget ); };
 
+	/*! Casts a widget to a ProgressBar */
+	static inline ProgressPtr AsProgressBar( WidgetPtr widget ) { return static_cast< ProgressPtr >( widget ); };
+
 	/*! Converts the given type to a std::string */
 	static inline std::string AsString( Ogre::UTFString input ) { return std::string( input ); };
 
@@ -79,6 +82,9 @@ private:
 	static inline Ogre::UTFString AsUtf( std::string input ) { return Ogre::UTFString( input ); };
 
 	/* -- Game Script Helpers -- */
+
+	/*! Sets whether or not the Player controls can manipulate the scene */
+	static void SetInputAllowed( bool inputAllowed );
 
 	/*! Executes the specified string as if it were LUA code */
 	static void ExecuteString( const std::string& input );

@@ -159,10 +159,6 @@
 					RelativePath=".\src\parser.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\src\parserstate.cpp"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="Representation"
@@ -181,6 +177,10 @@
 				</File>
 				<File
 					RelativePath=".\src\node.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\parserstate.cpp"
 					>
 				</File>
 				<File

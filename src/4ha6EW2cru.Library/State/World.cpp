@@ -16,7 +16,7 @@ World::~World()
 		delete ( *e );
 	}
 
-	for ( SystemSceneList::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
+	for ( SystemSceneMap::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
 	{
 		delete ( *i ).second;
 	}
@@ -31,7 +31,7 @@ IEntity* World::CreateEntity( const std::string& name )
 
 void World::Update( float deltaMilliseconds )
 {
-	for( SystemSceneList::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
+	for( SystemSceneMap::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
 	{
 		( *i ).second->Update( deltaMilliseconds );
 	}

@@ -14,7 +14,7 @@ public:
 
 	virtual ~IWorldLoader_ComponentStrategy( ) { };
 
-	virtual ISystemComponent* CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneList& systemScenes ) = 0;
+	virtual ISystemComponent* CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes ) = 0;
 
 };
 
@@ -42,7 +42,7 @@ public:
 	virtual ~WorldLoader_GraphicsComponentStrategy( ) { };
 	WorldLoader_GraphicsComponentStrategy( ) { };
 
-	ISystemComponent* CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneList& systemScenes );
+	ISystemComponent* CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes );
 
 private:
 
@@ -59,7 +59,7 @@ public:
 	virtual ~WorldLoader_GeometryComponentStrategy( ) { };
 	WorldLoader_GeometryComponentStrategy( ) { };
 
-	ISystemComponent* CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneList& systemScenes );
+	ISystemComponent* CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes );
 
 private:
 
@@ -76,7 +76,7 @@ public:
 	virtual ~WorldLoader_PhysicsComponentStrategy( ) { };
 	WorldLoader_PhysicsComponentStrategy( ) { };
 
-	ISystemComponent* CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneList& systemScenes );
+	ISystemComponent* CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes );
 
 private:
 
@@ -93,7 +93,7 @@ public:
 	virtual ~WorldLoader_InputComponentStrategy( ) { };
 	WorldLoader_InputComponentStrategy( ) { };
 
-	ISystemComponent* CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneList& systemScenes );
+	ISystemComponent* CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes );
 
 private:
 

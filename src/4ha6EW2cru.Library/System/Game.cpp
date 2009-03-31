@@ -51,6 +51,7 @@ void Game::Initialize( )
 	// -- Setup the World
 
 	_world = new World( );
+	_worldLoader = new WorldLoader( _world );
 
 	SystemList systemList = systemManager->GetAllSystems( );
 	
@@ -82,8 +83,7 @@ void Game::Update( float deltaMilliseconds )
 		throw e;
 	}
 
-	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_UPDATE" ) );
-
+	_worldLoader->Update( deltaMilliseconds );
 	_world->Update( deltaMilliseconds );
 	Management::GetInstance( )->Update( deltaMilliseconds );
 }
@@ -100,6 +100,7 @@ void Game::Release( )
 	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GAME_QUIT, this, &Game::OnGameQuit );
 	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
 
+	delete _worldLoader;
 	delete _world;
 
 	Management::GetInstance( )->Release( );
@@ -115,12 +116,10 @@ void Game::OnGameLevelChanged( const IEvent* event )
 {
 	LevelChangedEventData* eventData = static_cast< LevelChangedEventData* >( event->GetEventData( ) );
 
-	WorldLoader loader( _world );
-
 	std::stringstream levelPath;
 	levelPath << "/data/levels/" << eventData->GetLevelName( ) << ".yaml";
-
-	loader.Load( levelPath.str( ) );
+	
+	_worldLoader->Load( levelPath.str( ) );
 }
 
 // EOF

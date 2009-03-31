@@ -10,6 +10,8 @@ InputSystemScene::~InputSystemScene()
 
 InputSystemScene::InputSystemScene( const int& screenWidth, const int& screenHeight ) 
 {
+	_inputAllowed = true;
+
 	_inputManager = OIS::InputManager::createInputSystem( Management::GetInstance( )->GetPlatformManager( )->GetHwnd( ) );
 	
 	_keyboard = static_cast< OIS::Keyboard* >( _inputManager->createInputObject( OIS::OISKeyboard, true ) );
@@ -40,56 +42,62 @@ void InputSystemScene::Update( float deltaMilliseconds )
 	_mouse->capture( );
 	_keyboard->capture( );
 
-	unsigned int changes = 0;
-
-	if ( _keyboard->isKeyDown( OIS::KC_W ) )
+	if ( _inputAllowed )
 	{
-		changes |= System::Changes::Input::Move_Forward;
-	}
+		unsigned int changes = 0;
 
-	if ( _keyboard->isKeyDown( OIS::KC_S ) )
-	{
-		changes |= System::Changes::Input::Move_Backward;
-	}
-
-	if ( _keyboard->isKeyDown( OIS::KC_A ) )
-	{
-		changes |= System::Changes::Input::Strafe_Left;
-	}
-
-	if ( _keyboard->isKeyDown( OIS::KC_D ) )
-	{
-		changes |= System::Changes::Input::Strafe_Right;
-	}
-
-	if ( _keyboard->isKeyDown( OIS::KC_ESCAPE ) )
-	{
-		changes |= System::Changes::Input::Pause_Game;
-	}
-
-	if ( changes > 0 )
-	{
-		for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
+		if ( _keyboard->isKeyDown( OIS::KC_W ) )
 		{
-			( *i )->PushChanges( changes );
+			changes |= System::Changes::Input::Move_Forward;
+		}
+
+		if ( _keyboard->isKeyDown( OIS::KC_S ) )
+		{
+			changes |= System::Changes::Input::Move_Backward;
+		}
+
+		if ( _keyboard->isKeyDown( OIS::KC_A ) )
+		{
+			changes |= System::Changes::Input::Strafe_Left;
+		}
+
+		if ( _keyboard->isKeyDown( OIS::KC_D ) )
+		{
+			changes |= System::Changes::Input::Strafe_Right;
+		}
+
+		if ( _keyboard->isKeyDown( OIS::KC_ESCAPE ) )
+		{
+			changes |= System::Changes::Input::Pause_Game;
+		}
+
+		if ( changes > 0 )
+		{
+			for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
+			{
+				( *i )->PushChanges( changes );
+			}
 		}
 	}
 }
 
 bool InputSystemScene::keyPressed( const KeyEvent &arg )
 {
-	unsigned int changes = 0;
-
-	if ( arg.key == OIS::KC_SPACE )
+	if ( _inputAllowed )
 	{
-		changes |= System::Changes::Input::Jump;
-	}
+		unsigned int changes = 0;
 
-	if ( changes > 0 )
-	{
-		for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
+		if ( arg.key == OIS::KC_SPACE )
 		{
-			( *i )->PushChanges( changes );
+			changes |= System::Changes::Input::Jump;
+		}
+
+		if ( changes > 0 )
+		{
+			for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
+			{
+				( *i )->PushChanges( changes );
+			}
 		}
 	}
 
@@ -101,9 +109,12 @@ bool InputSystemScene::keyPressed( const KeyEvent &arg )
 
 bool InputSystemScene::keyReleased( const KeyEvent &arg )
 {
-	for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
+	if ( _inputAllowed )
 	{
-		( *i )->KeyUp( arg.key, _keyboard->getAsString( arg.key ) );
+		for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
+		{
+			( *i )->KeyUp( arg.key, _keyboard->getAsString( arg.key ) );
+		}
 	}
 
 	Event* event = new Event( INPUT_KEY_UP, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
@@ -114,27 +125,31 @@ bool InputSystemScene::keyReleased( const KeyEvent &arg )
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "UI_CONSOLE" ) );
 	}
 
+
 	return true;
 };
 
 /* Fired when the user moves the mouse */
 bool InputSystemScene::mouseMoved( const MouseEvent &arg )
 {
-	for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
+	if ( _inputAllowed )
 	{
-		InputSystemComponent* component = static_cast< InputSystemComponent* >( ( *i ) );
+		for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
+		{
+			InputSystemComponent* component = static_cast< InputSystemComponent* >( ( *i ) );
 
-		SystemPropertyList existingProperties = component->GetProperties( );
+			SystemPropertyList existingProperties = component->GetProperties( );
 
-		SystemPropertyList properties;
-		properties[ "mouseX" ] = SystemProperty( "mouseX", arg.state.X.abs );
-		properties[ "mouseXDelta" ] = SystemProperty( "mouseXDelta", arg.state.X.rel );
-		properties[ "mouseY" ] = SystemProperty( "mouseY", arg.state.Y.abs );
-		properties[ "mouseYDelta" ] = SystemProperty( "mouseYDelta", arg.state.Y.rel );
+			SystemPropertyList properties;
+			properties[ "mouseX" ] = SystemProperty( "mouseX", arg.state.X.abs );
+			properties[ "mouseXDelta" ] = SystemProperty( "mouseXDelta", arg.state.X.rel );
+			properties[ "mouseY" ] = SystemProperty( "mouseY", arg.state.Y.abs );
+			properties[ "mouseYDelta" ] = SystemProperty( "mouseYDelta", arg.state.Y.rel );
 
-		component->SetProperties( properties );
+			component->SetProperties( properties );
 
-		component->PushChanges( System::Changes::Input::Mouse_Moved );
+			component->PushChanges( System::Changes::Input::Mouse_Moved );
+		}
 	}
 
 	Event* event = new Event( INPUT_MOUSE_MOVED, new MouseEventData( arg.state, OIS::MB_Left ) );

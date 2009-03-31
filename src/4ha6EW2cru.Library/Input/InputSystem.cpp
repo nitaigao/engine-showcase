@@ -27,5 +27,27 @@ ISystemScene* InputSystem::CreateScene()
 		_configuration->Find< int >( "Graphics", "height" )
 		);
 
+	_systemScenes.push_back( inputScene );
+
 	return inputScene;
+}
+
+void InputSystem::SetProperties( PropertyMap properties )
+{
+	for ( PropertyMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
+	{
+		SystemProperty property = ( *i ).second;
+		
+		if ( property.GetName( ) == "inputAllowed" )
+		{
+			for( SystemSceneList::iterator j = _systemScenes.begin( ); j != _systemScenes.end( ); ++j )
+			{
+				InputSystemScene* inputScene = static_cast< InputSystemScene* >( ( *j ) );
+
+				inputScene->SetInputAllowed( property.GetValue< bool >( ) );
+			}
+		}
+	}
+
+	
 }

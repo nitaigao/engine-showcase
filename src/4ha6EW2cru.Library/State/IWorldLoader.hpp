@@ -11,6 +11,7 @@ public:
 	virtual ~IWorldLoader( ) { };
 
 	virtual void Load( const std::string& levelPath ) = 0;
+	virtual void Update( float deltaMilliseconds ) = 0;
 
 };
 

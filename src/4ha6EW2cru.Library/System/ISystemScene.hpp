@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 #include "ISystemComponent.hpp"
 
@@ -20,6 +21,8 @@ public:
 
 };
 
-typedef std::map< SystemType, ISystemScene* > SystemSceneList;
+typedef std::map< SystemType, ISystemScene* > SystemSceneMap;
+typedef std::vector< ISystemScene* > SystemSceneList;
+
 
 #endif

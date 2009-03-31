@@ -18,7 +18,17 @@ public:
 
 	virtual ~OgreRenderSystem( );
 
-	OgreRenderSystem( Configuration* configuration );
+	OgreRenderSystem( Configuration* configuration )
+		: _configuration( configuration )
+		, _badStubCreated( false )
+		, _isIntialized( false )
+		, _root( 0 )
+		, _window( 0 )
+		, _interface( 0 )
+		, _badFactory( 0 )
+	{
+
+	}
 
 	virtual void Initialize( );
 	virtual void Update( float deltaMilliseconds );
@@ -26,7 +36,9 @@ public:
 
 	inline ISystemScene* CreateScene( );
 	inline SystemType GetSystemType( ) { return RenderSystemType; };
+
 	inline PropertyMap GetProperties( ) { return _properties; };
+	inline void SetProperties( PropertyMap properties ) { };
 
 	inline Ogre::Root* GetRoot( ) { return _root; };
 

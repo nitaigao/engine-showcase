@@ -39,7 +39,7 @@ void Interface::Initialize( )
 	g_InterfaceScriptScene = ( ScriptSystemScene* ) Management::GetInstance( )->GetSystemManager( )->GetSystem( ScriptSystemType )->CreateScene( );
 	g_InterfaceScriptScene->Initialize( );
 
-	Ogre::RenderWindow* window = static_cast< Ogre::RenderWindow* >( _ogreRoot->getRenderTarget(  _configuration->Find< std::string >( "Graphics", "window_title" ) ) );
+	Ogre::RenderWindow* window = static_cast< Ogre::RenderWindow* >( _ogreRoot->getRenderTarget( _configuration->Find< std::string >( "Graphics", "window_title" ) ) );
 	_gui->initialise( window, "/data/interface/core/core.xml" );
 
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_PRESSED, this, &Interface::OnMousePressed );
@@ -65,6 +65,7 @@ void Interface::Initialize( )
 		def( "executeString", &Interface::ExecuteString ),
 		def( "showMouse", &Interface::ShowMouse ),
 		def( "hideMouse", &Interface::HideMouse ),
+		def( "setInputAllowed", &Interface::SetInputAllowed ),
 
 		def( "registerEventHandler", &Interface::RegisterEventHandler ),
 		def( "registerEvent", &Interface::RegisterEvent ),
@@ -81,7 +82,8 @@ void Interface::Initialize( )
 			.def( "setText", &Widget::setCaption )
 			.def( "asButton", &Interface::AsButton )
 			.def( "asComboBox", &Interface::AsComboBox )
-			.def( "asEditBox", &Interface::AsEditBox ),
+			.def( "asEditBox", &Interface::AsEditBox )
+			.def( "asProgressBar", &Interface::AsProgressBar ),
 
 		class_< Button >( "Button" )
 			.def( "setChecked", &Button::setStateCheck )
@@ -95,6 +97,9 @@ void Interface::Initialize( )
 
 		class_< Edit, Widget >( "EditBox" )
 			.def( "addText", &Edit::addText ),
+
+		class_< Progress, Widget >( "ProgressBar" )
+			.def( "setProgress", &Progress::setProgressPosition ),
 
 		class_< IntCoord >( "IntCoord" )
 			.def_readonly( "x" , &IntCoord::left )
@@ -273,4 +278,17 @@ void Interface::ExecuteString( const std::string& input )
 void Interface::RegisterEventHandler( object function )
 {
 	g_InterfaceScriptScene->RegisterEvent( ALL_EVENTS, function );
+}
+
+void Interface::SetInputAllowed( bool inputAllowed )
+{
+	ISystem* inputSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( InputSystemType );
+
+	if ( inputSystem != 0 )
+	{
+		ISystem::PropertyMap properties;
+		properties.insert( std::make_pair( "inputAllowed", SystemProperty( "inputAllowed", inputAllowed ) ) );
+
+		inputSystem->SetProperties( properties );
+	}
 }

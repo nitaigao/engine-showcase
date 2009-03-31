@@ -13,7 +13,6 @@ Interface = {}
 
 function Interface.initialize( )
 
-	print( 'hello' );
 	--unregisterEvent( EventType.GAME_INITIALIZED, Interface.initialize );
 
 	loadComponent( 'title' );
@@ -21,6 +20,7 @@ function Interface.initialize( )
 	loadComponent( 'options' );
 	loadComponent( 'pause' );
 	loadComponent( 'console' );
+	loadComponent( 'loading' );
 	
 end
 

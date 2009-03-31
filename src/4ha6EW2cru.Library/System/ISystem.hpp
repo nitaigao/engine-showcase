@@ -12,11 +12,9 @@
 class ISystem
 {
 
-protected:
+public:
 
 	typedef std::map< std::string, SystemProperty > PropertyMap;
-
-public:
 
 	virtual ~ISystem( ) { };
 
@@ -27,6 +25,7 @@ public:
 
 	virtual SystemType GetSystemType( ) = 0;
 	virtual PropertyMap GetProperties( ) = 0;
+	virtual void SetProperties( PropertyMap systemProperties ) = 0;
 
 };
 

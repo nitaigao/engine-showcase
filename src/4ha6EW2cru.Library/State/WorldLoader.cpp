@@ -5,25 +5,26 @@
 
 #include "WorldLoaderStrategies.h"
 
+#include "../Scripting/ScriptEvent.hpp"
+
+WorldLoader::~WorldLoader()
+{
+	delete _loadSource;
+}
+
 void WorldLoader::Load( const std::string& levelPath )
 {
+	_loadPosition = 0;
+
+	Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "WORLD_LOADING_STARTED" ) );
+
 	FileBuffer* levelBuffer = Management::GetInstance( )->GetFileManager( )->GetFile( levelPath, false );
 
 	std::istringstream inputStream( levelBuffer->fileBytes );
 	YAML::Parser parser( inputStream );
-	parser.Load( inputStream );
 
-	while( parser ) 
-	{
-		YAML::Node doc;
-		parser.GetNextDocument( doc );
-		
-		for( YAML::Iterator documentRoot = doc.begin( ); documentRoot != doc.end( ); ++documentRoot ) 
-		{
-			const YAML::Node& entityNode = ( *documentRoot );
-			this->LoadEntity( entityNode );
-		}
-	} 
+	parser.Load( inputStream );
+	parser.GetNextDocument( *_loadSource );
 
 	delete levelBuffer;
 }
@@ -81,5 +82,27 @@ void WorldLoader::LoadEntityComponents( const YAML::Node& node, IEntity* entity 
 	if ( geometryComponent != 0 )
 	{
 		geometryComponent->PushChanges( System::Changes::Geometry::All );
+	}
+}
+
+void WorldLoader::Update( float deltaMilliseconds )
+{
+	if( _loadPosition < _loadSource->size( ) )
+	{
+		const YAML::Node& documentNode = _loadSource[ 0 ];
+		const YAML::Node& entityNode = documentNode[ _loadPosition ]; 
+
+		this->LoadEntity( entityNode );
+
+		std::stringstream loadProgress;
+		loadProgress << ( ( float ) _loadPosition / ( float ) _loadSource->size( ) ) * 100.0f;
+
+		Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "WORLD_LOADING_PROGRESS", loadProgress.str( ) ) );
+
+		if ( ++_loadPosition == _loadSource->size( ) )
+		{
+			_loadSource->Clear( );
+			Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "WORLD_LOADING_FINISHED" ) );
+		}
 	}
 }

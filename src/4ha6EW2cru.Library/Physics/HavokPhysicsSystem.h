@@ -26,7 +26,9 @@ public:
 	ISystemScene* CreateScene( );
 
 	SystemType GetSystemType( ) { return PhysicsSystemType; };
+
 	PropertyMap GetProperties( ) { return PropertyMap( ); };
+	inline void SetProperties( PropertyMap properties ) { };
 
 private:
 

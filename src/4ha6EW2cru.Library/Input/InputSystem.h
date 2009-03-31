@@ -31,6 +31,7 @@ public:
 	SystemType GetSystemType( ) { return InputSystemType; };
 
 	inline PropertyMap GetProperties( ) { return _properties; };
+	inline void SetProperties( PropertyMap properties );
 
 	ISystemComponent* CreateComponent( const std::string& name, SystemType systemType ) { return 0; };
 
@@ -38,6 +39,8 @@ private:
 
 	PropertyMap _properties;
 	Configuration* _configuration;
+
+	SystemSceneList _systemScenes;
 
 	InputSystem( ) { };
 	InputSystem( const InputSystem & copy ) { };

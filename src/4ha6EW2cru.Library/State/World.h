@@ -16,7 +16,7 @@ public:
 	IEntity* CreateEntity( const std::string& name );
 
 	inline void AddSystemScene( ISystemScene* systemScene ) { _systemScenes[ systemScene->GetType( ) ] = systemScene; }
-	inline const SystemSceneList& GetSystemScenes( ) { return _systemScenes; };
+	inline const SystemSceneMap& GetSystemScenes( ) { return _systemScenes; };
 
 	void Update( float deltaMilliseconds );
 
@@ -24,7 +24,7 @@ private:
 
 	std::string _name;
 	EntityList _entities;
-	SystemSceneList _systemScenes;
+	SystemSceneMap _systemScenes;
 
 	World( const World & copy ) { };
 	World & operator = ( const World & copy ) { return *this; };

@@ -27,11 +27,13 @@ public:
 
 	void Update( float deltaMilliseconds );
 
+	void SetInputAllowed( bool inputAllowed ) { _inputAllowed = inputAllowed; };
+
 	/* Fired when the user presses a button on the keyboard */
-	bool InputSystemScene::keyPressed( const KeyEvent &arg );
+	bool keyPressed( const KeyEvent &arg );
 
 	/* Fired when the user releases a button on the keyboard */
-	bool InputSystemScene::keyReleased( const KeyEvent &arg );
+	bool keyReleased( const KeyEvent &arg );
 
 	/* Fired when the user moves the mouse */
 	bool mouseMoved( const MouseEvent &arg );
@@ -43,6 +45,8 @@ public:
 	bool mouseReleased( const MouseEvent &arg, MouseButtonID id );
 
 private:
+
+	bool _inputAllowed;
 
 	OIS::InputManager* _inputManager;
 

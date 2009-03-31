@@ -42,8 +42,29 @@ end
 function Console.onShowConsole( )
 
 	local console = findWidget( 'console' );
-	console:setVisible( not console:isVisible( ) ); 
+	
+	if ( console:isVisible( ) ) then
+	
+		console:setVisible( false );
+		local menu = findWidget( 'menu' );
+		
+		if ( not menu:isVisible( ) ) then
+		
+			hideMouse( );
+		
+		end
+		
+		setInputAllowed( true );
+		
+	else
+	
+		console:setVisible( true ); 
+		showMouse( );
 
+		setInputAllowed( false );
+		
+	end
+	
 end
 
 function Console.onKeyUp( keyCode, keyText )

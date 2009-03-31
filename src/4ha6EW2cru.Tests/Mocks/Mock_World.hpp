@@ -31,7 +31,7 @@ public:
 			delete ( *e );
 		}
 
-		for ( SystemSceneList::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
+		for ( SystemSceneMap::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
 		{
 			delete ( *i ).second;
 		}
@@ -63,13 +63,13 @@ public:
 		_systemScenes[ systemScene->GetType( ) ] = systemScene;
 	}
 
-	const SystemSceneList& GetSystemScenes( ) { return _systemScenes; };
+	const SystemSceneMap& GetSystemScenes( ) { return _systemScenes; };
 
 	void Update( float deltaMilliseconds ) { };
 
 private:
 
-	SystemSceneList _systemScenes;
+	SystemSceneMap _systemScenes;
 	EntityList _entities;
 
 private:

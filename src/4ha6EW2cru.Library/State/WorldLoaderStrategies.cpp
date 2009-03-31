@@ -27,7 +27,7 @@ IWorldLoader_ComponentStrategy* WorldLoader_ComponentStrategy_Factory::Create( c
 	return strategy;
 }
 
-ISystemComponent* WorldLoader_GraphicsComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneList&  systemScenes )
+ISystemComponent* WorldLoader_GraphicsComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap&  systemScenes )
 {
 	SystemPropertyList properties;
 
@@ -41,7 +41,7 @@ ISystemComponent* WorldLoader_GraphicsComponentStrategy::CreateComponent( const 
 		properties.insert( std::make_pair( propertyKey, SystemProperty( propertyKey, propertyValue ) ) );
 	}
 
-	SystemSceneList::const_iterator systemScene = systemScenes.find( RenderSystemType );
+	SystemSceneMap::const_iterator systemScene = systemScenes.find( RenderSystemType );
 
 	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
 	systemComponent->Initialize( properties );
@@ -49,7 +49,7 @@ ISystemComponent* WorldLoader_GraphicsComponentStrategy::CreateComponent( const 
 	return systemComponent;
 }
 
-ISystemComponent* WorldLoader_GeometryComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneList& systemScenes )
+ISystemComponent* WorldLoader_GeometryComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes )
 {
 	SystemPropertyList properties;
 
@@ -71,7 +71,7 @@ ISystemComponent* WorldLoader_GeometryComponentStrategy::CreateComponent( const 
 	componentNode[ "orientation" ][ "z" ] >> z;
 	properties.insert( std::make_pair( "orientation", SystemProperty( "orientation", MathQuaternion( x, y, z, w ) ) ) );
 
-	SystemSceneList::const_iterator systemScene = systemScenes.find( GeometrySystemType );
+	SystemSceneMap::const_iterator systemScene = systemScenes.find( GeometrySystemType );
 
 	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
 	systemComponent->Initialize( properties );
@@ -79,7 +79,7 @@ ISystemComponent* WorldLoader_GeometryComponentStrategy::CreateComponent( const 
 	return systemComponent;
 }
 
-ISystemComponent* WorldLoader_PhysicsComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneList& systemScenes )
+ISystemComponent* WorldLoader_PhysicsComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes )
 {
 	SystemPropertyList properties;
 
@@ -93,7 +93,7 @@ ISystemComponent* WorldLoader_PhysicsComponentStrategy::CreateComponent( const s
 		properties.insert( std::make_pair( propertyKey, SystemProperty( propertyKey, propertyValue ) ) );
 	}
 
-	SystemSceneList::const_iterator systemScene = systemScenes.find( PhysicsSystemType );
+	SystemSceneMap::const_iterator systemScene = systemScenes.find( PhysicsSystemType );
 
 	std::string type = properties[ "type" ].GetValue< std::string >( );
 
@@ -103,7 +103,7 @@ ISystemComponent* WorldLoader_PhysicsComponentStrategy::CreateComponent( const s
 	return systemComponent;
 }
 
-ISystemComponent* WorldLoader_InputComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneList& systemScenes )
+ISystemComponent* WorldLoader_InputComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes )
 {
 	SystemPropertyList properties;
 
@@ -117,7 +117,7 @@ ISystemComponent* WorldLoader_InputComponentStrategy::CreateComponent( const std
 		properties.insert( std::make_pair( propertyKey, SystemProperty( propertyKey, propertyValue ) ) );
 	}
 
-	SystemSceneList::const_iterator systemScene = systemScenes.find( InputSystemType );
+	SystemSceneMap::const_iterator systemScene = systemScenes.find( InputSystemType );
 
 	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
 	systemComponent->Initialize( properties );

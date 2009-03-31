@@ -8,6 +8,7 @@
 
 #include "../Events/IEvent.hpp"
 #include "../State/IWorld.hpp"
+#include "../State/IWorldLoader.hpp"
 
 /*!
 	Represents the Operating System Entry Point of the Game
@@ -23,6 +24,7 @@ public:
 		: _isQuitting( false )
 		, _isInitialized( false )
 		, _world( 0 )
+		, _worldLoader( 0 )
 	{
 
 	}
@@ -50,6 +52,7 @@ private:
 	bool _isInitialized;
 
 	Configuration* _configuration;
+	IWorldLoader* _worldLoader;
 	IWorld* _world;
 
 	Game( const Game & copy ) { };
