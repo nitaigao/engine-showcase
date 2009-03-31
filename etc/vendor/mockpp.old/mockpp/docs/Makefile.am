@@ -1,4 +1,0 @@
-SUBDIRS = en api
-
-CLEANFILES = *.~* *.~~* *~
-
