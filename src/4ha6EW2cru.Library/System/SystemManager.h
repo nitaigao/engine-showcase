@@ -41,6 +41,14 @@ public:
 			( *i )->Initialize( );
 		}
 	}
+
+	void Update( float deltaMilliseconds )
+	{
+		for( SystemList::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
+		{
+			( *i )->Update( deltaMilliseconds );
+		}
+	}
 	
 	void Release( )
 	{

@@ -18,6 +18,7 @@ public:
 	}
 
 	void Initialize( ) { };
+	inline void Update( float deltaMilliseconds ) { };
 	void Release( ) { };
 
 	ISystemScene* CreateScene( );

@@ -58,7 +58,7 @@ void Logger::LogMessage( const std::string level, const std::string message )
 	std::stringstream outputMessage;
 	outputMessage << level << ": " << message << "\n";
 
-	OutputDebugString( outputMessage.str( ).c_str( ) );
+	//OutputDebugString( outputMessage.str( ).c_str( ) );
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "MESSAGE_LOGGED", outputMessage.str( ) ) );
 }
 

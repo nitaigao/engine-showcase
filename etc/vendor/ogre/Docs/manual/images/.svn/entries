@@ -1,0 +1,54 @@
+9
+
+dir
+8277
+https://svn.ogre3d.org/svnroot/ogre/tags/v1-6-1/Docs/manual/images
+https://svn.ogre3d.org/svnroot/ogre
+
+
+
+2007-02-10T21:26:37.000000Z
+6236
+sinbad
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+8631bf8a-c64b-0410-883c-f3eb003322f7
+
+TextureSource.jpg
+file
+
+
+
+
+2008-05-01T20:20:47.000000Z
+186b4106a5990a5de29b1cbd9b1121ed
+2004-04-07T21:34:50.000000Z
+2224
+sinbad
+has-props
+
+uml-overview.png
+file
+
+
+
+
+2008-05-01T20:20:48.000000Z
+5d40bc80c958181c620a3d15b020a6ff
+2007-02-10T21:26:37.000000Z
+6236
+sinbad
+has-props
+

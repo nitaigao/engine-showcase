@@ -1,0 +1,5 @@
+base referer
+rect $classOgre_1_1OverlayManager.html 8,83 165,107
+rect $classOgre_1_1ParticleSystemManager.html 189,83 389,107
+rect $classOgre_1_1ResourceManager.html 413,83 581,107
+rect $classOgre_1_1ScriptCompilerManager.html 605,83 802,107

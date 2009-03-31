@@ -83,7 +83,8 @@ void Interface::Initialize( )
 			.def( "asButton", &Interface::AsButton )
 			.def( "asComboBox", &Interface::AsComboBox )
 			.def( "asEditBox", &Interface::AsEditBox )
-			.def( "asProgressBar", &Interface::AsProgressBar ),
+			.def( "asProgressBar", &Interface::AsProgressBar )
+			.def( "setFocus", &Interface::SetFocus ),
 
 		class_< Button >( "Button" )
 			.def( "setChecked", &Button::setStateCheck )
@@ -130,7 +131,7 @@ void Interface::LoadComponent( const std::string componentName )
 	std::stringstream layoutPath;
 	layoutPath << "/data/interface/components/" << componentName << ".layout";
 
-	LayoutManager::getInstance().load( layoutPath.str( ) );
+	Gui::getInstancePtr( )->load( layoutPath.str( ) );
 
 	std::stringstream scriptPath;
 	scriptPath << "/data/interface/components/" << componentName << ".lua";
@@ -290,5 +291,17 @@ void Interface::SetInputAllowed( bool inputAllowed )
 		properties.insert( std::make_pair( "inputAllowed", SystemProperty( "inputAllowed", inputAllowed ) ) );
 
 		inputSystem->SetProperties( properties );
+	}
+}
+
+void Interface::SetFocus( WidgetPtr widget, bool focus )
+{
+	if ( focus )
+	{
+		MyGUI::InputManager::getInstancePtr( )->setKeyFocusWidget( widget );
+	}
+	else
+	{
+		MyGUI::InputManager::getInstancePtr( )->resetKeyFocusWidget( widget );
 	}
 }

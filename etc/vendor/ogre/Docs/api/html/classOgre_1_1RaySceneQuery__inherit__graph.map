@@ -1,0 +1,5 @@
+base referer
+rect $classOgre_1_1DefaultRaySceneQuery.html 69,233 266,257
+rect $classOgre_1_1SceneQuery.html 7,84 138,108
+rect $classOgre_1_1AllocatedObject.html 18,9 127,33
+rect $classOgre_1_1RaySceneQueryListener.html 162,84 365,108

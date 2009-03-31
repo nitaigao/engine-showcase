@@ -1,0 +1,6 @@
+base referer
+rect $classOgre_1_1FileHandleDataStream.html 8,158 200,182
+rect $classOgre_1_1FileStreamDataStream.html 224,158 416,182
+rect $classOgre_1_1MemoryDataStream.html 440,158 616,182
+rect $classOgre_1_1ZipDataStream.html 640,158 786,182
+rect $classOgre_1_1AllocatedObject.html 377,9 470,33

@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="-Zm200"
 				Optimization="0"
-				AdditionalIncludeDirectories="include;..\Dependencies\include;../../freetype/include;../../ogre/include;../../ois/includes"
+				AdditionalIncludeDirectories="include;..\Dependencies\include;../../freetype/include;../../ogre/ogremain/include;../../ois/includes"
 				PreprocessorDefinitions="WIN32; _DEBUG; _WINDOWS; _USRDLL; MYGUI_BUILD;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -126,7 +126,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="-Zm200"
-				AdditionalIncludeDirectories="include;..\Dependencies\include;../../freetype/include;../../ogre/include;../../ois/includes"
+				AdditionalIncludeDirectories="include;..\Dependencies\include;../../freetype/include;../../ogre/ogremain/include;../../ois/includes"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;MYGUI_BUILD"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"

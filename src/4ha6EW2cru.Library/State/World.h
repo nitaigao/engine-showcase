@@ -19,6 +19,7 @@ public:
 	inline const SystemSceneMap& GetSystemScenes( ) { return _systemScenes; };
 
 	void Update( float deltaMilliseconds );
+	void Clear( );
 
 private:
 

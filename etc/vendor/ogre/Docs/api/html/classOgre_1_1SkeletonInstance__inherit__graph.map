@@ -1,0 +1,5 @@
+base referer
+rect $classOgre_1_1Skeleton.html 100,158 209,182
+rect $classOgre_1_1Resource.html 97,84 212,108
+rect $classOgre_1_1StringInterface.html 8,9 152,33
+rect $classOgre_1_1AllocatedObject.html 176,9 282,33

@@ -9,6 +9,7 @@
 
 WorldLoader::~WorldLoader()
 {
+	_loadSource->Clear( );
 	delete _loadSource;
 }
 
@@ -95,14 +96,16 @@ void WorldLoader::Update( float deltaMilliseconds )
 		this->LoadEntity( entityNode );
 
 		std::stringstream loadProgress;
-		loadProgress << ( ( float ) _loadPosition / ( float ) _loadSource->size( ) ) * 100.0f;
+		loadProgress << ( ( float ) ( _loadPosition + 1 ) / ( float ) _loadSource->size( ) ) * 100.0f;
 
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "WORLD_LOADING_PROGRESS", loadProgress.str( ) ) );
 
 		if ( ++_loadPosition == _loadSource->size( ) )
 		{
 			_loadSource->Clear( );
-			Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "WORLD_LOADING_FINISHED" ) );
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WORLD_LOADING_FINISHED" ) );
 		}
 	}
+
+	
 }

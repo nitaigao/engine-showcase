@@ -1,0 +1,6 @@
+base referer
+rect $classOgre_1_1Entity_1_1EntityShadowRenderable.html 480,8 728,32
+rect $classOgre_1_1ManualObject_1_1ManualObjectSectionShadowRenderable.html 408,56 800,80
+rect $classOgre_1_1StaticGeometry_1_1Region_1_1RegionShadowRenderable.html 421,104 786,128
+rect $classOgre_1_1Renderable.html 9,32 134,56
+rect $classOgre_1_1AllocatedObject.html 9,80 134,104

@@ -1,0 +1,6 @@
+base referer
+rect $classOgre_1_1ResourceManager.html 62,84 230,108
+rect $classOgre_1_1ScriptLoader.html 8,9 141,33
+rect $classOgre_1_1AllocatedObject.html 165,9 272,33
+rect $classOgre_1_1Singleton.html 254,84 476,108
+rect $classOgre_1_1ManualResourceLoader.html 500,84 700,108

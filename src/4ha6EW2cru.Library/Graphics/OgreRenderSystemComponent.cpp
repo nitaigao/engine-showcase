@@ -12,7 +12,16 @@ using namespace Ogre;
 
 OgreRenderSystemComponent::~OgreRenderSystemComponent( )
 {
-	_scene->GetRoot( )->getSceneManager( "default" )->getRootSceneNode( )->removeAndDestroyChild( _name );
+	SceneManager* sceneManager = _scene->GetRoot( )->getSceneManager( "default" );
+	SceneNode::ObjectIterator objects = _sceneNode->getAttachedObjectIterator( );
+
+	while( objects.hasMoreElements( ) )
+	{
+		MovableObject* object = objects.getNext( );
+		sceneManager->destroyMovableObject( object );
+	}
+
+	sceneManager->getRootSceneNode( )->removeAndDestroyChild( _name );
 }
 
 void OgreRenderSystemComponent::Initialize( SystemPropertyList properties )

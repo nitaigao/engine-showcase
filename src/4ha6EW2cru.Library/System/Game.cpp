@@ -48,10 +48,9 @@ void Game::Initialize( )
 	systemManager->AddSystem( new InputSystem( _configuration ) );
 	systemManager->InitializeAllSystems( );
 
-	// -- Setup the World
+	// -- Setup the World and World Loader
 
 	_world = new World( );
-	_worldLoader = new WorldLoader( _world );
 
 	SystemList systemList = systemManager->GetAllSystems( );
 	
@@ -59,6 +58,8 @@ void Game::Initialize( )
 	{
 		_world->AddSystemScene( ( *i )->CreateScene( ) );
 	}
+
+	_worldLoader = new WorldLoader( _world );
 
 	// -- Register Events
 
@@ -100,6 +101,8 @@ void Game::Release( )
 	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GAME_QUIT, this, &Game::OnGameQuit );
 	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
 
+	_world->Clear( );
+
 	delete _worldLoader;
 	delete _world;
 
@@ -114,6 +117,8 @@ void Game::OnGameQuit( const IEvent* event )
 
 void Game::OnGameLevelChanged( const IEvent* event )
 {
+	_world->Clear( );
+
 	LevelChangedEventData* eventData = static_cast< LevelChangedEventData* >( event->GetEventData( ) );
 
 	std::stringstream levelPath;

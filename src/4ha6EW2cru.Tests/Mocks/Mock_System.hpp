@@ -35,6 +35,11 @@ public:
 		initialize_count.inc( );
 	}
 
+	void Update( float deltaMilliseconds )
+	{
+
+	}
+
 	void Release( )
 	{
 		release_count.inc( );

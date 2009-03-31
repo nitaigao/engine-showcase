@@ -1,0 +1,12 @@
+base referer
+rect $classOgre_1_1AllocatedObject.html 9,128 313,152
+rect $classOgre_1_1GpuProgramParameters.html 366,8 569,32
+rect $classOgre_1_1HardwareOcclusionQuery.html 362,56 573,80
+rect $classOgre_1_1RenderTarget.html 398,104 537,128
+rect $classOgre_1_1TempBlendedBufferInfo.html 369,248 566,272
+rect $classOgre_1_1VertexCacheProfiler.html 380,152 556,176
+rect $classOgre_1_1Viewport.html 413,200 522,224
+rect $classOgre_1_1MultiRenderTarget.html 622,56 790,80
+rect $classOgre_1_1RenderTexture.html 633,104 780,128
+rect $classOgre_1_1RenderWindow.html 632,152 781,176
+rect $classOgre_1_1HardwareBufferLicensee.html 58,248 264,272

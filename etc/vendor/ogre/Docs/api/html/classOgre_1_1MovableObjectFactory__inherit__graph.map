@@ -1,0 +1,9 @@
+base referer
+rect $classOgre_1_1BillboardChainFactory.html 398,8 587,32
+rect $classOgre_1_1BillboardSetFactory.html 406,56 579,80
+rect $classOgre_1_1EntityFactory.html 425,104 561,128
+rect $classOgre_1_1LightFactory.html 427,152 558,176
+rect $classOgre_1_1ManualObjectFactory.html 401,200 585,224
+rect $classOgre_1_1ParticleSystemFactory.html 397,248 589,272
+rect $classOgre_1_1RibbonTrailFactory.html 407,296 578,320
+rect $classOgre_1_1AllocatedObject.html 9,152 107,176

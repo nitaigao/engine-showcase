@@ -1,0 +1,6 @@
+base referer
+rect $classOgre_1_1ImageCodec.html 170,158 303,182
+rect $classOgre_1_1AllocatedObject.html 193,9 281,33
+rect $classOgre_1_1DDSCodec.html 7,233 133,257
+rect $classOgre_1_1FreeImageCodec.html 157,233 317,257
+rect $classOgre_1_1ILImageCodec.html 341,233 485,257

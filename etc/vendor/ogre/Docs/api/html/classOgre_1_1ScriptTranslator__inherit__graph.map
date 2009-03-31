@@ -1,0 +1,17 @@
+base referer
+rect $classOgre_1_1CompositionPassClearTranslator.html 405,8 658,32
+rect $classOgre_1_1CompositionPassStencilTranslator.html 401,56 662,80
+rect $classOgre_1_1CompositionPassTranslator.html 421,104 642,128
+rect $classOgre_1_1CompositionTargetPassTranslator.html 402,152 661,176
+rect $classOgre_1_1CompositionTechniqueTranslator.html 405,200 658,224
+rect $classOgre_1_1CompositorTranslator.html 438,248 625,272
+rect $classOgre_1_1GpuProgramTranslator.html 434,296 629,320
+rect $classOgre_1_1MaterialTranslator.html 449,344 614,368
+rect $classOgre_1_1ParticleAffectorTranslator.html 428,392 636,416
+rect $classOgre_1_1ParticleEmitterTranslator.html 429,440 634,464
+rect $classOgre_1_1ParticleSystemTranslator.html 429,488 634,512
+rect $classOgre_1_1PassTranslator.html 458,536 605,560
+rect $classOgre_1_1TechniqueTranslator.html 442,584 621,608
+rect $classOgre_1_1TextureSourceTranslator.html 429,632 634,656
+rect $classOgre_1_1TextureUnitTranslator.html 438,680 625,704
+rect $classOgre_1_1AllocatedObject.html 8,344 152,368

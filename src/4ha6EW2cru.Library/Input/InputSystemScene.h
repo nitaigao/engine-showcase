@@ -1,25 +1,32 @@
 #ifndef __INPUTSYSTEMSCENE_H
 #define __INPUTSYSTEMSCENE_H
 
+#include <vector>
+
+#include "InputSystemComponent.h"
+
 #include "../System/ISystem.hpp"
 #include "../System/ISystemScene.hpp"
 
-#include "OIS/OISInputManager.h"
-#include "OIS/OISKeyboard.h"
-#include "OIS/OISMouse.h"
+#include <OIS/OISInputManager.h>
+#include <OIS/OISKeyboard.h>
+#include <OIS/OISMouse.h>
 
-#include "KeyboardListener.hpp"
-#include "MouseListener.hpp"
-
-class InputSystemScene : public ISystemScene, public OIS::KeyListener, public OIS::MouseListener
+class InputSystemScene : public ISystemScene
 {
 	typedef std::vector< InputSystemComponent* > InputSystemComponentList;
 
 public:
 
-	virtual ~InputSystemScene( );
+	virtual ~InputSystemScene( ) { };
 
-	InputSystemScene( const int& screenWidth, const int& screenHeight );
+	InputSystemScene( OIS::Mouse* mouse, OIS::Keyboard* keyboard )
+		: _inputAllowed( true )
+		, _mouse( mouse )
+		, _keyboard( keyboard )
+	{
+
+	}
 
 	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 	void DestroyComponent( ISystemComponent* component );
@@ -30,30 +37,28 @@ public:
 	void SetInputAllowed( bool inputAllowed ) { _inputAllowed = inputAllowed; };
 
 	/* Fired when the user presses a button on the keyboard */
-	bool keyPressed( const KeyEvent &arg );
+	bool keyPressed( const OIS::KeyEvent &arg );
 
 	/* Fired when the user releases a button on the keyboard */
-	bool keyReleased( const KeyEvent &arg );
+	bool keyReleased( const OIS::KeyEvent &arg );
 
 	/* Fired when the user moves the mouse */
-	bool mouseMoved( const MouseEvent &arg );
+	bool mouseMoved( const OIS::MouseEvent &arg );
 
 	/* Fired when the user presses a button on the mouse */
-	bool mousePressed( const MouseEvent &arg, MouseButtonID id );
+	bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
 	/* Fired when the user releases a button on the mouse */
-	bool mouseReleased( const MouseEvent &arg, MouseButtonID id );
+	bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
 private:
 
 	bool _inputAllowed;
 
-	OIS::InputManager* _inputManager;
+	InputSystemComponentList _inputComponents;
 
 	OIS::Mouse* _mouse;
 	OIS::Keyboard* _keyboard;
-
-	InputSystemComponentList _inputComponents;
 
 	InputSystemScene( ) { };
 	InputSystemScene( const InputSystemScene & copy ) { };

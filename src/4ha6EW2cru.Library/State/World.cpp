@@ -4,17 +4,7 @@
 
 World::~World()
 {
-	for ( EntityList::iterator e = _entities.begin( ); e != _entities.end( ); ++e )
-	{
-		SystemComponentList components = ( *e )->GetComponents( );
-
-		for( SystemComponentList::iterator c = components.begin( ); c != components.end( ); ++c )
-		{
-			_systemScenes[ ( *c )->GetType( ) ]->DestroyComponent( ( *c ) );
-		}
-
-		delete ( *e );
-	}
+	this->Clear( );
 
 	for ( SystemSceneMap::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
 	{
@@ -35,4 +25,21 @@ void World::Update( float deltaMilliseconds )
 	{
 		( *i ).second->Update( deltaMilliseconds );
 	}
+}
+
+void World::Clear( )
+{
+	for ( EntityList::iterator e = _entities.begin( ); e != _entities.end( ); ++e )
+	{
+		SystemComponentList components = ( *e )->GetComponents( );
+
+		for( SystemComponentList::iterator c = components.begin( ); c != components.end( ); ++c )
+		{
+			_systemScenes[ ( *c )->GetType( ) ]->DestroyComponent( ( *c ) );
+		}
+
+		delete ( *e );
+	}
+
+	_entities.clear( );
 }

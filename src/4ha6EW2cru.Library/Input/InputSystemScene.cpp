@@ -1,28 +1,8 @@
 #include "InputSystemScene.h"
-#include "../Scripting/ScriptEvent.hpp"
 
 #include "InputSystemComponent.h"
 
-InputSystemScene::~InputSystemScene()
-{
-	_inputManager->destroyInputSystem( _inputManager );
-}
-
-InputSystemScene::InputSystemScene( const int& screenWidth, const int& screenHeight ) 
-{
-	_inputAllowed = true;
-
-	_inputManager = OIS::InputManager::createInputSystem( Management::GetInstance( )->GetPlatformManager( )->GetHwnd( ) );
-	
-	_keyboard = static_cast< OIS::Keyboard* >( _inputManager->createInputObject( OIS::OISKeyboard, true ) );
-	_keyboard->setEventCallback( this );
-
-	_mouse = static_cast< OIS::Mouse* >( _inputManager->createInputObject( OIS::OISMouse, true ) );
-	_mouse->setEventCallback( this );
-
-	_mouse->getMouseState( ).width = screenWidth;
-	_mouse->getMouseState( ).height = screenHeight;
-}
+using namespace OIS;
 
 ISystemComponent* InputSystemScene::CreateComponent( const std::string& name, const std::string& type )
 {
@@ -33,15 +13,21 @@ ISystemComponent* InputSystemScene::CreateComponent( const std::string& name, co
 
 void InputSystemScene::DestroyComponent( ISystemComponent* component )
 {
+	for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
+	{
+		if ( component->GetName( ) == ( *i )->GetName( ) )
+		{
+			_inputComponents.erase( i );
+			break;
+		}
+	}
+
 	delete component;
 	component = 0;
 }
 
 void InputSystemScene::Update( float deltaMilliseconds )
 {
-	_mouse->capture( );
-	_keyboard->capture( );
-
 	if ( _inputAllowed )
 	{
 		unsigned int changes = 0;
@@ -101,11 +87,8 @@ bool InputSystemScene::keyPressed( const KeyEvent &arg )
 		}
 	}
 
-	Event* event = new Event( INPUT_KEY_DOWN, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
-	Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
-
 	return true;
-};
+}
 
 bool InputSystemScene::keyReleased( const KeyEvent &arg )
 {
@@ -117,17 +100,8 @@ bool InputSystemScene::keyReleased( const KeyEvent &arg )
 		}
 	}
 
-	Event* event = new Event( INPUT_KEY_UP, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
-	Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
-
-	if ( arg.key == OIS::KC_GRAVE )
-	{
-		Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "UI_CONSOLE" ) );
-	}
-
-
 	return true;
-};
+}
 
 /* Fired when the user moves the mouse */
 bool InputSystemScene::mouseMoved( const MouseEvent &arg )
@@ -152,17 +126,12 @@ bool InputSystemScene::mouseMoved( const MouseEvent &arg )
 		}
 	}
 
-	Event* event = new Event( INPUT_MOUSE_MOVED, new MouseEventData( arg.state, OIS::MB_Left ) );
-	Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
-
 	return true;
 }
 
 /* Fired when the user presses a button on the mouse */
 bool InputSystemScene::mousePressed( const MouseEvent &arg, MouseButtonID id )
 {
-	Event* event = new Event( INPUT_MOUSE_PRESSED, new MouseEventData( arg.state, id ) );
-	Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 
 	return true;
 }
@@ -170,8 +139,6 @@ bool InputSystemScene::mousePressed( const MouseEvent &arg, MouseButtonID id )
 /* Fired when the user releases a button on the mouse */
 bool InputSystemScene::mouseReleased( const MouseEvent &arg, MouseButtonID id )
 {
-	Event* event = new Event( INPUT_MOUSE_RELEASED, new MouseEventData( arg.state, id ) );
-	Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 
 	return true;
 }

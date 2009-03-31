@@ -75,6 +75,9 @@ private:
 	/*! Casts a widget to a ProgressBar */
 	static inline ProgressPtr AsProgressBar( WidgetPtr widget ) { return static_cast< ProgressPtr >( widget ); };
 
+	/*! Sets the focus to the given Widget */
+	static void SetFocus( WidgetPtr widget, bool focus );
+
 	/*! Converts the given type to a std::string */
 	static inline std::string AsString( Ogre::UTFString input ) { return std::string( input ); };
 

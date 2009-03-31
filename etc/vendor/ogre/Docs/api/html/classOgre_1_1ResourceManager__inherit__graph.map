@@ -1,0 +1,11 @@
+base referer
+rect $classOgre_1_1CompositorManager.html 439,8 618,32
+rect $classOgre_1_1FontManager.html 461,56 597,80
+rect $classOgre_1_1GpuProgramManager.html 435,104 622,128
+rect $classOgre_1_1HighLevelGpuProgramManager.html 406,152 651,176
+rect $classOgre_1_1MaterialManager.html 450,200 607,224
+rect $classOgre_1_1MeshManager.html 457,248 601,272
+rect $classOgre_1_1SkeletonManager.html 447,296 610,320
+rect $classOgre_1_1TextureManager.html 451,344 606,368
+rect $classOgre_1_1ScriptLoader.html 7,152 141,176
+rect $classOgre_1_1AllocatedObject.html 21,200 127,224

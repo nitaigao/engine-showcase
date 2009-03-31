@@ -14,6 +14,7 @@ public:
 	GeometrySystem( ) { };
 
 	inline void Initialize( ) { };
+	inline void Update( float deltaMilliseconds ) { };
 	inline void Release( ) { };
 
 	ISystemScene* CreateScene( );

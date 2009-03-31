@@ -18,6 +18,7 @@ public:
 	virtual void AddSystemScene( ISystemScene* systemScene ) = 0;
 	virtual const SystemSceneMap& GetSystemScenes( ) = 0;
 	virtual void Update( float deltaMilliseconds ) = 0;
+	virtual void Clear( ) = 0;
 };
 
 typedef std::map< std::string, IWorld* > WorldList;

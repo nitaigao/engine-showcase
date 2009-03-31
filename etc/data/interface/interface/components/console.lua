@@ -42,6 +42,7 @@ end
 function Console.onShowConsole( )
 
 	local console = findWidget( 'console' );
+	local consoleInput = findWidget( 'console_input' );
 	
 	if ( console:isVisible( ) ) then
 	
@@ -51,6 +52,7 @@ function Console.onShowConsole( )
 		if ( not menu:isVisible( ) ) then
 		
 			hideMouse( );
+			consoleInput:setFocus( false );
 		
 		end
 		
@@ -58,6 +60,7 @@ function Console.onShowConsole( )
 		
 	else
 	
+		consoleInput:setFocus( true );
 		console:setVisible( true ); 
 		showMouse( );
 

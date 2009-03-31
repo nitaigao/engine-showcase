@@ -1,0 +1,5 @@
+base referer
+rect $classOgre_1_1LiSPSMShadowCameraSetup.html 9,233 246,257
+rect $classOgre_1_1FocusedShadowCameraSetup.html 8,158 248,182
+rect $classOgre_1_1ShadowCameraSetup.html 33,83 222,107
+rect $classOgre_1_1AllocatedObject.html 65,9 190,33

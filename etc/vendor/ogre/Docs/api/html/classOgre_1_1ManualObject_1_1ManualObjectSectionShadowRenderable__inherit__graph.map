@@ -1,0 +1,4 @@
+base referer
+rect $classOgre_1_1ShadowRenderable.html 116,84 292,108
+rect $classOgre_1_1Renderable.html 66,9 192,33
+rect $classOgre_1_1AllocatedObject.html 216,9 341,33

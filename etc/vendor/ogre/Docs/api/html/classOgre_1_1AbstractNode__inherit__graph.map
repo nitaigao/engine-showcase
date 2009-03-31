@@ -1,0 +1,7 @@
+base referer
+rect $classOgre_1_1AtomAbstractNode.html 403,8 574,32
+rect $classOgre_1_1ImportAbstractNode.html 401,56 577,80
+rect $classOgre_1_1ObjectAbstractNode.html 401,104 577,128
+rect $classOgre_1_1PropertyAbstractNode.html 394,152 583,176
+rect $classOgre_1_1VariableAccessAbstractNode.html 374,200 603,224
+rect $classOgre_1_1AllocatedObject.html 7,104 138,128

@@ -1,0 +1,15 @@
+base referer
+rect $classOgre_1_1BillboardChain.html 463,8 607,32
+rect $classOgre_1_1BillboardSet.html 470,56 601,80
+rect $classOgre_1_1Entity.html 490,104 581,128
+rect $classOgre_1_1Frustum.html 482,152 589,176
+rect $classOgre_1_1InstancedGeometry_1_1BatchInstance.html 402,200 669,224
+rect $classOgre_1_1Light.html 493,248 578,272
+rect $classOgre_1_1ManualObject.html 466,296 605,320
+rect $classOgre_1_1MovablePlane.html 465,344 606,368
+rect $classOgre_1_1ParticleSystem.html 462,392 609,416
+rect $classOgre_1_1SimpleRenderable.html 451,440 619,464
+rect $classOgre_1_1StaticGeometry_1_1Region.html 435,488 635,512
+rect $classOgre_1_1ShadowCaster.html 11,200 155,224
+rect $classOgre_1_1AnimableObject.html 7,248 159,272
+rect $classOgre_1_1AllocatedObject.html 34,296 133,320

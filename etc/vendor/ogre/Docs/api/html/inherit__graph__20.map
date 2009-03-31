@@ -1,0 +1,6 @@
+base referer
+rect $classOgre_1_1Codec.html 9,56 105,80
+rect $classOgre_1_1ImageCodec.html 154,56 288,80
+rect $classOgre_1_1DDSCodec.html 354,8 480,32
+rect $classOgre_1_1FreeImageCodec.html 337,56 497,80
+rect $classOgre_1_1ILImageCodec.html 345,104 489,128
