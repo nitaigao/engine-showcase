@@ -3,12 +3,24 @@
 #include "Logging/Logger.h"
 #include "Logging/ConsoleAppender.h"
 
+#include "System/Management.h"
+
 #include "../Mocks/MockLogAppender.hpp"
 
 #include "Exceptions/NullReferenceException.hpp"
 
 #include "../Suites.h"
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( LoggerFixture, Suites::LoggingSuite( ) );
+
+void LoggerFixture::setUp()
+{
+
+}
+
+void LoggerFixture::tearDown()
+{
+
+}
 
 void LoggerFixture::Should_Initialize_Correctly( )
 {
@@ -48,73 +60,29 @@ void LoggerFixture::Should_Throw_On_GetInstance_Given_Not_Initialized( )
 	CPPUNIT_ASSERT_THROW( Logger::GetInstance( ), UnInitializedException );
 }
 
-void LoggerFixture::Should_Add_Appender_Given_Intialized_And_Valid_Appender( )
-{
-	MockLogAppender* appender = new MockLogAppender( );	
-	
-	Logger::Initialize( );
-	Logger::GetInstance( )->AddAppender( appender );
-	Logger::GetInstance( )->Release( );
-}
-
-void LoggerFixture::Should_Throw_On_Add_Appender_Given_Not_Initialized( )
-{
-	MockLogAppender* appender = new MockLogAppender( );	
-
-	CPPUNIT_ASSERT_THROW( Logger::GetInstance( )->AddAppender( appender ), UnInitializedException );
-	
-	delete appender;
-}
-
-void LoggerFixture::Should_Throw_On_Add_Appender_Given_NULL_Appender( )
-{
-	Logger::Initialize( );
-	CPPUNIT_ASSERT_THROW( Logger::GetInstance( )->AddAppender( 0 ), NullReferenceException );
-	Logger::GetInstance( )->Release( );
-}
-
-void LoggerFixture::Should_Throw_On_Add_Appender_Given_Appender_Already_Added( )
-{
-	MockLogAppender* appender = new MockLogAppender( );	
-
-	Logger::Initialize( );
-	Logger::GetInstance( )->AddAppender( appender );
-	CPPUNIT_ASSERT_THROW( Logger::GetInstance( )->AddAppender( appender ), AlreadyInitializedException );
-	Logger::GetInstance( )->Release( );
-}
-
 void LoggerFixture::Should_Log_On_Debug_Given_Valid_Message( )
 {
 	Logger::Initialize( );
+	Management::Initialize( );
 	Logger::GetInstance( )->Debug( "Debug Message" );
+	Management::GetInstance( )->Release( );
 	Logger::GetInstance( )->Release( );
 }
 
 void LoggerFixture::Should_Log_On_Info_Given_Valid_Message( )
 {
 	Logger::Initialize( );
+	Management::Initialize( );
 	Logger::GetInstance( )->Info( "Info Message" );
+	Management::GetInstance( )->Release( );
 	Logger::GetInstance( )->Release( );
 }
 
 void LoggerFixture::Should_Log_On_Fatal_Given_Valid_Message( )
 {
 	Logger::Initialize( );
+	Management::Initialize( );
 	Logger::GetInstance( )->Fatal( "Fatal Message" );
-	Logger::GetInstance( )->Release( );
-}
-
-void LoggerFixture::Should_Log_To_Appender( )
-{
-	MockLogAppender* appenderMock = new MockLogAppender( );	
-	appenderMock->append_count.setExpected( 3 );
-
-	Logger::Initialize( );
-	Logger::GetInstance( )->AddAppender( appenderMock );
-	Logger::GetInstance( )->Debug( "Logger Appender Test" );
-	Logger::GetInstance( )->Info( "Logger Appender Test" );
-	Logger::GetInstance( )->Fatal( "Logger Appender Test" );
-
-	appenderMock->verify( );
+	Management::GetInstance( )->Release( );
 	Logger::GetInstance( )->Release( );
 }

@@ -33,8 +33,6 @@ void Game::Initialize( )
 	// -- Initialize All Singletons
 
 	Logger::Initialize( );
-	Logger::GetInstance( )->AddAppender( new ConsoleAppender( ) );
-
 	Management::Initialize( );
 
 	_configuration = Configuration::Load( "config/game.cfg" );
@@ -65,7 +63,6 @@ void Game::Initialize( )
 
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( GAME_QUIT, this, &Game::OnGameQuit );
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
-	//Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_INITIALIZED ) );
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_INITIALIZED" ) );
 
 	_isInitialized = true;
@@ -84,6 +81,8 @@ void Game::Update( float deltaMilliseconds )
 		Logger::GetInstance( )->Fatal( e.what( ) );
 		throw e;
 	}
+
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_UPDATE" ) );
 
 	_world->Update( deltaMilliseconds );
 	Management::GetInstance( )->Update( deltaMilliseconds );
@@ -104,7 +103,6 @@ void Game::Release( )
 	delete _world;
 
 	Management::GetInstance( )->Release( );
-	
 	Logger::GetInstance( )->Release( );
 }
 
@@ -117,9 +115,7 @@ void Game::OnGameLevelChanged( const IEvent* event )
 {
 	LevelChangedEventData* eventData = static_cast< LevelChangedEventData* >( event->GetEventData( ) );
 
-	FileManager fileManager;
-	fileManager.MountFileStore( "../game/data/levels.bad", "data/" );
-	WorldLoader loader( _world, &fileManager );
+	WorldLoader loader( _world );
 
 	std::stringstream levelPath;
 	levelPath << "/data/levels/" << eventData->GetLevelName( ) << ".yaml";

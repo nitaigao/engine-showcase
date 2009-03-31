@@ -41,6 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="include/;../lua/include;../boost/include"
+				PreprocessorDefinitions="LUABIND_NO_EXCEPTIONS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -104,6 +105,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="include/;../lua/include;../boost/include"
+				PreprocessorDefinitions="LUABIND_NO_EXCEPTIONS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -234,15 +236,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\back_reference.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\luabind\back_reference.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\back_reference_fwd.hpp"
+				RelativePath=".\include\luabind\back_reference.hpp"
 				>
 			</File>
 			<File
@@ -250,11 +248,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\calc_arity.hpp"
+				RelativePath=".\include\luabind\back_reference_fwd.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\call.hpp"
+				RelativePath=".\include\luabind\detail\calc_arity.hpp"
 				>
 			</File>
 			<File
@@ -262,11 +260,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\call_function.hpp"
+				RelativePath=".\include\luabind\detail\call.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\luabind\detail\call_function.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\luabind\detail\call_function.hpp"
 				>
 			</File>
 			<File
@@ -278,15 +280,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\call_operator_iterate.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\luabind\detail\call_operator_iterate.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\class.hpp"
+				RelativePath=".\include\luabind\detail\call_operator_iterate.hpp"
 				>
 			</File>
 			<File
@@ -294,7 +292,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\detail\class_cache.hpp"
+				RelativePath=".\luabind\class.hpp"
 				>
 			</File>
 			<File
@@ -302,11 +300,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\class_info.hpp"
+				RelativePath=".\luabind\detail\class_cache.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\luabind\class_info.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\luabind\class_info.hpp"
 				>
 			</File>
 			<File
@@ -318,15 +320,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\detail\class_rep.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\include\luabind\detail\class_rep.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\compute_score.hpp"
+				RelativePath=".\luabind\detail\class_rep.hpp"
 				>
 			</File>
 			<File
@@ -334,7 +332,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\config.hpp"
+				RelativePath=".\include\luabind\detail\compute_score.hpp"
 				>
 			</File>
 			<File
@@ -342,11 +340,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\construct_rep.hpp"
+				RelativePath=".\include\luabind\config.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\luabind\detail\construct_rep.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\luabind\detail\construct_rep.hpp"
 				>
 			</File>
 			<File
@@ -358,15 +360,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\container_policy.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\include\luabind\container_policy.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\detail\conversion_storage.hpp"
+				RelativePath=".\luabind\container_policy.hpp"
 				>
 			</File>
 			<File
@@ -374,7 +372,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\convert_to_lua.hpp"
+				RelativePath=".\luabind\detail\conversion_storage.hpp"
 				>
 			</File>
 			<File
@@ -382,11 +380,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\copy_policy.hpp"
+				RelativePath=".\include\luabind\detail\convert_to_lua.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\include\luabind\copy_policy.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\luabind\copy_policy.hpp"
 				>
 			</File>
 			<File
@@ -398,19 +400,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\decorate_type.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\luabind\detail\decorate_type.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\detail\deduce_signature.hpp"
+				RelativePath=".\include\luabind\detail\decorate_type.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\include\luabind\detail\deduce_signature.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\luabind\detail\deduce_signature.hpp"
 				>
 			</File>
 			<File
@@ -422,19 +424,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\discard_result_policy.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\luabind\discard_result_policy.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\detail\enum_maker.hpp"
+				RelativePath=".\include\luabind\discard_result_policy.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\include\luabind\detail\enum_maker.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\luabind\detail\enum_maker.hpp"
 				>
 			</File>
 			<File
@@ -446,15 +448,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\exception_handler.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\luabind\exception_handler.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\find_best_match.hpp"
+				RelativePath=".\include\luabind\exception_handler.hpp"
 				>
 			</File>
 			<File
@@ -462,7 +460,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\detail\format_signature.hpp"
+				RelativePath=".\include\luabind\detail\find_best_match.hpp"
 				>
 			</File>
 			<File
@@ -470,11 +468,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\from_stack.hpp"
+				RelativePath=".\luabind\detail\format_signature.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\luabind\from_stack.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\luabind\from_stack.hpp"
 				>
 			</File>
 			<File
@@ -486,15 +488,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\garbage_collector.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\luabind\detail\garbage_collector.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\get_overload_signature.hpp"
+				RelativePath=".\include\luabind\detail\garbage_collector.hpp"
 				>
 			</File>
 			<File
@@ -502,7 +500,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\get_pointer.hpp"
+				RelativePath=".\include\luabind\detail\get_overload_signature.hpp"
 				>
 			</File>
 			<File
@@ -510,11 +508,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\detail\get_signature.hpp"
+				RelativePath=".\luabind\get_pointer.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\include\luabind\detail\get_signature.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\luabind\detail\get_signature.hpp"
 				>
 			</File>
 			<File
@@ -526,15 +528,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\has_get_pointer.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\luabind\detail\has_get_pointer.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\implicit_cast.hpp"
+				RelativePath=".\include\luabind\detail\has_get_pointer.hpp"
 				>
 			</File>
 			<File
@@ -542,7 +540,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\detail\is_indirect_const.hpp"
+				RelativePath=".\include\luabind\detail\implicit_cast.hpp"
 				>
 			</File>
 			<File
@@ -550,11 +548,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\iterator_policy.hpp"
+				RelativePath=".\luabind\detail\is_indirect_const.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\luabind\iterator_policy.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\luabind\iterator_policy.hpp"
 				>
 			</File>
 			<File
@@ -566,15 +568,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\lua_include.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\include\luabind\lua_include.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\luabind.hpp"
+				RelativePath=".\luabind\lua_include.hpp"
 				>
 			</File>
 			<File
@@ -582,11 +580,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\make_function.hpp"
+				RelativePath=".\luabind\luabind.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\include\luabind\make_function.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\luabind\make_function.hpp"
 				>
 			</File>
 			<File
@@ -602,15 +604,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\nil.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\include\luabind\nil.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\luabind\object.hpp"
+				RelativePath=".\luabind\nil.hpp"
 				>
 			</File>
 			<File
@@ -622,7 +620,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\luabind\detail\object_call.hpp"
+				RelativePath=".\src\luabind\object.hpp"
 				>
 			</File>
 			<File
@@ -631,6 +629,10 @@
 			</File>
 			<File
 				RelativePath=".\include\luabind\detail\object_call.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\luabind\detail\object_call.hpp"
 				>
 			</File>
 			<File
@@ -646,15 +648,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\object_rep.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\luabind\detail\object_rep.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\luabind\detail\object_rep.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\luabind\detail\object_rep.hpp"
 				>
 			</File>
 			<File
@@ -674,11 +676,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\operator.hpp"
+				RelativePath=".\luabind\operator.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\operator.hpp"
+				RelativePath=".\include\luabind\operator.hpp"
 				>
 			</File>
 			<File
@@ -690,15 +692,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\other.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\luabind\detail\other.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\out_value_policy.hpp"
+				RelativePath=".\include\luabind\detail\other.hpp"
 				>
 			</File>
 			<File
@@ -706,7 +704,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\detail\overload_rep.hpp"
+				RelativePath=".\luabind\out_value_policy.hpp"
 				>
 			</File>
 			<File
@@ -714,11 +712,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\overload_rep_base.hpp"
+				RelativePath=".\luabind\detail\overload_rep.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\luabind\detail\overload_rep_base.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\luabind\detail\overload_rep_base.hpp"
 				>
 			</File>
 			<File
@@ -730,19 +732,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\pointee_sizeof.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\luabind\detail\pointee_sizeof.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\detail\pointee_typeid.hpp"
+				RelativePath=".\include\luabind\detail\pointee_sizeof.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\include\luabind\detail\pointee_typeid.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\luabind\detail\pointee_typeid.hpp"
 				>
 			</File>
 			<File
@@ -754,19 +756,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\prefix.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\luabind\prefix.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\primitives.hpp"
+				RelativePath=".\include\luabind\prefix.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\luabind\detail\primitives.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\luabind\detail\primitives.hpp"
 				>
 			</File>
 			<File
@@ -778,15 +780,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\raw_policy.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\include\luabind\raw_policy.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\ref.hpp"
+				RelativePath=".\luabind\raw_policy.hpp"
 				>
 			</File>
 			<File
@@ -794,7 +792,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\return_reference_to_policy.hpp"
+				RelativePath=".\include\luabind\detail\ref.hpp"
 				>
 			</File>
 			<File
@@ -802,11 +800,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\scope.hpp"
+				RelativePath=".\include\luabind\return_reference_to_policy.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\luabind\scope.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\luabind\scope.hpp"
 				>
 			</File>
 			<File
@@ -818,15 +820,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\stack_utils.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\luabind\detail\stack_utils.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\tag_function.hpp"
+				RelativePath=".\include\luabind\detail\stack_utils.hpp"
 				>
 			</File>
 			<File
@@ -834,7 +832,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\detail\typetraits.hpp"
+				RelativePath=".\include\luabind\tag_function.hpp"
 				>
 			</File>
 			<File
@@ -842,11 +840,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\value_wrapper.hpp"
+				RelativePath=".\luabind\detail\typetraits.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\luabind\value_wrapper.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\luabind\value_wrapper.hpp"
 				>
 			</File>
 			<File
@@ -858,15 +860,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\weak_ref.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\include\luabind\weak_ref.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\luabind\wrapper_base.hpp"
+				RelativePath=".\luabind\weak_ref.hpp"
 				>
 			</File>
 			<File
@@ -874,7 +872,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\detail\yes_no.hpp"
+				RelativePath=".\luabind\wrapper_base.hpp"
 				>
 			</File>
 			<File
@@ -882,11 +880,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\luabind\yield_policy.hpp"
+				RelativePath=".\include\luabind\detail\yes_no.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\luabind\yield_policy.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\luabind\yield_policy.hpp"
 				>
 			</File>
 		</Filter>

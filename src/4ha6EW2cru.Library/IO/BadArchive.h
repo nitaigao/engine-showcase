@@ -12,7 +12,11 @@ public:
 
 	virtual ~BadArchive( ) { };
 
-	BadArchive( const std::string name, const std::string type );
+	BadArchive( const std::string name, const std::string type )
+		: Archive( name, type )
+	{
+
+	}
 
 	inline bool isCaseSensitive( void ) const { return true; };
 

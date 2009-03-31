@@ -13,9 +13,8 @@ public:
 
 	virtual ~WorldLoader( ) { };
 
-	WorldLoader( IWorld* world, IFileManager* fileManager )
+	WorldLoader( IWorld* world )
 		: _world( world )
-		, _fileManager( fileManager )
 	{
 
 	}
@@ -28,7 +27,6 @@ private:
 	void LoadEntityComponents( const YAML::Node& node, IEntity* entity );
 
 	IWorld* _world;
-	IFileManager* _fileManager;
 
 	WorldLoader( ) { };
 	WorldLoader( const WorldLoader & copy ) { };

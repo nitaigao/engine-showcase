@@ -1,0 +1,51 @@
+<sect1 id="devel-intro">
+<title>Introduction</title>
+
+<para>The following developer's guide is to get you started and to
+give you a quick overview over the features of &mockpp;. For a complete
+list of all functions please refer to the api documentation.</para>
+
+<para>There are a few things that are not obvious but might become important
+to get started:
+
+<itemizedlist>
+  <listitem><para>&mockpp; uses a data type <token>String</token> which is no data type of it's own
+    but is a typedef to std::string or std::wstring depending on your choice.
+    It also provides a minimum functionality for unicode if you compile for
+    a unicode environment. See
+    <xref linkend="compilation" /> how to do that.</para>
+
+    <para>Since &mockpp; provides both environments with the same sources it uses some
+    macros to convert string literals to the intended environment. You can check for
+    the actual setting by adding a conditional <literal>#ifdef MOCKPP_UNICODE</literal> in
+    your sources.</para>
+
+    <itemizedlist>
+      <listitem><literal>MOCKPP_PCHAR</literal> transforms a literal string either to a
+      <token>char*</token> or to a <token>wchar_t *</token> by prepending an <token>L</token>
+      for unicode.
+      </listitem>
+
+      <listitem>In the same manner <literal>MOCKPP_STRING</literal> yields either a
+      <token>std::string</token> or a <token>std::wstring</token>.
+      </listitem>
+    </itemizedlist>
+
+  </listitem>
+
+  <listitem>&mockpp; has no testing framework of it's own. But it includes a
+     slightly modified version of <ulink url="http://cxxtest.sf.net">&cxxtest;</ulink>.
+     It is also possible to use <ulink url="http://cppunit.sf.net">&cppunit;</ulink>
+     or <ulink url="http://www.boost.org">&boost.test;</ulink> or others for
+     that purpose.
+     See the test and example files how to do it.
+  </listitem>
+
+</itemizedlist>
+
+<para>See <xref linkend="configuration" /> for more options how to adjust
+this library.</para>
+
+</para>
+
+</sect1>

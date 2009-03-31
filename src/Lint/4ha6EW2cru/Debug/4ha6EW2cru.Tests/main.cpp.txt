@@ -1,6 +1,0 @@
-
---- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Tests\main.cpp (C++)
-             _
-#    include <cppunit/config-auto.h>
-..\..\etc\vendor\cppunit\include\cppunit\Portability.h  18  Error 322: Unable
-    to open include file 'cppunit\config-auto.h'

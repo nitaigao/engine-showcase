@@ -17,14 +17,12 @@
 void InputSystemFixture::setUp( )
 {
 	Logger::Initialize( );
-	FileManager::Initialize( );
-	EventManager::Initialize( );
+	Management::Initialize( );
 }
 
 void InputSystemFixture::tearDown( )
 {
-	EventManager::GetInstance( )->Release();
-	FileManager::GetInstance( )->Release();
+	Management::GetInstance( )->Release( );
 	Logger::GetInstance( )->Release( );
 }
 

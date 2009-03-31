@@ -13,26 +13,25 @@ Interface = {}
 
 function Interface.initialize( )
 
+	print( 'hello' );
 	--unregisterEvent( EventType.GAME_INITIALIZED, Interface.initialize );
 
-	--loadComponent( 'title' );
-	--loadComponent( 'menu' );
-	--loadComponent( 'options' );
-	--loadComponent( 'pause' );
-	--loadComponent( 'console' );
+	loadComponent( 'title' );
+	loadComponent( 'menu' );
+	loadComponent( 'options' );
+	loadComponent( 'pause' );
+	loadComponent( 'console' );
 	
 end
 
 function Interface.onEvent( eventName )
 
-	--if ( eventName == 'GAME_INITIALIZED' )
+	if ( eventName == 'GAME_INITIALIZED' ) then
 	
-	--	print( 'GAME_INITIALIZED' .. ' has been fired' );
+		Interface.initialize( );
 	
-	--end
+	end
 
 end
 
 registerEventHandler( Interface.onEvent );
-
---registerEvent( EventType.GAME_INITIALIZED, Interface.initialize );

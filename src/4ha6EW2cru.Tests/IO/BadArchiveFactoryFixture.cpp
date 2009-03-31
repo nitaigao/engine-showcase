@@ -6,6 +6,7 @@
 
 #include "Logging/Logger.h"
 #include "IO/FileManager.h"
+#include "System/Management.h"
 
 #include "../Suites.h"
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( BadArchiveFactoryFixture, Suites::IOSuite( ) );
@@ -13,7 +14,7 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( BadArchiveFactoryFixture, Suites::IOSuite
 void BadArchiveFactoryFixture::setUp( )
 {
 	Logger::Initialize( );
-	FileManager::Initialize( );
+	Management::Initialize( );
 
 	_bfactory = new BadArchiveFactory( );
 }
@@ -22,7 +23,7 @@ void BadArchiveFactoryFixture::tearDown( )
 {
 	delete _bfactory;
 
-	FileManager::GetInstance( )->Release( );
+	Management::GetInstance( )->Release( );
 	Logger::GetInstance( )->Release( );
 }
 

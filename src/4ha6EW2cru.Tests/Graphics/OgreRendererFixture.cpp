@@ -5,6 +5,7 @@
 #include "Events/EventManager.h"
 #include "IO/FileManager.h"
 #include "Logging/Logger.h"
+#include "System/Management.h"
 
 #include "Exceptions/UnInitializedException.hpp"
 
@@ -14,16 +15,14 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( OgreRendererFixture, Suites::GraphicsSuit
 void OgreRendererFixture::setUp( )
 {
 	Logger::Initialize( );
-	EventManager::Initialize( );
-	FileManager::Initialize( );
+	Management::Initialize( );
 }
 
 void OgreRendererFixture::tearDown( )
 {
 	delete _renderer;
 
-	FileManager::GetInstance( )->Release( );
-	EventManager::GetInstance( )->Release( );
+	Management::GetInstance( )->Release( );
 	Logger::GetInstance( )->Release( );
 }
 

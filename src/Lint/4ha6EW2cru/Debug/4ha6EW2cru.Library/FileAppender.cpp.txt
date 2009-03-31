@@ -1,7 +1,0 @@
-
---- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Logging\FileAppender.cpp
-    (C++)
-         _
-#include "FileAppender.h"
-C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Logging\FileAppender.cpp 
-    1  Error 322: Unable to open include file 'FileAppender.h'

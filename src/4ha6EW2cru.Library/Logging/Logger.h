@@ -13,17 +13,15 @@
 class Logger
 {
 
-	typedef std::vector< IAppender* > AppenderList;
-
 public:
 
-	~Logger( );
+	~Logger( ) { };
 
 	Logger( LogLevel logLevel )
 		: _logLevel( logLevel )
 	{
 
-	};
+	}
 
 	/*! Retrieves an instance of the Logger Singleton */
 	static Logger* GetInstance( );
@@ -35,7 +33,7 @@ public:
 	static bool Initialize( );
 
 	/*! Adds a Logging Appender to the List */
-	void AddAppender( IAppender* appender );
+	void AddAppender( IAppender* appender ) { };
 
 	/*! Logs a message with the DEBUG prefix */
 	void Debug( const std::string message );
@@ -60,7 +58,6 @@ private:
 	/*! Logs a message */
 	void LogMessage( const std::string level, const std::string message );
 
-	AppenderList _appenders;
 	LogLevel _logLevel;
 
 	Logger( const Logger & copy ) { };

@@ -1,7 +1,0 @@
-
---- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Tests\System\ConfigurationFileFixture.cpp
-    (C++)
-         _
-#include "ConfigurationFileFixture.h"
-C:\Users\NK\Development\viper\src\4ha6EW2cru.Tests\System\ConfigurationFileFixture.cpp 
-    1  Error 322: Unable to open include file 'ConfigurationFileFixture.h'

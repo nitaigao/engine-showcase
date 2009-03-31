@@ -22,18 +22,6 @@
 
 OgreRenderSystem::OgreRenderSystem( Configuration* configuration )
 {
-	FileManager* fileManager = new FileManager( );
-	fileManager->Initialize( );
-	this->Constructor( configuration, fileManager );
-}
-
-OgreRenderSystem::OgreRenderSystem( Configuration* configuration, IFileManager* fileManager )
-{
-	this->Constructor( configuration, fileManager );
-}
-
-void OgreRenderSystem::Constructor( Configuration* configuration, IFileManager* fileManager )
-{
 	_configuration = configuration;
 	_badStubCreated = false;
 	_isIntialized = false;
@@ -41,7 +29,6 @@ void OgreRenderSystem::Constructor( Configuration* configuration, IFileManager* 
 	_window = 0;
 	_interface = 0;
 	_badFactory = 0;
-	_fileManager = fileManager;
 }
 
 OgreRenderSystem::~OgreRenderSystem( )
@@ -50,7 +37,9 @@ OgreRenderSystem::~OgreRenderSystem( )
 	
 	Ogre::WindowEventUtilities::removeWindowEventListener( _window, this );
 
-	delete this->GetProperties( )[ "availableVideoModes" ].GetValue< std::vector< std::string >* >( );
+	SystemProperty videoModeProperty = this->GetProperties( )[ "availableVideoModes" ];
+	std::vector< std::string >* videoModes = videoModeProperty.GetValue< std::vector< std::string >* >( );
+	delete videoModes;
 
 	if( _interface != 0 )
 	{
@@ -69,10 +58,6 @@ OgreRenderSystem::~OgreRenderSystem( )
 		delete _badFactory;
 		_badFactory = 0;
 	}
-
-	_fileManager->Release( );
-	delete _fileManager;
-	_fileManager = 0;
 }
 
 void OgreRenderSystem::Initialize( )
@@ -143,7 +128,8 @@ void OgreRenderSystem::Initialize( )
 
 	Ogre::WindowEventUtilities::addWindowEventListener( _window, this );
 
-	_properties[ "availableVideoModes" ] = SystemProperty( "availableVideoModes", new std::vector< std::string >( this->GetVideoModes( ) ) ); 
+	std::vector< std::string >* videoModes = new std::vector< std::string >( this->GetVideoModes( ) );
+	_properties[ "availableVideoModes" ] = SystemProperty( "availableVideoModes", videoModes ); 
 
 	SceneManager* sceneManager = _root->createSceneManager( ST_GENERIC, "default" );
 
@@ -207,13 +193,7 @@ void OgreRenderSystem::LoadResources( )
 
 		for ( ConfigFile::SettingsMultiMap::iterator i = settings->begin( ); i != settings->end( ); ++i )
 		{
-			/* So basically the deal here is the whole game runs on a file system that adds bad files together
-			to make one giant directory tree. Ogre however runs on the premise that the bad files create their
-			own individual directory tree for each seperate bad file. This hack fixes that problem by allowing only one
-			stub bad file to be created within ogre, but it registers each bad file with the Game Filesystem allowing
-			the stub to still access the combined bad files as one giant filesystem */
-
-			int result = _fileManager->MountFileStore( i->second, "data/" );
+			int result = Management::GetInstance( )->GetFileManager( )->MountFileStore( i->second, "data/" );
 
 			if ( !result )
 			{
@@ -222,9 +202,14 @@ void OgreRenderSystem::LoadResources( )
 				throw e;
 			}
 
-			if ( !_badStubCreated )
+			/* So basically the deal here is the whole game runs on a file system that adds bad files together
+			to make one giant directory tree. Ogre however runs on the premise that the bad files create their
+			own individual directory tree for each separate bad file. This hack fixes that problem by allowing only one
+			stub bad file to be created within ogre, but it registers each bad file with the Game File system allowing
+			the stub to still access the combined bad files as one giant file system */
+			if( !_badStubCreated )
 			{
-				ResourceGroupManager::getSingleton( ).addResourceLocation( i->second, i->first );
+				ResourceGroupManager::getSingleton( ).addResourceLocation( i->second, "BAD" );
 				_badStubCreated = true;
 			}
 		}

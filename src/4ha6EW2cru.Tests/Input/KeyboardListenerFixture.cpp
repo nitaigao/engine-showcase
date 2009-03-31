@@ -14,12 +14,12 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( KeyboardListenerFixture, Suites::InputSui
 void KeyboardListenerFixture::setUp( )
 {
 	Logger::Initialize( );
-	EventManager::Initialize( );
+	Management::Initialize( );
 }
 
 void KeyboardListenerFixture::tearDown( )
 {
-	EventManager::GetInstance( )->Release( );
+	Management::GetInstance( )->Release( );
 	Logger::GetInstance( )->Release( );
 }
 

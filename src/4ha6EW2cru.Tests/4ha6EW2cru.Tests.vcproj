@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/cppunit/include;../../etc/vendor/ois/includes;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/mockpp;../../etc/vendor/ogre/include;../../etc/vendor/lua/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG;LUABIND_NO_EXCEPTIONS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -88,6 +88,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy /Y ..\..\etc\vendor\mockpp\lib\mockpp_44d.dll ..\..\build\debug\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\mockpp\lib\mockpp_production_44d.dll ..\..\build\debug\bin&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -118,7 +119,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/cppunit/include;../../etc/vendor/ois/includes;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/mockpp;../../etc/vendor/ogre/include;../../etc/vendor/lua/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;LUABIND_NO_EXCEPTIONS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -165,6 +166,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy /Y ..\..\etc\vendor\mockpp\lib\mockpp_44.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\mockpp\lib\mockpp_production_44.dll ..\..\build\release\bin&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -200,14 +202,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Logging\ConsoleAppenderFixture.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Logging\ConsoleAppenderFixture.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Events\EventDataFixture.cpp"
 			>
 		</File>
@@ -237,14 +231,6 @@
 		</File>
 		<File
 			RelativePath=".\Events\EventManagerFixture.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Logging\FileAppenderFixture.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Logging\FileAppenderFixture.h"
 			>
 		</File>
 		<File

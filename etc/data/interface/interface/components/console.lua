@@ -13,8 +13,7 @@ Console = {}
 
 function Console.initialize( )
 
-	registerEvent( EventType.UI_CONSOLE, Console.onShowConsole );
-	registerEvent( EventType.LOG_MESSAGE_APPENDED, Console.onMessageLogged );
+	registerEventHandler( Console.onEvent );
 	
 	local console = findWidget( 'console' );
 	console:setVisible( false );
@@ -22,6 +21,22 @@ function Console.initialize( )
 	local input = findWidget( 'console_input' );
 	scriptWidget( input, 'onKeyUp', Console.onKeyUp );
 	
+end
+
+function Console.onEvent( eventName, val1 )
+
+	if ( eventName == 'MESSAGE_LOGGED' ) then 
+	
+		Console.updateConsole( val1 ); 
+	
+	end
+	
+	if ( eventName == 'UI_CONSOLE' ) then
+	
+		Console.onShowConsole( )
+	
+	end
+
 end
 
 function Console.onShowConsole( )
@@ -41,18 +56,15 @@ function Console.onKeyUp( keyCode, keyText )
 		executeString( text:asString( ) );
 		
 		input:setText( utf( '' ) );
-
+		
 	end
 
 end
 
-function Console.onMessageLogged( message )
+function Console.updateConsole( message )
 
-	-- Its not a good idea to use print( ) 
-	-- here as that would send us into a loop
-
-	local output = findWidget( 'console_output' );
-	output:setText( utf( message ) );
+	local output = findWidget( 'console_output' ):asEditBox( );
+	output:addText( utf( message ) );
 
 end
 

@@ -56,7 +56,13 @@ private:
 	static void Print( const std::string message );
 
 	/*! Gets called when an error occurs inside a running script */
-	static int ScriptError( lua_State* luaState );
+	static int Script_PError( lua_State* luaState );
+
+	/*! Gets called when an error occurs inside a script */
+	static void Script_Error( lua_State* luaState );
+
+	/*! Gets called when a casting error occurs inside a script */
+	static void Script_CastError( lua_State* luaState, LUABIND_TYPE_INFO typeInfo );
 
 	/*! Quits the game */
 	static void Quit( );
@@ -69,7 +75,6 @@ private:
 	ISystem* _system;
 	Configuration* _configuration;
 	ScriptConfiguration* _scriptConfiguration;
-	IFileManager* _fileManager;
 
 	lua_State* _state;
 	ScriptObjectList _scriptObjects;

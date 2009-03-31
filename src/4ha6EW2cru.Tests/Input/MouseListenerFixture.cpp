@@ -11,7 +11,7 @@
 void MouseListenerFixture::setUp( )
 {
 	Logger::Initialize( );
-	EventManager::Initialize( );
+	_eventManager = new EventManager( );
 
 	_eventTriggerMock = new MockEventTrigger( );
 	_eventTriggerMock->handle_count.setExpected( 1 );
@@ -21,20 +21,20 @@ void MouseListenerFixture::tearDown( )
 {
 	delete _eventTriggerMock;
 
-	EventManager::GetInstance( )->Release( );
+	delete _eventManager;
 	Logger::GetInstance( )->Release( );
 }
 
 void MouseListenerFixture::Should_Fire_Left_MouseReleased_Event( )
 {
-	EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_RELEASED, _eventTriggerMock, &MockEventTrigger::EventHandler );
+	_eventManager->AddEventListener( INPUT_MOUSE_RELEASED, _eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	MouseListener* listener = new MouseListener( );
 	OIS::MouseState state;
 	listener->mouseReleased( OIS::MouseEvent( 0, state ), OIS::MB_Left );
 
-	EventManager::GetInstance( )->Update( 0 );
-	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_RELEASED, _eventTriggerMock, &MockEventTrigger::EventHandler );
+	_eventManager->Update( 0 );
+	_eventManager->RemoveEventListener( INPUT_MOUSE_RELEASED, _eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	_eventTriggerMock->verify( );
 
@@ -45,14 +45,14 @@ void MouseListenerFixture::Should_Fire_Left_MousePressed_Event( )
 {
 	_eventTriggerMock->handle_count.setExpected( 1 );
 
-	EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_PRESSED, _eventTriggerMock, &MockEventTrigger::EventHandler );
+	_eventManager->AddEventListener( INPUT_MOUSE_PRESSED, _eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	MouseListener* listener = new MouseListener( );
 	OIS::MouseState state;
 	listener->mousePressed( OIS::MouseEvent( 0, state ), OIS::MB_Left );
 
-	EventManager::GetInstance( )->Update( 0 );
-	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_PRESSED, _eventTriggerMock, &MockEventTrigger::EventHandler );
+	_eventManager->Update( 0 );
+	_eventManager->RemoveEventListener( INPUT_MOUSE_PRESSED, _eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	_eventTriggerMock->verify( );
 
@@ -63,14 +63,14 @@ void MouseListenerFixture::Should_Fire_Right_MouseReleased_Event( )
 {
 	_eventTriggerMock->handle_count.setExpected( 1 );
 
-	EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_RELEASED, _eventTriggerMock, &MockEventTrigger::EventHandler );
+	_eventManager->AddEventListener( INPUT_MOUSE_RELEASED, _eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	MouseListener* listener = new MouseListener( );
 	OIS::MouseState state;
 	listener->mouseReleased( OIS::MouseEvent( 0, state ), OIS::MB_Right );
 
-	EventManager::GetInstance( )->Update( 0 );
-	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_RELEASED, _eventTriggerMock, &MockEventTrigger::EventHandler );
+	_eventManager->Update( 0 );
+	_eventManager->RemoveEventListener( INPUT_MOUSE_RELEASED, _eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	_eventTriggerMock->verify( );
 
@@ -81,14 +81,14 @@ void MouseListenerFixture::Should_Fire_Right_MousePressed_Event( )
 {
 	_eventTriggerMock->handle_count.setExpected( 1 );
 
-	EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_PRESSED, _eventTriggerMock, &MockEventTrigger::EventHandler );
+	_eventManager->AddEventListener( INPUT_MOUSE_PRESSED, _eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	MouseListener* listener = new MouseListener( );
 	OIS::MouseState state;
 	listener->mousePressed( OIS::MouseEvent( 0, state ), OIS::MB_Right );
 
-	EventManager::GetInstance( )->Update( 0 );
-	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_PRESSED, _eventTriggerMock, &MockEventTrigger::EventHandler );
+	_eventManager->Update( 0 );
+	_eventManager->RemoveEventListener( INPUT_MOUSE_PRESSED, _eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	_eventTriggerMock->verify( );
 
@@ -99,14 +99,14 @@ void MouseListenerFixture::Should_Fire_MouseMoved_Event( )
 {
 	_eventTriggerMock->handle_count.setExpected( 1 );
 
-	EventManager::GetInstance( )->AddEventListener( INPUT_MOUSE_MOVED, _eventTriggerMock, &MockEventTrigger::EventHandler );
+	_eventManager->AddEventListener( INPUT_MOUSE_MOVED, _eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	MouseListener* listener = new MouseListener( );
 	OIS::MouseState state;
 	listener->mouseMoved( OIS::MouseEvent( 0, state ) );
 
-	EventManager::GetInstance( )->Update( 0 );
-	EventManager::GetInstance( )->RemoveEventListener( INPUT_MOUSE_MOVED, _eventTriggerMock, &MockEventTrigger::EventHandler );
+	_eventManager->Update( 0 );
+	_eventManager->RemoveEventListener( INPUT_MOUSE_MOVED, _eventTriggerMock, &MockEventTrigger::EventHandler );
 
 	_eventTriggerMock->verify( );
 

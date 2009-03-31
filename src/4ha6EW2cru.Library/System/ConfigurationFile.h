@@ -3,6 +3,8 @@
 
 #include <sstream>
 
+#include "../System/Management.h"
+
 #include "../io/FileManager.h"
 #include "../io/FileBuffer.hpp"
 
@@ -29,8 +31,7 @@ public:
 
 	static ConfigurationFile* Load( const std::string& filePath )
 	{
-		FileManager fileManager;
-		FileBuffer* buffer = fileManager.GetFile( filePath );
+		FileBuffer* buffer = Management::GetInstance( )->GetFileManager( )->GetFile( filePath, false );
 		ConfigurationFile* configFile = new ConfigurationFile( buffer );
 		delete buffer;
 		return configFile;
@@ -76,7 +77,7 @@ public:
 		outputBuffer[ output.length( ) ] = '\0';
 
 		FileBuffer fileBuffer( outputBuffer, output.length( ), filePath );
-		FileManager::GetInstance( )->SaveFile( fileBuffer );
+		Management::GetInstance( )->GetFileManager( )->SaveFile( fileBuffer );
 	}
 
 private:

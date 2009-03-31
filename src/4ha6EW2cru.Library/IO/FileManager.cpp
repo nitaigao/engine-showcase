@@ -12,51 +12,16 @@
 #include "../Exceptions/FileNotFoundException.hpp"
 #include "../Exceptions/FileWriteException.hpp"
 
-static FileManager* g_FileManagerInstance = 0;
-
-FileManager* FileManager::GetInstance( )
-{
-	/*if ( g_FileManagerInstance == 0 )
-	{
-		UnInitializedException e( "FileManager::GetInstance - FileManager has not been Intialized" );
-		Logger::GetInstance( )->Fatal( e.what( ) );
-		throw e;
-	}*/
-
-	return g_FileManagerInstance;
-}
-
-void FileManager::Release( )
-{
-	Logger::GetInstance( )->Info( "Releasing the File Manager" );
-
-	PHYSFS_deinit( );
-
-	delete g_FileManagerInstance;
-	g_FileManagerInstance = 0;
-}
-
-const bool FileManager::Initialize( )
-{
-	/*if ( g_FileManagerInstance != 0 )
-	{
-		std::string errorMessage = "FileMananger has already been Intialized";
-		Logger::GetInstance( )->Fatal( errorMessage );
-		throw AlreadyInitializedException( errorMessage );
-	}*/
-
-	//Logger::GetInstance( )->Info( "Initializing the File Manager" );
-
-	g_FileManagerInstance = new FileManager( );
-
-	return true;	
-}
-
 FileManager::FileManager( )
 {
 	PHYSFS_init( 0 );
 	PHYSFS_addToSearchPath( "../game", 1 );
 	PHYSFS_setWriteDir( "../game" );
+}
+
+FileManager::~FileManager()
+{
+	PHYSFS_deinit( );
 }
 
 bool FileManager::FileExists( const std::string filePath, bool throwOnFail ) const
@@ -70,7 +35,7 @@ bool FileManager::FileExists( const std::string filePath, bool throwOnFail ) con
 		throw e;
 	}
 
-	return exists;
+	return ( exists > 0 );
 }
 
 bool FileManager::MountFileStore( const std::string filePath, const std::string mountPoint )
@@ -84,7 +49,7 @@ bool FileManager::MountFileStore( const std::string filePath, const std::string 
 		throw e;
 	}
 
-	return result;
+	return ( result > 0 );;
 }
 
 FileBuffer* FileManager::GetFile( const std::string filePath, bool binary ) const
@@ -97,10 +62,9 @@ FileBuffer* FileManager::GetFile( const std::string filePath, bool binary ) cons
 
 	PHYSFS_file *pFile = PHYSFS_openRead( filePath.c_str( ) );
 	
-	int fileLength = PHYSFS_fileLength( pFile );
+	int fileLength = static_cast< int >( PHYSFS_fileLength( pFile ) );
 
 	char* fileBytes = 0;
-
 	
 	if( binary )
 	{

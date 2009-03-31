@@ -1,0 +1,17 @@
+USEUNIT("..\generator\xml2mockpp\xml2mockpp.cpp");
+USEUNIT("..\generator\xml2mockpp\xmlparse_base.cpp");
+USEUNIT("..\generator\xml2mockpp\expatwrap.cpp");
+USEUNIT("..\generator\xml2mockpp\GenChainableMethod.cpp");
+USEUNIT("..\generator\xml2mockpp\GenVisitableMethod.cpp");
+USEUNIT("..\generator\xml2mockpp\GenerateMethod.cpp");
+USEUNIT("..\generator\xml2mockpp\MockppIdlParser.cpp");
+USEUNIT("..\generator\xml2mockpp\xmlparser.cpp");
+USEUNIT("..\generator\xml2mockpp\xmlexcept.cpp");
+USEUNIT("..\generator\xml2mockpp\expat\xmltok.c");
+USEUNIT("..\generator\xml2mockpp\expat\xmlrole.c");
+USEUNIT("..\generator\xml2mockpp\expat\xmlparse.c");
+USEUNIT("..\generator\xml2mockpp\MockppIdlClass.cpp");
+USE("..\generator\mockpp2xml\mockppidl-orig.xml", File);
+//---------------------------------------------------------------------------
+This file is used by the project manager only and should be treated like the project file
+main

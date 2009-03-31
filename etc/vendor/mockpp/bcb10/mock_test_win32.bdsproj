@@ -1,0 +1,488 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<PersonalityInfo>
+		<Option>
+			<Option Name="Personality">CPlusPlusBuilder.Personality</Option>
+			<Option Name="ProjectType">CppGuiApplication</Option>
+			<Option Name="Version">1.0</Option>
+			<Option Name="GUID">{EDE2C028-54D0-41B6-AD34-309B58A5D2CE}</Option>
+		</Option>
+	</PersonalityInfo>
+	<CPlusPlusBuilder.Personality>
+		<BCBPROJECT>
+      <project version="10.0">
+        <property category="build.config" name="active" value="0"/>
+        <property category="build.config" name="count" value="1"/>
+        <property category="build.config" name="excludedefaultforzero" value="0"/>
+        <property category="build.config.0" name="builddir" value="Debug"/>
+        <property category="build.config.0" name="key" value="Debug_Build"/>
+        <property category="build.config.0" name="name" value="Debug-Build"/>
+        <property category="build.config.0" name="settings.win32b" value="default"/>
+        <property category="build.config.0" name="type" value="Toolset"/>
+        <property category="build.config.0" name="win32.win32b.builddir" value="Debug_Build"/>
+        <property category="build.config.1" name="key" value="Release_Build"/>
+        <property category="build.config.1" name="name" value="Release-Build"/>
+        <property category="build.config.1" name="settings.win32b" value="default"/>
+        <property category="build.config.1" name="type" value="Toolset"/>
+        <property category="build.config.1" name="win32.win32b.builddir" value="Release_Build"/>
+        <property category="build.node" name="name" value="mock_test_win32.exe"/>
+        <property category="build.node" name="packages" value="rtl;vcl;vclx;bcbsmp;dbrtl;vcldb;bdertl;ibsmp;vcldbx;teeui;teedb;tee;ibxpress;bcbie;vclie;inetdb;inet;bcboffice2k"/>
+        <property category="build.node" name="use_packages" value="1"/>
+        <property category="build.platform" name="active" value="win32"/>
+        <property category="build.platform" name="win32.Debug_Build.toolset" value="win32b"/>
+        <property category="build.platform" name="win32.Release_Build.toolset" value="win32b"/>
+        <property category="build.platform" name="win32.default" value="win32b"/>
+        <property category="build.platform" name="win32.enabled" value="1"/>
+        <property category="build.platform" name="win32.win32b.enabled" value="1"/>
+        <property category="win32.*.win32b.dcc32" name="param.filenames.merge" value="1"/>
+        <property category="win32.*.win32b.tasm32" name="param.listfile.merge" value="1"/>
+        <property category="win32.*.win32b.tasm32" name="param.objfile.merge" value="1"/>
+        <property category="win32.*.win32b.tasm32" name="param.xreffile.merge" value="1"/>
+        <property category="win32.Debug_Build.win32b.bcc32" name="option.D.arg.1" value="_DEBUG"/>
+        <property category="win32.Debug_Build.win32b.bcc32" name="option.D.arg.merge" value="1"/>
+        <property category="win32.Debug_Build.win32b.bcc32" name="option.D.enabled" value="1"/>
+        <property category="win32.Debug_Build.win32b.bcc32" name="option.r.enabled" value="0"/>
+        <property category="win32.Debug_Build.win32b.dcc32" name="option.$D.enabled" value="1"/>
+        <property category="win32.Debug_Build.win32b.dcc32" name="option.$O.enabled" value="0"/>
+        <property category="win32.Debug_Build.win32b.dcc32" name="option.D.arg.1" value="DEBUG"/>
+        <property category="win32.Debug_Build.win32b.dcc32" name="option.D.arg.merge" value="1"/>
+        <property category="win32.Debug_Build.win32b.dcc32" name="option.D.enabled" value="1"/>
+        <property category="win32.Debug_Build.win32b.dcc32" name="option.V.enabled" value="1"/>
+        <property category="win32.Debug_Build.win32b.ilink32" name="option.L.arg.1" value="$(BDS)\lib\debug"/>
+        <property category="win32.Debug_Build.win32b.ilink32" name="option.L.arg.merge" value="1"/>
+        <property category="win32.Debug_Build.win32b.ilink32" name="option.L.enabled" value="1"/>
+        <property category="win32.Debug_Build.win32b.tasm32" name="option.z.enabled" value="1"/>
+        <property category="win32.Debug_Build.win32b.tasm32" name="option.zd.enabled" value="0"/>
+        <property category="win32.Debug_Build.win32b.tasm32" name="option.zi.enabled" value="1"/>
+        <property category="win32.Release_Build.win32b.bcc32" name="option.D.arg.1" value="NDEBUG"/>
+        <property category="win32.Release_Build.win32b.bcc32" name="option.D.arg.merge" value="1"/>
+        <property category="win32.Release_Build.win32b.bcc32" name="option.D.enabled" value="1"/>
+        <property category="win32.Release_Build.win32b.bcc32" name="option.O2.enabled" value="1"/>
+        <property category="win32.Release_Build.win32b.bcc32" name="option.k.enabled" value="0"/>
+        <property category="win32.Release_Build.win32b.bcc32" name="option.r.enabled" value="1"/>
+        <property category="win32.Release_Build.win32b.bcc32" name="option.vi.enabled" value="1"/>
+        <property category="win32.Release_Build.win32b.dcc32" name="option.$D.enabled" value="0"/>
+        <property category="win32.Release_Build.win32b.dcc32" name="option.$O.enabled" value="1"/>
+        <property category="win32.Release_Build.win32b.dcc32" name="option.V.enabled" value="0"/>
+        <property category="win32.Release_Build.win32b.ilink32" name="option.L.arg.1" value="$(BDS)\lib\release"/>
+        <property category="win32.Release_Build.win32b.ilink32" name="option.L.arg.merge" value="1"/>
+        <property category="win32.Release_Build.win32b.ilink32" name="option.L.enabled" value="1"/>
+        <property category="win32.Release_Build.win32b.tasm32" name="option.z.enabled" value="0"/>
+        <property category="win32.Release_Build.win32b.tasm32" name="option.zd.enabled" value="0"/>
+        <property category="win32.Release_Build.win32b.tasm32" name="option.zi.enabled" value="0"/>
+        <property category="win32.Release_Build.win32b.tasm32" name="option.zn.enabled" value="1"/>
+        <optionset name="all_configurations">
+          <property category="node" name="displayname" value="Alle Konfigurationen"/>
+          <property category="win32.*.win32b.bcc32" name="option.D.arg.1" value="__DLL___"/>
+          <property category="win32.*.win32b.bcc32" name="option.D.arg.merge" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.D.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.1" value="\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.2" value="..\tests"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.3" value="..\mockpp\tests"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.4" value=".."/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.5" value="$(BDS)\include"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.6" value="..\3party"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.7" value="..\3party\cxxtest"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.8" value="g:\data\src\cppunit-1.10.2\include\"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.9" value="$(BDS)\include\dinkumware"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.merge" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.Od.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.Ve.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.Vx.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.X.enabled" value="0"/>
+          <property category="win32.*.win32b.bcc32" name="option.b.enabled" value="0"/>
+          <property category="win32.*.win32b.bcc32" name="option.k.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.n.arg.1" value="c:\tmp\compile\mockpp_34\\"/>
+          <property category="win32.*.win32b.bcc32" name="option.n.arg.merge" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.n.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.noregistervars.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.sysdefines.arg.1" value="NO_STRICT"/>
+          <property category="win32.*.win32b.bcc32" name="option.sysdefines.arg.2" value="_NO_VCL"/>
+          <property category="win32.*.win32b.bcc32" name="option.sysdefines.arg.3" value="_RTLDLL"/>
+          <property category="win32.*.win32b.bcc32" name="option.sysdefines.arg.4" value="USEPACKAGES"/>
+          <property category="win32.*.win32b.bcc32" name="option.sysdefines.arg.merge" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.sysdefines.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.tWC.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.tWM.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.v.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.vG.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.vGc.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.vGd.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.vGt.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.vi.enabled" value="0"/>
+          <property category="win32.*.win32b.bcc32" name="option.wamb.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.wamp.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.wasm.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.wbbf.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.wcln.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.wdef.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.wnak.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.wnod.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.wpin.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.wprc.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.wstl.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.wstu.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.wstv.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.wucp.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.wuse.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.y.enabled" value="1"/>
+          <property category="win32.*.win32b.brcc32" name="option.D.arg.1" value="__DLL___"/>
+          <property category="win32.*.win32b.brcc32" name="option.D.arg.merge" value="1"/>
+          <property category="win32.*.win32b.brcc32" name="option.D.enabled" value="0"/>
+          <property category="win32.*.win32b.brcc32" name="option.INCLUDEPATH.arg.1" value="\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests"/>
+          <property category="win32.*.win32b.brcc32" name="option.INCLUDEPATH.arg.2" value="..\tests"/>
+          <property category="win32.*.win32b.brcc32" name="option.INCLUDEPATH.arg.3" value="..\mockpp\tests"/>
+          <property category="win32.*.win32b.brcc32" name="option.INCLUDEPATH.arg.4" value=".."/>
+          <property category="win32.*.win32b.brcc32" name="option.INCLUDEPATH.arg.5" value="$(BDS)\include"/>
+          <property category="win32.*.win32b.brcc32" name="option.INCLUDEPATH.arg.6" value="..\3party"/>
+          <property category="win32.*.win32b.brcc32" name="option.INCLUDEPATH.arg.7" value="..\3party\cxxtest"/>
+          <property category="win32.*.win32b.brcc32" name="option.INCLUDEPATH.arg.8" value="g:\data\src\cppunit-1.10.2\include\"/>
+          <property category="win32.*.win32b.brcc32" name="option.INCLUDEPATH.arg.9" value="$(BDS)\include\dinkumware"/>
+          <property category="win32.*.win32b.brcc32" name="option.INCLUDEPATH.arg.merge" value="1"/>
+          <property category="win32.*.win32b.brcc32" name="option.INCLUDEPATH.enabled" value="1"/>
+          <property category="win32.*.win32b.brcc32" name="option.outputdir.arg.1" value="c:\tmp\compile\mockpp_34\\"/>
+          <property category="win32.*.win32b.brcc32" name="option.outputdir.arg.merge" value="1"/>
+          <property category="win32.*.win32b.brcc32" name="option.outputdir.enabled" value="1"/>
+          <property category="win32.*.win32b.dcc32" name="option.$O.enabled" value="0"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.1" value="..\mockpp\tests"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.merge" value="1"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.enabled" value="0"/>
+          <property category="win32.*.win32b.dcc32" name="option.N0.arg.1" value="c:\tmp\compile\mockpp_34\\"/>
+          <property category="win32.*.win32b.dcc32" name="option.N0.arg.merge" value="1"/>
+          <property category="win32.*.win32b.dcc32" name="option.N0.enabled" value="1"/>
+          <property category="win32.*.win32b.dcc32" name="option.NO.arg.1" value="c:\tmp\compile\mockpp_34\\"/>
+          <property category="win32.*.win32b.dcc32" name="option.NO.arg.merge" value="1"/>
+          <property category="win32.*.win32b.dcc32" name="option.NO.enabled" value="1"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.1" value="..\mockpp\tests"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.merge" value="1"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.enabled" value="0"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.1" value="..\mockpp\tests"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.merge" value="1"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.enabled" value="0"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.1" value="..\mockpp\tests"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.2" value=".\"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.3" value="$(BDS)\lib"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.4" value="$(BDS)\lib\obj"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.merge" value="1"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.enabled" value="1"/>
+          <property category="win32.*.win32b.dcc32" name="param.filenames.merge" value="1"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.1" value="..\mockpp\tests"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.merge" value="1"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.enabled" value="1"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.1" value="..\mockpp\tests"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.2" value="$(BDS)\lib"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.3" value="$(BDS)\lib\obj"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.4" value="$(BDS)\lib\psdk"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.merge" value="1"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.enabled" value="1"/>
+          <property category="win32.*.win32b.ilink32" name="option.dynamicrtl.enabled" value="1"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.1" value="..\mockpp\tests"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.merge" value="1"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.enabled" value="0"/>
+          <property category="win32.*.win32b.ilink32" name="param.libfiles.1" value="cg32.lib"/>
+          <property category="win32.*.win32b.ilink32" name="param.libfiles.merge" value="1"/>
+          <property category="win32.*.win32b.tasm32" name="option.d.arg.1" value="__DLL___"/>
+          <property category="win32.*.win32b.tasm32" name="option.d.arg.merge" value="1"/>
+          <property category="win32.*.win32b.tasm32" name="option.d.enabled" value="1"/>
+          <property category="win32.*.win32b.tasm32" name="option.i.arg.1" value="\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests"/>
+          <property category="win32.*.win32b.tasm32" name="option.i.arg.2" value="..\tests"/>
+          <property category="win32.*.win32b.tasm32" name="option.i.arg.3" value="..\mockpp\tests"/>
+          <property category="win32.*.win32b.tasm32" name="option.i.arg.4" value=".."/>
+          <property category="win32.*.win32b.tasm32" name="option.i.arg.5" value="$(BDS)\include"/>
+          <property category="win32.*.win32b.tasm32" name="option.i.arg.6" value="..\3party"/>
+          <property category="win32.*.win32b.tasm32" name="option.i.arg.7" value="..\3party\cxxtest"/>
+          <property category="win32.*.win32b.tasm32" name="option.i.arg.8" value="g:\data\src\cppunit-1.10.2\include\"/>
+          <property category="win32.*.win32b.tasm32" name="option.i.arg.9" value="$(BDS)\include\dinkumware"/>
+          <property category="win32.*.win32b.tasm32" name="option.i.arg.merge" value="1"/>
+          <property category="win32.*.win32b.tasm32" name="option.i.enabled" value="1"/>
+          <property category="win32.*.win32b.tasm32" name="option.outputdir.arg.1" value="c:\tmp\compile\mockpp_34\\"/>
+          <property category="win32.*.win32b.tasm32" name="option.outputdir.arg.merge" value="1"/>
+          <property category="win32.*.win32b.tasm32" name="option.outputdir.enabled" value="1"/>
+          <property category="win32.*.win32b.tasm32" name="option.w2.enabled" value="1"/>
+          <property category="win32.*.win32b.tasm32" name="param.listfile.merge" value="1"/>
+          <property category="win32.*.win32b.tasm32" name="param.objfile.merge" value="1"/>
+          <property category="win32.*.win32b.tasm32" name="param.xreffile.merge" value="1"/>
+        </optionset>
+      </project>
+      <FILELIST>
+        <FILE FILENAME="mock_test_win32.bpf" CONTAINERID="BPF" LOCALCOMMAND="" UNITNAME="mock_test_win32" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="c:\tmp\compile\mockpp_34.lib" CONTAINERID="LibTool" LOCALCOMMAND="" UNITNAME="mockpp_34" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="c:\tmp\compile\mockpp_production_34.lib" CONTAINERID="LibTool" LOCALCOMMAND="" UNITNAME="mockpp_production_34" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="c:\tmp\compile\mockpp_cxxtest_34.lib" CONTAINERID="LibTool" LOCALCOMMAND="" UNITNAME="mockpp_cxxtest_34" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\AssertMo_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="AssertMo_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ExpectationCounter_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ExpectationCounter_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ExpectationCounterRange_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ExpectationCounterRange_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ExpectationList_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ExpectationList_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ExpectationMap_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ExpectationMap_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ExpectationSegment_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ExpectationSegment_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ExpectationSet_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ExpectationSet_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ExpectationValue_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ExpectationValue_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\Formatter_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="Formatter_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\mock_test_win32.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="mock_test_win32" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VerifyingTestCase_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VerifyingTestCase_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\Assert_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="Assert_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\MockObject_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="MockObject_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\mockpp_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="mockpp_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ReturnObjectList_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ReturnObjectList_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\Verifiable_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="Verifiable_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\TrackingCounter_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="TrackingCounter_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VisitableMockObject_void_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VisitableMockObject_void_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\Exception_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="Exception_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ExpectationBoundary_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ExpectationBoundary_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\Throwable_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="Throwable_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ThrowableList_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ThrowableList_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VisitableMockObject_1_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VisitableMockObject_1_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VisitableMockObject_1_void_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VisitableMockObject_1_void_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VisitableMockObject_2_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VisitableMockObject_2_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VisitableMockObject_2_void_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VisitableMockObject_2_void_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VisitableMockObject_3_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VisitableMockObject_3_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VisitableMockObject_3_void_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VisitableMockObject_3_void_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VisitableMockObject_4_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VisitableMockObject_4_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VisitableMockObject_4_void_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VisitableMockObject_4_void_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VisitableMockObject_5_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VisitableMockObject_5_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VisitableMockObject_5_void_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VisitableMockObject_5_void_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\MixedMockObject_5_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="MixedMockObject_5_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VisitableMockObject_template_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VisitableMockObject_template_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VisitableMockObject_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VisitableMockObject_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ExpectationConglomeration_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ExpectationConglomeration_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\TimeServer_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="TimeServer_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\classes_ABCDE.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="classes_ABCDE" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VisitableMockMethod_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VisitableMockMethod_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VisitableMockMethod_1_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VisitableMockMethod_1_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VisitableMockMethod_2_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VisitableMockMethod_2_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ResponseVector_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ResponseVector_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\NoException_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="NoException_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\AbstractDynamicChainingMock_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="AbstractDynamicChainingMock_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\AbstractInvocationDispatcher_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="AbstractInvocationDispatcher_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\And_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="And_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\AnyArgumentsMatcher_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="AnyArgumentsMatcher_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ArgumentsMatchBuilder_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ArgumentsMatchBuilder_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ArgumentsMatcher_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ArgumentsMatcher_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainableMockMethod_1_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainableMockMethod_1_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainableMockMethod_2_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainableMockMethod_2_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainableMockMethod_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainableMockMethod_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainableMockObject_1_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainableMockObject_1_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainableMockObject_1_void_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainableMockObject_1_void_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainableMockObject_2_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainableMockObject_2_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainableMockObject_2_void_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainableMockObject_2_void_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainableMockObject_3_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainableMockObject_3_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainableMockObject_3_void_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainableMockObject_3_void_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainableMockObject_4_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainableMockObject_4_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainableMockObject_4_void_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainableMockObject_4_void_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainableMockObject_5_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainableMockObject_5_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainableMockObject_5_void_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainableMockObject_5_void_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainableMockObject_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainableMockObject_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainableMockObject_void_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainableMockObject_void_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainableMockObjectPolymorphism_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainableMockObjectPolymorphism_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainingMockBuilder_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainingMockBuilder_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ChainingMockObjectSupport_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ChainingMockObjectSupport_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ConstraintList_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ConstraintList_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ConstraintSet_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ConstraintSet_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\CoreMock_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="CoreMock_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\CustomStub_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="CustomStub_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\DefaultResultStub_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="DefaultResultStub_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\DynamicChainingMockError_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="DynamicChainingMockError_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\FIFOInvocationDispatcher_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FIFOInvocationDispatcher_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\Invocation_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="Invocation_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\InvocationMocker_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="InvocationMocker_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\InvocationMockerBuilder_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="InvocationMockerBuilder_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\InvokeAtLeastMatcher_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="InvokeAtLeastMatcher_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\InvokeAtLeastOnceMatcher_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="InvokeAtLeastOnceMatcher_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\InvokeAtMostMatcher_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="InvokeAtMostMatcher_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\InvokeCountMatcher_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="InvokeCountMatcher_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\InvokedAfterMatcher_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="InvokedAfterMatcher_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\InvokedBeforeMatcher_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="InvokedBeforeMatcher_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\InvokedRecorder_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="InvokedRecorder_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\InvokeOnceMatcher_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="InvokeOnceMatcher_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\IsAnything_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="IsAnything_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\IsCloseTo_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="IsCloseTo_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\IsEqual_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="IsEqual_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\IsGreaterOrEqual_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="IsGreaterOrEqual_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\IsGreaterThan_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="IsGreaterThan_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\IsInstanceOf_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="IsInstanceOf_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\IsLessOrEqual_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="IsLessOrEqual_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\IsLessThan_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="IsLessThan_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\IsNot_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="IsNot_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\IsNothing_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="IsNothing_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\IsSame_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="IsSame_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\LIFOInvocationDispatcher_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="LIFOInvocationDispatcher_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\MatchBuilder_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="MatchBuilder_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\mockpp_pti_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="mockpp_pti_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\NoArgumentsMatcher_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="NoArgumentsMatcher_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\Or_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="Or_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\OutBound_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="OutBound_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ReturnStub_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ReturnStub_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\StringContains_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="StringContains_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\StringEndsWith_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="StringEndsWith_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\StringStartsWith_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="StringStartsWith_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\StubBuilder_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="StubBuilder_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\StubSequence_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="StubSequence_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\TestFailureMatcher_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="TestFailureMatcher_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\TestFailureStub_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="TestFailureStub_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\ThrowStub_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ThrowStub_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\TypelessStubSequence_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="TypelessStubSequence_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\UnlimitedMatcher_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="UnlimitedMatcher_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VerifyingTestCaller_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VerifyingTestCaller_test" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="..\mockpp\tests\VoidStub_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VoidStub_test" FORMNAME="" DESIGNCLASS=""/>
+      </FILELIST>
+      <IDEOPTIONS>
+        <VersionInfo>
+          <VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+          <VersionInfo Name="AutoIncBuild">False</VersionInfo>
+          <VersionInfo Name="MajorVer">1</VersionInfo>
+          <VersionInfo Name="MinorVer">0</VersionInfo>
+          <VersionInfo Name="Release">0</VersionInfo>
+          <VersionInfo Name="Build">0</VersionInfo>
+          <VersionInfo Name="Debug">False</VersionInfo>
+          <VersionInfo Name="PreRelease">False</VersionInfo>
+          <VersionInfo Name="Special">False</VersionInfo>
+          <VersionInfo Name="Private">False</VersionInfo>
+          <VersionInfo Name="DLL">False</VersionInfo>
+          <VersionInfo Name="Locale">1031</VersionInfo>
+          <VersionInfo Name="CodePage">1252</VersionInfo>
+        </VersionInfo>
+        <VersionInfoKeys>
+          <VersionInfoKeys Name="CompanyName"></VersionInfoKeys>
+          <VersionInfoKeys Name="FileDescription"></VersionInfoKeys>
+          <VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+          <VersionInfoKeys Name="InternalName"></VersionInfoKeys>
+          <VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
+          <VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
+          <VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys>
+          <VersionInfoKeys Name="ProductName"></VersionInfoKeys>
+          <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+          <VersionInfoKeys Name="Comments"></VersionInfoKeys>
+        </VersionInfoKeys>
+        <HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Count">30</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item0">..;$(BCB)\include;..\3party;..\3party\cxxtest;g:\data\src\cppunit-1.10.2\include\</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item1">..\tests;h:\temp\;..\mockpp\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include;g:\data\src\cppunit-1.10.2\include\;..\3party;..\3party\cxxtest</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item2">h:\temp;..\mockpp\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include;g:\data\src\cppunit-1.10.2\include\;..\3party;..\3party\cxxtest</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item3">..\mockpp\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include;g:\data\src\cppunit-1.10.2\include\;..\3party;..\3party\cxxtest</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item4">..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include;g:\data\src\cppunit-1.10.2\include\;..\3party;..\3party\cxxtest</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item5">\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests;..\mockpp\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include;g:\data\src\cppunit-1.10.2\include\</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item6">\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests;..\mockpp\tests;..\..\mockpp;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include;g:\data\src\cppunit-1.10.2\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item7">\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests;..\mockpp\tests;..\..\mockpp;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include;g:\data\src\</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item8">..\mockpp\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include;g:\data\src</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item9">..\mockpp\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item10">..\mockpp\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;h:\home\arnold\cppunit-1.10.2\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item11">..\mockpp\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item12">..\mockpp\tests;..\..\mockpp;$(BCB)\include;..\..\..\cppunit-1.10.2\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item13">..\mockpp\tests;.\..;$(BCB)\include;X:\Documents\src\cppunit-1.10.2\include\</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item14">..\mockpp\tests;..\..\mockpp-1.8.0;$(BCB)\include;X:\Documents\src\cppunit-1.10.2\include\</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item15">..;$(BCB)\include;X:\Documents\src\cppunit-1.10.2\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item16">..\mockpp\tests;..\mockpp_34\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item17">..\mockpp\tests;..\mockpp_34\tests;..\..\mockpp;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item18">..\mockpp\tests;..\mockpp_34\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item19">..\..\mockpp;$(BCB)\include;..\..\..\cppunit.ups\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item20">..\tests;tests;\\SONNE\HOMES\Documents\src\mockpp_34\mockpp\mockpp_34\tests;\\SONNE\HOMES\src\mockpp_34\mockpp\mockpp_34\tests;..\mockpp_34\tests;..;$(BCB)\include;..\..\cppunit\include;..\..\..\cppunit-1.8.0\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item21">..;$(BCB)\include;..\..\cppunit\include;..\..\..\cppunit-1.8.0\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item22">..\mockpp_34\tests;..\..\mockpp;$(BCB)\include;..\..\cppunit\include;..\..\..\cppunit-1.8.0\include;..</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item23">..\mockpp_34\tests;..\..\mockpp;$(BCB)\include;..\..\cppunit\include;..\..\..\cppunit-1.8.0\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item24">..\mockpp_34\tests;..;$(BCB)\include;..\..\cppunit\include;X:\src\cppunit-1.8.0\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item25">..\mockpp_34\tests;..;$(BCB)\include;..\..\cppunit\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item26">..\mockpp_34\tests;..;$(BCB)\include;B:\cvs\ups\src\3party\cppunit\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item27">..\mockpp_34\tests;..;$(BCB)\include;..\..\..\cppunit-1.8.0\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item28">..;$(BCB)\include;..\..\..\cppunit-1.8.0\include</HistoryLists_hlIncludePath>
+          <HistoryLists_hlIncludePath Name="Item29">..\mockpp_34\tests;\\SONNE\HOMES\src\mockpp_34\mockpp\mockpp_34\tests;..\..\mockpp;$(BCB)\include;..\..\..\cppunit-1.8.0\include</HistoryLists_hlIncludePath>
+        </HistoryLists_hlIncludePath>
+        <HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Count">20</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item0">..\tests;h:\temp\;\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests;..\mockpp\tests;..\mockpp_34\tests;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item1">h:\temp;\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests;..\mockpp\tests;..\mockpp_34\tests;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item2">\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests;..\mockpp\tests;..\mockpp_34\tests;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item3">..\mockpp\tests;..\mockpp_34\tests;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item4">$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item5">..\tests;tests;\\SONNE\HOMES\Documents\src\mockpp_34\mockpp\mockpp_34\tests;\\SONNE\HOMES\src\mockpp_34\mockpp\mockpp_34\tests;..\mockpp_34\tests;..\expat;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item6">\\SONNE\HOMES\src\mockpp_34\mockpp\mockpp_34\tests;..\mockpp_34\tests;..\expat;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item7">..\mockpp_34\tests;..\expat;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item8">..\mockpp_34\tests;$(BCB)\lib\obj;$(BCB)\lib;output;expat</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item9">..\mockpp_34\tests;$(BCB)\lib\obj;$(BCB)\lib;output;bin</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item10">..\mockpp_34\apps;$(BCB)\lib\obj;$(BCB)\lib;output;bin</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item11">..\mockpp_34\apps;$(BCB)\lib\obj;$(BCB)\lib;output</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item12">..\mockpp_34\apps;$(BCB)\lib\obj;$(BCB)\lib;E:\Eigene Dateien\c++\mockpp_34\bcb5\output</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item13">..\mockpp_34\apps;$(BCB)\lib\obj;$(BCB)\lib;..\output</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item14">..\mockpp_34\apps;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item15">..\mockpp_34\apps;D:\CBuilder5\mockpp_34\;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item16">e:\Eigene Dateien\c++\mockpp_34\mockpp\apps\;..\mockpp;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item17">e:\Eigene Dateien\c++\mockpp_34\mockpp\apps;..\mockpp;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item18">..\mockpp;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+          <HistoryLists_hlLibraryPath Name="Item19">e:\Eigene Dateien\c++\mockpp_34\mockpp\apps;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+        </HistoryLists_hlLibraryPath>
+        <HistoryLists_hlDebugSourcePath>
+          <HistoryLists_hlDebugSourcePath Name="Count">1</HistoryLists_hlDebugSourcePath>
+          <HistoryLists_hlDebugSourcePath Name="Item0">$(BCB)\source\vcl</HistoryLists_hlDebugSourcePath>
+        </HistoryLists_hlDebugSourcePath>
+        <HistoryLists_hlConditionals>
+          <HistoryLists_hlConditionals Name="Count">3</HistoryLists_hlConditionals>
+          <HistoryLists_hlConditionals Name="Item0">__DLL___</HistoryLists_hlConditionals>
+          <HistoryLists_hlConditionals Name="Item1">_DEBUG;ULXR_SHOW_CONTENT;ULXR_SHOW_HTTP;ULXR_SHOW_WRTIE;ULXR_SHOW_READ;ULXR_SHOW_XML;DEBUG;__DLL___</HistoryLists_hlConditionals>
+          <HistoryLists_hlConditionals Name="Item2">_DEBUG</HistoryLists_hlConditionals>
+        </HistoryLists_hlConditionals>
+        <HistoryLists_hlIntOutputDir>
+          <HistoryLists_hlIntOutputDir Name="Count">7</HistoryLists_hlIntOutputDir>
+          <HistoryLists_hlIntOutputDir Name="Item0">c:\tmp\compile\mockpp_34\</HistoryLists_hlIntOutputDir>
+          <HistoryLists_hlIntOutputDir Name="Item1">c:\tmp\compile\mockpp_34\ulxr_bcb5\</HistoryLists_hlIntOutputDir>
+          <HistoryLists_hlIntOutputDir Name="Item2">h:\temp</HistoryLists_hlIntOutputDir>
+          <HistoryLists_hlIntOutputDir Name="Item3">output</HistoryLists_hlIntOutputDir>
+          <HistoryLists_hlIntOutputDir Name="Item4">E:\Eigene Dateien\c++\mockpp_34\bcb5\output\</HistoryLists_hlIntOutputDir>
+          <HistoryLists_hlIntOutputDir Name="Item5">E:\Eigene Dateien\c++\mockpp_34\bcb5\output</HistoryLists_hlIntOutputDir>
+          <HistoryLists_hlIntOutputDir Name="Item6">D:\CBuilder5\Projects\output\</HistoryLists_hlIntOutputDir>
+        </HistoryLists_hlIntOutputDir>
+        <HistoryLists_hlFinalOutputDir>
+          <HistoryLists_hlFinalOutputDir Name="Count">8</HistoryLists_hlFinalOutputDir>
+          <HistoryLists_hlFinalOutputDir Name="Item0">c:\tmp\compile\</HistoryLists_hlFinalOutputDir>
+          <HistoryLists_hlFinalOutputDir Name="Item1">c:\tmp\compile</HistoryLists_hlFinalOutputDir>
+          <HistoryLists_hlFinalOutputDir Name="Item2">c:\tmp\compile\mockpp_34\</HistoryLists_hlFinalOutputDir>
+          <HistoryLists_hlFinalOutputDir Name="Item3">h:\temp</HistoryLists_hlFinalOutputDir>
+          <HistoryLists_hlFinalOutputDir Name="Item4">output\</HistoryLists_hlFinalOutputDir>
+          <HistoryLists_hlFinalOutputDir Name="Item5">E:\Eigene Dateien\c++\mockpp_34\bcb5\output\</HistoryLists_hlFinalOutputDir>
+          <HistoryLists_hlFinalOutputDir Name="Item6">E:\Eigene Dateien\c++\mockpp_34\bcb5\output</HistoryLists_hlFinalOutputDir>
+          <HistoryLists_hlFinalOutputDir Name="Item7">output</HistoryLists_hlFinalOutputDir>
+        </HistoryLists_hlFinalOutputDir>
+        <HistoryLists_hIBPIOutputDir>
+          <HistoryLists_hIBPIOutputDir Name="Count">10</HistoryLists_hIBPIOutputDir>
+          <HistoryLists_hIBPIOutputDir Name="Item0">c:\tmp\compile\</HistoryLists_hIBPIOutputDir>
+          <HistoryLists_hIBPIOutputDir Name="Item1">c:\tmp\compile</HistoryLists_hIBPIOutputDir>
+          <HistoryLists_hIBPIOutputDir Name="Item2">c:\tmp\compile\mockpp_34\</HistoryLists_hIBPIOutputDir>
+          <HistoryLists_hIBPIOutputDir Name="Item3">c:\tmp\compile\mockpp_34\ulxr_bcb5\</HistoryLists_hIBPIOutputDir>
+          <HistoryLists_hIBPIOutputDir Name="Item4">h:\temp</HistoryLists_hIBPIOutputDir>
+          <HistoryLists_hIBPIOutputDir Name="Item5">e:\Eigene Dateien\c++\mockpp_34\bcb5\output\</HistoryLists_hIBPIOutputDir>
+          <HistoryLists_hIBPIOutputDir Name="Item6">output\</HistoryLists_hIBPIOutputDir>
+          <HistoryLists_hIBPIOutputDir Name="Item7">E:\Eigene Dateien\c++\mockpp_34\bcb5\output</HistoryLists_hIBPIOutputDir>
+          <HistoryLists_hIBPIOutputDir Name="Item8">D:\CBuilder5\Projects\output\</HistoryLists_hIBPIOutputDir>
+          <HistoryLists_hIBPIOutputDir Name="Item9">output</HistoryLists_hIBPIOutputDir>
+        </HistoryLists_hIBPIOutputDir>
+        <Debugging>
+          <Debugging Name="DebugSourceDirs">$(BCB)\source\vcl</Debugging>
+        </Debugging>
+        <Parameters>
+          <Parameters Name="RunParams"></Parameters>
+          <Parameters Name="Launcher"></Parameters>
+          <Parameters Name="UseLauncher">False</Parameters>
+          <Parameters Name="DebugCWD"></Parameters>
+          <Parameters Name="HostApplication"></Parameters>
+          <Parameters Name="RemoteHost"></Parameters>
+          <Parameters Name="RemotePath"></Parameters>
+          <Parameters Name="RemoteParams"></Parameters>
+          <Parameters Name="RemoteLauncher"></Parameters>
+          <Parameters Name="UseRemoteLauncher">False</Parameters>
+          <Parameters Name="RemoteCWD"></Parameters>
+          <Parameters Name="RemoteDebug">False</Parameters>
+          <Parameters Name="Debug Symbols Search Path"></Parameters>
+          <Parameters Name="LoadAllSymbols">True</Parameters>
+          <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+        </Parameters>
+        <Linker>
+          <Linker Name="LibPrefix"></Linker>
+          <Linker Name="LibSuffix"></Linker>
+          <Linker Name="LibVersion"></Linker>
+        </Linker>
+      </IDEOPTIONS>
+    </BCBPROJECT>
+		<Source>
+			<Source Name="MainSource">mock_test_win32.bpf</Source>
+		</Source>
+	</CPlusPlusBuilder.Personality>
+</BorlandProject>

@@ -32,7 +32,7 @@ public:
 
 	/*! OBSOLETE */
 	/*! Gets the Type of the Event */
-	inline const EventType& GetEventType( ) const { return ALL_EVENTS; };
+	inline EventType GetEventType( ) const { return ALL_EVENTS; };
 
 	/*! Returns Event Data attached to the event */
 	inline IEventData* GetEventData( ) const { return 0; };

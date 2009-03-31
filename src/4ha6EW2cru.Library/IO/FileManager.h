@@ -14,18 +14,9 @@ class FileManager : public IFileManager
 
 public:
 
-	virtual ~FileManager( ) { };
+	virtual ~FileManager( );
 
 	FileManager( );
-
-	/*! Retrieves an instance of the FileManager Singleton */
-	static  FileManager* GetInstance( );
-
-	/*! Releases all resources and the FileManager Singleton */
-	void Release( );
-
-	/*! Initialized the Logging mechanism */
-	static const bool Initialize( );
 
 	/*! Adds a BAD File Store to the File System search path */
 	bool MountFileStore( const std::string filePath, const std::string mountPoint );

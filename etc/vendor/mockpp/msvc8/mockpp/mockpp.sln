@@ -1,0 +1,148 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "basicmock", "examples\tutorial\basicmock.vcproj", "{67066CA0-B2AD-456C-8663-A1D93B0E7949}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B2B3833-C35A-4F2F-BFAF-B686D3827531} = {4B2B3833-C35A-4F2F-BFAF-B686D3827531}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chainmock", "examples\tutorial\chainmock.vcproj", "{9C4E72A0-6393-429A-AFDB-64AE0FBB17C8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B2B3833-C35A-4F2F-BFAF-B686D3827531} = {4B2B3833-C35A-4F2F-BFAF-B686D3827531}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cppunit", "examples\tutorial\cppunit.vcproj", "{4AEB7B36-6044-4B23-9754-22F7A28F785B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B2B3833-C35A-4F2F-BFAF-B686D3827531} = {4B2B3833-C35A-4F2F-BFAF-B686D3827531}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mock_greeter", "examples\examples.vcproj", "{15A26E8F-FE6D-4EA6-9B41-26306D17F76A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B2B3833-C35A-4F2F-BFAF-B686D3827531} = {4B2B3833-C35A-4F2F-BFAF-B686D3827531}
+		{C46232E9-BB75-49BB-ADE6-306433257444} = {C46232E9-BB75-49BB-ADE6-306433257444}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mock_test", "tests\mock_test.vcproj", "{F22BA7AF-9CFC-4F2A-947D-69AF7C466635}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B2B3833-C35A-4F2F-BFAF-B686D3827531} = {4B2B3833-C35A-4F2F-BFAF-B686D3827531}
+		{C46232E9-BB75-49BB-ADE6-306433257444} = {C46232E9-BB75-49BB-ADE6-306433257444}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mockpp", "mockpp.vcproj", "{4B2B3833-C35A-4F2F-BFAF-B686D3827531}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6AB18DF8-7204-4B80-AE27-0CDB36E321B4} = {6AB18DF8-7204-4B80-AE27-0CDB36E321B4}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "poormock", "examples\tutorial\poormock.vcproj", "{6CD5CF99-3185-4FD1-B172-DE5947721854}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B2B3833-C35A-4F2F-BFAF-B686D3827531} = {4B2B3833-C35A-4F2F-BFAF-B686D3827531}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "visitmock", "examples\tutorial\visitmock.vcproj", "{ADC8008C-7D8F-44BC-9498-E1097B4DCCA1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B2B3833-C35A-4F2F-BFAF-B686D3827531} = {4B2B3833-C35A-4F2F-BFAF-B686D3827531}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "poormock_se", "examples\tutorial\poormock_se.vcproj", "{BD779AA5-9F07-466E-AC76-7C27BD3D4E86}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B2B3833-C35A-4F2F-BFAF-B686D3827531} = {4B2B3833-C35A-4F2F-BFAF-B686D3827531}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mockpp_production", "mockpp_production.vcproj", "{6AB18DF8-7204-4B80-AE27-0CDB36E321B4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mockpp_cxxtest", "mockpp_cxxtest.vcproj", "{C46232E9-BB75-49BB-ADE6-306433257444}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mock_test_win32", "tests\mock_test_win32.vcproj", "{1C69D31D-8356-406B-85B3-84F892000D53}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B2B3833-C35A-4F2F-BFAF-B686D3827531} = {4B2B3833-C35A-4F2F-BFAF-B686D3827531}
+		{C46232E9-BB75-49BB-ADE6-306433257444} = {C46232E9-BB75-49BB-ADE6-306433257444}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "visitmock2", "examples\tutorial\visitmock2.vcproj", "{C5CF5EDD-DCFA-4793-A348-CF1DEECE3702}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B2B3833-C35A-4F2F-BFAF-B686D3827531} = {4B2B3833-C35A-4F2F-BFAF-B686D3827531}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chainmock2", "examples\tutorial\chainmock2.vcproj", "{D8749C05-4004-42BC-B42D-24BD6F83A86E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B2B3833-C35A-4F2F-BFAF-B686D3827531} = {4B2B3833-C35A-4F2F-BFAF-B686D3827531}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mockpp2xml", "..\generator\mockpp2xml.vcproj", "{348F92B3-BAA7-4F71-AC12-2492DB1AAF82}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xml2mockpp", "..\generator\xml2mockpp.vcproj", "{1A010C2E-9737-43D7-A646-ABEEE548B5AF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{67066CA0-B2AD-456C-8663-A1D93B0E7949}.Debug|Win32.ActiveCfg = Debug|Win32
+		{67066CA0-B2AD-456C-8663-A1D93B0E7949}.Debug|Win32.Build.0 = Debug|Win32
+		{67066CA0-B2AD-456C-8663-A1D93B0E7949}.Release|Win32.ActiveCfg = Release|Win32
+		{67066CA0-B2AD-456C-8663-A1D93B0E7949}.Release|Win32.Build.0 = Release|Win32
+		{9C4E72A0-6393-429A-AFDB-64AE0FBB17C8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9C4E72A0-6393-429A-AFDB-64AE0FBB17C8}.Debug|Win32.Build.0 = Debug|Win32
+		{9C4E72A0-6393-429A-AFDB-64AE0FBB17C8}.Release|Win32.ActiveCfg = Release|Win32
+		{9C4E72A0-6393-429A-AFDB-64AE0FBB17C8}.Release|Win32.Build.0 = Release|Win32
+		{4AEB7B36-6044-4B23-9754-22F7A28F785B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4AEB7B36-6044-4B23-9754-22F7A28F785B}.Debug|Win32.Build.0 = Debug|Win32
+		{4AEB7B36-6044-4B23-9754-22F7A28F785B}.Release|Win32.ActiveCfg = Release|Win32
+		{4AEB7B36-6044-4B23-9754-22F7A28F785B}.Release|Win32.Build.0 = Release|Win32
+		{15A26E8F-FE6D-4EA6-9B41-26306D17F76A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{15A26E8F-FE6D-4EA6-9B41-26306D17F76A}.Debug|Win32.Build.0 = Debug|Win32
+		{15A26E8F-FE6D-4EA6-9B41-26306D17F76A}.Release|Win32.ActiveCfg = Release|Win32
+		{15A26E8F-FE6D-4EA6-9B41-26306D17F76A}.Release|Win32.Build.0 = Release|Win32
+		{F22BA7AF-9CFC-4F2A-947D-69AF7C466635}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F22BA7AF-9CFC-4F2A-947D-69AF7C466635}.Debug|Win32.Build.0 = Debug|Win32
+		{F22BA7AF-9CFC-4F2A-947D-69AF7C466635}.Release|Win32.ActiveCfg = Release|Win32
+		{F22BA7AF-9CFC-4F2A-947D-69AF7C466635}.Release|Win32.Build.0 = Release|Win32
+		{4B2B3833-C35A-4F2F-BFAF-B686D3827531}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4B2B3833-C35A-4F2F-BFAF-B686D3827531}.Debug|Win32.Build.0 = Debug|Win32
+		{4B2B3833-C35A-4F2F-BFAF-B686D3827531}.Release|Win32.ActiveCfg = Release|Win32
+		{4B2B3833-C35A-4F2F-BFAF-B686D3827531}.Release|Win32.Build.0 = Release|Win32
+		{6CD5CF99-3185-4FD1-B172-DE5947721854}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6CD5CF99-3185-4FD1-B172-DE5947721854}.Debug|Win32.Build.0 = Debug|Win32
+		{6CD5CF99-3185-4FD1-B172-DE5947721854}.Release|Win32.ActiveCfg = Release|Win32
+		{6CD5CF99-3185-4FD1-B172-DE5947721854}.Release|Win32.Build.0 = Release|Win32
+		{ADC8008C-7D8F-44BC-9498-E1097B4DCCA1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ADC8008C-7D8F-44BC-9498-E1097B4DCCA1}.Debug|Win32.Build.0 = Debug|Win32
+		{ADC8008C-7D8F-44BC-9498-E1097B4DCCA1}.Release|Win32.ActiveCfg = Release|Win32
+		{ADC8008C-7D8F-44BC-9498-E1097B4DCCA1}.Release|Win32.Build.0 = Release|Win32
+		{BD779AA5-9F07-466E-AC76-7C27BD3D4E86}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BD779AA5-9F07-466E-AC76-7C27BD3D4E86}.Debug|Win32.Build.0 = Debug|Win32
+		{BD779AA5-9F07-466E-AC76-7C27BD3D4E86}.Release|Win32.ActiveCfg = Release|Win32
+		{BD779AA5-9F07-466E-AC76-7C27BD3D4E86}.Release|Win32.Build.0 = Release|Win32
+		{6AB18DF8-7204-4B80-AE27-0CDB36E321B4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6AB18DF8-7204-4B80-AE27-0CDB36E321B4}.Debug|Win32.Build.0 = Debug|Win32
+		{6AB18DF8-7204-4B80-AE27-0CDB36E321B4}.Release|Win32.ActiveCfg = Release|Win32
+		{6AB18DF8-7204-4B80-AE27-0CDB36E321B4}.Release|Win32.Build.0 = Release|Win32
+		{C46232E9-BB75-49BB-ADE6-306433257444}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C46232E9-BB75-49BB-ADE6-306433257444}.Debug|Win32.Build.0 = Debug|Win32
+		{C46232E9-BB75-49BB-ADE6-306433257444}.Release|Win32.ActiveCfg = Release|Win32
+		{C46232E9-BB75-49BB-ADE6-306433257444}.Release|Win32.Build.0 = Release|Win32
+		{1C69D31D-8356-406B-85B3-84F892000D53}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1C69D31D-8356-406B-85B3-84F892000D53}.Debug|Win32.Build.0 = Debug|Win32
+		{1C69D31D-8356-406B-85B3-84F892000D53}.Release|Win32.ActiveCfg = Release|Win32
+		{1C69D31D-8356-406B-85B3-84F892000D53}.Release|Win32.Build.0 = Release|Win32
+		{C5CF5EDD-DCFA-4793-A348-CF1DEECE3702}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C5CF5EDD-DCFA-4793-A348-CF1DEECE3702}.Debug|Win32.Build.0 = Debug|Win32
+		{C5CF5EDD-DCFA-4793-A348-CF1DEECE3702}.Release|Win32.ActiveCfg = Release|Win32
+		{C5CF5EDD-DCFA-4793-A348-CF1DEECE3702}.Release|Win32.Build.0 = Release|Win32
+		{D8749C05-4004-42BC-B42D-24BD6F83A86E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D8749C05-4004-42BC-B42D-24BD6F83A86E}.Debug|Win32.Build.0 = Debug|Win32
+		{D8749C05-4004-42BC-B42D-24BD6F83A86E}.Release|Win32.ActiveCfg = Release|Win32
+		{D8749C05-4004-42BC-B42D-24BD6F83A86E}.Release|Win32.Build.0 = Release|Win32
+		{348F92B3-BAA7-4F71-AC12-2492DB1AAF82}.Debug|Win32.ActiveCfg = Debug|Win32
+		{348F92B3-BAA7-4F71-AC12-2492DB1AAF82}.Debug|Win32.Build.0 = Debug|Win32
+		{348F92B3-BAA7-4F71-AC12-2492DB1AAF82}.Release|Win32.ActiveCfg = Release|Win32
+		{348F92B3-BAA7-4F71-AC12-2492DB1AAF82}.Release|Win32.Build.0 = Release|Win32
+		{1A010C2E-9737-43D7-A646-ABEEE548B5AF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1A010C2E-9737-43D7-A646-ABEEE548B5AF}.Debug|Win32.Build.0 = Debug|Win32
+		{1A010C2E-9737-43D7-A646-ABEEE548B5AF}.Release|Win32.ActiveCfg = Release|Win32
+		{1A010C2E-9737-43D7-A646-ABEEE548B5AF}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

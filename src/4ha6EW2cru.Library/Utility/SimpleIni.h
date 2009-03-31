@@ -1902,7 +1902,7 @@ CSimpleIniTempl<SI_CHAR,SI_STRLESS,SI_CONVERTER>::SetLongValue(
 
     // convert to an ASCII string
     char szInput[64];
-    sprintf(szInput, a_bUseHex ? "0x%lx" : "%ld", a_nValue);
+    sprintf_s(szInput, a_bUseHex ? "0x%lx" : "%ld", a_nValue);
 
     // convert to output text
     SI_CHAR szOutput[64];

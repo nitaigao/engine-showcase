@@ -1,0 +1,14 @@
+Original author and maintainer
+  Ewald Arnold, mockpp at ewald-arnold.de
+
+FUKUDA, Fumiki (AKA episteme -- 'cuppa' project : http://www.unittest.org/)
+  Help to port to MSVC6, MSVC7 (up to mockpp 1.1.16)
+
+Mathieu Champlon
+  - Help to port to MSVC 7.1 (mockpp 1.7 and later)
+  - Loads of patches
+  
+Lev Makhlis
+  many patches for installation issues on various platforms
+  
+  

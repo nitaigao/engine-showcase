@@ -1,0 +1,6 @@
+The files herein were originally take from the mico project
+at http://www.mico.org.
+
+The content was moved into the namespace ministl.
+Some minor changes and extensions were made to reflect the current state of
+the stl and better fit into a minimalistic mockpp testing environment.

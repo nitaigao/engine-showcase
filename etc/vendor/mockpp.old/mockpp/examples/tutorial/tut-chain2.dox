@@ -1,0 +1,83 @@
+/***************************************************************************
+        tut-chain2.dox - chainable mock objects, template version
+
+                             -------------------
+    begin                : Fri 18 Nov 2005
+    copyright            : (C) 2002-2008 by Ewald Arnold
+    email                : mockpp at ewald-arnold dot de
+
+  $Id: tut-chain2.dox 1438 2008-03-08 20:22:43Z ewald-arnold $
+
+ ***************************************************************************/
+
+/*! \page tut_chain2
+
+\ref content
+
+\section chain2_mo Solution 3b: Chainable Mock Methods
+
+Similar to the steps taken from the macro version of the visitable
+mock object to the one with mock methods you have to replace the macro code
+with the according method template members.
+
+And in the same manner you must add the forwarder methods. Due to the
+different working method there is no need to provide an overloaded
+method for constraints.
+
+\code
+class ChainMock : public Interface
+                , public ChainableMockObject
+{
+  public:
+
+    ChainMock()
+      : ChainableMockObject("ChainMock", 0)
+      , open_mocker("open", this)
+      , read_mocker("read", this)
+      , write_mocker("write", this)
+      , close_mocker("close", this)
+      , calculate_mocker("calculate", this)
+    {}
+
+    void open(const std::string &filename)
+    {
+      open_mocker.forward(filename);
+    }
+
+    ChainableMockMethod<void, std::string>   open_mocker;
+    ChainableMockMethod<std::string>         read_mocker;
+    ChainableMockMethod<void, std::string>   write_mocker;
+    ChainableMockMethod<void>                close_mocker;
+    ChainableMockMethod<unsigned, unsigned>  calculate_mocker;
+};
+\endcode
+
+Now create the mock object and a reference to the mock method you intend to use.
+
+\code
+    ChainMock mock;
+    ChainableMockMethod<std::string> &reader(mock.read_mocker);
+\endcode
+
+The only action left is to set up the behaviour. This is done with exactly the
+same method invocations as in the example with the macros.
+
+\code
+    reader.stubs()
+          .will(new ReturnStub<std::string>("record-1"));
+
+    reader.stubs()
+          .will(onConsecutiveCalls(new ReturnStub<std::string>("record-1"),
+                                   new ReturnStub<std::string>("record-2"),
+                                   new ReturnStub<std::string>("record-3")));
+\endcode
+
+<a href="chainmock2_8cpp-source.html">chainmock2.cpp</a> contains the
+complete source code.
+
+Next: \ref poor_mo
+
+\ref content
+
+*/
+

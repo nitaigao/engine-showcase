@@ -21,17 +21,8 @@ class EventManager : public IEventManager
 
 public:
 
-	virtual ~EventManager( ) { };
+	virtual ~EventManager( );
 	EventManager( ) { };
-
-	/*! Retrieves an instance of the EventManager Singleton */
-	static EventManager* GetInstance( );
-
-	/*! Releases all resources and the EventManager Singleton */
-	void Release( );
-
-	/*! Initializes the Event Managment mechanism */
-	static bool Initialize( );
 
 	/*! Queues an Event for processing on the next Tick */
 	void QueueEvent( const IEvent* event );

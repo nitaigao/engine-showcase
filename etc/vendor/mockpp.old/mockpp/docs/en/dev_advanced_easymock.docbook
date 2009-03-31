@@ -1,0 +1,301 @@
+ <!-- Advanced mock objects - the easymock approach
+
+     $Id: dev_advanced_easymock.docbook 1010 2005-12-02 17:28:36Z ewald-arnold $
+-->
+
+<sect2 id="visitable-mock-object">
+<title>Visitable Mock Objects</title>
+
+<para>
+To obtain a visitable mock object you must:
+<itemizedlist>
+ <listitem>Derive and define your object with the methods you need</listitem>
+ <listitem>Create a helper object for each method and set up the behaviour</listitem>
+ <listitem>Activate and use the object</listitem>
+</itemizedlist>
+</para>
+
+<sect3 id="visit-macros">
+<title>Using Macros</title>
+
+<para>
+The following listing contains a short example and explains the basic features
+when using macros.
+
+<programlisting>
+
+  class MyInterfaceClass <co  id="interface2-class-co"  linkends="interface2-class" />
+  {
+    public:
+
+     virtual int access(unsigned &amp;index) = 0;
+  };
+
+  class MyVisitableMockObject : public VisitableMockObject,  <co  id="visitable-class-co"  linkends="visitable-class" />
+                                public MyInterfaceClass
+  {
+    public:
+
+      MyVisitableMockObject(const String &amp;name)
+        : VisitableMockObject(name, 0)
+        , MOCKPP_CONSTRUCT_MEMBERS_FOR_VISTABLE1(access) <co  id="visitable-ctor-co"  linkends="visitable-ctor" />
+      {}
+
+      MOCKPP_VISITABLE1(MyVisitableMockObject, int, access, unsigned); <co id="mock-method-co"  linkends="mock-method" />
+  };
+
+  MyVisitableMockObject mvo("mvo");
+
+  MOCKPP_CONTROLLER_FOR(MyVisitableMockObject, access) ctr (&amp;mvo); <co  id="mock-controller-co"  linkends="mock-controller" />
+
+  ctr.addThrowable(std::string("throw"), 2); <co id="mock-feed1-co"  linkends="mock-feed1" />
+  ctr.addResponseValue(1, 13); <co id="mock-feed2-co"  linkends="mock-feed2" />
+  ctr.addResponseValue(2, 37);
+  ctr.addResponseValue(3, lt(50u)); <co id="mock-gt-co"  linkends="mock-gt" />
+
+  mvo.access(1); <co id="mock-feed3-co"  linkends="mock-feed3" />
+  mvo.access(13);
+  mvo.access(lt(123u)); <co id="mock-feed4-co"  linkends="mock-feed4" />
+
+  mvo.activate(); <co id="mock-activate-co"  linkends="mock-activate" />
+
+  // use the object
+
+  mvo.verify(); <co id="mock-verify-co"  linkends="mock-verify" />
+
+</programlisting>
+
+<calloutlist>
+
+  <callout arearefs="interface2-class-co"  id="interface2-class" >
+    <para>Define your interface class.</para>
+  </callout>
+
+  <callout arearefs="visitable-class-co"  id="visitable-class" >
+    <para>Derive your mock object class from <classname>VisitableMockObject</classname>
+    and the interface class.</para>
+  </callout>
+
+  <callout arearefs="visitable-ctor-co"  id="visitable-ctor" >
+    <para>According to the type of method and the number of parameters it takes
+    add a macro that does the construction part for all the necessary internal
+    helper variables for that method.</para>
+  </callout>
+
+  <callout arearefs="mock-method-co"  id="mock-method" >
+    <para>Similarly add another macro that implements the method with its internal
+    variables and helper methods.</para>
+  </callout>
+
+  <callout arearefs="mock-controller-co"  id="mock-controller" >
+    <para>Create a  controller object for the method to set up its
+    behaviour.</para>
+  </callout>
+
+  <callout arearefs="mock-feed1-co"  id="mock-feed1" >
+    <para>Add some behaviour: tell the object to throw an exception when called
+    the first and second time.</para>
+  </callout>
+
+  <callout arearefs="mock-feed2-co"  id="mock-feed2" >
+    <para>More specific behaviour: depending on the parameters passed it shall respond
+    with certain return values.</para>
+  </callout>
+
+  <callout arearefs="mock-gt-co"  id="mock-gt" >
+    <para>The former controller parameters where strict and demanded exact equality.
+    By using <link linkend="parameter-constraint">constraint objects</link> it is possible
+    to use arbitrary tolerance. In the example the parameter must be less than 50
+    to return 3.</para>
+  </callout>
+
+  <callout arearefs="mock-feed3-co"  id="mock-feed3" >
+    <para>Describe the expected execution path and the expected parameters
+    for the method how it shall happen in your test later. This is simply
+    done by calling the methods.</para>
+  </callout>
+
+  <callout arearefs="mock-feed4-co"  id="mock-feed4" >
+    <para>Demands that the parameter value is less than 123 by using an
+           appropriate <link linkend="parameter-constraint">constraint object</link>.</para>
+  </callout>
+
+  <callout arearefs="mock-activate-co"  id="mock-activate" >
+    <para>Activate the object and use it in the tests.</para>
+  </callout>
+
+  <callout arearefs="mock-verify-co"  id="mock-verify" >
+    <para>After the tests have completed verify all conditions that are still pending, for
+    example unused return values or exceptions.</para>
+  </callout>
+
+</calloutlist>
+
+</para>
+
+<para>For a deeper documentation of the methods involved with a controller see
+the api documentation of <classname>VisitableMockObject::Controller</classname>.
+</para>
+
+</sect3>
+
+
+<sect3 id="visit-template">
+<title>Using Mock Method Templates</title>
+
+The second approach with mock method templates is almost the same as before. The difference
+is to replace the macros and the resulting controller object with the method object
+and forward the call to it.
+
+<programlisting>
+
+  class MyVisitableMockObject : public VisitableMockObject,
+                                public MyInterfaceClass
+  {
+    public:
+
+      MyVisitableMockObject(const String &amp;name)
+        : VisitableMockObject(name, 0)
+        , access_mocker("access", this) <co  id="mockmeth-cons-co"  linkends="mockmeth-cons" />
+      {}
+
+      virtual int access(unsigned index) <co  id="mockmeth-fwd-co"  linkends="mockmeth-fwd" />
+      {
+        return access_mocker.forward(index);
+      }
+
+      virtual void access(const ConstraintHolder&lt;unsigned> &amp;p) const <co  id="mockmeth-fwd-constraint-co"  linkends="mockmeth-fwd-constraint" />
+      {
+        return access_mocker.forward(p);
+      }
+
+      VisitableMockMethod1&lt;int, unsigned> access_mocker; <co  id="mockmeth-var-co"  linkends="mockmeth-var" />
+  };
+
+  MyVisitableMockObject mvmo("mvmo");
+
+  VisitableMockMethod1&lt;int, unsigned> &amp;ctr (mvmo.access_mocker); <co  id="mockmeth-ref-co"  linkends="mockmeth-ref" />
+
+  ctr.addThrowable(std::string("throw"), 2);
+  ctr.addResponseValue(1, 13);
+  ctr.addResponseValue(2, 37);
+  ctr.addResponseValue(3, eq(50u)); <co  id="mockmeth-setup-co"  linkends="mockmeth-setup" />
+
+  mvmo.access(1);
+  mvmo.access(13);
+  mvmo.access(eq(123));
+
+  mvmo.activate();
+
+  // use the object
+
+  mvmo.verify();
+
+</programlisting>
+
+<calloutlist>
+
+  <callout arearefs="mockmeth-cons-co"  id="mockmeth-cons" >
+    <para>Construct the mock method helper object.</para>
+  </callout>
+
+  <callout arearefs="mockmeth-fwd-co"  id="mockmeth-fwd" >
+    <para>Provide the method as entry point and forward the call to
+          the method which does the actual work.</para>
+  </callout>
+
+  <callout arearefs="mockmeth-fwd-constraint-co"  id="mockmeth-fwd-constraint" >
+    <para>If you want to benefit from <link linkend="parameter-constraint">constraints</link>
+    you have to provide  an overloaded method which forwards the
+    constraint holder. This method has always return type <token>void</token>
+    and should be <token>const</token>. Of course you can call this method only
+    in record mode.</para>
+  </callout>
+
+  <callout arearefs="mockmeth-var-co"  id="mockmeth-var" >
+    <para>Instantiate a mock method variable. Select the class according
+    to the parameters the method takes. There is also a template without a trailing
+    number which handles an arbitrary parameter count.</para>
+  </callout>
+
+  <callout arearefs="mockmeth-ref-co"  id="mockmeth-ref" >
+    <para>For convenience create a reference to the mock method helper.</para>
+  </callout>
+
+  <callout arearefs="mockmeth-setup-co"  id="mockmeth-setup" >
+    <para>Set up the mock objects behaviour in the same manner as
+           described above using the macros.</para>
+  </callout>
+
+</calloutlist>
+
+</sect3>
+
+<sect3 id="visit-order">
+<title>Dispatching Order</title>
+
+<para> The expectations are evaluated in the following order which of course also depends on the
+method definition itself. Parameters to the method can only be evaluated if they exist
+and void methods obviously can't return any objects.
+
+<orderedlist>
+    <listitem>verify that the expected method is called</listitem>
+    <listitem>find and throw an exception based on the parameters passed</listitem>
+    <listitem>if available: throw the next exception from the list created with
+              <methodname>addThrowable()</methodname></listitem>
+    <listitem>throw the default exception if defined</listitem>
+    <listitem>verify the values of the parameters passed</listitem>
+    <listitem>find and return an object based on the parameters passed</listitem>
+    <listitem>if available: return the next object from the list created with
+              <methodname>addReturnValue()</methodname></listitem>
+    <listitem>return the default object</listitem>
+</orderedlist>
+
+There is a subtle difference in the behaviour of versions before 1.2.x
+which affects topics 3. and 7. in the above list. Older versions always
+checked if there is an exception available and threw them in the call.
+Newer version on the contrary use the order from the sources.
+
+</para>
+
+<para>
+For example take the following code fragment:
+
+<programlisting>
+
+  mock.addThrowable(xx);
+  mock.addReturnValue(aa);
+  mock.addThrowable(yy);
+  mock.addReturnValue(bb);
+
+</programlisting>
+
+In this case older versions would behave as follows:
+
+<orderedlist>
+    <listitem>throw(xx)</listitem>
+    <listitem>throw(yy)</listitem>
+    <listitem>return(aa)</listitem>
+    <listitem>return(bb)</listitem>
+</orderedlist>
+
+Newer versions on the other hand will do what is written in the code:
+
+<orderedlist>
+    <listitem>throw(xx)</listitem>
+    <listitem>return(aa)</listitem>
+    <listitem>throw(yy)</listitem>
+    <listitem>return(bb)</listitem>
+</orderedlist>
+
+If your code relies on the old behaviour you can switch back by calling
+<methodname>unsetThrowablesInline()</methodname>. This method is available
+for the controller object and only influences the according method. Additionally
+the method is also available in the container mock object itself and affects
+all registered sub-objects.
+
+</para>
+
+</sect3>
+
+</sect2>

@@ -1,0 +1,312 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.05.03"/>
+    <PROJECT value="c:\tmp\compile\mock_test_win32_44.exe"/>
+    <OBJFILES value="c:\tmp\compile\mockpp_44\\AssertMo_test.obj 
+      c:\tmp\compile\mockpp_44\\ExpectationCounter_test.obj 
+      c:\tmp\compile\mockpp_44\\ExpectationCounterRange_test.obj 
+      c:\tmp\compile\mockpp_44\\ExpectationList_test.obj 
+      c:\tmp\compile\mockpp_44\\ExpectationMap_test.obj 
+      c:\tmp\compile\mockpp_44\\ExpectationSegment_test.obj 
+      c:\tmp\compile\mockpp_44\\ExpectationSet_test.obj 
+      c:\tmp\compile\mockpp_44\\ExpectationValue_test.obj 
+      c:\tmp\compile\mockpp_44\\Formatter_test.obj 
+      c:\tmp\compile\mockpp_44\\mock_test_win32.obj 
+      c:\tmp\compile\mockpp_44\\VerifyingTestCase_test.obj 
+      c:\tmp\compile\mockpp_44\\Assert_test.obj 
+      c:\tmp\compile\mockpp_44\\MockObject_test.obj 
+      c:\tmp\compile\mockpp_44\\mockpp_test.obj 
+      c:\tmp\compile\mockpp_44\\ReturnObjectList_test.obj 
+      c:\tmp\compile\mockpp_44\\Verifiable_test.obj 
+      c:\tmp\compile\mockpp_44\\RandomStub_test.obj 
+      c:\tmp\compile\mockpp_44\\TrackingCounter_test.obj 
+      c:\tmp\compile\mockpp_44\\VisitableMockObject_void_test.obj 
+      c:\tmp\compile\mockpp_44\\Exception_test.obj 
+      c:\tmp\compile\mockpp_44\\ExpectationBoundary_test.obj 
+      c:\tmp\compile\mockpp_44\\Throwable_test.obj 
+      c:\tmp\compile\mockpp_44\\ThrowableList_test.obj 
+      c:\tmp\compile\mockpp_44\\VisitableMockObject_1_test.obj 
+      c:\tmp\compile\mockpp_44\\VisitableMockObject_1_void_test.obj 
+      c:\tmp\compile\mockpp_44\\VisitableMockObject_2_test.obj 
+      c:\tmp\compile\mockpp_44\\VisitableMockObject_2_void_test.obj 
+      c:\tmp\compile\mockpp_44\\VisitableMockObject_3_test.obj 
+      c:\tmp\compile\mockpp_44\\VisitableMockObject_3_void_test.obj 
+      c:\tmp\compile\mockpp_44\\VisitableMockObject_4_test.obj 
+      c:\tmp\compile\mockpp_44\\VisitableMockObject_4_void_test.obj 
+      c:\tmp\compile\mockpp_44\\VisitableMockObject_5_test.obj 
+      c:\tmp\compile\mockpp_44\\VisitableMockObject_5_void_test.obj 
+      c:\tmp\compile\mockpp_44\\MixedMockObject_5_test.obj 
+      c:\tmp\compile\mockpp_44\\VisitableMockObject_template_test.obj 
+      c:\tmp\compile\mockpp_44\\VisitableMockObject_test.obj 
+      c:\tmp\compile\mockpp_44\\ExpectationConglomeration_test.obj 
+      c:\tmp\compile\mockpp_44\\TimeServer_test.obj 
+      c:\tmp\compile\mockpp_44\\classes_ABCDE.obj 
+      c:\tmp\compile\mockpp_44\\VisitableMockMethod_test.obj 
+      c:\tmp\compile\mockpp_44\\VisitableMockMethod_1_test.obj 
+      c:\tmp\compile\mockpp_44\\VisitableMockMethod_2_test.obj 
+      c:\tmp\compile\mockpp_44\\ResponseVector_test.obj 
+      c:\tmp\compile\mockpp_44\\NoException_test.obj 
+      c:\tmp\compile\mockpp_44\\AbstractDynamicChainingMock_test.obj 
+      c:\tmp\compile\mockpp_44\\AbstractInvocationDispatcher_test.obj 
+      c:\tmp\compile\mockpp_44\\And_test.obj 
+      c:\tmp\compile\mockpp_44\\AnyArgumentsMatcher_test.obj 
+      c:\tmp\compile\mockpp_44\\ArgumentsMatchBuilder_test.obj 
+      c:\tmp\compile\mockpp_44\\ArgumentsMatcher_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainableMockMethod_1_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainableMockMethod_2_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainableMockMethod_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainableMockObject_1_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainableMockObject_1_void_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainableMockObject_2_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainableMockObject_2_void_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainableMockObject_3_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainableMockObject_3_void_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainableMockObject_4_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainableMockObject_4_void_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainableMockObject_5_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainableMockObject_5_void_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainableMockObject_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainableMockObject_void_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainableMockObjectPolymorphism_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainingMockBuilder_test.obj 
+      c:\tmp\compile\mockpp_44\\ChainingMockObjectSupport_test.obj 
+      c:\tmp\compile\mockpp_44\\ConstraintList_test.obj 
+      c:\tmp\compile\mockpp_44\\ConstraintSet_test.obj 
+      c:\tmp\compile\mockpp_44\\CoreMock_test.obj 
+      c:\tmp\compile\mockpp_44\\CustomStub_test.obj 
+      c:\tmp\compile\mockpp_44\\DefaultResultStub_test.obj 
+      c:\tmp\compile\mockpp_44\\DynamicChainingMockError_test.obj 
+      c:\tmp\compile\mockpp_44\\FIFOInvocationDispatcher_test.obj 
+      c:\tmp\compile\mockpp_44\\Invocation_test.obj 
+      c:\tmp\compile\mockpp_44\\InvocationMocker_test.obj 
+      c:\tmp\compile\mockpp_44\\InvocationMockerBuilder_test.obj 
+      c:\tmp\compile\mockpp_44\\InvokeAtLeastMatcher_test.obj 
+      c:\tmp\compile\mockpp_44\\InvokeAtLeastOnceMatcher_test.obj 
+      c:\tmp\compile\mockpp_44\\InvokeAtMostMatcher_test.obj 
+      c:\tmp\compile\mockpp_44\\InvokeCountMatcher_test.obj 
+      c:\tmp\compile\mockpp_44\\InvokedAfterMatcher_test.obj 
+      c:\tmp\compile\mockpp_44\\InvokedBeforeMatcher_test.obj 
+      c:\tmp\compile\mockpp_44\\InvokedRecorder_test.obj 
+      c:\tmp\compile\mockpp_44\\InvokeOnceMatcher_test.obj 
+      c:\tmp\compile\mockpp_44\\IsAnything_test.obj 
+      c:\tmp\compile\mockpp_44\\IsCloseTo_test.obj 
+      c:\tmp\compile\mockpp_44\\IsEqual_test.obj 
+      c:\tmp\compile\mockpp_44\\IsGreaterOrEqual_test.obj 
+      c:\tmp\compile\mockpp_44\\IsGreaterThan_test.obj 
+      c:\tmp\compile\mockpp_44\\IsInstanceOf_test.obj 
+      c:\tmp\compile\mockpp_44\\IsLessOrEqual_test.obj 
+      c:\tmp\compile\mockpp_44\\IsLessThan_test.obj 
+      c:\tmp\compile\mockpp_44\\IsNot_test.obj 
+      c:\tmp\compile\mockpp_44\\IsNothing_test.obj 
+      c:\tmp\compile\mockpp_44\\IsSame_test.obj 
+      c:\tmp\compile\mockpp_44\\LIFOInvocationDispatcher_test.obj 
+      c:\tmp\compile\mockpp_44\\MatchBuilder_test.obj 
+      c:\tmp\compile\mockpp_44\\mockpp_pti_test.obj 
+      c:\tmp\compile\mockpp_44\\NoArgumentsMatcher_test.obj 
+      c:\tmp\compile\mockpp_44\\Or_test.obj 
+      c:\tmp\compile\mockpp_44\\OutBound_test.obj 
+      c:\tmp\compile\mockpp_44\\ReturnStub_test.obj 
+      c:\tmp\compile\mockpp_44\\StringContains_test.obj 
+      c:\tmp\compile\mockpp_44\\StringEndsWith_test.obj 
+      c:\tmp\compile\mockpp_44\\StringStartsWith_test.obj 
+      c:\tmp\compile\mockpp_44\\StubBuilder_test.obj 
+      c:\tmp\compile\mockpp_44\\StubSequence_test.obj 
+      c:\tmp\compile\mockpp_44\\TestFailureMatcher_test.obj 
+      c:\tmp\compile\mockpp_44\\TestFailureStub_test.obj 
+      c:\tmp\compile\mockpp_44\\ThrowStub_test.obj 
+      c:\tmp\compile\mockpp_44\\TypelessStubSequence_test.obj 
+      c:\tmp\compile\mockpp_44\\UnlimitedMatcher_test.obj 
+      c:\tmp\compile\mockpp_44\\VerifyingTestCaller_test.obj 
+      c:\tmp\compile\mockpp_44\\VoidStub_test.obj 
+      c:\tmp\compile\mockpp_44\\ReturnAndTriggerStub_test.obj 
+      c:\tmp\compile\mockpp_44\\TriggeredOutbound_test.obj"/>
+    <RESFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value="c:\tmp\compile\mockpp_44.lib c:\tmp\compile\mockpp_production_44.lib 
+      c:\tmp\compile\mockpp_cxxtest_44.lib"/>
+    <LIBRARIES value=""/>
+    <SPARELIBS value=""/>
+    <PACKAGES value="VCL50.bpi VCLX50.bpi bcbsmp50.bpi QRPT50.bpi VCLDB50.bpi VCLBDE50.bpi 
+      ibsmp50.bpi VCLDBX50.bpi TEEUI50.bpi TEEDB50.bpi TEE50.bpi TEEQR50.bpi 
+      VCLIB50.bpi bcbie50.bpi VCLIE50.bpi INETDB50.bpi INET50.bpi NMFAST50.bpi 
+      dclocx50.bpi bcb2kaxserver50.bpi"/>
+    <PATHCPP value=".;..\mockpp\tests"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="tlink32"/>
+    <USERDEFINES value="__DLL___"/>
+    <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
+    <MAINSOURCE value="mock_test_win32.bpf"/>
+    <INCLUDEPATH value="\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests;..\tests;..\mockpp\tests;..;$(BCB)\include;..\3party;..\3party\cxxtest;&quot;g:\data\src\cppunit-1.10.2\include\&quot;"/>
+    <LIBPATH value="..\tests;h:\temp\;\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests;..\mockpp\tests;..\mockpp_44\tests;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w8092 -w8091 -w8090 -w8089 -w8087 -wprc -wuse -wucp -wstv -wstu -wpin 
+      -wnod -wnak -wdef -wcln -wbbf -wasm -wamp -wamb"/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-vGc -vGt -vGd -Od -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM -c"/>
+    <PFLAGS value="-N2&quot;c:\tmp\compile\mockpp_44\&quot; -N0&quot;c:\tmp\compile\mockpp_44\&quot; -$YD -$W 
+      -$O- -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value="-l&quot;c:\tmp\compile\&quot; -I&quot;c:\tmp\compile\mockpp_44\&quot; -D&quot;&quot; -aa -Tpe -x -Gn -v"/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0x32.obj $(PACKAGES) $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
+  </LINKER>
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1031
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=30
+Item0=..;$(BCB)\include;..\3party;..\3party\cxxtest;g:\data\src\cppunit-1.10.2\include\
+Item1=..\tests;h:\temp\;..\mockpp\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include;g:\data\src\cppunit-1.10.2\include\;..\3party;..\3party\cxxtest
+Item2=h:\temp;..\mockpp\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include;g:\data\src\cppunit-1.10.2\include\;..\3party;..\3party\cxxtest
+Item3=..\mockpp\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include;g:\data\src\cppunit-1.10.2\include\;..\3party;..\3party\cxxtest
+Item4=..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include;g:\data\src\cppunit-1.10.2\include\;..\3party;..\3party\cxxtest
+Item5=\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests;..\mockpp\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include;g:\data\src\cppunit-1.10.2\include\
+Item6=\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests;..\mockpp\tests;..\..\mockpp;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include;g:\data\src\cppunit-1.10.2\include
+Item7=\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests;..\mockpp\tests;..\..\mockpp;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include;g:\data\src\
+Item8=..\mockpp\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include;g:\data\src
+Item9=..\mockpp\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include
+Item10=..\mockpp\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;h:\home\arnold\cppunit-1.10.2\include
+Item11=..\mockpp\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include
+Item12=..\mockpp\tests;..\..\mockpp;$(BCB)\include;..\..\..\cppunit-1.10.2\include
+Item13=..\mockpp\tests;.\..;$(BCB)\include;X:\Documents\src\cppunit-1.10.2\include\
+Item14=..\mockpp\tests;..\..\mockpp-1.8.0;$(BCB)\include;X:\Documents\src\cppunit-1.10.2\include\
+Item15=..;$(BCB)\include;X:\Documents\src\cppunit-1.10.2\include
+Item16=..\mockpp\tests;..\mockpp_44\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10\include
+Item17=..\mockpp\tests;..\mockpp_44\tests;..\..\mockpp;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10\include
+Item18=..\mockpp\tests;..\mockpp_44\tests;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include
+Item19=..\..\mockpp;$(BCB)\include;..\..\..\cppunit.ups\include
+Item20=..\tests;tests;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp_44\tests;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp_44\tests;..\mockpp_44\tests;..;$(BCB)\include;..\..\cppunit\include;..\..\..\cppunit-1.8.0\include
+Item21=..;$(BCB)\include;..\..\cppunit\include;..\..\..\cppunit-1.8.0\include
+Item22=..\mockpp_44\tests;..\..\mockpp;$(BCB)\include;..\..\cppunit\include;..\..\..\cppunit-1.8.0\include;..
+Item23=..\mockpp_44\tests;..\..\mockpp;$(BCB)\include;..\..\cppunit\include;..\..\..\cppunit-1.8.0\include
+Item24=..\mockpp_44\tests;..;$(BCB)\include;..\..\cppunit\include;X:\src\cppunit-1.8.0\include
+Item25=..\mockpp_44\tests;..;$(BCB)\include;..\..\cppunit\include
+Item26=..\mockpp_44\tests;..;$(BCB)\include;B:\cvs\ups\src\3party\cppunit\include
+Item27=..\mockpp_44\tests;..;$(BCB)\include;..\..\..\cppunit-1.8.0\include
+Item28=..;$(BCB)\include;..\..\..\cppunit-1.8.0\include
+Item29=..\mockpp_44\tests;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp_44\tests;..\..\mockpp;$(BCB)\include;..\..\..\cppunit-1.8.0\include
+
+[HistoryLists\hlLibraryPath]
+Count=20
+Item0=..\tests;h:\temp\;\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests;..\mockpp\tests;..\mockpp_44\tests;$(BCB)\lib\obj;$(BCB)\lib
+Item1=h:\temp;\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests;..\mockpp\tests;..\mockpp_44\tests;$(BCB)\lib\obj;$(BCB)\lib
+Item2=\\192.168.2.1\ewald\Documents\src\mockpp\mockpp\mockpp\tests;..\mockpp\tests;..\mockpp_44\tests;$(BCB)\lib\obj;$(BCB)\lib
+Item3=..\mockpp\tests;..\mockpp_44\tests;$(BCB)\lib\obj;$(BCB)\lib
+Item4=$(BCB)\lib\obj;$(BCB)\lib
+Item5=..\tests;tests;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp_44\tests;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp_44\tests;..\mockpp_44\tests;..\expat;$(BCB)\lib\obj;$(BCB)\lib
+Item6=\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp_44\tests;..\mockpp_44\tests;..\expat;$(BCB)\lib\obj;$(BCB)\lib
+Item7=..\mockpp_44\tests;..\expat;$(BCB)\lib\obj;$(BCB)\lib
+Item8=..\mockpp_44\tests;$(BCB)\lib\obj;$(BCB)\lib;output;expat
+Item9=..\mockpp_44\tests;$(BCB)\lib\obj;$(BCB)\lib;output;bin
+Item10=..\mockpp_44\apps;$(BCB)\lib\obj;$(BCB)\lib;output;bin
+Item11=..\mockpp_44\apps;$(BCB)\lib\obj;$(BCB)\lib;output
+Item12=..\mockpp_44\apps;$(BCB)\lib\obj;$(BCB)\lib;E:\Eigene Dateien\c++\mockpp_44\bcb5\output
+Item13=..\mockpp_44\apps;$(BCB)\lib\obj;$(BCB)\lib;..\output
+Item14=..\mockpp_44\apps;$(BCB)\lib\obj;$(BCB)\lib
+Item15=..\mockpp_44\apps;D:\CBuilder5\mockpp_44\;$(BCB)\lib\obj;$(BCB)\lib
+Item16=e:\Eigene Dateien\c++\mockpp_44\mockpp\apps\;..\mockpp;$(BCB)\lib\obj;$(BCB)\lib
+Item17=e:\Eigene Dateien\c++\mockpp_44\mockpp\apps;..\mockpp;$(BCB)\lib\obj;$(BCB)\lib
+Item18=..\mockpp;$(BCB)\lib\obj;$(BCB)\lib
+Item19=e:\Eigene Dateien\c++\mockpp_44\mockpp\apps;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=3
+Item0=__DLL___
+Item1=_DEBUG;ULXR_SHOW_CONTENT;ULXR_SHOW_HTTP;ULXR_SHOW_WRTIE;ULXR_SHOW_READ;ULXR_SHOW_XML;DEBUG;__DLL___
+Item2=_DEBUG
+
+[HistoryLists\hlIntOutputDir]
+Count=7
+Item0=c:\tmp\compile\mockpp_44\
+Item1=c:\tmp\compile\mockpp_44\ulxr_bcb5\
+Item2=h:\temp
+Item3=output
+Item4=E:\Eigene Dateien\c++\mockpp_44\bcb5\output\
+Item5=E:\Eigene Dateien\c++\mockpp_44\bcb5\output
+Item6=D:\CBuilder5\Projects\output\
+
+[HistoryLists\hlFinalOutputDir]
+Count=8
+Item0=c:\tmp\compile\
+Item1=c:\tmp\compile
+Item2=c:\tmp\compile\mockpp_44\
+Item3=h:\temp
+Item4=output\
+Item5=E:\Eigene Dateien\c++\mockpp_44\bcb5\output\
+Item6=E:\Eigene Dateien\c++\mockpp_44\bcb5\output
+Item7=output
+
+[HistoryLists\hIBPIOutputDir]
+Count=10
+Item0=c:\tmp\compile\
+Item1=c:\tmp\compile
+Item2=c:\tmp\compile\mockpp_44\
+Item3=c:\tmp\compile\mockpp_44\ulxr_bcb5\
+Item4=h:\temp
+Item5=e:\Eigene Dateien\c++\mockpp_44\bcb5\output\
+Item6=output\
+Item7=E:\Eigene Dateien\c++\mockpp_44\bcb5\output
+Item8=D:\CBuilder5\Projects\output\
+Item9=output
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=1
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>

@@ -1,0 +1,192 @@
+/***************************************************************************
+                tut-visit.dox - visitable mock objects
+
+                             -------------------
+    begin                : Sun 2 Jan 2005
+    copyright            : (C) 2002-2008 by Ewald Arnold
+    email                : mockpp at ewald-arnold dot de
+
+  $Id: tut-visit.dox 1438 2008-03-08 20:22:43Z ewald-arnold $
+
+ ***************************************************************************/
+
+/*! \page tut_visit
+
+\section visit_mo Solution 2a: Visitable Mock Objects With Macros
+
+In the previous example each sub-expectation was created and adjusted manually.
+To reduce the code needed to set up the desired behaviour \c mockpp provides advanced
+mock objects. One of them uses the <em>visitable</em> approach. The name is derived
+from the fact that the behaviour is set up using some king of recording machanism,
+or by <em>visting</em> the mock object.
+
+First the a container mock object must be implemeneted. Similar to the first solution
+is must inherit from \c Interface and from \c VisitableMockObject .
+All the functionality is hidden in internal variables and helper methods. There is a set
+of variables for each method which must be initialized in the constructor. This work
+is done with a macro. The macro name depends on the type of method and the number of
+parameters it takes. You can read more about the details in the
+<a href="../handbook/ch01s03.html#choosing_macro" >handbook</a>.
+
+\code
+class VisitMock : public Interface
+                , public VisitableMockObject
+{
+  public:
+
+    VisitMock()
+      : VisitableMockObject("VisitMock", 0)
+      , MOCKPP_CONSTRUCT_MEMBERS_FOR_VOID_VISITABLE_EXT1(open, ext)
+      , MOCKPP_CONSTRUCT_MEMBERS_FOR_VISITABLE0(read)
+      , MOCKPP_CONSTRUCT_MEMBERS_FOR_VOID_VISITABLE_EXT1(write, ext)
+      , MOCKPP_CONSTRUCT_MEMBERS_FOR_VOID_VISITABLE0(close)
+    {}
+\endcode
+
+Then the methods are implemented. The according code for the variables and
+helper methods is also hidden in macros. In the simplest case you only have to
+pick the according macro and add the name of the class and the method.
+So the definition for method \c close() is easy:
+
+\code
+    MOCKPP_VOID_VISITABLE0(VisitMock, close);
+\endcode
+
+If the method has a non standard type (according to the definition of \c mockpp)
+you need an extended set of macros. The same applies to overloaded methods.
+This is necessary because the internal variables and names are derived from
+the methods name and parameters but need special handling.
+This is also explained in the according section of the
+<a href="../handbook/ch01s03.html#choosing_macro" >handbook</a>.
+
+\code
+    MOCKPP_VOID_VISITABLE_EXT1(VisitMock, open, const std::string &,
+                                          ext,  std::string);
+\endcode
+
+Once the class is finished and ready to use the desired behaviour must be set up.
+This is done by invoking the expected methods with the expected parameters.
+In the example the file is opened, three lines are read and the file is closed.
+
+\code
+    VisitMock mock;
+
+    mock.open("file1.lst");
+    mock.read();
+    mock.read();
+    mock.read();
+    mock.close();
+\endcode
+
+When you want to prepare the return values for the method \c read() you
+use a helper object which passes the values via helper methods in the desired
+order into the mock object.
+
+\code
+    MOCKPP_CONTROLLER_FOR(VisitMock, read) read_controller (&mock);
+
+    read_controller.addReturnValue("record-1");
+    read_controller.addReturnValue("record-2");
+    read_controller.addReturnValue("record-3");
+\endcode
+
+After all the behaviour is added you have to switch the mock object
+into test mode by invoking \c activate() . Then you run the methods
+under test. Similar to the first example you should call \c verify() at the
+end to check for pending expectations.
+
+\code
+    mock.activate();
+
+    Consumer consumer(&mock);
+    consumer.load();
+    consumer.process();
+    consumer.save();
+
+    mock.verify();
+  }
+  catch(std::exception &ex)
+  {
+    std::cout << std::endl
+              << "Error occured.\n" << ex.what() << std::endl
+              << std::endl;
+  }
+\endcode
+
+<a href="visitmock_8cpp-source.html">visitmock.cpp</a> contains the
+complete source code.
+
+
+\section visit_enh Enhanced functionality
+
+Visitable mock objects offer some more functionality. Suppose you have a method
+\c add() which receives two parameters and returns the sum.You could emulate this behaviour
+for some expected values by using the following statements. Additionally the method shall
+return -1 as error indicator for all other parameters. As an alternative
+you could have it throw an exception by using \c setDefaultThrowable().
+
+\code
+    MOCKPP_CONTROLLER_FOR(VisitMock, add) add_controller (&mock);
+
+    add_controller.addResponseValue(3, 1, 2);      // 1 and 2 are expected
+    add_controller.addResponseValue(110, 99, 11);  // 99 and 11 are expected
+    add_controller.setDefaultReturnValue(-1);
+\endcode
+
+Another rather common problem is the simulation of runtime errors. Such errors happen
+usually when you don't expect them but you hardly can reproduce them. To address such
+testing problems you might use a \c Throwable . The following code could
+be used to emulate a method that returns bytes from a network connection. The first 10
+calls return 0, but the next call throws a \c NetworkError . All the following
+calls return 1.
+
+\code
+    class NetworkError {};
+
+    MOCKPP_CONTROLLER_FOR(VisitMock, network_read) read_controller (&mock);
+
+    read_controller.addReturnValue(0, 10);
+    read_controller.addThrowable(make_throwable(NetworkError()));
+    read_controller.setDefaultValue(1);
+\endcode
+
+When generating such behaviour you should keep in mind that there is a determined
+dispatching order which is explained in the
+<a href="../handbook/ch01s03s02.html#visit-order" >VisitableMockObject section</a>
+of the handbook.
+
+Since the parameters passed to \c calculate are not exactly defined we must implement
+some tolerance. This can be achieved with an according constraint. In this case
+\c IsCloseTo which allows a delta value.
+
+\code
+    mock.calculate(eq<unsigned>(5,5));
+    mock.calculate(eq<unsigned>(5,5));
+    mock.calculate(eq<unsigned>(5,5));
+\endcode
+
+Another constraint is used to verify the data that is written back. The important part is
+the appended string "processed" so only this substring is verified:
+
+\code
+    mock.write(stringContains(std::string("processed")));
+    mock.write(stringContains(std::string("processed")));
+\endcode
+
+In a similar manner the return value can be influenced by passing the controller object
+according constraints instead of exact values.
+
+\code
+    calculate_controller.addResponseValue(10, eq<unsigned>(2,2));
+    calculate_controller.addResponseValue(20, eq<unsigned>(4,2));
+    calculate_controller.addResponseValue(30, eq<unsigned>(6,2));
+\endcode
+
+<a href="visitmock_8cpp-source.html">visitmock.cpp</a> contains the complete source code.
+
+Next: \ref visit2_mo
+
+\ref content
+
+*/
+

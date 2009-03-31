@@ -1,0 +1,359 @@
+$Id: ChangeLog 1447 2008-05-17 18:07:20Z ewald-arnold $
+
+                            mockpp history
+                            --------------
+
+
+2008-05-30  1.16.5
+
+ - in contructor of DefaultResultStub initialize default value
+ - output names of generated files in gen_xxx.pl
+ - always regenerate current test files below generator/xml2mockpp
+ - optionally different methods for Constraints when adding values and
+   when verify-ing in the end.
+ - fixes for g++-4.3
+ - OutBound, And, Or, IsNot overwrite verify() instad of using eval()
+ - classes Or and And offer full and shortcut evaluation
+
+2007-11-19  1.16.4
+
+ - replaced content of MOCKPP_UNUSED(x) to ((void)(x))
+ - fixes for g++ 4.2
+
+2007-10-17  1.16.3
+
+ - included missing projectfiles below msvc8/generator
+
+2007-09-29  1.16.2
+
+ - added overload isA() to allow isA<A, B>()
+
+2007-08-15  1.16.1
+
+ - issue error when macro "verify" is #defined
+ - fix parser issue when function body contains multiply operator *
+
+2007-05-19  1.16.0
+
+ - started generator from production sources into mock object files
+
+2007-04-14  1.15.1
+
+ - more installation/packaging/doc fixes for various platforms
+ - detect cppunit location with its own m4 macro
+ - add test case
+ - better naming of root cause in several error messages regarding "bad" mock object states
+
+2007-02-27  1.15.0
+
+ - installation fix for Ubuntu
+ - added convenience macro in AssertMo.h:MOCKPP_ASSERT_THROWING_EQUALS
+ - compiler fix for Solaris X86 due to macro named CS
+
+2007-01-08  1.14.2
+
+ - restructured sympol exports for better compiler support
+ - changes to make msvc8 compile with dlls.
+   MOCKPP_USING_DLL and MOCKPP_MAKING_DLL were replaced with MOCKPP_STATIC_LIB
+   (note: this merely reverses the logic to switch DLL <-> LIB).
+   This may break older project files (msvc6/7) and depending projects.
+ - add missing msvc7/mockpp_cxxtest.vcproj
+
+2006-10-10  1.14.1
+
+ - typo and bad filename in gen_files_N.sh
+ - missing #include under certain circumstances
+
+2006-09-24  1.14.0
+
+ - new RandomStub creates random numbers based on std::rand() within a
+   given range
+ - better support for pkg-config (thanks to a contribution)
+
+2006-09-04  1.13.0
+
+ - new ReturnObjectListStub is handy when you want to return a list
+   of objects and onConsecutiveCalls is not approriate
+ - OutBound and TriggeredOutbound take iterators to add input data
+
+2006-08-04  1.12.0
+
+ - new constraint TriggeredOutbound together with TriggerStub
+   and ReturnAndTriggerStub provide the use of outbound values
+   based on another incoming method parameter
+ - some fixes to ministl due to warnings with g++ 4.x
+ - cleanup documentation (api + handbook)
+
+2006-04-07  1.11.4
+
+ - renamed a number of internal variables to avoid warnings due to
+   shadowed members.
+
+2006-04-07  1.11.4
+
+ - added script to retrieve data from configure for use in other
+   libraries
+ - added compiler switches to disable namespaces
+   for built-in sources to support older compilers
+   at least partially
+ - inline TimeServer class methods to make it independent
+   from the library
+ - fixes for g++ 4.1
+ - fix install-win.bat
+ - script to generate onConsecutiveCalls() family
+   and make it take AutoPointer types as well
+
+2006-03-05  1.11.3
+
+ - fix for potential 64bit problem
+
+2006-02-04  1.11.2
+
+ - add batchfile install-win.bat to install the headers
+ - fixes for CygWin
+ - fixes for sun studio 10, script build4sun runs configure appropriately
+
+2006-01-12  1.11.1
+
+ - add all directories to doxy file
+ - update/fix handbook, apidoc
+ - sprinf_s only for msvc2005
+ - do not create cxxtest library when usage disabled
+ - add support for Boost.Test and optionally use it as framework for the
+   internal unit tests
+ - fix endless recursion when resetting chainable objects.
+ - fixed msvc71 project files
+
+2005-11-29  1.11.0-beta1
+
+ - removed superfluous template parameter
+ - fix compilation error due to bad namespace resolution
+ - provide ways for alternative STL
+ - optionally disable runtime type information (rtti)
+ - optionally disable exceptions
+ - project files MSVC2005 Express (this one is free as in beer)
+ - fixed compilation problem with msvc
+ - removed msvc6/msvc7/bcb6/bcbX project trees (not working/supported)
+ - compatibility break: moved all visitable files to mockpp/visiting
+ - compatibility break: moved all chainable files to mockpp/chaining
+ - compatibility break: moved all framework related files to mockpp/framework
+ - CxxTest (built-in version) is default test framework now,
+   CppUnit remains an option
+ - rename Assert.* to Asserter.* due to collisions with <assert.h> on
+   win platforms
+
+2005-11-19  1.10.0:
+
+ - fixes for g++ 4.0
+ - format boolean as "true" instead "1"
+ - created generator scripts to build classes based on increasing numbers
+   of parameters to enable methods with more than 5 parameters
+ - added template based classes to mock methods (chainable and visitable)
+ - compatibilty break: cleanup and removed all methods clear() as they were
+   mostly duplicates of reset()
+ - IsCloseTo compared wrong when passed scalar values exactly on the bounds
+
+2005-10-11  1.9.5:
+
+ - updated msvc7.1 projects files
+ - isEqualComparison to customize comparison in IsEqual
+ - removed superfluous Invocation::equals
+ - new bcb6 project files
+ - VisitableMockObjectBase::visitableVerify() did not verify unused methods
+
+2005-09-24  1.9.4:
+
+ - missing & in macro  MOCKPP_VOID_CONST_CHAINABLE3
+ - adding spaces around < > enables the use of templates
+ - potential compatibilty break: IsSame compares now by reference
+   wheras IsEqual still compares by value.
+
+   ==> Existing code using IsSame may crash now if the reference
+       points to a temporary object.
+
+2005-09-17  1.9.3:
+
+ - an ambiguity with included files on Cygwin platforms
+
+2005-09-03  1.9.2:
+
+ - only assertionFailed() will throw exceptions
+ - fixed a misspelling in ReturnObjectList.h:
+   setDefaultReturnVaue ==> setDefaultReturnValue
+
+2005-08-01  1.9.1:
+
+ - fixed compilation problems with certain data types
+
+2005-07-29  1.9.0:
+
+ - class OutBound enables outbound parameter references
+ - Formatter can reuse existing operator<<(ostream&, X&)
+
+2005-05-28  1.8.2:
+
+ - compatibility fixes for cygwin
+ - updated msvc7.1 project files
+
+2005-05-21  1.8.1:
+
+ - install files below mockpp/production
+ - fix macro namespace: i18n() ==> mockpp_i18n
+ - rudimentary rpm generation
+ - added another path to detect cppunit
+
+2005-05-06  1.8.0:
+
+ - included missing project file for bcb5
+ - fix for msvc7.1
+ - cleanup ThrowableList
+ - basic support for "Design By Contract"
+ - time server classes
+ - extended handbook
+
+2005-04-10  1.7.1:
+
+ - fix for unicode on some cygwin platforms
+ - fix for broken config files for MSVC and BCB5
+ - forbid to copy classes with pointers inside
+ - improved readability of error messages
+   => compatibility break: appearance of char/wchar_t changed
+      #undef MOCKPP_MAKE_CHAR_READABLE if needed
+
+2005-04-03  1.7.0:
+
+ - ReturnObjectList::addObjectToReturn now has a counter value
+   and returns a reference to itself for chaining
+ - project files for msvc 7.1
+ - fix for cygwin (compiles at least with static libs)
+ - minor internal cleanups
+
+2005-03-13  1.6.1:
+
+ added missing file to the distribution
+
+2005-03-13  1.6.0:
+
+ - MixedMockObject combines enhanced mock objects
+ - scope fixes for g++ 3.4.3
+ - fixes for g++ 2.95.3 and OpenBsd3.1
+ - fixed non-working class IsInstanceOf
+
+2005-03-04  1.5.0:
+
+ - added class ConstraintList
+ - VisitableMockObjects and the according controller also take
+   Constraints as objects instead of actual values.
+ - fixed some compiler warnings
+ - added #include for gcc 2.95 (which seems to compile fine :-)
+ - new matcher class UnlimitedMatcher
+ - better support for typeless constraints
+ - seperated some files into header and source file
+ - added #ifdef MOCKPP_IMPORT_ABBREVIATED to import parts
+   of mockpp namespace
+ - internal restructurings
+
+2005-02-25  1.4.0:
+
+ - changed "verify() const" to "verify()"
+ - mock objects reset all their sub objects
+ - all mock objects get their own reset() method
+ - ReturnObjectList has a default return value
+
+2005-02-19  1.3.0:
+
+ new TrackingCounter classes
+
+2005-01-26  1.2.0:
+ - closed 2 memory leaks
+ - fixed VerifyingTestCase
+ - added another example file
+ - changes in macros:
+   changing MOCKPP_STRING to MOCKPP_PCSTRING may become necessary
+ - prepared CBuilderX project files
+
+2005-01-08  1.2.0-b4:
+
+ modified and fixed setExpected()/setExpectNothing()
+
+2005-01-07  1.2.0-b3:
+
+ - compatibility break: addThrowable()/addReturnValue place exceptions
+   "in line" with return values, exceptions are no more thrown at the beginning.
+   To switch back to old behaviour call unsetThrowablesInline()
+   before calling activate(). See documentation for details.
+ - check for cppunit/Message.h
+ - manually disable verify() in VerifyingTextCase
+
+2004-12-11  1.2.0-b1:
+
+ - new expectation type ExpectationConglomeration
+ - added chaining invocation for certain classes
+ - disabled all wchar_t related code for non-unicode configurations
+ - port of jMock
+ - fixed a problem with non-unicode platforms
+ - renamed Verifiable::getName() to Verifiable::getVerifiableName()
+ - added missing documentation source files
+ - added set of macros for mocks with const method
+ - to avoid name collisons "Visitable" macros have been renamed
+   (mainly substituted METHOD with VISITABLE)
+
+2004-08-03  1.1.16:
+
+ - fixes and workarounds for MS VC
+ - patches for g++ 3.4
+
+2004-07-26  1.1.15:
+
+ - extended macros for better handling of mock method
+   parameter types
+
+2004-02-15  1.1.14:
+
+ - better detection of cppunit files
+
+2003-12-11  1.1.13:
+
+ - bug fixes: - string formatting
+ - ReturnObjectList message
+
+2003-10-11  1.1.11:
+
+ - moved bcb5/msvc config files to sources
+ - patch for msvc unicode problem
+
+2003-04-28  1.1.10:
+
+ port to msvc 6+7, HP-UX 11
+
+2003-04-06  1.1.9:
+
+ fixed references to removed Mutex.h
+
+2003-04-06  1.1.8:
+
+ - Port to OpenBsd 3.1 and g++ 2.95
+ - fix for MSVC
+ - simplified MockObject verify()
+ - removed useless multithread stuff
+
+2003-03-10  1.1.7:
+
+ Extended documentation via doxygen
+
+2003-03-12  1.1.6:
+
+ - ExpectationBoundary.setExpectedDelta() added
+ - pass parameters by reference to Visitabable methods
+
+2003-03-10  1.1.5:
+
+ Closed memory leak
+
+2003-03-09  1.1.4:
+
+ Fixed installation issue
+
+2003-03-08  1.1.3:
+
+ Final release

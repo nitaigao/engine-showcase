@@ -93,7 +93,8 @@ void Interface::Initialize( )
 			.def( "getSelectedIndex", &ComboBox::getIndexSelected )
 			.def( "setSelectedIndex", &ComboBox::setIndexSelected ),
 
-		class_< Edit, Widget >( "EditBox" ),
+		class_< Edit, Widget >( "EditBox" )
+			.def( "addText", &Edit::addText ),
 
 		class_< IntCoord >( "IntCoord" )
 			.def_readonly( "x" , &IntCoord::left )

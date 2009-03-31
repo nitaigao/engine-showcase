@@ -6,8 +6,3 @@ ISystemScene* ScriptSystem::CreateScene( )
 {
 	return new ScriptSystemScene( this, _configuration );
 }
-
-void ScriptSystem::Initialize( )
-{
-
-}

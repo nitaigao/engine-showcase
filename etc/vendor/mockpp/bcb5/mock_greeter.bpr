@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.05.03"/>
+    <PROJECT value="c:\tmp\compile\mock_greeter_44.exe"/>
+    <OBJFILES value="c:\tmp\compile\mockpp_44\\mock_greeter.obj"/>
+    <RESFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value="c:\tmp\compile\mockpp_44.lib c:\tmp\compile\mockpp_cxxtest_44.lib"/>
+    <LIBRARIES value=""/>
+    <SPARELIBS value=""/>
+    <PACKAGES value="VCL50.bpi VCLX50.bpi bcbsmp50.bpi QRPT50.bpi VCLDB50.bpi VCLBDE50.bpi 
+      ibsmp50.bpi VCLDBX50.bpi TEEUI50.bpi TEEDB50.bpi TEE50.bpi TEEQR50.bpi 
+      VCLIB50.bpi bcbie50.bpi VCLIE50.bpi INETDB50.bpi INET50.bpi NMFAST50.bpi 
+      dclocx50.bpi bcb2kaxserver50.bpi"/>
+    <PATHCPP value=".;..\mockpp\examples"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="tlink32"/>
+    <USERDEFINES value="__DLL___"/>
+    <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
+    <MAINSOURCE value="mock_greeter.bpf"/>
+    <INCLUDEPATH value="..\mockpp\examples;..\3party;..;$(BCB)\include;g:\data\src\cppunit-1.10.2\include\;..\..\cppunit-1.10.2\include;..\3party\cxxtest"/>
+    <LIBPATH value="..\mockpp\examples;..\mockpp_44\examples;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w-par"/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-vGc -vGt -vGd -Od -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM -c"/>
+    <PFLAGS value="-N2&quot;c:\tmp\compile\mockpp_44\&quot; -N0&quot;c:\tmp\compile\mockpp_44\&quot; -$YD -$W 
+      -$O- -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value="-l&quot;c:\tmp\compile\&quot; -I&quot;c:\tmp\compile\mockpp_44\&quot; -D&quot;&quot; -ap -Tpe -x -Gn -v"/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0x32.obj $(PACKAGES) $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
+  </LINKER>
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1031
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=30
+Item0=..\mockpp\examples;..\3party;..;$(BCB)\include;g:\data\src\cppunit-1.10.2\include\;..\..\cppunit-1.10.2\include;..\3party\cxxtest
+Item1=..\3party;..;$(BCB)\include;g:\data\src\cppunit-1.10.2\include\;..\..\cppunit-1.10.2\include;..\3party\cxxtest;..\3party
+Item2=..\mockpp\examples;..;$(BCB)\include;g:\data\src\cppunit-1.10.2\include\;..\..\cppunit-1.10.2\include;..\3party\cxxtest;..\3party
+Item3=..;$(BCB)\include;g:\data\src\cppunit-1.10.2\include\;..\..\cppunit-1.10.2\include;..\3party\cxxtest;..\3party
+Item4=..\mockpp\examples;..;$(BCB)\include;g:\data\src\cppunit-1.10.2\include\;..\..\cppunit-1.10.2\include
+Item5=..\mockpp\examples;..;$(BCB)\include;g:\data\src\cppunit-1.10.2\include;..\..\cppunit-1.10.2\include
+Item6=..\mockpp\examples;..;$(BCB)\include;X:\Documents\src\cppunit-1.10.2\include\;..\..\cppunit-1.10.2\include
+Item7=..\mockpp\examples;..;$(BCB)\include;X:\Documents\src\cppunit-1.10.2\include\;h:\home\arnold\cppunit-1.10.2\include\
+Item8=..\mockpp\examples;..;$(BCB)\include;X:\Documents\src\cppunit-1.10.2\include\
+Item9=..\.;$(BCB)\include;X:\Documents\src\cppunit-1.10.2\include
+Item10=..\mockpp\examples;..\mockpp_44\examples;..\mockpp_44\tests;..\..\mockpp;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10\include
+Item11=..\mockpp\examples;..\mockpp_44\examples;..\mockpp_44\tests;..\..\mockpp;$(BCB)\include;..\..\..\cppunit-1.10.2\include
+Item12=..\mockpp_44\examples;..\mockpp_44\tests;..;$(BCB)\include;..\..\..\cppunit.ups\include
+Item13=..\mockpp_44\examples;..\mockpp_44\tests;..;$(BCB)\include;..\..\cppunit\include;..\..\..\cppunit-1.8.0\include
+Item14=..\mockpp_44\examples;..\mockpp_44\tests;..\..\mockpp;$(BCB)\include;..\..\cppunit\include;..\..\..\cppunit-1.8.0\include
+Item15=..\mockpp_44\tests;..;$(BCB)\include;..\..\cppunit\include;X:\src\cppunit-1.8.0\include
+Item16=..\mockpp_44\tests;..;$(BCB)\include;..\..\cppunit\include
+Item17=..\mockpp_44\tests;..;$(BCB)\include;B:\cvs\ups\src\3party\cppunit\include
+Item18=..\mockpp_44\tests;..;$(BCB)\include;..\..\..\cppunit-1.8.0\include
+Item19=..;$(BCB)\include;..\..\..\cppunit-1.8.0\include
+Item20=..\mockpp_44\tests;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp_44\tests;..\..\mockpp;$(BCB)\include;..\..\..\cppunit-1.8.0\include
+Item21=..;$(BCB)\include;X:\src\cppunit-1.8.0\include
+Item22=\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp_44\tests;..\..\mockpp;..\mockpp_44\tests;..\mockpp;..\expat;$(BCB)\include
+Item23=..;..\mockpp_44\tests;..\mockpp;..\expat;$(BCB)\include
+Item24=..\..\mockpp;..\mockpp_44\tests;..\mockpp;..\expat;$(BCB)\include
+Item25=..\..\mockpp;..\mockpp_44\tests;..\mockpp;..\expat;$(BCB)\include;$(BCB)\include\vcl;h:\wx2\include\
+Item26=.. ;..\mockpp_44\tests;..\mockpp;..\expat;$(BCB)\include;$(BCB)\include\vcl;h:\wx2\include\
+Item27=.. ;..\mockpp_44\tests;..\expat;..\mockpp;$(BCB)\include;$(BCB)\include\vcl;h:\wx2\include
+Item28=..\mockpp_44\tests;..\expat;..\mockpp;$(BCB)\include;$(BCB)\include\vcl
+Item29=..\mockpp_44\tests;..\mockpp;$(BCB)\include;$(BCB)\include\vcl;expat
+
+[HistoryLists\hlLibraryPath]
+Count=18
+Item0=..\mockpp\examples;..\mockpp_44\examples;$(BCB)\lib\obj;$(BCB)\lib
+Item1=$(BCB)\lib\obj;$(BCB)\lib
+Item2=..\mockpp_44\examples;..\mockpp_44\tests;..\expat;$(BCB)\lib\obj;$(BCB)\lib
+Item3=..\mockpp_44\examples;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp_44\tests;..\mockpp_44\tests;..\expat;$(BCB)\lib\obj;$(BCB)\lib
+Item4=\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp_44\tests;..\mockpp_44\tests;..\expat;$(BCB)\lib\obj;$(BCB)\lib
+Item5=..\mockpp_44\tests;..\expat;$(BCB)\lib\obj;$(BCB)\lib
+Item6=..\mockpp_44\tests;$(BCB)\lib\obj;$(BCB)\lib;output;expat
+Item7=..\mockpp_44\tests;$(BCB)\lib\obj;$(BCB)\lib;output;bin
+Item8=..\mockpp_44\apps;$(BCB)\lib\obj;$(BCB)\lib;output;bin
+Item9=..\mockpp_44\apps;$(BCB)\lib\obj;$(BCB)\lib;output
+Item10=..\mockpp_44\apps;$(BCB)\lib\obj;$(BCB)\lib;E:\Eigene Dateien\c++\mockpp_44\bcb5\output
+Item11=..\mockpp_44\apps;$(BCB)\lib\obj;$(BCB)\lib;..\output
+Item12=..\mockpp_44\apps;$(BCB)\lib\obj;$(BCB)\lib
+Item13=..\mockpp_44\apps;D:\CBuilder5\mockpp_44\;$(BCB)\lib\obj;$(BCB)\lib
+Item14=e:\Eigene Dateien\c++\mockpp_44\mockpp\apps\;..\mockpp;$(BCB)\lib\obj;$(BCB)\lib
+Item15=e:\Eigene Dateien\c++\mockpp_44\mockpp\apps;..\mockpp;$(BCB)\lib\obj;$(BCB)\lib
+Item16=..\mockpp;$(BCB)\lib\obj;$(BCB)\lib
+Item17=e:\Eigene Dateien\c++\mockpp_44\mockpp\apps;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=3
+Item0=__DLL___
+Item1=_DEBUG;ULXR_SHOW_CONTENT;ULXR_SHOW_HTTP;ULXR_SHOW_WRTIE;ULXR_SHOW_READ;ULXR_SHOW_XML;DEBUG;__DLL___
+Item2=_DEBUG
+
+[HistoryLists\hlIntOutputDir]
+Count=7
+Item0=c:\tmp\compile\mockpp_44\
+Item1=c:\tmp\compile\mockpp_44\ulxr_bcb5\
+Item2=h:\temp
+Item3=output
+Item4=E:\Eigene Dateien\c++\mockpp_44\bcb5\output\
+Item5=E:\Eigene Dateien\c++\mockpp_44\bcb5\output
+Item6=D:\CBuilder5\Projects\output\
+
+[HistoryLists\hlFinalOutputDir]
+Count=8
+Item0=c:\tmp\compile\
+Item1=c:\tmp\compile
+Item2=c:\tmp\compile\mockpp_44\
+Item3=h:\temp
+Item4=output\
+Item5=E:\Eigene Dateien\c++\mockpp_44\bcb5\output\
+Item6=E:\Eigene Dateien\c++\mockpp_44\bcb5\output
+Item7=output
+
+[HistoryLists\hIBPIOutputDir]
+Count=10
+Item0=c:\tmp\compile\
+Item1=c:\tmp\compile
+Item2=c:\tmp\compile\mockpp_44\
+Item3=c:\tmp\compile\mockpp_44\ulxr_bcb5\
+Item4=h:\temp
+Item5=e:\Eigene Dateien\c++\mockpp_44\bcb5\output\
+Item6=output\
+Item7=E:\Eigene Dateien\c++\mockpp_44\bcb5\output
+Item8=D:\CBuilder5\Projects\output\
+Item9=output
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=localhost/rpc2
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=1
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>

@@ -2,7 +2,7 @@
 
 #include "../Logging/Logger.h"
 #include "../Exceptions/ScriptException.hpp"
-#include "../IO/FileManager.h"
+#include "../System/Management.h"
 
 extern "C" 
 {
@@ -16,9 +16,8 @@ void ScriptComponent::Initialize( SystemPropertyList properties )
 	{
 		if ( ( *i ).first == "scriptPath" )
 		{
-			FileManager* fileManager = new FileManager( );
-			FileBuffer* scriptBuffer = fileManager->GetFile( ( *i ).second.GetValue< std::string >( ) );
-			delete fileManager;
+			std::string scriptPath = ( *i ).second.GetValue< std::string >( );
+			FileBuffer* scriptBuffer = Management::GetInstance( )->GetFileManager( )->GetFile( scriptPath, false );
 
 			int result = luaL_loadbuffer( _state, scriptBuffer->fileBytes, scriptBuffer->fileLength, scriptBuffer->filePath.c_str( ) );
 

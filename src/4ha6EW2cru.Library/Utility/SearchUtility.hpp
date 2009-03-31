@@ -55,6 +55,8 @@ public:
 			int result = inputString.find( GetSearchString( ) );
  			return ( result > -1 );
 		}
+
+		return false;
 	}
 
 private:

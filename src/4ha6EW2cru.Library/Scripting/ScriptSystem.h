@@ -17,7 +17,7 @@ public:
 		
 	}
 
-	void Initialize( );
+	void Initialize( ) { };
 	void Release( ) { };
 
 	ISystemScene* CreateScene( );

@@ -1,0 +1,197 @@
+<sect1 id="embedded-systems">
+<title>Working With Embedded Systems</title>
+
+<sect2 id="embedded-problem">
+<title>The Problem</title>
+
+<para>There are hidden costs concerning memory resources when programming in
+C++. On a desktop system with plenty of virtual memory you don't necessarily
+recognise it. But working with embedded systems is different as there is only a
+limited amount of physical memory available.</para>
+
+<para>For that reasons it is important to know the places where he compiler adds
+additional code:
+
+<variablelist>
+
+ <varlistentry>
+   <term>Standard Template Library (STL)</term>
+   <listitem><para>Templates and other inline code may increase the resulting footprint
+   of the binary.</para></listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term>Exceptions</term>
+   <listitem><para>After throwing an exception the complier must cleanup and
+   destroy all automatic objects in the previous scopes. This bookkeeping
+   consumes space as well.</para></listitem>
+ </varlistentry>
+
+ <varlistentry>
+   <term>Runtime Type Information (RTTI)</term>
+   <listitem><para>To provide information about an object at runtime the
+   compiler includes data like the class name or the inheritance tree
+   in the binary.</para></listitem>
+ </varlistentry>
+
+</variablelist>
+
+</para>
+
+<para>The following table shows the the size of the &mockpp; library when
+compiled with different settings. The size ranged from around 320KiB with the
+default settings down to 180KiB with as many features disabled as possible.
+
+<table><title>Memory Consumption of C++ Code</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+<thead>
+  <row>
+    <entry>Feature</entry><entry>Number of Bytes</entry><entry>Percentage</entry>
+  </row>
+</thead>
+
+<tbody>
+  <row>
+    <entry>regular STL</entry><entry>92KiB</entry><entry>28%</entry>
+  </row>
+
+  <row>
+    <entry>RTTI</entry><entry>12KiB</entry><entry>4%</entry>
+  </row>
+
+  <row>
+    <entry>Exceptions</entry><entry>37KiB</entry><entry>11%</entry>
+  </row>
+
+  <row>
+    <entry>Library Code</entry><entry>180KiB</entry><entry>57%</entry>
+  </row>
+</tbody>
+</tgroup>
+</table>
+
+When changing the options for the test executables the size was reduced down to
+45%, but using the regular STL resulted only in 13% larger code.</para>
+
+</sect2>
+
+<sect2 id="embedded-solution">
+<title>The Solution</title>
+
+<para>Disabling RTTI in &mockpp; has little consequences. It is only used for a
+few diagnostic messages. In the worst case you might have to search for the
+problematic class because the name is not displayed.</para>
+
+<para>Disabling the regular STL is also no problem as far as &mockpp; is
+affected. If you use the minimalistic built-in STL for your own code you might
+miss the one or the
+other feature current implementations have. Either you find a workaround for
+this or you implement what is missing. There are also STL implementations
+available which are optimised for embedded systems.</para>
+
+<para>The only real problem is exception handling. You can't simply turn his
+feature off and continue with the program flow instead of throwing. When
+throwing an exception an application is typically in a critical state and its
+objects tend to be unusable. Continuing to
+use such an object is likely to crash the application. The other problem is the
+fact that the compiler can't prepare a way back to destroy automatic variables.
+This causes resource leaks.</para>
+
+<para>The only workaround so far is to immediately terminate the application.
+A compromise might be to start a thread for each single test case and terminate
+the thread upon the first malfunction. Probably this significantly slows down
+the test execution. Another possibility is to split the tests into portable and
+platform specific sections. The portable sections can be run on the development
+machine with high speed very often whereas the complete tests are run on the
+target device only if appropriate.</para>
+
+<para id="no-exceptions">Without exceptions you have to provide a way to forward the messages
+about the malfunction. &mockpp; uses some macros to run the built-in tests
+with or without exceptions using the same source files. When exceptions are
+enabled theses macros contain what you probably expect:
+
+<programlisting>
+
+#define MOCKPP_THROW(x)  throw (x)
+#define MOCKPP_RETHROW   throw
+#define MOCKPP_TRY       try
+#define MOCKPP_CATCH(x)  (x)
+#define MOCKPP_CATCH_ALL catch(...)
+
+</programlisting>
+
+</para>
+
+<para>One way to react upon bad test results without exceptions is to call a
+method which prints
+the results to the screen and exits with an according error level. Since the
+container with the resulting data can vary you might want to use a template
+with specialisations. The following example shows how this could look like.
+The macros should occur before the inclusion of
+<filename>mockpp.h</filename>. Otherwise they are defined with empty
+content.
+
+<caution>Please note that the macro is located in source (*.cpp) files as well as
+in header files. So changing the macro between different test files or projects
+might not work
+as expected. It is intended as immutable glue between &mockpp; and your favourite
+unittest framework.</caution>
+
+To relax this constraint there is a mutable function pointer which can be changed
+at runtime to actually process the exception data. All internal assertions use
+this approach. The default is to throw an exception. But by calling
+<function>setAssertionFailedForwarder()</function> appropriately it is possible
+to print a message to the screen and exit the application. Alternatively you may
+as well call the according collector of your unittest framework. E.g.
+<methodname>CPPUNIT_FAIL</methodname> for &cppunit; or
+<methodname>TS_FAIL</methodname> for &cxxtest;.</para>
+
+<para>The following listing shows a possible scenario without exceptions:
+
+<programlisting>
+
+#define MOCKPP_THROW(x)  printMalfunctionData(x)
+#define MOCKPP_RETHROW   printMalfunctionData("unexpected rethrow")
+
+...
+
+template &lt;class T>
+inline
+void printMalfunctionData(const T &amp; /* dummy fallback */)
+{
+  std::cout &lt;&lt; "unknown exception occurred" &lt;&lt; std::end;
+  exit(1);
+}
+
+template &lt;>
+inline
+void printMalfunctionData(const mockpp::AssertionFailedError &amp;e)
+{
+  std::cout &lt;&lt; e.getMessage() &lt;&lt; std::end;
+  exit(1);
+}
+
+template &lt;>
+inline
+void printMalfunctionData(const std::exception &amp;e)
+{
+  std::cout &lt;&lt; e.what() &lt;&lt; std::end;
+  exit(1);
+}
+
+...
+
+setAssertionFailedForwarder(printMalfunctionData&lt;mockpp::AssertionFailedError>);
+
+</programlisting>
+
+</para>
+
+<para>The test file <filename>tests/NoException_test.cpp</filename> shows a
+working solution. This file is designed to work under all library settings by
+using special types. Using types like <token>int</token> or
+<token>std::string</token> might not work with the settings on your machine.</para>
+
+</sect2>
+
+</sect1>

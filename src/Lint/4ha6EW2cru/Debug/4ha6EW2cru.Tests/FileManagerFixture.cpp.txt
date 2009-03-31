@@ -1,7 +1,0 @@
-
---- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Tests\IO\FileManagerFixture.cpp
-    (C++)
-         _
-#include "FileManagerFixture.h"
-C:\Users\NK\Development\viper\src\4ha6EW2cru.Tests\IO\FileManagerFixture.cpp  1 
-    Error 322: Unable to open include file 'FileManagerFixture.h'

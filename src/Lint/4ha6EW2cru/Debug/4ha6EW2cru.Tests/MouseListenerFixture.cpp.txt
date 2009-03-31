@@ -1,7 +1,0 @@
-
---- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Tests\Input\MouseListenerFixture.cpp
-    (C++)
-         _
-#include "MouseListenerFixture.h"
-C:\Users\NK\Development\viper\src\4ha6EW2cru.Tests\Input\MouseListenerFixture.cpp 
-    1  Error 322: Unable to open include file 'MouseListenerFixture.h'

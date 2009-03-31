@@ -4,6 +4,7 @@
 
 #include "../System/SystemManager.h"
 #include "../System/PlatformManager.h"
+#include "../IO/FileManager.h"
 
 static Management* g_ManagementInstance = 0;
 
@@ -12,6 +13,7 @@ Management::Management( )
 	_platformManager = new PlatformManager( );
 	_eventManager = new EventManager( );
 	_systemManager = new SystemManager( );
+	_fileManager = new FileManager( );
 }
 
 Management::~Management( )
@@ -19,6 +21,7 @@ Management::~Management( )
 	delete _systemManager;
 	delete _eventManager;
 	delete _platformManager;
+	delete _fileManager;
 }
 
 void Management::Initialize( )

@@ -1,0 +1,14 @@
+rm mockpp-bug-report.tar.gz
+./configure >x1 2>x2
+make check -k -i >x3 2>x4
+set >x5
+gcc -v 2>x6
+uname -a >x7
+ls -la /usr/local/lib >x8
+tar cf mockpp-bug-report.tar x1 x2 x3 x4 x5 x6 x7 x8 config.cache \
+       config.log config.status config.h mockpp/mockpp_config.h
+gzip mockpp-bug-report.tar
+echo "*****************************************************"
+echo "send mockpp-bug-report.tar.gz to mockpp@ewald-arnold.de"
+echo "*****************************************************"
+rm x1 x2 x3 x4 x5 x6 x7 x8

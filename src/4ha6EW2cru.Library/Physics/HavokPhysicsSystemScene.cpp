@@ -25,7 +25,6 @@
 #include <Common/Base/Thread/Job/ThreadPool/Spu/hkSpuJobThreadPool.h>
 #include <Common/Base/Thread/JobQueue/hkJobQueue.h>
 
-// Visual Debugger includes
 #include <Common/Visualize/hkVisualDebugger.h>
 #include <Physics/Utilities/VisualDebugger/hkpPhysicsContext.h>			
 

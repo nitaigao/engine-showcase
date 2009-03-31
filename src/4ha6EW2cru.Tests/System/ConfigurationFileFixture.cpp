@@ -14,12 +14,12 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ConfigurationFileFixture, Suites::SystemS
 void ConfigurationFileFixture::setUp( )
 {
 	Logger::Initialize( );
-	FileManager::Initialize( );
+	Management::Initialize( );
 }
 
 void ConfigurationFileFixture::tearDown( )
 {
-	FileManager::GetInstance( )->Release( );
+	Management::GetInstance( )->Release( );
 	Logger::GetInstance( )->Release( );
 }
 
@@ -64,7 +64,8 @@ void ConfigurationFileFixture::Should_Find_Default_Config_Item_On_FindConfigItem
 
 void ConfigurationFileFixture::Should_Find_Stored_Config_Item_On_FindConfigItemBool( )
 {
-	ConfigurationFile* config = ConfigurationFile::Load( "test/test.cfg" );
+	Management::GetInstance( )->GetFileManager( )->MountFileStore( "../../../etc/data/test", "/" );
+	ConfigurationFile* config = ConfigurationFile::Load( "config/test.cfg" );
 	bool ok = config->FindConfigItem( "Display", "fullscreen", false );
 	CPPUNIT_ASSERT( ok == true );
 	delete config;

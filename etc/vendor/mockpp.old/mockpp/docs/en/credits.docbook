@@ -1,0 +1,48 @@
+<!-- The credits
+
+     $Id: credits.docbook 1412 2007-06-16 18:12:57Z ewald-arnold $
+-->
+
+<chapter id="credits">
+
+<title>Credits and License</title>
+
+<para>
+Library &mockpp;
+copyright &copyyears; Ewald Arnold <email>&mockpp_email;</email>
+</para>
+
+<para>
+Documentation copyright &copyyears; Ewald Arnold<email>&mockpp_email;</email>
+</para>
+
+<para>This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public License
+as published by the Free Software Foundation; either version 2 of
+the License, or (at your option) any later version.</para>
+
+<para>This library is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.</para>
+
+<para>You should have received a copy of the GNU Lesser General
+Public License along with this library; if not, write to the Free
+Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+02111-1307 USA</para>
+
+<para>The files in the directory <filename>mockpp/3party</filename> are copyright
+of the respective owners. See the according files for details.</para>
+
+<para>Some of the files below <filename>mockpp/generator</filename> also have
+different copyright. The basis for the C++ parser in <filename>mockpp/generator/mockpp2xml</filename>
+was taken from the <ulink url="http://www.kde.org">KDE Project</ulink>. Originally
+it was used to create DCOP files for the interprocess communication in the
+KDE 3.x series. Many thanks go to the people who created this useful application. For
+the copyright details see the according files.</para>
+
+<para>The files below <filename>mockpp/generator/xml2mockpp</filename>
+on the other hand are regular part of &mockpp; and under LGPL so they could be
+integrated into third party tools.</para>
+
+</chapter>

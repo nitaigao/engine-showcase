@@ -3,6 +3,8 @@
 #include "Events/EventListener.h"
 #include "Events/Event.h"
 
+#include "System/Management.h"
+
 #include "Exceptions/NullReferenceException.hpp"
 
 #include "../Mocks/Mock_EventSubject.hpp"
@@ -13,6 +15,7 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( EventListenerFixture, Suites::EventsSuite
 void EventListenerFixture::setUp( )
 {
 	Logger::Initialize( );
+	Management::Initialize( );
 
 	_eventTarget = 0;
 	_eventTarget = new Mock_EventSubject( );
@@ -28,6 +31,7 @@ void EventListenerFixture::tearDown( )
 	delete _eventTarget;
 	_eventTarget = 0;
 
+	Management::GetInstance( )->Release( );
 	Logger::GetInstance( )->Release( );
 }
 

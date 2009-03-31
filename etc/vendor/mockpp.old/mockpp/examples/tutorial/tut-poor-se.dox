@@ -1,0 +1,74 @@
+/***************************************************************************
+        tut-poor-se.dox - poor man's mock objects, Second Edition
+
+                             -------------------
+    begin                : Fri Feb 18 2005
+    copyright            : (C) 2002-2008 by Ewald Arnold
+    email                : mockpp at ewald-arnold dot de
+
+  $Id: tut-poor-se.dox 1438 2008-03-08 20:22:43Z ewald-arnold $
+
+ ***************************************************************************/
+
+/*! \page tut_poor_se
+
+\section poor_se_mo Solution 5: Poor Man's Mock Objects, Second Edition
+
+The former example can be rewritten with a class especially designed for
+tracking occurences. The class handles setting default values and incrementing
+counter values based on a shared master object.
+
+\code
+class PoorMockSecondEdition : public Interface
+                            , public MockObject
+{
+    TrackingCounterMaster counter;
+
+  public:
+
+    TrackingCounterClient open_counter;
+    TrackingCounterClient read_counter;
+    TrackingCounterClient write_counter;
+    TrackingCounterClient close_counter;
+
+    PoorMockSecondEdition()
+      : MockObject("MockObject")
+      , counter("counter", this)
+      , open_counter("open_counter", counter)
+      , read_counter("read_counter", counter)
+      , write_counter("write_counter", counter)
+      , close_counter("close_counter", counter)
+    {
+    }
+\endcode
+
+Then each method invocation updates its own tracking object by getting the current
+value from the master.
+
+\code
+    virtual void open(const std::string &name )
+    {
+      open_counter++;
+    }
+\endcode
+
+Similar to all the other basic mock objects you set up the expected count
+for each object, call the object and verify it afterwards.
+
+\code
+  Consumer consumer(&mock);
+  mock.open_counter.setExpected(1);
+  mock.read_counter.setExpected(4);
+  mock.close_counter.setExpected(5);
+  consumer.load();
+  mock.verify();
+\endcode
+
+<a href="poormock-se_8cpp-source.html">poormock-se.cpp</a> contains the complete source code.
+
+Next: \ref cppunit
+
+\ref content
+
+*/
+

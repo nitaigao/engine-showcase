@@ -24,7 +24,6 @@ ScriptSystemScene::~ScriptSystemScene( )
 	}
 
 	delete _eventHandlers;
-	delete _fileManager;
 	delete _scriptConfiguration;
 
 	lua_close( _state );
@@ -33,7 +32,6 @@ ScriptSystemScene::~ScriptSystemScene( )
 
 ScriptSystemScene::ScriptSystemScene( ISystem* scriptSystem, Configuration* configuration )
 {
-	_fileManager = new FileManager( );
 	_scriptConfiguration = new ScriptConfiguration( configuration );
 	_state = lua_open( );
 	_eventHandlers = new EventHandlerList( );
@@ -97,7 +95,9 @@ void ScriptSystemScene::Initialize( )
 	];
 
 	luabind::globals( _state )[ "Configuration" ] = _scriptConfiguration;
-	luabind::set_pcall_callback( &ScriptSystemScene::ScriptError );
+	luabind::set_pcall_callback( &ScriptSystemScene::Script_PError );
+	luabind::set_error_callback( &ScriptSystemScene::Script_Error );
+	luabind::set_cast_failed_callback( &ScriptSystemScene::Script_CastError );
 
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( ALL_EVENTS, this, &ScriptSystemScene::OnEvent );
 }
@@ -147,7 +147,7 @@ void ScriptSystemScene::OnEvent( const IEvent* event )
 	}
 }
 
-int ScriptSystemScene::ScriptError( lua_State* luaState )
+int ScriptSystemScene::Script_PError( lua_State* luaState )
 {
 	lua_Debug d;
 
@@ -175,6 +175,16 @@ int ScriptSystemScene::ScriptError( lua_State* luaState )
 	Logger::GetInstance( )->Fatal( errorMessage.str( ) );
 
 	return 1;	
+}
+
+void ScriptSystemScene::Script_CastError( lua_State* luaState, LUABIND_TYPE_INFO typeInfo )
+{
+	ScriptSystemScene::Script_PError( luaState );
+}
+
+void ScriptSystemScene::Script_Error( lua_State* luaState )
+{
+	ScriptSystemScene::Script_PError( luaState );
 }
 
 void ScriptSystemScene::Print( const std::string message )

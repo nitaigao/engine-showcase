@@ -1,0 +1,335 @@
+<?xml version = '1.0'?>
+<kdevelop>
+  <general>
+    <author>Ewald Arnold</author>
+    <email>mockpp@ewald-arnold.de</email>
+    <version>$VERSION$</version>
+    <projectmanagement>KDevAutoProject</projectmanagement>
+    <primarylanguage>C++</primarylanguage>
+    <ignoreparts>
+      <part>kdevfilegroups</part>
+      <part>kdevfileselector</part>
+      <part>kdevdocumentation</part>
+      <part>kdevkonsoleview</part>
+      <part>kdevclassview</part>
+      <part>kdevopenwith</part>
+      <part>kdevquickopen</part>
+      <part>kdevscripting</part>
+      <part>kdevtexttools</part>
+      <part>kdevctags2</part>
+      <part>kdevdoxygen</part>
+      <part>kdevdistpart</part>
+      <part>kdevtools</part>
+    </ignoreparts>
+    <projectdirectory>.</projectdirectory>
+    <absoluteprojectpath>false</absoluteprojectpath>
+    <description/>
+    <secondaryLanguages>
+      <language>Perl</language>
+      <language>Bash</language>
+      <language>C</language>
+      <language>Java</language>
+    </secondaryLanguages>
+    <versioncontrol>kdevsubversion</versioncontrol>
+    <projectname>mockpp</projectname>
+    <defaultencoding/>
+  </general>
+  <kdevautoproject>
+    <general>
+      <activetarget>mockpp/tests/mock_test</activetarget>
+      <useconfiguration>unicode</useconfiguration>
+    </general>
+    <run>
+      <mainprogram/>
+      <programargs/>
+      <terminal>false</terminal>
+      <envvars/>
+      <directoryradio>executable</directoryradio>
+      <customdirectory>/</customdirectory>
+      <autocompile>true</autocompile>
+      <runarguments>
+        <mock_test/>
+        <jmock_test/>
+        <compilecheck/>
+        <mock_greeter/>
+        <readability/>
+        <xml2mockpp>/home/ea/Documents/src/mockpp/trunk/mockpp/generator/mockpp2xml/mockppidl-orig.xml</xml2mockpp>
+      </runarguments>
+      <debugarguments>
+        <xml2mockpp/>
+        <mock_test/>
+      </debugarguments>
+      <cwd>
+        <xml2mockpp>/home/ea/Documents/src/mockpp/trunk/mockpp/generator/mockpp2xml</xml2mockpp>
+        <mock_test>/var/compile/mockpp/u/./generator/xml2mockpp</mock_test>
+      </cwd>
+      <globaldebugarguments/>
+      <globalcwd/>
+      <useglobalprogram>false</useglobalprogram>
+      <autoinstall>false</autoinstall>
+      <autokdesu>false</autokdesu>
+    </run>
+    <make>
+      <envvars>
+        <envvar value="1" name="WANT_AUTOCONF_2_5" />
+        <envvar value="1" name="WANT_AUTOMAKE_1_6" />
+      </envvars>
+      <abortonerror>true</abortonerror>
+      <numberofjobs>1</numberofjobs>
+      <dontact>false</dontact>
+      <makebin>make check</makebin>
+      <prio>0</prio>
+      <runmultiplejobs>false</runmultiplejobs>
+    </make>
+    <configurations>
+      <unicode>
+        <envvars/>
+        <configargs>--enable-unicode</configargs>
+        <builddir>/home/ea/compile/mockpp/u</builddir>
+        <topsourcedir/>
+        <cppflags/>
+        <ldflags/>
+        <ccompiler>kdevgccoptions</ccompiler>
+        <cxxcompiler>kdevgppoptions</cxxcompiler>
+        <f77compiler>kdevg77options</f77compiler>
+        <ccompilerbinary/>
+        <cxxcompilerbinary>&quot;ccache g++ &quot;</cxxcompilerbinary>
+        <f77compilerbinary/>
+        <cflags/>
+        <cxxflags/>
+        <f77flags/>
+      </unicode>
+      <ascii>
+        <envvars/>
+        <configargs/>
+        <builddir>/home/compile/mockpp/a</builddir>
+        <topsourcedir/>
+        <cppflags/>
+        <ldflags/>
+        <ccompiler>kdevgccoptions</ccompiler>
+        <cxxcompiler>kdevgppoptions</cxxcompiler>
+        <f77compiler>kdevg77options</f77compiler>
+        <ccompilerbinary/>
+        <cxxcompilerbinary/>
+        <f77compilerbinary/>
+        <cflags/>
+        <cxxflags>-O0 -g -Wall</cxxflags>
+        <f77flags/>
+      </ascii>
+      <unicode_debug>
+        <envvars/>
+        <configargs>--enable-unicode --enable-debug=full prefix=/tmp/install</configargs>
+        <builddir>/home/compile/mockpp/u</builddir>
+        <topsourcedir/>
+        <cppflags/>
+        <ldflags/>
+        <ccompiler>kdevgccoptions</ccompiler>
+        <cxxcompiler>kdevgppoptions</cxxcompiler>
+        <f77compiler>kdevg77options</f77compiler>
+        <ccompilerbinary/>
+        <cxxcompilerbinary/>
+        <f77compilerbinary/>
+        <cflags/>
+        <cxxflags>-O0 -g -Wall -Wunused -pedantic</cxxflags>
+        <f77flags/>
+      </unicode_debug>
+      <intel_unicode_debug>
+        <envvars/>
+        <configargs>--enable-unicode --enable-debug=full</configargs>
+        <builddir>/home/compile/mockpp/intel</builddir>
+        <topsourcedir/>
+        <cppflags/>
+        <ldflags>-L/opt/intel_cc_80/lib</ldflags>
+        <ccompiler>kdevgccoptions</ccompiler>
+        <cxxcompiler>kdevgppoptions</cxxcompiler>
+        <f77compiler>kdevg77options</f77compiler>
+        <ccompilerbinary>/opt/intel_cc_80/bin/icc</ccompilerbinary>
+        <cxxcompilerbinary>/opt/intel_cc_80/bin/icc</cxxcompilerbinary>
+        <f77compilerbinary/>
+        <cflags>-O0 -g -Wall</cflags>
+        <cxxflags>-O0 -g -Wall -wd383 -wd981</cxxflags>
+        <f77flags/>
+      </intel_unicode_debug>
+      <unicode_gcc_3_4>
+        <envvars/>
+        <configargs>--enable-unicode --enable-debug=full prefix=/tmp/install</configargs>
+        <builddir>/home/compile/mockpp/gcc-3.4</builddir>
+        <topsourcedir/>
+        <cppflags/>
+        <ldflags/>
+        <ccompiler>kdevgccoptions</ccompiler>
+        <cxxcompiler>kdevgppoptions</cxxcompiler>
+        <f77compiler>kdevg77options</f77compiler>
+        <ccompilerbinary/>
+        <cxxcompilerbinary>g++-3.4.3</cxxcompilerbinary>
+        <f77compilerbinary/>
+        <cflags/>
+        <cxxflags>-O0 -g -Wall </cxxflags>
+        <f77flags/>
+      </unicode_gcc_3_4>
+    </configurations>
+  </kdevautoproject>
+  <kdevdebugger>
+    <general>
+      <dbgshell>libtool</dbgshell>
+      <programargs/>
+      <gdbpath/>
+      <breakonloadinglibs>true</breakonloadinglibs>
+      <separatetty>false</separatetty>
+      <floatingtoolbar>true</floatingtoolbar>
+      <configGdbScript/>
+      <runShellScript/>
+      <runGdbScript/>
+      <raiseGDBOnStart>false</raiseGDBOnStart>
+    </general>
+    <display>
+      <staticmembers>true</staticmembers>
+      <demanglenames>true</demanglenames>
+      <outputradix>10</outputradix>
+    </display>
+  </kdevdebugger>
+  <kdevfilecreate>
+    <filetypes/>
+    <useglobaltypes>
+      <type ext="ui" subtyperef="widget" />
+      <type ext="ui" subtyperef="dialog" />
+      <type ext="ui" subtyperef="tabdialog" />
+      <type ext="ui" subtyperef="dialogr" />
+      <type ext="ui" subtyperef="dialogb" />
+      <type ext="ui" subtyperef="confdialog" />
+      <type ext="ui" subtyperef="wizard" />
+      <type ext="ui" subtyperef="mainwin" />
+      <type ext="cpp" />
+      <type ext="h" />
+    </useglobaltypes>
+  </kdevfilecreate>
+  <kdevdoctreeview>
+    <projectdoc>
+      <userdocDir>/home/ewald/src/mockpp/mockpp/html/</userdocDir>
+      <apidocDir>/home/ewald/src/mockpp/mockpp/html/</apidocDir>
+    </projectdoc>
+  </kdevdoctreeview>
+  <cppsupportpart>
+    <codecompletion/>
+    <filetemplates>
+      <choosefiles>false</choosefiles>
+      <interfaceURL/>
+      <implementationURL/>
+      <interfacesuffix>.h</interfacesuffix>
+      <implementationsuffix>.cpp</implementationsuffix>
+      <lowercasefilenames>true</lowercasefilenames>
+    </filetemplates>
+  </cppsupportpart>
+  <kdevclassview>
+    <folderhierarchy>true</folderhierarchy>
+    <depthoffolders>2</depthoffolders>
+  </kdevclassview>
+  <kdevfileview>
+    <groups>
+      <group pattern="generator/mockpp2xml/orig/*" name="dcopidl-orig" />
+      <group pattern="generator/xml2mockpp/expat/*" name="expat" />
+      <group pattern="generator/mockpp2xml/*.cpp;generator/mockpp2xml/*.h;generator/mockpp2xml/*.ll;generator/mockpp2xml/*.yy" name="mockpp2xml" />
+      <group pattern="generator/xml2mockpp/*.h;generator/xml2mockpp/*.cpp" name="xml2mockpp" />
+      <group pattern="bcb5/*.bpr;bcb5/*.bpf;bcb5/*.bpg" name="BCB" />
+      <group pattern="mockpp/chaining/*.h;mockpp/chaining/*.cpp" name="Chaining" />
+      <group pattern="mockpp/stub/*.h;mockpp/stub/*.cpp" name="Stub" />
+      <group pattern="mockpp/builder/*.h;mockpp/builder/*.cpp" name="Builder" />
+      <group pattern="mockpp/matcher/*.h;mockpp/matcher/*.cpp" name="Matcher" />
+      <group pattern="mockpp/constraint/*.h;mockpp/constraint/*.cpp" name="Constraint" />
+      <group pattern="mockpp/compat/*.h;mockpp/compat/*.cpp" name="Compat" />
+      <group pattern="mockpp/util/*.h;mockpp/util/*.cpp" name="Util" />
+      <group pattern="mockpp/tests/*.cpp;mockpp/tests/*.h" name="Tests" />
+      <group pattern="mockpp/*.h" name="main H" />
+      <group pattern="mockpp/*.cpp" name="main CPP" />
+      <group pattern="configure.in;TODO;ChangeLog;README" name="Admin" />
+      <group pattern="*.docbook" name="Handbuch" />
+      <group pattern="Makefile.am" name="Makefiles" />
+      <hidenonprojectfiles>false</hidenonprojectfiles>
+      <hidenonlocation>true</hidenonlocation>
+    </groups>
+    <tree>
+      <hidepatterns>*~</hidepatterns>
+      <hidenonprojectfiles>false</hidenonprojectfiles>
+      <showvcsfields>false</showvcsfields>
+    </tree>
+  </kdevfileview>
+  <kdevcvs>
+    <cvsoptions>-f</cvsoptions>
+    <commitoptions/>
+    <updateoptions>-dP</updateoptions>
+    <addoptions/>
+    <removeoptions>-f</removeoptions>
+    <diffoptions>-u3 -p</diffoptions>
+    <logoptions/>
+    <rshoptions>ssh</rshoptions>
+  </kdevcvs>
+  <kdevcppsupport>
+    <references/>
+    <codecompletion>
+      <includeGlobalFunctions>true</includeGlobalFunctions>
+      <includeTypes>true</includeTypes>
+      <includeEnums>true</includeEnums>
+      <includeTypedefs>false</includeTypedefs>
+      <automaticCodeCompletion>true</automaticCodeCompletion>
+      <automaticArgumentsHint>true</automaticArgumentsHint>
+      <automaticHeaderCompletion>true</automaticHeaderCompletion>
+      <codeCompletionDelay>250</codeCompletionDelay>
+      <argumentsHintDelay>397</argumentsHintDelay>
+      <headerCompletionDelay>250</headerCompletionDelay>
+      <showOnlyAccessibleItems>false</showOnlyAccessibleItems>
+      <completionBoxItemOrder>0</completionBoxItemOrder>
+      <howEvaluationContextMenu>true</howEvaluationContextMenu>
+      <showCommentWithArgumentHint>true</showCommentWithArgumentHint>
+      <statusBarTypeEvaluation>false</statusBarTypeEvaluation>
+      <namespaceAliases>std=_GLIBCXX_STD;__gnu_cxx=std</namespaceAliases>
+      <processPrimaryTypes>true</processPrimaryTypes>
+      <processFunctionArguments>false</processFunctionArguments>
+      <preProcessAllHeaders>false</preProcessAllHeaders>
+      <parseMissingHeaders>false</parseMissingHeaders>
+      <resolveIncludePaths>true</resolveIncludePaths>
+      <alwaysParseInBackground>true</alwaysParseInBackground>
+      <usePermanentCaching>true</usePermanentCaching>
+      <alwaysIncludeNamespaces>false</alwaysIncludeNamespaces>
+      <includePaths>.;</includePaths>
+      <parseMissingHeadersExperimental>false</parseMissingHeadersExperimental>
+      <resolveIncludePathsUsingMakeExperimental>false</resolveIncludePathsUsingMakeExperimental>
+    </codecompletion>
+    <creategettersetter>
+      <prefixGet/>
+      <prefixSet>set</prefixSet>
+      <prefixVariable>m_,_</prefixVariable>
+      <parameterName>theValue</parameterName>
+      <inlineGet>true</inlineGet>
+      <inlineSet>true</inlineSet>
+    </creategettersetter>
+    <qt>
+      <used>false</used>
+      <version>3</version>
+      <root>/usr/share/qt3</root>
+      <includestyle>3</includestyle>
+      <designerintegration>EmbeddedKDevDesigner</designerintegration>
+      <qmake>/usr/bin/qmake-qt3</qmake>
+      <designer></designer>
+      <designerpluginpaths/>
+    </qt>
+    <splitheadersource>
+      <enabled>false</enabled>
+      <synchronize>true</synchronize>
+      <orientation>Vertical</orientation>
+    </splitheadersource>
+  </kdevcppsupport>
+  <kdevcvsservice>
+    <recursivewhenupdate>true</recursivewhenupdate>
+    <prunedirswhenupdate>true</prunedirswhenupdate>
+    <createdirswhenupdate>true</createdirswhenupdate>
+    <recursivewhencommitremove>true</recursivewhencommitremove>
+    <revertoptions>-C</revertoptions>
+  </kdevcvsservice>
+  <kdevdocumentation>
+    <projectdoc>
+      <docsystem/>
+      <docurl/>
+      <usermanualurl>/var/compile/mockpp/u/mockpp/docs/en/var/index.html</usermanualurl>
+    </projectdoc>
+  </kdevdocumentation>
+</kdevelop>

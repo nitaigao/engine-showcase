@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.05.03"/>
+    <PROJECT value="c:\tmp\compile\xml2mockpp.exe"/>
+    <OBJFILES value="c:\tmp\compile\mockpp_44\\xml2mockpp.obj 
+      c:\tmp\compile\mockpp_44\\xmlparse_base.obj 
+      c:\tmp\compile\mockpp_44\\expatwrap.obj 
+      c:\tmp\compile\mockpp_44\\GenChainableMethod.obj 
+      c:\tmp\compile\mockpp_44\\GenVisitableMethod.obj 
+      c:\tmp\compile\mockpp_44\\GenerateMethod.obj 
+      c:\tmp\compile\mockpp_44\\MockppIdlParser.obj 
+      c:\tmp\compile\mockpp_44\\xmlparser.obj 
+      c:\tmp\compile\mockpp_44\\xmlexcept.obj 
+      c:\tmp\compile\mockpp_44\\xmltok.obj c:\tmp\compile\mockpp_44\\xmlrole.obj 
+      c:\tmp\compile\mockpp_44\\xmlparse.obj 
+      c:\tmp\compile\mockpp_44\\MockppIdlClass.obj"/>
+    <RESFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value=""/>
+    <LIBRARIES value=""/>
+    <SPARELIBS value=""/>
+    <PACKAGES value="VCL50.bpi VCLX50.bpi bcbsmp50.bpi QRPT50.bpi VCLDB50.bpi VCLBDE50.bpi 
+      ibsmp50.bpi VCLDBX50.bpi TEEUI50.bpi TEEDB50.bpi TEE50.bpi TEEQR50.bpi 
+      VCLIB50.bpi bcbie50.bpi VCLIE50.bpi INETDB50.bpi INET50.bpi NMFAST50.bpi 
+      dclocx50.bpi bcb2kaxserver50.bpi"/>
+    <PATHCPP value=".;..\generator\xml2mockpp;..\generator\xml2mockpp\expat"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="tlink32"/>
+    <USERDEFINES value="_DEBUG;COMPILED_FROM_DSP;WIN32;_WINDOWS;_MBCS;_USRDLL;EXPAT_EXPORTS;_STATIC"/>
+    <SYSDEFINES value="_MSC_VER=1100;_NO_VCL;_ASSERTE;NO_STRICT;USEPACKAGES"/>
+    <MAINSOURCE value="xml2mockpp.bpf"/>
+    <INCLUDEPATH value="..\generator\xml2mockpp\expat;..\generator\xml2mockpp;..\generator\dcopidl;..;$(BCB)\include"/>
+    <LIBPATH value="..\generator\xml2mockpp\expat;..\generator\xml2mockpp;..\generator\dcopidl;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w-par"/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-vGc -vGt -vGd -Od -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM -c"/>
+    <PFLAGS value="-N2&quot;c:\tmp\compile\mockpp_44\&quot; -N0&quot;c:\tmp\compile\mockpp_44\&quot; -$YD -$W 
+      -$O- -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value="-l&quot;c:\tmp\compile\&quot; -I&quot;c:\tmp\compile\mockpp_44\&quot; -D&quot;&quot; -ap -Tpe -x -Gn -v"/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0x32.obj $(PACKAGES) $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mt.lib"/>
+  </LINKER>
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1031
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=30
+Item0=..\generator\xml2mockpp\expat;..\generator\xml2mockpp;..\generator\dcopidl;..;$(BCB)\include
+Item1=..\generator\xml2mockpp;..\generator\dcopidl;..;$(BCB)\include
+Item2=..\generator\dcopidl;..;$(BCB)\include
+Item3=..\generator\dcopidl;..stubber;..\stubber;..\ulxmlrpcpp\stubber;..;..\ulxmlrpcpp\tests;..\ulxmlrpcpp;..\expat;$(BCB)\include
+Item4=..stubber;..\stubber;..\ulxmlrpcpp\stubber;..;..\ulxmlrpcpp\tests;..\ulxmlrpcpp;..\expat;$(BCB)\include
+Item5=..\stubber;..\ulxmlrpcpp\stubber;..;..\..\ulxmlrpcpp;..\ulxmlrpcpp\tests;..\ulxmlrpcpp;..\expat;$(BCB)\include
+Item6=..\..\ulxmlrpcpp;..\ulxmlrpcpp\tests;..\ulxmlrpcpp;..\expat;$(BCB)\include
+Item7=..;..\ulxmlrpcpp\tests;..\ulxmlrpcpp;..\expat;$(BCB)\include
+Item8=..\..\ulxmlrpcpp;..\ulxmlrpcpp\tests;..\ulxmlrpcpp;..\expat;$(BCB)\include;$(BCB)\include\vcl;C:\wx2\include\
+Item9=..;..\ulxmlrpcpp\tests;..\ulxmlrpcpp;..\expat;$(BCB)\include;$(BCB)\include\vcl;C:\wx2\include\
+Item10=.. ;..\ulxmlrpcpp\tests;..\ulxmlrpcpp;..\expat;$(BCB)\include;$(BCB)\include\vcl;C:\wx2\include\
+Item11=.. ;..\ulxmlrpcpp\tests;..\ulxmlrpcpp;..\expat;$(BCB)\include;$(BCB)\include\vcl;C:\wx2\include
+Item12=..\ulxmlrpcpp\tests;..\ulxmlrpcpp;..\expat;$(BCB)\include;$(BCB)\include\vcl
+Item13=..\ulxmlrpcpp\tests;..\ulxmlrpcpp;$(BCB)\include;$(BCB)\include\vcl;expat
+Item14=..\ulxmlrpcpp;$(BCB)\include;$(BCB)\include\vcl;expat
+Item15=..\ulxmlrpcpp\tests;..\ulxmlrpcpp;$(BCB)\include;$(BCB)\include\vcl
+Item16=..\ulxmlrpcpp\tests;..\ulxmlrpcpp;$(BCB)\include
+Item17=..\ulxmlrpcpp\tests;..\ulxmlrpcpp;$(BCB)/include
+Item18=..\ulxmlrpcpp\tests;..\ulxmlrpcpp
+Item19=..\ulxmlrpcpp
+Item20=..\ulxmlrpcpp\tests;..\ulxmlrpcpp\ulxmlrpcpp
+Item21=..\ulxmlrpcpp\ulxmlrpcpp
+Item22=..\ulxmlrpcpp\tests;..\ulxmlrpcpp\ulxmlrpcpp;$(BCB)\include;$(BCB)\include\vcl
+Item23=..\ulxmlrpcpp\tests;E:\Eigene Dateien\c++\ulxmlrpcpp\ulxmlrpcpp;$(BCB)\include;$(BCB)\include\vcl
+Item24=E:\Eigene Dateien\c++\ulxmlrpcpp\ulxmlrpcpp;$(BCB)\include;$(BCB)\include\vcl
+Item25=e:\Eigene Dateien\c++\ulxmlrpcpp\ulxmlrpcpp\tests\;e:\Eigene Dateien\c++\ulxmlrpcpp\ulxmlrpcpp\;..\ulxmlrpcpp;$(BCB)\include;$(BCB)\include\vcl
+Item26=e:\Eigene Dateien\c++\ulxmlrpcpp\ulxmlrpcpp\apps;e:\Eigene Dateien\c++\ulxmlrpcpp\ulxmlrpcpp\;..\ulxmlrpcpp;$(BCB)\include;$(BCB)\include\vcl
+Item27=e:\Eigene Dateien\c++\ulxmlrpcpp\ulxmlrpcpp;..\ulxmlrpcpp;$(BCB)\include;$(BCB)\include\vcl
+Item28=e:\Eigene Dateien\c++\ulxmlrpcpp\ulxmlrpcpp\apps;..\ulxmlrpcpp;$(BCB)\include;$(BCB)\include\vcl
+Item29=..\ulxmlrpcpp;$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=20
+Item0=..\generator\xml2mockpp\expat;..\generator\xml2mockpp;..\generator\dcopidl;$(BCB)\lib\obj;$(BCB)\lib
+Item1=..\generator\xml2mockpp;..\generator\dcopidl;$(BCB)\lib\obj;$(BCB)\lib
+Item2=..\generator\dcopidl;$(BCB)\lib\obj;$(BCB)\lib
+Item3=..\generator\dcopidl;..stubber;..\stubber;..\ulxmlrpcpp\stubber;..\ulxmlrpcpp\tests;..\expat;$(BCB)\lib\obj;$(BCB)\lib
+Item4=..stubber;..\stubber;..\ulxmlrpcpp\stubber;..\ulxmlrpcpp\tests;..\expat;$(BCB)\lib\obj;$(BCB)\lib
+Item5=..\stubber;..\ulxmlrpcpp\stubber;..\ulxmlrpcpp\tests;..\expat;$(BCB)\lib\obj;$(BCB)\lib
+Item6=..\ulxmlrpcpp\tests;..\expat;$(BCB)\lib\obj;$(BCB)\lib
+Item7=..\ulxmlrpcpp\tests;$(BCB)\lib\obj;$(BCB)\lib;output;expat
+Item8=..\ulxmlrpcpp\tests;$(BCB)\lib\obj;$(BCB)\lib;output;bin
+Item9=..\ulxmlrpcpp\apps;$(BCB)\lib\obj;$(BCB)\lib;output;bin
+Item10=..\ulxmlrpcpp\apps;$(BCB)\lib\obj;$(BCB)\lib;output
+Item11=..\ulxmlrpcpp\apps;$(BCB)\lib\obj;$(BCB)\lib;E:\Eigene Dateien\c++\ulxmlrpcpp\bcb5\output
+Item12=..\ulxmlrpcpp\apps;$(BCB)\lib\obj;$(BCB)\lib;..\output
+Item13=..\ulxmlrpcpp\apps;$(BCB)\lib\obj;$(BCB)\lib
+Item14=$(BCB)\lib\obj;$(BCB)\lib
+Item15=..\ulxmlrpcpp\apps;D:\CBuilder5\ulxmlrpcpp\;$(BCB)\lib\obj;$(BCB)\lib
+Item16=e:\Eigene Dateien\c++\ulxmlrpcpp\ulxmlrpcpp\apps\;..\ulxmlrpcpp;$(BCB)\lib\obj;$(BCB)\lib
+Item17=e:\Eigene Dateien\c++\ulxmlrpcpp\ulxmlrpcpp\apps;..\ulxmlrpcpp;$(BCB)\lib\obj;$(BCB)\lib
+Item18=..\ulxmlrpcpp;$(BCB)\lib\obj;$(BCB)\lib
+Item19=e:\Eigene Dateien\c++\ulxmlrpcpp\ulxmlrpcpp\apps;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=7
+Item0=_DEBUG;COMPILED_FROM_DSP;WIN32;_WINDOWS;_MBCS;_USRDLL;EXPAT_EXPORTS;_STATIC
+Item1=_DEBUG;COMPILED_FROM_DSP;WIN32;_WINDOWS;_MBCS;_USRDLL;EXPAT_EXPORTS
+Item2=_DEBUG;COMPILED_FROM_DSP;WIN32;_WINDOWS;_MBCS
+Item3=__DLL___;YY_NO_UNISTD_H
+Item4=__DLL___
+Item5=_DEBUG;ULXR_SHOW_CONTENT;ULXR_SHOW_HTTP;ULXR_SHOW_WRTIE;ULXR_SHOW_READ;ULXR_SHOW_XML;DEBUG;__DLL___
+Item6=_DEBUG
+
+[HistoryLists\hlIntOutputDir]
+Count=8
+Item0=c:\tmp\compile\mockpp_44\
+Item1=c:\tmp\compile\ulxmlrpcpp-1.5\
+Item2=c:\tmp\compile\ulxmlrpcpp\
+Item3=c:\temp
+Item4=output
+Item5=E:\Eigene Dateien\c++\ulxmlrpcpp\bcb5\output\
+Item6=E:\Eigene Dateien\c++\ulxmlrpcpp\bcb5\output
+Item7=D:\CBuilder5\Projects\output\
+
+[HistoryLists\hlFinalOutputDir]
+Count=8
+Item0=c:\tmp\compile\
+Item1=c:\tmp\compile
+Item2=c:\tmp\compile\ulxmlrpcpp\
+Item3=c:\temp
+Item4=output\
+Item5=E:\Eigene Dateien\c++\ulxmlrpcpp\bcb5\output\
+Item6=E:\Eigene Dateien\c++\ulxmlrpcpp\bcb5\output
+Item7=output
+
+[HistoryLists\hIBPIOutputDir]
+Count=9
+Item0=c:\tmp\compile\
+Item1=c:\tmp\compile
+Item2=c:\tmp\compile\ulxmlrpcpp\
+Item3=c:\temp
+Item4=e:\Eigene Dateien\c++\ulxmlrpcpp\bcb5\output\
+Item5=output\
+Item6=E:\Eigene Dateien\c++\ulxmlrpcpp\bcb5\output
+Item7=D:\CBuilder5\Projects\output\
+Item8=output
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=--gen-user-ctor --gen-visitable-method --file-name=D:\home\arnold\svn\mockpp\trunk\mockpp\generator\mockpp2xml\mockppidl-orig.xml
+HostApplication=c:\tmp\compile\xml2mockpp.exe
+RemoteHost=
+RemotePath=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=1
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>

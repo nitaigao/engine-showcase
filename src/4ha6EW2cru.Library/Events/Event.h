@@ -29,7 +29,7 @@ public:
 	};
 
 	/*! Gets the Type of the Event */
-	inline const EventType& GetEventType( ) const { return _eventType; };
+	inline EventType GetEventType( ) const { return _eventType; };
 
 	/*! Returns Event Data attached to the event */
 	inline IEventData* GetEventData( ) const { return _eventData; };

@@ -1,7 +1,0 @@
-
---- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Graphics\OgreRenderSystemComponent.cpp
-    (C++)
-         _
-#include "OgreRenderSystemComponent.h"
-C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Graphics\OgreRenderSystemComponent.cpp 
-    1  Error 322: Unable to open include file 'OgreRenderSystemComponent.h'

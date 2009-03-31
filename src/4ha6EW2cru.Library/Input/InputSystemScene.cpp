@@ -1,4 +1,5 @@
 #include "InputSystemScene.h"
+#include "../Scripting/ScriptEvent.hpp"
 
 #include "InputSystemComponent.h"
 
@@ -110,7 +111,7 @@ bool InputSystemScene::keyReleased( const KeyEvent &arg )
 
 	if ( arg.key == OIS::KC_GRAVE )
 	{
-		Management::GetInstance( )->GetEventManager( )->TriggerEvent( new Event( UI_CONSOLE ) );
+		Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "UI_CONSOLE" ) );
 	}
 
 	return true;

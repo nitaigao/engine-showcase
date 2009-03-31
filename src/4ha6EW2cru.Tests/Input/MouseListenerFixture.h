@@ -4,6 +4,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "../Mocks/MockEventTrigger.hpp"
+#include "Events/EventManager.h"
 
 class MouseListenerFixture : public CPPUNIT_NS::TestFixture
 {
@@ -32,6 +33,7 @@ protected:
 private:
 
 	MockEventTrigger* _eventTriggerMock;
+	EventManager* _eventManager;
 
 };
 

@@ -10,13 +10,6 @@ class FileManagerFixture : public CPPUNIT_NS::TestFixture
 {
 
   CPPUNIT_TEST_SUITE( FileManagerFixture );
-  CPPUNIT_TEST( Should_Initialize_Given_Not_Intialized );
-  CPPUNIT_TEST( Should_Throw_On_Initialize_Given_Already_Intialized );
-  CPPUNIT_TEST( Should_Release_Given_Initialized );
-  CPPUNIT_TEST( Should_Throw_On_Release_Given_ALready_Released );
-  CPPUNIT_TEST( Should_GetIntance_Given_Initialized );
-  CPPUNIT_TEST( Should_Throw_On_GetInstance_Given_Not_Initialized );
-  CPPUNIT_TEST( Should_Initialize_And_Release_Correctly );
   CPPUNIT_TEST( Should_Throw_Adding_NonExistant_FileStore );
   CPPUNIT_TEST( Should_Add_FileStore_Given_Existing_FileStore );
   CPPUNIT_TEST( Should_Throw_On_GetFile_Given_NonExisting_File );
@@ -38,13 +31,6 @@ public:
 
 protected:
 
-	void Should_Initialize_Given_Not_Intialized( );
-	void Should_Throw_On_Initialize_Given_Already_Intialized( );
-	void Should_Release_Given_Initialized( );
-	void Should_Throw_On_Release_Given_ALready_Released( );
-	void Should_GetIntance_Given_Initialized( );
-	void Should_Throw_On_GetInstance_Given_Not_Initialized( );
-	void Should_Initialize_And_Release_Correctly( );
 	void Should_Throw_Adding_NonExistant_FileStore( );
 	void Should_Add_FileStore_Given_Existing_FileStore( );
 	void Should_Throw_On_GetFile_Given_NonExisting_File( );

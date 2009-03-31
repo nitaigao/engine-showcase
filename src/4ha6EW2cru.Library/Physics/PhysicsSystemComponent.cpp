@@ -5,6 +5,8 @@
 #include <sstream>
 #include "../Logging/Logger.h"
 
+#include "../System/Management.h"
+
 #include "../io/FileBuffer.hpp"
 #include "../io/FileManager.h"
 
@@ -25,7 +27,7 @@
 void PhysicsSystemComponent::Initialize( SystemPropertyList properties )
 {
 	std::string bodyPath = properties[ "body" ].GetValue< std::string >( );
-	FileBuffer* bodyBuffer = FileManager::GetInstance( )->GetFile( bodyPath );
+	FileBuffer* bodyBuffer = Management::GetInstance( )->GetFileManager( )->GetFile( bodyPath, true );
 
 	hkIstream istreamFromMemory( bodyBuffer->fileBytes, bodyBuffer->fileLength );
 	hkStreamReader* streamReader = istreamFromMemory.getStreamReader( );

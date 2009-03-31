@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG;LUABIND_NO_EXCEPTIONS;NDEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -108,7 +108,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;LUABIND_NO_EXCEPTIONS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -550,10 +550,6 @@
 		</File>
 		<File
 			RelativePath=".\Physics\PhysicsSystemComponent.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Physics\PhysicsSystemRigidBodyComponent.h"
 			>
 		</File>
 		<File

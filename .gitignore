@@ -8,12 +8,5 @@
 *.idb
 *resharper*
 _Resharper*
-build/deploy*
-build/release*
-build/debug/logs/*.log
-build/debug/bin/*.pdb
-build/debug/bin/*.exe
-build/debug/bin/*.lib
-build/debug/bin/*.exp
-build/debug/bin/*.ilk
+build/*
 *obj*

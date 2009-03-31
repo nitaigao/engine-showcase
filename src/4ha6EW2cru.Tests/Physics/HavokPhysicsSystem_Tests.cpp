@@ -6,14 +6,17 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( HavokPhysicsSystem_Tests, Suites::Physics
 #include "Physics/HavokPhysicsSystem.h"
 
 #include "Logging/Logger.h"
+#include "System/Management.h"
 
 void HavokPhysicsSystem_Tests::setUp()
 {
 	Logger::Initialize( );
+	Management::Initialize( );
 }
 
 void HavokPhysicsSystem_Tests::tearDown()
 {
+	Management::GetInstance( )->Release( );
 	Logger::GetInstance( )->Release( );
 }
 

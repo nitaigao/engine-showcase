@@ -1,0 +1,57 @@
+/*   Style sheet for html
+
+     $Id: mockpp.css 1399 2007-06-09 21:30:49Z ewald-arnold $
+*/
+
+.programlisting
+{ background: #e4e4e4;
+  padding-left: 15px;
+  border-style: solid;
+  border-width: 0px;
+  border-left-width: 2px;
+  border-right-width: 1px;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-color: black;
+  color: #770000;
+}
+
+.screen
+{ background: #e4e4e4;
+  padding-left: 15px;
+  border-style: solid;
+  border-width: 0px;
+  border-left-width: 2px;
+  border-right-width: 1px;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-color: black;
+  color: #0000EE;
+}
+
+tt { color:   #007000;    }
+
+.keysym      { color:   #707000; font-family: Courier, monospace;  }
+.methodname  { color:   #707000;    }
+.classname   { color:   #707000;    }
+.token       { color:   #707000;    }
+.function    { color:   #707000;    }
+
+.application, .filename
+{
+    font-family: Courier, monospace;
+    color:   #707070;
+}
+
+.NAVHEADER { display: yes }
+.NAVFOOTER { display: yes }
+.TOC       { display: yes }
+
+.NAVTOC    { margin-left: 15;
+             display: yes }
+
+.NAVBTN    { font-size: 10pt }
+
+.TOCTITLE  { font-size: 10pt;
+             color: blue;
+             text-decoration: underline; }

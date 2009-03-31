@@ -1,0 +1,12 @@
+USEUNIT("..\3party\cxxtest\cxxtest\Descriptions.cpp");
+USEUNIT("..\3party\cxxtest\cxxtest\DummyDescriptions.cpp");
+USEUNIT("..\3party\cxxtest\cxxtest\GlobalFixture.cpp");
+USEUNIT("..\3party\cxxtest\cxxtest\LinkedList.cpp");
+USEUNIT("..\3party\cxxtest\cxxtest\RealDescriptions.cpp");
+USEUNIT("..\3party\cxxtest\cxxtest\TestSuite.cpp");
+USEUNIT("..\3party\cxxtest\cxxtest\TestTracker.cpp");
+USEUNIT("..\3party\cxxtest\cxxtest\ValueTraits.cpp");
+//---------------------------------------------------------------------------
+This file is used by the project manager only and should be treated like the project file
+
+DllEntryPoint

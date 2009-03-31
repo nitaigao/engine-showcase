@@ -8,6 +8,7 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( InputSystemScene_Tests, Suites::InputSuit
 
 void InputSystemScene_Tests::setUp()
 {
+	Logger::Initialize( );
 	Management::Initialize( );
 	Management::GetInstance( )->GetPlatformManager( )->CreateInteractiveWindow( "Test Window", 1, 1, false );
 }
@@ -15,6 +16,7 @@ void InputSystemScene_Tests::setUp()
 void InputSystemScene_Tests::tearDown()
 {
 	Management::GetInstance( )->Release( );
+	Logger::GetInstance( )->Release( );
 }
 
 void InputSystemScene_Tests::Should_Return_An_InputSystemComponent_On_CreateComponent()

@@ -1,0 +1,71 @@
+<!-- Document index
+
+     $Id: index.docbook 1447 2008-05-17 18:07:20Z ewald-arnold $
+-->
+
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+                      "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+
+  <!ENTITY mockpp       '<application>mockpp</application>'     >
+  <!ENTITY cppunit      '<application>CppUnit</application>'    >
+  <!ENTITY cxxtest      '<application>CxxTest</application>'    >
+  <!ENTITY ministl      '<application>ministl</application>'    >
+  <!ENTITY boost.test   '<application>Boost.Test</application>' >
+  <!ENTITY cygwin       '<application>Cygwin</application>'     >
+  <!ENTITY copyyears    '2002-2008'                             >
+  <!ENTITY mockpp_email 'mockpp at ewald-arnold dot de'         >
+  <!ENTITY release_date '<pubdate><?dbtimestamp format="Y-m-d"?></pubdate>' >
+  <!ENTITY release_info '<releaseinfo>1.16.05</releaseinfo>' >
+
+  <!ENTITY chap_bookinfo               SYSTEM 'bookinfo.docbook'              >
+  <!ENTITY chap_intro                  SYSTEM 'intro.docbook'                 >
+  <!ENTITY chap_dev_guide              SYSTEM 'dev_guide.docbook'             >
+  <!ENTITY sect_dev_intro              SYSTEM 'dev_intro.docbook'             >
+  <!ENTITY sect_dev_basic              SYSTEM 'dev_basic.docbook'             >
+  <!ENTITY sect_dev_advanced           SYSTEM 'dev_advanced.docbook'          >
+  <!ENTITY sect_dev_advanced_intro     SYSTEM 'dev_advanced_intro.docbook'    >
+  <!ENTITY sect_dev_advanced_easymock  SYSTEM 'dev_advanced_easymock.docbook' >
+  <!ENTITY sect_dev_advanced_jmock     SYSTEM 'dev_advanced_jmock.docbook'    >
+  <!ENTITY sect_dev_advanced_poor_man  SYSTEM 'dev_poor_mans_mock.docbook'    >
+  <!ENTITY sect_dev_helper             SYSTEM 'dev_helper.docbook'            >
+  <!ENTITY sect_dev_embedded           SYSTEM 'dev_embedded.docbook'          >
+  <!ENTITY sect_dev_framework          SYSTEM 'dev_test_framework.docbook'    >
+  <!ENTITY sect_dev_production         SYSTEM 'dev_production.docbook'        >
+  <!ENTITY chap_faq                    SYSTEM 'faq.docbook'                   >
+  <!ENTITY chap_generator              SYSTEM 'generator.docbook'             >
+  <!ENTITY chap_credits                SYSTEM 'credits.docbook'               >
+  <!ENTITY chap_appendix               SYSTEM 'appendix.docbook'              >
+]>
+
+<book lang="en">
+
+ &chap_bookinfo;
+
+ <chapter id="dev-guide">
+  <title>Developer's Guide</title>
+
+   &sect_dev_intro;
+
+   &sect_dev_basic;
+
+   &sect_dev_advanced;
+
+   &sect_dev_helper;
+
+   &sect_dev_framework;
+
+   &sect_dev_embedded;
+
+   &sect_dev_production;
+
+ </chapter>
+
+ &chap_generator;
+
+ &chap_faq;
+
+ &chap_credits;
+
+ &chap_appendix;
+
+</book>

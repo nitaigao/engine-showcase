@@ -15,6 +15,8 @@ using namespace luabind;
 #include "../Events/IEvent.hpp"
 #include "../Events/EventData.hpp"
 
+#include "../Logging/Logger.h"
+
 class Interface : MyGUI::IUnlinkWidget, public IInterface
 {
 	typedef std::map< const std::string, object* > WidgetUserData;

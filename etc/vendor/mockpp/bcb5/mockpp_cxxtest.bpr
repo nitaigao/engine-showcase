@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.05.03"/>
+    <PROJECT value="c:\tmp\compile\mockpp_cxxtest_44.dll"/>
+    <OBJFILES value="c:\tmp\compile\mockpp_44\\Descriptions.obj 
+      c:\tmp\compile\mockpp_44\\DummyDescriptions.obj 
+      c:\tmp\compile\mockpp_44\\GlobalFixture.obj 
+      c:\tmp\compile\mockpp_44\\LinkedList.obj 
+      c:\tmp\compile\mockpp_44\\RealDescriptions.obj 
+      c:\tmp\compile\mockpp_44\\TestSuite.obj 
+      c:\tmp\compile\mockpp_44\\TestTracker.obj 
+      c:\tmp\compile\mockpp_44\\ValueTraits.obj"/>
+    <RESFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value=""/>
+    <LIBRARIES value=""/>
+    <SPARELIBS value="VCL50.lib"/>
+    <PACKAGES value="VCL50.bpi VCLX50.bpi bcbsmp50.bpi QRPT50.bpi VCLDB50.bpi VCLBDE50.bpi 
+      ibsmp50.bpi VCLDBX50.bpi TEEUI50.bpi TEEDB50.bpi TEE50.bpi TEEQR50.bpi 
+      VCLIB50.bpi bcbie50.bpi VCLIE50.bpi INETDB50.bpi INET50.bpi NMFAST50.bpi 
+      dclocx50.bpi bcb2kaxserver50.bpi"/>
+    <PATHCPP value=".;..\3party\cxxtest\cxxtest"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="tlink32"/>
+    <USERDEFINES value="__DLL___;_DEBUG"/>
+    <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
+    <MAINSOURCE value="mockpp_cxxtest.bpf"/>
+    <INCLUDEPATH value="..\3party\cxxtest\cxxtest;..\mockpp\3party\cxxtest\cxxtest;\\sonne\ewald\Documents\src\mockpp\mockpp\3party\cxxtest\cxxtest;..\mockpp\production;..;$(BCB)\include;..\3party\cxxtest;..\3party"/>
+    <LIBPATH value="..\3party\cxxtest\cxxtest;..\mockpp\3party\cxxtest\cxxtest;\\sonne\ewald\Documents\src\mockpp\mockpp\3party\cxxtest\cxxtest;..\mockpp\production;..mockpp\builder;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\constraint;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\builder;..\mockpp\stub;..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..\mockpp_44\matcher;..\mockpp_44\constraint;..\mockpp_44\builder;..\mockpp;..\mockpp_44\chaining;..\mockpp_44\compat;..\mockpp_44\util;..\..\mockpp-1.8.0;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w8092 -w8091 -w8090 -w8089 -w8087 -wprc -wuse -wucp -wstv -wstu -wpin 
+      -wnod -wnak -wdef -wcln -wbbf -wasm -wamp -wamb"/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-WD -vGc -vGt -vGd -Od -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWD -tWM -c"/>
+    <PFLAGS value="-N2&quot;c:\tmp\compile\mockpp_44\&quot; -N0&quot;c:\tmp\compile\mockpp_44\&quot; -$YD -$W 
+      -$O- -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zi"/>
+    <LFLAGS value="-l&quot;c:\tmp\compile\&quot; -I&quot;c:\tmp\compile\mockpp_44\&quot; -D&quot;&quot; -aa -Tpd -x -Gn -Gi 
+      -v"/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0d32.obj $(PACKAGES) $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
+  </LINKER>
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1031
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=30
+Item0=..\3party\cxxtest\cxxtest;..\mockpp\3party\cxxtest\cxxtest;\\sonne\ewald\Documents\src\mockpp\mockpp\3party\cxxtest\cxxtest;..\mockpp\production;..;$(BCB)\include;..\3party\cxxtest;..\3party
+Item1=\\sonne\ewald\Documents\src\mockpp\mockpp\3party\cxxtest\cxxtest;..\mockpp\production;..;$(BCB)\include;..\3party\cxxtest;..\3party
+Item2=..\mockpp\production;..;$(BCB)\include;..\3party\cxxtest;..\3party
+Item3=\\sonne\ewald\Documents\src\mockpp\mockpp\3party\cxxtest\cxxtest;..\mockpp\production;..;$(BCB)\include;..\3party\cxxtest
+Item4=..\mockpp\production;..\..\mockpp;$(BCB)\include;..\3party\cxxtest
+Item5=\\sonne\ewald\Documents\src\mockpp\mockpp\3party\cxxtest\cxxtest;..\mockpp\production;..\..\mockpp;$(BCB)\include
+Item6=..\mockpp\production;..;$(BCB)\include
+Item7=..\mockpp\production;..\..\mockpp;$(BCB)\include
+Item8=..\mockpp\production;..;..\..\mockpp;$(BCB)\include
+Item9=..\mockpp\production;.\..;$(BCB)\include
+Item10=..\mockpp\production;..\..\mockpp-1.8.0;$(BCB)\include
+Item11=..\..\mockpp-1.8.0;$(BCB)\include
+Item12=..\mockpp\production;..mockpp\builder;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\constraint;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\builder;..\mockpp\stub;..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..\..\mockpp-1.8.0;$(BCB)\include;X:\cppunit-1.10.2\include\;..\..\cppunit-1.10\include
+Item13=..\mockpp\production;..mockpp\builder;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\constraint;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\builder;..\mockpp\stub;..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10\include
+Item14=..mockpp\builder;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\constraint;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\builder;..\mockpp\stub;..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10\include
+Item15=..mockpp\builder;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\constraint;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\builder;..\mockpp\stub;..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..\..\mockpp;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10\include
+Item16=..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\cppunit-1.10\include
+Item17=..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include
+Item18=..;$(BCB)\include;..\..\..\cppunit-1.10.2\include
+Item19=..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\..\cppunit-1.10\include
+Item20=..;$(BCB)\include;..\..\..\cppunit-1.10.2\include;..\..\..\cppunit-1.10\include
+Item21=..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..\mockpp_44\matcher;..\mockpp_44\constraint;..\mockpp_44\builder;..\mockpp;..\mockpp_44\chaining;..\mockpp_44\compat;..\mockpp_44\util;..;$(BCB)\include;..\..\..\cppunit-1.10.2\include
+Item22=..\..\mockpp;$(BCB)\include;..\..\..\cppunit.ups\include
+Item23=..\mockpp_44\matcher;..\mockpp_44\constraint;..\mockpp_44\builder;..\mockpp_44\chaining;..\mockpp_44\compat;..\mockpp_44\util;..\mockpp;..\..\mockpp;$(BCB)\include;..\..\..\cppunit.ups\include
+Item24=..\mockpp;..;$(BCB)\include;..\..\..\cppunit.ups\include
+Item25=..\mockpp_44\builder;..\mockpp_44\matcher;..\mockpp_44\constraint;..\builder;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp_44\matcher;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp_44\constraint;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp_44\builder;..\mockpp_44\chaining;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp_44\chaining;mockpp;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp;..\mockpp_44\compat;..\mockpp_44\util;..\mockpp;..;$(BCB)\include;..\..\..\cppunit-1.8.0\include
+Item26=..\mockpp_44\builder;..\mockpp_44\matcher;..\mockpp_44\constraint;..\builder;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp_44\matcher;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp_44\constraint;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp_44\builder;..\mockpp_44\chaining;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp_44\chaining;mockpp;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp;..\mockpp_44\compat;..\mockpp_44\util;..\mockpp;..\..\mockpp;$(BCB)\include;..\..\..\cppunit-1.8.0\include
+Item27=mockpp;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp;..\mockpp_44\compat;..\mockpp_44\util;..\mockpp;..\..\mockpp;$(BCB)\include;X:\Documents\src\cppunit-1.8.0\include
+Item28=mockpp;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp;..\mockpp_44\compat;..\mockpp_44\util;..\mockpp;..\..\mockpp;$(BCB)\include
+Item29=mockpp;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp;..\mockpp_44\compat;..\mockpp_44\util;..\mockpp;..;$(BCB)\include
+
+[HistoryLists\hlLibraryPath]
+Count=20
+Item0=..\3party\cxxtest\cxxtest;..\mockpp\3party\cxxtest\cxxtest;\\sonne\ewald\Documents\src\mockpp\mockpp\3party\cxxtest\cxxtest;..\mockpp\production;..mockpp\builder;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\constraint;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\builder;..\mockpp\stub;..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..\mockpp_44\matcher;..\mockpp_44\constraint;..\mockpp_44\builder;..\mockpp;..\mockpp_44\chaining;..\mockpp_44\compat;..\mockpp_44\util;..\..\mockpp-1.8.0;$(BCB)\lib\obj;$(BCB)\lib
+Item1=\\sonne\ewald\Documents\src\mockpp\mockpp\3party\cxxtest\cxxtest;..\mockpp\production;..mockpp\builder;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\constraint;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\builder;..\mockpp\stub;..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..\mockpp_44\matcher;..\mockpp_44\constraint;..\mockpp_44\builder;..\mockpp;..\mockpp_44\chaining;..\mockpp_44\compat;..\mockpp_44\util;..\..\mockpp-1.8.0;$(BCB)\lib\obj;$(BCB)\lib
+Item2=..\mockpp\production;..mockpp\builder;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\constraint;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\builder;..\mockpp\stub;..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..\mockpp_44\matcher;..\mockpp_44\constraint;..\mockpp_44\builder;..\mockpp;..\mockpp_44\chaining;..\mockpp_44\compat;..\mockpp_44\util;..\..\mockpp-1.8.0;$(BCB)\lib\obj;$(BCB)\lib
+Item3=..\mockpp\production;..mockpp\builder;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\constraint;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\builder;..\mockpp\stub;..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..\mockpp_44\matcher;..\mockpp_44\constraint;..\mockpp_44\builder;..\mockpp;..\mockpp_44\chaining;..\mockpp_44\compat;..\mockpp_44\util;..;$(BCB)\lib\obj;$(BCB)\lib
+Item4=..mockpp\builder;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\constraint;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\builder;..\mockpp\stub;..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..\mockpp_44\matcher;..\mockpp_44\constraint;..\mockpp_44\builder;..\mockpp;..\mockpp_44\chaining;..\mockpp_44\compat;..\mockpp_44\util;..;$(BCB)\lib\obj;$(BCB)\lib
+Item5=..mockpp\builder;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\constraint;\\SONNE\HOMES\Documents\src\mockpp\mockpp\mockpp\builder;..\mockpp\stub;..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..\mockpp_44\matcher;..\mockpp_44\constraint;..\mockpp_44\builder;..\mockpp;..\mockpp_44\chaining;..\mockpp_44\compat;..\mockpp_44\util;..\..\mockpp;$(BCB)\lib\obj;$(BCB)\lib
+Item6=..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..\mockpp_44\matcher;..\mockpp_44\constraint;..\mockpp_44\builder;..\mockpp;..\mockpp_44\chaining;..\mockpp_44\compat;..\mockpp_44\util;..;$(BCB)\lib\obj;$(BCB)\lib
+Item7=..\mockpp\matcher;..\mockpp\constraint;..\mockpp\builder;..\mockpp\chaining;..\mockpp\compat;..\mockpp\util;..\mockpp_44\matcher;..\mockpp_44\constraint;..\mockpp_44\builder;..\mockpp;..\mockpp_44\chaining;..\mockpp_44\compat;..\mockpp_44\util;..\..\mockpp;$(BCB)\lib\obj;$(BCB)\lib
+Item8=..;$(BCB)\lib\obj;$(BCB)\lib
+Item9=..\mockpp_44\matcher;..\mockpp_44\constraint;..\mockpp_44\builder;..\mockpp;..\mockpp_44\chaining;..\mockpp_44\compat;..\mockpp_44\util;..;$(BCB)\lib\obj;$(BCB)\lib
+Item10=..\mockpp_44\matcher;..\mockpp_44\constraint;..\mockpp_44\builder;..\mockpp;..\mockpp_44\chaining;..\mockpp_44\compat;..\mockpp_44\util;..\..\mockpp;$(BCB)\lib\obj;$(BCB)\lib
+Item11=..\mockpp_44\builder;..\mockpp_44\matcher;..\mockpp_44\constraint;..\builder;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp_44\matcher;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp_44\constraint;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp_44\builder;..\mockpp_44\chaining;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp;\\SONNE\HOMES\Documents\src\mockpp_44\mockpp\mockpp_44\chaining;mockpp;..\mockpp_44\compat;..\mockpp_44\util;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp_44\compat;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp_44\util;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp;..\ulxmlrpcpp;h:\Programme\Borland\CBuilder5\Projects\;\\SONNE\HOMES\src\ulxr\mockpp_44\mockpp;..\mockpp;..\expat;$(BCB)\lib\obj;$(BCB)\lib;c:\tmp\compile\mockpp_44\
+Item12=mockpp;..\mockpp_44\compat;..\mockpp_44\util;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp_44\compat;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp_44\util;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp;..\ulxmlrpcpp;h:\Programme\Borland\CBuilder5\Projects\;\\SONNE\HOMES\src\ulxr\mockpp_44\mockpp;..\mockpp;..\expat;$(BCB)\lib\obj;$(BCB)\lib;c:\tmp\compile\mockpp_44\
+Item13=..\mockpp_44\compat;..\mockpp_44\util;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp_44\compat;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp_44\util;\\SONNE\HOMES\src\mockpp_44\mockpp\mockpp;..\ulxmlrpcpp;h:\Programme\Borland\CBuilder5\Projects\;\\SONNE\HOMES\src\ulxr\mockpp_44\mockpp;..\mockpp;..\expat;$(BCB)\lib\obj;$(BCB)\lib;c:\tmp\compile\mockpp_44\
+Item14=..\ulxmlrpcpp;h:\Programme\Borland\CBuilder5\Projects;\\SONNE\HOMES\src\ulxr\mockpp_44\mockpp;..\mockpp;..\expat;$(BCB)\lib\obj;$(BCB)\lib;c:\tmp\compile\mockpp_44\
+Item15=..\mockpp;..\expat;$(BCB)\lib\obj;$(BCB)\lib;c:\tmp\compile\mockpp_44\
+Item16=..\mockpp;..\expat;$(BCB)\lib\obj;$(BCB)\lib;h:\temp
+Item17=..\mockpp;..\expat;$(BCB)\lib\obj;$(BCB)\lib
+Item18=..\expat;$(BCB)\lib\obj;$(BCB)\lib
+Item19=..\mockpp;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=6
+Item0=__DLL___;_DEBUG
+Item1=__DLL___
+Item2=_DEBUG;DEBUG;__DLL___
+Item3=_DEBUG;ULXR_SHOW_CONTENT;ULXR_SHOW_HTTP;ULXR_SHOW_WRTIE;ULXR_SHOW_READ;ULXR_SHOW_XML;DEBUG;__DLL___
+Item4=_DEBUG;__DLL__
+Item5=_DEBUG
+
+[HistoryLists\hlIntOutputDir]
+Count=4
+Item0=c:\tmp\compile\mockpp_44\
+Item1=c:\tmp\compile\mockpp_44\
+Item2=h:\temp
+Item3=output
+
+[HistoryLists\hlFinalOutputDir]
+Count=6
+Item0=c:\tmp\compile\
+Item1=c:\tmp\compile\
+Item2=c:\tmp\compile\mockpp_44\
+Item3=h:\temp
+Item4=output\
+Item5=output
+
+[HistoryLists\hIBPIOutputDir]
+Count=6
+Item0=c:\tmp\compile\
+Item1=c:\tmp\compile\
+Item2=c:\tmp\compile\mockpp_44\
+Item3=h:\temp
+Item4=E:\Eigene Dateien\c++\mockpp_44\bcb5\output\
+Item5=output
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+HostApplication=c:\tmp\compile\mock_test.exe
+RemoteHost=
+RemotePath=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=1
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>

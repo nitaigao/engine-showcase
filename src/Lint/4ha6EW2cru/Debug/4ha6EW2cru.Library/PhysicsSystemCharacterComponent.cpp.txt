@@ -1,7 +1,0 @@
-
---- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Physics\PhysicsSystemCharacterComponent.cpp
-    (C++)
-         _
-#include "PhysicsSystemCharacterComponent.h"
-C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Physics\PhysicsSystemCharacterComponent.cpp 
-    1  Error 322: Unable to open include file 'PhysicsSystemCharacterComponent.h'

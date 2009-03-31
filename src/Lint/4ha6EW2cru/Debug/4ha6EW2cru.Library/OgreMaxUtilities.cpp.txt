@@ -1,7 +1,0 @@
-
---- Module:   C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Utility\OgreMax\OgreMaxUtilities.cpp
-    (C++)
-         _
-#include "OgreMaxUtilities.hpp"
-C:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Utility\OgreMax\OgreMaxUtilities.cpp 
-    17  Error 322: Unable to open include file 'OgreMaxUtilities.hpp'

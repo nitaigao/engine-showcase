@@ -2,6 +2,8 @@
 
 #include <fstream>
 #include <ostream>
+#include <iostream>
+#include <streambuf>
 #include <sstream>
 #include <vector>
 
@@ -36,7 +38,6 @@ bool Logger::Initialize( )
 	if ( g_loggerInstance != 0 )
 	{
 		AlreadyInitializedException e( "Logger::Initialize - Logger has already been Initialized" );
-		Logger::GetInstance( )->Fatal( e.what ( ) );
 		throw e;
 	}
 
@@ -46,58 +47,19 @@ bool Logger::Initialize( )
 	return true;	
 }
 
-Logger::~Logger( )
-{
-	for( AppenderList::iterator i = _appenders.begin( ); i != _appenders.end( ); ++i )
-	{
-		IAppender* appender = ( *i );
-		delete appender;
-	}
-
-	_appenders.clear( );
-}
-
-void Logger::AddAppender( IAppender* appender )
-{
-	if ( 0 == appender )
-	{
-		NullReferenceException nullAppender( "Logger::AddAppender - Attempted to add a NULL Appender" );
-		Logger::GetInstance( )->Fatal( nullAppender.what( ) );
-		throw nullAppender;
-	}
-
-	for( AppenderList::iterator i = _appenders.begin( ); i != _appenders.end( ); ++i )
-	{
-		if ( ( *i ) == appender )
-		{
-			AlreadyInitializedException appenderExists( "Logger::AddAppender - Attempted to Add an already existing Appender" );
-			Logger::GetInstance( )->Fatal( appenderExists.what( ) );
-			throw appenderExists;
-		}
-	}
-
-	_appenders.push_back( appender );
-}
-
 void Logger::LogMessage( const std::string level, const std::string message )
 {
 	if ( 0 == message.c_str( ) )
 	{
 		NullReferenceException e( "Logger::LogMessage - Attempted to Log a NULL message" );
-		Logger::GetInstance( )->Fatal( e.what( ) );
 		throw e;
 	}
 
 	std::stringstream outputMessage;
 	outputMessage << level << ": " << message << "\n";
 
-	for( AppenderList::iterator i = _appenders.begin( ); i != _appenders.end( ); ++i )
-	{
-		( *i )->Append( outputMessage.str( ) );
-	}
-
-	IEvent* event = new ScriptEvent( "LOG_MESSAGE_APPENDED", outputMessage.str( ) );
-	Management::GetInstance( )->GetEventManager( )->QueueEvent( event );
+	OutputDebugString( outputMessage.str( ).c_str( ) );
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "MESSAGE_LOGGED", outputMessage.str( ) ) );
 }
 
 void Logger::Info( const std::string message )

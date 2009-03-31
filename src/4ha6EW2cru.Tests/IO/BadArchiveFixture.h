@@ -7,8 +7,6 @@ class BadArchiveFixture : public CPPUNIT_NS::TestFixture
 {
 
 	CPPUNIT_TEST_SUITE( BadArchiveFixture );
-	CPPUNIT_TEST( Should_Load );
-	CPPUNIT_TEST( Should_Unload );
 	CPPUNIT_TEST( Should_Return_True_On_Case_Sensitive );
 
 	CPPUNIT_TEST( Should_Return_DataStreamPtr_Given_File_Found );
@@ -32,8 +30,6 @@ public:
 
 protected:
 
-	void Should_Load( );
-	void Should_Unload( );
 	void Should_Return_True_On_Case_Sensitive( );
 	void Should_Return_DataStreamPtr_Given_File_Found( );
 	void Sould_Return_Throw_Given_File_Not_Found( );

@@ -18,7 +18,6 @@ public:
 
 	virtual ~OgreRenderSystem( );
 
-	OgreRenderSystem( Configuration* configuration, IFileManager* fileManager );
 	OgreRenderSystem( Configuration* configuration );
 
 	virtual void Initialize( );
@@ -43,7 +42,6 @@ private:
 
 	PropertyMap _properties;
 	Configuration* _configuration;
-	IFileManager* _fileManager;
 	IInterface* _interface;
 	bool _badStubCreated;
 	bool _isIntialized;

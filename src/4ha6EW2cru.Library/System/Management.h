@@ -5,6 +5,7 @@
 
 #include "../System/IPlatformManager.h"
 #include "../System/ISystemManager.hpp"
+#include "../IO/IFileManager.hpp"
 
 class Management
 {
@@ -26,11 +27,13 @@ public:
 	inline ISystemManager* GetSystemManager( ) { return _systemManager; };
 	inline EventManager* GetEventManager( ) { return _eventManager; };
 	inline IPlatformManager* GetPlatformManager( ) { return _platformManager; };
+	inline IFileManager* GetFileManager( ) { return _fileManager; };
 
 private:
 
 	ISystemManager* _systemManager;
 	IPlatformManager* _platformManager;
+	IFileManager* _fileManager;
 	EventManager* _eventManager;
 
 	Management( const Management & copy ) { };
