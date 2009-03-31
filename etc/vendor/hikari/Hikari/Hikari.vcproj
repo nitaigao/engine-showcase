@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)include&quot;;&quot;../../ogre/include&quot;;../../ois/includes"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)include&quot;;../../ogre/ogremain/include;../../ois/includes"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;HIKARI_NONCLIENT_BUILD"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -115,7 +115,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)include&quot;;&quot;../../ogre/include&quot;;../../ois/includes"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)include&quot;;../../ogre/ogremain/include;../../ois/includes"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;HIKARI_NONCLIENT_BUILD"
 				RuntimeLibrary="2"
 				WarningLevel="1"

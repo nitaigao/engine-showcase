@@ -63,37 +63,19 @@ void InputManager::initialise( Ogre::RenderWindow *renderWindow ) {
         // Create inputsystem
         mInputSystem = OIS::InputManager::createInputSystem( paramList );
 
-        // If possible create a buffered keyboard
-        if( mInputSystem->numKeyboards() > 0 ) {
-            mKeyboard = static_cast<OIS::Keyboard*>( mInputSystem->createInputObject( OIS::OISKeyboard, true ) );
-            mKeyboard->setEventCallback( this );
-        }
+        mKeyboard = static_cast<OIS::Keyboard*>( mInputSystem->createInputObject( OIS::OISKeyboard, true ) );
+        mKeyboard->setEventCallback( this );
 
-        // If possible create a buffered mouse
-        if( mInputSystem->numMice() > 0 ) {
-            mMouse = static_cast<OIS::Mouse*>( mInputSystem->createInputObject( OIS::OISMouse, true ) );
-            mMouse->setEventCallback( this );
+        mMouse = static_cast<OIS::Mouse*>( mInputSystem->createInputObject( OIS::OISMouse, true ) );
+        mMouse->setEventCallback( this );
 
             // Get window size
-            unsigned int width, height, depth;
-            int left, top;
-            renderWindow->getMetrics( width, height, depth, left, top );
+        unsigned int width, height, depth;
+        int left, top;
+        renderWindow->getMetrics( width, height, depth, left, top );
 
             // Set mouse region
-            this->setWindowExtents( width, height );
-        }
-
-        // If possible create all joysticks in buffered mode
-        if( mInputSystem->numJoySticks() > 0 ) {
-            mJoysticks.resize( mInputSystem->numJoySticks() );
-
-            itJoystick    = mJoysticks.begin();
-            itJoystickEnd = mJoysticks.end();
-            for(; itJoystick != itJoystickEnd; ++itJoystick ) {
-                (*itJoystick) = static_cast<OIS::JoyStick*>( mInputSystem->createInputObject( OIS::OISJoyStick, true ) );
-                (*itJoystick)->setEventCallback( this );
-            }
-        }
+        this->setWindowExtents( width, height );
     }
 }
 
@@ -105,14 +87,6 @@ void InputManager::capture( void ) {
 
     if( mKeyboard ) {
         mKeyboard->capture();
-    }
-
-    if( mJoysticks.size() > 0 ) {
-        itJoystick    = mJoysticks.begin();
-        itJoystickEnd = mJoysticks.end();
-        for(; itJoystick != itJoystickEnd; ++itJoystick ) {
-            (*itJoystick)->capture();
-        }
     }
 }
 
