@@ -125,7 +125,7 @@ function Menu.onQuitReleased( )
 
 end
 
-function Menu.onOptionsReleased ( )
+function Menu.onOptionsReleased( )
 
 	broadcastEvent( 'UI_OPTIONS' ); 
 

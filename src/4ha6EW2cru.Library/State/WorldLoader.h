@@ -10,15 +10,17 @@
 
 class WorldLoader : public IWorldLoader
 {
+	typedef std::queue< YAML::Node* > NodeList;
 
 public:
 
-	virtual ~WorldLoader( );
+	virtual ~WorldLoader( ) { };
 
 	WorldLoader( IWorld* world )
 		: _world( world )
-		, _loadPosition( 0 )
-		, _loadSource( new YAML::Node( ) )
+		, _activeNodeIndex( 0 )
+		, _loadTotal( 0 )
+		, _loadProgress( 0 )
 	{
 
 	}
@@ -33,9 +35,12 @@ private:
 
 	IWorld* _world;
 
-	YAML::Node* _loadSource;
-	int _loadPosition;
+	NodeList _loadQueue;
 
+	//YAML::Node* _loadSource;
+	int _activeNodeIndex;
+	int _loadProgress;
+	int _loadTotal;
 
 	WorldLoader( ) { };
 	WorldLoader( const WorldLoader & copy ) { };

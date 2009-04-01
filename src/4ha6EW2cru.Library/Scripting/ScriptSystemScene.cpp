@@ -211,5 +211,6 @@ void ScriptSystemScene::ExecuteString( const std::string input )
 
 void ScriptSystemScene::EndGame()
 {
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_ENDED" ) );
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_ENDED ) );
 }

@@ -7,15 +7,10 @@
 
 #include "../Scripting/ScriptEvent.hpp"
 
-WorldLoader::~WorldLoader()
-{
-	_loadSource->Clear( );
-	delete _loadSource;
-}
-
 void WorldLoader::Load( const std::string& levelPath )
 {
-	_loadPosition = 0;
+	_activeNodeIndex = 0;
+	_loadProgress = 0;
 
 	Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "WORLD_LOADING_STARTED" ) );
 
@@ -26,8 +21,13 @@ void WorldLoader::Load( const std::string& levelPath )
 
 	parser.Load( inputStream );
 
-	parser.GetNextDocument( *_loadSource );
-	parser.GetNextDocument( *_loadSource );
+	while( parser )
+	{
+		YAML::Node* node = new YAML::Node( );
+		parser.GetNextDocument( *node );
+		_loadTotal += node->size( );
+		_loadQueue.push( node );
+	}
 
 	delete levelBuffer;
 }
@@ -90,21 +90,32 @@ void WorldLoader::LoadEntityComponents( const YAML::Node& node, IEntity* entity 
 
 void WorldLoader::Update( float deltaMilliseconds )
 {
-	if( _loadPosition < _loadSource->size( ) )
+	if ( !_loadQueue.empty( ) )
 	{
-		const YAML::Node& documentNode = _loadSource[ 0 ];
-		const YAML::Node& entityNode = documentNode[ _loadPosition ]; 
+		YAML::Node* loadSource = _loadQueue.front( );
 
-		this->LoadEntity( entityNode );
-
-		int loadProgress = ( ( float ) ( _loadPosition + 1 ) / ( float ) _loadSource->size( ) ) * 100.0f;
-
-		Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "WORLD_LOADING_PROGRESS", loadProgress ) );
-
-		if ( ++_loadPosition == _loadSource->size( ) )
+		if( _activeNodeIndex < loadSource->size( ) )
 		{
-			_loadSource->Clear( );
-			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WORLD_LOADING_FINISHED" ) );
+
+			const YAML::Node& documentNode = loadSource[ 0 ];
+			const YAML::Node& entityNode = documentNode[ _activeNodeIndex ]; 
+
+			this->LoadEntity( entityNode );
+
+			int progressPercent = ( ( float ) ++_loadProgress / ( float ) _loadTotal ) * 100.0f;
+			Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "WORLD_LOADING_PROGRESS", progressPercent ) );
+
+			if ( ++_activeNodeIndex == loadSource->size( ) )
+			{
+				_activeNodeIndex = 0;
+				delete loadSource;
+				_loadQueue.pop( );
+			}
+
+			if ( _loadProgress >= _loadTotal )
+			{
+				Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WORLD_LOADING_FINISHED" ) );
+			}
 		}
 	}
 }
