@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout">
+    <Widget type="StaticImage" skin="StaticImage" position_real="0.4882813 0.48125 0.0234375 0.0375" layer="Middle" name="hud">
+        <Property key="Image_Texture" value="data/interface/assets/crosshair.png"/>
+    </Widget>
+</MyGUI>

@@ -25,6 +25,8 @@ void WorldLoader::Load( const std::string& levelPath )
 	YAML::Parser parser( inputStream );
 
 	parser.Load( inputStream );
+
+	parser.GetNextDocument( *_loadSource );
 	parser.GetNextDocument( *_loadSource );
 
 	delete levelBuffer;
@@ -105,6 +107,4 @@ void WorldLoader::Update( float deltaMilliseconds )
 			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WORLD_LOADING_FINISHED" ) );
 		}
 	}
-
-	
 }

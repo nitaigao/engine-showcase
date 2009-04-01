@@ -20,6 +20,7 @@ function Interface.initialize( )
 	loadComponent( 'options' );
 	loadComponent( 'console' );
 	loadComponent( 'loading' );
+	loadComponent( 'hud' );
 	
 end
 

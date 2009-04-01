@@ -8,8 +8,8 @@
   <List file="/data/interface/core/core_layer.xml" group="General"/>
   <List file="/data/interface/core/core_font.xml" group="General"/>
   <!--<List file="/data/interface/core/themes/core_theme.xml" group="General"/>-->
-  <!--List file="core_theme_black_blue.xml" group="General"/-->
-  <List file="/data/interface/core/themes/core_theme_black_orange.xml" group="General" />
+  <List file="/data/interface/core/themes/core_theme_black_blue.xml" group="General"/>
+  <!--List file="/data/interface/core/themes/core_theme_black_orange.xml" group="General" /-->
   <List file="/data/interface/core/core_resource.xml" group="General"/>
   <List file="/data/interface/core/core_skin.xml" group="General"/>
   <List file="/data/interface/core/core_pointer.xml" group="General"/>

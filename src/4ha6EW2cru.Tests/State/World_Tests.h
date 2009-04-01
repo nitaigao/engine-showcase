@@ -11,6 +11,11 @@ class World_Tests : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( Update_Should_Call_Update_On_All_Attached_SystemScenes );
 	CPPUNIT_TEST_SUITE_END( );
 
+public:
+
+	void setUp( );
+	void tearDown( );
+
 protected:
 
 	void Entity_Should_Be_Created_on_CreateEntity( );

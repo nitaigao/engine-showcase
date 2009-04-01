@@ -7,6 +7,8 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( World_Tests, Suites::StateSuite( ) );
 #include "State/IEntity.hpp"
 #include "State/World.h"
 
+#include "System/Management.h"
+
 void World_Tests::Entity_Should_Be_Created_on_CreateEntity()
 {
 	World world;
@@ -37,4 +39,14 @@ void World_Tests::Update_Should_Call_Update_On_All_Attached_SystemScenes()
 	world.Update( 0 );
 
 	scene->verify( );
+}
+
+void World_Tests::setUp()
+{
+
+}
+
+void World_Tests::tearDown()
+{
+
 }

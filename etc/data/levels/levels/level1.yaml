@@ -1,4 +1,41 @@
 --- 
+- !ruby/object:Color 
+  b: "0.65098"
+  g: "0.611765"
+  name: ambient
+  r: "0.580392"
+- !ruby/object:Color 
+  b: "0.572549"
+  g: "0.572549"
+  name: background
+  r: "0.572549"
+...
+--- 
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/city_ground.model
+    system: graphics
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "74.2459"
+      y: "0.0595312"
+      z: "-24.2334"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/city_ground.hkx
+    system: physics
+    type: mesh
+  name: city_ground
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
@@ -48,28 +85,3 @@
   - !ruby/object:InputComponent
     system: input
   name: player_camera
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/city_ground.model
-    system: graphics
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "0.999999"
-      x: "0"
-      y: "0"
-      z: "0.00114364"
-    position: !ruby/object:Vector 
-      x: "0"
-      y: "0.0595312"
-      z: "-24.2334"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-  - !ruby/object:PhysicsComponent
-    body: /data/entities/bodies/city_ground.hkx
-    type: mesh
-    system: physics
-  name: city_ground

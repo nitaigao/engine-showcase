@@ -4,8 +4,69 @@ include REXML
 
 file = File.new( ARGV[ 0 ].to_s );
 
-doc = Document.new( file );
+contents = file.read.gsub( '<![CDATA[', '' ).gsub( ']]>', '' )
+
+doc = Document.new( contents );
 root = doc.root;
+
+class Color
+
+	def initialize( name, xmlNode )
+	
+		@name = name;
+		@r = xmlNode.attributes[ 'r' ];
+		@g = xmlNode.attributes[ 'g' ];
+		@b = xmlNode.attributes[ 'b' ];
+	
+	end
+	
+	def name=( name )
+        @name = name
+    end
+    
+    def name
+        @name
+    end
+	
+	def r=( r )
+        @r = r
+    end
+    
+    def r
+        @r
+    end
+    
+    def g
+        @g
+    end
+    
+    def g=( g )
+        @g = g
+    end
+    
+    def b
+        @b
+    end
+    
+    def b=( b )
+        @b = b
+    end
+
+end
+
+class Environment
+
+	def initialize( )
+	
+		@colors = Array.new;
+	
+	end
+
+	def colors
+        @colors
+    end
+
+end
 
 class Vector
 
@@ -148,6 +209,27 @@ class GeometryComponent < Component
 
 end
 
+class PhysicsComponent < Component
+
+	def initialize( ogreNode )
+	
+		@system = 'physics'
+		
+		@body = ogreNode.elements[ '//body' ].text;
+		@type = ogreNode.elements[ '//type' ].text;
+	
+	end
+	
+	def body
+        @body
+    end
+    
+    def type
+        @type
+    end
+
+end
+
 class Entity
 
     def initialize( ogreNode )
@@ -163,6 +245,14 @@ class Entity
 		end
 	
         @components.push( GeometryComponent.new( ogreNode ) );
+		
+		physicsNode = ogreNode.elements[ 'entity//Physics' ];
+		
+		if ( physicsNode != nil )
+			
+			@components.push( PhysicsComponent.new( physicsNode ) );
+		
+		end
         
     end
     
@@ -176,27 +266,47 @@ class Entity
 
 end
 
-entities = Array.new;
+def createEntities( xmlRoot )
+
+	entities = Array.new;
+
+	xmlRoot.each_element( "//node" ) { | node |
+
+		entity = Entity.new( node );	
+		entities.push( entity );
+		
+		puts 'Processed Entity: ' + entity.name;
+	}
+	
+	return entities;
+
+end
+
+def createEnvironment( xmlRoot )
+
+	environment = Environment.new;
+	
+	ambientColor = Color.new( 'ambient', xmlRoot.elements[ '//colourAmbient' ] );
+	environment.colors.push( ambientColor );
+	
+	backgroundColor = Color.new( 'background', xmlRoot.elements[ '//colourBackground' ] );
+	environment.colors.push( backgroundColor );
+
+end
 
 puts ''
 puts 'Processing Scene File: ' + ARGV[ 0 ].to_s
-puts ''
-
-root.each_element( "//node" ) { | node |
-
-    entity = Entity.new( node );	
-    entities.push( entity );
-	
-	puts 'Processed Entity: ' + entity.name;
-}
-
-puts ''
-puts 'Processing Finished'
 puts ''
 
 levelName = ARGV[ 0 ]
 levelFilePath = levelName.to_s.gsub( '.scene', '.yaml' );
 
 outputFile = File.new( levelFilePath,  "w+" );
-outputFile.write( entities.to_yaml );
+outputFile.write( createEnvironment( root ).to_yaml );
+outputFile.write( "...\n" );
+outputFile.write( createEntities( root ).to_yaml );
 outputFile.close( );
+
+puts ''
+puts 'Processing Finished'
+puts ''

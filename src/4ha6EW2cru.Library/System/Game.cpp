@@ -131,6 +131,11 @@ void Game::OnGameLevelChanged( const IEvent* event )
 void Game::OnGameEnded( const IEvent* event )
 {
 	_world->Clear( );
+
+	ISystem::PropertyMap renderSystemProperties;
+	SystemProperty cameraProperty = SystemProperty( "camera", std::string( "default" ) );
+	renderSystemProperties.insert( std::make_pair( cameraProperty.GetName( ), cameraProperty ) );
+	Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType )->SetProperties( renderSystemProperties );
 }
 
 // EOF

@@ -7,8 +7,6 @@
 
 World::~World()
 {
-	this->Clear( );
-
 	for ( SystemSceneMap::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
 	{
 		delete ( *i ).second;
@@ -32,11 +30,6 @@ void World::Update( float deltaMilliseconds )
 
 void World::Clear( )
 {
-	ISystem::PropertyMap renderSystemProperties;
-	SystemProperty cameraProperty = SystemProperty( "camera", std::string( "default" ) );
-	renderSystemProperties.insert( std::make_pair( cameraProperty.GetName( ), cameraProperty ) );
-	Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType )->SetProperties( renderSystemProperties );
-
 	for ( EntityList::iterator e = _entities.begin( ); e != _entities.end( ); ++e )
 	{
 		SystemComponentList components = ( *e )->GetComponents( );
