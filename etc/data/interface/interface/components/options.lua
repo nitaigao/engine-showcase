@@ -58,12 +58,6 @@ function Options.initialize( )
 end
 
 function Options.onEvent( eventName )
-
-	if ( eventName == 'GRAPHICS_SETTINGS_CHANGED' ) then 
-	
-		Options.onGraphicsSettingsChanged( ); 
-	
-	end
 	
 	if ( eventName == 'UI_OPTIONS' ) then
 	
@@ -73,24 +67,7 @@ function Options.onEvent( eventName )
 
 end
 
-function Options.setPosition( )
-
-    local options = findWidget( 'options' );
-	local optionsX = ( getScreenWidth( ) - options:getDimensions( ).width ) / 2;
-	local optionsY = ( getScreenHeight( ) - options:getDimensions( ).height ) / 2;
-	options:setPosition( optionsX, optionsY );
-
-end
-
-function Options.onGraphicsSettingsChanged( )
-
-    Options.setPosition( );
-
-end
-
 function Options.onShowOptions( )
-
-    Options.setPosition( );
     
     local options = findWidget( 'options' );
 	options:setVisible( true );
