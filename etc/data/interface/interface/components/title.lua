@@ -14,9 +14,8 @@ Title = {}
 function Title.initialize( )
 
 	hideMouse( );
-
-	registerEvent( EventType.INPUT_KEY_UP, Title.onInput );
-	registerEvent( EventType.INPUT_MOUSE_RELEASED, Title.onInput );
+	
+	registerEventHandler( Title.onEvent );
 
 	local logo = findWidget( 'logo' );
 	local logoX = ( getScreenWidth( ) - logo:getDimensions( ).width ) / 2;
@@ -25,15 +24,30 @@ function Title.initialize( )
 
 end
 
+function Title.onEvent( eventName, val1, val2 )
+
+	if ( eventName == 'INPUT_KEY_UP' ) then 
+	
+		Title.onInput( )
+	
+	end
+	
+	if ( eventName == 'INPUT_MOUSE_RELEASED' ) then
+	
+		Title.onInput( )
+	
+	end
+
+end
+
 function Title.onInput( )
 
-	unregisterEvent( EventType.INPUT_KEY_UP, Title.onInput );
-	unregisterEvent( EventType.INPUT_MOUSE_RELEASED, Title.onInput );
+	unregisterEventHandler( Title.onEvent );
 
 	local logo = findWidget( 'logo' );
 	logo:setVisible( false );
 	
-	broadcastEvent( EventType.UI_MAIN_MENU ); 
+	broadcastEvent( 'UI_MAIN_MENU' ); 
 
 end
 

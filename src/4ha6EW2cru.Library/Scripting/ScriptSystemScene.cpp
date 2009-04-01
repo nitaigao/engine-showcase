@@ -64,6 +64,7 @@ void ScriptSystemScene::Initialize( )
 		def( "print", &ScriptSystemScene::Print ),
 		def( "quit", &ScriptSystemScene::Quit ),
 		def( "loadLevel", &ScriptSystemScene::LoadLevel ),
+		def( "endGame", &ScriptSystemScene::EndGame ),
 
 		class_< ScriptConfiguration >( "Config" )
 			.property( "isFullScreen", &ScriptConfiguration::IsFullScreen, &ScriptConfiguration::SetFullScreen )
@@ -206,4 +207,9 @@ void ScriptSystemScene::LoadLevel( const std::string& levelName )
 void ScriptSystemScene::ExecuteString( const std::string input )
 {
 	luaL_dostring( _state, input.c_str( ) );
+}
+
+void ScriptSystemScene::EndGame()
+{
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_ENDED ) );
 }

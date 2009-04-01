@@ -48,6 +48,9 @@ private:
 	/*! Receives the GAME_LEVEL_CHANGED and starts the WorldLoader */
 	void OnGameLevelChanged( const IEvent* event );
 
+	/*! Receives the GAME_ENDED Event and stops the current Game */
+	void OnGameEnded( const IEvent* event );
+
 	bool _isQuitting;
 	bool _isInitialized;
 

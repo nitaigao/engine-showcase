@@ -158,6 +158,21 @@ void OgreRenderSystem::Update( float deltaMilliseconds )
 	_root->renderOneFrame( );
 }
 
+void OgreRenderSystem::SetProperties( PropertyMap properties )
+{
+	for ( PropertyMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
+	{
+		SystemProperty property = ( *i ).second;
+
+		_properties[ property.GetName( ) ] = property;
+
+		if ( property.GetName( ) == "camera" )
+		{
+			this->SetCamera( property.GetValue< std::string >( ) );
+		}
+	}
+}
+
 ISystemScene* OgreRenderSystem::CreateScene()
 {
 	return new OgreSystemScene( this );
@@ -243,4 +258,13 @@ void OgreRenderSystem::OnGraphicsSettingsUpdated( const IEvent* event )
 		_configuration->Find< int >( "Graphics", "width" ), 
 		_configuration->Find< int >( "Graphics", "height" )
 		);
+}
+
+void OgreRenderSystem::SetCamera( const std::string& cameraName )
+{
+	SceneManager* sceneManager = _root->getSceneManager( "default" );
+	RenderTarget* renderTarget = _root->getRenderTarget( "Interactive View" );
+
+	Camera* camera = sceneManager->getCamera( cameraName );
+	renderTarget->getViewport( 0 )->setCamera( camera );
 }

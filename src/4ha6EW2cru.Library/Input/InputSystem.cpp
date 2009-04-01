@@ -96,7 +96,10 @@ bool InputSystem::keyReleased( const KeyEvent &arg )
 	}
 	else
 	{
-		Event* event = new Event( INPUT_KEY_UP, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
+		IEvent* scriptEvent = new ScriptEvent( "INPUT_KEY_UP", arg.key, _keyboard->getAsString( arg.key ) );
+		Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
+
+		IEvent* event = new Event( INPUT_KEY_UP, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 	}
 
@@ -129,6 +132,9 @@ bool InputSystem::mousePressed( const MouseEvent &arg, MouseButtonID id )
 /* Fired when the user releases a button on the mouse */
 bool InputSystem::mouseReleased( const MouseEvent &arg, MouseButtonID id )
 {
+	IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_RELEASED", id );
+	Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
+
 	Event* event = new Event( INPUT_MOUSE_RELEASED, new MouseEventData( arg.state, id ) );
 	Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 

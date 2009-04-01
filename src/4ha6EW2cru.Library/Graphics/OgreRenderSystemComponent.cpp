@@ -55,8 +55,8 @@ void OgreRenderSystemComponent::Initialize( SystemPropertyList properties )
 					Camera* camera = sceneManager->getCamera( object->getName( ) );
 					renderTarget->getViewport( 0 )->setCamera( camera );
 
-					camera->setPosition( 0, 0, 0 );
-					camera->lookAt( 0, 0, 0 );
+					//camera->setPosition( 0, 0, 0 );
+					//camera->lookAt( 0, 0, 0 );
 					camera->setFarClipDistance( 5000.0f );
 				}
 			}

@@ -95,14 +95,20 @@ private:
 	/*! Registers a script method to receive all broadcast events */
 	static void RegisterEventHandler( object function );
 
-	/*! Registers a script method to receive in-game events */
+	/*! Unregisters a script method that was receiving all broadcast events */
+	static void UnRegisterEventHandler( object function );
+
+	/*! Fires a Script event */
+	static void BroadcastEvent( const std::string& eventName );
+
+	/*! Causes the Renderer to adjust the Resolution to match the Configuration */
+	static void ChangeResolution( );
+
+	/*! Registers a script method to receive Script events */
 	static void RegisterEvent( EventType eventType, object function );
 
-	/*! UnRegisters a script method to receive in-game events */
+	/*! UnRegisters a script method to receive Script events */
 	static void UnRegisterEvent( EventType eventType, object function );
-
-	/*! Fires an in-game event */
-	static void BroadcastEvent( EventType eventType );
 
 	/*! Returns the Screen Width in pixels */
 	static inline int GetScreenWidth( ) { return Ogre::Root::getSingletonPtr( )->getRenderTarget( "Interactive View" )->getWidth( ); };

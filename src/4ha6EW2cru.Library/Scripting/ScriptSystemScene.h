@@ -70,6 +70,9 @@ private:
 	/*! Loads the specified level */
 	static void LoadLevel( const std::string& levelName );
 
+	/*! Ends the current Game */
+	static void EndGame( );
+
 	void OnEvent( const IEvent* event );
 
 	ISystem* _system;

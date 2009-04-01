@@ -1,5 +1,8 @@
 #include "World.h"
 
+#include "../System/ISystem.hpp"
+#include "../System/Management.h"
+
 #include "Entity.h"
 
 World::~World()
@@ -29,6 +32,11 @@ void World::Update( float deltaMilliseconds )
 
 void World::Clear( )
 {
+	ISystem::PropertyMap renderSystemProperties;
+	SystemProperty cameraProperty = SystemProperty( "camera", std::string( "default" ) );
+	renderSystemProperties.insert( std::make_pair( cameraProperty.GetName( ), cameraProperty ) );
+	Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType )->SetProperties( renderSystemProperties );
+
 	for ( EntityList::iterator e = _entities.begin( ); e != _entities.end( ); ++e )
 	{
 		SystemComponentList components = ( *e )->GetComponents( );

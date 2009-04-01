@@ -1,14 +1,26 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout">
-    <Widget type="Widget" skin="Default" position_real="0.409375 0.62 0.18125 0.17" align="HCenter Bottom" layer="Overlapped" name="menu">
-        <Widget type="Button" skin="Button" position_real="0.0258621 0.669118 0.956897 0.25" name="button_quit">
-            <Property key="Widget_Caption" value="Quit"/>
-        </Widget>
-        <Widget type="Button" skin="Button" position_real="0.0258621 0.0661765 0.956897 0.25" name="button_play">
-            <Property key="Widget_Caption" value="Play"/>
-        </Widget>
-        <Widget type="Button" skin="Button" position_real="0.0258621 0.375 0.956897 0.25" name="button_options">
-            <Property key="Widget_Caption" value="Options"/>
-        </Widget>
+	<Widget type="Widget" skin="Widget" position_real="0 0 1 1" name="menu" layer="Main">
+		<Widget type="StaticImage" skin="StaticImage" position_real="0 0 1 1">
+			<Property key="Image_Texture" value="data/interface/assets/loading_background.png"/>
+			<Property key="Widget_Alpha" value="0.8"/>
+		</Widget>
+		<Widget type="Button" skin="Button" position_real="0.421875 0.84 0.15625 0.045" name="button_quit">
+			<Property key="Widget_Caption" value="Quit"/>
+		</Widget>
+		<Widget type="Button" skin="Button" position_real="0.421875 0.84 0.15625 0.045" name="button_endgame">
+			<Property key="Widget_Caption" value="End Game"/>
+			<Property key="Widget_Visible" value="false"/>
+		</Widget>
+		<Widget type="Button" skin="Button" position_real="0.421875 0.72 0.15625 0.045" name="button_play">
+			<Property key="Widget_Caption" value="Play"/>
+		</Widget>
+		<Widget type="Button" skin="Button" position_real="0.421875 0.78 0.15625 0.045" name="button_options">
+			<Property key="Widget_Caption" value="Options"/>
+		</Widget>
+		<Widget type="Button" skin="Button" position_real="0.421875 0.72 0.15625 0.045" name="button_resume">
+			<Property key="Widget_Caption" value="Resume"/>
+			<Property key="Widget_Visible" value="false"/>
+		</Widget>
     </Widget>
 </MyGUI>

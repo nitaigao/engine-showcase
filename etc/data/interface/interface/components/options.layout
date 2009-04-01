@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout">
-    <Widget type="Window" skin="Window" position="459 213 392 376" align="Center" layer="Modal" name="options">
+    <Widget type="Window" skin="Window" position="459 213 392 376" align="Center" layer="Popup" name="options">
         <Property key="Widget_Caption" value="Options"/>
-        <Widget type="Button" skin="Button" position_real="0.348168 0.867257 0.308901 0.0707965" layer="Popup" name="options_button_save">
+        <Widget type="Button" skin="Button" position_real="0.348168 0.867257 0.308901 0.0707965" name="options_button_save">
             <Property key="Widget_Caption" value="Save"/>
         </Widget>
         <Widget type="ComboBox" skin="ComboBox" position_real="0.374346 0.103245 0.479058 0.0825959" name="options_resolution_combo">
@@ -16,7 +16,7 @@
             <Property key="Widget_Caption" value="Console"/>
             <Property key="Widget_AlignText" value="Left VCenter"/>
         </Widget>
-        <Widget type="StaticText" skin="StaticText" position_real="0.164921 0.138643 0.269634 0.0442478" layer="Back">
+        <Widget type="StaticText" skin="StaticText" position_real="0.164921 0.138643 0.269634 0.0442478">
             <Property key="Widget_Caption" value="Resolution"/>
         </Widget>
     </Widget>

@@ -95,10 +95,9 @@ void WorldLoader::Update( float deltaMilliseconds )
 
 		this->LoadEntity( entityNode );
 
-		std::stringstream loadProgress;
-		loadProgress << ( ( float ) ( _loadPosition + 1 ) / ( float ) _loadSource->size( ) ) * 100.0f;
+		int loadProgress = ( ( float ) ( _loadPosition + 1 ) / ( float ) _loadSource->size( ) ) * 100.0f;
 
-		Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "WORLD_LOADING_PROGRESS", loadProgress.str( ) ) );
+		Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "WORLD_LOADING_PROGRESS", loadProgress ) );
 
 		if ( ++_loadPosition == _loadSource->size( ) )
 		{

@@ -9,6 +9,7 @@
 #include "../Scripting/ScriptSystemScene.h"
 #include "../Scripting/ScriptSystem.h"
 #include "../Scripting/ScriptComponent.h"
+#include "../Scripting/ScriptEvent.hpp"
 
 static ScriptSystemScene* g_InterfaceScriptScene = 0;
 
@@ -66,8 +67,10 @@ void Interface::Initialize( )
 		def( "showMouse", &Interface::ShowMouse ),
 		def( "hideMouse", &Interface::HideMouse ),
 		def( "setInputAllowed", &Interface::SetInputAllowed ),
+		def( "changeResolution", &Interface::ChangeResolution ),
 
 		def( "registerEventHandler", &Interface::RegisterEventHandler ),
+		def( "unregisterEventHandler", &Interface::UnRegisterEventHandler ),
 		def( "registerEvent", &Interface::RegisterEvent ),
 		def( "unregisterEvent", &Interface::UnRegisterEvent ),
 		def( "broadcastEvent", &Interface::BroadcastEvent ),
@@ -266,9 +269,10 @@ void Interface::UnRegisterEvent( EventType eventType, object function )
 	g_InterfaceScriptScene->UnRegisterEvent( eventType, function );
 }
 
-void Interface::BroadcastEvent( EventType eventType )
+void Interface::BroadcastEvent( const std::string& eventName )
 {
-	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( eventType ) );
+	IEvent* event = new ScriptEvent( eventName ) ;
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( event );
 }
 
 void Interface::ExecuteString( const std::string& input )
@@ -279,6 +283,11 @@ void Interface::ExecuteString( const std::string& input )
 void Interface::RegisterEventHandler( object function )
 {
 	g_InterfaceScriptScene->RegisterEvent( ALL_EVENTS, function );
+}
+
+void Interface::UnRegisterEventHandler( object function )
+{
+	g_InterfaceScriptScene->UnRegisterEvent( ALL_EVENTS, function );
 }
 
 void Interface::SetInputAllowed( bool inputAllowed )
@@ -304,4 +313,9 @@ void Interface::SetFocus( WidgetPtr widget, bool focus )
 	{
 		MyGUI::InputManager::getInstancePtr( )->resetKeyFocusWidget( widget );
 	}
+}
+
+void Interface::ChangeResolution()
+{
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GRAPHICS_SETTINGS_CHANGED ) );
 }

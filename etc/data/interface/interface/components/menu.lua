@@ -3,6 +3,7 @@
 ----------------------------------------------------------------
 
 Menu = {}
+menu_ingame = false;
 
 ----------------------------------------------------------------
 -- Local Variables
@@ -13,19 +14,9 @@ Menu = {}
 
 function Menu.initialize( )
 
-	registerEvent( EventType.UI_MAIN_MENU, Menu.onShowMenu );
-	
-	local menu = findWidget( 'menu' );
-	menu:setVisible( false );
+	registerEventHandler( Menu.onEvent );
 
-end
-
-function Menu.onShowMenu( )
-
-	showMouse( );
-
-	local menu = findWidget( 'menu' );
-	menu:setVisible( true ); 
+	Menu.onHideMenu( );
 	
 	local quitButton = findWidget( 'button_quit' );
 	scriptWidget( quitButton, 'onRelease', Menu.onQuitReleased );
@@ -35,6 +26,96 @@ function Menu.onShowMenu( )
 	
 	local playButton = findWidget( 'button_play' );
 	scriptWidget( playButton, 'onRelease', Menu.onPlayReleased );
+	
+	local resumeButton = findWidget( 'button_resume' );
+	scriptWidget( resumeButton, 'onRelease', Menu.onResumeReleased );
+	
+	local endGameButton = findWidget( 'button_endgame' );
+	scriptWidget( endGameButton, 'onRelease', Menu.onEndGameReleased );
+
+end
+
+function Menu.onEvent( eventName, val1 )
+
+	if ( eventName == 'INPUT_KEY_UP' ) then 
+	
+		Menu.onKeyUp( val1 );
+	
+	end
+	
+	if ( eventName == 'UI_MAIN_MENU' ) then
+	
+		Menu.onShowMenu( )
+	
+	end
+
+end
+
+function Menu.onShowMenu( )
+
+	local menu = findWidget( 'menu' );
+	menu:setVisible( true ); 
+	showMouse( );
+
+end
+
+function Menu.onHideMenu( )
+
+	local menu = findWidget( 'menu' );
+	menu:setVisible( false );
+	hideMouse( );
+
+end
+
+function Menu.onKeyUp( keyCode )
+
+	if ( keyCode == '1' and menu_ingame ) then
+	
+		Menu.ToggleInGameMenu( );
+	
+	end
+	
+end
+
+function Menu.ToggleInGameMenu( )
+	
+	local menu = findWidget( 'menu' );
+	
+	if ( menu:isVisible( ) ) then 
+	
+		local playButton = findWidget( 'button_play' );
+		playButton:setVisible( true );
+		
+		local resumeButton = findWidget( 'button_resume' );
+		resumeButton:setVisible( false );
+		
+		local quitButton = findWidget( 'button_quit' );
+		quitButton:setVisible( true );
+		
+		local endGameButton = findWidget( 'button_endgame' );
+		endGameButton:setVisible( false );
+	
+		setInputAllowed( true );
+		Menu.onHideMenu( );
+		
+	else
+	
+		local playButton = findWidget( 'button_play' );
+		playButton:setVisible( false );
+		
+		local resumeButton = findWidget( 'button_resume' );
+		resumeButton:setVisible( true );
+		
+		local quitButton = findWidget( 'button_quit' );
+		quitButton:setVisible( false );
+		
+		local endGameButton = findWidget( 'button_endgame' );
+		endGameButton:setVisible( true );
+	
+		setInputAllowed( false );
+		Menu.onShowMenu( );
+	
+	end
 
 end
 
@@ -46,17 +127,31 @@ end
 
 function Menu.onOptionsReleased ( )
 
-	broadcastEvent( EventType.UI_OPTIONS ); 
+	broadcastEvent( 'UI_OPTIONS' ); 
 
 end
 
 function Menu.onPlayReleased( )
 
-	local menu = findWidget( 'menu' );
-	menu:setVisible( false ); 
+	Menu.onHideMenu( );
 	hideMouse( );
-	
+	menu_ingame = true;
 	loadLevel( 'level1' );
+
+end
+
+function Menu.onResumeReleased( )
+
+	Menu.ToggleInGameMenu( );
+
+end
+
+function Menu.onEndGameReleased( )
+
+	Menu.ToggleInGameMenu( );
+	menu_ingame = false;
+	endGame( );
+	Menu.onShowMenu( );
 
 end
 

@@ -38,11 +38,13 @@ public:
 	inline SystemType GetSystemType( ) { return RenderSystemType; };
 
 	inline PropertyMap GetProperties( ) { return _properties; };
-	inline void SetProperties( PropertyMap properties ) { };
+	inline void SetProperties( PropertyMap properties );
 
 	inline Ogre::Root* GetRoot( ) { return _root; };
 
 	virtual void windowClosed( RenderWindow* rw );
+
+	void SetCamera( const std::string& cameraName );
 
 private:
 

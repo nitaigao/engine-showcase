@@ -13,8 +13,7 @@ Options = {}
 
 function Options.initialize( )
 
-	registerEvent( EventType.UI_OPTIONS, Options.onShowOptions );
-    registerEvent( EventType.GRAPHICS_SETTINGS_CHANGED, Options.onGraphicsSettingsChanged );
+	registerEventHandler( Options.onEvent );
 	
 	local options = findWidget( 'options' );
 	options:setVisible( false );
@@ -56,6 +55,22 @@ function Options.initialize( )
     
     resolutions:setSelectedIndex( selectedIndex );
 	
+end
+
+function Options.onEvent( eventName )
+
+	if ( eventName == 'GRAPHICS_SETTINGS_CHANGED' ) then 
+	
+		Options.onGraphicsSettingsChanged( ); 
+	
+	end
+	
+	if ( eventName == 'UI_OPTIONS' ) then
+	
+		Options.onShowOptions( )
+	
+	end
+
 end
 
 function Options.setPosition( )
@@ -106,6 +121,8 @@ function Options.onSave( )
 		
 	end
 	
+	changeResolution( );
+	
 	-- Console --
 	
 	local consoleButton = findWidget( 'options_console_checkbox' ):asButton( );
@@ -118,8 +135,6 @@ function Options.onSave( )
 
 	local options = findWidget( 'options' );
 	options:setVisible( false );
-	
-	broadcastEvent( EventType.GRAPHICS_SETTINGS_CHANGED );
 
 end
 

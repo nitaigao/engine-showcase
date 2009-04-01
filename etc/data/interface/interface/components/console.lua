@@ -41,30 +41,34 @@ end
 
 function Console.onShowConsole( )
 
-	local console = findWidget( 'console' );
-	local consoleInput = findWidget( 'console_input' );
-	
-	if ( console:isVisible( ) ) then
-	
-		console:setVisible( false );
-		local menu = findWidget( 'menu' );
-		
-		if ( not menu:isVisible( ) ) then
-		
-			hideMouse( );
-			consoleInput:setFocus( false );
-		
-		end
-		
-		setInputAllowed( true );
-		
-	else
-	
-		consoleInput:setFocus( true );
-		console:setVisible( true ); 
-		showMouse( );
+	if ( Configuration.isConsole ) then
 
-		setInputAllowed( false );
+		local console = findWidget( 'console' );
+		local consoleInput = findWidget( 'console_input' );
+		
+		if ( console:isVisible( ) ) then
+		
+			console:setVisible( false );
+			local menu = findWidget( 'menu' );
+			
+			if ( not menu:isVisible( ) ) then
+			
+				hideMouse( );
+				consoleInput:setFocus( false );
+			
+			end
+			
+			setInputAllowed( true );
+			
+		else
+		
+			consoleInput:setFocus( true );
+			console:setVisible( true ); 
+			showMouse( );
+
+			setInputAllowed( false );
+			
+		end
 		
 	end
 	

@@ -18,7 +18,6 @@ function Interface.initialize( )
 	loadComponent( 'title' );
 	loadComponent( 'menu' );
 	loadComponent( 'options' );
-	loadComponent( 'pause' );
 	loadComponent( 'console' );
 	loadComponent( 'loading' );
 	

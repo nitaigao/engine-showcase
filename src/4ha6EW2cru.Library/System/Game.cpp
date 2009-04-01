@@ -65,6 +65,7 @@ void Game::Initialize( )
 
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( GAME_QUIT, this, &Game::OnGameQuit );
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
+	Management::GetInstance( )->GetEventManager( )->AddEventListener( GAME_ENDED, this, &Game::OnGameEnded );
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_INITIALIZED" ) );
 
 	_isInitialized = true;
@@ -125,6 +126,11 @@ void Game::OnGameLevelChanged( const IEvent* event )
 	levelPath << "/data/levels/" << eventData->GetLevelName( ) << ".yaml";
 	
 	_worldLoader->Load( levelPath.str( ) );
+}
+
+void Game::OnGameEnded( const IEvent* event )
+{
+	_world->Clear( );
 }
 
 // EOF
