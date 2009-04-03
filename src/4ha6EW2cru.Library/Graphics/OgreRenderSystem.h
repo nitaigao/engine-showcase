@@ -37,8 +37,8 @@ public:
 	inline ISystemScene* CreateScene( );
 	inline SystemType GetSystemType( ) { return RenderSystemType; };
 
-	inline PropertyMap GetProperties( ) { return _properties; };
-	inline void SetProperties( PropertyMap properties );
+	inline AnyValueMap GetProperties( ) { return _properties; };
+	inline void SetProperty( const std::string& name, AnyValue value );
 
 	inline Ogre::Root* GetRoot( ) { return _root; };
 
@@ -54,11 +54,13 @@ private:
 	void LoadResources( );
 	std::vector< std::string > GetVideoModes( ) const;
 
-	PropertyMap _properties;
+	AnyValueMap _properties;
 	Configuration* _configuration;
 	IInterface* _interface;
 	bool _badStubCreated;
 	bool _isIntialized;
+	std::vector< std::string > _supportedVideoModes;
+	std::string _skyBoxMaterial;
 
 	Ogre::Root* _root;
 	Ogre::RenderWindow* _window;

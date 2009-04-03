@@ -34,7 +34,7 @@ public:
 
 	void Update( float deltaMilliseconds );
 
-	void SetInputAllowed( bool inputAllowed ) { _inputAllowed = inputAllowed; };
+	void SetInputAllowed( const bool& inputAllowed ) { _inputAllowed = inputAllowed; };
 
 	/* Fired when the user presses a button on the keyboard */
 	bool keyPressed( const OIS::KeyEvent &arg );

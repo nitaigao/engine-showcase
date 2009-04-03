@@ -36,7 +36,7 @@ void World_Tests::Update_Should_Call_Update_On_All_Attached_SystemScenes()
 
 	world.AddSystemScene( scene );
 
-	world.Update( 0 );
+	world.Update( 1.0f / 100.0f );
 
 	scene->verify( );
 }

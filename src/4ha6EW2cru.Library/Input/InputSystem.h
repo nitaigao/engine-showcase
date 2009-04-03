@@ -46,8 +46,8 @@ public:
 
 	SystemType GetSystemType( ) { return InputSystemType; };
 
-	inline PropertyMap GetProperties( ) { return _properties; };
-	inline void SetProperties( PropertyMap properties );
+	inline AnyValueMap GetProperties( ) { return _properties; };
+	void SetProperty( const std::string& name, AnyValue value );
 
 	ISystemComponent* CreateComponent( const std::string& name, SystemType systemType ) { return 0; };
 
@@ -70,7 +70,7 @@ private:
 
 	bool _inputAllowed;
 
-	PropertyMap _properties;
+	AnyValueMap _properties;
 	Configuration* _configuration;
 	InputSystemSceneList _inputScenes;
 

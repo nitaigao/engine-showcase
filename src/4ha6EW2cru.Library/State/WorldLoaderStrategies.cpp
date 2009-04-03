@@ -29,7 +29,7 @@ IWorldLoader_ComponentStrategy* WorldLoader_ComponentStrategy_Factory::Create( c
 
 ISystemComponent* WorldLoader_GraphicsComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap&  systemScenes )
 {
-	SystemPropertyList properties;
+	AnyValueMap properties;
 
 	for( YAML::Iterator componentProperty = componentNode.begin( ); componentProperty != componentNode.end( ); ++componentProperty ) 
 	{
@@ -38,7 +38,7 @@ ISystemComponent* WorldLoader_GraphicsComponentStrategy::CreateComponent( const 
 		componentProperty.first( ) >> propertyKey;
 		componentProperty.second( ) >> propertyValue;
 
-		properties.insert( std::make_pair( propertyKey, SystemProperty( propertyKey, propertyValue ) ) );
+		properties.insert( std::make_pair( propertyKey, propertyValue ) );
 	}
 
 	SystemSceneMap::const_iterator systemScene = systemScenes.find( RenderSystemType );
@@ -51,25 +51,25 @@ ISystemComponent* WorldLoader_GraphicsComponentStrategy::CreateComponent( const 
 
 ISystemComponent* WorldLoader_GeometryComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes )
 {
-	SystemPropertyList properties;
+	AnyValueMap properties;
 
 	float x, y, z, w;
 
 	componentNode[ "position" ][ "x" ] >> x;
 	componentNode[ "position" ][ "y" ] >> y;
 	componentNode[ "position" ][ "z" ] >> z;
-	properties.insert( std::make_pair( "position", SystemProperty( "position", MathVector3( x, y, z ) ) ) );
+	properties.insert( std::make_pair( "position", MathVector3( x, y, z ) ) );
 
 	componentNode[ "scale" ][ "x" ] >> x;
 	componentNode[ "scale" ][ "y" ] >> y;
 	componentNode[ "scale" ][ "z" ] >> z;
-	properties.insert( std::make_pair( "scale", SystemProperty( "scale", MathVector3( x, y, z ) ) ) );
+	properties.insert( std::make_pair( "scale", MathVector3( x, y, z ) ) );
 
 	componentNode[ "orientation" ][ "w" ] >> w;
 	componentNode[ "orientation" ][ "x" ] >> x;
 	componentNode[ "orientation" ][ "y" ] >> y;
 	componentNode[ "orientation" ][ "z" ] >> z;
-	properties.insert( std::make_pair( "orientation", SystemProperty( "orientation", MathQuaternion( x, y, z, w ) ) ) );
+	properties.insert( std::make_pair( "orientation", MathQuaternion( x, y, z, w ) ) );
 
 	SystemSceneMap::const_iterator systemScene = systemScenes.find( GeometrySystemType );
 
@@ -81,7 +81,7 @@ ISystemComponent* WorldLoader_GeometryComponentStrategy::CreateComponent( const 
 
 ISystemComponent* WorldLoader_PhysicsComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes )
 {
-	SystemPropertyList properties;
+	AnyValueMap properties;
 
 	for( YAML::Iterator componentProperty = componentNode.begin( ); componentProperty != componentNode.end( ); ++componentProperty ) 
 	{
@@ -90,7 +90,7 @@ ISystemComponent* WorldLoader_PhysicsComponentStrategy::CreateComponent( const s
 		componentProperty.first( ) >> propertyKey;
 		componentProperty.second( ) >> propertyValue;
 
-		properties.insert( std::make_pair( propertyKey, SystemProperty( propertyKey, propertyValue ) ) );
+		properties.insert( std::make_pair( propertyKey, propertyValue ) );
 	}
 
 	SystemSceneMap::const_iterator systemScene = systemScenes.find( PhysicsSystemType );
@@ -105,7 +105,7 @@ ISystemComponent* WorldLoader_PhysicsComponentStrategy::CreateComponent( const s
 
 ISystemComponent* WorldLoader_InputComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes )
 {
-	SystemPropertyList properties;
+	AnyValueMap properties;
 
 	for( YAML::Iterator componentProperty = componentNode.begin( ); componentProperty != componentNode.end( ); ++componentProperty ) 
 	{
@@ -114,7 +114,7 @@ ISystemComponent* WorldLoader_InputComponentStrategy::CreateComponent( const std
 		componentProperty.first( ) >> propertyKey;
 		componentProperty.second( ) >> propertyValue;
 
-		properties.insert( std::make_pair( propertyKey, SystemProperty( propertyKey, propertyValue ) ) );
+		properties.insert( std::make_pair( propertyKey, propertyValue ) );
 	}
 
 	SystemSceneMap::const_iterator systemScene = systemScenes.find( InputSystemType );

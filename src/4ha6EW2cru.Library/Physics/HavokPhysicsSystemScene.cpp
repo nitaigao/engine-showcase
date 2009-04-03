@@ -34,6 +34,7 @@
 HavokPhysicsSystemScene::HavokPhysicsSystemScene( const hkpWorldCinfo& worldInfo )
 {
 	_lastComponentId = 0;
+	_stepAccumulator = 0;
 
 	_world = new hkpWorld( worldInfo );
 	_world->addIslandPostIntegrateListener( this );
@@ -81,8 +82,6 @@ ISystemComponent* HavokPhysicsSystemScene::CreateComponent( const std::string& n
 
 void HavokPhysicsSystemScene::Update( float deltaMilliseconds )
 {
-	deltaMilliseconds = 0.0166f;
-
 	_world->stepDeltaTime( deltaMilliseconds );
 	_vdb->step( deltaMilliseconds );
 }

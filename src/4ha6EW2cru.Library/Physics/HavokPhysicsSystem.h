@@ -28,8 +28,8 @@ public:
 
 	SystemType GetSystemType( ) { return PhysicsSystemType; };
 
-	PropertyMap GetProperties( ) { return PropertyMap( ); };
-	inline void SetProperties( PropertyMap properties ) { };
+	AnyValueMap GetProperties( ) { return AnyValueMap( ); };
+	inline void SetProperty( const std::string& name, AnyValue value ) { };
 
 private:
 

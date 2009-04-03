@@ -13,7 +13,7 @@
 /*! Windows main point of Entry */
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
-	//_crtBreakAlloc = 192357;
+	//_crtBreakAlloc = 152742;
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF ); 
 
 	Game game;
@@ -23,12 +23,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	DWORD endFrameTime = 0;
 	DWORD startFrameTime = 0;
 
+	int frameCount = 0;
+
 	while( !game.IsQuitting( ) )
 	{
 		deltaMilliseconds = ( endFrameTime - startFrameTime ) / 1000.0f;
 		startFrameTime = timeGetTime( );
 		game.Update( deltaMilliseconds );
 		endFrameTime = timeGetTime( );
+
+		float fps = 1.0f / deltaMilliseconds;
+
+		if ( ++frameCount >= 50 )
+		{
+			std::stringstream fpsStream;
+			fpsStream << "Framerate: " << fps << "\n";
+			OutputDebugStringA( fpsStream.str( ).c_str( ) );
+			frameCount = 0;
+		}
+
 	}
 
 	game.Release( );

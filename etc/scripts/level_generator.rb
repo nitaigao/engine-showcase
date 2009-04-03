@@ -2,7 +2,9 @@ require 'yaml'
 require 'rexml/document'
 include REXML
 
-file = File.new( ARGV[ 0 ].to_s );
+sourcePath = ARGV[ 0 ].to_s;
+$workingDirectory = File.dirname( sourcePath );
+file = File.new( sourcePath );
 
 contents = file.read.gsub( '<![CDATA[', '' ).gsub( ']]>', '' )
 
@@ -17,6 +19,7 @@ class Color
 		@r = xmlNode.attributes[ 'r' ];
 		@g = xmlNode.attributes[ 'g' ];
 		@b = xmlNode.attributes[ 'b' ];
+		@type = 'color';
 	
 	end
 	
@@ -51,20 +54,10 @@ class Color
     def b=( b )
         @b = b
     end
-
-end
-
-class Environment
-
-	def initialize( )
 	
-		@colors = Array.new;
-	
+	def type
+		@type
 	end
-
-	def colors
-        @colors
-    end
 
 end
 
@@ -230,11 +223,46 @@ class PhysicsComponent < Component
 
 end
 
+class SkyBox
+
+	def initialize( ogreNode )
+	
+		@enabled = ogreNode.attributes[ 'enable' ];
+		@material = ogreNode.attributes[ 'material' ];
+		@distance = ogreNode.attributes[ 'distance' ];
+		@drawFirst = ogreNode.attributes[ 'drawFirst' ];
+		@type = 'skybox';
+	
+	end
+	
+	def type
+		@type
+	end
+	
+	def enabled
+		@enabled
+	end
+	
+	def material
+		@material
+	end
+	
+	def distance
+		@distance
+	end
+	
+	def drawFirst
+		@drawFirst
+	end
+
+end
+
 class Entity
 
     def initialize( ogreNode )
     
 		@name = ogreNode.attributes[ 'name' ];
+		@type = 'entity'
 		
 		@components = Array.new
 		
@@ -263,6 +291,10 @@ class Entity
     def components
         @components
     end
+	
+	def type
+		@type
+	end
 
 end
 
@@ -273,7 +305,37 @@ def createEntities( xmlRoot )
 	xmlRoot.each_element( "//node" ) { | node |
 
 		entity = Entity.new( node );	
+		
+		entities.each { | savedEntity |
+		
+			if ( savedEntity.name.eql? entity.name ) then
+			
+				puts '#### ERROR: Duplicate entity name found for: ' + entity.name;
+				Process.exit;
+			
+			end
+		}
+		
 		entities.push( entity );
+		
+		modelFilePath = File.join( $workingDirectory, 'models', entity.name + '.model' );
+		modelFile = File.new( modelFilePath, "w+" );
+		
+		node.elements.delete( 'entity//userData' );
+		
+		node.each_element( 'entity' ) { | entityNode |
+		
+			meshFile = entityNode.attributes[ 'meshFile' ];
+			fullMeshFile = File.join( '/data/entities/meshes', meshFile.to_s );
+			entityNode.attributes[ 'meshFile' ] = fullMeshFile;
+		}
+		
+		formatter = REXML::Formatters::Pretty.new
+		modelNode = String.new
+		formatter.write(node, modelNode);
+	
+		modelFile.write( modelNode );
+		modelFile.close( );
 		
 		puts 'Processed Entity: ' + entity.name;
 	}
@@ -284,22 +346,65 @@ end
 
 def createEnvironment( xmlRoot )
 
-	environment = Environment.new;
+	environment = Array.new;
 	
 	ambientColor = Color.new( 'ambient', xmlRoot.elements[ '//colourAmbient' ] );
-	environment.colors.push( ambientColor );
+	environment.push( ambientColor );
 	
 	backgroundColor = Color.new( 'background', xmlRoot.elements[ '//colourBackground' ] );
-	environment.colors.push( backgroundColor );
+	environment.push( backgroundColor );
+	
+	skyBoxElement = xmlRoot.elements[ '//skyBox' ];
+	
+	if ( skyBoxElement != nil ) then
+	
+		skyBox = SkyBox.new( skyBoxElement );
+		environment.push( skyBox );
+	
+	end
 
 end
+
+def processMaterials( materialsPath )
+
+	materialsDir = Dir.new( materialsPath );
+	materialsDir.each { | entry |
+	
+		if ( entry.to_s.include? ".material" ) then
+		
+			materialFilePath = File.join( materialsPath, entry );
+		
+			materialFile = File.new( materialFilePath, 'r+' );
+			materialContents = materialFile.read( );
+			texturePath = '/data/entities/textures/';
+			
+			if ( !materialContents.to_s.include? texturePath )
+			
+				materialContents = materialContents.gsub( "\ttexture ", "\ttexture " + texturePath );
+				materialFile.close( );
+				
+				materialFile = File.new( materialFilePath, 'w' );
+				materialFile.write( materialContents );
+				materialFile.close( );
+				
+				puts 'Processed Material: ' + entry;
+				
+			end
+			
+		end
+	}
+
+end
+
+puts ''
+puts 'Processing Scene Files'
+puts ''
 
 puts ''
 puts 'Processing Scene File: ' + ARGV[ 0 ].to_s
 puts ''
 
-levelName = ARGV[ 0 ]
-levelFilePath = levelName.to_s.gsub( '.scene', '.yaml' );
+levelFilePath = sourcePath.to_s.gsub( '.scene', '.yaml' );
 
 outputFile = File.new( levelFilePath,  "w+" );
 outputFile.write( createEnvironment( root ).to_yaml );
@@ -308,5 +413,16 @@ outputFile.write( createEntities( root ).to_yaml );
 outputFile.close( );
 
 puts ''
-puts 'Processing Finished'
+puts 'Finished Processing Scene Files'
+puts ''
+
+puts ''
+puts 'Processing Materials'
+puts ''
+
+materialPath = File.join( $workingDirectory, 'materials' );
+processMaterials( materialPath );
+
+puts ''
+puts 'Finished Processing Materials'
 puts ''

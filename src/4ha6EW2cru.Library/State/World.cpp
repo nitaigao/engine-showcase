@@ -20,11 +20,32 @@ IEntity* World::CreateEntity( const std::string& name )
 	return entity;
 }
 
+float _stepAccumulator;
+
 void World::Update( float deltaMilliseconds )
 {
+	float logicStep = 1.0f / 100.0f;
+	_stepAccumulator += deltaMilliseconds;
+
+	while( _stepAccumulator >= logicStep )
+	{
+		for( SystemSceneMap::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
+		{
+			if( ( *i ).second->GetType( ) != RenderSystemType )
+			{
+				( *i ).second->Update( logicStep );
+			}
+		}
+
+		_stepAccumulator -= logicStep;
+	}
+
 	for( SystemSceneMap::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
 	{
-		( *i ).second->Update( deltaMilliseconds );
+		if( ( *i ).second->GetType( ) == RenderSystemType )
+		{
+			( *i ).second->Update( deltaMilliseconds );
+		}
 	}
 }
 

@@ -33,7 +33,7 @@ public:
 
 	virtual void Observe( ISubject* subject, unsigned int systemChanges );
 	virtual void PushChanges( unsigned int systemChanges );
-	virtual void Initialize( SystemPropertyList properties );
+	virtual void Initialize( AnyValueMap properties );
 	virtual void Update( float deltaMilliseconds ) { };
 
 	inline const std::string& GetName( ) { return _name; };

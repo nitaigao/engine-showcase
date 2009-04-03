@@ -7,6 +7,11 @@ Console = {}
 ----------------------------------------------------------------
 -- Local Variables
 ----------------------------------------------------------------
+
+console = nil;
+output = nil;
+input = nil;
+
 ----------------------------------------------------------------
 -- Console Functions
 ----------------------------------------------------------------
@@ -15,11 +20,13 @@ function Console.initialize( )
 
 	registerEventHandler( Console.onEvent );
 	
-	local console = findWidget( 'console' );
+	console = findWidget( 'console' );
 	console:setVisible( false );
 	
-	local input = findWidget( 'console_input' );
+	input = findWidget( 'console_input' );
 	scriptWidget( input, 'onKeyUp', Console.onKeyUp );
+	
+	output = findWidget( 'console_output' );
 	
 end
 
@@ -42,9 +49,6 @@ end
 function Console.onShowConsole( )
 
 	if ( Configuration.isConsole ) then
-
-		local console = findWidget( 'console' );
-		local consoleInput = findWidget( 'console_input' );
 		
 		if ( console:isVisible( ) ) then
 		
@@ -54,7 +58,7 @@ function Console.onShowConsole( )
 			if ( not menu:isVisible( ) ) then
 			
 				hideMouse( );
-				consoleInput:setFocus( false );
+				input:setFocus( false );
 			
 			end
 			
@@ -62,7 +66,7 @@ function Console.onShowConsole( )
 			
 		else
 		
-			consoleInput:setFocus( true );
+			input:setFocus( true );
 			console:setVisible( true ); 
 			showMouse( );
 
@@ -78,7 +82,7 @@ function Console.onKeyUp( keyCode, keyText )
 
 	if ( keyCode == 13 ) then
 	
-		local input = findWidget( 'console_input' ):asEditBox( );
+		local input = input:asEditBox( );
 	
 		local text = input:getText( );
 		executeString( text:asString( ) );
@@ -91,8 +95,8 @@ end
 
 function Console.updateConsole( message )
 
-	local output = findWidget( 'console_output' ):asEditBox( );
-	output:addText( utf( message ) );
+	--local output = output:asEditBox( );
+	--output:addText( utf( message ) );
 
 end
 

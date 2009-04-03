@@ -20,8 +20,8 @@ public:
 	ISystemScene* CreateScene( );
 	inline SystemType GetSystemType( ) { return GeometrySystemType; };
 	
-	inline PropertyMap GetProperties( ) { return PropertyMap( ); };
-	inline void SetProperties( PropertyMap properties ) { };
+	inline AnyValueMap GetProperties( ) { return AnyValueMap( ); };
+	inline void SetProperty( const std::string& name, AnyValue value ) { };
 
 private:
 

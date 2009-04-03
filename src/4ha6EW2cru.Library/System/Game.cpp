@@ -21,6 +21,8 @@
 #include "../Exceptions/AlreadyInitializedException.hpp"
 #include "../Exceptions/UnInitializedException.hpp"
 
+#include "../Graphics/Color.hpp"
+
 void Game::Initialize( )
 {
 	if ( _isInitialized )
@@ -118,7 +120,7 @@ void Game::OnGameQuit( const IEvent* event )
 
 void Game::OnGameLevelChanged( const IEvent* event )
 {
-	_world->Clear( );
+	this->OnGameEnded( event );
 
 	LevelChangedEventData* eventData = static_cast< LevelChangedEventData* >( event->GetEventData( ) );
 
@@ -132,10 +134,11 @@ void Game::OnGameEnded( const IEvent* event )
 {
 	_world->Clear( );
 
-	ISystem::PropertyMap renderSystemProperties;
-	SystemProperty cameraProperty = SystemProperty( "camera", std::string( "default" ) );
-	renderSystemProperties.insert( std::make_pair( cameraProperty.GetName( ), cameraProperty ) );
-	Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType )->SetProperties( renderSystemProperties );
+	ISystem* renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
+
+	renderSystem->SetProperty( "activeCamera", "default" );
+	renderSystem->SetProperty( "ambientColor", Color( 0.0f, 0.0f, 0.0f ) );
+	renderSystem->SetProperty( "backgroundColor", Color( 0.0f, 0.0f, 0.0f ) );
 }
 
 // EOF

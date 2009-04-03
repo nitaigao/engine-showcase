@@ -39,6 +39,7 @@ private:
 	hkVisualDebugger* _vdb;
 	hkpPhysicsContext* _context;
 	PhysicsSystemComponentList _components;
+	float _stepAccumulator;
 
 	int _lastComponentId;
 

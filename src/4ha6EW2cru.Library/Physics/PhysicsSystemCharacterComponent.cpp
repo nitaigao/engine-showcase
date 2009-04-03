@@ -23,7 +23,7 @@
 #include <Physics/Utilities/Serialize/hkpPhysicsData.h>
 #include <Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
 
-void PhysicsSystemCharacterComponent::Initialize( SystemPropertyList properties )
+void PhysicsSystemCharacterComponent::Initialize( AnyValueMap properties )
 {
 	hkpCharacterStateManager* characterManager = new hkpCharacterStateManager( );
 
@@ -81,6 +81,9 @@ PhysicsSystemCharacterComponent::~PhysicsSystemCharacterComponent()
 void PhysicsSystemCharacterComponent::Update( float deltaMilliseconds )
 {
 	float mouseSmooth = 0.15f;
+
+	_characterInput.m_inputUD = _forwardBackward;
+	_characterInput.m_inputLR = _leftRight;
 
 	_characterInput.m_stepInfo.m_deltaTime = deltaMilliseconds;
 	_characterInput.m_stepInfo.m_invDeltaTime = 1.0f / deltaMilliseconds;
@@ -148,8 +151,12 @@ void PhysicsSystemCharacterComponent::Update( float deltaMilliseconds )
 	_characterContext->update( _characterInput, output );
 	_characterBody->setLinearVelocity( output.m_velocity, deltaMilliseconds );
 
-	_characterInput.m_inputLR = 0.0f;
-	_characterInput.m_inputUD = 0.0f;
+	float stopSpeed = 0.0f;
+
+	_forwardBackward = stopSpeed;
+	_leftRight = stopSpeed;
+	_characterInput.m_inputLR = stopSpeed;
+	_characterInput.m_inputUD = stopSpeed;
 	_characterInput.m_wantJump = false;
 }
 
@@ -159,7 +166,7 @@ void PhysicsSystemCharacterComponent::Observe( ISubject* subject, unsigned int s
 
 	ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 
-	float walkSpeed = 1.0f;
+	float walkSpeed = 2.0f;
 
 	if ( component->GetType( ) == InputSystemType )
 	{
@@ -169,25 +176,25 @@ void PhysicsSystemCharacterComponent::Observe( ISubject* subject, unsigned int s
 		{
 			_mouseXDelta = inputComponent->GetProperties( )[ "mouseXDelta" ].GetValue< int >( );
 		}
-
+		
 		if( System::Changes::Input::Move_Forward & systemChanges )
 		{
-			_characterInput.m_inputUD = walkSpeed;
+			_forwardBackward = walkSpeed;
 		}
 
 		if( System::Changes::Input::Move_Backward & systemChanges )
 		{
-			_characterInput.m_inputUD = -walkSpeed;
+			_forwardBackward = -walkSpeed;
 		}
 
 		if( System::Changes::Input::Strafe_Right & systemChanges )
 		{
-			_characterInput.m_inputLR = walkSpeed;
+			_leftRight = walkSpeed;
 		}
 
 		if( System::Changes::Input::Strafe_Left & systemChanges )
 		{
-			_characterInput.m_inputLR = -walkSpeed;
+			_leftRight = -walkSpeed;
 		}
 
 		if( System::Changes::Input::Jump & systemChanges )
@@ -195,4 +202,13 @@ void PhysicsSystemCharacterComponent::Observe( ISubject* subject, unsigned int s
 			_characterInput.m_wantJump = true;
 		}
 	}
+
+	/*hkReal lenSqd = _forwardBackward * _forwardBackward + _leftRight * _leftRight;
+	
+	if ( lenSqd > HK_REAL_MIN )
+	{
+		lenSqd = hkMath::sqrt( lenSqd );
+		_forwardBackward /= lenSqd;
+		_leftRight /= lenSqd;
+	}*/
 }

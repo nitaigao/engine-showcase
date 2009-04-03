@@ -48,6 +48,12 @@ function Menu.onEvent( eventName, val1 )
 		Menu.onShowMenu( )
 	
 	end
+	
+	if ( eventName == 'WORLD_LOADING_STARTED' ) then
+	
+		Menu.onHideMenu( );
+	
+	end
 
 end
 
@@ -136,7 +142,7 @@ function Menu.onPlayReleased( )
 	Menu.onHideMenu( );
 	hideMouse( );
 	menu_ingame = true;
-	loadLevel( 'level1' );
+	loadLevel( 'level0' );
 
 end
 

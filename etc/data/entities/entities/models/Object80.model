@@ -1,0 +1,10 @@
+<node name='Object80'>
+  <scale x='1' y='1' z='1'/>
+  <position x='-288.149' y='39.5486' z='318.549'/>
+  <rotation qw='1' qx='0' qy='-8.74228e-008' qz='0'/>
+  <entity name='Object80' id='172' receiveShadows='true' meshFile='/data/entities/meshes/Object80.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='buildz5' index='0'/>
+    </subentities>
+  </entity>
+</node>

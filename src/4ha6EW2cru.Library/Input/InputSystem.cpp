@@ -44,18 +44,13 @@ ISystemScene* InputSystem::CreateScene()
 	return inputScene;
 }
 
-void InputSystem::SetProperties( PropertyMap properties )
+void InputSystem::SetProperty( const std::string& name, AnyValue value )
 {
-	for ( PropertyMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
+	if ( name == "inputAllowed" )
 	{
-		SystemProperty property = ( *i ).second;
-		
-		if ( property.GetName( ) == "inputAllowed" )
+		for( InputSystemSceneList::iterator j = _inputScenes.begin( ); j != _inputScenes.end( ); ++j )
 		{
-			for( InputSystemSceneList::iterator j = _inputScenes.begin( ); j != _inputScenes.end( ); ++j )
-			{
-				( *j )->SetInputAllowed( property.GetValue< bool >( ) );
-			}
+			( *j )->SetInputAllowed( value.GetValue< bool >( ) );
 		}
 	}
 }

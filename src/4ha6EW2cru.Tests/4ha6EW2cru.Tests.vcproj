@@ -194,6 +194,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Graphics\Color_Tests.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Graphics\Color_Tests.h"
+			>
+		</File>
+		<File
 			RelativePath=".\System\ConfigurationFileFixture.cpp"
 			>
 		</File>

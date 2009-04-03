@@ -26,6 +26,8 @@ function Loading.onShowLoading( )
 
 	local loading = findWidget( 'loading' );
 	loading:setVisible( true ); 
+	
+	print( 'Loading Started' );
 
 end
 
@@ -37,14 +39,14 @@ function Loading.onHideLoading( )
 	local loading = findWidget( 'loading' );
 	loading:setVisible( false );
 	
-	print( 'loading complete' );
+	print( 'Loading Finished' );
 
 end
 
 function Loading.onLoadProgress( totalProgress )
 
 	local progress = findWidget( 'loading_progress' ):asProgressBar( );
-	print( '' .. tonumber( totalProgress ) );
+	print( 'Loading Progress: ' .. tonumber( totalProgress ) .. '%' );
 	progress:setProgress( tonumber( totalProgress ) );
 
 end

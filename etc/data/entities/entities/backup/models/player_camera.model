@@ -1,0 +1,9 @@
+<node name="player_camera">
+    <rotation qx="-0.0790022" qy="0.415333" qz="0.0362363" qw="0.905507" />
+    <trackTarget nodeName="player_camera.Target">
+        <localDirection x="0" y="0" z="-1" />
+    </trackTarget>
+    <camera name="player_camera" id="66" fov="0.602557">
+        <clipping near="1" far="1000" />
+    </camera>
+</node>

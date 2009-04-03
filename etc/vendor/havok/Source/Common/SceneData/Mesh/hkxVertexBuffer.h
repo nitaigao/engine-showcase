@@ -5,7 +5,7 @@
  * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
-#ifndef HKSCENEDATA_MESH_HKXVERTEXBUFFER_HKCLASS_H
+#ifndef HKSCENEDATA_MESH_HKXVERTEXBUFFER_HKCLASS_Hishe
 #define HKSCENEDATA_MESH_HKXVERTEXBUFFER_HKCLASS_H
 
 #include <Common/SceneData/Mesh/hkxVertexDescription.h>

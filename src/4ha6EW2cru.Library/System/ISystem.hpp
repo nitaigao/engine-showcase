@@ -12,9 +12,11 @@
 class ISystem
 {
 
-public:
+protected:
 
-	typedef std::map< std::string, SystemProperty > PropertyMap;
+	typedef std::map< std::string, AnyValue > AnyValueMap;
+
+public:
 
 	virtual ~ISystem( ) { };
 
@@ -25,8 +27,8 @@ public:
 	virtual ISystemScene* CreateScene( ) = 0;
 
 	virtual SystemType GetSystemType( ) = 0;
-	virtual PropertyMap GetProperties( ) = 0;
-	virtual void SetProperties( PropertyMap systemProperties ) = 0;
+	virtual AnyValueMap GetProperties( ) = 0;
+	virtual void SetProperty( const std::string& name, AnyValue value ) = 0;
 
 };
 

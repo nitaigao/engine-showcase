@@ -135,11 +135,6 @@ FileSearchResultList* FileManager::_FileSearch( const std::string path, const st
 
 			std::string searchTerm = ( searchUtility.IsExactSearch( ) ) ? fullPath.str( ) : fileName;
 
-			if ( fileName.find( "introscreen.layout" ) != std::string::npos )
-			{
-				int a = 1;
-			}
-
 			if( searchUtility.FindMatch( searchTerm ) )
 			{
 				FileSearchResult result;

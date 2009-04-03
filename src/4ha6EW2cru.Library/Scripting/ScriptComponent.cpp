@@ -10,9 +10,9 @@ extern "C"
 #	include <lauxlib.h>
 }
 
-void ScriptComponent::Initialize( SystemPropertyList properties )
+void ScriptComponent::Initialize( AnyValueMap properties )
 {
-	for ( SystemPropertyList::iterator i = properties.begin( ); i != properties.end( ); ++i )
+	for ( AnyValueMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
 	{
 		if ( ( *i ).first == "scriptPath" )
 		{

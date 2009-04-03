@@ -19,6 +19,7 @@ using namespace luabind;
 
 class Interface : MyGUI::IUnlinkWidget, public IInterface
 {
+	typedef std::map< std::string, AnyValue > AnyValueMap;
 	typedef std::map< const std::string, object* > WidgetUserData;
 
 public:
@@ -104,6 +105,9 @@ private:
 	/*! Causes the Renderer to adjust the Resolution to match the Configuration */
 	static void ChangeResolution( );
 
+	/*! Sets the Far Clip Distance of the Camera */
+	static void SetFarClip( const float& farClip );
+
 	/*! Registers a script method to receive Script events */
 	static void RegisterEvent( EventType eventType, object function );
 
@@ -115,6 +119,9 @@ private:
 
 	/*! Returns the Screen Height in pixels */
 	static inline int GetScreenHeight( ) { return Ogre::Root::getSingletonPtr( )->getRenderTarget( "Interactive View" )->getHeight( ); };
+
+	/*! Returns a list of supported Video Resolutions */
+	static std::vector< std::string > GetSupportedResolutions( );
 
 	/* -- Internal Event Handlers --*/
 

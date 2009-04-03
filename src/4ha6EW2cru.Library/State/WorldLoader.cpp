@@ -7,12 +7,15 @@
 
 #include "../Scripting/ScriptEvent.hpp"
 
+#include "../Graphics/Color.hpp"
+
 void WorldLoader::Load( const std::string& levelPath )
 {
 	_activeNodeIndex = 0;
 	_loadProgress = 0;
+	_loadTotal = 0;
 
-	Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "WORLD_LOADING_STARTED" ) );
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WORLD_LOADING_STARTED" ) );
 
 	FileBuffer* levelBuffer = Management::GetInstance( )->GetFileManager( )->GetFile( levelPath, false );
 
@@ -30,6 +33,62 @@ void WorldLoader::Load( const std::string& levelPath )
 	}
 
 	delete levelBuffer;
+}
+
+void WorldLoader::LoadNode( const YAML::Node& node )
+{
+	std::string type;
+	node[ "type" ] >> type;
+
+	if ( type == "entity" )
+	{
+		this->LoadEntity( node );
+	}
+	else if ( type == "color" )
+	{
+		this->LoadColor( node );
+	}
+	else if ( type == "skybox" )
+	{
+		this->LoadSkyBox( node );
+	}
+}
+
+void WorldLoader::LoadSkyBox( const YAML::Node& node )
+{
+	std::string materialName;
+	node[ "material" ] >> materialName;
+
+	ISystem* renderer = Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
+	renderer->SetProperty( "skyBox", materialName );
+}
+
+void WorldLoader::LoadColor( const YAML::Node& environmentNode )
+{
+	std::string name;
+	environmentNode[ "name" ] >> name;
+
+	AnyValueMap properties;
+
+	float red = 0;
+	float green = 0;
+	float blue = 0;
+
+	environmentNode[ "r" ] >> red;
+	environmentNode[ "g" ] >> green;
+	environmentNode[ "b" ] >> blue;
+
+	ISystem* graphicsSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
+
+	if ( name == "ambient" )
+	{
+		graphicsSystem->SetProperty( "ambientColor", Color( red, green, blue ) );
+	}
+
+	if ( name == "background" )
+	{
+		graphicsSystem->SetProperty( "backgroundColor", Color( red, green, blue ) );
+	}
 }
 
 void WorldLoader::LoadEntity( const YAML::Node& entityNode )
@@ -96,14 +155,13 @@ void WorldLoader::Update( float deltaMilliseconds )
 
 		if( _activeNodeIndex < loadSource->size( ) )
 		{
-
 			const YAML::Node& documentNode = loadSource[ 0 ];
-			const YAML::Node& entityNode = documentNode[ _activeNodeIndex ]; 
+			const YAML::Node& node = documentNode[ _activeNodeIndex ];
 
-			this->LoadEntity( entityNode );
-
+			this->LoadNode( node );
+	
 			int progressPercent = ( ( float ) ++_loadProgress / ( float ) _loadTotal ) * 100.0f;
-			Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "WORLD_LOADING_PROGRESS", progressPercent ) );
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WORLD_LOADING_PROGRESS", progressPercent ) );
 
 			if ( ++_activeNodeIndex == loadSource->size( ) )
 			{

@@ -1,38 +1,46 @@
-#ifndef __PROPERTY_H
-#define __PROPERTY_H
+#ifndef __ANYVALUE_H
+#define __ANYVALUE_H
 
 #include <map>
 #include <string>
 #include <boost/any.hpp>
 
-class SystemProperty
+class AnyValue
 {
 
 public:
 
-	virtual ~SystemProperty( ) { };
-	
-	SystemProperty( ) { };
+	~AnyValue( ) { };
+	AnyValue( ) { };
 
-	SystemProperty( const std::string& name, const boost::any& value )
-		: _name( name )
-		, _value( value )
+	AnyValue( const int& value )
+		: _value( value )
 	{
 
 	}
 
-	std::string GetName( ) { return _name; };
+	AnyValue( const char* value )
+		: _value( std::string( value ) )
+	{
+
+	}
+
+	template< class T >
+	AnyValue( const T& value )
+		: _value( value )
+	{
+
+	}
 
 	template< class T >
 	T GetValue( ) { return boost::any_cast< T >( _value ); };
 
 private:
 
-	std::string _name;
 	boost::any _value;
 
 };
 
-typedef std::map< std::string, SystemProperty > SystemPropertyList;
+typedef std::map< std::string, AnyValue > AnyValueMap;
 
 #endif

@@ -1,0 +1,10 @@
+<node name='_Camera_anim-dummy-04'>
+  <scale x='1' y='1' z='1'/>
+  <position x='0' y='0' z='0'/>
+  <rotation qw='0.442567' qx='0.551483' qy='0.551483' qz='-0.442567'/>
+  <entity name='_Camera_anim-dummy-04' id='628' receiveShadows='true' meshFile='/data/entities/meshes/_Camera_anim-dummy-04.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='dummy' index='0'/>
+    </subentities>
+  </entity>
+</node>

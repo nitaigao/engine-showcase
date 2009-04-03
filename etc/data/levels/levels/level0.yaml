@@ -1,4 +1,18 @@
 --- 
+- !ruby/object:Color 
+  b: "1"
+  g: "1"
+  name: ambient
+  r: "1"
+  type: color
+- !ruby/object:Color 
+  b: "1"
+  g: "1"
+  name: background
+  r: "1"
+  type: color
+...
+--- 
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
@@ -23,6 +37,7 @@
     body: /data/entities/bodies/floor.hkx
     type: body
     system: physics
+  type: entity
   name: Floor
 - !ruby/object:REXML::Entity 
   components: 
@@ -48,6 +63,7 @@
     body: /data/entities/bodies/walls.hkx
     type: body
     system: physics
+  type: entity
   name: Side01
 - !ruby/object:REXML::Entity 
   components: 
@@ -73,6 +89,7 @@
     body: /data/entities/bodies/walls.hkx
     type: body
     system: physics
+  type: entity
   name: Side02
 - !ruby/object:REXML::Entity 
   components: 
@@ -98,6 +115,7 @@
     body: /data/entities/bodies/walls.hkx
     type: body
     system: physics
+  type: entity
   name: Side03
 - !ruby/object:REXML::Entity 
   components: 
@@ -123,6 +141,7 @@
     body: /data/entities/bodies/walls.hkx
     type: body
     system: physics
+  type: entity
   name: Side04
 - !ruby/object:REXML::Entity 
   components: 
@@ -151,6 +170,7 @@
     system: physics
   - !ruby/object:InputComponent
     system: input
+  type: entity
   name: player_camera
 - !ruby/object:REXML::Entity 
   components: 
@@ -176,4 +196,5 @@
     body: /data/entities/bodies/box.hkx
     type: body
     system: physics
+  type: entity
   name: Box01

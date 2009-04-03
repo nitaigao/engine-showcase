@@ -2,11 +2,13 @@
 #define __BADARCHIVE_H
 
 #include "OgreArchive.h"
+#include "FileSearchResult.hpp"
 
 using namespace Ogre;
 
 class BadArchive : public Ogre::Archive
 {
+	typedef std::map< std::string, FileSearchResult > TableOfContents;
 
 public:
 
@@ -35,6 +37,8 @@ public:
 	FileInfoListPtr findFileInfo( const String& pattern, bool recursive = true, bool dirs = false );
 
 private:
+
+	TableOfContents _tableOfContents;
 
 	BadArchive & operator = ( const BadArchive & copy ) { return *this; };
 

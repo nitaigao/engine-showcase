@@ -37,13 +37,16 @@ function Options.initialize( )
     
 	local index = 0;    
     local selectedIndex = 0;
-	for mode in Configuration.availableVideoModes do
 	
+	local supportedResolutions = getSupportedResolutions( );
+	
+	for key, value in pairs( supportedResolutions ) do
+
 		local currentResolution = Configuration.displayWidth .. ' x ' .. Configuration.displayHeight;
 	
-		resolutions:addItem( mode, mode );
+		resolutions:addItem( value, value );
 		
-		if currentResolution == mode  then
+		if currentResolution == value  then
 		
             selectedIndex = index;
 			

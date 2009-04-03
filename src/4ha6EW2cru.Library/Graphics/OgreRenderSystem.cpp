@@ -4,6 +4,7 @@
 #include "../Events/Event.h"
 
 #include "OgreSystemScene.h"
+#include "Color.hpp"
 
 #include "../Logging/Logger.h"
 
@@ -26,9 +27,9 @@ OgreRenderSystem::~OgreRenderSystem( )
 	
 	Ogre::WindowEventUtilities::removeWindowEventListener( _window, this );
 
-	SystemProperty videoModeProperty = this->GetProperties( )[ "availableVideoModes" ];
-	std::vector< std::string >* videoModes = videoModeProperty.GetValue< std::vector< std::string >* >( );
-	delete videoModes;
+	/*SystemProperty videoModeProperty = this->GetProperties( )[ "availableVideoModes" ];
+	std::vector< std::string >* videoModes = videoModevalue.GetValue< std::vector< std::string >* >( );
+	delete videoModes;*/
 
 	if( _interface != 0 )
 	{
@@ -117,8 +118,7 @@ void OgreRenderSystem::Initialize( )
 
 	Ogre::WindowEventUtilities::addWindowEventListener( _window, this );
 
-	std::vector< std::string >* videoModes = new std::vector< std::string >( this->GetVideoModes( ) );
-	_properties[ "availableVideoModes" ] = SystemProperty( "availableVideoModes", videoModes ); 
+	_properties[ "availableVideoModes" ] = this->GetVideoModes( );
 
 	SceneManager* sceneManager = _root->createSceneManager( ST_GENERIC, "default" );
 
@@ -158,18 +158,55 @@ void OgreRenderSystem::Update( float deltaMilliseconds )
 	_root->renderOneFrame( );
 }
 
-void OgreRenderSystem::SetProperties( PropertyMap properties )
+void OgreRenderSystem::SetProperty( const std::string& name, AnyValue value )
 {
-	for ( PropertyMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
+	SceneManager* sceneManager = _root->getSceneManager( "default" );
+
+	_properties[ name ] = value;
+
+	if ( name == "activeCamera" )
 	{
-		SystemProperty property = ( *i ).second;
+		std::string cameraName = value.GetValue< std::string >( );
+		Camera* camera = sceneManager->getCamera( cameraName );
+		sceneManager->getCurrentViewport( )->setCamera( camera );
+	}
 
-		_properties[ property.GetName( ) ] = property;
+	if ( name == "ambientColor" )
+	{
+		Color color = value.GetValue< Color >( );
+		ColourValue colorValue( color.GetRed( ), color.GetGreen( ), color.GetBlue( ) );
 
-		if ( property.GetName( ) == "camera" )
+		sceneManager->setAmbientLight( colorValue );
+	}
+
+	if ( name == "backgroundColor" )
+	{
+		Color color = value.GetValue< Color >( );
+		ColourValue colorValue( color.GetRed( ), color.GetGreen( ), color.GetBlue( ) );
+
+		sceneManager->getCurrentViewport( )->setBackgroundColour( colorValue );
+	}
+
+	if ( name == "farClip" )
+	{
+		float farClip = value.GetValue< float >( );
+
+		if ( sceneManager->isSkyBoxEnabled( ) )
 		{
-			this->SetCamera( property.GetValue< std::string >( ) );
+			SceneManager::SkyBoxGenParameters skyBoxParameters = sceneManager->getSkyBoxGenParameters( ); 
+			sceneManager->setSkyBox( true, _skyBoxMaterial, farClip - 200.0f );
 		}
+
+		sceneManager->getCurrentViewport( )->getCamera( )->setFarClipDistance( farClip );
+	}
+
+	if ( name == "skyBox" )
+	{
+		std::string materialName = value.GetValue< std::string >( );
+		_skyBoxMaterial = materialName;
+		SceneManager::SkyBoxGenParameters skyBoxParameters = sceneManager->getSkyBoxGenParameters( ); 
+		float currentFarClip = sceneManager->getCurrentViewport( )->getCamera( )->getFarClipDistance( );
+		sceneManager->setSkyBox( true, materialName, currentFarClip - 200.0f );
 	}
 }
 
@@ -197,25 +234,7 @@ void OgreRenderSystem::LoadResources( )
 
 		for ( ConfigFile::SettingsMultiMap::iterator i = settings->begin( ); i != settings->end( ); ++i )
 		{
-			int result = Management::GetInstance( )->GetFileManager( )->MountFileStore( i->second, "data/" );
-
-			if ( !result )
-			{
-				ArchiveNotFoundException e( "BadArchive, There was an error adding a BAD file location to the FileManager" );
-				Logger::GetInstance( )->Fatal( e.what( ) );
-				throw e;
-			}
-
-			/* So basically the deal here is the whole game runs on a file system that adds bad files together
-			to make one giant directory tree. Ogre however runs on the premise that the bad files create their
-			own individual directory tree for each separate bad file. This hack fixes that problem by allowing only one
-			stub bad file to be created within ogre, but it registers each bad file with the Game File system allowing
-			the stub to still access the combined bad files as one giant file system */
-			if( !_badStubCreated )
-			{
-				ResourceGroupManager::getSingleton( ).addResourceLocation( i->second, "BAD" );
-				_badStubCreated = true;
-			}
+			ResourceGroupManager::getSingleton( ).addResourceLocation( i->second, "BAD" );
 		}
 	}
 }
@@ -224,6 +243,7 @@ std::vector< std::string > OgreRenderSystem::GetVideoModes( ) const
 {
 	std::vector< std::string > availableDisplayModes;
 	ConfigOptionMap options = _root->getRenderSystem( )->getConfigOptions( );
+
 	for( ConfigOptionMap::iterator cm = options.begin( ); cm != options.end( ); ++cm )
 	{
 		if ( ( *cm ).first == "Video Mode" )
@@ -258,13 +278,4 @@ void OgreRenderSystem::OnGraphicsSettingsUpdated( const IEvent* event )
 		_configuration->Find< int >( "Graphics", "width" ), 
 		_configuration->Find< int >( "Graphics", "height" )
 		);
-}
-
-void OgreRenderSystem::SetCamera( const std::string& cameraName )
-{
-	SceneManager* sceneManager = _root->getSceneManager( "default" );
-	RenderTarget* renderTarget = _root->getRenderTarget( "Interactive View" );
-
-	Camera* camera = sceneManager->getCamera( cameraName );
-	renderTarget->getViewport( 0 )->setCamera( camera );
 }

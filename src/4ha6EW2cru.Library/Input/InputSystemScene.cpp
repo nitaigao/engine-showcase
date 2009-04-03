@@ -112,13 +112,13 @@ bool InputSystemScene::mouseMoved( const MouseEvent &arg )
 		{
 			InputSystemComponent* component = static_cast< InputSystemComponent* >( ( *i ) );
 
-			SystemPropertyList existingProperties = component->GetProperties( );
+			AnyValueMap existingProperties = component->GetProperties( );
 
-			SystemPropertyList properties;
-			properties[ "mouseX" ] = SystemProperty( "mouseX", arg.state.X.abs );
-			properties[ "mouseXDelta" ] = SystemProperty( "mouseXDelta", arg.state.X.rel );
-			properties[ "mouseY" ] = SystemProperty( "mouseY", arg.state.Y.abs );
-			properties[ "mouseYDelta" ] = SystemProperty( "mouseYDelta", arg.state.Y.rel );
+			AnyValueMap properties;
+			properties[ "mouseX" ] = AnyValue( arg.state.X.abs );
+			properties[ "mouseXDelta" ] = AnyValue( arg.state.X.rel );
+			properties[ "mouseY" ] = AnyValue( arg.state.Y.abs );
+			properties[ "mouseYDelta" ] = AnyValue( arg.state.Y.rel );
 
 			component->SetProperties( properties );
 
@@ -132,13 +132,11 @@ bool InputSystemScene::mouseMoved( const MouseEvent &arg )
 /* Fired when the user presses a button on the mouse */
 bool InputSystemScene::mousePressed( const MouseEvent &arg, MouseButtonID id )
 {
-
 	return true;
 }
 
 /* Fired when the user releases a button on the mouse */
 bool InputSystemScene::mouseReleased( const MouseEvent &arg, MouseButtonID id )
 {
-
 	return true;
 }

@@ -3,9 +3,9 @@
 #include "../Physics/PhysicsSystemComponent.h"
 #include "../Input/InputSystemComponent.h"
 
-void GeometrySystemComponent::Initialize( SystemPropertyList properties )
+void GeometrySystemComponent::Initialize( AnyValueMap properties )
 {
-	for( SystemPropertyList::iterator i = properties.begin( ); i != properties.end( ); ++i )
+	for( AnyValueMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
 	{
 		if ( ( *i ).first == "position" )
 		{

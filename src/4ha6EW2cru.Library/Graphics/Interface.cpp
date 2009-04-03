@@ -1,5 +1,7 @@
 #include "Interface.h"
 
+#include <luabind/table_policy.hpp>
+
 #include "../Events/Event.h"
 #include "../Events/EventManager.h"
 
@@ -51,9 +53,9 @@ void Interface::Initialize( )
 
 	ScriptComponent* scriptComponent = ( ScriptComponent* ) g_InterfaceScriptScene->CreateComponent( "interface", "default" );
 
-	SystemPropertyList properties;
+	AnyValueMap properties;
 	std::string scriptPath = "/data/interface/interface.lua";
-	properties.insert( std::make_pair( "scriptPath", SystemProperty( "scriptPath", scriptPath ) ) );
+	properties.insert( std::make_pair( "scriptPath", scriptPath ) );
 	scriptComponent->Initialize( properties );
 
 	module( scriptComponent->GetState( ) )
@@ -62,12 +64,14 @@ void Interface::Initialize( )
 		def( "loadComponent", &Interface::LoadComponent ),
 		def( "getScreenWidth", &Interface::GetScreenWidth ),
 		def( "getScreenHeight", &Interface::GetScreenHeight ),
+		def( "getSupportedResolutions", &Interface::GetSupportedResolutions, copy_table( result ) ),
 		def( "scriptWidget", &Interface::ScriptWidget ),
 		def( "executeString", &Interface::ExecuteString ),
 		def( "showMouse", &Interface::ShowMouse ),
 		def( "hideMouse", &Interface::HideMouse ),
 		def( "setInputAllowed", &Interface::SetInputAllowed ),
 		def( "changeResolution", &Interface::ChangeResolution ),
+		def( "setFarClip", &Interface::SetFarClip ),
 
 		def( "registerEventHandler", &Interface::RegisterEventHandler ),
 		def( "unregisterEventHandler", &Interface::UnRegisterEventHandler ),
@@ -141,8 +145,8 @@ void Interface::LoadComponent( const std::string componentName )
 
 	ScriptComponent* scriptComponent = ( ScriptComponent* ) g_InterfaceScriptScene->CreateComponent( componentName, "default" );
 
-	SystemPropertyList properties;
-	properties.insert( std::make_pair( "scriptPath", SystemProperty( "scriptPath", scriptPath.str( ) ) ) );
+	AnyValueMap properties;
+	properties.insert( std::make_pair( "scriptPath", scriptPath.str( ) ) );
 	scriptComponent->Initialize( properties );
 
 	lua_pcall( scriptComponent->GetState( ), 0, 0, 0 );
@@ -296,10 +300,7 @@ void Interface::SetInputAllowed( bool inputAllowed )
 
 	if ( inputSystem != 0 )
 	{
-		ISystem::PropertyMap properties;
-		properties.insert( std::make_pair( "inputAllowed", SystemProperty( "inputAllowed", inputAllowed ) ) );
-
-		inputSystem->SetProperties( properties );
+		inputSystem->SetProperty( "inputAllowed", inputAllowed );
 	}
 }
 
@@ -318,4 +319,39 @@ void Interface::SetFocus( WidgetPtr widget, bool focus )
 void Interface::ChangeResolution()
 {
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GRAPHICS_SETTINGS_CHANGED ) );
+}
+
+void Interface::SetFarClip( const float& farClip )
+{
+	ISystem* renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
+	renderSystem->SetProperty( "farClip", farClip );
+}
+
+std::vector< std::string > Interface::GetSupportedResolutions()
+{
+	ISystem* renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
+	std::vector< std::string > resolutions = renderSystem->GetProperties( )[ "availableVideoModes" ].GetValue< std::vector< std::string > >( );
+
+	std::multimap< int, std::string > resolutionWidths;
+
+	for( std::vector< std::string >::iterator i = resolutions.begin( ); i != resolutions.end( ); ++i )
+	{
+		std::string resolution = ( *i );
+
+		std::stringstream resolutionStream;
+		resolutionStream << resolution.substr( 0, resolution.find( ' x ' ) );
+
+		int resolutionWidth = 0;
+		resolutionStream >> resolutionWidth;
+		resolutionWidths.insert( std::make_pair( resolutionWidth, resolution ) );
+	}
+
+	resolutions.clear( );
+
+	for( std::multimap< int, std::string >::iterator i = resolutionWidths.begin( ); i != resolutionWidths.end( ); ++i )
+	{
+		resolutions.push_back( ( *i ).second );
+	}
+
+	return resolutions;
 }

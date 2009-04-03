@@ -173,6 +173,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Graphics\Color.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\System\Configuration.h"
 			>
 		</File>

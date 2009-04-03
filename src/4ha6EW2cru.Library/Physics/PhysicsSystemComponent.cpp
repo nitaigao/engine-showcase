@@ -24,7 +24,7 @@
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
 #include <Physics/Utilities/Serialize/hkpPhysicsData.h>
 
-void PhysicsSystemComponent::Initialize( SystemPropertyList properties )
+void PhysicsSystemComponent::Initialize( AnyValueMap properties )
 {
 	std::string bodyPath = properties[ "body" ].GetValue< std::string >( );
 	FileBuffer* bodyBuffer = Management::GetInstance( )->GetFileManager( )->GetFile( bodyPath, true );

@@ -24,7 +24,7 @@ public:
 
 	}
 	
-	void Initialize( SystemPropertyList properties );
+	void Initialize( AnyValueMap properties );
 
 	void AddObserver( IObserver* observer ) { _observer = observer; }
 	void PushChanges( unsigned int systemChanges );

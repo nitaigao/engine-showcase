@@ -11,11 +11,15 @@
 class ISystemComponent : public IObserver, public ISubject
 {
 
+protected:
+
+	typedef std::map< std::string, AnyValue > AnyValueMap;
+
 public:
 
 	virtual ~ISystemComponent( ) { };
 
-	virtual void Initialize( SystemPropertyList properties ) = 0;
+	virtual void Initialize( AnyValueMap properties ) = 0;
 	virtual void AddObserver( IObserver* observer ) = 0;
 
 	virtual const std::string& GetName( ) = 0;

@@ -25,12 +25,12 @@ public:
 
 	inline SystemType GetSystemType( ) { return ScriptSystemType; };
 
-	inline PropertyMap GetProperties( ) { return _properties; };
-	inline void SetProperties( PropertyMap properties ) { };
+	inline AnyValueMap GetProperties( ) { return _properties; };
+	inline void SetProperty( const std::string& name, AnyValue value ) { };
 
 private:
 
-	PropertyMap _properties;
+	AnyValueMap _properties;
 	Configuration* _configuration;
 
 	ScriptSystem( const ScriptSystem & copy ) { };

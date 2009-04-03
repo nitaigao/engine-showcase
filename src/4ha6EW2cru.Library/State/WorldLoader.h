@@ -30,6 +30,9 @@ public:
 
 private:
 
+	void LoadNode( const YAML::Node& node );
+	void LoadColor( const YAML::Node& node );
+	void LoadSkyBox( const YAML::Node& node );
 	void LoadEntity( const YAML::Node& node );
 	void LoadEntityComponents( const YAML::Node& node, IEntity* entity );
 
@@ -37,7 +40,6 @@ private:
 
 	NodeList _loadQueue;
 
-	//YAML::Node* _loadSource;
 	int _activeNodeIndex;
 	int _loadProgress;
 	int _loadTotal;

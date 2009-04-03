@@ -29,7 +29,7 @@ void BadArchiveFactoryFixture::tearDown( )
 
 void BadArchiveFactoryFixture::Should_Create_BadArchive( )
 {
-	Archive* archive = _bfactory->createInstance( "../game/data/test.bad" );
+	Archive* archive = _bfactory->createInstance( "../../../etc/data/test/test.bad" );
 
 	CPPUNIT_ASSERT( archive != 0 );
 
@@ -43,6 +43,6 @@ void BadArchiveFactoryFixture::Should_Throw_On_Destroy_Given_NULL_Archive( )
 
 void BadArchiveFactoryFixture::Should_Destroy_Valid_Archive( )
 {
-	Archive* archive = _bfactory->createInstance( "../game/data/test.bad" );
+	Archive* archive = _bfactory->createInstance( "../../../etc/data/test/test.bad" );
 	_bfactory->destroyInstance( archive );
 }

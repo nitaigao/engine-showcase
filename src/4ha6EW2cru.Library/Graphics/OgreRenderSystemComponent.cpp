@@ -24,12 +24,11 @@ OgreRenderSystemComponent::~OgreRenderSystemComponent( )
 	sceneManager->getRootSceneNode( )->removeAndDestroyChild( _name );
 }
 
-void OgreRenderSystemComponent::Initialize( SystemPropertyList properties )
+void OgreRenderSystemComponent::Initialize( AnyValueMap properties )
 {
 	SceneManager* sceneManager = _scene->GetRoot( )->getSceneManager( "default" );
-	RenderTarget* renderTarget = _scene->GetRoot( )->getRenderTarget( "Interactive View" );
 
-	for ( SystemPropertyList::iterator i = properties.begin( ); i != properties.end( ); ++i )
+	for ( AnyValueMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
 	{
 		if ( ( *i ).first == "model" || ( *i ).first == "camera" )
 		{
@@ -52,12 +51,10 @@ void OgreRenderSystemComponent::Initialize( SystemPropertyList properties )
 
 				if( object->getMovableType( ) == "Camera" )
 				{
-					Camera* camera = sceneManager->getCamera( object->getName( ) );
-					renderTarget->getViewport( 0 )->setCamera( camera );
+					OgreRenderSystem* renderSystem = ( OgreRenderSystem* ) Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
 
-					//camera->setPosition( 0, 0, 0 );
-					//camera->lookAt( 0, 0, 0 );
-					camera->setFarClipDistance( 5000.0f );
+					renderSystem->SetProperty( "activeCamera", object->getName( ) );
+					renderSystem->SetProperty( "farClip", 500.0f );
 				}
 			}
 

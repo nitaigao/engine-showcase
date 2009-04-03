@@ -1,7 +1,7 @@
 #include "BadArchiveFactory.h"
 #include "BadArchive.h"
 #include "../Logging/Logger.h"
-
+#include "../System/Management.h"
 #include "../Exceptions/NullReferenceException.hpp"
 
 const std::string BadArchiveFactory::BAD_ARCHTYPE = "BAD";
@@ -17,7 +17,23 @@ Ogre::Archive* BadArchiveFactory::createInstance( const Ogre::String& name )
 	logMessage << "BadArchiveFactory::createInstance - of " << name;
 	Logger::GetInstance( )->Debug( logMessage.str( ) );
 
-	return new BadArchive( name, BAD_ARCHTYPE );
+	std::string archiveName = "";
+
+	int lastIndexOfPath = name.rfind( '/' );
+	if( lastIndexOfPath != name.npos )
+	{
+		archiveName = name.substr( lastIndexOfPath + 1, name.length( ) - lastIndexOfPath );
+	}
+
+	int extensionIndex = archiveName.find( '.' );
+	if ( extensionIndex != archiveName.npos )
+	{
+		archiveName.replace( extensionIndex + 1, archiveName.length( ) - extensionIndex, "" );
+	}
+
+	Management::GetInstance( )->GetFileManager( )->MountFileStore( name, "/data" );
+
+	return new BadArchive( archiveName, BAD_ARCHTYPE );
 }
 
 void BadArchiveFactory::destroyInstance( Ogre::Archive* archive )

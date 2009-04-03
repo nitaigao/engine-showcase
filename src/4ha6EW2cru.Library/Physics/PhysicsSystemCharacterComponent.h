@@ -15,11 +15,13 @@ public:
 		, _characterBody( 0 )
 		, _characterContext( 0 )
 		, _framesInAir( 0 )
+		, _forwardBackward( 0 )
+		, _leftRight( 0 )
 	{
 		_previousGround = new hkpSurfaceInfo( );
 	}
 
-	virtual void Initialize( SystemPropertyList properties );
+	virtual void Initialize( AnyValueMap properties );
 	virtual void Observe( ISubject* subject, unsigned int systemChanges );
 
 	void Update( float deltaMilliseconds );
@@ -29,6 +31,9 @@ private:
 	hkpCharacterContext* _characterContext;
 	hkpCharacterRigidBody* _characterBody;
 	hkpCharacterInput _characterInput;
+
+	float _forwardBackward;
+	float _leftRight;
 
 	float _mouseXDelta;
 
