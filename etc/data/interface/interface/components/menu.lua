@@ -142,7 +142,7 @@ function Menu.onPlayReleased( )
 	Menu.onHideMenu( );
 	hideMouse( );
 	menu_ingame = true;
-	loadLevel( 'level0' );
+	loadLevel( 'level1' );
 
 end
 

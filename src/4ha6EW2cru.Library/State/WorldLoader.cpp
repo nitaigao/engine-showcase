@@ -15,7 +15,7 @@ void WorldLoader::Load( const std::string& levelPath )
 	_loadProgress = 0;
 	_loadTotal = 0;
 
-	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WORLD_LOADING_STARTED" ) );
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WORLD_LOADING_STARTED", levelPath ) );
 
 	FileBuffer* levelBuffer = Management::GetInstance( )->GetFileManager( )->GetFile( levelPath, false );
 

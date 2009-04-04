@@ -37,8 +37,14 @@ void Game::Initialize( )
 	Logger::Initialize( );
 	Management::Initialize( );
 
+	// -- Set Configuration Defaults 
+
 	_configuration = Configuration::Load( "config/game.cfg" );
 	_configuration->SetDefault( "Developer", "console", false );
+	_configuration->SetDefault( "Logging", "level", static_cast< int >( FATAL ) );
+
+	LogLevel logLevel = static_cast< LogLevel >( _configuration->Find< int >( "Logging", "level" ) );
+	Logger::GetInstance( )->SetLogLevel( logLevel );
 
 	// -- Initialize All Systems
 

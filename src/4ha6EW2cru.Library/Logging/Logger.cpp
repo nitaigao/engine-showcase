@@ -41,8 +41,7 @@ bool Logger::Initialize( )
 		throw e;
 	}
 
-	g_loggerInstance = new Logger( FATAL );
-	g_loggerInstance->SetLogLevel( DEBUGA );
+	g_loggerInstance = new Logger( );
 
 	return true;	
 }

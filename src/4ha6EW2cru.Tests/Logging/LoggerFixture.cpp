@@ -24,33 +24,33 @@ void LoggerFixture::tearDown()
 
 void LoggerFixture::Should_Initialize_Correctly( )
 {
-	Logger::Initialize(	);
+	Logger::Initialize( );
 	Logger::GetInstance( )->Release( );
 }
 
 void LoggerFixture::Should_Throw_On_Initialize_Given_Already_Intialized( )
 {
-	Logger::Initialize(	);
+	Logger::Initialize( );
 	CPPUNIT_ASSERT_THROW( Logger::Initialize( ), AlreadyInitializedException );
 	Logger::GetInstance( )->Release( );
 }
 
 void LoggerFixture::Should_Release_Given_Initialized( )
 {
-	Logger::Initialize(	);
+	Logger::Initialize( );
 	Logger::GetInstance( )->Release( );
 }
 
 void LoggerFixture::Should_Throw_On_Release_Given_ALready_Released( )
 {
-	Logger::Initialize(	);
+	Logger::Initialize( );
 	Logger::GetInstance( )->Release( );
 	CPPUNIT_ASSERT_THROW( Logger::GetInstance( )->Release( ), UnInitializedException );
 }
 
 void LoggerFixture::Should_GetIntance_Given_Initialized( )
 {
-	Logger::Initialize(	);
+	Logger::Initialize( );
 	Logger::GetInstance( );
 	Logger::GetInstance( )->Release( );
 }

@@ -2,10 +2,11 @@
 <MyGUI type="Layout">
     <Widget type="Window" skin="WindowCS" position_real="0.25 0.25 0.5 0.5" align="Stretch" layer="Popup" name="console">
         <Property key="Widget_Caption" value="Developer Console"/>
-        <Widget type="Edit" skin="Edit" position_real="0 0.928375 1.00159 0.0688705" align="HStretch Bottom" name="console_input"/>
+        <Widget type="Edit" skin="Edit" position_real="0 0.928375 1.00159 0.0661157" align="HStretch Bottom" name="console_input"/>
         <Widget type="Edit" skin="WordWrap" position_real="0 0 1 0.914601" align="HStretch VStretch" name="console_output">
             <Property key="Edit_ReadOnly" value="true"/>
-            <Property key="Edit_MaxTextLength" value="999999999"/>
+            <Property key="Edit_MaxTextLength" value="999999"/>
+            <Property key="Edit_OverflowToTheLeft" value="true"/>
         </Widget>
     </Widget>
 </MyGUI>

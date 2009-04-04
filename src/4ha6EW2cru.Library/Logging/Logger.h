@@ -17,8 +17,8 @@ public:
 
 	~Logger( ) { };
 
-	Logger( LogLevel logLevel )
-		: _logLevel( logLevel )
+	Logger( )
+		: _logLevel( FATAL )
 	{
 
 	}

@@ -19,7 +19,7 @@ function Loading.initialize( )
 
 end
 
-function Loading.onShowLoading( )
+function Loading.onShowLoading( levelName )
 
 	local progress = findWidget( 'loading_progress' ):asProgressBar( );
 	progress:setProgress( 0 );
@@ -27,7 +27,7 @@ function Loading.onShowLoading( )
 	local loading = findWidget( 'loading' );
 	loading:setVisible( true ); 
 	
-	print( 'Loading Started' );
+	print( 'Loading Started for Level ' .. levelName );
 
 end
 
@@ -46,7 +46,7 @@ end
 function Loading.onLoadProgress( totalProgress )
 
 	local progress = findWidget( 'loading_progress' ):asProgressBar( );
-	print( 'Loading Progress: ' .. tonumber( totalProgress ) .. '%' );
+	--print( 'Loading Progress: ' .. tonumber( totalProgress ) .. '%' );
 	progress:setProgress( tonumber( totalProgress ) );
 
 end
@@ -55,7 +55,7 @@ function Loading.onEvent( eventName, var1 )
 
 	if ( eventName == 'WORLD_LOADING_STARTED' ) then
 	
-		Loading.onShowLoading( );
+		Loading.onShowLoading( var1 );
 	
 	end
 	

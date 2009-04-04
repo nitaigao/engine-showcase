@@ -95,8 +95,8 @@ end
 
 function Console.updateConsole( message )
 
-	--local output = output:asEditBox( );
-	--output:addText( utf( message ) );
+	local output = output:asEditBox( );
+	output:addText( utf( message ) );
 
 end
 
