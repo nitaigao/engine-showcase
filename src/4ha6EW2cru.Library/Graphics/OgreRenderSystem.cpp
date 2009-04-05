@@ -203,10 +203,18 @@ void OgreRenderSystem::SetProperty( const std::string& name, AnyValue value )
 	if ( name == "skyBox" )
 	{
 		std::string materialName = value.GetValue< std::string >( );
-		_skyBoxMaterial = materialName;
-		SceneManager::SkyBoxGenParameters skyBoxParameters = sceneManager->getSkyBoxGenParameters( ); 
-		float currentFarClip = sceneManager->getCurrentViewport( )->getCamera( )->getFarClipDistance( );
-		sceneManager->setSkyBox( true, materialName, currentFarClip - 200.0f );
+
+		if ( materialName.empty( ) )
+		{
+			sceneManager->setSkyBox( false, "" );
+		}
+		else
+		{
+			_skyBoxMaterial = materialName;
+			SceneManager::SkyBoxGenParameters skyBoxParameters = sceneManager->getSkyBoxGenParameters( ); 
+			float currentFarClip = sceneManager->getCurrentViewport( )->getCamera( )->getFarClipDistance( );
+			sceneManager->setSkyBox( true, _skyBoxMaterial, currentFarClip - 200.0f );
+		}
 	}
 }
 

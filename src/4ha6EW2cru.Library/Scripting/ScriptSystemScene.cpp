@@ -111,10 +111,16 @@ void ScriptSystemScene::UnRegisterEvent( EventType eventType, object function )
 {
 	for( EventHandlerList::iterator i = _eventHandlers->begin( ); i != _eventHandlers->end( ); ++i )
 	{
-		if ( ( *i ).first == eventType && ( *i ).second == function )
+		if( ( *i ).first == eventType )
 		{
-			_eventHandlers->erase( i );
-			return;
+			if ( function.interpreter( ) == ( *i ).second.interpreter( ) )
+			{
+				if ( ( *i ).second == function )
+				{
+					_eventHandlers->erase( i );
+					return;
+				}
+			}
 		}
 	}
 }

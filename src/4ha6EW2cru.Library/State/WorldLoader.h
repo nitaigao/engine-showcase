@@ -40,7 +40,7 @@ private:
 
 	NodeList _loadQueue;
 
-	int _activeNodeIndex;
+	unsigned int _activeNodeIndex;
 	int _loadProgress;
 	int _loadTotal;
 

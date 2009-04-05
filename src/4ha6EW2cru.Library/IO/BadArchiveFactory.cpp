@@ -28,7 +28,7 @@ Ogre::Archive* BadArchiveFactory::createInstance( const Ogre::String& name )
 	int extensionIndex = archiveName.find( '.' );
 	if ( extensionIndex != archiveName.npos )
 	{
-		archiveName.replace( extensionIndex + 1, archiveName.length( ) - extensionIndex, "" );
+		archiveName.replace( extensionIndex, archiveName.length( ) - extensionIndex, "" );
 	}
 
 	Management::GetInstance( )->GetFileManager( )->MountFileStore( name, "/data" );

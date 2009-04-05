@@ -160,8 +160,8 @@ void WorldLoader::Update( float deltaMilliseconds )
 
 			this->LoadNode( node );
 	
-			int progressPercent = ( ( float ) ++_loadProgress / ( float ) _loadTotal ) * 100.0f;
-			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WORLD_LOADING_PROGRESS", progressPercent ) );
+			float progressPercent = ( ( float ) ++_loadProgress / ( float ) _loadTotal ) * 100.0f;
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WORLD_LOADING_PROGRESS", static_cast< int >( progressPercent ) ) );
 
 			if ( ++_activeNodeIndex == loadSource->size( ) )
 			{

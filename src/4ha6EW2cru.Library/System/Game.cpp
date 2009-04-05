@@ -145,6 +145,7 @@ void Game::OnGameEnded( const IEvent* event )
 	renderSystem->SetProperty( "activeCamera", "default" );
 	renderSystem->SetProperty( "ambientColor", Color( 0.0f, 0.0f, 0.0f ) );
 	renderSystem->SetProperty( "backgroundColor", Color( 0.0f, 0.0f, 0.0f ) );
+	renderSystem->SetProperty( "skyBox", "" );
 }
 
 // EOF
