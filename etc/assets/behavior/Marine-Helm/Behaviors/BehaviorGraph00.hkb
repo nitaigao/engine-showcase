@@ -1,0 +1,145 @@
+<!--HBT-->
+<HBT version="1.0" namespace="_BehaviorGraph00_hkb_">
+    <HBT_ITEM type="HavokTools.hkBehaviorGraph" name="Idle" priority="1">
+        <hkBehaviorGraph xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <IncomingRefs>
+                <MangledName>__local__:HavokTools.hkBehaviorGraph:Idle:IncomingRefs</MangledName>
+            </IncomingRefs>
+            <ParentNodes />
+            <Notes />
+            <NotesPopUpAutomatically>false</NotesPopUpAutomatically>
+            <States>
+                <MangledTargetNames>
+                    <string>__local__:HavokTools.hkState:Idle:ParentNodes</string>
+                </MangledTargetNames>
+            </States>
+            <StartState>
+                <MangledTargetNames>
+                    <string>__local__:HavokTools.hkState:Idle:IncomingRefs</string>
+                </MangledTargetNames>
+            </StartState>
+            <StartStateSelectorVariable>
+                <MangledTargetNames />
+            </StartStateSelectorVariable>
+            <SyncVariable>
+                <MangledTargetNames />
+            </SyncVariable>
+            <UseRandomStartState>false</UseRandomStartState>
+            <Transitions>
+                <MangledTargetNames />
+            </Transitions>
+            <GoBackwardEvent>
+                <MangledTargetNames />
+            </GoBackwardEvent>
+            <RandomTransitionEvent>
+                <MangledTargetNames />
+            </RandomTransitionEvent>
+            <NextHigherStateEvent>
+                <MangledTargetNames />
+            </NextHigherStateEvent>
+            <NextLowerStateEvent>
+                <MangledTargetNames />
+            </NextLowerStateEvent>
+            <MaxSimultaneousTransitions>32</MaxSimultaneousTransitions>
+            <OffsetX>0</OffsetX>
+            <OffsetY>0</OffsetY>
+            <Zoom>1</Zoom>
+            <WrapAroundStateID>false</WrapAroundStateID>
+            <SelfTransitionMode>DontTransition</SelfTransitionMode>
+        </hkBehaviorGraph>
+    </HBT_ITEM>
+    <HBT_ITEM type="HavokTools.hkClip" name="Clip00" priority="1">
+        <hkClip xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <IncomingRefs>
+                <MangledName>__local__:HavokTools.hkClip:Clip00:IncomingRefs</MangledName>
+            </IncomingRefs>
+            <ParentNodes>
+                <MangledName>__local__:HavokTools.hkClip:Clip00:ParentNodes</MangledName>
+            </ParentNodes>
+            <Notes />
+            <NotesPopUpAutomatically>false</NotesPopUpAutomatically>
+            <Animation>
+                <MangledTargetNames>
+                    <string>_marine_animation_max7-helm01-skin_Idle_hkx_:HavokTools.hkAnimation:marine_animation_max7-helm01-skin_Idle.hkx:ParentNodes</string>
+                </MangledTargetNames>
+            </Animation>
+            <PlaybackMode>Looping</PlaybackMode>
+            <ContinueMotionAtEnd>false</ContinueMotionAtEnd>
+            <SyncHalfCycleInPingPong>false</SyncHalfCycleInPingPong>
+            <FlagMirror>false</FlagMirror>
+            <ForceDensePose>false</ForceDensePose>
+            <PlaybackSpeedMultiplier>1</PlaybackSpeedMultiplier>
+            <CropStart>0</CropStart>
+            <CropEnd>0</CropEnd>
+            <StartTime>0</StartTime>
+            <UserControlledPoint>0</UserControlledPoint>
+            <ClipDuration>0</ClipDuration>
+            <ShowAnnotations>true</ShowAnnotations>
+            <DisableUseAnnotations>false</DisableUseAnnotations>
+            <PlaybackSpeedMultiplierVariable>
+                <MangledTargetNames />
+            </PlaybackSpeedMultiplierVariable>
+            <CropStartVariable>
+                <MangledTargetNames />
+            </CropStartVariable>
+            <CropEndVariable>
+                <MangledTargetNames />
+            </CropEndVariable>
+            <StartTimeVariable>
+                <MangledTargetNames />
+            </StartTimeVariable>
+            <UserControlledPointVariable>
+                <MangledTargetNames />
+            </UserControlledPointVariable>
+            <ClipDurationVariable>
+                <MangledTargetNames />
+            </ClipDurationVariable>
+            <ClipEventTriggers>
+                <MangledTargetNames />
+            </ClipEventTriggers>
+            <ClipEvents>
+                <MangledTargetNames />
+            </ClipEvents>
+        </hkClip>
+    </HBT_ITEM>
+    <HBT_ITEM type="HavokTools.hkState" name="Idle" priority="50">
+        <hkState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <IncomingRefs>
+                <MangledName>__local__:HavokTools.hkState:Idle:IncomingRefs</MangledName>
+            </IncomingRefs>
+            <ParentNodes>
+                <MangledName>__local__:HavokTools.hkState:Idle:ParentNodes</MangledName>
+            </ParentNodes>
+            <Notes />
+            <NotesPopUpAutomatically>false</NotesPopUpAutomatically>
+            <TransitionsIn>
+                <MangledTargetNames />
+            </TransitionsIn>
+            <TransitionsOut>
+                <MangledTargetNames />
+            </TransitionsOut>
+            <ChildNode>
+                <MangledTargetNames>
+                    <string>__local__:HavokTools.hkClip:Clip00:ParentNodes</string>
+                </MangledTargetNames>
+            </ChildNode>
+            <StateID>0</StateID>
+            <X>85</X>
+            <Y>158</Y>
+            <W>100</W>
+            <H>25</H>
+            <NestedTransitionsIn>
+                <MangledTargetNames />
+            </NestedTransitionsIn>
+            <NestedTransitionsOut>
+                <MangledTargetNames />
+            </NestedTransitionsOut>
+            <EnterNotifyEvent>
+                <MangledTargetNames />
+            </EnterNotifyEvent>
+            <ExitNotifyEvent>
+                <MangledTargetNames />
+            </ExitNotifyEvent>
+        </hkState>
+    </HBT_ITEM>
+</HBT>

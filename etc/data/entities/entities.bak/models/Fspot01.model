@@ -1,0 +1,11 @@
+<node name='Fspot01'>
+  <scale x='1' y='1' z='1'/>
+  <position x='-5.73748' y='8.50297' z='-31.9123'/>
+  <rotation qw='-0.707107' qx='-0.707107' qy='-0' qz='-0'/>
+  <light name='Fspot01' type='spot' id='552' power='4.11' castShadows='false'>
+    <colourDiffuse b='1' r='1' g='1'/>
+    <colourSpecular b='1' r='1' g='1'/>
+    <lightAttenuation constant='1' linear='0' range='9.60909' quadric='0'/>
+    <lightRange inner='0.750492' outer='0.785398'/>
+  </light>
+</node>

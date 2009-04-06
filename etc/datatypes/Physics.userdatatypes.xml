@@ -1,6 +1,0 @@
-<userDataTypes>	
-	<class name="Physics" usage="object">
-		<data name="body" type="string" />	
-		<data name="type" type="string" />	
-	</class>	
-</userDataTypes>	

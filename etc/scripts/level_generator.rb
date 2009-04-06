@@ -11,6 +11,8 @@ contents = file.read.gsub( '<![CDATA[', '' ).gsub( ']]>', '' )
 doc = Document.new( contents );
 root = doc.root;
 
+$bodiesPath = '/data/entities/bodies'
+
 class Color
 
 	def initialize( name, xmlNode )
@@ -208,8 +210,8 @@ class PhysicsComponent < Component
 	
 		@system = 'physics'
 		
-		@body = ogreNode.elements[ '//body' ].text;
-		@type = ogreNode.elements[ '//type' ].text;
+		@body = File.join( $bodiesPath, ogreNode.elements[ './/physicsBody' ].text );
+		@type = ogreNode.elements[ './/physicsType' ].text;
 	
 	end
 	
@@ -220,6 +222,16 @@ class PhysicsComponent < Component
     def type
         @type
     end
+
+end
+
+class InputComponent < Component
+
+	def initialize( ogreNode )
+	
+		@system = 'input'
+		
+	end
 
 end
 
@@ -266,19 +278,31 @@ class Entity
 		
 		@components = Array.new
 		
-		if @name != 'player_spawn' then
+		attachGraphics = ogreNode.elements[ './/userData/components/attachGraphics' ];
 		
-			@components.push( GraphicsComponent.new( ogreNode ) );        
+		if ( attachGraphics == nil || attachGraphics.text == 'true')
+			
+			@components.push( GraphicsComponent.new( ogreNode ) );
 		
 		end
 	
         @components.push( GeometryComponent.new( ogreNode ) );
 		
-		physicsNode = ogreNode.elements[ 'entity//Physics' ];
+		attachPhysics = ogreNode.elements[ './/userData/components/attachPhysics' ];
 		
-		if ( physicsNode != nil )
+		if ( attachPhysics != nil && attachPhysics.text == 'true')
 			
+			physicsNode = ogreNode.elements[ './/userData' ];
 			@components.push( PhysicsComponent.new( physicsNode ) );
+		
+		end
+		
+		attachInput = ogreNode.elements[ './/userData/components/attachInput' ];
+		
+		if ( attachInput != nil && attachInput.text == 'true' )
+		
+			inputNode = ogreNode.elements[ './/userData' ];
+			@components.push( InputComponent.new( inputNode ) );
 		
 		end
         
@@ -362,6 +386,8 @@ def createEnvironment( xmlRoot )
 		environment.push( skyBox );
 	
 	end
+	
+	return environment;
 
 end
 

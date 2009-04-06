@@ -1,0 +1,10 @@
+<node name='outofbounds05'>
+  <scale x='1' y='1' z='1'/>
+  <position x='61.5746' y='0' z='524.156'/>
+  <rotation qw='-0.498903' qx='0.501094' qy='0.501094' qz='-0.498903'/>
+  <entity name='outofbounds05' id='871' receiveShadows='true' meshFile='/data/entities/meshes/outofbounds1.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='02-Default' index='0'/>
+    </subentities>
+  </entity>
+</node>

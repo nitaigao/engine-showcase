@@ -56,6 +56,10 @@ void OgreRenderSystemComponent::Initialize( AnyValueMap properties )
 					renderSystem->SetProperty( "activeCamera", object->getName( ) );
 					renderSystem->SetProperty( "farClip", 500.0f );
 				}
+				else
+				{
+					Entity* entity = static_cast< Entity* >( object );
+				}
 			}
 
 			delete model;

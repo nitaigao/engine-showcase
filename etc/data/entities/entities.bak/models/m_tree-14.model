@@ -1,0 +1,10 @@
+<node name='m_tree-14'>
+  <scale x='1.92185' y='1.92185' z='1.37732'/>
+  <position x='220.385' y='-9.14931' z='233.676'/>
+  <rotation qw='0.606109' qx='0.606109' qy='0.364187' qz='-0.364187'/>
+  <entity name='m_tree-14' id='384' receiveShadows='true' meshFile='/data/entities/meshes/m_tree-14.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='tree-01' index='0'/>
+    </subentities>
+  </entity>
+</node>

@@ -1,0 +1,14 @@
+<node name='Spot01'>
+  <scale x='1' y='1' z='1'/>
+  <position x='-5.55977' y='8.1873' z='-31.9562'/>
+  <rotation qw='-0.42281' qx='-0.440478' qy='-0.548429' qz='0.571346'/>
+  <trackTarget nodeName='Spot01.Target'>
+    <localDirection x='0' y='0' z='1'/>
+  </trackTarget>
+  <light name='Spot01' type='spot' id='364' power='1' castShadows='false'>
+    <colourDiffuse b='1' r='1' g='1'/>
+    <colourSpecular b='1' r='1' g='1'/>
+    <lightAttenuation constant='1' linear='0' range='125.127' quadric='0'/>
+    <lightRange inner='0.750492' outer='0.785398'/>
+  </light>
+</node>

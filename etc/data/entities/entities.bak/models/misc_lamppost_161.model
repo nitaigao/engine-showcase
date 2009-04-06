@@ -1,0 +1,10 @@
+<node name='misc_lamppost_161'>
+  <scale x='1' y='1' z='1'/>
+  <position x='-62.9322' y='8.05076' z='174.878'/>
+  <rotation qw='0.704015' qx='0' qy='-0.710185' qz='0'/>
+  <entity name='misc_lamppost_161' id='368' receiveShadows='true' meshFile='/data/entities/meshes/misc_lamppost_161.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='roads' index='0'/>
+    </subentities>
+  </entity>
+</node>

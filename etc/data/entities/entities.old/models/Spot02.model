@@ -1,0 +1,11 @@
+<node name='Spot02'>
+  <scale x='0.731797' y='1' z='0.731797'/>
+  <position x='39.7464' y='127.852' z='-50.8415'/>
+  <rotation qw='-0.687196' qx='-0.715789' qy='0.0859677' qz='-0.0895447'/>
+  <light name='Spot02' type='spot' id='314' power='1' castShadows='true'>
+    <colourDiffuse b='1' r='1' g='1'/>
+    <colourSpecular b='1' r='1' g='1'/>
+    <lightAttenuation constant='1' linear='0' range='136.133' quadric='0'/>
+    <lightRange inner='0.750492' outer='0.785398'/>
+  </light>
+</node>

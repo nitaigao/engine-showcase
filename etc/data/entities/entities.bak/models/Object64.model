@@ -1,0 +1,10 @@
+<node name='Object64'>
+  <scale x='1' y='1' z='1'/>
+  <position x='2.20825' y='8.39036' z='138.449'/>
+  <rotation qw='1' qx='0' qy='0' qz='0'/>
+  <entity name='Object64' id='25' receiveShadows='true' meshFile='/data/entities/meshes/Object64.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='buildz1' index='0'/>
+    </subentities>
+  </entity>
+</node>

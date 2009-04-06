@@ -1,0 +1,10 @@
+<node name='house_220'>
+  <scale x='1' y='1' z='1'/>
+  <position x='-86.128' y='8.23845' z='-298.518'/>
+  <rotation qw='1' qx='0' qy='0' qz='0'/>
+  <entity name='house_220' id='84' receiveShadows='true' meshFile='/data/entities/meshes/house_220.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='buildz6' index='0'/>
+    </subentities>
+  </entity>
+</node>

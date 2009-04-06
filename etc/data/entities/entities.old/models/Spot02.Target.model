@@ -1,0 +1,5 @@
+<node name='Spot02.Target' id='315'>
+  <scale x='1' y='1' z='1'/>
+  <position x='40.1954' y='0' z='-52.6079'/>
+  <rotation qw='1' qx='0' qy='0' qz='0'/>
+</node>

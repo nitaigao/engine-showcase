@@ -1,0 +1,77 @@
+<!--HBT-->
+<HBT version="1.0" namespace="_Character00_hkc_">
+    <HBT_ITEM type="HavokTools.hkCharacter" name="Character00.hkc" priority="1">
+        <hkCharacter xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <IncomingRefs>
+                <MangledName>__local__:HavokTools.hkCharacter:Character00.hkc:IncomingRefs</MangledName>
+            </IncomingRefs>
+            <ParentNodes />
+            <Notes />
+            <NotesPopUpAutomatically>false</NotesPopUpAutomatically>
+            <BehaviorFile>
+                <MangledTargetNames>
+                    <string>_BehaviorGraph00_hkb_:HavokTools.hkRefFile:BehaviorGraph00.hkb:IncomingRefs</string>
+                </MangledTargetNames>
+            </BehaviorFile>
+            <Behavior>
+                <MangledTargetNames>
+                    <string>_BehaviorGraph00_hkb_:HavokTools.hkBehaviorGraph:Idle:IncomingRefs</string>
+                </MangledTargetNames>
+            </Behavior>
+            <Rig>
+                <MangledTargetNames>
+                    <string>_marine_animation_max7-helm01-skin_Idle_hkx_:HavokTools.hkCharacterHKX:marine_animation_max7-helm01-skin_Idle.hkx:IncomingRefs</string>
+                </MangledTargetNames>
+            </Rig>
+            <Ragdoll>
+                <MangledTargetNames />
+            </Ragdoll>
+            <DeformableSkins>
+                <MangledTargetNames>
+                    <string>_marine_animation_max7-helm01-skin_Idle_hkx_:HavokTools.hkCharacterHKX:marine_animation_max7-helm01-skin_Idle.hkx:ParentNodes</string>
+                </MangledTargetNames>
+            </DeformableSkins>
+            <RigidSkins>
+                <MangledTargetNames>
+                    <string>_marine_animation_max7-helm01-skin_Idle_hkx_:HavokTools.hkCharacterHKX:marine_animation_max7-helm01-skin_Idle.hkx:ParentNodes</string>
+                </MangledTargetNames>
+            </RigidSkins>
+            <UseDeformableSkin>
+                <boolean>true</boolean>
+            </UseDeformableSkin>
+            <UseRigidSkin>
+                <boolean>true</boolean>
+            </UseRigidSkin>
+            <AnimationSet>
+                <MangledTargetNames />
+            </AnimationSet>
+            <Sequence>
+                <MangledTargetNames />
+            </Sequence>
+            <UseSequence>false</UseSequence>
+            <Gamepad>
+                <MangledTargetNames />
+            </Gamepad>
+            <UseGamepad>false</UseGamepad>
+            <InitialX>0</InitialX>
+            <InitialY>0</InitialY>
+            <InitialZ>0</InitialZ>
+            <InitialRotation>0</InitialRotation>
+            <SavedSettingsNames>
+                <string>Default</string>
+            </SavedSettingsNames>
+            <SavedSettingsValues>
+                <ArrayOfFloat>
+                    <float>0</float>
+                    <float>0</float>
+                    <float>0</float>
+                    <float>0</float>
+                </ArrayOfFloat>
+            </SavedSettingsValues>
+            <MirrorBonePairMap />
+            <MirrorAxis />
+            <MirroredStringList1 />
+            <MirroredStringList2 />
+        </hkCharacter>
+    </HBT_ITEM>
+</HBT>

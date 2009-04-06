@@ -1,15 +1,15 @@
 --- 
 - !ruby/object:Color 
-  b: "1"
-  g: "1"
+  b: "0.65098"
+  g: "0.611765"
   name: ambient
-  r: "1"
+  r: "0.580392"
   type: color
 - !ruby/object:Color 
-  b: "1"
-  g: "1"
+  b: "0"
+  g: "0"
   name: background
-  r: "1"
+  r: "0"
   type: color
 ...
 --- 
@@ -33,12 +33,12 @@
       y: "0.911514"
       z: "2.83091"
     system: geometry
-  - !ruby/object:PhysicsComponent
+  - !ruby/object:PhysicsComponent 
     body: /data/entities/bodies/floor.hkx
-    type: body
     system: physics
-  type: entity
+    type: body
   name: Floor
+  type: entity
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
@@ -59,12 +59,8 @@
       y: "2.83091"
       z: "0.911514"
     system: geometry
-  - !ruby/object:PhysicsComponent
-    body: /data/entities/bodies/walls.hkx
-    type: body
-    system: physics
-  type: entity
   name: Side01
+  type: entity
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
@@ -85,12 +81,8 @@
       y: "2.83091"
       z: "0.911514"
     system: geometry
-  - !ruby/object:PhysicsComponent
-    body: /data/entities/bodies/walls.hkx
-    type: body
-    system: physics
-  type: entity
   name: Side02
+  type: entity
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
@@ -111,12 +103,8 @@
       y: "2.91458"
       z: "0.911514"
     system: geometry
-  - !ruby/object:PhysicsComponent
-    body: /data/entities/bodies/walls.hkx
-    type: body
-    system: physics
-  type: entity
   name: Side03
+  type: entity
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
@@ -137,64 +125,77 @@
       y: "2.91458"
       z: "0.911514"
     system: geometry
-  - !ruby/object:PhysicsComponent
-    body: /data/entities/bodies/walls.hkx
-    type: body
-    system: physics
-  type: entity
   name: Side04
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_101.model
+    system: graphics
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "4.37114e-008"
+      x: "0"
+      y: "1"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-5.69576"
+      y: "-0.127758"
+      z: "-36.2262"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+  name: misc_lamppost_101
+  type: entity
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
     model: /data/entities/models/player_camera.model
-    type: character
     system: graphics
   - !ruby/object:GeometryComponent 
     orientation: !ruby/object:Quaternion 
-      w: "1.0"
-      x: "0.0"
-      y: "0.0"
-      z: "0.0"
+      w: "0.939693"
+      x: "2.98023e-008"
+      y: "0.34202"
+      z: "-0"
     position: !ruby/object:Vector 
-      x: "-130"
-      y: "10"
-      z: "100"
+      x: "141.016"
+      y: "0"
+      z: "129.166"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
       z: "1"
     system: geometry
-  - !ruby/object:PhysicsComponent
+  - !ruby/object:PhysicsComponent 
     body: /data/entities/bodies/player_camera.hkx
-    type: character
     system: physics
-  - !ruby/object:InputComponent
+    type: character
+  - !ruby/object:InputComponent 
     system: input
-  type: entity
   name: player_camera
+  type: entity
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/box.model
+    model: /data/entities/models/Fspot01.model
     system: graphics
   - !ruby/object:GeometryComponent 
     orientation: !ruby/object:Quaternion 
-      w: "0.879191"
-      x: "-0.248058"
-      y: "0.110465"
-      z: "0.39152"
+      w: "-0.707107"
+      x: "-0.707107"
+      y: "-0"
+      z: "-0"
     position: !ruby/object:Vector 
-      x: "0.0"
-      y: "100.0"
-      z: "0.0"
+      x: "-5.73748"
+      y: "8.50297"
+      z: "-31.9123"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
       z: "1"
     system: geometry
-  - !ruby/object:PhysicsComponent
-    body: /data/entities/bodies/box.hkx
-    type: body
-    system: physics
+  name: Fspot01
   type: entity
-  name: Box01

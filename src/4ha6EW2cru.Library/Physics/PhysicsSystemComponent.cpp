@@ -39,7 +39,7 @@ void PhysicsSystemComponent::Initialize( AnyValueMap properties )
 	_loadedData->addReference();
 
 	hkRootLevelContainer* container = static_cast< hkRootLevelContainer* >( reader.getContents( "hkRootLevelContainer" ) );
-	hkpPhysicsData* physicsData = static_cast< hkpPhysicsData* >( container->findObjectByType("hkpPhysicsData") );
+	hkpPhysicsData* physicsData = static_cast< hkpPhysicsData* >( container->findObjectByType( "hkpPhysicsData" ) );
 
 	_body = physicsData->findRigidBodyByName( _name.c_str( ) );
 	_body->setUserData( _componentId );
