@@ -23,6 +23,7 @@ public:
 	};
 
 	void Initialize( AnyValueMap properties );
+	void Destroy( ) { };
 
 	void AddObserver( IObserver* observer ) { };
 	void PushChanges( unsigned int systemChanges ) { };

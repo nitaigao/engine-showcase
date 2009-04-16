@@ -3,9 +3,10 @@
 
 #include <vector>
 
+#include "ScriptConfiguration.h"
+
 #include "../IO/IFileManager.hpp"
 #include "../System/Configuration.h"
-#include "ScriptConfiguration.h"
 #include "../System/ISystem.hpp"
 #include "../System/ISystemComponent.hpp"
 
@@ -20,19 +21,18 @@ extern "C"
 }
 
 #include <luabind/luabind.hpp>
-using namespace luabind;
 
 class ScriptSystemScene : public ISystemScene
 {
-	typedef std::pair< EventType, object > EventHandler;
+	typedef std::pair< EventType, luabind::object > EventHandler;
 	typedef std::vector< EventHandler > EventHandlerList;
-	typedef std::vector< ISystemComponent* > ScriptObjectList;
+	typedef std::vector< ISystemComponent* > ScriptComponentList;
 
 public:
 
 	virtual ~ScriptSystemScene( );
 
-	ScriptSystemScene( ISystem* scriptSystem, Configuration* configuration );
+	ScriptSystemScene( Configuration* configuration );
 
 	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 	void DestroyComponent( ISystemComponent* component );;
@@ -41,28 +41,18 @@ public:
 
 	void Initialize( );
 
-	void RegisterEvent( EventType eventType, object function );
-	void UnRegisterEvent( EventType eventType, object function );
+	void RegisterEvent( EventType eventType, luabind::object function );
+	void UnRegisterEvent( EventType eventType, luabind::object function );
 	void BroadcastEvent( EventType eventType );
 
+	/*! Returns the Master LUA State for the Scene */
+	lua_State* GetState( ) const { return _state; };
+
 	/*! Executes the specified string */
-	void ExecuteString( const std::string input );
-
-private:
-
-	/*! -- Script Helpers -- */
+	void ExecuteString( const std::string& input );
 
 	/*! Prints the specified message to the console */
-	static void Print( const std::string message );
-
-	/*! Gets called when an error occurs inside a running script */
-	static int Script_PError( lua_State* luaState );
-
-	/*! Gets called when an error occurs inside a script */
-	static void Script_Error( lua_State* luaState );
-
-	/*! Gets called when a casting error occurs inside a script */
-	static void Script_CastError( lua_State* luaState, LUABIND_TYPE_INFO typeInfo );
+	static void Print( const std::string& message );
 
 	/*! Quits the game */
 	static void Quit( );
@@ -73,14 +63,24 @@ private:
 	/*! Ends the current Game */
 	static void EndGame( );
 
+	/*! Gets called when an error occurs inside a running script */
+	static int Script_PError( lua_State* luaState );
+
+	/*! Gets called when an error occurs inside a script */
+	static void Script_Error( lua_State* luaState );
+
+	/*! Gets called when a casting error occurs inside a script */
+	static void Script_CastError( lua_State* luaState, LUABIND_TYPE_INFO typeInfo );
+
+
+private:
+
 	void OnEvent( const IEvent* event );
 
-	ISystem* _system;
-	Configuration* _configuration;
 	ScriptConfiguration* _scriptConfiguration;
 
 	lua_State* _state;
-	ScriptObjectList _scriptObjects;
+	ScriptComponentList _components;
 	EventHandlerList* _eventHandlers;
 
 	ScriptSystemScene( ) { };

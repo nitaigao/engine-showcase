@@ -17,6 +17,7 @@
 #include "../Graphics/OgreRenderSystem.h"
 #include "../Geometry/GeometrySystem.h"
 #include "../Physics/HavokPhysicsSystem.h"
+#include "../AI/AISystem.h"
 
 #include "../Exceptions/AlreadyInitializedException.hpp"
 #include "../Exceptions/UnInitializedException.hpp"
@@ -51,6 +52,7 @@ void Game::Initialize( )
 	ISystemManager* systemManager = Management::GetInstance( )->GetSystemManager( );
 	systemManager->AddSystem( new GeometrySystem( ) );
 	systemManager->AddSystem( new HavokPhysicsSystem( ) );
+	systemManager->AddSystem( new AISystem( ) );
 	systemManager->AddSystem( new ScriptSystem( _configuration ) );
 	systemManager->AddSystem( new OgreRenderSystem( _configuration ) );
 	systemManager->AddSystem( new InputSystem( _configuration ) );
@@ -131,7 +133,7 @@ void Game::OnGameLevelChanged( const IEvent* event )
 	LevelChangedEventData* eventData = static_cast< LevelChangedEventData* >( event->GetEventData( ) );
 
 	std::stringstream levelPath;
-	levelPath << "/data/levels/" << eventData->GetLevelName( ) << ".yaml";
+	levelPath << "/data/levels/" << eventData->GetLevelName( ) << "/" << eventData->GetLevelName( ) << ".yaml";
 	
 	_worldLoader->Load( levelPath.str( ) );
 }

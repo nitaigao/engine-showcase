@@ -32,6 +32,8 @@ public:
 	ExpectationCounter destroyEntity_count;
 	ExpectationCounter update_count;
 
+	void Initialize( ) { };
+
 	ISystemComponent* CreateComponent( const std::string& name, const std::string& type )
 	{
 		createEntity_count.inc( );

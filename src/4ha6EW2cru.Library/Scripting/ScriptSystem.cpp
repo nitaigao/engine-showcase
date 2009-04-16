@@ -4,5 +4,5 @@
 
 ISystemScene* ScriptSystem::CreateScene( )
 {
-	return new ScriptSystemScene( this, _configuration );
+	return new ScriptSystemScene( _configuration );
 }

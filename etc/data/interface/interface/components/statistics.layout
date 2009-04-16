@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout">
+    <Widget type="StaticText" skin="StaticText" position_real="0.675 0 0.325 0.02" align="Right Top" layer="Main" name="statistics">
+        <Property key="Widget_Caption" value="-- Statistics --"/>
+        <Property key="Text_TextAlign" value="Right VCenter"/>
+    </Widget>
+</MyGUI>

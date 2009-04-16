@@ -1,0 +1,10 @@
+<node name='misc_billboard_09'>
+  <scale x='1' y='1' z='1'/>
+  <position x='322.211' y='-0.5409' z='56.5312'/>
+  <rotation qw='0.979925' qx='0' qy='-0.199368' qz='0'/>
+  <entity name='misc_billboard_09' id='321' receiveShadows='true' meshFile='/data/levels/level1/meshes/misc_billboard_09.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='roads' index='0'/>
+    </subentities>
+  </entity>
+</node>

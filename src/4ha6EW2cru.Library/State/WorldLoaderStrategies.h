@@ -102,4 +102,21 @@ private:
 
 };
 
+class WorldLoader_AIComponentStrategy : public IWorldLoader_ComponentStrategy
+{
+
+public:
+
+	virtual ~WorldLoader_AIComponentStrategy( ) { };
+	WorldLoader_AIComponentStrategy( ) { };
+
+	ISystemComponent* CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes );
+
+private:
+
+	WorldLoader_AIComponentStrategy( const WorldLoader_AIComponentStrategy & copy ) { };
+	WorldLoader_AIComponentStrategy & operator = ( const WorldLoader_AIComponentStrategy & copy ) { return *this; };
+
+};
+
 #endif

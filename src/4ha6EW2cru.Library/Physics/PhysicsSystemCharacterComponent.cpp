@@ -176,39 +176,30 @@ void PhysicsSystemCharacterComponent::Observe( ISubject* subject, unsigned int s
 		{
 			_mouseXDelta = inputComponent->GetProperties( )[ "mouseXDelta" ].GetValue< int >( );
 		}
+	}
 		
-		if( System::Changes::Input::Move_Forward & systemChanges )
-		{
-			_forwardBackward = walkSpeed;
-		}
-
-		if( System::Changes::Input::Move_Backward & systemChanges )
-		{
-			_forwardBackward = -walkSpeed;
-		}
-
-		if( System::Changes::Input::Strafe_Right & systemChanges )
-		{
-			_leftRight = walkSpeed;
-		}
-
-		if( System::Changes::Input::Strafe_Left & systemChanges )
-		{
-			_leftRight = -walkSpeed;
-		}
-
-		if( System::Changes::Input::Jump & systemChanges )
-		{
-			_characterInput.m_wantJump = true;
-		}
+	if( System::Changes::Input::Move_Forward & systemChanges )
+	{
+		_forwardBackward = walkSpeed;
 	}
 
-	/*hkReal lenSqd = _forwardBackward * _forwardBackward + _leftRight * _leftRight;
-	
-	if ( lenSqd > HK_REAL_MIN )
+	if( System::Changes::Input::Move_Backward & systemChanges )
 	{
-		lenSqd = hkMath::sqrt( lenSqd );
-		_forwardBackward /= lenSqd;
-		_leftRight /= lenSqd;
-	}*/
+		_forwardBackward = -walkSpeed;
+	}
+
+	if( System::Changes::Input::Strafe_Right & systemChanges )
+	{
+		_leftRight = walkSpeed;
+	}
+
+	if( System::Changes::Input::Strafe_Left & systemChanges )
+	{
+		_leftRight = -walkSpeed;
+	}
+
+	if( System::Changes::Input::Jump & systemChanges )
+	{
+		_characterInput.m_wantJump = true;
+	}
 }

@@ -332,6 +332,9 @@ namespace Ogre
 			md3dpp.BackBufferHeight = height;
 			md3dpp.BackBufferWidth = width;
 
+			mWidth = width;
+			mHeight = height;
+
 			if ((oldFullscreen && fullScreen) || mIsExternal)
 			{
 				// Have to release & trigger device reset

@@ -28,6 +28,7 @@ public:
 
 	}
 
+	void Initialize( ) { };
 	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 	void DestroyComponent( ISystemComponent* component );
 	SystemType GetType( ) { return InputSystemType; }

@@ -22,6 +22,7 @@ public:
 	}
 
 	void Initialize( AnyValueMap properties ) { };
+	void Destroy( ) { };
 
 	inline void AddObserver( IObserver* observer ) { _observer = observer; };
 

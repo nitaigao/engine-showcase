@@ -32,10 +32,15 @@ function Menu.initialize( )
 	
 	local endGameButton = findWidget( 'button_endgame' );
 	scriptWidget( endGameButton, 'onRelease', Menu.onEndGameReleased );
+	
+	local menu = findWidget( 'menu' );
+	local menuX = ( getScreenWidth( ) - menu:getDimensions( ).width ) / 2;
+	local menuY = getScreenHeight( ) - menu:getDimensions( ).height;
+	menu:setPosition( menuX, menuY );
 
 end
 
-function Menu.onEvent( eventName, val1 )
+function Menu.onEvent( eventName, val1, val2 )
 
 	if ( eventName == 'INPUT_KEY_UP' ) then 
 	
@@ -142,7 +147,7 @@ function Menu.onPlayReleased( )
 	Menu.onHideMenu( );
 	hideMouse( );
 	menu_ingame = true;
-	loadLevel( 'level1' );
+	loadLevel( 'level0' );
 
 end
 

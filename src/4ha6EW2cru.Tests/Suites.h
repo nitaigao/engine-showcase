@@ -21,6 +21,7 @@ public:
 	static std::string UtilitySuite( ) { return "Utility"; };
 	static std::string GeometrySuite( ) { return "Geometry"; };
 	static std::string PhysicsSuite( ) { return "physics"; };
+	static std::string AISuite( ) { return "animation"; };
 	
 };
 

@@ -1,0 +1,10 @@
+<node name='m_tree-76'>
+  <scale x='3.08763' y='3.08764' z='2.40065'/>
+  <position x='-173.274' y='-5.4466' z='-428.813'/>
+  <rotation qw='0.475435' qx='0.475435' qy='-0.523413' qz='0.523413'/>
+  <entity name='m_tree-76' id='480' receiveShadows='true' meshFile='/data/levels/level1/meshes/m_tree-76.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='tree-01' index='0'/>
+    </subentities>
+  </entity>
+</node>

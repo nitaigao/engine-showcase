@@ -8,6 +8,7 @@ enum SystemType
 	GeometrySystemType,
 	InputSystemType,
 	PhysicsSystemType,
+	AISystemType,
 	TestSystemType,
 	Max_SystemTypes
 };
@@ -38,6 +39,11 @@ namespace System
 			static const unsigned int Mouse_Moved	=	( 1 << 15 );
 			static const unsigned int Jump			=	( 1 << 16 );
 		};
+
+		namespace AI
+		{
+			static const unsigned int Behavior		=	( 1 << 17 );
+		}
 	};
 };
 

@@ -23,6 +23,10 @@ IWorldLoader_ComponentStrategy* WorldLoader_ComponentStrategy_Factory::Create( c
 	{
 		strategy = new WorldLoader_InputComponentStrategy( );
 	}
+	else if ( componentType == "ai" )
+	{
+		strategy = new WorldLoader_AIComponentStrategy( );
+	}
 
 	return strategy;
 }
@@ -118,6 +122,28 @@ ISystemComponent* WorldLoader_InputComponentStrategy::CreateComponent( const std
 	}
 
 	SystemSceneMap::const_iterator systemScene = systemScenes.find( InputSystemType );
+
+	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
+	systemComponent->Initialize( properties );
+
+	return systemComponent;
+}
+
+ISystemComponent* WorldLoader_AIComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes )
+{ 
+	AnyValueMap properties;
+
+	for( YAML::Iterator componentProperty = componentNode.begin( ); componentProperty != componentNode.end( ); ++componentProperty ) 
+	{
+		std::string propertyKey, propertyValue;
+
+		componentProperty.first( ) >> propertyKey;
+		componentProperty.second( ) >> propertyValue;
+
+		properties.insert( std::make_pair( propertyKey, propertyValue ) );
+	}
+
+	SystemSceneMap::const_iterator systemScene = systemScenes.find( AISystemType );
 
 	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
 	systemComponent->Initialize( properties );

@@ -10,6 +10,9 @@ public:
 
 	~FileNotFoundException( ) { };
 
+	FileNotFoundException( const FileNotFoundException & copy ) { };
+	FileNotFoundException & operator = ( const FileNotFoundException & copy ) { return *this; };
+
 	FileNotFoundException( )
 		: std::exception( "There was an error attempting to open an File" )
 	{
@@ -21,12 +24,6 @@ public:
 	{
 
 	}
-
-private:
-
-	FileNotFoundException( const FileNotFoundException & copy ) { };
-	FileNotFoundException & operator = ( const FileNotFoundException & copy ) { return *this; };
-
 };
 
 #endif

@@ -1,0 +1,10 @@
+<node name='m_bush-65'>
+  <scale x='0.692018' y='0.887121' z='0.692018'/>
+  <position x='176.207' y='-0.582674' z='-81.079'/>
+  <rotation qw='0.0174523' qx='0' qy='0.999848' qz='0'/>
+  <entity name='m_bush-65' id='659' receiveShadows='true' meshFile='/data/levels/level1/meshes/m_bush-65.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='tree-01' index='0'/>
+    </subentities>
+  </entity>
+</node>

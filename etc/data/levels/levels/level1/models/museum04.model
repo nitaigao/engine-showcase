@@ -1,0 +1,10 @@
+<node name='museum04'>
+  <scale x='1' y='1' z='1'/>
+  <position x='-161.721' y='9.61875' z='-61.2221'/>
+  <rotation qw='1' qx='0' qy='0' qz='0'/>
+  <entity name='museum04' id='49' receiveShadows='true' meshFile='/data/levels/level1/meshes/museum04.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='buildz4' index='0'/>
+    </subentities>
+  </entity>
+</node>

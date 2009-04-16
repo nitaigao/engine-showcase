@@ -17,6 +17,7 @@ public:
 	}
 
 	void CreateInteractiveWindow( const std::string& title, const int& width, const int& height, const bool& fullScreen );
+	void CloseWindow( );
 	void CreateConsoleWindow( );
 	void Update( float deltaMilliseconds );
 	

@@ -9,6 +9,8 @@
 class OgreRenderSystemComponent : public ISystemComponent
 {
 
+	typedef std::vector< AnimationState* > AnimationStateList;
+
 public:
 
 	virtual ~OgreRenderSystemComponent( );
@@ -22,6 +24,7 @@ public:
 	}
 
 	void Initialize( AnyValueMap properties );
+	void Destroy( );
 
 	void AddObserver( IObserver* observer ) { };
 	void PushChanges( unsigned int systemChanges ){ };
@@ -33,7 +36,8 @@ public:
 			System::Changes::Geometry::Orientation | 
 			System::Changes::Geometry::Scale |
 			System::Changes::Geometry::All |
-			System::Changes::Input::Mouse_Moved;
+			System::Changes::Input::Mouse_Moved |
+			System::Changes::AI::Behavior;
 	};
 
 	void Observe( ISubject* subject, unsigned int systemChanges );
@@ -43,11 +47,17 @@ public:
 	inline const std::string& GetName( ) { return _name; };
 	inline SystemType GetType( ) { return RenderSystemType; };
 
+	void Update( float deltaMilliseconds );
+
 private:
+
+	void InitializeSceneNode( Ogre::SceneNode* sceneNode );
+	void DestroySceneNode( Ogre::SceneNode* sceneNode );
 
 	std::string _name;
 	OgreSystemScene* _scene;
 	Ogre::SceneNode* _sceneNode;
+	AnimationStateList _animationStates;
 
 	OgreRenderSystemComponent( ) { };
 	OgreRenderSystemComponent( const OgreRenderSystemComponent & copy ) { };

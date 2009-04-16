@@ -4,7 +4,6 @@
 #include "../System/ISystem.hpp"
 
 #include <Ogre.h>
-using namespace Ogre;
 
 #include "OgreRenderSystem.h"
 
@@ -15,22 +14,26 @@ public:
 
 	virtual ~OgreSystemScene( ) { };
 
-	OgreSystemScene( OgreRenderSystem* system )
-		: _system( system )
+	OgreSystemScene( Ogre::SceneManager* sceneManager )
+		: _sceneManager( sceneManager )
 	{
 
 	}
 
 	inline SystemType GetType( ) { return RenderSystemType; };
-	inline Root* GetRoot( ) { return _system->GetRoot( ); };
-	
+
+	void Initialize( ) { };
+	void Update( float deltaMilliseconds );
+
 	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 	void DestroyComponent( ISystemComponent* component );
-	void Update( float deltaMilliseconds );
+
+	Ogre::SceneManager* GetSceneManager( ) const { return _sceneManager; };
 
 private:
 
-	OgreRenderSystem* _system;
+	Ogre::SceneManager* _sceneManager;
+	SystemComponentList _components;
 
 	OgreSystemScene( ) { };
 	OgreSystemScene( const OgreSystemScene & copy ) { };

@@ -101,7 +101,7 @@ function Options.onSave( )
 		
 	end
 	
-	changeResolution( );
+	changeResolution( tonumber( displayWidth ), tonumber( displayHeight ), fullScreenButton:getChecked( ) );
 	
 	-- Console --
 	

@@ -6,6 +6,7 @@
 	<class name="components" usage="object">
 		<data displayName="Attach Graphics" name="attachGraphics" groupName="Graphics" type="bool" default="false" />	
 		<data displayName="Attach Input" name="attachInput" groupName="Input" type="bool" default="false" />	
+		<data displayName="Attach Animation" name="attachPhysics" groupName="Animation" type="bool" default="false" />	
 		<data displayName="Attach Physics" name="attachPhysics" groupName="Physics" type="bool" default="false" />	
 		<data displayName="Physics Body" name="physicsBody" groupName="Physics" type="string" />	
 		<data displayName="Physics Type" name="physicsType" groupName="Physics" type="type" />	]

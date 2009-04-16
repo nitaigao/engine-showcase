@@ -23,25 +23,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	DWORD endFrameTime = 0;
 	DWORD startFrameTime = 0;
 
-	int frameCount = 0;
-
 	while( !game.IsQuitting( ) )
 	{
 		deltaMilliseconds = ( endFrameTime - startFrameTime ) / 1000.0f;
 		startFrameTime = timeGetTime( );
 		game.Update( deltaMilliseconds );
 		endFrameTime = timeGetTime( );
-
-		float fps = 1.0f / deltaMilliseconds;
-
-		if ( ++frameCount >= 50 )
-		{
-			std::stringstream fpsStream;
-			fpsStream << "Framerate: " << fps << "\n";
-			OutputDebugStringA( fpsStream.str( ).c_str( ) );
-			frameCount = 0;
-		}
-
 	}
 
 	game.Release( );

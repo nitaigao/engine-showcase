@@ -30,9 +30,6 @@ void InputSystem::Initialize( )
 
 	_mouse = static_cast< OIS::Mouse* >( _inputManager->createInputObject( OIS::OISMouse, true ) );
 	_mouse->setEventCallback( this );
-
-	_mouse->getMouseState( ).width = _configuration->Find< int >( "Graphics", "width" );
-	_mouse->getMouseState( ).height = _configuration->Find< int >( "Graphics", "height" );
 }
 
 ISystemScene* InputSystem::CreateScene()
@@ -60,6 +57,9 @@ void InputSystem::Update( float deltaMilliseconds )
 {
 	_mouse->capture( );
 	_keyboard->capture( );
+
+	_mouse->getMouseState( ).width = _configuration->Find< int >( "Graphics", "width" );
+	_mouse->getMouseState( ).height = _configuration->Find< int >( "Graphics", "height" );
 }
 
 bool InputSystem::keyPressed( const KeyEvent &arg )

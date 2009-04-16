@@ -1,0 +1,10 @@
+<node name='misc_kiosk_04'>
+  <scale x='1' y='1' z='1'/>
+  <position x='99.6084' y='-0.078555' z='-44.4152'/>
+  <rotation qw='1' qx='0' qy='0' qz='0'/>
+  <entity name='misc_kiosk_04' id='324' receiveShadows='true' meshFile='/data/levels/level1/meshes/misc_kiosk_04.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='buildz4' index='0'/>
+    </subentities>
+  </entity>
+</node>

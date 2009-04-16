@@ -42,8 +42,7 @@ void Interface::Initialize( )
 	g_InterfaceScriptScene = ( ScriptSystemScene* ) Management::GetInstance( )->GetSystemManager( )->GetSystem( ScriptSystemType )->CreateScene( );
 	g_InterfaceScriptScene->Initialize( );
 
-	Ogre::RenderWindow* window = static_cast< Ogre::RenderWindow* >( _ogreRoot->getRenderTarget( _configuration->Find< std::string >( "Graphics", "window_title" ) ) );
-	_gui->initialise( window, "/data/interface/core/core.xml" );
+	_gui->initialise( _renderWindow, "/data/interface/core/core.xml" );
 
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_PRESSED, this, &Interface::OnMousePressed );
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_MOVED, this, &Interface::OnMouseMoved );
@@ -72,6 +71,7 @@ void Interface::Initialize( )
 		def( "setInputAllowed", &Interface::SetInputAllowed ),
 		def( "changeResolution", &Interface::ChangeResolution ),
 		def( "setFarClip", &Interface::SetFarClip ),
+		def( "getFps", &Interface::GetFps ),
 
 		def( "registerEventHandler", &Interface::RegisterEventHandler ),
 		def( "unregisterEventHandler", &Interface::UnRegisterEventHandler ),
@@ -81,6 +81,7 @@ void Interface::Initialize( )
 
 		class_< Widget >( "Widget" )
 			.def( "getDimensions", &Widget::getClientCoord )
+			.def( "setSize", ( void( Widget::* )( int, int ) ) &Widget::setSize )
 			.def( "setPosition", ( void( Widget::* )( int, int ) ) &Widget::setPosition )
 			.def( "getType", &Widget::getClassTypeName )
 			.def( "setVisible", &Widget::setVisible )
@@ -128,9 +129,14 @@ void Interface::Initialize( )
 	WidgetManager::getInstancePtr( )->registerUnlinker( this );
 }
 
-void Interface::Update( const float deltaMilliseconds ) const
+void Interface::Update( const float deltaMilliseconds )
 {
 	_gui->injectFrameEntered( deltaMilliseconds );
+
+	if ( _updateSkipCount++ >= 100 )
+	{
+		Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "UPDATE_TICK" ) ); 
+	}
 }
 
 void Interface::LoadComponent( const std::string componentName )
@@ -150,6 +156,8 @@ void Interface::LoadComponent( const std::string componentName )
 	scriptComponent->Initialize( properties );
 
 	lua_pcall( scriptComponent->GetState( ), 0, 0, 0 );
+
+	Gui::getInstancePtr( )->windowResized( Gui::getInstancePtr( )->getRenderWindow( ) );
 }
 
 WidgetPtr Interface::FindWidget( const std::string widgetName )
@@ -316,9 +324,10 @@ void Interface::SetFocus( WidgetPtr widget, bool focus )
 	}
 }
 
-void Interface::ChangeResolution()
+void Interface::ChangeResolution( int width, int height, bool isFullScreen )
 {
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GRAPHICS_SETTINGS_CHANGED ) );
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GRAPHICS_SETTINGS_CHANGED", width, height ) );
 }
 
 void Interface::SetFarClip( const float& farClip )
@@ -354,4 +363,9 @@ std::vector< std::string > Interface::GetSupportedResolutions()
 	}
 
 	return resolutions;
+}
+
+void Interface::ResetWidgetPositions(  )
+{
+	_gui->windowResized( _renderWindow );
 }

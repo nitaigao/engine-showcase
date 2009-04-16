@@ -24,8 +24,10 @@ public:
 		, _isIntialized( false )
 		, _root( 0 )
 		, _window( 0 )
+		, _sceneManager( 0 )
 		, _interface( 0 )
 		, _badFactory( 0 )
+		, _configSectionName( "Graphics" )
 	{
 
 	}
@@ -40,11 +42,7 @@ public:
 	inline AnyValueMap GetProperties( ) { return _properties; };
 	inline void SetProperty( const std::string& name, AnyValue value );
 
-	inline Ogre::Root* GetRoot( ) { return _root; };
-
 	virtual void windowClosed( RenderWindow* rw );
-
-	void SetCamera( const std::string& cameraName );
 
 private:
 
@@ -52,6 +50,7 @@ private:
 
 	void Constructor( Configuration* configuration, IFileManager* fileManager );
 	void LoadResources( );
+	void CreateRenderWindow( const std::string& windowTitle, int width, int height, bool fullScreen );
 	std::vector< std::string > GetVideoModes( ) const;
 
 	AnyValueMap _properties;
@@ -59,10 +58,12 @@ private:
 	IInterface* _interface;
 	bool _badStubCreated;
 	bool _isIntialized;
+	std::string _configSectionName;
 	std::vector< std::string > _supportedVideoModes;
 	std::string _skyBoxMaterial;
 
 	Ogre::Root* _root;
+	Ogre::SceneManager* _sceneManager;
 	Ogre::RenderWindow* _window;
 	Ogre::ArchiveFactory* _badFactory;
 

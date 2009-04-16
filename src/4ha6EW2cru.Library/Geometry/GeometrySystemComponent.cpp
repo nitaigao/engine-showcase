@@ -1,6 +1,7 @@
 #include "GeometrySystemComponent.h"
 
 #include "../Physics/PhysicsSystemComponent.h"
+#include "../ai/AISystemComponent.h"
 #include "../Input/InputSystemComponent.h"
 
 void GeometrySystemComponent::Initialize( AnyValueMap properties )
@@ -37,13 +38,31 @@ void GeometrySystemComponent::PushChanges( unsigned int systemChanges )
 
 void GeometrySystemComponent::Observe( ISubject* subject, unsigned int systemChanges )
 {
-	PhysicsSystemComponent* physicsComponent = static_cast< PhysicsSystemComponent* >( subject );
+	ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 
-	_position = physicsComponent->GetPosition( );
-	_orientation = physicsComponent->GetRotation( );
+	if ( component->GetType( ) == PhysicsSystemType )
+	{
+		PhysicsSystemComponent* physicsComponent = static_cast< PhysicsSystemComponent* >( subject );
 
-	this->PushChanges( 
-		System::Changes::Geometry::Position |
-		System::Changes::Geometry::Orientation
-		);
+		_position = physicsComponent->GetPosition( );
+		_orientation = physicsComponent->GetOrientation( );
+
+		this->PushChanges( 
+			System::Changes::Geometry::Position |
+			System::Changes::Geometry::Orientation
+			);
+	}
+
+	if ( component->GetType( ) == AISystemType )
+	{
+		AISystemComponent* aiComponent = static_cast< AISystemComponent* >( subject );
+
+		_position = aiComponent->GetPosition( );
+		_orientation = aiComponent->GetOrientation( );
+
+		this->PushChanges( 
+			System::Changes::Geometry::Position |
+			System::Changes::Geometry::Orientation
+			);
+	}
 }

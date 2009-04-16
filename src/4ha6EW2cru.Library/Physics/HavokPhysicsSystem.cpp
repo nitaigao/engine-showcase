@@ -25,7 +25,10 @@
 #include <Common/Base/Thread/JobQueue/hkJobQueue.h>	
 
 #include <Common/Base/keycode.cxx>
+
+#define INCLUDE_HAVOK_ANIMATION_CLASSES
 #define INCLUDE_HAVOK_PHYSICS_CLASSES
+
 #define HK_CLASSES_FILE <Common/Serialize/Classlist/hkClasses.h>
 #include <Common/Serialize/Util/hkBuiltinTypeRegistry.cxx>
 #define HK_COMPAT_FILE <Common/Compat/hkCompatVersions.h>

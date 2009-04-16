@@ -1,0 +1,10 @@
+<node name='oilpump02'>
+  <scale x='1' y='1' z='1'/>
+  <position x='10.5466' y='7.72014' z='-342.972'/>
+  <rotation qw='1' qx='0' qy='8.74228e-008' qz='0'/>
+  <entity name='oilpump02' id='122' receiveShadows='true' meshFile='/data/levels/level1/meshes/oilpump02.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='buildz4' index='0'/>
+    </subentities>
+  </entity>
+</node>

@@ -13,39 +13,43 @@
 #include "../System/Management.h"
 #include "../Exceptions/ScriptException.hpp"
 
+using namespace luabind;
+
 ScriptSystemScene::~ScriptSystemScene( )
 {
 	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( ALL_EVENTS, this, &ScriptSystemScene::OnEvent );
 
-	for( ScriptObjectList::iterator i = _scriptObjects.begin( ); i != _scriptObjects.end( ); ++i )
+	for( ScriptComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
 	{
 		delete ( *i );
 	}
 
 	delete _eventHandlers;
+	_eventHandlers = 0;
+
 	delete _scriptConfiguration;
+	_scriptConfiguration = 0;
 
 	lua_close( _state );
 	_state = 0;
 }
 
-ScriptSystemScene::ScriptSystemScene( ISystem* scriptSystem, Configuration* configuration )
+ScriptSystemScene::ScriptSystemScene( Configuration* configuration )
 {
 	_scriptConfiguration = new ScriptConfiguration( configuration );
 	_state = lua_open( );
 	_eventHandlers = new EventHandlerList( );
-	_system = scriptSystem;
 }
 
 ISystemComponent* ScriptSystemScene::CreateComponent( const std::string& name, const std::string& type )
 {
 	lua_State* childState = lua_newthread( _state );
 
-	ScriptComponent* scriptComponent = new ScriptComponent( name, childState );
+	ScriptComponent* component = new ScriptComponent( name, childState );
 
-	_scriptObjects.push_back( scriptComponent );
+	_components.push_back( component );
 
-	return scriptComponent;
+	return component;
 }
 
 void ScriptSystemScene::DestroyComponent( ISystemComponent* component )
@@ -69,28 +73,7 @@ void ScriptSystemScene::Initialize( )
 			.property( "isFullScreen", &ScriptConfiguration::IsFullScreen, &ScriptConfiguration::SetFullScreen )
 			.property( "displayWidth", &ScriptConfiguration::GetDisplayWidth, &ScriptConfiguration::SetDisplayWidth )
 			.property( "displayHeight", &ScriptConfiguration::GetDisplayHeight, &ScriptConfiguration::SetDisplayHeight )
-			.property( "isConsole", &ScriptConfiguration::IsConsole, &ScriptConfiguration::SetConsole ),
-
-		class_< std::vector< std::string > >( "StringList" ),
-
-		class_< EventType >( "EventType" )
-			.enum_( "constants" )
-			[
-				value( "INPUT_KEY_UP", INPUT_KEY_UP ),
-				value( "INPUT_MOUSE_RELEASED", INPUT_MOUSE_RELEASED ),
-
-				value( "GRAPHICS_SETTINGS_CHANGED", GRAPHICS_SETTINGS_CHANGED ),
-
-				value( "UI_TITLE_SCREEN", UI_TITLE_SCREEN ),
-				value( "UI_MAIN_MENU", UI_MAIN_MENU ),
-				value( "UI_PAUSE_MENU", UI_PAUSE_MENU ),
-				value( "UI_CLEAR", UI_CLEAR ),
-				value( "UI_OPTIONS", UI_OPTIONS ),
-				value( "UI_CONSOLE", UI_CONSOLE ),
-				value( "LOG_MESSAGE_APPENDED", LOG_MESSAGE_APPENDED ),
-
-				value( "GAME_INITIALIZED", GAME_INITIALIZED )
-			]
+			.property( "isConsole", &ScriptConfiguration::IsConsole, &ScriptConfiguration::SetConsole )
 	];
 
 	luabind::globals( _state )[ "Configuration" ] = _scriptConfiguration;
@@ -192,7 +175,7 @@ void ScriptSystemScene::Script_Error( lua_State* luaState )
 	ScriptSystemScene::Script_PError( luaState );
 }
 
-void ScriptSystemScene::Print( const std::string message )
+void ScriptSystemScene::Print( const std::string& message )
 {
 	Logger::GetInstance( )->Info( message );
 }
@@ -208,7 +191,7 @@ void ScriptSystemScene::LoadLevel( const std::string& levelName )
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
 }
 
-void ScriptSystemScene::ExecuteString( const std::string input )
+void ScriptSystemScene::ExecuteString( const std::string& input )
 {
 	luaL_dostring( _state, input.c_str( ) );
 }

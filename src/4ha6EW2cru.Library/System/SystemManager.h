@@ -12,6 +12,8 @@ public:
 		{
 			delete ( *i );
 		}
+
+		_systems.clear( );
 	}
 
 	SystemManager( ) { };

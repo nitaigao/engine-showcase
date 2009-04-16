@@ -21,6 +21,7 @@ function Interface.initialize( )
 	loadComponent( 'console' );
 	loadComponent( 'loading' );
 	loadComponent( 'hud' );
+	loadComponent( 'statistics' );
 	
 end
 

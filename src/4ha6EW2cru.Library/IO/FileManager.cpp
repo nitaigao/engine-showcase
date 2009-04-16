@@ -49,7 +49,7 @@ bool FileManager::MountFileStore( const std::string filePath, const std::string 
 		throw e;
 	}
 
-	return ( result > 0 );;
+	return ( result > 0 );
 }
 
 FileBuffer* FileManager::GetFile( const std::string filePath, bool binary ) const

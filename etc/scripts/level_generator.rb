@@ -1,17 +1,30 @@
 require 'yaml'
+require 'fileutils'
 require 'rexml/document'
 include REXML
 
 sourcePath = ARGV[ 0 ].to_s;
-$workingDirectory = File.dirname( sourcePath );
 file = File.new( sourcePath );
+
+$workingDirectory = File.dirname( sourcePath );
+$levelName = File.basename( sourcePath, '.scene' )
+$basePath = File.join( $workingDirectory, $levelName );
+
+$bodiesFullPath = $basePath + '/bodies'
+$texturesFullPath = $basePath + '/textures'
+$meshesFullPath = $basePath + '/meshes'
+$modelsFullPath = $basePath + '/models'
+
+$baseGamePath = '/data/levels/' + $levelName
+$bodiesGamePath = $baseGamePath + '/bodies'
+$texturesGamePath = $baseGamePath + '/textures'
+$meshesGamePath = $baseGamePath + '/meshes'
+$modelsGamePath = $baseGamePath + '/models'
 
 contents = file.read.gsub( '<![CDATA[', '' ).gsub( ']]>', '' )
 
 doc = Document.new( contents );
 root = doc.root;
-
-$bodiesPath = '/data/entities/bodies'
 
 class Color
 
@@ -158,7 +171,7 @@ class GraphicsComponent < Component
 
     def initialize( ogreNode )
         @system = 'graphics';
-        @model = '/data/entities/models/' + ogreNode.attributes[ 'name' ] + '.model'
+        @model = $modelsGamePath + '/' + ogreNode.attributes[ 'name' ] + '.model'
     end
     
     def model
@@ -210,7 +223,7 @@ class PhysicsComponent < Component
 	
 		@system = 'physics'
 		
-		@body = File.join( $bodiesPath, ogreNode.elements[ './/physicsBody' ].text );
+		@body = File.join( $bodiesGamePath, ogreNode.elements[ './/physicsBody' ].text );
 		@type = ogreNode.elements[ './/physicsType' ].text;
 	
 	end
@@ -326,7 +339,7 @@ def createEntities( xmlRoot )
 
 	entities = Array.new;
 
-	xmlRoot.each_element( "//node" ) { | node |
+	xmlRoot.each_element( "/scene/nodes/node" ) { | node |
 
 		entity = Entity.new( node );	
 		
@@ -342,21 +355,30 @@ def createEntities( xmlRoot )
 		
 		entities.push( entity );
 		
-		modelFilePath = File.join( $workingDirectory, 'models', entity.name + '.model' );
+		modelFilePath = $modelsFullPath + '/' + entity.name + '.model';
 		modelFile = File.new( modelFilePath, "w+" );
 		
 		node.elements.delete( 'entity//userData' );
 		
 		node.each_element( 'entity' ) { | entityNode |
-		
+
 			meshFile = entityNode.attributes[ 'meshFile' ];
-			fullMeshFile = File.join( '/data/entities/meshes', meshFile.to_s );
+			fullMeshFile = $meshesGamePath + '/' + meshFile.to_s;
 			entityNode.attributes[ 'meshFile' ] = fullMeshFile;
+			
+			entityNode.each_element( './/entity' ) { | subEntityNode |
+			
+				meshFile = subEntityNode.attributes[ 'meshFile' ];
+				fullMeshFile = $meshesGamePath + '/' + meshFile.to_s;
+				subEntityNode.attributes[ 'meshFile' ] = fullMeshFile;
+			
+			}
+			
 		}
 		
 		formatter = REXML::Formatters::Pretty.new
 		modelNode = String.new
-		formatter.write(node, modelNode);
+		formatter.write( node, modelNode );
 	
 		modelFile.write( modelNode );
 		modelFile.close( );
@@ -402,11 +424,10 @@ def processMaterials( materialsPath )
 		
 			materialFile = File.new( materialFilePath, 'r+' );
 			materialContents = materialFile.read( );
-			texturePath = '/data/entities/textures/';
 			
-			if ( !materialContents.to_s.include? texturePath )
+			if ( !materialContents.to_s.include? $texturesGamePath )
 			
-				materialContents = materialContents.gsub( "\ttexture ", "\ttexture " + texturePath );
+				materialContents = materialContents.gsub( "\ttexture ", "\ttexture " + $texturesGamePath + '/' );
 				materialFile.close( );
 				
 				materialFile = File.new( materialFilePath, 'w' );
@@ -422,6 +443,48 @@ def processMaterials( materialsPath )
 
 end
 
+def processMeshes( meshesPath )
+
+	meshesDir = Dir.new( meshesPath );
+	meshesDir.each { | entry |
+	
+		if ( entry.to_s.include? ".mesh" ) then
+		
+			meshFilePath = File.join( meshesPath, entry );
+		
+			meshFile = File.new( meshFilePath, 'r+' );
+			meshContents = meshFile.read( );
+			
+			skeletonFilename = File.basename( entry, '.mesh' ) + '.skeleton'
+			
+			if ( !meshContents.to_s.include? $meshesGamePath )
+			
+				meshContents = meshContents.gsub( skeletonFilename, $meshesGamePath + '/' + skeletonFilename );
+				meshFile.close( );
+				
+				meshFile = File.new( meshFilePath, 'w' );
+				meshFile.write( meshContents );
+				meshFile.close( );
+				
+				puts 'Processed Mesh: ' + entry;
+			
+			end
+			
+		end
+		
+	}
+
+end
+
+def createBaseStructure( )
+
+	FileUtils.mkdir_p( $bodiesFullPath );
+	FileUtils.mkdir_p( $texturesFullPath );
+	FileUtils.mkdir_p( $meshesFullPath );
+	FileUtils.mkdir_p( $modelsFullPath );
+
+end
+
 puts ''
 puts 'Processing Scene Files'
 puts ''
@@ -430,7 +493,9 @@ puts ''
 puts 'Processing Scene File: ' + ARGV[ 0 ].to_s
 puts ''
 
-levelFilePath = sourcePath.to_s.gsub( '.scene', '.yaml' );
+createBaseStructure( );
+
+levelFilePath = File.join( $basePath, $levelName + '.yaml' );
 
 outputFile = File.new( levelFilePath,  "w+" );
 outputFile.write( createEnvironment( root ).to_yaml );
@@ -448,6 +513,15 @@ puts ''
 
 materialPath = File.join( $workingDirectory, 'materials' );
 processMaterials( materialPath );
+FileUtils.cp_r( materialPath, $basePath );
+
+puts ''
+puts 'Processing Meshes'
+puts ''
+
+meshesPath = File.join( $workingDirectory, 'meshes' );
+processMeshes( meshesPath );
+FileUtils.cp_r( meshesPath, $basePath );
 
 puts ''
 puts 'Finished Processing Materials'

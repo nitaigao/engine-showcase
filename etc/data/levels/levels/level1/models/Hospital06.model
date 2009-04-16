@@ -1,0 +1,10 @@
+<node name='Hospital06'>
+  <scale x='1' y='1' z='1'/>
+  <position x='-191.519' y='20.6064' z='-242.935'/>
+  <rotation qw='1' qx='0' qy='8.74228e-008' qz='0'/>
+  <entity name='Hospital06' id='80' receiveShadows='true' meshFile='/data/levels/level1/meshes/Hospital06.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='skyscrp' index='0'/>
+    </subentities>
+  </entity>
+</node>

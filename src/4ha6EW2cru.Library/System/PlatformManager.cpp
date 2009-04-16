@@ -26,7 +26,6 @@ LRESULT CALLBACK WindowProcedure( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 		PostQuitMessage( 0 );
 		return 0;
-		break;
 
 	}
 
@@ -106,4 +105,9 @@ void PlatformManager::Update( float deltaMilliseconds )
 		TranslateMessage( &msg );
 		DispatchMessage( &msg );
 	}
+}
+
+void PlatformManager::CloseWindow( )
+{
+	DestroyWindow( ( HWND ) _hWnd );
 }

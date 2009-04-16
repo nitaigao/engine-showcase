@@ -149,6 +149,30 @@
 	</References>
 	<Files>
 		<File
+			RelativePath=".\AI\AISystem.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\AI\AISystem.h"
+			>
+		</File>
+		<File
+			RelativePath=".\AI\AISystemComponent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\AI\AISystemComponent.h"
+			>
+		</File>
+		<File
+			RelativePath=".\AI\AISystemScene.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\AI\AISystemScene.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Exceptions\AlreadyInitializedException.hpp"
 			>
 		</File>

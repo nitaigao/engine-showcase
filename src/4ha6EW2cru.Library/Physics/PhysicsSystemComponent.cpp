@@ -93,7 +93,7 @@ MathVector3 PhysicsSystemComponent::GetPosition()
 		);
 }
 
-MathQuaternion PhysicsSystemComponent::GetRotation()
+MathQuaternion PhysicsSystemComponent::GetOrientation( )
 {
 	hkQuaternion physicsRotation = _body->getRotation( );
 

@@ -20,6 +20,7 @@ public:
 	virtual ~ISystemComponent( ) { };
 
 	virtual void Initialize( AnyValueMap properties ) = 0;
+	virtual void Destroy( ) = 0;
 	virtual void AddObserver( IObserver* observer ) = 0;
 
 	virtual const std::string& GetName( ) = 0;

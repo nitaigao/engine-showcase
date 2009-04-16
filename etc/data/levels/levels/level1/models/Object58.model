@@ -1,0 +1,10 @@
+<node name='Object58'>
+  <scale x='1' y='1' z='1'/>
+  <position x='-6.25983' y='71.5285' z='-75.9543'/>
+  <rotation qw='1' qx='0' qy='0' qz='0'/>
+  <entity name='Object58' id='13' receiveShadows='true' meshFile='/data/levels/level1/meshes/Object58.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='skyscrp' index='0'/>
+    </subentities>
+  </entity>
+</node>

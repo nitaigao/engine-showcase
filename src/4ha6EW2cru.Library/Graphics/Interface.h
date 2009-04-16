@@ -26,16 +26,19 @@ public:
 
 	virtual ~Interface( );
 
-	Interface( Configuration* configuration, Ogre::Root* ogreRoot )
-		: _ogreRoot( ogreRoot )
+	Interface( Configuration* configuration, Ogre::RenderWindow* renderWindow )
+		: _renderWindow( renderWindow )
 		, _configuration( configuration )
 		, _gui( new Gui( ) )
+		, _updateSkipCount( 0 )
 	{
 
 	}
 
 	void Initialize( );
-	void Update( const float deltaMilliseconds ) const;
+	void Update( const float deltaMilliseconds );
+
+	void ResetWidgetPositions( );
 
 	virtual void _unlinkWidget ( WidgetPtr widget );
 
@@ -103,7 +106,7 @@ private:
 	static void BroadcastEvent( const std::string& eventName );
 
 	/*! Causes the Renderer to adjust the Resolution to match the Configuration */
-	static void ChangeResolution( );
+	static void ChangeResolution( int width, int height, bool isFullScreen );
 
 	/*! Sets the Far Clip Distance of the Camera */
 	static void SetFarClip( const float& farClip );
@@ -119,6 +122,9 @@ private:
 
 	/*! Returns the Screen Height in pixels */
 	static inline int GetScreenHeight( ) { return Ogre::Root::getSingletonPtr( )->getRenderTarget( "Interactive View" )->getHeight( ); };
+
+	/*! Returns the Average FPS from the renderer */
+	static inline float GetFps( ) { return static_cast< int >( Ogre::Root::getSingletonPtr( )->getRenderTarget( "Interactive View" )->getAverageFPS( ) ); }
 
 	/*! Returns a list of supported Video Resolutions */
 	static std::vector< std::string > GetSupportedResolutions( );
@@ -141,8 +147,9 @@ private:
 	void OnKeyDown( const IEvent* event );
 
 	Configuration* _configuration;
-	Ogre::Root* _ogreRoot;
+	Ogre::RenderWindow* _renderWindow;
 	Gui* _gui;
+	int _updateSkipCount;
 
 	Interface( ) { };
 	Interface( const Interface & copy ) { };

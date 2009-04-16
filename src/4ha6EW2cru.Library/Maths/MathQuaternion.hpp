@@ -61,9 +61,9 @@ public:
 			_w * input._z + _z * input._w + _x * input._y - _y * input._x,
 			_w * input._w - _x * input._x - _y * input._y - _z * input._z
 		);
-	}
+	};
 
-
+	static MathQuaternion Identity( ) { return MathQuaternion( ); }; 
 
 private:
 

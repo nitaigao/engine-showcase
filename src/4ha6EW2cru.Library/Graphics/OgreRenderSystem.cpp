@@ -27,10 +27,6 @@ OgreRenderSystem::~OgreRenderSystem( )
 	
 	Ogre::WindowEventUtilities::removeWindowEventListener( _window, this );
 
-	/*SystemProperty videoModeProperty = this->GetProperties( )[ "availableVideoModes" ];
-	std::vector< std::string >* videoModes = videoModevalue.GetValue< std::vector< std::string >* >( );
-	delete videoModes;*/
-
 	if( _interface != 0 )
 	{
 		delete _interface;
@@ -59,25 +55,28 @@ void OgreRenderSystem::Initialize( )
 		throw e;
 	}
 
-	_configuration->SetDefault( "Graphics", "fullscreen", false );
-	_configuration->SetDefault( "Graphics", "width", 640 );
-	_configuration->SetDefault( "Graphics", "height", 480 );
-	_configuration->SetDefault( "Graphics", "depth", 32 );
-	_configuration->SetDefault( "Graphics", "window_title", std::string( "Interactive View" ) );
+	bool defaultFullScreen = false;
+	int defaultWidth = 640;
+	int defaultHeight = 480;
+	int defaultDepth = 32;
+	std::string defaultWindowTitle = "Interactive View";
+
+	_configuration->SetDefault( _configSectionName, "fullscreen", defaultFullScreen );
+	_configuration->SetDefault( _configSectionName, "width", defaultWidth );
+	_configuration->SetDefault( _configSectionName, "height", defaultHeight );
+	_configuration->SetDefault( _configSectionName, "depth", defaultDepth );
+	_configuration->SetDefault( _configSectionName, "window_title", defaultWindowTitle );
 
 	_root = new Root( );
-
-	// Switches off the Ogre Logging unless the whole game is in debug mode
-	if ( Logger::GetInstance( )->GetLogLevel( ) < WARNA )
-	{
-		Ogre::LogManager::getSingletonPtr( )->destroyLog( Ogre::LogManager::getSingletonPtr( )->getDefaultLog( ) );
-		Ogre::LogManager::getSingletonPtr( )->createLog( "default", true, false, true );
-	}
 
 #ifdef _DEBUG
 	_root->loadPlugin( "RenderSystem_Direct3D9_d" );
 #else
 	_root->loadPlugin( "RenderSystem_Direct3D9" );
+
+	Ogre::LogManager::getSingletonPtr( )->destroyLog( Ogre::LogManager::getSingletonPtr( )->getDefaultLog( ) );
+	Ogre::LogManager::getSingletonPtr( )->createLog( "default", true, false, true );
+
 #endif // _DEBUG	
 
 	_badFactory = new BadArchiveFactory( );
@@ -92,37 +91,44 @@ void OgreRenderSystem::Initialize( )
 	_root->setRenderSystem( *renderSystemIterator );
 
 	std::stringstream videoModeDesc;
-	videoModeDesc << _configuration->Find< int >( "Graphics", "width" ) << " x " << _configuration->Find< int >( "Graphics", "height" ) << " @ 32-bit colour";
+	videoModeDesc << _configuration->Find< int >( _configSectionName, "width" ) << " x " << _configuration->Find< int >( _configSectionName, "height" ) << " @ defaultDepth-bit colour";
 	( *renderSystemIterator )->setConfigOption( "Video Mode", videoModeDesc.str( ) );
-	( *renderSystemIterator )->setConfigOption( "Full Screen", _configuration->Find< bool >( "Graphics", "fullscreen" ) ? "Yes" : "No" );
+	( *renderSystemIterator )->setConfigOption( "Full Screen", _configuration->Find< bool >( _configSectionName, "fullscreen" ) ? "Yes" : "No" );
 
 	_root->initialise( false );
 
-	Management::GetInstance( )->GetPlatformManager( )->CreateInteractiveWindow( 
-		_configuration->Find< std::string >( "Graphics", "window_title" ), 
-		_configuration->Find< int >( "Graphics", "width" ), 
-		_configuration->Find< int >( "Graphics", "height" ),
-		_configuration->Find< bool >( "Graphics", "fullscreen" )
-		);
+	try
+	{
+		this->CreateRenderWindow(
+			_configuration->Find< std::string >( _configSectionName, "window_title" ), 
+			_configuration->Find< int >( _configSectionName, "width" ), 
+			_configuration->Find< int >( _configSectionName, "height" ),
+			_configuration->Find< bool >( _configSectionName, "fullscreen" )
+			);
+	}
+	catch( Exception e )
+	{
+		if ( e.getNumber( ) == Exception::ERR_RENDERINGAPI_ERROR )
+		{
+			_configuration->Set( _configSectionName, "fullscreen", defaultFullScreen );
+			_configuration->Set( _configSectionName, "width", defaultWidth );
+			_configuration->Set( _configSectionName, "height", defaultHeight );
+			_configuration->Set( _configSectionName, "depth", defaultDepth );
+			_configuration->Set( _configSectionName, "window_title", defaultWindowTitle );
 
-	NameValuePairList params;
-	params[ "externalWindowHandle" ] = StringConverter::toString( ( int ) Management::GetInstance( )->GetPlatformManager( )->GetHwnd( ) );
-
-	_window = _root->createRenderWindow( 
-		_configuration->Find< std::string >( "Graphics", "window_title" ), 
-		_configuration->Find< int >( "Graphics", "width" ), 
-		_configuration->Find< int >( "Graphics", "height" ),
-		_configuration->Find< bool >( "Graphics", "fullscreen" ), 
-		&params 
-		);
+			Management::GetInstance( )->GetPlatformManager( )->CloseWindow( );
+		}
+	}
 
 	Ogre::WindowEventUtilities::addWindowEventListener( _window, this );
 
 	_properties[ "availableVideoModes" ] = this->GetVideoModes( );
 
-	SceneManager* sceneManager = _root->createSceneManager( ST_GENERIC, "default" );
+	_sceneManager = _root->createSceneManager( ST_GENERIC, "default" );
 
-	Camera* camera = sceneManager->createCamera( "default" );
+	//_sceneManager->setFog(FOG_LINEAR, ColourValue( ), 0.0, 50, 100);
+
+	Camera* camera = _sceneManager->createCamera( "default" );
 	camera->setPosition( Vector3( 0, 0, 0 ) );
 	camera->lookAt( Vector3( 0, 0, 0 ) );
 	camera->setNearClipDistance( 1.0f );
@@ -136,7 +142,7 @@ void OgreRenderSystem::Initialize( )
 
 	_root->renderOneFrame( );
 
-	_interface = new Interface( _configuration, _root );
+	_interface = new Interface( _configuration, _window );
 	_interface->Initialize( );
 
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( GRAPHICS_SETTINGS_CHANGED, this, &OgreRenderSystem::OnGraphicsSettingsUpdated );
@@ -160,15 +166,13 @@ void OgreRenderSystem::Update( float deltaMilliseconds )
 
 void OgreRenderSystem::SetProperty( const std::string& name, AnyValue value )
 {
-	SceneManager* sceneManager = _root->getSceneManager( "default" );
-
 	_properties[ name ] = value;
 
 	if ( name == "activeCamera" )
 	{
 		std::string cameraName = value.GetValue< std::string >( );
-		Camera* camera = sceneManager->getCamera( cameraName );
-		sceneManager->getCurrentViewport( )->setCamera( camera );
+		Camera* camera = _sceneManager->getCamera( cameraName );
+		_sceneManager->getCurrentViewport( )->setCamera( camera );
 	}
 
 	if ( name == "ambientColor" )
@@ -176,7 +180,7 @@ void OgreRenderSystem::SetProperty( const std::string& name, AnyValue value )
 		Color color = value.GetValue< Color >( );
 		ColourValue colorValue( color.GetRed( ), color.GetGreen( ), color.GetBlue( ) );
 
-		sceneManager->setAmbientLight( colorValue );
+		_sceneManager->setAmbientLight( colorValue );
 	}
 
 	if ( name == "backgroundColor" )
@@ -184,20 +188,20 @@ void OgreRenderSystem::SetProperty( const std::string& name, AnyValue value )
 		Color color = value.GetValue< Color >( );
 		ColourValue colorValue( color.GetRed( ), color.GetGreen( ), color.GetBlue( ) );
 
-		sceneManager->getCurrentViewport( )->setBackgroundColour( colorValue );
+		_sceneManager->getCurrentViewport( )->setBackgroundColour( colorValue );
 	}
 
 	if ( name == "farClip" )
 	{
 		float farClip = value.GetValue< float >( );
 
-		if ( sceneManager->isSkyBoxEnabled( ) )
+		if ( _sceneManager->isSkyBoxEnabled( ) )
 		{
-			SceneManager::SkyBoxGenParameters skyBoxParameters = sceneManager->getSkyBoxGenParameters( ); 
-			sceneManager->setSkyBox( true, _skyBoxMaterial, farClip - 200.0f );
+			SceneManager::SkyBoxGenParameters skyBoxParameters = _sceneManager->getSkyBoxGenParameters( ); 
+			_sceneManager->setSkyBox( true, _skyBoxMaterial, farClip - 200.0f );
 		}
 
-		sceneManager->getCurrentViewport( )->getCamera( )->setFarClipDistance( farClip );
+		_sceneManager->getCurrentViewport( )->getCamera( )->setFarClipDistance( farClip );
 	}
 
 	if ( name == "skyBox" )
@@ -206,21 +210,21 @@ void OgreRenderSystem::SetProperty( const std::string& name, AnyValue value )
 
 		if ( materialName.empty( ) )
 		{
-			sceneManager->setSkyBox( false, "" );
+			_sceneManager->setSkyBox( false, "" );
 		}
 		else
 		{
 			_skyBoxMaterial = materialName;
-			SceneManager::SkyBoxGenParameters skyBoxParameters = sceneManager->getSkyBoxGenParameters( ); 
-			float currentFarClip = sceneManager->getCurrentViewport( )->getCamera( )->getFarClipDistance( );
-			sceneManager->setSkyBox( true, _skyBoxMaterial, currentFarClip - 200.0f );
+			SceneManager::SkyBoxGenParameters skyBoxParameters = _sceneManager->getSkyBoxGenParameters( ); 
+			float currentFarClip = _sceneManager->getCurrentViewport( )->getCamera( )->getFarClipDistance( );
+			_sceneManager->setSkyBox( true, _skyBoxMaterial, currentFarClip - 200.0f );
 		}
 	}
 }
 
 ISystemScene* OgreRenderSystem::CreateScene()
 {
-	return new OgreSystemScene( this );
+	return new OgreSystemScene( _sceneManager );
 }
 
 void OgreRenderSystem::windowClosed( RenderWindow* rw )
@@ -279,11 +283,22 @@ std::vector< std::string > OgreRenderSystem::GetVideoModes( ) const
 
 void OgreRenderSystem::OnGraphicsSettingsUpdated( const IEvent* event )
 {
-	Ogre::RenderWindow* window = static_cast< Ogre::RenderWindow* >( _root->getRenderTarget(  _configuration->Find< std::string >( "Graphics", "window_title" ) ) );
+	Ogre::RenderWindow* window = static_cast< Ogre::RenderWindow* >( _root->getRenderTarget(  _configuration->Find< std::string >( _configSectionName, "window_title" ) ) );
+
+	int width = _configuration->Find< int >( _configSectionName, "width" );
+	int height = _configuration->Find< int >( _configSectionName, "height" );
+	bool fullScreen = _configuration->Find< bool >( _configSectionName, "fullscreen" );
+
+	window->setFullscreen( fullScreen, width, height );
+	_interface->ResetWidgetPositions( );
+}
+
+void OgreRenderSystem::CreateRenderWindow( const std::string& windowTitle, int width, int height, bool fullScreen )
+{
+	Management::GetInstance( )->GetPlatformManager( )->CreateInteractiveWindow( windowTitle, width, height, fullScreen );
 	
-	window->setFullscreen(
-		_configuration->Find< bool >( "Graphics", "fullscreen" ),
-		_configuration->Find< int >( "Graphics", "width" ), 
-		_configuration->Find< int >( "Graphics", "height" )
-		);
+	NameValuePairList params;
+	params[ "externalWindowHandle" ] = StringConverter::toString( ( int ) Management::GetInstance( )->GetPlatformManager( )->GetHwnd( ) );
+
+	_window = _root->createRenderWindow( windowTitle, width, height, fullScreen, &params ); 
 }
