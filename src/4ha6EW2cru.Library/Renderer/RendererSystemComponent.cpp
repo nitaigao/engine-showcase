@@ -1,4 +1,4 @@
-#include "OgreRenderSystemComponent.h"
+#include "RendererSystemComponent.h"
 
 #include "../Utility/OgreMax/OgreMaxModel.hpp"
 using namespace OgreMax;
@@ -11,12 +11,19 @@ using namespace Ogre;
 #include "../AI/AISystemComponent.h"
 #include "../Logging/Logger.h"
 
-OgreRenderSystemComponent::~OgreRenderSystemComponent( )
+#include "AnimationBlender.h"
+
+RendererSystemComponent::~RendererSystemComponent( )
 {
 	_scene->GetSceneManager( )->getRootSceneNode( )->removeAndDestroyChild( _name );
+
+	for( AnimationBlenderList::iterator i = _animationBlenders.begin( ); i != _animationBlenders.end( ); ++i )
+	{
+		delete ( *i );
+	}
 }
 
-void OgreRenderSystemComponent::Initialize( AnyValueMap properties )
+void RendererSystemComponent::Initialize( AnyValueMap properties )
 {
 	for ( AnyValueMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
 	{
@@ -48,47 +55,14 @@ void OgreRenderSystemComponent::Initialize( AnyValueMap properties )
 	}
 }
 
-void OgreRenderSystemComponent::Destroy( )
+void RendererSystemComponent::Destroy( )
 {
 	this->DestroySceneNode( _sceneNode );
 }
 
-unsigned int OgreRenderSystemComponent::GetRequiredSystemChanges()
+void RendererSystemComponent::Observe( ISubject* subject, unsigned int systemChanges )
 {
-	return System::Changes::Geometry::Orientation
-		| System::Changes::Geometry::Position
-		| System::Changes::Geometry::Scale;
-
-}
-
-void OgreRenderSystemComponent::Observe( ISubject* subject, unsigned int systemChanges )
-{
-	float mouseSmooth = 0.15f;
-
 	ISystemComponent* component = static_cast< ISystemComponent* >( subject );
-
-	if ( component->GetType( ) == InputSystemType )
-	{
-		InputSystemComponent* inputComponent = static_cast< InputSystemComponent* >( component );
-
-		if ( System::Changes::Input::Mouse_Moved & systemChanges )
-		{
-			float mouseYDelta = inputComponent->GetProperties( )[ "mouseYDelta" ].GetValue< int >( );
-
-			SceneNode::ObjectIterator objects = _sceneNode->getAttachedObjectIterator( );
-
-			while( objects.hasMoreElements( ) )
-			{
-				MovableObject* object = objects.getNext( );
-
-				if( object->getMovableType( ) == "Camera" )
-				{
-					Camera* camera = _scene->GetSceneManager( )->getCamera( object->getName( ) );
-					camera->pitch( Degree( mouseYDelta * mouseSmooth ) );
-				}
-			}
-		}
-	}
 
 	if ( component->GetType( ) == GeometrySystemType )
 	{
@@ -107,28 +81,23 @@ void OgreRenderSystemComponent::Observe( ISubject* subject, unsigned int systemC
 		{
 			AISystemComponent* aiComponent = static_cast< AISystemComponent* >( subject );
 
-			std::vector< AnimationState* > statesForEnable;
-
-			for( AnimationStateList::iterator i = _animationStates.begin( ); i != _animationStates.end( ); ++i )
+			for( AnimationBlenderList::iterator i = _animationBlenders.begin( ); i != _animationBlenders.end( ); ++i )
 			{
-				if ( ( *i )->getAnimationName( ) == aiComponent->GetBehavior( ) )
-				{
-					( *i )->setEnabled( true );
-				}
+				( *i )->Blend( aiComponent->GetBehavior( ), 0.2f );
 			}
 		}
 	}
 }
 
-void OgreRenderSystemComponent::Update( float deltaMilliseconds )
+void RendererSystemComponent::Update( float deltaMilliseconds )
 {
-	for( AnimationStateList::iterator i = _animationStates.begin( ); i != _animationStates.end( ); ++i )
+	for( AnimationBlenderList::iterator i = _animationBlenders.begin( ); i != _animationBlenders.end( ); ++i )
 	{
-		( *i )->addTime( deltaMilliseconds );
+		( *i )->Update( deltaMilliseconds );
 	}
 }
 
-void OgreRenderSystemComponent::InitializeSceneNode( Ogre::SceneNode* sceneNode )
+void RendererSystemComponent::InitializeSceneNode( Ogre::SceneNode* sceneNode )
 {
 	SceneNode::ObjectIterator objects = sceneNode->getAttachedObjectIterator( );
 
@@ -138,7 +107,7 @@ void OgreRenderSystemComponent::InitializeSceneNode( Ogre::SceneNode* sceneNode 
 
 		if( object->getMovableType( ) == "Camera" )
 		{
-			OgreRenderSystem* renderSystem = ( OgreRenderSystem* ) Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
+			RendererSystem* renderSystem = ( RendererSystem* ) Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
 
 			renderSystem->SetProperty( "activeCamera", object->getName( ) );
 			renderSystem->SetProperty( "farClip", 500.0f );
@@ -148,14 +117,12 @@ void OgreRenderSystemComponent::InitializeSceneNode( Ogre::SceneNode* sceneNode 
 		{
 			Entity* entity = _scene->GetSceneManager( )->getEntity( object->getName( ) );
 
-			if ( entity->getAllAnimationStates( ) != 0 )
-			{
-				AnimationStateIterator animationStates = entity->getAllAnimationStates( )->getAnimationStateIterator( );
+			AnimationStateSet* animationStates = entity->getAllAnimationStates( );
 
-				while( animationStates.hasMoreElements( ) )
-				{
-					_animationStates.push_back(  animationStates.getNext( ) );
-				}
+			if ( animationStates != 0 )
+			{
+				IAnimationBlender* animationBlender = new AnimationBlender( entity );
+				_animationBlenders.push_back( animationBlender );
 			}
 		}
 	}
@@ -169,7 +136,7 @@ void OgreRenderSystemComponent::InitializeSceneNode( Ogre::SceneNode* sceneNode 
 	}
 }
 
-void OgreRenderSystemComponent::DestroySceneNode( Ogre::SceneNode* sceneNode )
+void RendererSystemComponent::DestroySceneNode( Ogre::SceneNode* sceneNode )
 {
 	Ogre::Node::ChildNodeIterator children = sceneNode->getChildIterator( );
 

@@ -49,6 +49,9 @@ private:
 	/*! Loads a UI Component for Rendering */
 	static void LoadComponent( const std::string componentName );
 
+	/*! Registers the Global UI functions for the State */
+	static void RegisterGlobals( lua_State* luaState );
+
 	/*! Retrieves a widget from the UI */
 	static WidgetPtr FindWidget( const std::string widgetName );
 
@@ -79,14 +82,16 @@ private:
 	/*! Casts a widget to a ProgressBar */
 	static inline ProgressPtr AsProgressBar( WidgetPtr widget ) { return static_cast< ProgressPtr >( widget ); };
 
+	/*! Sets a Widget Caption */
+	static inline void SetText( WidgetPtr widget, const std::string& text ) { widget->setCaption( text ); };
+
+	/*! Gets a WidgetCaption */
+	static inline std::string GetText( WidgetPtr widget ) { return widget->getCaption( ).asUTF8( ); };
+
+	static inline void AddText( EditPtr editWidget, const std::string& text ) { editWidget->addText( text ); };
+
 	/*! Sets the focus to the given Widget */
 	static void SetFocus( WidgetPtr widget, bool focus );
-
-	/*! Converts the given type to a std::string */
-	static inline std::string AsString( Ogre::UTFString input ) { return std::string( input ); };
-
-	/*! Converts the given type to an Ogre::UTFString */
-	static inline Ogre::UTFString AsUtf( std::string input ) { return Ogre::UTFString( input ); };
 
 	/* -- Game Script Helpers -- */
 

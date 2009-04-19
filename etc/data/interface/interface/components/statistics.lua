@@ -27,7 +27,7 @@ function Statistics.updateStatistics( )
 
 	local fps = getFps( );
 	local stats = findWidget( 'statistics' );
-	stats:setText( utf( 'fps: ' .. fps ) );
+	stats:setText( 'fps: ' .. fps );
 
 end
 

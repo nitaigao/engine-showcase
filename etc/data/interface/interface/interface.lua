@@ -13,6 +13,8 @@ Interface = {}
 
 function Interface.initialize( )
 
+	print( 'Loading Interface' );
+
 	--unregisterEvent( EventType.GAME_INITIALIZED, Interface.initialize );
 
 	loadComponent( 'title' );

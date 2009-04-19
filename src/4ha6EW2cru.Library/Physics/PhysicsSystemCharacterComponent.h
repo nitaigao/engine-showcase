@@ -17,6 +17,7 @@ public:
 		, _framesInAir( 0 )
 		, _forwardBackward( 0 )
 		, _leftRight( 0 )
+		, _mouseXDelta( 0 )
 	{
 		_previousGround = new hkpSurfaceInfo( );
 	}

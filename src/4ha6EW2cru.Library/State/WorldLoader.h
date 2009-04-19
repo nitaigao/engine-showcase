@@ -34,6 +34,8 @@ private:
 	void LoadColor( const YAML::Node& node );
 	void LoadSkyBox( const YAML::Node& node );
 	void LoadEntity( const YAML::Node& node );
+	void LoadLink( const YAML::Node& node );
+
 	void LoadEntityComponents( const YAML::Node& node, IEntity* entity );
 
 	IWorld* _world;

@@ -65,3 +65,14 @@ void World::Clear( )
 
 	_entities.clear( );
 }
+
+IEntity* World::FindEntity( const std::string& name )
+{
+	for ( EntityList::iterator e = _entities.begin( ); e != _entities.end( ); ++e )
+	{
+		if ( ( *e )->GetName( ) == name )
+		{
+			return ( *e );
+		}
+	}
+}

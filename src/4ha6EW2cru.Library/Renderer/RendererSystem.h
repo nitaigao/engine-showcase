@@ -11,14 +11,14 @@
 #include <Ogre.h>
 using namespace Ogre;
 
-class OgreRenderSystem : public ISystem, public Ogre::WindowEventListener
+class RendererSystem : public ISystem, public Ogre::WindowEventListener
 {
 
 public:
 
-	virtual ~OgreRenderSystem( );
+	virtual ~RendererSystem( );
 
-	OgreRenderSystem( Configuration* configuration )
+	RendererSystem( Configuration* configuration )
 		: _configuration( configuration )
 		, _badStubCreated( false )
 		, _isIntialized( false )
@@ -67,9 +67,9 @@ private:
 	Ogre::RenderWindow* _window;
 	Ogre::ArchiveFactory* _badFactory;
 
-	OgreRenderSystem( ) { };
-	OgreRenderSystem( const OgreRenderSystem & copy ) { };
-	OgreRenderSystem & operator = ( const OgreRenderSystem & copy ) { return *this; };
+	RendererSystem( ) { };
+	RendererSystem( const RendererSystem & copy ) { };
+	RendererSystem & operator = ( const RendererSystem & copy ) { return *this; };
 
 };
 

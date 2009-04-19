@@ -1,9 +1,9 @@
-#include "OgreRenderSystem.h"
+#include "RendererSystem.h"
 
 #include "../System/Management.h"
 #include "../Events/Event.h"
 
-#include "OgreSystemScene.h"
+#include "RendererSystemScene.h"
 #include "Color.hpp"
 
 #include "../Logging/Logger.h"
@@ -21,9 +21,9 @@
 
 #include <complex>
 
-OgreRenderSystem::~OgreRenderSystem( )
+RendererSystem::~RendererSystem( )
 {
-	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GRAPHICS_SETTINGS_CHANGED, this, &OgreRenderSystem::OnGraphicsSettingsUpdated );
+	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GRAPHICS_SETTINGS_CHANGED, this, &RendererSystem::OnGraphicsSettingsUpdated );
 	
 	Ogre::WindowEventUtilities::removeWindowEventListener( _window, this );
 
@@ -46,7 +46,7 @@ OgreRenderSystem::~OgreRenderSystem( )
 	}
 }
 
-void OgreRenderSystem::Initialize( )
+void RendererSystem::Initialize( )
 {
 	if ( _configuration == 0 )
 	{
@@ -59,6 +59,7 @@ void OgreRenderSystem::Initialize( )
 	int defaultWidth = 640;
 	int defaultHeight = 480;
 	int defaultDepth = 32;
+	bool defaultVsync = true;
 	std::string defaultWindowTitle = "Interactive View";
 
 	_configuration->SetDefault( _configSectionName, "fullscreen", defaultFullScreen );
@@ -66,6 +67,7 @@ void OgreRenderSystem::Initialize( )
 	_configuration->SetDefault( _configSectionName, "height", defaultHeight );
 	_configuration->SetDefault( _configSectionName, "depth", defaultDepth );
 	_configuration->SetDefault( _configSectionName, "window_title", defaultWindowTitle );
+	_configuration->SetDefault( _configSectionName, "vsync", defaultVsync );
 
 	_root = new Root( );
 
@@ -94,6 +96,7 @@ void OgreRenderSystem::Initialize( )
 	videoModeDesc << _configuration->Find< int >( _configSectionName, "width" ) << " x " << _configuration->Find< int >( _configSectionName, "height" ) << " @ defaultDepth-bit colour";
 	( *renderSystemIterator )->setConfigOption( "Video Mode", videoModeDesc.str( ) );
 	( *renderSystemIterator )->setConfigOption( "Full Screen", _configuration->Find< bool >( _configSectionName, "fullscreen" ) ? "Yes" : "No" );
+	( *renderSystemIterator )->setConfigOption( "VSync", _configuration->Find< bool >( _configSectionName, "vsync" ) ? "Yes" : "No" );
 
 	_root->initialise( false );
 
@@ -145,12 +148,12 @@ void OgreRenderSystem::Initialize( )
 	_interface = new Interface( _configuration, _window );
 	_interface->Initialize( );
 
-	Management::GetInstance( )->GetEventManager( )->AddEventListener( GRAPHICS_SETTINGS_CHANGED, this, &OgreRenderSystem::OnGraphicsSettingsUpdated );
+	Management::GetInstance( )->GetEventManager( )->AddEventListener( GRAPHICS_SETTINGS_CHANGED, this, &RendererSystem::OnGraphicsSettingsUpdated );
 
 	_isIntialized = true;
 }
 
-void OgreRenderSystem::Update( float deltaMilliseconds )
+void RendererSystem::Update( float deltaMilliseconds )
 {
 	if ( !_isIntialized )
 	{
@@ -164,7 +167,7 @@ void OgreRenderSystem::Update( float deltaMilliseconds )
 	_root->renderOneFrame( );
 }
 
-void OgreRenderSystem::SetProperty( const std::string& name, AnyValue value )
+void RendererSystem::SetProperty( const std::string& name, AnyValue value )
 {
 	_properties[ name ] = value;
 
@@ -222,17 +225,17 @@ void OgreRenderSystem::SetProperty( const std::string& name, AnyValue value )
 	}
 }
 
-ISystemScene* OgreRenderSystem::CreateScene()
+ISystemScene* RendererSystem::CreateScene()
 {
-	return new OgreSystemScene( _sceneManager );
+	return new RendererSystemScene( _sceneManager );
 }
 
-void OgreRenderSystem::windowClosed( RenderWindow* rw )
+void RendererSystem::windowClosed( RenderWindow* rw )
 {
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
 }
 
-void OgreRenderSystem::LoadResources( )
+void RendererSystem::LoadResources( )
 {
 	ConfigFile cf;
 	cf.load( "../game/config/resources.cfg" );
@@ -251,7 +254,7 @@ void OgreRenderSystem::LoadResources( )
 	}
 }
 
-std::vector< std::string > OgreRenderSystem::GetVideoModes( ) const
+std::vector< std::string > RendererSystem::GetVideoModes( ) const
 {
 	std::vector< std::string > availableDisplayModes;
 	ConfigOptionMap options = _root->getRenderSystem( )->getConfigOptions( );
@@ -281,7 +284,7 @@ std::vector< std::string > OgreRenderSystem::GetVideoModes( ) const
 	return availableDisplayModes;
 }
 
-void OgreRenderSystem::OnGraphicsSettingsUpdated( const IEvent* event )
+void RendererSystem::OnGraphicsSettingsUpdated( const IEvent* event )
 {
 	Ogre::RenderWindow* window = static_cast< Ogre::RenderWindow* >( _root->getRenderTarget(  _configuration->Find< std::string >( _configSectionName, "window_title" ) ) );
 
@@ -293,7 +296,7 @@ void OgreRenderSystem::OnGraphicsSettingsUpdated( const IEvent* event )
 	_interface->ResetWidgetPositions( );
 }
 
-void OgreRenderSystem::CreateRenderWindow( const std::string& windowTitle, int width, int height, bool fullScreen )
+void RendererSystem::CreateRenderWindow( const std::string& windowTitle, int width, int height, bool fullScreen )
 {
 	Management::GetInstance( )->GetPlatformManager( )->CreateInteractiveWindow( windowTitle, width, height, fullScreen );
 	

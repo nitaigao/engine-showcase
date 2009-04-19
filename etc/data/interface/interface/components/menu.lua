@@ -33,7 +33,7 @@ function Menu.initialize( )
 	local endGameButton = findWidget( 'button_endgame' );
 	scriptWidget( endGameButton, 'onRelease', Menu.onEndGameReleased );
 	
-	local menu = findWidget( 'menu' );
+	local menu = findWidget( 'menubox' );
 	local menuX = ( getScreenWidth( ) - menu:getDimensions( ).width ) / 2;
 	local menuY = getScreenHeight( ) - menu:getDimensions( ).height;
 	menu:setPosition( menuX, menuY );

@@ -8,6 +8,8 @@
 #include "../Logging/Logger.h"
 #include "../Exceptions/ArchiveNotFoundException.hpp"
 
+using namespace Ogre;
+
 Ogre::DataStreamPtr BadArchive::open( const Ogre::String& filename ) const
 {
 	DataStreamPtr stream;

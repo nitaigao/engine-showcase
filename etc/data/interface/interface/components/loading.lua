@@ -16,6 +16,11 @@ function Loading.initialize( )
 	registerEventHandler( Loading.onEvent );
 	
 	Loading.onHideLoading( );
+	
+	local loading = findWidget( 'loadingbox' );
+	local loadingX = ( getScreenWidth( ) - loading:getDimensions( ).width ) / 2;
+	local loadingY = getScreenHeight( ) - ( loading:getDimensions( ).height * 3 );
+	loading:setPosition( loadingX, loadingY );
 
 end
 
@@ -34,7 +39,7 @@ end
 function Loading.onHideLoading( )
 
 	local progress = findWidget( 'loading_progress' ):asProgressBar( );
-	progress:setProgress( 100 );
+	progress:setProgress( 105 );
 
 	local loading = findWidget( 'loading' );
 	loading:setVisible( false );
@@ -46,7 +51,6 @@ end
 function Loading.onLoadProgress( totalProgress )
 
 	local progress = findWidget( 'loading_progress' ):asProgressBar( );
-	--print( 'Loading Progress: ' .. tonumber( totalProgress ) .. '%' );
 	progress:setProgress( tonumber( totalProgress ) );
 
 end

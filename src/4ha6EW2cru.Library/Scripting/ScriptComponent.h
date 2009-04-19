@@ -36,6 +36,10 @@ public:
 
 	inline lua_State* GetState( ) { return _state; };
 
+	inline MathVector3 GetPosition( ) { return MathVector3::Zero( ); };
+	inline MathVector3 GetScale( ) { return MathVector3::Zero( ); };
+	inline MathQuaternion GetOrientation( ) { return MathQuaternion::Identity( ); };
+
 private:
 
 	lua_State* _state;

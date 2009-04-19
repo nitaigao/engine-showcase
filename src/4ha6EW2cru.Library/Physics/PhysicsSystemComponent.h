@@ -59,6 +59,7 @@ public:
 	};
 
 	MathVector3 GetPosition( );
+	inline MathVector3 GetScale( ) { return MathVector3::Zero( ); };
 	MathQuaternion GetOrientation( );
 
 protected:

@@ -1,13 +1,14 @@
 #include "WorldLoader.h"
 
 #include <sstream>
+#include "../System/SystemTypeMapper.hpp"
 #include "../System/Management.h"
 
 #include "WorldLoaderStrategies.h"
 
 #include "../Scripting/ScriptEvent.hpp"
 
-#include "../Graphics/Color.hpp"
+#include "../Renderer/Color.hpp"
 
 void WorldLoader::Load( const std::string& levelPath )
 {
@@ -52,6 +53,32 @@ void WorldLoader::LoadNode( const YAML::Node& node )
 	{
 		this->LoadSkyBox( node );
 	}
+	else if ( type == "link" )
+	{
+		this->LoadLink( node );
+	}
+}
+
+void WorldLoader::LoadLink( const YAML::Node& node )
+{ 
+	/*std::string entityName, entitySystem, observerName, observerSystem;
+
+	node[ "entityName" ] >> entityName;
+	node[ "entitySystem" ] >> entitySystem;
+	node[ "observerName" ] >> observerName;
+	node[ "observerSystem" ] >> observerSystem;
+
+	SystemType entitySystemType = System::TypeMapper::StringToType( entitySystem );
+	SystemType observerSystemType = System::TypeMapper::StringToType( observerSystem );
+
+	IEntity* entity = _world->FindEntity( entityName );
+	IEntity* observer = _world->FindEntity( observerName );
+
+	ISystemComponent* entityComponent = entity->FindComponent( entitySystemType );
+	ISystemComponent* observerComponent = observer->FindComponent( observerSystemType );
+
+	entityComponent->AddObserver( observerComponent );*/
+
 }
 
 void WorldLoader::LoadSkyBox( const YAML::Node& node )

@@ -14,6 +14,7 @@ public:
 	World( ) { };
 
 	IEntity* CreateEntity( const std::string& name );
+	IEntity* FindEntity( const std::string& name );
 
 	inline void AddSystemScene( ISystemScene* systemScene ) { _systemScenes[ systemScene->GetType( ) ] = systemScene; }
 	inline const SystemSceneMap& GetSystemScenes( ) { return _systemScenes; };

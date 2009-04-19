@@ -3,8 +3,6 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "Graphics/IRenderer.hpp"
-
 class InputSystemFixture : public CPPUNIT_NS::TestFixture
 {
 

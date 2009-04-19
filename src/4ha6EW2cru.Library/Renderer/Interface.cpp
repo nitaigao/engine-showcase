@@ -59,26 +59,6 @@ void Interface::Initialize( )
 
 	module( scriptComponent->GetState( ) )
 	[
-		def( "findWidget", &Interface::FindWidget ),
-		def( "loadComponent", &Interface::LoadComponent ),
-		def( "getScreenWidth", &Interface::GetScreenWidth ),
-		def( "getScreenHeight", &Interface::GetScreenHeight ),
-		def( "getSupportedResolutions", &Interface::GetSupportedResolutions, copy_table( result ) ),
-		def( "scriptWidget", &Interface::ScriptWidget ),
-		def( "executeString", &Interface::ExecuteString ),
-		def( "showMouse", &Interface::ShowMouse ),
-		def( "hideMouse", &Interface::HideMouse ),
-		def( "setInputAllowed", &Interface::SetInputAllowed ),
-		def( "changeResolution", &Interface::ChangeResolution ),
-		def( "setFarClip", &Interface::SetFarClip ),
-		def( "getFps", &Interface::GetFps ),
-
-		def( "registerEventHandler", &Interface::RegisterEventHandler ),
-		def( "unregisterEventHandler", &Interface::UnRegisterEventHandler ),
-		def( "registerEvent", &Interface::RegisterEvent ),
-		def( "unregisterEvent", &Interface::UnRegisterEvent ),
-		def( "broadcastEvent", &Interface::BroadcastEvent ),
-
 		class_< Widget >( "Widget" )
 			.def( "getDimensions", &Widget::getClientCoord )
 			.def( "setSize", ( void( Widget::* )( int, int ) ) &Widget::setSize )
@@ -86,8 +66,8 @@ void Interface::Initialize( )
 			.def( "getType", &Widget::getClassTypeName )
 			.def( "setVisible", &Widget::setVisible )
 			.def( "isVisible", &Widget::isVisible )
-			.def( "getText", &Widget::getCaption )
-			.def( "setText", &Widget::setCaption )
+			.def( "getText", &Interface::GetText )
+			.def( "setText", &Interface::SetText )
 			.def( "asButton", &Interface::AsButton )
 			.def( "asComboBox", &Interface::AsComboBox )
 			.def( "asEditBox", &Interface::AsEditBox )
@@ -105,7 +85,7 @@ void Interface::Initialize( )
 			.def( "setSelectedIndex", &ComboBox::setIndexSelected ),
 
 		class_< Edit, Widget >( "EditBox" )
-			.def( "addText", &Edit::addText ),
+			.def( "addText", &Interface::AddText ),
 
 		class_< Progress, Widget >( "ProgressBar" )
 			.def( "setProgress", &Progress::setProgressPosition ),
@@ -116,13 +96,11 @@ void Interface::Initialize( )
 			.def_readonly( "width" , &IntCoord::width )
 			.def_readonly( "height" , &IntCoord::height ),
 
-		class_< Ogre::UTFString >( "utf" )
-			.def( constructor< std::string >( ) )
-			.def( "asString", &Interface::AsString ),
-
 		class_< Any >( "Any" )
 			.def( constructor<>( ) )
 	];
+
+	Interface::RegisterGlobals( scriptComponent->GetState( ) );
 
 	lua_pcall( scriptComponent->GetState( ), 0, 0, 0 );
 
@@ -154,6 +132,8 @@ void Interface::LoadComponent( const std::string componentName )
 	AnyValueMap properties;
 	properties.insert( std::make_pair( "scriptPath", scriptPath.str( ) ) );
 	scriptComponent->Initialize( properties );
+
+	Interface::RegisterGlobals( scriptComponent->GetState( ) );
 
 	lua_pcall( scriptComponent->GetState( ), 0, 0, 0 );
 
@@ -368,4 +348,30 @@ std::vector< std::string > Interface::GetSupportedResolutions()
 void Interface::ResetWidgetPositions(  )
 {
 	_gui->windowResized( _renderWindow );
+}
+
+void Interface::RegisterGlobals( lua_State* luaState )
+{
+	module( luaState )
+	[
+		def( "findWidget", &Interface::FindWidget ),
+		def( "loadComponent", &Interface::LoadComponent ),
+		def( "getScreenWidth", &Interface::GetScreenWidth ),
+		def( "getScreenHeight", &Interface::GetScreenHeight ),
+		def( "getSupportedResolutions", &Interface::GetSupportedResolutions, copy_table( result ) ),
+		def( "scriptWidget", &Interface::ScriptWidget ),
+		def( "executeString", &Interface::ExecuteString ),
+		def( "showMouse", &Interface::ShowMouse ),
+		def( "hideMouse", &Interface::HideMouse ),
+		def( "setInputAllowed", &Interface::SetInputAllowed ),
+		def( "changeResolution", &Interface::ChangeResolution ),
+		def( "setFarClip", &Interface::SetFarClip ),
+		def( "getFps", &Interface::GetFps ),
+
+		def( "registerEventHandler", &Interface::RegisterEventHandler ),
+		def( "unregisterEventHandler", &Interface::UnRegisterEventHandler ),
+		def( "registerEvent", &Interface::RegisterEvent ),
+		def( "unregisterEvent", &Interface::UnRegisterEvent ),
+		def( "broadcastEvent", &Interface::BroadcastEvent )
+	];
 }

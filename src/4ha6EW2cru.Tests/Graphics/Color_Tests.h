@@ -3,7 +3,7 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "Graphics/Color.hpp"
+#include "Renderer/Color.hpp"
 
 class Color_Tests : public CPPUNIT_NS::TestFixture
 {

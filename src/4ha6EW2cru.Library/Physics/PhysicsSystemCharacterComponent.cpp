@@ -80,8 +80,6 @@ PhysicsSystemCharacterComponent::~PhysicsSystemCharacterComponent()
 
 void PhysicsSystemCharacterComponent::Update( float deltaMilliseconds )
 {
-	float mouseSmooth = 0.15f;
-
 	_characterInput.m_inputUD = _forwardBackward;
 	_characterInput.m_inputLR = _leftRight;
 
@@ -91,17 +89,8 @@ void PhysicsSystemCharacterComponent::Update( float deltaMilliseconds )
 	_characterInput.m_velocity = _characterBody->getRigidBody( )->getLinearVelocity( );
 	_characterInput.m_position = _characterBody->getRigidBody( )->getPosition( );
 
-	hkQuaternion rotationDelta;
-	rotationDelta.setAxisAngle( MathVector3::Up( ).AshkVector4( ), -_mouseXDelta * deltaMilliseconds * mouseSmooth );
-	_mouseXDelta = 0;
-
-	hkQuaternion rotation;
-	rotation = _characterBody->getRigidBody( )->getRotation( );
-	rotation.mul( rotationDelta );
-
-	_characterBody->getRigidBody( )->setRotation( rotation );
 	_characterInput.m_forward.set( 0.0f, 0.0f, 1.0f );
-	_characterInput.m_forward.setRotatedDir( rotation, _characterInput.m_forward );
+	_characterInput.m_forward.setRotatedDir( _characterBody->getRigidBody( )->getRotation( ), _characterInput.m_forward );
 
 	hkpSurfaceInfo ground;
 	_characterBody->checkSupport( _characterInput.m_stepInfo, ground );
@@ -167,16 +156,6 @@ void PhysicsSystemCharacterComponent::Observe( ISubject* subject, unsigned int s
 	ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 
 	float walkSpeed = 2.0f;
-
-	if ( component->GetType( ) == InputSystemType )
-	{
-		InputSystemComponent* inputComponent = static_cast< InputSystemComponent* >( component );
-
-		if ( System::Changes::Input::Mouse_Moved & systemChanges )
-		{
-			_mouseXDelta = inputComponent->GetProperties( )[ "mouseXDelta" ].GetValue< int >( );
-		}
-	}
 		
 	if( System::Changes::Input::Move_Forward & systemChanges )
 	{

@@ -15,6 +15,7 @@ public:
 	virtual ~IWorld( ) { };
 
 	virtual IEntity* CreateEntity( const std::string& name ) = 0;
+	virtual IEntity* FindEntity( const std::string& name ) = 0;
 	virtual void AddSystemScene( ISystemScene* systemScene ) = 0;
 	virtual const SystemSceneMap& GetSystemScenes( ) = 0;
 	virtual void Update( float deltaMilliseconds ) = 0;

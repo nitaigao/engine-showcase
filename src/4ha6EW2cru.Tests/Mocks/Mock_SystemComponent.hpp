@@ -33,6 +33,10 @@ public:
 	inline const std::string& GetName( ) { return "test"; }
 	inline SystemType GetType( ) { return _systemType; };
 
+	inline MathVector3 GetPosition( ) { return MathVector3::Zero( ); };
+	inline MathVector3 GetScale( ) { return MathVector3::Zero( ); };
+	inline MathQuaternion GetOrientation( ) { return MathQuaternion::Identity( ); };
+
 private:
 
 	Mock_SystemComponent & operator = ( const Mock_SystemComponent & copy ) { return *this; };

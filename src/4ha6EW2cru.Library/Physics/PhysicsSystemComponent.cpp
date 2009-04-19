@@ -71,15 +71,13 @@ void PhysicsSystemComponent::Observe( ISubject* subject, unsigned int systemChan
 {
 	ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 
-	if ( component->GetType( ) == GeometrySystemType )
+	if( component->GetType( ) == GeometrySystemType )
 	{
-		GeometrySystemComponent* geometrySystemComponent = static_cast< GeometrySystemComponent* >( subject );
-
 		_body->setPositionAndRotation( 
-			geometrySystemComponent->GetPosition( ).AshkVector4( ),	
-			geometrySystemComponent->GetOrientation( ).AshkQuaternion( )
+			component->GetPosition( ).AshkVector4( ),	
+			component->GetOrientation( ).AshkQuaternion( )
 		);
-	};
+	}
 }
 
 MathVector3 PhysicsSystemComponent::GetPosition()

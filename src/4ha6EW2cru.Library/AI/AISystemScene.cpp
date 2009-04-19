@@ -26,10 +26,12 @@ void AISystemScene::Initialize( )
 	module( _scriptScene->GetState( ) )
 	[
 		class_< AISystemComponent >( "AISystemComponent" )
-		.def( "walkForward", &AISystemComponent::WalkForward )
-		.def( "walkBackward", &AISystemComponent::WalkBackward )
-		.def( "setBehavior", &AISystemComponent::SetBehavior )
-
+			.def( "walkForward", &AISystemComponent::WalkForward )
+			.def( "walkBackward", &AISystemComponent::WalkBackward )
+			.def( "facePlayer", &AISystemComponent::FacePlayer )
+			.def( "setBehavior", &AISystemComponent::SetBehavior )
+			.def( "getName", &AISystemComponent::GetName )
+			.def( "getPlayerDistance", &AISystemComponent::GetPlayerDistance )
 	];
 }
 

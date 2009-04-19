@@ -3,6 +3,8 @@
 
 #include "ISubject.hpp"
 
+#include <vector>
+
 class IObserver
 {
 
@@ -12,5 +14,7 @@ public:
 	virtual void Observe( ISubject* subject, unsigned int systemChanges ) = 0;
 
 };
+
+typedef std::vector< IObserver* > ObserverList;
 
 #endif

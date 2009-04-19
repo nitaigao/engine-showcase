@@ -30,9 +30,9 @@ void GeometrySystemComponent::Initialize( AnyValueMap properties )
 
 void GeometrySystemComponent::PushChanges( unsigned int systemChanges )
 {
-	if ( _observer != 0 )
+	for( ObserverList::iterator i = _observers.begin( ); i != _observers.end( ); ++i )
 	{
-		_observer->Observe( this, systemChanges );
+		( *i )->Observe( this, systemChanges );
 	}
 }
 
@@ -40,29 +40,11 @@ void GeometrySystemComponent::Observe( ISubject* subject, unsigned int systemCha
 {
 	ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 
-	if ( component->GetType( ) == PhysicsSystemType )
-	{
-		PhysicsSystemComponent* physicsComponent = static_cast< PhysicsSystemComponent* >( subject );
+	_position = component->GetPosition( );
+	_orientation = component->GetOrientation( );
 
-		_position = physicsComponent->GetPosition( );
-		_orientation = physicsComponent->GetOrientation( );
-
-		this->PushChanges( 
-			System::Changes::Geometry::Position |
-			System::Changes::Geometry::Orientation
-			);
-	}
-
-	if ( component->GetType( ) == AISystemType )
-	{
-		AISystemComponent* aiComponent = static_cast< AISystemComponent* >( subject );
-
-		_position = aiComponent->GetPosition( );
-		_orientation = aiComponent->GetOrientation( );
-
-		this->PushChanges( 
-			System::Changes::Geometry::Position |
-			System::Changes::Geometry::Orientation
-			);
-	}
+	this->PushChanges( 
+		System::Changes::Geometry::Position |
+		System::Changes::Geometry::Orientation
+		);
 }

@@ -3,7 +3,6 @@
 #include "Input/InputSystem.h"
 #include "Logging/Logger.h"
 #include "IO/FileManager.h"
-#include "Graphics/IRenderer.hpp"
 #include "Events/EventManager.h"
 
 #include "Exceptions/IntializeFailedException.hpp"

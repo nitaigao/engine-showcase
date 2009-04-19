@@ -43,9 +43,20 @@ ScriptSystemScene::ScriptSystemScene( Configuration* configuration )
 
 ISystemComponent* ScriptSystemScene::CreateComponent( const std::string& name, const std::string& type )
 {
-	lua_State* childState = lua_newthread( _state );
+	int top = lua_gettop( _state ); 
+	lua_getfield( _state, LUA_REGISTRYINDEX, "Scripts" ); // top + 1 
+
+	lua_State *childState = lua_newthread( _state ); // top + 2 
 
 	ScriptComponent* component = new ScriptComponent( name, childState );
+
+	lua_newtable( _state );  // a global table for this script 
+	lua_newtable( _state );  // meta table 
+	
+	lua_getfenv( _state,top + 2 ); // that returns the global table (we are	going to protect) 
+	lua_setfield( _state, -2, "__index" ); // set global table as __index of the thread 
+	lua_setmetatable( _state, -2 );
+	lua_setfenv( _state,top + 2 );  // set environment of the new thread
 
 	_components.push_back( component );
 

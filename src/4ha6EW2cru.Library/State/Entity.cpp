@@ -18,3 +18,14 @@ void Entity::Observe( ISubject* subject, unsigned int systemChanges )
 		}
 	}
 }
+
+ISystemComponent* Entity::FindComponent( SystemType systemType )
+{
+	for( SystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+	{
+		if ( systemType == ( *i )->GetType( ) )
+		{
+			return ( *i );
+		}
+	}
+}

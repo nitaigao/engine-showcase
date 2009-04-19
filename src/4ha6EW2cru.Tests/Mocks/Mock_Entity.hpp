@@ -23,6 +23,7 @@ public:
 
 	const std::string& GetName( ) { return "test_entity"; };
 	void AddComponent( ISystemComponent* component ) { _components.push_back( component ); }
+	ISystemComponent* FindComponent( SystemType systemType ) { return 0; };
 	SystemComponentList& GetComponents( ) { return _components; };
 
 private:

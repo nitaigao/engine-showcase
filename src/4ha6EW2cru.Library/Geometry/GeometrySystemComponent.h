@@ -19,7 +19,6 @@ public:
 
 	GeometrySystemComponent( const std::string& name )
 		: _name( name )
-		, _observer( 0 )
 	{
 
 	}
@@ -27,7 +26,7 @@ public:
 	void Initialize( AnyValueMap properties );
 	void Destroy( ) { };
 
-	void AddObserver( IObserver* observer ) { _observer = observer; }
+	void AddObserver( IObserver* observer ) { _observers.push_back( observer ); };
 	void PushChanges( unsigned int systemChanges );
 
 	inline unsigned int GetRequestedChanges( )
@@ -51,7 +50,8 @@ public:
 private:
 
 	std::string _name;
-	IObserver* _observer;
+
+	ObserverList _observers;
 
 	MathVector3 _position;
 	MathVector3 _scale;

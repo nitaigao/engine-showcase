@@ -18,6 +18,7 @@
   - !ruby/object:GraphicsComponent 
     model: /data/levels/level0/models/Floor.model
     system: graphics
+    type: default
   - !ruby/object:GeometryComponent 
     orientation: !ruby/object:Quaternion 
       w: "1"
@@ -44,6 +45,7 @@
   - !ruby/object:GraphicsComponent 
     model: /data/levels/level0/models/Side01.model
     system: graphics
+    type: default
   - !ruby/object:GeometryComponent 
     orientation: !ruby/object:Quaternion 
       w: "0.707107"
@@ -70,6 +72,7 @@
   - !ruby/object:GraphicsComponent 
     model: /data/levels/level0/models/Side02.model
     system: graphics
+    type: default
   - !ruby/object:GeometryComponent 
     orientation: !ruby/object:Quaternion 
       w: "0.707107"
@@ -96,6 +99,7 @@
   - !ruby/object:GraphicsComponent 
     model: /data/levels/level0/models/Side03.model
     system: graphics
+    type: default
   - !ruby/object:GeometryComponent 
     orientation: !ruby/object:Quaternion 
       w: "-0.5"
@@ -122,6 +126,7 @@
   - !ruby/object:GraphicsComponent 
     model: /data/levels/level0/models/Side04.model
     system: graphics
+    type: default
   - !ruby/object:GeometryComponent 
     orientation: !ruby/object:Quaternion 
       w: "0.5"
@@ -148,16 +153,17 @@
   - !ruby/object:GraphicsComponent 
     model: /data/levels/level0/models/misc_lamppost_101.model
     system: graphics
+    type: default
   - !ruby/object:GeometryComponent 
     orientation: !ruby/object:Quaternion 
-      w: "4.37114e-008"
+      w: "1"
       x: "0"
-      y: "1"
+      y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "-5.69576"
-      y: "-0.127758"
-      z: "-36.2262"
+      x: "0"
+      y: "0"
+      z: "0"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -170,16 +176,17 @@
   - !ruby/object:GraphicsComponent 
     model: /data/levels/level0/models/player_camera.model
     system: graphics
+    type: camera
   - !ruby/object:GeometryComponent 
     orientation: !ruby/object:Quaternion 
-      w: "0.939693"
-      x: "2.98023e-008"
-      y: "0.34202"
-      z: "-0"
-    position: !ruby/object:Vector 
-      x: "141.016"
+      w: "1"
+      x: "0"
       y: "0"
-      z: "129.166"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-10"
+      y: "0"
+      z: "10"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -198,6 +205,7 @@
   - !ruby/object:GraphicsComponent 
     model: /data/levels/level0/models/Fspot01.model
     system: graphics
+    type: default
   - !ruby/object:GeometryComponent 
     orientation: !ruby/object:Quaternion 
       w: "-0.707107"
@@ -220,6 +228,7 @@
   - !ruby/object:GraphicsComponent 
     model: /data/levels/level0/models/marine.model
     system: graphics
+    type: default
   - !ruby/object:GeometryComponent 
     orientation: !ruby/object:Quaternion 
       w: "1"
@@ -227,9 +236,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "0.0182834"
-      y: "0.896791"
-      z: "-0.284549"
+      x: "0"
+      y: "0"
+      z: "15"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -249,6 +258,7 @@
   - !ruby/object:GraphicsComponent 
     model: /data/levels/level0/models/marine.model
     system: graphics
+    type: default
   - !ruby/object:GeometryComponent 
     orientation: !ruby/object:Quaternion 
       w: "1"
@@ -256,9 +266,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "0.0182834"
-      y: "0.896791"
-      z: "2.284549"
+      x: "0"
+      y: "0"
+      z: "30"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -273,3 +283,17 @@
     type: character
   name: marine2
   type: entity
+...
+---
+- !ruby/object:REXML:Link
+  entityName: player_camera
+  entitySystem: geometry
+  observerName: marine1
+  observerSystem: ai
+  type: link
+- !ruby/object:REXML:Link
+  entityName: player_camera
+  entitySystem: geometry
+  observerName: marine2
+  observerSystem: ai
+  type: link

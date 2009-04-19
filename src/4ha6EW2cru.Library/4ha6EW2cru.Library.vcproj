@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG;LUABIND_NO_EXCEPTIONS;NDEBUG"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG;LUABIND_NO_EXCEPTIONS;NDEBUG;NOMINMAX"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -108,7 +108,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;LUABIND_NO_EXCEPTIONS"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;LUABIND_NO_EXCEPTIONS;NOMINMAX"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -177,6 +177,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Renderer\AnimationBlender.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Renderer\AnimationBlender.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Exceptions\ArchiveNotFoundException.hpp"
 			>
 		</File>
@@ -197,7 +205,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Graphics\Color.hpp"
+			RelativePath=".\Renderer\Color.hpp"
 			>
 		</File>
 		<File
@@ -329,6 +337,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Renderer\IAnimationBlender.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Logging\IAppender.hpp"
 			>
 		</File>
@@ -377,7 +389,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Graphics\IInterface.hpp"
+			RelativePath=".\Renderer\IInterface.hpp"
 			>
 		</File>
 		<File
@@ -405,11 +417,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Graphics\Interface.cpp"
+			RelativePath=".\Renderer\Interface.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Graphics\Interface.h"
+			RelativePath=".\Renderer\Interface.h"
 			>
 		</File>
 		<File
@@ -422,10 +434,6 @@
 		</File>
 		<File
 			RelativePath=".\System\IPlatformManager.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\IRenderer.hpp"
 			>
 		</File>
 		<File
@@ -489,6 +497,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Maths\MathUnits.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Maths\MathVector3.hpp"
 			>
 		</File>
@@ -537,30 +549,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Graphics\OgreRenderSystem.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\OgreRenderSystem.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\OgreRenderSystemComponent.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\OgreRenderSystemComponent.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\OgreSystemScene.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\OgreSystemScene.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Exceptions\OutOfRangeException.hpp"
 			>
 		</File>
@@ -594,6 +582,38 @@
 		</File>
 		<File
 			RelativePath=".\Utility\OgreMax\ProgressCalculator.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Renderer\RendererSystem.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Renderer\RendererSystem.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Renderer\RendererSystemCameraComponent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Renderer\RendererSystemCameraComponent.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Renderer\RendererSystemComponent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Renderer\RendererSystemComponent.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Renderer\RendererSystemScene.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Renderer\RendererSystemScene.h"
 			>
 		</File>
 		<File
@@ -654,6 +674,10 @@
 		</File>
 		<File
 			RelativePath=".\System\SystemType.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\System\SystemTypeMapper.hpp"
 			>
 		</File>
 		<File

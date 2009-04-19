@@ -1,22 +1,26 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout">
-    <Widget type="Widget" skin="Default" position="512 552 216 248" align="HCenter Bottom" layer="Main" name="menu">
-        <Widget type="Button" skin="Button" position="8 88 200 36" name="button_quit">
-            <Property key="Widget_Caption" value="Quit"/>
-        </Widget>
-        <Widget type="Button" skin="Button" position="8 88 200 36" name="button_endgame">
-            <Property key="Widget_Caption" value="End Game"/>
-            <Property key="Widget_Visible" value="false"/>
-        </Widget>
-        <Widget type="Button" skin="Button" position="8 8 200 36" name="button_play">
-            <Property key="Widget_Caption" value="Play"/>
-        </Widget>
-        <Widget type="Button" skin="Button" position="8 48 200 36" name="button_options">
-            <Property key="Widget_Caption" value="Options"/>
-        </Widget>
-        <Widget type="Button" skin="Button" position="8 8 200 36" name="button_resume">
-            <Property key="Widget_Caption" value="Resume"/>
-            <Property key="Widget_Visible" value="false"/>
-        </Widget>
-    </Widget>
+    <Widget type="StaticImage" skin="StaticImage" position_real="0 0 1 1" align="Stretch" layer="Main" name="menu">
+        <Property key="Image_Texture" value="/data/interface/assets/loading_background.png"/>
+        <Property key="Widget_Alpha" value="0.8"/>
+		<Widget type="Widget" skin="Default" position="512 552 216 248" align="HCenter Bottom" name="menubox">
+			<Widget type="Button" skin="Button" position="8 88 200 36" name="button_quit">
+				<Property key="Widget_Caption" value="Quit"/>
+			</Widget>
+			<Widget type="Button" skin="Button" position="8 88 200 36" name="button_endgame">
+				<Property key="Widget_Caption" value="End Game"/>
+				<Property key="Widget_Visible" value="false"/>
+			</Widget>
+			<Widget type="Button" skin="Button" position="8 8 200 36" name="button_play">
+				<Property key="Widget_Caption" value="Play"/>
+			</Widget>
+			<Widget type="Button" skin="Button" position="8 48 200 36" name="button_options">
+				<Property key="Widget_Caption" value="Options"/>
+			</Widget>
+			<Widget type="Button" skin="Button" position="8 8 200 36" name="button_resume">
+				<Property key="Widget_Caption" value="Resume"/>
+				<Property key="Widget_Visible" value="false"/>
+			</Widget>
+		</Widget>
+	</Widget>
 </MyGUI>

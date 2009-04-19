@@ -26,7 +26,7 @@ public:
 	ConfigurationFile( const FileBuffer* fileBuffer )
 	{
 		_ini = new CSimpleIni( true );
-		SI_Error error = _ini->Load( fileBuffer->fileBytes );
+		_ini->Load( fileBuffer->fileBytes );
 	}
 
 	static ConfigurationFile* Load( const std::string& filePath )

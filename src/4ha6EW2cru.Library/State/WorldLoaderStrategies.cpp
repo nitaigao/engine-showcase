@@ -45,9 +45,11 @@ ISystemComponent* WorldLoader_GraphicsComponentStrategy::CreateComponent( const 
 		properties.insert( std::make_pair( propertyKey, propertyValue ) );
 	}
 
+	std::string type = properties[ "type" ].GetValue< std::string >( );
+
 	SystemSceneMap::const_iterator systemScene = systemScenes.find( RenderSystemType );
 
-	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
+	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, ( type == "camera" ) ? type : "default" );;
 	systemComponent->Initialize( properties );
 
 	return systemComponent;

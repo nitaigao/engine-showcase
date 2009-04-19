@@ -40,6 +40,10 @@ public:
 	AnyValueMap GetProperties( ) { return _systemProperties; };
 	void SetProperties( AnyValueMap systemProperties ) { _systemProperties = systemProperties; };
 
+	inline MathVector3 GetPosition( ) { return MathVector3::Zero( ); };
+	inline MathVector3 GetScale( ) { return MathVector3::Zero( ); };
+	inline MathQuaternion GetOrientation( ) { return MathQuaternion::Identity( ); };
+
 private:
 
 	std::string _name;

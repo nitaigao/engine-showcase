@@ -85,9 +85,9 @@ function Console.onKeyUp( keyCode, keyText )
 		local input = input:asEditBox( );
 	
 		local text = input:getText( );
-		executeString( text:asString( ) );
+		executeString( text );
 		
-		input:setText( utf( '' ) );
+		input:setText( '' );
 		
 	end
 
@@ -96,7 +96,7 @@ end
 function Console.updateConsole( message )
 
 	local output = output:asEditBox( );
-	output:addText( utf( message ) );
+	output:addText( message );
 
 end
 

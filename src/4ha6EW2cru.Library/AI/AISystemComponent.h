@@ -38,7 +38,7 @@ public:
 	void Initialize( AnyValueMap properties );
 	void Destroy( ) { };
 
-	inline void AddObserver( IObserver* observer ) { _observer = observer; };
+	void AddObserver( IObserver* observer );
 	inline const std::string& GetName( ) { return _name; };
 	inline SystemType GetType( ) { return AISystemType; };
 
@@ -62,8 +62,11 @@ public:
 
 	void WalkForward( );
 	void WalkBackward( );
+	void FacePlayer( );
+	float GetPlayerDistance( );
 
 	inline MathVector3 GetPosition( ) { return _position; };
+	inline MathVector3 GetScale( ) { return MathVector3::Zero( ); };
 	inline MathQuaternion GetOrientation( ) { return _orientation; };
 
 private:
@@ -77,6 +80,9 @@ private:
 
 	MathVector3 _position;
 	MathQuaternion _orientation;
+
+	MathVector3 _playerPosition;
+	MathQuaternion _playerOrientation;
 
 };
 

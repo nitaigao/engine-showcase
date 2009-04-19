@@ -1,6 +1,6 @@
 #include "Color_Tests.h"
 
-#include "Graphics/Color.hpp"
+#include "Renderer/Color.hpp"
 
 #include "../Suites.h"
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( Color_Tests, Suites::GraphicsSuite( ) );

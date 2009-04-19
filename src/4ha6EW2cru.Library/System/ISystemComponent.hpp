@@ -8,6 +8,9 @@
 
 #include "IObserver.hpp"
 
+#include "../Maths/MathQuaternion.hpp"
+#include "../Maths/MathVector3.hpp"
+
 class ISystemComponent : public IObserver, public ISubject
 {
 
@@ -25,6 +28,10 @@ public:
 
 	virtual const std::string& GetName( ) = 0;
 	virtual SystemType GetType( ) = 0;
+
+	virtual MathVector3 GetPosition( ) = 0;
+	virtual MathVector3 GetScale( ) = 0;
+	virtual MathQuaternion GetOrientation( ) = 0;
 
 };
 

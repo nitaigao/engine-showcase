@@ -4,6 +4,8 @@
 #include <OgreMatrix3.h>
 #include <OgreQuaternion.h>
 
+#include "MathVector3.hpp"
+
 #include <Common/Base/hkBase.h>
 
 class MathQuaternion
@@ -22,6 +24,15 @@ public:
 
 	}
 
+	MathQuaternion( MathVector3 axis, float angle )
+	{
+		_w = cos( 0.5 * angle );
+		_x = sin( 0.5 * angle ) * axis.GetX( ); 
+		_y = sin( 0.5 * angle ) * axis.GetY( ); 
+		_z = sin( 0.5 * angle ) * axis.GetZ( ); 
+
+	}
+
 	MathQuaternion( float x, float y, float z, float w )
 		: _x( x )
 		, _y( y )
@@ -31,12 +42,17 @@ public:
 
 	}
 
-	Ogre::Quaternion AsOgreQuaternion( ) { return Ogre::Quaternion( _w, _x, _y, _z ); };
+	MathQuaternion( const Ogre::Quaternion& quaternion )
+		: _x( quaternion.x )
+		, _y( quaternion.y )
+		, _z( quaternion.z )
+		, _w( quaternion.w )
+	{
 
-	hkQuaternion AshkQuaternion( ) 
-	{ 
-		return hkQuaternion( _x, _y, _z, _w ); 
-	};
+	}
+
+	Ogre::Quaternion AsOgreQuaternion( ) { return Ogre::Quaternion( _w, _x, _y, _z ); };
+	hkQuaternion AshkQuaternion( ) { return hkQuaternion( _x, _y, _z, _w ); };
 	
 	MathQuaternion Normalize( )
 	{

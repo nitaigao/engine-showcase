@@ -5,16 +5,16 @@
 
 #include <Ogre.h>
 
-#include "OgreRenderSystem.h"
+#include "RendererSystem.h"
 
-class OgreSystemScene : public ISystemScene
+class RendererSystemScene : public ISystemScene
 {
 
 public:
 
-	virtual ~OgreSystemScene( ) { };
+	virtual ~RendererSystemScene( ) { };
 
-	OgreSystemScene( Ogre::SceneManager* sceneManager )
+	RendererSystemScene( Ogre::SceneManager* sceneManager )
 		: _sceneManager( sceneManager )
 	{
 
@@ -35,9 +35,9 @@ private:
 	Ogre::SceneManager* _sceneManager;
 	SystemComponentList _components;
 
-	OgreSystemScene( ) { };
-	OgreSystemScene( const OgreSystemScene & copy ) { };
-	OgreSystemScene & operator = ( const OgreSystemScene & copy ) { return *this; };
+	RendererSystemScene( ) { };
+	RendererSystemScene( const RendererSystemScene & copy ) { };
+	RendererSystemScene & operator = ( const RendererSystemScene & copy ) { return *this; };
 
 };
 
