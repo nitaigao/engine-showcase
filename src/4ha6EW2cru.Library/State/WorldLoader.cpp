@@ -61,7 +61,7 @@ void WorldLoader::LoadNode( const YAML::Node& node )
 
 void WorldLoader::LoadLink( const YAML::Node& node )
 { 
-	/*std::string entityName, entitySystem, observerName, observerSystem;
+	std::string entityName, entitySystem, observerName, observerSystem;
 
 	node[ "entityName" ] >> entityName;
 	node[ "entitySystem" ] >> entitySystem;
@@ -77,7 +77,7 @@ void WorldLoader::LoadLink( const YAML::Node& node )
 	ISystemComponent* entityComponent = entity->FindComponent( entitySystemType );
 	ISystemComponent* observerComponent = observer->FindComponent( observerSystemType );
 
-	entityComponent->AddObserver( observerComponent );*/
+	entityComponent->AddObserver( observerComponent );
 
 }
 
