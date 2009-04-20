@@ -21,8 +21,6 @@ AISystemScene::AISystemScene( )
 
 void AISystemScene::Initialize( )
 {
-	_scriptScene->Initialize( );
-
 	module( _scriptScene->GetState( ) )
 	[
 		class_< AISystemComponent >( "AISystemComponent" )
@@ -32,6 +30,7 @@ void AISystemScene::Initialize( )
 			.def( "setBehavior", &AISystemComponent::SetBehavior )
 			.def( "getName", &AISystemComponent::GetName )
 			.def( "getPlayerDistance", &AISystemComponent::GetPlayerDistance )
+			.def( "fireWeapon", &AISystemComponent::FireWeapon )
 	];
 }
 

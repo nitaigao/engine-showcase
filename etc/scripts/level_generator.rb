@@ -158,11 +158,16 @@ class Component
     def initialize( system )
     
         @system = system
+		@type = 'default'
     
     end
     
     def system
         @system
+    end
+	
+	def type
+        @type
     end
 
 end
@@ -170,7 +175,9 @@ end
 class GraphicsComponent < Component
 
     def initialize( ogreNode )
-        @system = 'graphics';
+	
+        super( 'graphics' );
+		
         @model = $modelsGamePath + '/' + ogreNode.attributes[ 'name' ] + '.model'
     end
     
@@ -183,7 +190,8 @@ end
 class GeometryComponent < Component
 
      def initialize( ogreNode )
-        @system = 'geometry';
+	 
+        super( 'geometry' );
     
         @scale = Vector.new( 0, 0, 0 );
         @position = Vector.new( 0, 0, 0 );
@@ -221,7 +229,7 @@ class PhysicsComponent < Component
 
 	def initialize( ogreNode )
 	
-		@system = 'physics'
+		super( 'physics' );
 		
 		@body = File.join( $bodiesGamePath, ogreNode.elements[ './/physicsBody' ].text );
 		@type = ogreNode.elements[ './/physicsType' ].text;
@@ -231,10 +239,6 @@ class PhysicsComponent < Component
 	def body
         @body
     end
-    
-    def type
-        @type
-    end
 
 end
 
@@ -242,7 +246,7 @@ class InputComponent < Component
 
 	def initialize( ogreNode )
 	
-		@system = 'input'
+		super( 'input' );
 		
 	end
 
@@ -452,7 +456,7 @@ def processMeshes( meshesPath )
 		
 			meshFilePath = File.join( meshesPath, entry );
 		
-			meshFile = File.new( meshFilePath, 'r+' );
+			meshFile = File.new( meshFilePath, 'rb+' );
 			meshContents = meshFile.read( );
 			
 			skeletonFilename = File.basename( entry, '.mesh' ) + '.skeleton'
@@ -462,7 +466,7 @@ def processMeshes( meshesPath )
 				meshContents = meshContents.gsub( skeletonFilename, $meshesGamePath + '/' + skeletonFilename );
 				meshFile.close( );
 				
-				meshFile = File.new( meshFilePath, 'w' );
+				meshFile = File.new( meshFilePath, 'wb' );
 				meshFile.write( meshContents );
 				meshFile.close( );
 				

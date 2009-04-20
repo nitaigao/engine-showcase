@@ -18,7 +18,11 @@ namespace System
 			if( systemType == "graphics" )
 			{
 				return RenderSystemType;
-			} 
+			}
+			else if ( systemType == "script" )
+			{
+				return ScriptSystemType;
+			}
 			else if ( systemType == "geometry" )
 			{
 				return GeometrySystemType;

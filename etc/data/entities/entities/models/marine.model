@@ -1,0 +1,37 @@
+<node name='marine' id='122'>
+  <scale x='1' y='1' z='1'/>
+  <position x='0.0182834' y='0.896791' z='-0.284549'/>
+  <rotation qw='1' qx='0' qy='0' qz='0'/>
+  <node name='marine-body'>
+    <scale x='1' y='1' z='1'/>
+    <position x='-0.0190577' y='-0.752371' z='0.138066'/>
+    <rotation qw='1' qx='0' qy='0' qz='0'/>
+    <entity name='marine-body' id='48' receiveShadows='true' meshFile='/data/entities/meshes/marine-body.mesh' castShadows='true'>
+      <subentities>
+        <subentity materialName='marine-body' index='0'/>
+      </subentities>
+      <boneAttachments>
+        <boneAttachment bone='Bip01 R Hand'>
+          <scale x='1' y='1' z='1'/>
+          <position x='0.214304' y='0.131607' z='-0.0223632'/>
+          <rotation qw='1' qx='2.2701e-009' qy='8.84756e-008' qz='-3.72529e-009'/>
+          <entity name='marine-gun' id='88' receiveShadows='true' meshFile='/data/entities/meshes/marine-gun.mesh' castShadows='true'>
+            <subentities>
+              <subentity materialName='07-Default' index='0'/>
+            </subentities>
+          </entity>
+        </boneAttachment>
+      </boneAttachments>
+    </entity>
+  </node>
+  <node name='marine_helmet'>
+    <scale x='1' y='1' z='1'/>
+    <position x='-0.0178326' y='3.89051' z='0.367091'/>
+    <rotation qw='1' qx='0' qy='0' qz='0'/>
+    <entity name='marine_helmet' id='47' receiveShadows='true' meshFile='/data/entities/meshes/marine_helmet.mesh' castShadows='true'>
+      <subentities>
+        <subentity materialName='marine-body' index='0'/>
+      </subentities>
+    </entity>
+  </node>
+</node>

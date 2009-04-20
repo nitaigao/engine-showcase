@@ -23,7 +23,7 @@ class WorldLoader_ComponentStrategy_Factory
 
 public:
 
-	static IWorldLoader_ComponentStrategy* Create( const std::string& componentType );
+	static IWorldLoader_ComponentStrategy* Create( const SystemType& systemType );
 
 private:
 
@@ -116,6 +116,23 @@ private:
 
 	WorldLoader_AIComponentStrategy( const WorldLoader_AIComponentStrategy & copy ) { };
 	WorldLoader_AIComponentStrategy & operator = ( const WorldLoader_AIComponentStrategy & copy ) { return *this; };
+
+};
+
+class WorldLoader_ScriptComponentStrategy : public IWorldLoader_ComponentStrategy
+{
+
+public:
+
+	virtual ~WorldLoader_ScriptComponentStrategy( ) { };
+	WorldLoader_ScriptComponentStrategy( ) { };
+
+	ISystemComponent* CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes );
+
+private:
+
+	WorldLoader_ScriptComponentStrategy( const WorldLoader_ScriptComponentStrategy & copy ) { };
+	WorldLoader_ScriptComponentStrategy & operator = ( const WorldLoader_ScriptComponentStrategy & copy ) { return *this; };
 
 };
 

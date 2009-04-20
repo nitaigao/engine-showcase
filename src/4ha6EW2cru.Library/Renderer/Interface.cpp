@@ -40,7 +40,6 @@ Interface::~Interface( )
 void Interface::Initialize( )
 {
 	g_InterfaceScriptScene = ( ScriptSystemScene* ) Management::GetInstance( )->GetSystemManager( )->GetSystem( ScriptSystemType )->CreateScene( );
-	g_InterfaceScriptScene->Initialize( );
 
 	_gui->initialise( _renderWindow, "/data/interface/core/core.xml" );
 
@@ -102,7 +101,7 @@ void Interface::Initialize( )
 
 	Interface::RegisterGlobals( scriptComponent->GetState( ) );
 
-	lua_pcall( scriptComponent->GetState( ), 0, 0, 0 );
+	scriptComponent->Execute( );
 
 	WidgetManager::getInstancePtr( )->registerUnlinker( this );
 }

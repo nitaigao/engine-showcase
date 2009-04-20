@@ -93,7 +93,7 @@ void RendererSystem::Initialize( )
 	_root->setRenderSystem( *renderSystemIterator );
 
 	std::stringstream videoModeDesc;
-	videoModeDesc << _configuration->Find< int >( _configSectionName, "width" ) << " x " << _configuration->Find< int >( _configSectionName, "height" ) << " @ defaultDepth-bit colour";
+	videoModeDesc << _configuration->Find< int >( _configSectionName, "width" ) << " x " << _configuration->Find< int >( _configSectionName, "height" ) << " @ " << defaultDepth << "-bit colour";
 	( *renderSystemIterator )->setConfigOption( "Video Mode", videoModeDesc.str( ) );
 	( *renderSystemIterator )->setConfigOption( "Full Screen", _configuration->Find< bool >( _configSectionName, "fullscreen" ) ? "Yes" : "No" );
 	( *renderSystemIterator )->setConfigOption( "VSync", _configuration->Find< bool >( _configSectionName, "vsync" ) ? "Yes" : "No" );
@@ -302,6 +302,7 @@ void RendererSystem::CreateRenderWindow( const std::string& windowTitle, int wid
 	
 	NameValuePairList params;
 	params[ "externalWindowHandle" ] = StringConverter::toString( ( int ) Management::GetInstance( )->GetPlatformManager( )->GetHwnd( ) );
+	params[ "vsync" ] = _configuration->Find< bool >( _configSectionName, "vsync" ) ? "true" : "false";
 
 	_window = _root->createRenderWindow( windowTitle, width, height, fullScreen, &params ); 
 }

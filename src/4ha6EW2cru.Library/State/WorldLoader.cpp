@@ -155,7 +155,8 @@ void WorldLoader::LoadEntityComponents( const YAML::Node& node, IEntity* entity 
 		std::string system;
 		componentNode[ "system" ] >> system;
 
-		IWorldLoader_ComponentStrategy* componentStrategy = WorldLoader_ComponentStrategy_Factory::Create( system );
+		SystemType systemType = System::TypeMapper::StringToType( system );
+		IWorldLoader_ComponentStrategy* componentStrategy = WorldLoader_ComponentStrategy_Factory::Create( systemType );
 		ISystemComponent* entityComponent = componentStrategy->CreateComponent( entity->GetName( ), componentNode, _world->GetSystemScenes( ) );
 
 		entity->AddComponent( entityComponent );

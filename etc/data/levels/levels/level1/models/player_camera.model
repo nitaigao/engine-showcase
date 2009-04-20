@@ -1,7 +1,7 @@
 <node name='player_camera'>
   <scale x='1' y='1' z='1'/>
-  <position x='-332.256' y='15.5475' z='225.799'/>
-  <rotation qw='-0.70543' qx='-0.00583687' qy='0.708732' qz='0.00586429'/>
+  <position x='518.074' y='2.33288' z='178.385'/>
+  <rotation qw='-0.656125' qx='0.00626916' qy='-0.754607' qz='0.00539973'/>
   <camera name='player_camera' fov='0.602557' id='830'>
     <clipping far='1000' near='1'/>
     <userData>

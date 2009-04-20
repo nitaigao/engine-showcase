@@ -3,29 +3,35 @@
 #include "../Maths/MathVector3.hpp"
 #include "../Maths/MathQuaternion.hpp"
 
-IWorldLoader_ComponentStrategy* WorldLoader_ComponentStrategy_Factory::Create( const std::string& componentType )
+#include "../Scripting/ScriptComponent.h"
+
+IWorldLoader_ComponentStrategy* WorldLoader_ComponentStrategy_Factory::Create( const SystemType& systemType )
 {
 	IWorldLoader_ComponentStrategy* strategy = 0;
 
-	if( componentType == "graphics" )
+	if( systemType == RenderSystemType )
 	{
 		strategy = new WorldLoader_GraphicsComponentStrategy( );
 	} 
-	else if ( componentType == "geometry" )
+	else if ( systemType == GeometrySystemType )
 	{
 		strategy = new WorldLoader_GeometryComponentStrategy( );
 	}
-	else if ( componentType == "physics" )
+	else if ( systemType == PhysicsSystemType )
 	{
 		strategy = new WorldLoader_PhysicsComponentStrategy( );
 	}
-	else if ( componentType == "input" )
+	else if ( systemType == InputSystemType )
 	{
 		strategy = new WorldLoader_InputComponentStrategy( );
 	}
-	else if ( componentType == "ai" )
+	else if ( systemType == AISystemType )
 	{
 		strategy = new WorldLoader_AIComponentStrategy( );
+	}
+	else if ( systemType == ScriptSystemType )
+	{
+		strategy = new WorldLoader_ScriptComponentStrategy( );
 	}
 
 	return strategy;
@@ -151,4 +157,28 @@ ISystemComponent* WorldLoader_AIComponentStrategy::CreateComponent( const std::s
 	systemComponent->Initialize( properties );
 
 	return systemComponent;
+}
+
+ISystemComponent* WorldLoader_ScriptComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes )
+{
+	AnyValueMap properties;
+
+	for( YAML::Iterator componentProperty = componentNode.begin( ); componentProperty != componentNode.end( ); ++componentProperty ) 
+	{
+		std::string propertyKey, propertyValue;
+
+		componentProperty.first( ) >> propertyKey;
+		componentProperty.second( ) >> propertyValue;
+
+		properties.insert( std::make_pair( propertyKey, propertyValue ) );
+	}
+
+	SystemSceneMap::const_iterator systemScene = systemScenes.find( ScriptSystemType );
+
+	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
+	ScriptComponent* scriptComponent = static_cast< ScriptComponent* >( systemComponent );
+	scriptComponent->Initialize( properties );
+	scriptComponent->Execute( );
+
+	return scriptComponent;
 }

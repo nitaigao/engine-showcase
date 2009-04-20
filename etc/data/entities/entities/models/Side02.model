@@ -1,0 +1,10 @@
+<node name='Side02'>
+  <scale x='2.91458' y='2.83091' z='0.911514'/>
+  <position x='3.16298' y='1.13687e-013' z='141.087'/>
+  <rotation qw='0.707107' qx='-0.707107' qy='0' qz='0'/>
+  <entity name='Side02' id='12' receiveShadows='true' meshFile='/data/entities/meshes/Side01.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='level0_red' index='0'/>
+    </subentities>
+  </entity>
+</node>

@@ -40,6 +40,10 @@ public:
 	inline MathVector3 GetScale( ) { return MathVector3::Zero( ); };
 	inline MathQuaternion GetOrientation( ) { return MathQuaternion::Identity( ); };
 
+	void Execute( );
+	void LoadScript( const std::string& scriptPath );
+	void IncludeScript( const std::string& scriptPath );
+
 private:
 
 	lua_State* _state;

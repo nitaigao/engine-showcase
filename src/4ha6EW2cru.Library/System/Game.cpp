@@ -133,7 +133,7 @@ void Game::OnGameLevelChanged( const IEvent* event )
 	LevelChangedEventData* eventData = static_cast< LevelChangedEventData* >( event->GetEventData( ) );
 
 	std::stringstream levelPath;
-	levelPath << "/data/levels/" << eventData->GetLevelName( ) << "/" << eventData->GetLevelName( ) << ".yaml";
+	levelPath << "/data/levels/" << eventData->GetLevelName( ) << ".yaml";
 	
 	_worldLoader->Load( levelPath.str( ) );
 }

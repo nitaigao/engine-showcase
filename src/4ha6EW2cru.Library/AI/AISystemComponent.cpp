@@ -21,7 +21,7 @@ void AISystemComponent::Initialize( AnyValueMap properties )
 
 	luabind::globals( scriptComponent->GetState( ) )[ "me" ] = this;
 
-	lua_pcall( scriptComponent->GetState( ), 0, 0, 0 );
+	scriptComponent->Execute( );
 }
 
 void AISystemComponent::Update( float deltaMilliseconds )
@@ -129,4 +129,9 @@ void AISystemComponent::AddObserver( IObserver* observer )
 	{
 		this->SetBehavior( _behavior );
 	}
+}
+
+void AISystemComponent::FireWeapon()
+{
+
 }

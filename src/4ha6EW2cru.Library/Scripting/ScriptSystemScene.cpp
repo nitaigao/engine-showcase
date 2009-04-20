@@ -58,6 +58,8 @@ ISystemComponent* ScriptSystemScene::CreateComponent( const std::string& name, c
 	lua_setmetatable( _state, -2 );
 	lua_setfenv( _state,top + 2 );  // set environment of the new thread
 
+	luabind::globals( childState )[ "Script" ] = component;
+
 	_components.push_back( component );
 
 	return component;
@@ -84,7 +86,10 @@ void ScriptSystemScene::Initialize( )
 			.property( "isFullScreen", &ScriptConfiguration::IsFullScreen, &ScriptConfiguration::SetFullScreen )
 			.property( "displayWidth", &ScriptConfiguration::GetDisplayWidth, &ScriptConfiguration::SetDisplayWidth )
 			.property( "displayHeight", &ScriptConfiguration::GetDisplayHeight, &ScriptConfiguration::SetDisplayHeight )
-			.property( "isConsole", &ScriptConfiguration::IsConsole, &ScriptConfiguration::SetConsole )
+			.property( "isConsole", &ScriptConfiguration::IsConsole, &ScriptConfiguration::SetConsole ),
+
+		class_< ScriptComponent >( "ScriptComponent" )
+			.def( "include", &ScriptComponent::IncludeScript )
 	];
 
 	luabind::globals( _state )[ "Configuration" ] = _scriptConfiguration;

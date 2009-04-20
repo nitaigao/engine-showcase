@@ -63,6 +63,7 @@ public:
 	void WalkForward( );
 	void WalkBackward( );
 	void FacePlayer( );
+	void FireWeapon( );
 	float GetPlayerDistance( );
 
 	inline MathVector3 GetPosition( ) { return _position; };

@@ -4,5 +4,7 @@
 
 ISystemScene* ScriptSystem::CreateScene( )
 {
-	return new ScriptSystemScene( _configuration );
+	ScriptSystemScene* scriptScene = new ScriptSystemScene( _configuration );
+	scriptScene->Initialize( );
+	return scriptScene;
 }
