@@ -184,9 +184,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "-10"
+      x: "0"
       y: "0"
-      z: "10"
+      z: "0"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -199,10 +199,10 @@
   - !ruby/object:ScriptComponent 
     scriptPath: /data/entities/scripts/entities/player.lua
     system: script
-    type: default
+    type: character
   - !ruby/object:InputComponent 
     system: input
-  name: player_camera
+  name: player
   type: entity
 - !ruby/object:REXML::Entity 
   components: 
@@ -240,9 +240,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "0"
+      x: "20"
       y: "0"
-      z: "15"
+      z: "0"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -251,6 +251,10 @@
   - !ruby/object:AIComponent 
     scriptPath: /data/entities/scripts/ai/marine.lua
     system: ai
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: character
   - !ruby/object:PhysicsComponent 
     body: /data/entities/bodies/player_camera.hkx
     system: physics
@@ -272,7 +276,7 @@
     position: !ruby/object:Vector 
       x: "0"
       y: "0"
-      z: "30"
+      z: "20"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -281,23 +285,107 @@
   - !ruby/object:AIComponent 
     scriptPath: /data/entities/scripts/ai/marine.lua
     system: ai
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: character
   - !ruby/object:PhysicsComponent 
     body: /data/entities/bodies/player_camera.hkx
     system: physics
     type: character
   name: marine2
   type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/marine.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-20"
+      y: "0"
+      z: "0"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+  - !ruby/object:AIComponent 
+    scriptPath: /data/entities/scripts/ai/marine.lua
+    system: ai
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: character
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/player_camera.hkx
+    system: physics
+    type: character
+  name: marine3
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/marine.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "0"
+      y: "0"
+      z: "-20"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+  - !ruby/object:AIComponent 
+    scriptPath: /data/entities/scripts/ai/marine.lua
+    system: ai
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: character
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/player_camera.hkx
+    system: physics
+    type: character
+  name: marine4
+  type: entity
 ...
 ---
 - !ruby/object:REXML:Link
-  entityName: player_camera
+  entityName: player
   entitySystem: geometry
   observerName: marine1
   observerSystem: ai
   type: link
 - !ruby/object:REXML:Link
-  entityName: player_camera
+  entityName: player
   entitySystem: geometry
   observerName: marine2
+  observerSystem: ai
+  type: link
+- !ruby/object:REXML:Link
+  entityName: player
+  entitySystem: geometry
+  observerName: marine3
+  observerSystem: ai
+  type: link
+- !ruby/object:REXML:Link
+  entityName: player
+  entitySystem: geometry
+  observerName: marine4
   observerSystem: ai
   type: link

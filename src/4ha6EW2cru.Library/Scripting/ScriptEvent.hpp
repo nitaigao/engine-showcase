@@ -55,6 +55,15 @@ public:
 		_value1 = val1.str( );
 	}
 
+	ScriptEvent( const std::string eventName, const std::string value1, const int value2 )
+		: _eventName( eventName )
+		, _value1( value1 )
+	{
+		std::stringstream val2;
+		val2 << value2;
+		_value2 = val2.str( );
+	}
+
 	ScriptEvent( const std::string eventName, const int value1, const int value2 )
 		: _eventName( eventName )
 	{

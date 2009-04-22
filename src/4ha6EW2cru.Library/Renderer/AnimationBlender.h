@@ -16,7 +16,6 @@ public:
 		, _targetAnimationState( 0 )
 		, _timeLeft( 0.0f )
 		, _blendDuration( 0.0f )
-		, _blendComplete( false )
 	{
 
 	}
@@ -33,7 +32,6 @@ private:
 
 	float _timeLeft;
 	float _blendDuration;
-	bool _blendComplete;
 
 };
 

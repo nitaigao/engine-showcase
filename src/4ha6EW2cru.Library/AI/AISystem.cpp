@@ -2,7 +2,7 @@
 
 #include "AISystemScene.h"
 
-ISystemScene* AISystem::CreateScene()
+ISystemScene* AISystem::CreateScene( )
 {
 	AISystemScene* scene = new AISystemScene( );
 	scene->Initialize( );

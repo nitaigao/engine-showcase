@@ -27,7 +27,7 @@ public:
 	{
 		for( SystemList::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
 		{
-			if ( ( *i )->GetSystemType( ) == systemType )
+			if ( ( *i )->GetType( ) == systemType )
 			{
 				return ( *i );
 			}

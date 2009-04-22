@@ -1,10 +1,11 @@
 #ifndef __HAVOKPHYSICS_SYSTEM
 #define __HAVOKPHYSICS_SYSTEM
 
+#include "../System/IService.hpp"
 #include "..\System\ISystem.hpp"
 #include "HavokPhysicsSystemScene.h"
 
-class HavokPhysicsSystem : public ISystem
+class HavokPhysicsSystem : public ISystem, public IService
 {
 
 	typedef std::vector< HavokPhysicsSystemScene* > SceneList;
@@ -26,10 +27,14 @@ public:
 
 	ISystemScene* CreateScene( );
 
-	SystemType GetSystemType( ) { return PhysicsSystemType; };
+	SystemType GetType( ) { return PhysicsSystemType; };
 
 	AnyValueMap GetProperties( ) { return AnyValueMap( ); };
 	inline void SetProperty( const std::string& name, AnyValue value ) { };
+
+	AnyValue::AnyValueMap Execute( const std::string& actionName, AnyValueMap parameters );
+
+	std::vector< std::string > RayQuery( MathVector3 origin, MathVector3 direction, bool sortByDistance );
 
 private:
 

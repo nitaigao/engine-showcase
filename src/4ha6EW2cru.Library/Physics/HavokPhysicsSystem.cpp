@@ -14,6 +14,7 @@
 #include <Physics/Collide/Dispatch/hkpAgentRegisterUtil.h>					
 
 #include <Physics/Collide/Query/CastUtil/hkpWorldRayCastInput.h>			
+#include <Physics/Collide/Query/Collector/RayCollector/hkpAllRayHitCollector.h>
 #include <Physics/Collide/Query/CastUtil/hkpWorldRayCastOutput.h>			
 
 #include <Physics/Dynamics/World/hkpWorld.h>								
@@ -36,7 +37,9 @@
 
 #include "../Logging/Logger.h"
 
-ISystemScene* HavokPhysicsSystem::CreateScene()
+#include "../System/Management.h"
+
+ISystemScene* HavokPhysicsSystem::CreateScene( )
 {
 	hkpWorldCinfo info;
 
@@ -63,6 +66,8 @@ void HavokPhysicsSystem::Initialize()
 	int stackSize = 0x100000;
 	_stackBuffer = hkAllocate<char>( stackSize, HK_MEMORY_CLASS_BASE );
 	hkThreadMemory::getInstance( ).setStackArea( _stackBuffer, stackSize );
+
+	Management::GetInstance( )->GetServiceManager( )->RegisterService( this ); 
 }
 
 void HavokPhysicsSystem::Release()
@@ -77,4 +82,53 @@ void HavokPhysicsSystem::Release()
 void HavokPhysicsSystem::errorReportFunction( const char* errorMessage, void* errorOutputObject )
 {
 	Logger::GetInstance( )->Warn( errorMessage );
+}
+
+std::vector< std::string > HavokPhysicsSystem::RayQuery( MathVector3 origin, MathVector3 destination, bool sortByDistance )
+{
+	hkpWorldRayCastInput input;
+	input.m_from = origin.AshkVector4( );
+	input.m_to = destination.AshkVector4( );
+
+	hkpAllRayHitCollector collector;
+
+	_scenes[ 0 ]->GetWorld( )->castRay( input, collector );
+
+	if( sortByDistance )
+	{
+		collector.sortHits( );
+	}
+
+	std::vector< std::string > results;
+
+	for( int i = 0; i < collector.getHits( ).getSize( ); i++ )
+	{
+		if ( collector.getHits( )[ i ].hasHit( ) )
+		{
+			hkpRigidBody* body = hkGetRigidBody( collector.getHits( )[ i ].m_rootCollidable );
+
+			if ( body )
+			{
+				results.push_back( body->getName( ) );
+			}
+		}
+	}
+
+	return results;
+}
+
+AnyValue::AnyValueMap HavokPhysicsSystem::Execute( const std::string& actionName, AnyValueMap parameters )
+{
+	AnyValue::AnyValueMap results;
+
+	if ( actionName == "rayQuery" )
+	{
+		results[ "hits" ] = this->RayQuery( 
+			parameters[ "origin" ].GetValue< MathVector3 >( ),
+			parameters[ "destination" ].GetValue< MathVector3 >( ),
+			parameters[ "sortByDistance" ].GetValue< bool >( )
+			);
+	}
+
+	return results;
 }

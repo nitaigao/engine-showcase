@@ -25,12 +25,11 @@ void EventManager::TriggerEvent( const IEvent* event )
 	}
 
 	EventListenerList eventListeners( _eventListeners );
-
 	for ( EventListenerList::iterator i = eventListeners.begin( ); i != eventListeners.end( ); ++i )
 	{
 		if ( 
-			( *i )->GetEventType( ) == event->GetEventType( ) || 
-			( *i )->GetEventType( ) == ALL_EVENTS 
+			( *i )->GetEventType( ) == event->GetEventType( ) && !( *i )->IsMarkedForDeletion( ) || 
+			( *i )->GetEventType( ) == ALL_EVENTS && !( *i )->IsMarkedForDeletion( ) 
 			)
 		{
 			( *i )->HandleEvent( event );
@@ -46,6 +45,19 @@ void EventManager::Update( float deltaMilliseconds )
 	{
 		this->TriggerEvent( _eventQueue.front( ) );
 		_eventQueue.pop( );
+	}
+
+	for ( EventListenerList::iterator i = _eventListeners.begin( ); i != _eventListeners.end( ); )
+	{
+		if ( ( *i )->IsMarkedForDeletion( ) )
+		{
+			delete ( *i );
+			i = _eventListeners.erase( i );
+		}
+		else
+		{
+			++i;
+		}
 	}
 }
 
@@ -64,5 +76,5 @@ EventManager::~EventManager()
 		delete ( *i );
 	}
 
-	_eventListeners.erase( _eventListeners.begin( ), _eventListeners.end( ) );
+	_eventListeners.clear( );
 }

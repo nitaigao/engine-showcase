@@ -43,5 +43,5 @@ void ScriptSystem_Tests::Should_Return_ScriptSystemType_On_GetType()
 	ScriptSystem system( 0 );
 	system.Initialize( );
 
-	CPPUNIT_ASSERT( system.GetSystemType( ) == ScriptSystemType );
+	CPPUNIT_ASSERT( system.GetType( ) == ScriptSystemType );
 }

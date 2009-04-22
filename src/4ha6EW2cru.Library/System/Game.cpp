@@ -63,7 +63,7 @@ void Game::Initialize( )
 	_world = new World( );
 
 	SystemList systemList = systemManager->GetAllSystems( );
-	
+
 	for( SystemList::iterator i = systemList.begin( ); i != systemList.end( ); ++i )
 	{
 		_world->AddSystemScene( ( *i )->CreateScene( ) );

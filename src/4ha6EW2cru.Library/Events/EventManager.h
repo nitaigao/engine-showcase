@@ -83,8 +83,7 @@ public:
 				handlerTarget == eventListener->GetHandlerTarget( )
 				)
 			{
-				delete ( *i );
-				_eventListeners.erase( i );
+				( *i )->MarkForDeletion( );
 				return;
 			}
 		}

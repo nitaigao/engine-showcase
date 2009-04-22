@@ -38,11 +38,18 @@ namespace System
 			static const unsigned int Pause_Game	=	( 1 << 14 );
 			static const unsigned int Mouse_Moved	=	( 1 << 15 );
 			static const unsigned int Jump			=	( 1 << 16 );
+			static const unsigned int Fire	=	( 1 << 17 );
+		};
+
+		namespace Render
+		{
+			static const unsigned int Ray_Cast		=	( 1 << 18 );
+
 		};
 
 		namespace AI
 		{
-			static const unsigned int Behavior		=	( 1 << 17 );
+			static const unsigned int Behavior		=	( 1 << 19 );
 		}
 	};
 };

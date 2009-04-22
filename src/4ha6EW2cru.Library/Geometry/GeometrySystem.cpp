@@ -2,7 +2,7 @@
 
 #include "GeometrySystemScene.h"
 
-ISystemScene* GeometrySystem::CreateScene()
+ISystemScene* GeometrySystem::CreateScene( )
 {
 	return new GeometrySystemScene( this );
 }

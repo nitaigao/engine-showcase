@@ -7,6 +7,8 @@ void AnimationBlender::Blend( const std::string animationName, float blendDurati
 {
 	AnimationState* newTargetAnimationState = _entity->getAnimationState( animationName );
 
+	newTargetAnimationState->setLoop( false );
+
 	if( _timeLeft > 0 )
 	{
 		if ( newTargetAnimationState == _targetAnimationState )
@@ -80,16 +82,9 @@ void AnimationBlender::Update( float deltaMilliseconds )
 			}
 		}
 
-		if ( _sourceAnimationState->getTimePosition( ) >= _sourceAnimationState->getLength( ) )
+		if ( _sourceAnimationState->getTimePosition( ) < _sourceAnimationState->getLength( ) - 0.05 )
 		{
-			_blendComplete = true;
+			_sourceAnimationState->addTime( deltaMilliseconds );
 		}
-		else
-		{
-			_blendComplete = false;
-		}
-
-		_sourceAnimationState->addTime( deltaMilliseconds );
-		_sourceAnimationState->setLoop( true );
 	}
 }

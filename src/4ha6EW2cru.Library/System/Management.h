@@ -3,6 +3,7 @@
 
 #include "../Events/EventManager.h"
 
+#include "../System/IServiceManager.h"
 #include "../System/IPlatformManager.h"
 #include "../System/ISystemManager.hpp"
 #include "../IO/IFileManager.hpp"
@@ -28,9 +29,11 @@ public:
 	inline EventManager* GetEventManager( ) { return _eventManager; };
 	inline IPlatformManager* GetPlatformManager( ) { return _platformManager; };
 	inline IFileManager* GetFileManager( ) { return _fileManager; };
+	inline IServiceManager* GetServiceManager( ) { return _serviceManager; };
 
 private:
 
+	IServiceManager* _serviceManager;
 	ISystemManager* _systemManager;
 	IPlatformManager* _platformManager;
 	IFileManager* _fileManager;

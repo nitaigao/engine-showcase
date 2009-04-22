@@ -69,6 +69,28 @@ public:
 			);
 	};
 
+	void ToAngleAxis( float& angle, MathVector3& axis )
+	{
+		float squaredLength = _x * _x + _y * _y + _z * _z;
+
+		if( squaredLength > 0.0f )
+		{
+			angle = 2.0f * acos( _w );
+			float inverseLength = 1.0f / sqrt( squaredLength );
+			
+			axis = MathVector3(
+				_x * inverseLength,
+				_y * inverseLength,
+				_z * inverseLength
+				);
+		}
+		else
+		{
+			angle = 0.0f;
+			axis = MathVector3( 1.0f, 0.0f, 0.0f );
+		}
+	}
+
 	MathQuaternion operator * ( const MathQuaternion& input )
 	{
 		return MathQuaternion(

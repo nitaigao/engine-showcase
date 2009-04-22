@@ -22,6 +22,12 @@ public:
 	/*! Gets the EventType that is being listened for */
 	virtual inline const EventType GetEventType( ) const = 0;
 
+	/*! Marks the EventHandler for Deletion on the Next Update */
+	virtual inline void MarkForDeletion( ) = 0;
+
+	/*! Gets whether the EventHandler is marked for deletion */
+	virtual inline bool IsMarkedForDeletion( ) const = 0;
+
 };
 
 #endif

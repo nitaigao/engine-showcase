@@ -16,7 +16,7 @@ public:
 		: RendererSystemComponent( name, scene )
 		, _observer( 0 )
 		, _historySize( 10 )
-		, _weightModifier( 0.01f ) 
+		, _weightModifier( 0.5f ) 
 	{
 	
 	}

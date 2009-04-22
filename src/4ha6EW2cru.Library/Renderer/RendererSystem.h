@@ -14,6 +14,8 @@ using namespace Ogre;
 class RendererSystem : public ISystem, public Ogre::WindowEventListener
 {
 
+	typedef std::vector< std::string > StringList;
+
 public:
 
 	virtual ~RendererSystem( );
@@ -37,7 +39,7 @@ public:
 	virtual void Release( ) { };
 
 	inline ISystemScene* CreateScene( );
-	inline SystemType GetSystemType( ) { return RenderSystemType; };
+	inline SystemType GetType( ) { return RenderSystemType; };
 
 	inline AnyValueMap GetProperties( ) { return _properties; };
 	inline void SetProperty( const std::string& name, AnyValue value );
@@ -58,6 +60,7 @@ private:
 	IInterface* _interface;
 	bool _badStubCreated;
 	bool _isIntialized;
+
 	std::string _configSectionName;
 	std::vector< std::string > _supportedVideoModes;
 	std::string _skyBoxMaterial;

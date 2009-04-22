@@ -23,7 +23,7 @@ public:
 
 	ISystemScene* CreateScene( );
 
-	inline SystemType GetSystemType( ) { return ScriptSystemType; };
+	inline SystemType GetType( ) { return ScriptSystemType; };
 
 	inline AnyValueMap GetProperties( ) { return _properties; };
 	inline void SetProperty( const std::string& name, AnyValue value ) { };

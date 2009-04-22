@@ -8,6 +8,8 @@
 
 #include "../Maths/MathUnits.hpp"
 
+#include "../Scripting/ScriptEvent.hpp"
+
 #include <luabind/luabind.hpp>
 using namespace luabind;
 
@@ -133,5 +135,5 @@ void AISystemComponent::AddObserver( IObserver* observer )
 
 void AISystemComponent::FireWeapon()
 {
-
+	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "AI_WEAPON_FIRED", _name ) );
 }

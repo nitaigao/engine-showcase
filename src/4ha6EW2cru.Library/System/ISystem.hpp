@@ -26,7 +26,7 @@ public:
 
 	virtual ISystemScene* CreateScene( ) = 0;
 
-	virtual SystemType GetSystemType( ) = 0;
+	virtual SystemType GetType( ) = 0;
 	virtual AnyValueMap GetProperties( ) = 0;
 	virtual void SetProperty( const std::string& name, AnyValue value ) = 0;
 

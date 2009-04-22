@@ -16,7 +16,7 @@ public:
 
 	ISystemScene* CreateScene( );
 
-	inline SystemType GetSystemType( ) { return AISystemType; };
+	inline SystemType GetType( ) { return AISystemType; };
 	inline AnyValueMap GetProperties( ) { return _properties; };
 	inline void SetProperty( const std::string& name, AnyValue value ) { };
 

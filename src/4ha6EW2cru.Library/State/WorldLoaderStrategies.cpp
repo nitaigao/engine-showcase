@@ -175,7 +175,9 @@ ISystemComponent* WorldLoader_ScriptComponentStrategy::CreateComponent( const st
 
 	SystemSceneMap::const_iterator systemScene = systemScenes.find( ScriptSystemType );
 
-	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
+	std::string type = properties[ "type" ].GetValue< std::string >( );
+
+	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, ( entityName, ( type == "character" ) ? type : "default" ) );
 	ScriptComponent* scriptComponent = static_cast< ScriptComponent* >( systemComponent );
 	scriptComponent->Initialize( properties );
 	scriptComponent->Execute( );

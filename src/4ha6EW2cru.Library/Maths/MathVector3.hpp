@@ -4,6 +4,8 @@
 #include <OgreVector3.h>
 #include <Common/Base/hkBase.h>
 
+#include "MathMatrix.hpp"
+
 class MathVector3
 {
 
@@ -114,6 +116,20 @@ public:
 			scalar * _y,
 			scalar * _z
 			);
+	};
+
+	inline MathVector3 operator * ( const MathVector3& input )
+	{
+		return MathVector3(
+			_x * input._x,
+			_y * input._y,
+			_z * input._z
+			);
+	};
+
+	inline MathVector3 operator * ( const MathMatrix& input )
+	{
+		return this->AsOgreVector3( ) * input;
 	}
 
 	static inline MathVector3 Up( ) { return MathVector3( 0.0f, 1.0f, 0.0f ); };

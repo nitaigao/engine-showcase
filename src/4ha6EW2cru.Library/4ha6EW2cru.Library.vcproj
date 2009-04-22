@@ -441,6 +441,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\System\IService.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\System\IServiceManager.h"
+			>
+		</File>
+		<File
 			RelativePath=".\System\ISubject.hpp"
 			>
 		</File>
@@ -490,6 +498,14 @@
 		</File>
 		<File
 			RelativePath=".\System\Management.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Maths\MathMatrix.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Maths\MathMatrix.hpp"
 			>
 		</File>
 		<File
@@ -658,6 +674,14 @@
 		</File>
 		<File
 			RelativePath=".\Utility\SearchUtility.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\System\ServiceManager.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\System\ServiceManager.h"
 			>
 		</File>
 		<File

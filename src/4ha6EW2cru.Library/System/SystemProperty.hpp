@@ -10,6 +10,8 @@ class AnyValue
 
 public:
 
+	typedef std::map< std::string, AnyValue > AnyValueMap;
+
 	~AnyValue( ) { };
 	AnyValue( ) { };
 

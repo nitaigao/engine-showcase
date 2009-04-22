@@ -53,12 +53,13 @@ void PhysicsSystemCharacterComponent::Initialize( AnyValueMap properties )
 	characterInfo.m_maxForce = 1000.0f;
 	characterInfo.m_maxSlope = 70.0f * HK_REAL_DEG_TO_RAD;
 	characterInfo.m_up = MathVector3::Up( ).AshkVector4( );
-	characterInfo.m_shape = new hkpCapsuleShape( hkVector4( 0.0f, 0.4f, 0.0f ), hkVector4( 0.0f, -0.4f, 0.0f ), 0.6f );
+	characterInfo.m_shape = new hkpCapsuleShape( hkVector4( 0.0f, 1.0f, 0.0f ), hkVector4( 0.0f, -1.0f, 0.0f ), 0.6f );
 
 	_characterBody = new hkpCharacterRigidBody( characterInfo );
 
 	_body = _characterBody->getRigidBody( );
 	_body->setUserData( _componentId );
+	_body->setName( _name.c_str( ) );
 	_scene->GetWorld( )->addEntity( _body );
 
 	_characterInput.m_wantJump = false;
@@ -155,7 +156,7 @@ void PhysicsSystemCharacterComponent::Observe( ISubject* subject, unsigned int s
 
 	ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 
-	float walkSpeed = 2.0f;
+	float walkSpeed = 1.0f;
 		
 	if( System::Changes::Input::Move_Forward & systemChanges )
 	{
@@ -180,5 +181,14 @@ void PhysicsSystemCharacterComponent::Observe( ISubject* subject, unsigned int s
 	if( System::Changes::Input::Jump & systemChanges )
 	{
 		_characterInput.m_wantJump = true;
+	}
+
+	hkReal lengthSquared = _forwardBackward * _forwardBackward + _leftRight * _leftRight;
+
+	if (lengthSquared > HK_REAL_MIN)
+	{
+		lengthSquared = hkMath::sqrt(lengthSquared);
+		_forwardBackward /= lengthSquared;
+		_leftRight /= lengthSquared;
 	}
 }

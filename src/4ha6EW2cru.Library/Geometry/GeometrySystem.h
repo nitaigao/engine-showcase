@@ -18,7 +18,7 @@ public:
 	inline void Release( ) { };
 
 	ISystemScene* CreateScene( );
-	inline SystemType GetSystemType( ) { return GeometrySystemType; };
+	inline SystemType GetType( ) { return GeometrySystemType; };
 	
 	inline AnyValueMap GetProperties( ) { return AnyValueMap( ); };
 	inline void SetProperty( const std::string& name, AnyValue value ) { };

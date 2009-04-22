@@ -41,7 +41,8 @@ public:
 			System::Changes::Geometry::Scale |
 			System::Changes::Geometry::All |
 			System::Changes::Input::Mouse_Moved |
-			System::Changes::AI::Behavior;
+			System::Changes::AI::Behavior |
+			System::Changes::Render::Ray_Cast;
 	};
 
 	inline const std::string& GetName( ) { return _name; };

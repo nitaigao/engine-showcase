@@ -51,7 +51,7 @@ public:
 		return new Mock_SystemScene( _systemType );
 	}
 
-	SystemType GetSystemType( ) { return _systemType; };
+	SystemType GetType( ) { return _systemType; };
 
 	AnyValueMap GetProperties( ) { return AnyValueMap( ); };
 	inline void SetProperty( const std::string& name, AnyValue value ) { };

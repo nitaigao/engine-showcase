@@ -1,6 +1,5 @@
 #include "ScriptSystemScene.h"
 
-
 #include "../Events/IEvent.hpp"
 #include "../Events/Event.h"
 
@@ -13,6 +12,7 @@
 #include "../System/Management.h"
 #include "../Exceptions/ScriptException.hpp"
 
+#include <luabind/table_policy.hpp>
 using namespace luabind;
 
 ScriptSystemScene::~ScriptSystemScene( )
@@ -49,7 +49,7 @@ ISystemComponent* ScriptSystemScene::CreateComponent( const std::string& name, c
 	lua_State *childState = lua_newthread( _state ); // top + 2 
 
 	ScriptComponent* component = new ScriptComponent( name, childState );
-
+	
 	lua_newtable( _state );  // a global table for this script 
 	lua_newtable( _state );  // meta table 
 	
@@ -67,7 +67,17 @@ ISystemComponent* ScriptSystemScene::CreateComponent( const std::string& name, c
 
 void ScriptSystemScene::DestroyComponent( ISystemComponent* component )
 {
-
+	for( SystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+	{
+		if ( ( *i )->GetName( ) == component->GetName( ) )
+		{
+			_components.erase( i );
+			component->Destroy( );
+			delete component;
+			component = 0;
+			return;
+		}
+	}
 }
 
 void ScriptSystemScene::Initialize( )
@@ -90,6 +100,16 @@ void ScriptSystemScene::Initialize( )
 
 		class_< ScriptComponent >( "ScriptComponent" )
 			.def( "include", &ScriptComponent::IncludeScript )
+			.def( "registerEventHandler", &ScriptComponent::RegisterEvent )
+			.def( "getName", &ScriptComponent::GetName )
+			.def( "getTime", &ScriptComponent::GetTime )
+			.def( "rayQuery", &ScriptComponent::RayQuery, copy_table( result ) )
+			.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string& ) ) &ScriptComponent::BroadcastEvent )
+			.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int& ) ) &ScriptComponent::BroadcastEvent )
+			.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string&, const std::string& ) ) &ScriptComponent::BroadcastEvent )
+			.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string&, const int& ) ) &ScriptComponent::BroadcastEvent )
+			.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const int& ) ) &ScriptComponent::BroadcastEvent )
+			.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const std::string& ) ) &ScriptComponent::BroadcastEvent )
 	];
 
 	luabind::globals( _state )[ "Configuration" ] = _scriptConfiguration;
@@ -157,7 +177,7 @@ int ScriptSystemScene::Script_PError( lua_State* luaState )
 
 	int result = 0;
 
-	result = lua_getstack( luaState, 0, &d );
+	result = lua_getstack( luaState, 1, &d );
 	result = lua_getinfo( luaState, "Sln", &d );
 
 	std::string error = lua_tostring( luaState, -1 );

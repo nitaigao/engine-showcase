@@ -1,8 +1,10 @@
+Script:include( '/data/entities/scripts/base/object.lua' );
+
 ----------------------------------------------------------------
 -- Global Variables
 ----------------------------------------------------------------
 
-Actor = {}
+Actor = { }
 
 ----------------------------------------------------------------
 -- Local Variables
@@ -12,25 +14,4 @@ Actor = {}
 -- Actor Functions
 ----------------------------------------------------------------
 
-function Actor.initialize( )
-	
-	
-end
-
-function Actor.onEvent( eventName )
-
-
-end
-
-function Actor.update( )
-	
-
-end
-
-function update( )
-
-	Actor.update( );
-
-end
-
---Actor.initialize( );
+extend( Actor, Object );

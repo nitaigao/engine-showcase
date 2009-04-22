@@ -44,7 +44,7 @@ public:
 
 	ISystemScene* CreateScene( );
 
-	SystemType GetSystemType( ) { return InputSystemType; };
+	SystemType GetType( ) { return InputSystemType; };
 
 	inline AnyValueMap GetProperties( ) { return _properties; };
 	void SetProperty( const std::string& name, AnyValue value );

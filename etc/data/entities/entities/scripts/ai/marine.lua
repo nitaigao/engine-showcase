@@ -5,10 +5,13 @@
 Marine = {}
 
 States = {
-	PATROL = 0,
-	IDLE = 1,
-	FOLLOW = 2,
-	ATTACK = 3
+	NONE = 0,
+	PATROL = 1,
+	IDLE = 2,
+	FOLLOW = 3,
+	ATTACK = 4,
+	HIT = 5,
+	DEAD = 6
 }
 
 ----------------------------------------------------------------
@@ -29,8 +32,24 @@ function Marine.initialize( )
 	
 end
 
-function Marine.onEvent( eventName )
+function Marine.onEvent( eventName, var1, var2 )
 
+	if ( var1 == Script:getName( ) ) then 
+
+		if ( eventName == 'ACTOR_HIT' ) then
+		
+			
+		
+		end
+		
+		if( eventName == 'ACTOR_DEAD' ) then 
+		
+			movementState = States.DEAD;
+			attackState = States.DEAD;
+			
+		end
+		
+	end
 
 end
 
@@ -56,7 +75,6 @@ function Marine.update( )
 		-- output
 	
 		me:facePlayer( );
-		--me:attack( );
 	
 	end
 
@@ -78,6 +96,21 @@ function Marine.update( )
 	
 	end
 	
+	if ( movementState == States.DEAD ) then
+	
+		-- sense
+		
+		-- memory
+		
+		-- analysis
+	
+		-- output
+		
+		me:setBehavior( 'die_backward' );
+		movementState = States.NONE;
+	
+	end
+	
 	------ Attack ------
 	
 	if ( attackState == States.ATTACK ) then
@@ -95,6 +128,8 @@ function Marine.update( )
 		-- analysis
 	
 		-- output
+		
+		me:fireWeapon( );
 	
 	end
 	
@@ -105,7 +140,7 @@ function Marine.update( )
 		if ( me:getPlayerDistance( ) <= attackDistance ) then
 
 			attackState = States.ATTACK;
-			me:setBehavior( 'shoot_small' );
+			me:setBehavior( 'hit' );
 		
 		end
 		
@@ -116,6 +151,12 @@ function Marine.update( )
 		-- output
 
 	end
+	
+	if ( attackState == States.DEAD ) then
+	
+		attackState = States.NONE;
+	
+	end
 
 end
 
@@ -124,5 +165,7 @@ function update( )
 	Marine.update( );
 
 end
+
+Script:registerEventHandler( Marine.onEvent );
 
 Marine.initialize( );

@@ -25,6 +25,7 @@ public:
 		: _handlerFunctor( handlerFunctor )
 		, _eventType( eventType )
 		, _handlerTarget( handlerTarget )
+		, _markedForDeletion( false )
 	{
 
 	}
@@ -53,7 +54,10 @@ public:
 			throw nullEvent;
 		}
 
-		( _handlerTarget->*_handlerFunctor )( event );
+		if ( !_markedForDeletion )
+		{
+			( _handlerTarget->*_handlerFunctor )( event );
+		}
 	}
 
 	/*! Retrieves the Type of Event the EventListener is listening for */
@@ -65,11 +69,18 @@ public:
 	/*! Retrieves the object instance for which the EventListener is Listening */
 	inline const T* GetHandlerTarget( ) const { return _handlerTarget; };
 
+	/*! Marks the EventHandler for Deletion on the Next Update */
+	inline void MarkForDeletion( ) { _markedForDeletion = true; };
+
+	/*! Gets whether the EventHandler is marked for deletion */
+	inline bool IsMarkedForDeletion( ) const { return _markedForDeletion; };
+
 private:
 
 	HandlerFunctor _handlerFunctor;
 	EventType _eventType;
 	T* _handlerTarget;
+	bool _markedForDeletion;
 
 	virtual ~EventListener( ) { };
 	EventListener( ) { };

@@ -4,43 +4,37 @@ Script:include( '/data/entities/scripts/entities/character.lua' );
 -- Global Variables
 ----------------------------------------------------------------
 
-Player = { }
+Marine = { }
 
 ----------------------------------------------------------------
 -- Local Variables
 ----------------------------------------------------------------
 
 ----------------------------------------------------------------
--- Player Functions
+-- Marine Functions
 ----------------------------------------------------------------
 
-function Player.onEvent( eventName, var1, var2 )
+function Marine.onEvent( eventName, var1, var2 )
 
-	if ( eventName == 'INPUT_MOUSE_PRESSED' ) then
+	if ( eventName == 'AI_WEAPON_FIRED' and var1 == Script:getName( ) ) then
 	
-		player:fireWeapon( );
+		marine:fireWeapon( );
 	
 	end
 	
-	if ( var1 == Script:getName( ) ) then
+	if ( eventName == 'ACTOR_HIT' ) then
 	
-		if ( eventName == 'ACTOR_HIT' ) then
-			
-			player:onHit( var2 );
+		if ( var1 == Script:getName( ) ) then
+		
+			marine:onHit( var2 );
 		
 		end
-		
-		if ( eventName == 'ACTOR_DEAD' ) then 
-			
-			print( 'player just died' );
-				
-		end
-		
+	
 	end
 
 end
 
-extend( Player, Character );
-player = Player:new( );
+extend( Marine, Character );
+marine = Marine:new( );
 
-Script:registerEventHandler( Player.onEvent );
+Script:registerEventHandler( Marine.onEvent );

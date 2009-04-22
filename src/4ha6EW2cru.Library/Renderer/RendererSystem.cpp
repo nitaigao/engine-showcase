@@ -225,7 +225,7 @@ void RendererSystem::SetProperty( const std::string& name, AnyValue value )
 	}
 }
 
-ISystemScene* RendererSystem::CreateScene()
+ISystemScene* RendererSystem::CreateScene( )
 {
 	return new RendererSystemScene( _sceneManager );
 }

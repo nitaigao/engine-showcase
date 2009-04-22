@@ -13,6 +13,8 @@ using namespace Ogre;
 
 #include "AnimationBlender.h"
 
+#include "../Scripting/ScriptEvent.hpp"
+
 RendererSystemComponent::~RendererSystemComponent( )
 {
 	_scene->GetSceneManager( )->getRootSceneNode( )->removeAndDestroyChild( _name );

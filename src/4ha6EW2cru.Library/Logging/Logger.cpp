@@ -57,11 +57,15 @@ void Logger::LogMessage( const std::string level, const std::string message )
 	std::stringstream outputMessage;
 	outputMessage << level << ": " << message << "\n";
 
+	if( level != "DEBUG" )
+	{
+		//Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "MESSAGE_LOGGED", outputMessage.str( ) ) );
+	}
+
 #ifdef _DEBUG
-	OutputDebugString( outputMessage.str( ).c_str( ) );
+		OutputDebugString( outputMessage.str( ).c_str( ) );
 #endif // _DEBUG
 
-	//Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "MESSAGE_LOGGED", outputMessage.str( ) ) );
 }
 
 void Logger::Info( const std::string message )

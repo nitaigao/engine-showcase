@@ -32,7 +32,7 @@ void InputSystem::Initialize( )
 	_mouse->setEventCallback( this );
 }
 
-ISystemScene* InputSystem::CreateScene()
+ISystemScene* InputSystem::CreateScene( )
 {
 	InputSystemScene* inputScene = new InputSystemScene( _mouse, _keyboard );
 
@@ -118,6 +118,11 @@ bool InputSystem::mouseMoved( const MouseEvent &arg )
 /* Fired when the user presses a button on the mouse */
 bool InputSystem::mousePressed( const MouseEvent &arg, MouseButtonID id )
 {
+	for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+	{
+		( *i )->mousePressed( arg, id );
+	}
+
 	Event* event = new Event( INPUT_MOUSE_PRESSED, new MouseEventData( arg.state, id ) );
 	Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 
@@ -127,8 +132,10 @@ bool InputSystem::mousePressed( const MouseEvent &arg, MouseButtonID id )
 /* Fired when the user releases a button on the mouse */
 bool InputSystem::mouseReleased( const MouseEvent &arg, MouseButtonID id )
 {
-	IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_RELEASED", id );
-	Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
+	for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+	{
+		( *i )->mouseReleased( arg, id );
+	}
 
 	Event* event = new Event( INPUT_MOUSE_RELEASED, new MouseEventData( arg.state, id ) );
 	Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );

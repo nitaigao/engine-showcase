@@ -2,6 +2,9 @@
 
 #include "InputSystemComponent.h"
 
+#include "../System/Management.h"
+#include "../Scripting/ScriptEvent.hpp"
+
 using namespace OIS;
 
 ISystemComponent* InputSystemScene::CreateComponent( const std::string& name, const std::string& type )
@@ -55,6 +58,14 @@ void InputSystemScene::Update( float deltaMilliseconds )
 		if ( _keyboard->isKeyDown( OIS::KC_ESCAPE ) )
 		{
 			changes |= System::Changes::Input::Pause_Game;
+		}
+
+		if ( _mouse->getMouseState( ).buttonDown( MB_Left ) )
+		{
+			changes |= System::Changes::Input::Fire;
+
+			IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_PRESSED", MB_Left );
+			Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
 		}
 
 		if ( changes > 0 )
@@ -132,11 +143,23 @@ bool InputSystemScene::mouseMoved( const MouseEvent &arg )
 /* Fired when the user presses a button on the mouse */
 bool InputSystemScene::mousePressed( const MouseEvent &arg, MouseButtonID id )
 {
+	if( _inputAllowed )
+	{
+		IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_PRESSED", id );
+		Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
+	}
+
 	return true;
 }
 
 /* Fired when the user releases a button on the mouse */
 bool InputSystemScene::mouseReleased( const MouseEvent &arg, MouseButtonID id )
 {
+	if( _inputAllowed )
+	{
+		IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_RELEASED", id );
+		Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
+	}
+
 	return true;
 }

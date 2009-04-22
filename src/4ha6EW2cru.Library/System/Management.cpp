@@ -2,6 +2,7 @@
 
 #include "../Exceptions/UnInitializedException.hpp"
 
+#include "../System/ServiceManager.h"
 #include "../System/SystemManager.h"
 #include "../System/PlatformManager.h"
 #include "../IO/FileManager.h"
@@ -10,6 +11,7 @@ static Management* g_ManagementInstance = 0;
 
 Management::Management( )
 {
+	_serviceManager = new ServiceManager( );
 	_platformManager = new PlatformManager( );
 	_eventManager = new EventManager( );
 	_systemManager = new SystemManager( );
@@ -18,6 +20,7 @@ Management::Management( )
 
 Management::~Management( )
 {
+	delete _serviceManager;
 	delete _systemManager;
 	delete _eventManager;
 	delete _platformManager;
