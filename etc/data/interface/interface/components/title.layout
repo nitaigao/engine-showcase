@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout">
-    <Widget type="StaticImage" skin="StaticImage" position="0 0 512 256" layer="Back" name="logo">
-    <Property key="Image_Texture" value="/data/interface/assets/logo.png"/>
-    </Widget>
+	<Widget type="StaticImage" skin="StaticImage" position_real="0 0 1 1" layer="Back" name="title">
+		<Property key="Image_Texture" value="/data/interface/assets/background_black.png"/>
+		<Widget type="StaticImage" skin="StaticImage" position="0 0 512 256" layer="Back" name="logo">
+			<Property key="Image_Texture" value="/data/interface/assets/logo.png"/>
+		</Widget>
+	</Widget>
 </MyGUI>

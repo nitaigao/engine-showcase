@@ -2,15 +2,19 @@
 
 #include "../Logging/Logger.h"
 #include "../Exceptions/ScriptException.hpp"
+
+#include "../IO/IResource.hpp"
+using namespace Resource;
+
 #include "../System/Management.h"
 #include "../System/IServiceManager.h"
 
 #include "../Events/IEvent.hpp"
 #include "../Events/Event.h"
 
-#include "ScriptEvent.hpp"
-
 #include "../Maths/MathMatrix.hpp"
+
+#include "ScriptEvent.hpp"
 
 extern "C" 
 {
@@ -27,11 +31,15 @@ ScriptComponent::~ScriptComponent()
 
 	delete _eventHandlers;
 	_eventHandlers = 0;
+
+	delete _updateHandlers;
+	_updateHandlers = 0;
 }
 
 void ScriptComponent::Initialize( AnyValueMap properties )
 {
-	_eventHandlers = new EventHandlerList( );
+	_eventHandlers = new FunctionList( );
+	_updateHandlers = new FunctionList( );
 
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( ALL_EVENTS, this, &ScriptComponent::OnEvent );
 
@@ -47,9 +55,9 @@ void ScriptComponent::Initialize( AnyValueMap properties )
 
 void ScriptComponent::LoadScript( const std::string& scriptPath )
 {
-	FileBuffer* scriptBuffer = Management::GetInstance( )->GetFileManager( )->GetFile( scriptPath, false );
+	IResource* resource = Management::GetInstance( )->GetResourceManager( )->GetResource( scriptPath );
 
-	int result = luaL_loadbuffer( _state, scriptBuffer->fileBytes, scriptBuffer->fileLength, scriptBuffer->filePath.c_str( ) );
+	int result = luaL_loadbuffer( _state, resource->GetFileBuffer( )->fileBytes, resource->GetFileBuffer( )->fileLength, resource->GetFileBuffer( )->filePath.c_str( ) );
 
 	if ( LUA_ERRSYNTAX == result )
 	{
@@ -64,8 +72,6 @@ void ScriptComponent::LoadScript( const std::string& scriptPath )
 		Logger::GetInstance( )->Fatal( memE.what( ) );
 		throw memE;
 	}
-
-	delete scriptBuffer;
 }
 
 void ScriptComponent::Execute( )
@@ -85,11 +91,16 @@ void ScriptComponent::RegisterEvent( luabind::object function )
 	_eventHandlers->push_back( function );
 }
 
+void ScriptComponent::RegisterUpdate( luabind::object function )
+{
+	_updateHandlers->push_back( function );
+}
+
 void ScriptComponent::OnEvent( const IEvent* event )
 {
-	EventHandlerList handlers( *_eventHandlers );
+	FunctionList handlers( *_eventHandlers );
 
-	for ( EventHandlerList::iterator i = handlers.begin( ); i != handlers.end( ); ++i )
+	for ( FunctionList::iterator i = handlers.begin( ); i != handlers.end( ); ++i )
 	{
 		EventType eventType = event->GetEventType( );
 		
@@ -146,10 +157,6 @@ std::vector< std::string > ScriptComponent::RayQuery( bool sortByDistance, int m
 
 	_orientation.AsOgreQuaternion( ).ToAngleAxis( angle, axis );
 
-	std::stringstream angleS;
-	angleS << Ogre::Degree( Ogre::Radian( angle ) ).valueDegrees( );
-	Logger::GetInstance( )->Debug( angleS.str( ) );
-
 	Ogre::Matrix3 rotation;
 	rotation.FromAxisAngle( axis * Ogre::Vector3::NEGATIVE_UNIT_Y, angle );
 
@@ -173,5 +180,51 @@ void ScriptComponent::Observe( ISubject* subject, unsigned int systemChanges )
 	{
 		_position = component->GetPosition( );
 		_orientation = component->GetOrientation( );
+	}
+
+	if ( System::Changes::Input::Move_Forward & systemChanges )
+	{
+		Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_MOVE_FORWARD", _name ) );
+	}
+
+	if ( System::Changes::Input::Move_Backward & systemChanges )
+	{
+		Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_MOVE_BACKWARD", _name ) );
+	}
+
+	if ( System::Changes::Input::Strafe_Right & systemChanges )
+	{
+		Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_STRAFE_RIGHT", _name ) );
+	}
+
+	if ( System::Changes::Input::Strafe_Left & systemChanges )
+	{
+		Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_STRAFE_LEFT", _name ) );
+	}
+
+	if( System::Changes::Input::Fire & systemChanges )
+	{
+		Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_FIRED", _name ) );
+	}
+}
+
+void ScriptComponent::PlayAnimation( const std::string& animationName, bool loopAnimation )
+{
+	IService* service = Management::GetInstance( )->GetServiceManager( )->FindService( RenderSystemType );
+
+	AnyValue::AnyValueMap parameters;
+
+	parameters[ "entityName" ] = _name;
+	parameters[ "animationName" ] = animationName;
+	parameters[ "loopAnimation" ] = loopAnimation;
+
+	service->Execute( "playAnimation", parameters );
+}
+
+void ScriptComponent::Update( float deltaMilliseconds )
+{
+	for ( FunctionList::iterator i = _updateHandlers->begin( ); i != _updateHandlers->end( ); ++i )	
+	{
+		call_function< void >( ( *i ), deltaMilliseconds );
 	}
 }

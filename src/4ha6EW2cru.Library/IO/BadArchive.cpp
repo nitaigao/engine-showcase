@@ -2,6 +2,9 @@
 
 #include <fstream>
 
+#include "IResource.hpp"
+using namespace Resource;
+
 #include "FileManager.h"
 #include "../System/Management.h"
 
@@ -14,18 +17,10 @@ Ogre::DataStreamPtr BadArchive::open( const Ogre::String& filename ) const
 {
 	DataStreamPtr stream;
 
-	FileBuffer* fileBuffer = Management::GetInstance( )->GetFileManager( )->GetFile( filename, false );
+	IResource* resource = Management::GetInstance( )->GetResourceManager( )->GetResource( filename );
 
-	std::stringstream logMessage;
-	logMessage << "BadArchive: Opening File " << filename;
-	Logger::GetInstance( )->Debug( logMessage.str( ) );
-
-	if ( fileBuffer != 0 )
-	{
-		MemoryDataStream memoryStream( fileBuffer->fileBytes, fileBuffer->fileLength, false );
-		stream = DataStreamPtr( new MemoryDataStream( memoryStream, true ) );
-		delete fileBuffer;
-	}
+	MemoryDataStream memoryStream( resource->GetFileBuffer( )->fileBytes, resource->GetFileBuffer( )->fileLength, false );
+	stream = DataStreamPtr( new MemoryDataStream( memoryStream, true ) );
 
 	return stream;
 }

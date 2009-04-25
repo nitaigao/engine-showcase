@@ -532,7 +532,41 @@
       <State name="pushed" colour="#{MyGUI_Theme_Button_ColourPushed}" shift = "true"/>
     </BasisSkin>
   </Skin>
+  
+  <Skin name = "MenuButton" size = "29 26" texture = "#{MyGUI_Theme_Texture}">
+    <Property key="FontName" value = "DejaVuSans.17" />
+    <Property key="TextAlign" value = "HCenter VCenter" />
 
+    <BasisSkin type="SubSkin" offset = "0 0 10 26" align = "Left VStretch">
+      <!--<State name="disabled" offset = "202 2 10 26"/>
+      <State name="normal" offset = "202 29 10 26"/>
+      <State name="highlighted" offset = "202 56 10 26"/>
+      <State name="normal_checked" offset = "202 83 10 26"/>
+      <State name="pushed" offset = "202 110 10 26"/>-->
+    </BasisSkin>
+    <BasisSkin type="SubSkin" offset = "10 0 7 26" align = "HStretch VStretch">
+      <!--<State name="disabled" offset = "212 2 7 26"/>
+      <State name="normal" offset = "212 29 7 26"/>
+      <State name="highlighted" offset = "212 56 7 26"/>
+      <State name="normal_checked" offset = "212 83 7 26"/>
+      <State name="pushed" offset = "212 110 7 26"/>-->
+    </BasisSkin>
+    <BasisSkin type="SubSkin" offset = "17 0 12 26" align = "Right VStretch">
+      <!--<State name="disabled" offset = "219 2 12 26"/>
+      <State name="normal" offset = "219 29 12 26"/>
+      <State name="highlighted" offset = "219 56 12 26"/>
+      <State name="normal_checked" offset = "219 83 12 26"/>
+      <State name="pushed" offset = "219 110 12 26"/>-->
+    </BasisSkin>
+
+    <BasisSkin type="SimpleText" offset = "1 1 25 22" align = "Stretch">
+      <State name="disabled" colour="#{MyGUI_Theme_Button_ColourNormal}" shift = "false"/>
+      <State name="normal" colour="#{MyGUI_Theme_Button_ColourNormal}" shift = "false"/>
+      <State name="highlighted" colour="#{MyGUI_Theme_Button_ColourHover}" shift = "false"/>
+      <State name="normal_checked" colour="#{MyGUI_Theme_Button_ColourPushed}" shift = "false" />
+      <State name="pushed" colour="#{MyGUI_Theme_Button_ColourHover}" shift = "false"/>
+    </BasisSkin>
+  </Skin>
 
   <Skin name = "EditClientSimple" size = "32 32">
     <Property key="FontName" value = "Default" />

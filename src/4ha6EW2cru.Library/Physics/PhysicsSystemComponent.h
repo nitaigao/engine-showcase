@@ -32,31 +32,25 @@ public:
 	}
 
 	virtual void Initialize( AnyValueMap properties );
-	virtual void Destroy( ) { };
-
-	virtual void Observe( ISubject* subject, unsigned int systemChanges );
-	virtual void PushChanges( unsigned int systemChanges );
 	virtual void Update( float deltaMilliseconds ) { };
+	void Destroy( ) { };
+
+	inline void AddObserver( IObserver* observer ) { _observer = observer; };
+	virtual void Observe( ISubject* subject, unsigned int systemChanges );
+	void PushChanges( unsigned int systemChanges );
 
 	inline const std::string& GetName( ) { return _name; };
 	inline SystemType GetType( ) { return PhysicsSystemType; };
-	inline void AddObserver( IObserver* observer ) { _observer = observer; };
+
 	inline unsigned int GetRequestedChanges( ) 
 	{ 
 		return 
-			System::Changes::Geometry::Position | 
-			System::Changes::Geometry::Orientation | 
-			System::Changes::Geometry::Scale |
 			System::Changes::Geometry::All |
-			System::Changes::Input::Move_Forward |
-			System::Changes::Input::Move_Backward |
-			System::Changes::Input::Strafe_Left |
-			System::Changes::Input::Strafe_Right |
-			System::Changes::Input::Turn_Left |
-			System::Changes::Input::Turn_Right |
-			System::Changes::Input::Mouse_Moved |
-			System::Changes::Input::Jump;
+			System::Changes::Input::All;
 	};
+
+	inline AnyValueMap GetProperties( ) { return AnyValueMap( ); };
+	inline void SetProperties( AnyValueMap systemProperties ) { };
 
 	MathVector3 GetPosition( );
 	inline MathVector3 GetScale( ) { return MathVector3::Zero( ); };

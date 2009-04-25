@@ -149,6 +149,7 @@ void RendererSystem::Initialize( )
 	_interface->Initialize( );
 
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( GRAPHICS_SETTINGS_CHANGED, this, &RendererSystem::OnGraphicsSettingsUpdated );
+	Management::GetInstance( )->GetServiceManager( )->RegisterService( this );
 
 	_isIntialized = true;
 }
@@ -227,7 +228,8 @@ void RendererSystem::SetProperty( const std::string& name, AnyValue value )
 
 ISystemScene* RendererSystem::CreateScene( )
 {
-	return new RendererSystemScene( _sceneManager );
+	_scene = new RendererSystemScene( _sceneManager );
+	return _scene;
 }
 
 void RendererSystem::windowClosed( RenderWindow* rw )
@@ -305,4 +307,21 @@ void RendererSystem::CreateRenderWindow( const std::string& windowTitle, int wid
 	params[ "vsync" ] = _configuration->Find< bool >( _configSectionName, "vsync" ) ? "true" : "false";
 
 	_window = _root->createRenderWindow( windowTitle, width, height, fullScreen, &params ); 
+}
+
+AnyValue::AnyValueMap RendererSystem::Execute( const std::string& actionName, AnyValueMap parameters )
+{
+	AnyValue::AnyValueMap results;
+
+	if ( actionName == "playAnimation" )
+	{
+		IRendererSystemComponent* component = _scene->GetComponent( parameters[ "entityName" ].GetValue< std::string >( ) );
+		
+		component->PlayAnimation( 
+			parameters[ "animationName" ].GetValue< std::string >( ),
+			parameters[ "loopAnimation" ].GetValue< bool >( )
+			);
+	}
+
+	return results;
 }

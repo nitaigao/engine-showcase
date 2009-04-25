@@ -25,15 +25,14 @@ public:
 	inline void Update( float deltaMilliseconds ) { };
 	void Release( );
 
+	inline SystemType GetType( ) { return PhysicsSystemType; };
+
 	ISystemScene* CreateScene( );
 
-	SystemType GetType( ) { return PhysicsSystemType; };
-
-	AnyValueMap GetProperties( ) { return AnyValueMap( ); };
+	inline AnyValueMap GetProperties( ) { return AnyValueMap( ); };
 	inline void SetProperty( const std::string& name, AnyValue value ) { };
 
 	AnyValue::AnyValueMap Execute( const std::string& actionName, AnyValueMap parameters );
-
 	std::vector< std::string > RayQuery( MathVector3 origin, MathVector3 direction, bool sortByDistance );
 
 private:

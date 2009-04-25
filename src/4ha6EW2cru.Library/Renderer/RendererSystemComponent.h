@@ -2,16 +2,14 @@
 #define __OGRERENDERSYSTEMCOMPONENT_H
 
 #include "../Utility/OgreMax/OgreMaxModel.hpp"
-#include "../System/ISystemComponent.hpp"
 
+#include "IRendererSystemComponent.hpp"
 #include "IAnimationBlender.hpp"
 #include "RendererSystemScene.h"
 
 
-class RendererSystemComponent : public ISystemComponent
+class RendererSystemComponent : public IRendererSystemComponent
 {
-
-	typedef std::vector< AnimationState* > AnimationStateList;
 	typedef std::vector< IAnimationBlender* > AnimationBlenderList;
 
 public:
@@ -27,18 +25,16 @@ public:
 	}
 
 	void Initialize( AnyValueMap properties );
+	virtual void Update( float deltaMilliseconds );
 	void Destroy( );
 
 	virtual void AddObserver( IObserver* observer ) { };
-	virtual void PushChanges( unsigned int systemChanges ) { };
 	virtual void Observe( ISubject* subject, unsigned int systemChanges );
+	virtual void PushChanges( unsigned int systemChanges ) { };
 
 	inline unsigned int GetRequestedChanges( ) 
 	{ 
 		return 
-			System::Changes::Geometry::Position | 
-			System::Changes::Geometry::Orientation | 
-			System::Changes::Geometry::Scale |
 			System::Changes::Geometry::All |
 			System::Changes::Input::Mouse_Moved |
 			System::Changes::AI::Behavior |
@@ -48,11 +44,14 @@ public:
 	inline const std::string& GetName( ) { return _name; };
 	inline SystemType GetType( ) { return RenderSystemType; };
 
-	virtual void Update( float deltaMilliseconds );
+	AnyValueMap GetProperties( ) { return AnyValueMap( ); };
+	void SetProperties( AnyValueMap systemProperties ) { };
 
 	inline MathVector3 GetPosition( ) { return MathVector3( _sceneNode->getPosition( ) ); };
 	inline MathVector3 GetScale( ) { return MathVector3( _sceneNode->getScale( ) ); };
 	inline MathQuaternion GetOrientation( ) { return MathQuaternion( _sceneNode->getOrientation( ) ); };
+
+	void PlayAnimation( const std::string& animationName, const bool& loopAnimation );
 
 protected:
 

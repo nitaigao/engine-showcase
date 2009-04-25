@@ -28,8 +28,7 @@ void AISystemComponent::Initialize( AnyValueMap properties )
 
 void AISystemComponent::Update( float deltaMilliseconds )
 {
-	ScriptComponent* scriptComponent = static_cast< ScriptComponent* >( _scriptComponent );
-	luabind::call_function< void >( scriptComponent->GetState( ), "update" );
+	_scriptComponent->Update( deltaMilliseconds );
 }
 
 void AISystemComponent::WalkForward()
@@ -62,17 +61,15 @@ void AISystemComponent::Observe( ISubject* subject, unsigned int systemChanges )
 
 	if ( component->GetType( ) == GeometrySystemType )
 	{
-		GeometrySystemComponent* geometryComponent = static_cast< GeometrySystemComponent* >( subject );
-
 		if ( component->GetName( ) != this->GetName( ) )
 		{
-			_playerPosition = geometryComponent->GetPosition( );
-			_playerOrientation = geometryComponent->GetOrientation( );
+			_playerPosition = component->GetPosition( );
+			_playerOrientation = component->GetOrientation( );
 		}
 		else
 		{
-			_position = geometryComponent->GetPosition( );
-			_orientation = geometryComponent->GetOrientation( );
+			_position = component->GetPosition( );
+			_orientation = component->GetOrientation( );
 		}
 	}
 }

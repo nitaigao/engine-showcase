@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout">
     <Widget type="StaticImage" skin="StaticImage" position_real="0 0 1 1" align="Stretch" layer="Back" name="loading">
-        <Property key="Image_Texture" value="/data/interface/assets/loading_background.png"/>
+        <Property key="Image_Texture" value="/data/interface/assets/background_streetgun.png"/>
         <Widget type="Widget" skin="Default" position="432 600 416 80" align="HCenter Bottom" name="loadingbox">
             <Widget type="StaticText" skin="StaticText" position="164 16 88 24" name="loading_text">
                 <Property key="Text_TextAlign" value="Center"/>

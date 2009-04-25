@@ -1,3 +1,4 @@
 ﻿MyGUI_Theme_Texture /data/interface/core/themes/core_black_blue.png
 MyGUI_Theme_Button_ColourNormal	#FFFFFF
 MyGUI_Theme_Button_ColourPushed	#000000
+MyGUI_Theme_Button_ColourHover	#808080

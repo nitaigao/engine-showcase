@@ -9,20 +9,15 @@ void RendererSystemCameraComponent::Observe( ISubject* subject, unsigned int sys
 
 	ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 
-	if ( component->GetType( ) == InputSystemType )
+	if ( System::Changes::Input::Mouse_Moved & systemChanges )
 	{
-		InputSystemComponent* inputComponent = static_cast< InputSystemComponent* >( component );
+		float mouseXDelta = component->GetProperties( )[ "mouseXDelta" ].GetValue< int >( );
+		_xHistory.pop_back( );
+		_xHistory.push_front( mouseXDelta );
 
-		if ( System::Changes::Input::Mouse_Moved & systemChanges )
-		{
-			float mouseXDelta = inputComponent->GetProperties( )[ "mouseXDelta" ].GetValue< int >( );
-			_xHistory.pop_back( );
-			_xHistory.push_front( mouseXDelta );
-
-			float mouseYDelta = inputComponent->GetProperties( )[ "mouseYDelta" ].GetValue< int >( );
-			_yHistory.pop_back( );
-			_yHistory.push_front( mouseYDelta );
-		}
+		float mouseYDelta = component->GetProperties( )[ "mouseYDelta" ].GetValue< int >( );
+		_yHistory.pop_back( );
+		_yHistory.push_front( mouseYDelta );
 	}
 }
 
@@ -38,31 +33,25 @@ void RendererSystemCameraComponent::Update( float deltaMilliseconds )
 {
 	RendererSystemComponent::Update( deltaMilliseconds );
 
-	SceneNode::ObjectIterator objects = _sceneNode->getAttachedObjectIterator( );
+	std::stringstream prefix;
+	prefix << _name << "_" << _name;
 
-	float xResult = this->AverageInputHistory( _xHistory, _weightModifier );
-	float yResult = this->AverageInputHistory( _yHistory, _weightModifier );
-
-	while( objects.hasMoreElements( ) )
+	if ( _scene->GetSceneManager( )->hasCamera( prefix.str( ) ) )
 	{
-		MovableObject* object = objects.getNext( );
+		float xResult = this->AverageInputHistory( _xHistory, _weightModifier );
+		float yResult = this->AverageInputHistory( _yHistory, _weightModifier );
 
-		if( object->getMovableType( ) == "Camera" )
-		{
-			Camera* camera = _scene->GetSceneManager( )->getCamera( object->getName( ) );
+		_sceneNode->yaw( Degree( -xResult ), Node::TS_PARENT );
+		_sceneNode->pitch( Degree( yResult ) );
 
-			_sceneNode->yaw( Degree( -xResult ) );
-			camera->pitch( Degree( yResult ) );
-		}
+		_xHistory.pop_back( );
+		_xHistory.push_front( 0.0f );
+
+		_yHistory.pop_back( );
+		_yHistory.push_front( 0.0f );
+
+		this->PushChanges( System::Changes::Geometry::Orientation );
 	}
-
-	_xHistory.pop_back( );
-	_xHistory.push_front( 0.0f );
-
-	_yHistory.pop_back( );
-	_yHistory.push_front( 0.0f );
-
-	this->PushChanges( System::Changes::Geometry::Orientation );
 }
 
 void RendererSystemCameraComponent::Initialize( AnyValueMap properties )

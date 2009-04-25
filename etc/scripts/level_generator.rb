@@ -15,7 +15,7 @@ $texturesFullPath = $basePath + '/textures'
 $meshesFullPath = $basePath + '/meshes'
 $modelsFullPath = $basePath + '/models'
 
-$baseGamePath = '/data/levels/' + $levelName
+$baseGamePath = '/data/entities'
 $bodiesGamePath = $baseGamePath + '/bodies'
 $texturesGamePath = $baseGamePath + '/textures'
 $meshesGamePath = $baseGamePath + '/meshes'
@@ -339,9 +339,29 @@ class Entity
 
 end
 
+def replaceMeshPaths( node )
+
+	node.each_element( ) { | childNode |
+	
+	if ( childNode.name == 'entity' ) then
+	
+		meshFile = childNode.attributes[ 'meshFile' ];
+		fullMeshFile = $meshesGamePath + '/' + meshFile.to_s;
+		childNode.attributes[ 'meshFile' ] = fullMeshFile;
+	
+	end
+		
+	replaceMeshPaths( childNode );
+	
+	}
+
+end
+
 def createEntities( xmlRoot )
 
 	entities = Array.new;
+	
+	replaceMeshPaths( xmlRoot );
 
 	xmlRoot.each_element( "/scene/nodes/node" ) { | node |
 
@@ -363,22 +383,6 @@ def createEntities( xmlRoot )
 		modelFile = File.new( modelFilePath, "w+" );
 		
 		node.elements.delete( 'entity//userData' );
-		
-		node.each_element( 'entity' ) { | entityNode |
-
-			meshFile = entityNode.attributes[ 'meshFile' ];
-			fullMeshFile = $meshesGamePath + '/' + meshFile.to_s;
-			entityNode.attributes[ 'meshFile' ] = fullMeshFile;
-			
-			entityNode.each_element( './/entity' ) { | subEntityNode |
-			
-				meshFile = subEntityNode.attributes[ 'meshFile' ];
-				fullMeshFile = $meshesGamePath + '/' + meshFile.to_s;
-				subEntityNode.attributes[ 'meshFile' ] = fullMeshFile;
-			
-			}
-			
-		}
 		
 		formatter = REXML::Formatters::Pretty.new
 		modelNode = String.new

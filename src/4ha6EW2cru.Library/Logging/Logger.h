@@ -2,6 +2,7 @@
 #define __LOGGER_H
 
 #include <vector>
+#include <sstream>
 
 #include "IAppender.hpp"
 

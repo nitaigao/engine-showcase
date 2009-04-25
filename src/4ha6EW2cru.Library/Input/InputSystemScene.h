@@ -29,11 +29,12 @@ public:
 	}
 
 	void Initialize( ) { };
+	void Update( float deltaMilliseconds );
+
+	inline SystemType GetType( ) { return InputSystemType; }
+
 	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 	void DestroyComponent( ISystemComponent* component );
-	SystemType GetType( ) { return InputSystemType; }
-
-	void Update( float deltaMilliseconds );
 
 	void SetInputAllowed( const bool& inputAllowed ) { _inputAllowed = inputAllowed; };
 

@@ -17,13 +17,11 @@ public:
 		, _framesInAir( 0 )
 		, _forwardBackward( 0 )
 		, _leftRight( 0 )
-		, _mouseXDelta( 0 )
 	{
 		_previousGround = new hkpSurfaceInfo( );
 	}
 
 	void Initialize( AnyValueMap properties );
-	void Destroy( ) { };
 	void Observe( ISubject* subject, unsigned int systemChanges );
 
 	void Update( float deltaMilliseconds );
@@ -36,8 +34,6 @@ private:
 
 	float _forwardBackward;
 	float _leftRight;
-
-	float _mouseXDelta;
 
 	hkpSurfaceInfo* _previousGround;
 	int _framesInAir;

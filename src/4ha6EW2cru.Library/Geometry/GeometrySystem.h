@@ -17,8 +17,9 @@ public:
 	inline void Update( float deltaMilliseconds ) { };
 	inline void Release( ) { };
 
-	ISystemScene* CreateScene( );
 	inline SystemType GetType( ) { return GeometrySystemType; };
+
+	ISystemScene* CreateScene( );
 	
 	inline AnyValueMap GetProperties( ) { return AnyValueMap( ); };
 	inline void SetProperty( const std::string& name, AnyValue value ) { };

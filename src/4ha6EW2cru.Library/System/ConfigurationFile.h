@@ -4,10 +4,7 @@
 #include <sstream>
 
 #include "../System/Management.h"
-
-#include "../io/FileManager.h"
-#include "../io/FileBuffer.hpp"
-
+#include "../IO/IResource.hpp"
 #include "../Utility/SimpleIni.h"
 
 class ConfigurationFile
@@ -29,40 +26,38 @@ public:
 		_ini->Load( fileBuffer->fileBytes );
 	}
 
-	static ConfigurationFile* Load( const std::string& filePath )
+	inline static ConfigurationFile* Load( const std::string& filePath )
 	{
-		FileBuffer* buffer = Management::GetInstance( )->GetFileManager( )->GetFile( filePath, false );
-		ConfigurationFile* configFile = new ConfigurationFile( buffer );
-		delete buffer;
-		return configFile;
+		Resource::IResource* resource = Management::GetInstance( )->GetResourceManager( )->GetResource( filePath );
+		return new ConfigurationFile( resource->GetFileBuffer( ) );
 	}
 
-	int FindConfigItem( const std::string& section, const std::string& key, const int& defaultValue )
+	inline int FindConfigItem( const std::string& section, const std::string& key, const int& defaultValue )
 	{
 		return _ini->GetLongValue( section.c_str( ), key.c_str( ), defaultValue );
 	}
 
-	std::string FindConfigItem( const std::string& section, const std::string& key, const std::string& defaultValue )
+	inline std::string FindConfigItem( const std::string& section, const std::string& key, const std::string& defaultValue )
 	{
 		return _ini->GetValue( section.c_str( ), key.c_str( ), defaultValue.c_str( ) );
 	}
 
-	bool FindConfigItem( const std::string& section, const std::string& key, const bool& defaultValue )
+	inline bool FindConfigItem( const std::string& section, const std::string& key, const bool& defaultValue )
 	{
 		return _ini->GetBoolValue( section.c_str( ), key.c_str( ), defaultValue );
 	}
 
-	void Update( const std::string& section, const std::string& key, const std::string& value )
+	inline void Update( const std::string& section, const std::string& key, const std::string& value )
 	{
 		_ini->SetValue( section.c_str( ), key.c_str( ), value.c_str( ) );
 	}
 
-	void Update( const std::string& section, const std::string& key, const int& value )
+	inline void Update( const std::string& section, const std::string& key, const int& value )
 	{
 		_ini->SetLongValue( section.c_str( ), key.c_str( ), value );
 	}
 
-	void Update( const std::string& section, const std::string& key, const bool& value )
+	inline void Update( const std::string& section, const std::string& key, const bool& value )
 	{
 		_ini->SetBoolValue( section.c_str( ), key.c_str( ), value );
 	}

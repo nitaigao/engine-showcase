@@ -8,7 +8,8 @@
 #include "../IO/IFileManager.hpp"
 #include "../System/Configuration.h"
 #include "../System/ISystem.hpp"
-#include "../System/ISystemComponent.hpp"
+
+#include "IScriptComponent.hpp"
 
 #include "../Events/IEvent.hpp"
 #include "../Events/EventType.hpp"
@@ -26,7 +27,7 @@ class ScriptSystemScene : public ISystemScene
 {
 	typedef std::pair< EventType, luabind::object > EventHandler;
 	typedef std::vector< EventHandler > EventHandlerList;
-	typedef std::vector< ISystemComponent* > ScriptComponentList;
+	typedef std::vector< IScriptComponent* > ScriptComponentList;
 
 public:
 
@@ -34,12 +35,13 @@ public:
 
 	ScriptSystemScene( Configuration* configuration );
 
-	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
-	void DestroyComponent( ISystemComponent* component );;
-	inline SystemType GetType( ) { return ScriptSystemType; };
-	inline void Update( float deltaMilliseconds ) { };
-
 	void Initialize( );
+	inline void Update( float deltaMilliseconds );
+
+	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
+	void DestroyComponent( ISystemComponent* component );
+
+	inline SystemType GetType( ) { return ScriptSystemType; };
 
 	void RegisterEvent( EventType eventType, luabind::object function );
 	void UnRegisterEvent( EventType eventType, luabind::object function );

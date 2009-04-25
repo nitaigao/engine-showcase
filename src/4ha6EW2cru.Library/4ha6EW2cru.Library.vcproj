@@ -437,6 +437,26 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Renderer\IRendererSystemComponent.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Renderer\IRenderSystemScene.h"
+			>
+		</File>
+		<File
+			RelativePath=".\IO\IResource.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\IO\IResourceManager.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\IScriptComponent.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Scripting\IScriptConfiguration.hpp"
 			>
 		</File>
@@ -630,6 +650,18 @@
 		</File>
 		<File
 			RelativePath=".\Renderer\RendererSystemScene.h"
+			>
+		</File>
+		<File
+			RelativePath=".\IO\Resource.h"
+			>
+		</File>
+		<File
+			RelativePath=".\IO\ResourceManager.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\IO\ResourceManager.h"
 			>
 		</File>
 		<File

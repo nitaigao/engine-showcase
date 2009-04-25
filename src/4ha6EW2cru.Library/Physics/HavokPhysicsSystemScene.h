@@ -24,12 +24,12 @@ public:
 	HavokPhysicsSystemScene( const hkpWorldCinfo& worldInfo );
 
 	void Initialize( ) { };
+	void Update( float deltaMilliseconds );
+
+	inline SystemType GetType( ) { return PhysicsSystemType; };
 
 	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 	void DestroyComponent( ISystemComponent* component );
-	SystemType GetType( ) { return PhysicsSystemType; };
-
-	void Update( float deltaMilliseconds );
 
 	hkpWorld* GetWorld( ) { return _world; };
 

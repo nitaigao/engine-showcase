@@ -27,8 +27,6 @@ attackDistance = 10;
 ----------------------------------------------------------------
 
 function Marine.initialize( )
-
-	me:setBehavior( 'idle' );
 	
 end
 
@@ -37,8 +35,6 @@ function Marine.onEvent( eventName, var1, var2 )
 	if ( var1 == Script:getName( ) ) then 
 
 		if ( eventName == 'ACTOR_HIT' ) then
-		
-			
 		
 		end
 		
@@ -53,61 +49,60 @@ function Marine.onEvent( eventName, var1, var2 )
 
 end
 
-function Marine.update( )
+function Marine.onUpdate( deltaMilliseconds )
 	
 	------ Movement ------
 	
 	if ( movementState == States.ATTACK ) then
 	
-		-- sense
+		-- Default Actions
+	
+		me:facePlayer( );
 		
-		-- memory
+		-- Evaluation
 		
-		-- analysis
+		local transition = ( me:getPlayerDistance( ) > attackDistance );
 		
-		if ( me:getPlayerDistance( ) > attackDistance ) then
+		-- Transition
+		
+		if ( transition ) then
 		
 			movementState = States.IDLE;
-			me:setBehavior( 'idle' );
 		
 		end
 	
-		-- output
-	
-		me:facePlayer( );
-	
 	end
-
+	
 	if ( movementState == States.IDLE ) then
 	
-		-- sense
+		-- Default Actions
 		
-		-- memory
+		Script:playAnimation( 'idle', false );
 		
-		-- analysis
+		-- Evaluation
 		
-		if ( me:getPlayerDistance( ) <= attackDistance ) then
+		local transition = ( me:getPlayerDistance( ) <= attackDistance );
+		
+		-- Transition
+		
+		if ( transition ) then
 		
 			movementState = States.ATTACK;
 		
 		end
 	
-		-- output
-	
 	end
 	
 	if ( movementState == States.DEAD ) then
 	
-		-- sense
+		-- Default Actions
 		
-		-- memory
-		
-		-- analysis
-	
-		-- output
-		
-		me:setBehavior( 'die_backward' );
+		Script:playAnimation( 'die_backward', false );
 		movementState = States.NONE;
+		
+		-- Evaluation
+		
+		-- Transition
 	
 	end
 	
@@ -115,57 +110,58 @@ function Marine.update( )
 	
 	if ( attackState == States.ATTACK ) then
 	
-		-- sense
+		-- Default Actions
 		
-		if ( me:getPlayerDistance( ) > attackDistance ) then
-
+		me:fireWeapon( );
+		Script:playAnimation( 'hit', false );
+		
+		-- Evaluation
+		
+		local transition = ( me:getPlayerDistance( ) > attackDistance );
+		
+		-- Transition
+		
+		if ( transition ) then
+		
 			attackState = States.IDLE;
 		
 		end
-		
-		-- memory
-		
-		-- analysis
-	
-		-- output
-		
-		me:fireWeapon( );
 	
 	end
 	
 	if ( attackState == States.IDLE ) then
 	
-		-- sense
+		-- Default Actions
 		
-		if ( me:getPlayerDistance( ) <= attackDistance ) then
-
+		-- Evaluation
+		
+		local transition = ( me:getPlayerDistance( ) <= attackDistance );
+		
+		-- Transition
+		
+		if ( transition ) then
+		
 			attackState = States.ATTACK;
-			me:setBehavior( 'hit' );
 		
 		end
-		
-		-- memory
-		
-		-- analysis
 	
-		-- output
-
 	end
 	
 	if ( attackState == States.DEAD ) then
 	
+		-- Default Actions
+		
 		attackState = States.NONE;
+		
+		-- Evaluation
+		
+		-- Transition
 	
 	end
 
 end
 
-function update( )
-
-	Marine.update( );
-
-end
-
 Script:registerEventHandler( Marine.onEvent );
+Script:registerUpdateHandler( Marine.onUpdate );
 
 Marine.initialize( );

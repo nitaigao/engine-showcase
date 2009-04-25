@@ -22,27 +22,27 @@ public:
 	}
 
 	void Initialize( AnyValueMap properties ) { };
+	void Update( float deltaMilliseconds ) { };
 	void Destroy( ) { };
 
 	inline void AddObserver( IObserver* observer ) { _observer = observer; };
-
 	void Observe( ISubject* subject, unsigned int systemChanges ) { };
 	void PushChanges( unsigned int systemChanges );
-
-	inline unsigned int GetRequestedChanges( ) { return 0; };
 
 	inline const std::string& GetName( ) { return _name; };
 	inline SystemType GetType( ) { return InputSystemType; };
 
-	virtual void KeyDown( const OIS::KeyCode& keyCode, const std::string& keyText );
-	virtual void KeyUp( const OIS::KeyCode& keyCode, const std::string& keyText );
+	inline unsigned int GetRequestedChanges( ) { return System::Changes::None; };
 
-	AnyValueMap GetProperties( ) { return _systemProperties; };
-	void SetProperties( AnyValueMap systemProperties ) { _systemProperties = systemProperties; };
+	inline AnyValueMap GetProperties( ) { return _systemProperties; };
+	inline void SetProperties( AnyValueMap systemProperties ) { _systemProperties = systemProperties; };
 
 	inline MathVector3 GetPosition( ) { return MathVector3::Zero( ); };
 	inline MathVector3 GetScale( ) { return MathVector3::Zero( ); };
 	inline MathQuaternion GetOrientation( ) { return MathQuaternion::Identity( ); };
+
+	virtual void KeyDown( const OIS::KeyCode& keyCode, const std::string& keyText );
+	virtual void KeyUp( const OIS::KeyCode& keyCode, const std::string& keyText );
 
 private:
 

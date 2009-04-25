@@ -14,9 +14,10 @@ public:
 	inline void Update( float deltaMilliseconds ) { };
 	inline void Release( ) { };
 
+	inline SystemType GetType( ) { return AISystemType; };
+
 	ISystemScene* CreateScene( );
 
-	inline SystemType GetType( ) { return AISystemType; };
 	inline AnyValueMap GetProperties( ) { return _properties; };
 	inline void SetProperty( const std::string& name, AnyValue value ) { };
 

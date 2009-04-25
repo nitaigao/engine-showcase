@@ -44,7 +44,7 @@ function Title.onInput( )
 
 	unregisterEventHandler( Title.onEvent );
 
-	local logo = findWidget( 'logo' );
+	local logo = findWidget( 'title' );
 	logo:setVisible( false );
 	
 	broadcastEvent( 'UI_MAIN_MENU' ); 

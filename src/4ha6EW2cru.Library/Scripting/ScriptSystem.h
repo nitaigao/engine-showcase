@@ -21,9 +21,9 @@ public:
 	inline void Update( float deltaMilliseconds ) { };
 	void Release( ) { };
 
-	ISystemScene* CreateScene( );
-
 	inline SystemType GetType( ) { return ScriptSystemType; };
+
+	ISystemScene* CreateScene( );
 
 	inline AnyValueMap GetProperties( ) { return _properties; };
 	inline void SetProperty( const std::string& name, AnyValue value ) { };

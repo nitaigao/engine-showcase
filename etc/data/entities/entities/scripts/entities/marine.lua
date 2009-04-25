@@ -16,16 +16,16 @@ Marine = { }
 
 function Marine.onEvent( eventName, var1, var2 )
 
-	if ( eventName == 'AI_WEAPON_FIRED' and var1 == Script:getName( ) ) then
-	
-		marine:fireWeapon( );
-	
-	end
-	
-	if ( eventName == 'ACTOR_HIT' ) then
-	
-		if ( var1 == Script:getName( ) ) then
+	if ( var1 == Script:getName( ) ) then
+
+		if ( eventName == 'AI_WEAPON_FIRED' ) then
 		
+			marine:fireWeapon( );
+		
+		end
+	
+		if ( eventName == 'ACTOR_HIT' ) then
+	
 			marine:onHit( var2 );
 		
 		end

@@ -32,6 +32,7 @@ public:
 	/*! Initializes the Game and all Subsystems */
 	void Initialize( );
 
+	/*! Steps the Internal Systems */
 	void Update( float deltaMilliseconds );
 
 	/*! Releases all of the Game Subsystems */

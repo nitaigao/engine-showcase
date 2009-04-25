@@ -1,16 +1,19 @@
 #ifndef __OGRESYSTEMSCENE_H
 #define __OGRESYSTEMSCENE_H
 
-#include "../System/ISystem.hpp"
-
 #include <Ogre.h>
+
+#include "IRenderSystemScene.h"
+#include "IRendererSystemComponent.hpp"
 
 #include "RendererSystem.h"
 
-class RendererSystemScene : public ISystemScene
+class RendererSystemScene : public IRenderSystemScene
 {
 
 public:
+
+	typedef std::vector< IRendererSystemComponent* > RendererSystemComponentList;
 
 	virtual ~RendererSystemScene( ) { };
 
@@ -20,20 +23,21 @@ public:
 
 	}
 
-	inline SystemType GetType( ) { return RenderSystemType; };
-
 	void Initialize( ) { };
 	void Update( float deltaMilliseconds );
+
+	inline SystemType GetType( ) { return RenderSystemType; };
 
 	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 	void DestroyComponent( ISystemComponent* component );
 
 	Ogre::SceneManager* GetSceneManager( ) const { return _sceneManager; };
+	IRendererSystemComponent* GetComponent( const std::string& name );
 
 private:
 
 	Ogre::SceneManager* _sceneManager;
-	SystemComponentList _components;
+	RendererSystemComponentList _components;
 
 	RendererSystemScene( ) { };
 	RendererSystemScene( const RendererSystemScene & copy ) { };

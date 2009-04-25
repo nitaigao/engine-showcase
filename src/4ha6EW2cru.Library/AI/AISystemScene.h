@@ -12,12 +12,14 @@ public:
 
 	AISystemScene( );
 
-	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
-	inline void DestroyComponent( ISystemComponent* component );
-	inline SystemType GetType( ) { return AISystemType; };
-	inline void Update( float deltaMilliseconds );
-
 	void Initialize( );
+	void Update( float deltaMilliseconds );
+
+	inline SystemType GetType( ) { return AISystemType; };
+
+	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
+	void DestroyComponent( ISystemComponent* component );
+
 	inline ISystemScene* GetScriptScene( ) { return _scriptScene; };
 
 private:

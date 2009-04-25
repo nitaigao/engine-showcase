@@ -2,16 +2,17 @@
 #define __OGRERENDERSYSTEM_H
 
 #include "../System/ISystem.hpp"
-#include "../System/ISystemScene.hpp"
 #include "../System/Configuration.h"
 
 #include "../IO/IFileManager.hpp"
+
+#include "IRenderSystemScene.h"
 
 #include "IInterface.hpp"
 #include <Ogre.h>
 using namespace Ogre;
 
-class RendererSystem : public ISystem, public Ogre::WindowEventListener
+class RendererSystem : public ISystem, public IService, public Ogre::WindowEventListener
 {
 
 	typedef std::vector< std::string > StringList;
@@ -29,6 +30,7 @@ public:
 		, _sceneManager( 0 )
 		, _interface( 0 )
 		, _badFactory( 0 )
+		, _scene( 0 )
 		, _configSectionName( "Graphics" )
 	{
 
@@ -38,13 +40,16 @@ public:
 	virtual void Update( float deltaMilliseconds );
 	virtual void Release( ) { };
 
-	inline ISystemScene* CreateScene( );
 	inline SystemType GetType( ) { return RenderSystemType; };
+
+	inline ISystemScene* CreateScene( );
 
 	inline AnyValueMap GetProperties( ) { return _properties; };
 	inline void SetProperty( const std::string& name, AnyValue value );
 
 	virtual void windowClosed( RenderWindow* rw );
+
+	AnyValue::AnyValueMap Execute( const std::string& actionName, AnyValueMap parameters );
 
 private:
 
@@ -60,6 +65,7 @@ private:
 	IInterface* _interface;
 	bool _badStubCreated;
 	bool _isIntialized;
+	IRenderSystemScene* _scene;
 
 	std::string _configSectionName;
 	std::vector< std::string > _supportedVideoModes;

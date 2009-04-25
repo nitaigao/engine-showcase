@@ -39,8 +39,11 @@ void RendererSystemComponent::Initialize( AnyValueMap properties )
 
 			try
 			{
+				std::stringstream prefix;
+				prefix << _name << "_";
+
 				model->Load( modelPath );
-				model->CreateInstance( _scene->GetSceneManager( ), _name, 0, 
+				model->CreateInstance( _scene->GetSceneManager( ), prefix.str( ), 0, 
 					OgreMaxModel::NO_OPTIONS, 0, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, _sceneNode );
 			}
 			catch( Ogre::FileNotFoundException e )
@@ -66,27 +69,22 @@ void RendererSystemComponent::Observe( ISubject* subject, unsigned int systemCha
 {
 	ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 
-	if ( component->GetType( ) == GeometrySystemType )
+	SceneNode* sceneNode = _scene->GetSceneManager( )->getSceneNode( _name );
+	
+	if ( System::Changes::Geometry::Position & systemChanges || System::Changes::Geometry::Orientation & systemChanges )
 	{
-		GeometrySystemComponent* geometryComponent = static_cast< GeometrySystemComponent* >( subject );
-
-		SceneNode* sceneNode = _scene->GetSceneManager( )->getSceneNode( _name );
-
-		sceneNode->setPosition( geometryComponent->GetPosition( ).AsOgreVector3( ) );
-		sceneNode->setScale( geometryComponent->GetScale( ).AsOgreVector3( ) );
-		sceneNode->setOrientation( geometryComponent->GetOrientation( ).AsOgreQuaternion( ) );
+		sceneNode->setPosition( component->GetPosition( ).AsOgreVector3( ) );
+		sceneNode->setScale( component->GetScale( ).AsOgreVector3( ) );
+		sceneNode->setOrientation( component->GetOrientation( ).AsOgreQuaternion( ) );
 	}
 
-	if ( component->GetType( ) == AISystemType )
+	if ( System::Changes::AI::Behavior & systemChanges )
 	{
-		if ( System::Changes::AI::Behavior & systemChanges )
-		{
-			AISystemComponent* aiComponent = static_cast< AISystemComponent* >( subject );
+		AISystemComponent* aiComponent = static_cast< AISystemComponent* >( subject );
 
-			for( AnimationBlenderList::iterator i = _animationBlenders.begin( ); i != _animationBlenders.end( ); ++i )
-			{
-				( *i )->Blend( aiComponent->GetBehavior( ), 0.2f );
-			}
+		for( AnimationBlenderList::iterator i = _animationBlenders.begin( ); i != _animationBlenders.end( ); ++i )
+		{
+			this->PlayAnimation( aiComponent->GetBehavior( ), true );
 		}
 	}
 }
@@ -110,9 +108,7 @@ void RendererSystemComponent::InitializeSceneNode( Ogre::SceneNode* sceneNode )
 		if( object->getMovableType( ) == "Camera" )
 		{
 			RendererSystem* renderSystem = ( RendererSystem* ) Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
-
 			renderSystem->SetProperty( "activeCamera", object->getName( ) );
-			renderSystem->SetProperty( "farClip", 500.0f );
 		}
 
 		if( object->getMovableType( ) == "Entity" )
@@ -170,4 +166,12 @@ void RendererSystemComponent::DestroySceneNode( Ogre::SceneNode* sceneNode )
 	}
 
 	sceneNode->removeAndDestroyAllChildren( );
+}
+
+void RendererSystemComponent::PlayAnimation( const std::string& animationName, const bool& loopAnimation )
+{
+	for( AnimationBlenderList::iterator i = _animationBlenders.begin( ); i != _animationBlenders.end( ); ++i )
+	{
+		( *i )->Blend( animationName, 0.2f, loopAnimation );
+	}
 }

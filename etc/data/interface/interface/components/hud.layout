@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout">
-    <Widget type="StaticImage" skin="StaticImage" position="0 0 64 64" align="Center" layer="Middle" name="hud">
-        <Property key="Image_Texture" value="/data/interface/assets/crosshair.png"/>
-    </Widget>
+	<Widget type="StaticImage" skin="StaticImage" position_real="0 0 1 1" align="Stretch" layer="Middle" name="hud">
+		<Widget type="StaticImage" skin="StaticImage" position="0 0 64 64" align="Center" layer="Middle" name="crosshair">
+			<Property key="Image_Texture" value="/data/interface/assets/crosshair.png"/>
+		</Widget>
+		<!--<Widget type="StaticImage" skin="StaticImage" position="0 0 1024 512" layer="Middle" name="gun">
+			<Property key="Image_Texture" value="/data/interface/assets/player_gun.png"/>
+		</Widget>-->
+	</Widget>
 </MyGUI>

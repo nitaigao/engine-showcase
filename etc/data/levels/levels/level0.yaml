@@ -174,7 +174,7 @@
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/player_camera.model
+    model: /data/entities/models/player.model
     system: graphics
     type: camera
   - !ruby/object:GeometryComponent 

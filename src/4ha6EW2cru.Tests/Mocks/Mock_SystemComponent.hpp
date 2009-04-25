@@ -22,6 +22,7 @@ public:
 	};
 	
 	void Initialize( AnyValueMap properties ) { };
+	void Update( float deltaMilliseconds ){ };
 	void Destroy( ) { };
 
 	void AddObserver( IObserver* observer ) { } ;
@@ -32,6 +33,9 @@ public:
 
 	inline const std::string& GetName( ) { return "test"; }
 	inline SystemType GetType( ) { return _systemType; };
+
+	inline AnyValueMap GetProperties( ) { return AnyValueMap( ); };
+	inline void SetProperties( AnyValueMap systemProperties ) { };
 
 	inline MathVector3 GetPosition( ) { return MathVector3::Zero( ); };
 	inline MathVector3 GetScale( ) { return MathVector3::Zero( ); };

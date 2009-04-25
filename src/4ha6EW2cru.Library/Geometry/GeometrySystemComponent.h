@@ -24,24 +24,23 @@ public:
 	}
 	
 	void Initialize( AnyValueMap properties );
+	void Update( float deltaMilliseconds ) { };
 	void Destroy( ) { };
 
 	void AddObserver( IObserver* observer ) { _observers.push_back( observer ); };
-	void PushChanges( unsigned int systemChanges );
-
-	inline unsigned int GetRequestedChanges( )
-	{
-		return 
-			System::Changes::Geometry::All |
-			System::Changes::Geometry::Orientation |
-			System::Changes::Geometry::Position |
-			System::Changes::Geometry::Scale;
-	};
-
 	void Observe( ISubject* subject, unsigned int systemChanges );
+	void PushChanges( unsigned int systemChanges );
 
 	inline const std::string& GetName( ) { return _name; };
 	inline SystemType GetType( ) { return GeometrySystemType; };
+
+	inline unsigned int GetRequestedChanges( )
+	{
+		return System::Changes::Geometry::All;
+	};
+
+	inline AnyValueMap GetProperties( ) { return AnyValueMap( ); };
+	inline void SetProperties( AnyValueMap systemProperties ) { };
 
 	inline MathVector3 GetPosition( ) { return _position; };
 	inline MathVector3 GetScale( ) { return _scale; };

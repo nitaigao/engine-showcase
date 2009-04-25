@@ -23,11 +23,16 @@ public:
 	virtual ~ISystemComponent( ) { };
 
 	virtual void Initialize( AnyValueMap properties ) = 0;
+	virtual void Update( float deltaMilliseconds ) = 0;
 	virtual void Destroy( ) = 0;
+
 	virtual void AddObserver( IObserver* observer ) = 0;
 
 	virtual const std::string& GetName( ) = 0;
 	virtual SystemType GetType( ) = 0;
+
+	virtual AnyValue::AnyValueMap GetProperties( ) = 0;
+	virtual void SetProperties( AnyValue::AnyValueMap properties ) = 0;
 
 	virtual MathVector3 GetPosition( ) = 0;
 	virtual MathVector3 GetScale( ) = 0;

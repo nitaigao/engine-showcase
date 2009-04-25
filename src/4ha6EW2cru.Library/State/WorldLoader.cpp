@@ -1,6 +1,10 @@
 #include "WorldLoader.h"
 
 #include <sstream>
+
+#include "../IO/IResource.hpp"
+using namespace Resource;
+
 #include "../System/SystemTypeMapper.hpp"
 #include "../System/Management.h"
 
@@ -18,9 +22,9 @@ void WorldLoader::Load( const std::string& levelPath )
 
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WORLD_LOADING_STARTED", levelPath ) );
 
-	FileBuffer* levelBuffer = Management::GetInstance( )->GetFileManager( )->GetFile( levelPath, false );
+	IResource* resource = Management::GetInstance( )->GetResourceManager( )->GetResource( levelPath );
 
-	std::istringstream inputStream( levelBuffer->fileBytes );
+	std::istringstream inputStream( resource->GetFileBuffer( )->fileBytes );
 	YAML::Parser parser( inputStream );
 
 	parser.Load( inputStream );
@@ -32,8 +36,6 @@ void WorldLoader::Load( const std::string& levelPath )
 		_loadTotal += node->size( );
 		_loadQueue.push( node );
 	}
-
-	delete levelBuffer;
 }
 
 void WorldLoader::LoadNode( const YAML::Node& node )

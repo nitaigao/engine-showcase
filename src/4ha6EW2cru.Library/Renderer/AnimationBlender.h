@@ -22,7 +22,7 @@ public:
 
 	void Update( float deltaMilliseconds );
 
-	void Blend( const std::string animationName, float blendDuration );
+	void Blend( const std::string animationName, float blendDuration, bool loopAnimation );
 
 private:
 

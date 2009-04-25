@@ -67,7 +67,7 @@ ISystemComponent* ScriptSystemScene::CreateComponent( const std::string& name, c
 
 void ScriptSystemScene::DestroyComponent( ISystemComponent* component )
 {
-	for( SystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+	for( ScriptComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
 	{
 		if ( ( *i )->GetName( ) == component->GetName( ) )
 		{
@@ -101,9 +101,11 @@ void ScriptSystemScene::Initialize( )
 		class_< ScriptComponent >( "ScriptComponent" )
 			.def( "include", &ScriptComponent::IncludeScript )
 			.def( "registerEventHandler", &ScriptComponent::RegisterEvent )
+			.def( "registerUpdateHandler", &ScriptComponent::RegisterUpdate )
 			.def( "getName", &ScriptComponent::GetName )
 			.def( "getTime", &ScriptComponent::GetTime )
 			.def( "rayQuery", &ScriptComponent::RayQuery, copy_table( result ) )
+			.def( "playAnimation", &ScriptComponent::PlayAnimation )
 			.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string& ) ) &ScriptComponent::BroadcastEvent )
 			.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int& ) ) &ScriptComponent::BroadcastEvent )
 			.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string&, const std::string& ) ) &ScriptComponent::BroadcastEvent )
@@ -236,4 +238,12 @@ void ScriptSystemScene::EndGame()
 {
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_ENDED" ) );
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_ENDED ) );
+}
+
+void ScriptSystemScene::Update( float deltaMilliseconds )
+{
+	for( ScriptComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+	{
+		( *i )->Update( deltaMilliseconds );
+	}
 }

@@ -3,7 +3,8 @@
 
 #include <string>
 #include "../System/SystemType.hpp"
-#include "../System/ISystemComponent.hpp"
+
+#include "../Scripting/ScriptComponent.h"
 
 #include "../Maths/MathVector3.hpp"
 #include "../Maths/MathQuaternion.hpp"
@@ -27,7 +28,7 @@ public:
 
 	virtual ~AISystemComponent( ) { };
 
-	AISystemComponent( const std::string& name, ISystemComponent* scriptComponent )
+	AISystemComponent( const std::string& name, IScriptComponent* scriptComponent )
 		: _name( name )
 		, _scriptComponent( scriptComponent )
 		, _observer( 0 )
@@ -36,26 +37,27 @@ public:
 	}
 
 	void Initialize( AnyValueMap properties );
+	void Update( float deltaMilliseconds );
 	void Destroy( ) { };
 
 	void AddObserver( IObserver* observer );
+	void Observe( ISubject* subject, unsigned int systemChanges );
+	void PushChanges( unsigned int systemChanges );
+
 	inline const std::string& GetName( ) { return _name; };
 	inline SystemType GetType( ) { return AISystemType; };
 
 	inline unsigned int GetRequestedChanges( ) 
 	{ 
-		return 
-			System::Changes::Geometry::Position | 
-			System::Changes::Geometry::Orientation | 
-			System::Changes::Geometry::Scale |
-			System::Changes::Geometry::All;
+		return System::Changes::Geometry::All;
 	};
 
-	void Observe( ISubject* subject, unsigned int systemChanges );
+	inline AnyValueMap GetProperties( ) { return AnyValueMap( ); };
+	inline void SetProperties( AnyValueMap systemProperties ) { };
 
-	void PushChanges( unsigned int systemChanges );
-
-	void Update( float deltaMilliseconds );
+	inline MathVector3 GetPosition( ) { return _position; };
+	inline MathVector3 GetScale( ) { return MathVector3::Zero( ); };
+	inline MathQuaternion GetOrientation( ) { return _orientation; };
 
 	void SetBehavior( const std::string& behavior );
 	std::string GetBehavior( ) const { return _behavior; };
@@ -66,14 +68,10 @@ public:
 	void FireWeapon( );
 	float GetPlayerDistance( );
 
-	inline MathVector3 GetPosition( ) { return _position; };
-	inline MathVector3 GetScale( ) { return MathVector3::Zero( ); };
-	inline MathQuaternion GetOrientation( ) { return _orientation; };
-
 private:
 
 	std::string _name;
-	ISystemComponent* _scriptComponent;
+	IScriptComponent* _scriptComponent;
 
 	IObserver* _observer;
 

@@ -6,8 +6,11 @@
 #include "../System/SystemManager.h"
 #include "../System/PlatformManager.h"
 #include "../IO/FileManager.h"
+#include "../IO/ResourceManager.h"
 
 static Management* g_ManagementInstance = 0;
+
+using namespace Resource;
 
 Management::Management( )
 {
@@ -16,6 +19,7 @@ Management::Management( )
 	_eventManager = new EventManager( );
 	_systemManager = new SystemManager( );
 	_fileManager = new FileManager( );
+	_resourceManager = new ResourceManager( );
 }
 
 Management::~Management( )
@@ -25,6 +29,7 @@ Management::~Management( )
 	delete _eventManager;
 	delete _platformManager;
 	delete _fileManager;
+	delete _resourceManager;
 }
 
 void Management::Initialize( )
@@ -62,4 +67,5 @@ void Management::Update( float deltaMilliseconds )
 	_systemManager->Update( deltaMilliseconds );
 	_platformManager->Update( deltaMilliseconds );
 	_eventManager->Update( deltaMilliseconds );
+	_resourceManager->Update( deltaMilliseconds );
 }

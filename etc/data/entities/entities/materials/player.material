@@ -1,0 +1,20 @@
+material marine-body
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.396078 0.396078 0.396078 
+			diffuse 0.396078 0.396078 0.396078 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/marine.tga
+			}
+		}
+	}
+}
+
+

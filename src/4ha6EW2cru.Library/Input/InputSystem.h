@@ -36,15 +36,14 @@ public:
 
 	/* Initializes the Input System */
 	void Initialize( );
-
 	inline void Update( float deltaMilliseconds );
 
 	/*! Releases the Input System */
 	void Release( ) { };
 
-	ISystemScene* CreateScene( );
-
 	SystemType GetType( ) { return InputSystemType; };
+
+	ISystemScene* CreateScene( );
 
 	inline AnyValueMap GetProperties( ) { return _properties; };
 	void SetProperty( const std::string& name, AnyValue value );

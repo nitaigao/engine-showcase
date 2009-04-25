@@ -24,12 +24,16 @@
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
 #include <Physics/Utilities/Serialize/hkpPhysicsData.h>
 
+#include "../IO/ResourceManager.h"
+using namespace Resource;
+
 void PhysicsSystemComponent::Initialize( AnyValueMap properties )
 {
 	std::string bodyPath = properties[ "body" ].GetValue< std::string >( );
-	FileBuffer* bodyBuffer = Management::GetInstance( )->GetFileManager( )->GetFile( bodyPath, true );
 
-	hkIstream istreamFromMemory( bodyBuffer->fileBytes, bodyBuffer->fileLength );
+	IResource* resource = Management::GetInstance( )->GetResourceManager( )->GetResource( bodyPath );
+
+	hkIstream istreamFromMemory( resource->GetFileBuffer( )->fileBytes, resource->GetFileBuffer( )->fileLength );
 	hkStreamReader* streamReader = istreamFromMemory.getStreamReader( );
 
 	hkBinaryPackfileReader reader;
@@ -44,8 +48,6 @@ void PhysicsSystemComponent::Initialize( AnyValueMap properties )
 	_body = physicsData->findRigidBodyByName( _name.c_str( ) );
 	_body->setUserData( _componentId );
 	_scene->GetWorld( )->addEntity( _body );
-
-	delete bodyBuffer;
 }
 
 PhysicsSystemComponent::~PhysicsSystemComponent()

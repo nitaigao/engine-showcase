@@ -14,8 +14,6 @@ class ISystem
 
 protected:
 
-	typedef std::map< std::string, AnyValue > AnyValueMap;
-
 public:
 
 	virtual ~ISystem( ) { };
@@ -24,10 +22,11 @@ public:
 	virtual void Update( float deltaMilliseconds ) = 0;
 	virtual void Release( ) = 0;
 
+	virtual SystemType GetType( ) = 0;
+
 	virtual ISystemScene* CreateScene( ) = 0;
 
-	virtual SystemType GetType( ) = 0;
-	virtual AnyValueMap GetProperties( ) = 0;
+	virtual AnyValue::AnyValueMap GetProperties( ) = 0;
 	virtual void SetProperty( const std::string& name, AnyValue value ) = 0;
 
 };

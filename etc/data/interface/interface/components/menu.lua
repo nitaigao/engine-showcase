@@ -32,12 +32,9 @@ function Menu.initialize( )
 	
 	local endGameButton = findWidget( 'button_endgame' );
 	scriptWidget( endGameButton, 'onRelease', Menu.onEndGameReleased );
-	
-	local menu = findWidget( 'menubox' );
-	local menuX = ( getScreenWidth( ) - menu:getDimensions( ).width ) / 2;
-	local menuY = getScreenHeight( ) - menu:getDimensions( ).height;
-	menu:setPosition( menuX, menuY );
 
+	Menu.updatePosition( );
+	
 end
 
 function Menu.onEvent( eventName, val1, val2 )
@@ -59,6 +56,26 @@ function Menu.onEvent( eventName, val1, val2 )
 		Menu.onHideMenu( );
 	
 	end
+	
+	if ( eventName == 'GRAPHICS_SETTINGS_CHANGED' ) then
+	
+		Menu.updatePosition( );
+	
+	end
+
+end
+
+function Menu.updatePosition( )
+
+	local menu = findWidget( 'menubox' );
+	
+	local menuX = getScreenWidth( ) / 20;
+	
+	local halfScreenHeight = ( getScreenHeight( ) - menu:getDimensions( ).height ) / 2;
+	local offsetY = halfScreenHeight / 2;
+	local menuY = halfScreenHeight + offsetY;
+	
+	menu:setPosition( menuX, menuY );
 
 end
 
@@ -105,6 +122,9 @@ function Menu.ToggleInGameMenu( )
 		
 		local endGameButton = findWidget( 'button_endgame' );
 		endGameButton:setVisible( false );
+		
+		local titleBackground = findWidget( 'background_title' );
+		titleBackground:setVisible( true );
 	
 		setInputAllowed( true );
 		Menu.onHideMenu( );
@@ -122,6 +142,9 @@ function Menu.ToggleInGameMenu( )
 		
 		local endGameButton = findWidget( 'button_endgame' );
 		endGameButton:setVisible( true );
+		
+		local titleBackground = findWidget( 'background_title' );
+		titleBackground:setVisible( false );
 	
 		setInputAllowed( false );
 		Menu.onShowMenu( );

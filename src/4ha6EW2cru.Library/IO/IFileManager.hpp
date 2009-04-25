@@ -11,8 +11,6 @@ public:
 
 	virtual ~IFileManager( ) { };
 
-	virtual void Release( ) { };
-
 	virtual bool MountFileStore( const std::string filePath, const std::string mountPoint ) = 0;
 
 	virtual FileBuffer* GetFile( const std::string filePath, bool binary ) const = 0;

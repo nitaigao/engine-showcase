@@ -26,7 +26,7 @@ ISystemComponent* RendererSystemScene::CreateComponent( const std::string& name,
 
 void RendererSystemScene::DestroyComponent( ISystemComponent* component )
 {
-	for( SystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+	for( RendererSystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
 	{
 		if ( ( *i )->GetName( ) == component->GetName( ) )
 		{
@@ -40,9 +40,20 @@ void RendererSystemScene::DestroyComponent( ISystemComponent* component )
 
 void RendererSystemScene::Update( float deltaMilliseconds )
 {
-	for( SystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+	for( RendererSystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
 	{
 		RendererSystemComponent* renderSystemComponent = static_cast< RendererSystemComponent* > ( ( *i ) );
 		renderSystemComponent->Update( deltaMilliseconds );
+	}
+}
+
+IRendererSystemComponent* RendererSystemScene::GetComponent( const std::string& name )
+{
+	for( RendererSystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+	{
+		if ( ( *i )->GetName( ) == name )
+		{
+			return ( *i );
+		}
 	}
 }
