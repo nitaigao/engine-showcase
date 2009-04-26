@@ -23,7 +23,7 @@
 #include <Physics/Utilities/Serialize/hkpPhysicsData.h>
 #include <Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
 
-void PhysicsSystemCharacterComponent::Initialize( AnyValueMap properties )
+void PhysicsSystemCharacterComponent::Initialize( AnyValue::AnyValueMap properties )
 {
 	hkpCharacterStateManager* characterManager = new hkpCharacterStateManager( );
 

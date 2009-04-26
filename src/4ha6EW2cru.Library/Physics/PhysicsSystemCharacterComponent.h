@@ -21,7 +21,7 @@ public:
 		_previousGround = new hkpSurfaceInfo( );
 	}
 
-	void Initialize( AnyValueMap properties );
+	void Initialize( AnyValue::AnyValueMap properties );
 	void Observe( ISubject* subject, unsigned int systemChanges );
 
 	void Update( float deltaMilliseconds );

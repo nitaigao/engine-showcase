@@ -1,6 +1,6 @@
 #include "GameFixture.h"
 
-#include "System/Game.h"
+#include "Game.h"
 #include "Exceptions/AlreadyInitializedException.hpp"
 #include "Exceptions/UnInitializedException.hpp"
 

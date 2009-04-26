@@ -1,28 +1,30 @@
 #include "Game.h"
 
-#include "../Events/Event.h"
-#include "../Events/EventData.hpp"
-#include "../Scripting/ScriptEvent.hpp"
+#include "Logging/Logger.h"
+#include "Management/Management.h"
 
-#include "../Logging/Logger.h"
-#include "../Logging/ConsoleAppender.h"
+#include "Configuration/Configuration.h"
+using namespace Configuration;
 
-#include "Management.h"
-#include "Configuration.h"
-#include "../State/World.h"
-#include "../State/WorldLoader.h"
+#include "State/World.h"
+#include "State/WorldLoader.h"
 
-#include "../Scripting/ScriptSystem.h"
-#include "../Input/InputSystem.h"
-#include "../Renderer/RendererSystem.h"
-#include "../Geometry/GeometrySystem.h"
-#include "../Physics/HavokPhysicsSystem.h"
-#include "../AI/AISystem.h"
+#include "Scripting/ScriptSystem.h"
+#include "Input/InputSystem.h"
+#include "Renderer/RendererSystem.h"
+#include "Geometry/GeometrySystem.h"
+#include "Physics/HavokPhysicsSystem.h"
+#include "AI/AISystem.h"
 
-#include "../Exceptions/AlreadyInitializedException.hpp"
-#include "../Exceptions/UnInitializedException.hpp"
+#include "Events/Event.h"
+#include "Events/EventData.hpp"
+using namespace Events;
 
-#include "../Renderer/Color.hpp"
+#include "Exceptions/AlreadyInitializedException.hpp"
+#include "Exceptions/UnInitializedException.hpp"
+
+#include "Renderer/Color.hpp"
+#include "Scripting/ScriptEvent.hpp"
 
 void Game::Initialize( )
 {
@@ -40,35 +42,27 @@ void Game::Initialize( )
 
 	// -- Set Configuration Defaults 
 
-	_configuration = Configuration::Load( "config/game.cfg" );
+	_configuration = ClientConfiguration::Load( "config/game.cfg" );
 	_configuration->SetDefault( "Developer", "console", false );
 	_configuration->SetDefault( "Logging", "level", static_cast< int >( FATAL ) );
 
-	LogLevel logLevel = static_cast< LogLevel >( _configuration->Find< int >( "Logging", "level" ) );
+	LogLevel logLevel = static_cast< LogLevel >( _configuration->Find( "Logging", "level" ).GetValue< int >( ) );
 	Logger::GetInstance( )->SetLogLevel( logLevel );
 
 	// -- Initialize All Systems
 
 	ISystemManager* systemManager = Management::GetInstance( )->GetSystemManager( );
-	systemManager->AddSystem( new GeometrySystem( ) );
-	systemManager->AddSystem( new HavokPhysicsSystem( ) );
-	systemManager->AddSystem( new AISystem( ) );
-	systemManager->AddSystem( new ScriptSystem( _configuration ) );
-	systemManager->AddSystem( new RendererSystem( _configuration ) );
-	systemManager->AddSystem( new InputSystem( _configuration ) );
+	systemManager->RegisterSystem( new GeometrySystem( ) );
+	systemManager->RegisterSystem( new HavokPhysicsSystem( ) );
+	systemManager->RegisterSystem( new AI::AISystem( ) );
+	systemManager->RegisterSystem( new ScriptSystem( _configuration ) );
+	systemManager->RegisterSystem( new RendererSystem( _configuration ) );
+	systemManager->RegisterSystem( new InputSystem( _configuration ) );
 	systemManager->InitializeAllSystems( );
 
 	// -- Setup the World and World Loader
 
-	_world = new World( );
-
-	SystemList systemList = systemManager->GetAllSystems( );
-
-	for( SystemList::iterator i = systemList.begin( ); i != systemList.end( ); ++i )
-	{
-		_world->AddSystemScene( ( *i )->CreateScene( ) );
-	}
-
+	_world = systemManager->CreateWorld( );
 	_worldLoader = new WorldLoader( _world );
 
 	// -- Register Events
@@ -142,7 +136,7 @@ void Game::OnGameEnded( const IEvent* event )
 {
 	_world->Clear( );
 
-	ISystem* renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
+	ISystem* renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
 
 	renderSystem->SetProperty( "activeCamera", "default" );
 	renderSystem->SetProperty( "ambientColor", Color( 0.0f, 0.0f, 0.0f ) );

@@ -1,9 +1,0 @@
-The game is a first person shooter, with some outdoors areas, large robots and humans where you are a marine trying to survive and protect your own dying faction by any means that you can.
-
-Gamma is a world torn between warring factions. There is barely anything left of the once beautiful planet that hasn't been bombed or destroyed by a war that has lasted for over 200 years.  Your faction Alpha is a fast dying breed of once great people that is clutching to the survival of its race by mere strings after a series of devastating nuclear attacks on its home soil. 
-
-You are one of the last remaining super soldiers, a special case marine unit that has been trained in small scale, single person infiltration for the purposes of intelligence gathering and focused attacks on the enemy. You are fast becoming Alpha's final hope on the battlefield after much of your ranks have been devastated by the war. Without you Alpha is surely lost. 
-
-Level1:
-
-The opposing faction Beta have developed the technology that is known to produce electricity from plain air. You have been given orders to infiltrate the city and obtain the information, and destroy the facility. Hopefully our scientists can study the blueprints, reproduce the technology and  breathe a small amount of life into our faction once more.

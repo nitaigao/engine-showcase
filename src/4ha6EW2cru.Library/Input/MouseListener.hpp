@@ -6,7 +6,7 @@
 #include "../Events/Event.h"
 #include "../Events/EventData.hpp"
 
-#include "../System/Management.h"
+#include "../Management/Management.h"
 
 using OIS::MouseEvent;
 using OIS::MouseButtonID;
@@ -26,7 +26,7 @@ public:
 	/* Fired when the user moves the mouse */
 	bool mouseMoved( const MouseEvent &arg )
 	{
-		Event* event = new Event( INPUT_MOUSE_MOVED, new MouseEventData( arg.state, OIS::MB_Left ) );
+		Events::Event* event = new Events::Event( Events::INPUT_MOUSE_MOVED, new Events::MouseEventData( arg.state, OIS::MB_Left ) );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 
 		return true;
@@ -35,7 +35,7 @@ public:
 	/* Fired when the user presses a button on the mouse */
 	bool mousePressed( const MouseEvent &arg, MouseButtonID id )
 	{
-		Event* event = new Event( INPUT_MOUSE_PRESSED, new MouseEventData( arg.state, id ) );
+		Events::Event* event = new Events::Event( Events::INPUT_MOUSE_PRESSED, new Events::MouseEventData( arg.state, id ) );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 
 		return true;
@@ -44,7 +44,7 @@ public:
 	/* Fired when the user releases a button on the mouse */
 	bool mouseReleased( const MouseEvent &arg, MouseButtonID id )
 	{
-		Event* event = new Event( INPUT_MOUSE_RELEASED, new MouseEventData( arg.state, id ) );
+		Events::Event* event = new Events::Event( Events::INPUT_MOUSE_RELEASED, new Events::MouseEventData( arg.state, id ) );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 
 		return true;

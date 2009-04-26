@@ -3,7 +3,7 @@
 
 #include "IResource.hpp"
 
-namespace Resource
+namespace Resources
 {
 	class Resource : public IResource
 	{

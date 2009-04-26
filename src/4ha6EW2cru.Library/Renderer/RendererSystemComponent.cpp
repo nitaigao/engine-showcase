@@ -1,5 +1,7 @@
 #include "RendererSystemComponent.h"
 
+#include "../Management/Management.h"
+
 #include "../Utility/OgreMax/OgreMaxModel.hpp"
 using namespace OgreMax;
 
@@ -8,7 +10,10 @@ using namespace Ogre;
 
 #include "../Geometry/GeometrySystemComponent.h"
 #include "../Input/InputSystemComponent.h"
+
 #include "../AI/AISystemComponent.h"
+using namespace AI;
+
 #include "../Logging/Logger.h"
 
 #include "AnimationBlender.h"
@@ -25,9 +30,9 @@ RendererSystemComponent::~RendererSystemComponent( )
 	}
 }
 
-void RendererSystemComponent::Initialize( AnyValueMap properties )
+void RendererSystemComponent::Initialize( AnyValue::AnyValueMap properties )
 {
-	for ( AnyValueMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
+	for ( AnyValue::AnyValueMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
 	{
 		if ( ( *i ).first == "model" || ( *i ).first == "camera" )
 		{
@@ -107,7 +112,7 @@ void RendererSystemComponent::InitializeSceneNode( Ogre::SceneNode* sceneNode )
 
 		if( object->getMovableType( ) == "Camera" )
 		{
-			RendererSystem* renderSystem = ( RendererSystem* ) Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
+			RendererSystem* renderSystem = ( RendererSystem* ) Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
 			renderSystem->SetProperty( "activeCamera", object->getName( ) );
 		}
 

@@ -2,9 +2,12 @@
 
 #include "AISystemScene.h"
 
-ISystemScene* AISystem::CreateScene( )
+namespace AI
 {
-	AISystemScene* scene = new AISystemScene( );
-	scene->Initialize( );
-	return scene;
+	ISystemScene* AISystem::CreateScene( )
+	{
+		AISystemScene* scene = new AISystemScene( );
+		scene->Initialize( );
+		return scene;
+	}
 }

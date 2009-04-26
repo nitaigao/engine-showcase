@@ -3,10 +3,10 @@
 #include <sstream>
 
 #include "../IO/IResource.hpp"
-using namespace Resource;
+using namespace Resources;
 
 #include "../System/SystemTypeMapper.hpp"
-#include "../System/Management.h"
+#include "../Management/Management.h"
 
 #include "WorldLoaderStrategies.h"
 
@@ -70,8 +70,8 @@ void WorldLoader::LoadLink( const YAML::Node& node )
 	node[ "observerName" ] >> observerName;
 	node[ "observerSystem" ] >> observerSystem;
 
-	SystemType entitySystemType = System::TypeMapper::StringToType( entitySystem );
-	SystemType observerSystemType = System::TypeMapper::StringToType( observerSystem );
+	System::Types::Type entitySystemType = System::TypeMapper::StringToType( entitySystem );
+	System::Types::Type observerSystemType = System::TypeMapper::StringToType( observerSystem );
 
 	IEntity* entity = _world->FindEntity( entityName );
 	IEntity* observer = _world->FindEntity( observerName );
@@ -88,7 +88,7 @@ void WorldLoader::LoadSkyBox( const YAML::Node& node )
 	std::string materialName;
 	node[ "material" ] >> materialName;
 
-	ISystem* renderer = Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
+	ISystem* renderer = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
 	renderer->SetProperty( "skyBox", materialName );
 }
 
@@ -97,7 +97,7 @@ void WorldLoader::LoadColor( const YAML::Node& environmentNode )
 	std::string name;
 	environmentNode[ "name" ] >> name;
 
-	AnyValueMap properties;
+	AnyValue::AnyValueMap properties;
 
 	float red = 0;
 	float green = 0;
@@ -107,7 +107,7 @@ void WorldLoader::LoadColor( const YAML::Node& environmentNode )
 	environmentNode[ "g" ] >> green;
 	environmentNode[ "b" ] >> blue;
 
-	ISystem* graphicsSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
+	ISystem* graphicsSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
 
 	if ( name == "ambient" )
 	{
@@ -157,13 +157,13 @@ void WorldLoader::LoadEntityComponents( const YAML::Node& node, IEntity* entity 
 		std::string system;
 		componentNode[ "system" ] >> system;
 
-		SystemType systemType = System::TypeMapper::StringToType( system );
+		System::Types::Type systemType = System::TypeMapper::StringToType( system );
 		IWorldLoader_ComponentStrategy* componentStrategy = WorldLoader_ComponentStrategy_Factory::Create( systemType );
 		ISystemComponent* entityComponent = componentStrategy->CreateComponent( entity->GetName( ), componentNode, _world->GetSystemScenes( ) );
 
 		entity->AddComponent( entityComponent );
 
-		if ( entityComponent->GetType( ) == GeometrySystemType )
+		if ( entityComponent->GetType( ) == System::Types::GEOMETRY )
 		{
 			geometryComponent = entityComponent;
 		}

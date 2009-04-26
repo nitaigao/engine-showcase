@@ -6,7 +6,7 @@
 #include "ScriptConfiguration.h"
 
 #include "../IO/IFileManager.hpp"
-#include "../System/Configuration.h"
+#include "../Configuration/IConfiguration.hpp"
 #include "../System/ISystem.hpp"
 
 #include "IScriptComponent.hpp"
@@ -25,7 +25,7 @@ extern "C"
 
 class ScriptSystemScene : public ISystemScene
 {
-	typedef std::pair< EventType, luabind::object > EventHandler;
+	typedef std::pair< Events::EventType, luabind::object > EventHandler;
 	typedef std::vector< EventHandler > EventHandlerList;
 	typedef std::vector< IScriptComponent* > ScriptComponentList;
 
@@ -33,7 +33,7 @@ public:
 
 	virtual ~ScriptSystemScene( );
 
-	ScriptSystemScene( Configuration* configuration );
+	ScriptSystemScene( Configuration::IConfiguration* configuration );
 
 	void Initialize( );
 	inline void Update( float deltaMilliseconds );
@@ -41,11 +41,11 @@ public:
 	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 	void DestroyComponent( ISystemComponent* component );
 
-	inline SystemType GetType( ) { return ScriptSystemType; };
+	inline System::Types::Type GetType( ) { return System::Types::SCRIPT; };
 
-	void RegisterEvent( EventType eventType, luabind::object function );
-	void UnRegisterEvent( EventType eventType, luabind::object function );
-	void BroadcastEvent( EventType eventType );
+	void RegisterEvent( Events::EventType eventType, luabind::object function );
+	void UnRegisterEvent( Events::EventType eventType, luabind::object function );
+	void BroadcastEvent( Events::EventType eventType );
 
 	/*! Returns the Master LUA State for the Scene */
 	lua_State* GetState( ) const { return _state; };
@@ -77,7 +77,7 @@ public:
 
 private:
 
-	void OnEvent( const IEvent* event );
+	void OnEvent( const Events::IEvent* event );
 
 	ScriptConfiguration* _scriptConfiguration;
 

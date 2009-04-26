@@ -14,7 +14,7 @@ public:
 
 	virtual const std::string& GetName( ) = 0;
 	virtual void AddComponent( ISystemComponent* component ) = 0;
-	virtual ISystemComponent* FindComponent( SystemType systemType ) = 0;
+	virtual ISystemComponent* FindComponent( System::Types::Type systemType ) = 0;
 	virtual SystemComponentList& GetComponents( ) = 0;
 
 };

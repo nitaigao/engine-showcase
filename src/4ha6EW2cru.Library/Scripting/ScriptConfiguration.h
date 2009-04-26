@@ -3,8 +3,8 @@
 
 #include "IScriptConfiguration.hpp"
 
-#include "../System/Configuration.h"
-#include "../System/Management.h"
+#include "../Management/Management.h"
+#include "../Configuration/IConfiguration.hpp"
 #include "../System/SystemType.hpp"
 
 class ScriptConfiguration : public IScriptConfiguration
@@ -16,29 +16,29 @@ public:
 
 	virtual ~ScriptConfiguration( ) { };
 
-	ScriptConfiguration( Configuration* configuration )
+	ScriptConfiguration( Configuration::IConfiguration* configuration )
 		: _configuration( configuration )
 	{
 
 	};
 
-	inline bool IsFullScreen( ) const { return _configuration->Find< bool >( "Graphics", "fullscreen" ); };
+	inline bool IsFullScreen( ) const { return _configuration->Find( "Graphics", "fullscreen" ).GetValue< bool >( ); };
 	inline void SetFullScreen( bool isFullScreen ) { _configuration->Set( "Graphics", "fullscreen", isFullScreen );  };
 
-	inline int GetDisplayWidth ( ) const { return _configuration->Find< int >( "Graphics", "width" ); };
+	inline int GetDisplayWidth ( ) const { return _configuration->Find( "Graphics", "width" ).GetValue< int >( ); };
 	inline void SetDisplayWidth( int width ) { _configuration->Set( "Graphics", "width", width );  };
 
-	inline int GetDisplayHeight ( ) const { return  _configuration->Find< int >( "Graphics", "height" ); };
+	inline int GetDisplayHeight ( ) const { return  _configuration->Find( "Graphics", "height" ).GetValue< int >( ); };
 	inline void SetDisplayHeight( int height ) { _configuration->Set( "Graphics", "height", height );  };
 
-	inline int GetColorDepth( ) const { return _configuration->Find< int >( "Graphics", "depth" ); };
+	inline int GetColorDepth( ) const { return _configuration->Find( "Graphics", "depth" ).GetValue< int >( ); };
 
-	inline bool IsConsole( ) const { return _configuration->Find< bool >( "Developer", "console" ); };
+	inline bool IsConsole( ) const { return _configuration->Find( "Developer", "console" ).GetValue< bool >( ); };
 	inline void SetConsole( bool isConsole ) { _configuration->Set( "Developer", "console", isConsole ); };
 
 private:
 
-	Configuration* _configuration;
+	Configuration::IConfiguration* _configuration;
 
 	ScriptConfiguration( const ScriptConfiguration & copy ) { };
 	ScriptConfiguration & operator = ( const ScriptConfiguration & copy ) { return *this; };

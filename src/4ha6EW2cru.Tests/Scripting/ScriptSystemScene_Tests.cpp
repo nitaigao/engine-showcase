@@ -4,7 +4,7 @@
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScriptSystemScene_Tests, Suites::ScriptingSuite( ) );
 
 #include "Logging/Logger.h"
-#include "System/Management.h"
+#include "Management/Management.h"
 
 #include "Scripting/ScriptSystemScene.h"
 

@@ -21,7 +21,7 @@ public:
 
 	}
 
-	void Initialize( AnyValueMap properties ) { };
+	void Initialize( AnyValue::AnyValueMap properties ) { };
 	void Update( float deltaMilliseconds ) { };
 	void Destroy( ) { };
 
@@ -30,12 +30,12 @@ public:
 	void PushChanges( unsigned int systemChanges );
 
 	inline const std::string& GetName( ) { return _name; };
-	inline SystemType GetType( ) { return InputSystemType; };
+	inline System::Types::Type GetType( ) { return System::Types::INPUT; };
 
 	inline unsigned int GetRequestedChanges( ) { return System::Changes::None; };
 
-	inline AnyValueMap GetProperties( ) { return _systemProperties; };
-	inline void SetProperties( AnyValueMap systemProperties ) { _systemProperties = systemProperties; };
+	inline AnyValue::AnyValueMap GetProperties( ) { return _systemProperties; };
+	inline void SetProperties( AnyValue::AnyValueMap systemProperties ) { _systemProperties = systemProperties; };
 
 	inline MathVector3 GetPosition( ) { return MathVector3::Zero( ); };
 	inline MathVector3 GetScale( ) { return MathVector3::Zero( ); };
@@ -49,7 +49,7 @@ private:
 	std::string _name;
 	IObserver* _observer;
 
-	AnyValueMap _systemProperties;
+	AnyValue::AnyValueMap _systemProperties;
 
 	InputSystemComponent( ) { };
 	InputSystemComponent( const InputSystemComponent & copy ) { };

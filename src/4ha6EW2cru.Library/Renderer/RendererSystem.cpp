@@ -1,7 +1,8 @@
 #include "RendererSystem.h"
 
-#include "../System/Management.h"
+#include "../Management/Management.h"
 #include "../Events/Event.h"
+using namespace Events;
 
 #include "RendererSystemScene.h"
 #include "Color.hpp"
@@ -10,7 +11,6 @@
 
 #include "../Exceptions/NullReferenceException.hpp"
 #include "../Exceptions/UnInitializedException.hpp"
-#include "../Exceptions/ArchiveNotFoundException.hpp"
 
 #include "Interface.h"
 
@@ -93,20 +93,20 @@ void RendererSystem::Initialize( )
 	_root->setRenderSystem( *renderSystemIterator );
 
 	std::stringstream videoModeDesc;
-	videoModeDesc << _configuration->Find< int >( _configSectionName, "width" ) << " x " << _configuration->Find< int >( _configSectionName, "height" ) << " @ " << defaultDepth << "-bit colour";
+	videoModeDesc << _configuration->Find( _configSectionName, "width" ).GetValue< int >( ) << " x " << _configuration->Find( _configSectionName, "height" ).GetValue< int >( ) << " @ " << defaultDepth << "-bit colour";
 	( *renderSystemIterator )->setConfigOption( "Video Mode", videoModeDesc.str( ) );
-	( *renderSystemIterator )->setConfigOption( "Full Screen", _configuration->Find< bool >( _configSectionName, "fullscreen" ) ? "Yes" : "No" );
-	( *renderSystemIterator )->setConfigOption( "VSync", _configuration->Find< bool >( _configSectionName, "vsync" ) ? "Yes" : "No" );
+	( *renderSystemIterator )->setConfigOption( "Full Screen", _configuration->Find( _configSectionName, "fullscreen" ).GetValue< bool >( ) ? "Yes" : "No" );
+	( *renderSystemIterator )->setConfigOption( "VSync", _configuration->Find( _configSectionName, "vsync" ).GetValue< bool >( ) ? "Yes" : "No" );
 
 	_root->initialise( false );
 
 	try
 	{
 		this->CreateRenderWindow(
-			_configuration->Find< std::string >( _configSectionName, "window_title" ), 
-			_configuration->Find< int >( _configSectionName, "width" ), 
-			_configuration->Find< int >( _configSectionName, "height" ),
-			_configuration->Find< bool >( _configSectionName, "fullscreen" )
+			_configuration->Find( _configSectionName, "window_title" ).GetValue< std::string >( ), 
+			_configuration->Find( _configSectionName, "width" ).GetValue< int >( ), 
+			_configuration->Find( _configSectionName, "height" ).GetValue< int >( ),
+			_configuration->Find( _configSectionName, "fullscreen" ).GetValue< bool >( )
 			);
 	}
 	catch( Exception e )
@@ -288,11 +288,11 @@ std::vector< std::string > RendererSystem::GetVideoModes( ) const
 
 void RendererSystem::OnGraphicsSettingsUpdated( const IEvent* event )
 {
-	Ogre::RenderWindow* window = static_cast< Ogre::RenderWindow* >( _root->getRenderTarget(  _configuration->Find< std::string >( _configSectionName, "window_title" ) ) );
+	Ogre::RenderWindow* window = static_cast< Ogre::RenderWindow* >( _root->getRenderTarget(  _configuration->Find( _configSectionName, "window_title" ).GetValue< std::string >( ) ) );
 
-	int width = _configuration->Find< int >( _configSectionName, "width" );
-	int height = _configuration->Find< int >( _configSectionName, "height" );
-	bool fullScreen = _configuration->Find< bool >( _configSectionName, "fullscreen" );
+	int width = _configuration->Find( _configSectionName, "width" ).GetValue< int >( );
+	int height = _configuration->Find( _configSectionName, "height" ).GetValue< int >( );
+	bool fullScreen = _configuration->Find( _configSectionName, "fullscreen" ).GetValue< bool >( );
 
 	window->setFullscreen( fullScreen, width, height );
 	_interface->ResetWidgetPositions( );
@@ -304,12 +304,12 @@ void RendererSystem::CreateRenderWindow( const std::string& windowTitle, int wid
 	
 	NameValuePairList params;
 	params[ "externalWindowHandle" ] = StringConverter::toString( ( int ) Management::GetInstance( )->GetPlatformManager( )->GetHwnd( ) );
-	params[ "vsync" ] = _configuration->Find< bool >( _configSectionName, "vsync" ) ? "true" : "false";
+	params[ "vsync" ] = _configuration->Find( _configSectionName, "vsync" ).GetValue< bool >( ) ? "true" : "false";
 
 	_window = _root->createRenderWindow( windowTitle, width, height, fullScreen, &params ); 
 }
 
-AnyValue::AnyValueMap RendererSystem::Execute( const std::string& actionName, AnyValueMap parameters )
+AnyValue::AnyValueMap RendererSystem::Execute( const std::string& actionName, AnyValue::AnyValueMap parameters )
 {
 	AnyValue::AnyValueMap results;
 

@@ -4,7 +4,7 @@
 #include <string>
 #include "FileBuffer.hpp"
 
-namespace Resource
+namespace Resources
 {
 	class IResource
 	{

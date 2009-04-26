@@ -17,11 +17,11 @@ public:
 	inline void Update( float deltaMilliseconds ) { };
 	inline void Release( ) { };
 
-	inline SystemType GetType( ) { return GeometrySystemType; };
+	inline System::Types::Type GetType( ) { return System::Types::GEOMETRY; };
 
 	ISystemScene* CreateScene( );
 	
-	inline AnyValueMap GetProperties( ) { return AnyValueMap( ); };
+	inline AnyValue::AnyValueMap GetProperties( ) { return AnyValue::AnyValueMap( ); };
 	inline void SetProperty( const std::string& name, AnyValue value ) { };
 
 private:

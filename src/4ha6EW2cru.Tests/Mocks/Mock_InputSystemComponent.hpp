@@ -18,7 +18,7 @@ public:
 		: MockObject( "Mock_InputSystemComponent", 0 )
 		, keyDown_count( "Mock_InputSystemComponent/KeyDown", this )
 		, keyUp_count( "Mock_InputSystemComponent/KeyUp", this )
-		, _systemType( InputSystemType )
+		, _systemType( System::Types::INPUT )
 		, InputSystemComponent( name )
 	{ 
 
@@ -37,7 +37,7 @@ public:
 		keyUp_count.inc( );
 	}
 
-	void Initialize( AnyValueMap properties ) { };
+	void Initialize( AnyValue::AnyValueMap properties ) { };
 	void Destroy( ) { };
 
 	void AddObserver( IObserver* observer ) { } ;
@@ -47,13 +47,13 @@ public:
 	void Observe( ISubject* subject, unsigned int systemChanges ) { };
 
 	inline const std::string& GetName( ) { return "test"; }
-	inline SystemType GetType( ) { return _systemType; };
+	inline System::Types::Type GetType( ) { return _systemType; };
 
 private:
 
 	Mock_InputSystemComponent & operator = ( const Mock_InputSystemComponent & copy ) { return *this; };
 
-	SystemType _systemType;
+	System::Types::Type _systemType;
 	std::string _name;
 };
 

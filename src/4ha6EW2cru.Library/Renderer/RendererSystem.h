@@ -1,8 +1,10 @@
 #ifndef __OGRERENDERSYSTEM_H
 #define __OGRERENDERSYSTEM_H
 
+#include "../Events/IEvent.hpp"
+#include "../Service/IService.hpp"
 #include "../System/ISystem.hpp"
-#include "../System/Configuration.h"
+#include "../Configuration/IConfiguration.hpp"
 
 #include "../IO/IFileManager.hpp"
 
@@ -21,7 +23,7 @@ public:
 
 	virtual ~RendererSystem( );
 
-	RendererSystem( Configuration* configuration )
+	RendererSystem( Configuration::IConfiguration* configuration )
 		: _configuration( configuration )
 		, _badStubCreated( false )
 		, _isIntialized( false )
@@ -40,28 +42,28 @@ public:
 	virtual void Update( float deltaMilliseconds );
 	virtual void Release( ) { };
 
-	inline SystemType GetType( ) { return RenderSystemType; };
+	inline System::Types::Type GetType( ) { return System::Types::RENDER; };
 
 	inline ISystemScene* CreateScene( );
 
-	inline AnyValueMap GetProperties( ) { return _properties; };
+	inline AnyValue::AnyValueMap GetProperties( ) { return _properties; };
 	inline void SetProperty( const std::string& name, AnyValue value );
 
 	virtual void windowClosed( RenderWindow* rw );
 
-	AnyValue::AnyValueMap Execute( const std::string& actionName, AnyValueMap parameters );
+	AnyValue::AnyValueMap Execute( const std::string& actionName, AnyValue::AnyValueMap parameters );
 
 private:
 
-	void OnGraphicsSettingsUpdated( const IEvent* event );
+	void OnGraphicsSettingsUpdated( const Events::IEvent* event );
 
-	void Constructor( Configuration* configuration, IFileManager* fileManager );
+	void Constructor( Configuration::IConfiguration* configuration, IFileManager* fileManager );
 	void LoadResources( );
 	void CreateRenderWindow( const std::string& windowTitle, int width, int height, bool fullScreen );
 	std::vector< std::string > GetVideoModes( ) const;
 
-	AnyValueMap _properties;
-	Configuration* _configuration;
+	AnyValue::AnyValueMap _properties;
+	Configuration::IConfiguration* _configuration;
 	IInterface* _interface;
 	bool _badStubCreated;
 	bool _isIntialized;

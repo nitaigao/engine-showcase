@@ -1,7 +1,7 @@
 #include "PlatformManager.h"
 
 #include "../Events/Event.h"
-#include "../System/Management.h"
+#include "../Management/Management.h"
 
 #include <windows.h>
 
@@ -99,7 +99,7 @@ void PlatformManager::Update( float deltaMilliseconds )
 	{
 		if ( msg.message == WM_QUIT )
 		{
-			Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new Events::Event( Events::GAME_QUIT ) );
 		}
 
 		TranslateMessage( &msg );

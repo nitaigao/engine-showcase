@@ -5,31 +5,31 @@
 
 #include "../Scripting/ScriptComponent.h"
 
-IWorldLoader_ComponentStrategy* WorldLoader_ComponentStrategy_Factory::Create( const SystemType& systemType )
+IWorldLoader_ComponentStrategy* WorldLoader_ComponentStrategy_Factory::Create( const System::Types::Type& systemType )
 {
 	IWorldLoader_ComponentStrategy* strategy = 0;
 
-	if( systemType == RenderSystemType )
+	if( systemType == System::Types::RENDER )
 	{
 		strategy = new WorldLoader_GraphicsComponentStrategy( );
 	} 
-	else if ( systemType == GeometrySystemType )
+	else if ( systemType == System::Types::GEOMETRY )
 	{
 		strategy = new WorldLoader_GeometryComponentStrategy( );
 	}
-	else if ( systemType == PhysicsSystemType )
+	else if ( systemType == System::Types::PHYSICS )
 	{
 		strategy = new WorldLoader_PhysicsComponentStrategy( );
 	}
-	else if ( systemType == InputSystemType )
+	else if ( systemType == System::Types::INPUT )
 	{
 		strategy = new WorldLoader_InputComponentStrategy( );
 	}
-	else if ( systemType == AISystemType )
+	else if ( systemType == System::Types::AI )
 	{
 		strategy = new WorldLoader_AIComponentStrategy( );
 	}
-	else if ( systemType == ScriptSystemType )
+	else if ( systemType == System::Types::SCRIPT )
 	{
 		strategy = new WorldLoader_ScriptComponentStrategy( );
 	}
@@ -39,7 +39,7 @@ IWorldLoader_ComponentStrategy* WorldLoader_ComponentStrategy_Factory::Create( c
 
 ISystemComponent* WorldLoader_GraphicsComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap&  systemScenes )
 {
-	AnyValueMap properties;
+	AnyValue::AnyValueMap properties;
 
 	for( YAML::Iterator componentProperty = componentNode.begin( ); componentProperty != componentNode.end( ); ++componentProperty ) 
 	{
@@ -53,7 +53,7 @@ ISystemComponent* WorldLoader_GraphicsComponentStrategy::CreateComponent( const 
 
 	std::string type = properties[ "type" ].GetValue< std::string >( );
 
-	SystemSceneMap::const_iterator systemScene = systemScenes.find( RenderSystemType );
+	SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::RENDER );
 
 	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, ( type == "camera" ) ? type : "default" );;
 	systemComponent->Initialize( properties );
@@ -63,7 +63,7 @@ ISystemComponent* WorldLoader_GraphicsComponentStrategy::CreateComponent( const 
 
 ISystemComponent* WorldLoader_GeometryComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes )
 {
-	AnyValueMap properties;
+	AnyValue::AnyValueMap properties;
 
 	float x, y, z, w;
 
@@ -83,7 +83,7 @@ ISystemComponent* WorldLoader_GeometryComponentStrategy::CreateComponent( const 
 	componentNode[ "orientation" ][ "z" ] >> z;
 	properties.insert( std::make_pair( "orientation", MathQuaternion( x, y, z, w ) ) );
 
-	SystemSceneMap::const_iterator systemScene = systemScenes.find( GeometrySystemType );
+	SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::GEOMETRY );
 
 	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
 	systemComponent->Initialize( properties );
@@ -93,7 +93,7 @@ ISystemComponent* WorldLoader_GeometryComponentStrategy::CreateComponent( const 
 
 ISystemComponent* WorldLoader_PhysicsComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes )
 {
-	AnyValueMap properties;
+	AnyValue::AnyValueMap properties;
 
 	for( YAML::Iterator componentProperty = componentNode.begin( ); componentProperty != componentNode.end( ); ++componentProperty ) 
 	{
@@ -105,7 +105,7 @@ ISystemComponent* WorldLoader_PhysicsComponentStrategy::CreateComponent( const s
 		properties.insert( std::make_pair( propertyKey, propertyValue ) );
 	}
 
-	SystemSceneMap::const_iterator systemScene = systemScenes.find( PhysicsSystemType );
+	SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::PHYSICS );
 
 	std::string type = properties[ "type" ].GetValue< std::string >( );
 
@@ -117,7 +117,7 @@ ISystemComponent* WorldLoader_PhysicsComponentStrategy::CreateComponent( const s
 
 ISystemComponent* WorldLoader_InputComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes )
 {
-	AnyValueMap properties;
+	AnyValue::AnyValueMap properties;
 
 	for( YAML::Iterator componentProperty = componentNode.begin( ); componentProperty != componentNode.end( ); ++componentProperty ) 
 	{
@@ -129,7 +129,7 @@ ISystemComponent* WorldLoader_InputComponentStrategy::CreateComponent( const std
 		properties.insert( std::make_pair( propertyKey, propertyValue ) );
 	}
 
-	SystemSceneMap::const_iterator systemScene = systemScenes.find( InputSystemType );
+	SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::INPUT );
 
 	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
 	systemComponent->Initialize( properties );
@@ -139,7 +139,7 @@ ISystemComponent* WorldLoader_InputComponentStrategy::CreateComponent( const std
 
 ISystemComponent* WorldLoader_AIComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes )
 { 
-	AnyValueMap properties;
+	AnyValue::AnyValueMap properties;
 
 	for( YAML::Iterator componentProperty = componentNode.begin( ); componentProperty != componentNode.end( ); ++componentProperty ) 
 	{
@@ -151,7 +151,7 @@ ISystemComponent* WorldLoader_AIComponentStrategy::CreateComponent( const std::s
 		properties.insert( std::make_pair( propertyKey, propertyValue ) );
 	}
 
-	SystemSceneMap::const_iterator systemScene = systemScenes.find( AISystemType );
+	SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::AI );
 
 	ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
 	systemComponent->Initialize( properties );
@@ -161,7 +161,7 @@ ISystemComponent* WorldLoader_AIComponentStrategy::CreateComponent( const std::s
 
 ISystemComponent* WorldLoader_ScriptComponentStrategy::CreateComponent( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap& systemScenes )
 {
-	AnyValueMap properties;
+	AnyValue::AnyValueMap properties;
 
 	for( YAML::Iterator componentProperty = componentNode.begin( ); componentProperty != componentNode.end( ); ++componentProperty ) 
 	{
@@ -173,7 +173,7 @@ ISystemComponent* WorldLoader_ScriptComponentStrategy::CreateComponent( const st
 		properties.insert( std::make_pair( propertyKey, propertyValue ) );
 	}
 
-	SystemSceneMap::const_iterator systemScene = systemScenes.find( ScriptSystemType );
+	SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::SCRIPT );
 
 	std::string type = properties[ "type" ].GetValue< std::string >( );
 

@@ -31,7 +31,7 @@ public:
 
 	}
 
-	virtual void Initialize( AnyValueMap properties );
+	virtual void Initialize( AnyValue::AnyValueMap properties );
 	virtual void Update( float deltaMilliseconds ) { };
 	void Destroy( ) { };
 
@@ -40,7 +40,7 @@ public:
 	void PushChanges( unsigned int systemChanges );
 
 	inline const std::string& GetName( ) { return _name; };
-	inline SystemType GetType( ) { return PhysicsSystemType; };
+	inline System::Types::Type GetType( ) { return System::Types::PHYSICS; };
 
 	inline unsigned int GetRequestedChanges( ) 
 	{ 
@@ -49,8 +49,8 @@ public:
 			System::Changes::Input::All;
 	};
 
-	inline AnyValueMap GetProperties( ) { return AnyValueMap( ); };
-	inline void SetProperties( AnyValueMap systemProperties ) { };
+	inline AnyValue::AnyValueMap GetProperties( ) { return AnyValue::AnyValueMap( ); };
+	inline void SetProperties( AnyValue::AnyValueMap systemProperties ) { };
 
 	MathVector3 GetPosition( );
 	inline MathVector3 GetScale( ) { return MathVector3::Zero( ); };

@@ -4,13 +4,14 @@
 #include "../Exceptions/ScriptException.hpp"
 
 #include "../IO/IResource.hpp"
-using namespace Resource;
+using namespace Resources;
 
-#include "../System/Management.h"
-#include "../System/IServiceManager.h"
+#include "../Management/Management.h"
+#include "../Service/IServiceManager.h"
 
 #include "../Events/IEvent.hpp"
 #include "../Events/Event.h"
+using namespace Events;
 
 #include "../Maths/MathMatrix.hpp"
 
@@ -36,14 +37,14 @@ ScriptComponent::~ScriptComponent()
 	_updateHandlers = 0;
 }
 
-void ScriptComponent::Initialize( AnyValueMap properties )
+void ScriptComponent::Initialize( AnyValue::AnyValueMap properties )
 {
 	_eventHandlers = new FunctionList( );
 	_updateHandlers = new FunctionList( );
 
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( ALL_EVENTS, this, &ScriptComponent::OnEvent );
 
-	for ( AnyValueMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
+	for ( AnyValue::AnyValueMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
 	{
 		if ( ( *i ).first == "scriptPath" )
 		{
@@ -168,7 +169,7 @@ std::vector< std::string > ScriptComponent::RayQuery( bool sortByDistance, int m
 	parameters[ "origin" ] = _position;
 	parameters[ "destination" ] = MathVector3( destination );
 
-	IService* rayService = Management::GetInstance( )->GetServiceManager( )->FindService( PhysicsSystemType );
+	IService* rayService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::PHYSICS );
 	return rayService->Execute( "rayQuery", parameters ) [ "hits" ].GetValue< std::vector< std::string > >( );
 }
 
@@ -210,7 +211,7 @@ void ScriptComponent::Observe( ISubject* subject, unsigned int systemChanges )
 
 void ScriptComponent::PlayAnimation( const std::string& animationName, bool loopAnimation )
 {
-	IService* service = Management::GetInstance( )->GetServiceManager( )->FindService( RenderSystemType );
+	IService* service = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::RENDER );
 
 	AnyValue::AnyValueMap parameters;
 

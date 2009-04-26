@@ -18,12 +18,12 @@ public:
 		: eventHandler_counter( 0 )
 	{ };
 
-	void EventHandler( const IEvent* const event )
+	void EventHandler( const Events::IEvent* const event )
 	{
 		eventHandler_counter++;
 	};
 
-	void FalseEventHandler( const IEvent* const event ) { };
+	void FalseEventHandler( const Events::IEvent* const event ) { };
 
 	int eventHandler_counter;
 

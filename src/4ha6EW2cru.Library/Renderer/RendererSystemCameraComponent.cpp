@@ -54,7 +54,7 @@ void RendererSystemCameraComponent::Update( float deltaMilliseconds )
 	}
 }
 
-void RendererSystemCameraComponent::Initialize( AnyValueMap properties )
+void RendererSystemCameraComponent::Initialize( AnyValue::AnyValueMap properties )
 {
 	RendererSystemComponent::Initialize( properties );
 

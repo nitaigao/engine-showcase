@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include "../Logging/Logger.h"
+#include "../Management/Management.h"
 
 #include "../Exceptions/IntializeFailedException.hpp"
 #include "../Exceptions/OutOfRangeException.hpp"
@@ -10,6 +11,8 @@
 
 #include "../Events/Event.h"
 #include "../Events/EventData.hpp"
+using namespace Events;
+
 #include "../Scripting/ScriptEvent.hpp"
 
 using namespace OIS;
@@ -58,8 +61,8 @@ void InputSystem::Update( float deltaMilliseconds )
 	_mouse->capture( );
 	_keyboard->capture( );
 
-	_mouse->getMouseState( ).width = _configuration->Find< int >( "Graphics", "width" );
-	_mouse->getMouseState( ).height = _configuration->Find< int >( "Graphics", "height" );
+	_mouse->getMouseState( ).width = _configuration->Find( "Graphics", "width" ).GetValue< int >( );
+	_mouse->getMouseState( ).height = _configuration->Find( "Graphics", "height" ).GetValue< int >( );
 }
 
 bool InputSystem::keyPressed( const KeyEvent &arg )

@@ -3,7 +3,7 @@
 #include "Logging/Logger.h"
 #include "Logging/ConsoleAppender.h"
 
-#include "System/Management.h"
+#include "Management/Management.h"
 
 #include "../Mocks/MockLogAppender.hpp"
 

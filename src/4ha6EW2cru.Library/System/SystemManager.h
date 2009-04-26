@@ -1,69 +1,80 @@
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   src\4ha6EW2cru.Library\System\SystemManager.h
+*  @date   2009/04/25
+*/
 #ifndef __SYSTEMMANAGER_H
 #define __SYSTEMMANAGER_H
 
+#include "ISystemManager.hpp"
+#include "../State/World.h"
+
+/*! 
+*  Manages each System of the Game
+*/
 class SystemManager : public ISystemManager
 {
 
 public:
 
-	virtual ~SystemManager( )
-	{
-		for( SystemList::reverse_iterator i = _systems.rbegin( ); i != _systems.rend( ); ++i )
-		{
-			delete ( *i );
-		}
+	/*! Default Destructor
+	*
+	*  @return ()
+	*/
+	virtual ~SystemManager( );
 
-		_systems.clear( );
-	}
 
+	/*! Default Constructor
+	 *
+	 *  @return ()
+	 */
 	SystemManager( ) { };
 
-	void AddSystem( ISystem* system )
-	{
-		_systems.push_back( system );
-	}
 
-	ISystem* GetSystem( SystemType systemType )
-	{
-		for( SystemList::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
-		{
-			if ( ( *i )->GetType( ) == systemType )
-			{
-				return ( *i );
-			}
-		}
+	/*! Registers a System
+	*
+	*  @param[in] ISystem * system
+	*  @return (void)
+	*/
+	void RegisterSystem( ISystem* system );
 
-		return 0;
-	}
 
-	void InitializeAllSystems( )
-	{
-		for( SystemList::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
-		{
-			( *i )->Initialize( );
-		}
-	}
+	/*! Gets a Registered System
+	*
+	*  @param[in] System::Types::Type systemType
+	*  @return (ISystem*)
+	*/
+	ISystem* GetSystem( System::Types::Type systemType );
 
-	void Update( float deltaMilliseconds )
-	{
-		for( SystemList::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
-		{
-			( *i )->Update( deltaMilliseconds );
-		}
-	}
+
+	/*! Initializes all Registered Systems
+	*
+	*  @return (void)
+	*/
+	void InitializeAllSystems( );
+
+
+	/*! Steps each Registered System
+	*
+	*  @param[in] float deltaMilliseconds
+	*  @return (void)
+	*/
+	void Update( float deltaMilliseconds );
 	
-	void Release( )
-	{
-		for( SystemList::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
-		{
-			( *i )->Release( );
-		}
-	}
 
-	const SystemList& GetAllSystems( )
-	{
-		return _systems;
-	}
+	/*! Releases all Registered Systems
+	*
+	*  @return (void)
+	*/
+	void Release( );
+
+
+	/*! Creates a World from All Registered Systems
+	*
+	*  @return (IWorld*)
+	*/
+	IWorld* CreateWorld( );
 
 private:
 

@@ -4,7 +4,7 @@
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScriptSystem_Tests, Suites::ScriptingSuite( ) );
 
 #include "Logging/Logger.h"
-#include "System/Management.h"
+#include "Management/Management.h"
 
 #include "Scripting/ScriptSystem.h"
 
@@ -43,5 +43,5 @@ void ScriptSystem_Tests::Should_Return_ScriptSystemType_On_GetType()
 	ScriptSystem system( 0 );
 	system.Initialize( );
 
-	CPPUNIT_ASSERT( system.GetType( ) == ScriptSystemType );
+	CPPUNIT_ASSERT( system.GetType( ) == System::Types::SCRIPT );
 }

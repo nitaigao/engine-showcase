@@ -13,7 +13,7 @@
 
 #include "../Scripting/ScriptEvent.hpp"
 #include "../Events/EventData.hpp"
-#include "../System/Management.h"
+#include "../Management/Management.h"
 
 static Logger* g_loggerInstance = 0;
 

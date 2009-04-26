@@ -1,8 +1,8 @@
 #ifndef __HAVOKPHYSICS_SYSTEM
 #define __HAVOKPHYSICS_SYSTEM
 
-#include "../System/IService.hpp"
-#include "..\System\ISystem.hpp"
+#include "../Service/IService.hpp"
+#include "../System/ISystem.hpp"
 #include "HavokPhysicsSystemScene.h"
 
 class HavokPhysicsSystem : public ISystem, public IService
@@ -25,14 +25,14 @@ public:
 	inline void Update( float deltaMilliseconds ) { };
 	void Release( );
 
-	inline SystemType GetType( ) { return PhysicsSystemType; };
+	inline System::Types::Type GetType( ) { return System::Types::PHYSICS; };
 
 	ISystemScene* CreateScene( );
 
-	inline AnyValueMap GetProperties( ) { return AnyValueMap( ); };
+	inline AnyValue::AnyValueMap GetProperties( ) { return AnyValue::AnyValueMap( ); };
 	inline void SetProperty( const std::string& name, AnyValue value ) { };
 
-	AnyValue::AnyValueMap Execute( const std::string& actionName, AnyValueMap parameters );
+	AnyValue::AnyValueMap Execute( const std::string& actionName, AnyValue::AnyValueMap parameters );
 	std::vector< std::string > RayQuery( MathVector3 origin, MathVector3 direction, bool sortByDistance );
 
 private:

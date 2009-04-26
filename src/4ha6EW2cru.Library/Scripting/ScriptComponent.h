@@ -35,7 +35,7 @@ public:
 
 	};
 
-	void Initialize( AnyValueMap properties );
+	void Initialize( AnyValue::AnyValueMap properties );
 	void Update( float deltaMilliseconds );
 	void Destroy( ) { };
 
@@ -51,17 +51,17 @@ public:
 	};
 
 	inline const std::string& GetName( ) { return _name; };
-	inline SystemType GetType( ) { return ScriptSystemType; };
+	inline System::Types::Type GetType( ) { return System::Types::SCRIPT; };
 
-	AnyValueMap GetProperties( ) { return AnyValueMap( ); };
-	void SetProperties( AnyValueMap systemProperties ) { };
+	AnyValue::AnyValueMap GetProperties( ) { return AnyValue::AnyValueMap( ); };
+	void SetProperties( AnyValue::AnyValueMap systemProperties ) { };
 
 	inline MathVector3 GetPosition( ) { return _position; };
 	inline MathVector3 GetScale( ) { return _scale; };
 	inline MathQuaternion GetOrientation( ) { return _orientation; };
 
 	inline lua_State* GetState( ) { return _state; };
-	void OnEvent( const IEvent* event );
+	void OnEvent( const Events::IEvent* event );
 
 	/* Script Handlers */
 

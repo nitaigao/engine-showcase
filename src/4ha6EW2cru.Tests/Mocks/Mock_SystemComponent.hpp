@@ -14,14 +14,14 @@ class Mock_SystemComponent : public ISystemComponent, public MockObject
 
 public:
 
-	Mock_SystemComponent( SystemType systemType )
+	Mock_SystemComponent( System::Types::Type systemType )
 		: MockObject( "Mock_SystemComponent", 0 )
 		, _systemType( systemType )
 	{ 
 	
 	};
 	
-	void Initialize( AnyValueMap properties ) { };
+	void Initialize( AnyValue::AnyValueMap properties ) { };
 	void Update( float deltaMilliseconds ){ };
 	void Destroy( ) { };
 
@@ -32,10 +32,10 @@ public:
 	void Observe( ISubject* subject, unsigned int systemChanges ) { };
 
 	inline const std::string& GetName( ) { return "test"; }
-	inline SystemType GetType( ) { return _systemType; };
+	inline System::Types::Type GetType( ) { return _systemType; };
 
-	inline AnyValueMap GetProperties( ) { return AnyValueMap( ); };
-	inline void SetProperties( AnyValueMap systemProperties ) { };
+	inline AnyValue::AnyValueMap GetProperties( ) { return AnyValue::AnyValueMap( ); };
+	inline void SetProperties( AnyValue::AnyValueMap systemProperties ) { };
 
 	inline MathVector3 GetPosition( ) { return MathVector3::Zero( ); };
 	inline MathVector3 GetScale( ) { return MathVector3::Zero( ); };
@@ -45,7 +45,7 @@ private:
 
 	Mock_SystemComponent & operator = ( const Mock_SystemComponent & copy ) { return *this; };
 
-	SystemType _systemType;
+	System::Types::Type _systemType;
 };
 
 

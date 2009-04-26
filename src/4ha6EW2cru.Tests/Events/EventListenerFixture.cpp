@@ -2,8 +2,9 @@
 
 #include "Events/EventListener.h"
 #include "Events/Event.h"
+using namespace Events;
 
-#include "System/Management.h"
+#include "Management/Management.h"
 
 #include "Exceptions/NullReferenceException.hpp"
 

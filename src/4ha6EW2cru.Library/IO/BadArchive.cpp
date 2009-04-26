@@ -3,13 +3,12 @@
 #include <fstream>
 
 #include "IResource.hpp"
-using namespace Resource;
+using namespace Resources;
 
 #include "FileManager.h"
-#include "../System/Management.h"
+#include "../Management/Management.h"
 
 #include "../Logging/Logger.h"
-#include "../Exceptions/ArchiveNotFoundException.hpp"
 
 using namespace Ogre;
 

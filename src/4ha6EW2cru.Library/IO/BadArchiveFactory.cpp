@@ -1,7 +1,7 @@
 #include "BadArchiveFactory.h"
 #include "BadArchive.h"
 #include "../Logging/Logger.h"
-#include "../System/Management.h"
+#include "../Management/Management.h"
 #include "../Exceptions/NullReferenceException.hpp"
 
 const std::string BadArchiveFactory::BAD_ARCHTYPE = "BAD";

@@ -18,7 +18,7 @@ public:
 
 	~Mock_SystemScene( ) { };
 
-	Mock_SystemScene( SystemType systemType )
+	Mock_SystemScene( System::Types::Type systemType )
 		: MockObject( "Mock_SystemScene", 0 )
 		, createEntity_count( "Mock_SystemScene/CreateComponent", this )
 		, destroyEntity_count( "Mock_SystemScene/DestroyComponent", this )
@@ -46,7 +46,7 @@ public:
 		delete component;
 	}
 
-	inline SystemType GetType( ) { return _systemType; };
+	inline System::Types::Type GetType( ) { return _systemType; };
 	inline void Update( float deltaMilliseconds )
 	{
 		update_count.inc( );
@@ -56,7 +56,7 @@ private:
 
 	Mock_SystemScene & operator = ( const Mock_SystemScene & copy ) { return *this; };
 
-	SystemType _systemType;
+	System::Types::Type _systemType;
 };
 
 #endif

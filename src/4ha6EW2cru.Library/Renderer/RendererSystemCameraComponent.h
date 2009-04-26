@@ -21,7 +21,7 @@ public:
 	
 	}
 
-	void Initialize( AnyValueMap properties );
+	void Initialize( AnyValue::AnyValueMap properties );
 	void Update( float deltaMilliseconds );
 
 	void AddObserver( IObserver* observer ) { _observer = observer; };

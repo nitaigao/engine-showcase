@@ -1,20 +1,29 @@
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   src\4ha6EW2cru.Library\System\SystemType.hpp
+*  @date   2009/04/25
+*/
 #ifndef __SYSTEMTYPES_H
 #define __SYSTEMTYPES_H
 
-enum SystemType
-{
-	ScriptSystemType,
-	RenderSystemType,
-	GeometrySystemType,
-	InputSystemType,
-	PhysicsSystemType,
-	AISystemType,
-	TestSystemType,
-	Max_SystemTypes
-};
-
 namespace System
 {
+	namespace Types
+	{
+		enum Type
+		{
+			NONE,
+			SCRIPT,
+			RENDER,
+			GEOMETRY,
+			INPUT,
+			PHYSICS,
+			AI,
+			TEST
+		};
+	};
+
 	namespace Changes
 	{
 		static const unsigned int None				=	( 1 << 1 );

@@ -37,7 +37,7 @@
 
 #include "../Logging/Logger.h"
 
-#include "../System/Management.h"
+#include "../Management/Management.h"
 
 ISystemScene* HavokPhysicsSystem::CreateScene( )
 {
@@ -117,7 +117,7 @@ std::vector< std::string > HavokPhysicsSystem::RayQuery( MathVector3 origin, Mat
 	return results;
 }
 
-AnyValue::AnyValueMap HavokPhysicsSystem::Execute( const std::string& actionName, AnyValueMap parameters )
+AnyValue::AnyValueMap HavokPhysicsSystem::Execute( const std::string& actionName, AnyValue::AnyValueMap parameters )
 {
 	AnyValue::AnyValueMap results;
 

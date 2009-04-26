@@ -2,7 +2,7 @@
 #define __SCRIPTSYSTEM_H
 
 #include "../System/ISystem.hpp"
-#include "../System/Configuration.h"
+#include "../Configuration/IConfiguration.hpp"
 
 class ScriptSystem : public ISystem
 {
@@ -11,7 +11,7 @@ public:
 
 	virtual ~ScriptSystem( ) { };
 
-	ScriptSystem( Configuration* configuration )
+	ScriptSystem( Configuration::IConfiguration* configuration )
 		: _configuration( configuration )
 	{
 		
@@ -21,17 +21,17 @@ public:
 	inline void Update( float deltaMilliseconds ) { };
 	void Release( ) { };
 
-	inline SystemType GetType( ) { return ScriptSystemType; };
+	inline System::Types::Type GetType( ) { return System::Types::SCRIPT; };
 
 	ISystemScene* CreateScene( );
 
-	inline AnyValueMap GetProperties( ) { return _properties; };
+	inline AnyValue::AnyValueMap GetProperties( ) { return _properties; };
 	inline void SetProperty( const std::string& name, AnyValue value ) { };
 
 private:
 
-	AnyValueMap _properties;
-	Configuration* _configuration;
+	AnyValue::AnyValueMap _properties;
+	Configuration::IConfiguration* _configuration;
 
 	ScriptSystem( const ScriptSystem & copy ) { };
 	ScriptSystem & operator = ( const ScriptSystem & copy ) { return *this; };

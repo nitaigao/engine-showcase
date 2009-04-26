@@ -6,7 +6,7 @@
 #include "IResourceManager.hpp"
 #include "IFileManager.hpp"
 
-namespace Resource
+namespace Resources
 {
 	class ResourceManager : public IResourceManager
 	{

@@ -56,4 +56,6 @@ IRendererSystemComponent* RendererSystemScene::GetComponent( const std::string& 
 			return ( *i );
 		}
 	}
+
+	return 0;
 }

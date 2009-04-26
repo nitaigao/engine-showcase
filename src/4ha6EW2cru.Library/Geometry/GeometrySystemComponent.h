@@ -4,7 +4,7 @@
 #include "../System/IObserver.hpp"
 #include "../System/ISystemComponent.hpp"
 
-#include "../System/SystemProperty.hpp"
+#include "../System/AnyValue.hpp"
 #include "../System/SystemType.hpp"
 
 #include "../Maths/MathVector3.hpp"
@@ -23,7 +23,7 @@ public:
 
 	}
 	
-	void Initialize( AnyValueMap properties );
+	void Initialize( AnyValue::AnyValueMap properties );
 	void Update( float deltaMilliseconds ) { };
 	void Destroy( ) { };
 
@@ -32,15 +32,15 @@ public:
 	void PushChanges( unsigned int systemChanges );
 
 	inline const std::string& GetName( ) { return _name; };
-	inline SystemType GetType( ) { return GeometrySystemType; };
+	inline System::Types::Type GetType( ) { return System::Types::GEOMETRY; };
 
 	inline unsigned int GetRequestedChanges( )
 	{
 		return System::Changes::Geometry::All;
 	};
 
-	inline AnyValueMap GetProperties( ) { return AnyValueMap( ); };
-	inline void SetProperties( AnyValueMap systemProperties ) { };
+	inline AnyValue::AnyValueMap GetProperties( ) { return AnyValue::AnyValueMap( ); };
+	inline void SetProperties( AnyValue::AnyValueMap systemProperties ) { };
 
 	inline MathVector3 GetPosition( ) { return _position; };
 	inline MathVector3 GetScale( ) { return _scale; };

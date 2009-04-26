@@ -4,9 +4,10 @@
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( AISystemComponent_Tests, Suites::AISuite( ) );
 
 #include "Logging/Logger.h"
-#include "System/Management.h"
+#include "Management/Management.h"
 
 #include "AI/AISystemComponent.h"
+using namespace AI;
 
 void AISystemComponent_Tests::setUp()
 {
@@ -35,7 +36,7 @@ void AISystemComponent_Tests::Should_Set_BehaviorName_On_SetBehavior()
 {
 	AISystemComponent* component = new AISystemComponent( "test", 0 );
 	
-	AnyValueMap properties;
+	AnyValue::AnyValueMap properties;
 	//component->Initialize( properties );
 
 	component->SetBehavior( "walking" );

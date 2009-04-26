@@ -6,7 +6,7 @@
 #include "../Events/EventType.hpp"
 
 /*! A Script Event */
-class ScriptEvent : public IEvent
+class ScriptEvent : public Events::IEvent
 {
 
 public:
@@ -87,10 +87,10 @@ public:
 
 	/*! OBSOLETE */
 	/*! Gets the Type of the Event */
-	inline EventType GetEventType( ) const { return ALL_EVENTS; };
+	inline Events::EventType GetEventType( ) const { return Events::ALL_EVENTS; };
 
 	/*! Returns Event Data attached to the event */
-	inline IEventData* GetEventData( ) const { return 0; };
+	inline Events::IEventData* GetEventData( ) const { return 0; };
 
 private:
 

@@ -4,9 +4,11 @@
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( AISystem_Tests, Suites::AISuite( ) );
 
 #include "Logging/Logger.h"
-#include "System/Management.h"
+#include "Management/Management.h"
 
 #include "AI/AISystem.h"
+using namespace AI;
+
 #include "Scripting/ScriptSystem.h"
 
 void AISystem_Tests::setUp()
@@ -29,7 +31,7 @@ void AISystem_Tests::Should_Initialize_Correctly()
 
 void AISystem_Tests::Should_Return_Scene_On_CreateScene()
 {
-	Management::GetInstance( )->GetSystemManager( )->AddSystem( new ScriptSystem( 0 ) );
+	Management::GetInstance( )->GetSystemManager( )->RegisterSystem( new ScriptSystem( 0 ) );
 	Management::GetInstance( )->GetSystemManager( )->InitializeAllSystems( );
 
 	AISystem system;

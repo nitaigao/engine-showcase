@@ -23,7 +23,7 @@ public:
 
 	ExpectationCounter handle_count;
 
-	inline void EventHandler( const IEvent* event ) { handle_count.inc( ); };
+	inline void EventHandler( const Events::IEvent* event ) { handle_count.inc( ); };
 };
 
 #endif

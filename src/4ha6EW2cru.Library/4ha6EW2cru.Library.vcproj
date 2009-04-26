@@ -48,6 +48,7 @@
 				RuntimeLibrary="3"
 				WarningLevel="3"
 				DebugInformationFormat="4"
+				DisableSpecificWarnings="4005"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -185,7 +186,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Exceptions\ArchiveNotFoundException.hpp"
+			RelativePath=".\System\AnyValue.hpp"
 			>
 		</File>
 		<File
@@ -209,11 +210,19 @@
 			>
 		</File>
 		<File
-			RelativePath=".\System\Configuration.h"
+			RelativePath=".\Configuration\Configuration.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\System\ConfigurationFile.h"
+			RelativePath=".\Configuration\Configuration.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Configuration\ConfigurationFile.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Configuration\ConfigurationFile.h"
 			>
 		</File>
 		<File
@@ -289,11 +298,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\System\Game.cpp"
+			RelativePath=".\Game.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\System\Game.h"
+			RelativePath=".\Game.h"
 			>
 		</File>
 		<File
@@ -345,6 +354,18 @@
 			>
 		</File>
 		<File
+			RelativePath=".\AI\IBehavior.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Configuration\IConfiguration.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Configuration\IConfigurationFile.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\State\IEntity.hpp"
 			>
 		</File>
@@ -358,10 +379,6 @@
 		</File>
 		<File
 			RelativePath=".\Events\IEventListener.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Events\IEventManager.hpp"
 			>
 		</File>
 		<File
@@ -433,7 +450,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\System\IPlatformManager.h"
+			RelativePath=".\Platform\IPlatformManager.h"
 			>
 		</File>
 		<File
@@ -461,11 +478,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\System\IService.hpp"
+			RelativePath=".\Service\IService.hpp"
 			>
 		</File>
 		<File
-			RelativePath=".\System\IServiceManager.h"
+			RelativePath=".\Service\IServiceManager.h"
 			>
 		</File>
 		<File
@@ -513,11 +530,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\System\Management.cpp"
+			RelativePath=".\Management\Management.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\System\Management.h"
+			RelativePath=".\Management\Management.h"
 			>
 		</File>
 		<File
@@ -605,11 +622,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\System\PlatformManager.cpp"
+			RelativePath=".\Platform\PlatformManager.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\System\PlatformManager.h"
+			RelativePath=".\Platform\PlatformManager.h"
 			>
 		</File>
 		<File
@@ -709,11 +726,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\System\ServiceManager.cpp"
+			RelativePath=".\Service\ServiceManager.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\System\ServiceManager.h"
+			RelativePath=".\Service\ServiceManager.h"
 			>
 		</File>
 		<File
@@ -721,11 +738,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\System\SystemManager.h"
+			RelativePath=".\System\SystemManager.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\System\SystemProperty.hpp"
+			RelativePath=".\System\SystemManager.h"
 			>
 		</File>
 		<File

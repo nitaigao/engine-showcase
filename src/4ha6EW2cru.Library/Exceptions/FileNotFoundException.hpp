@@ -1,29 +1,56 @@
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   c:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Exceptions\FileNotFoundException.hpp
+*  @date   2009/04/25
+*/
 #ifndef __FILENOTFOUNDEXCEPTION
 #define __FILENOTFOUNDEXCEPTION
 
 #include <string>
 
+/*! 
+ *  An Exception for when a file cannot be located on the File System
+ */
 class FileNotFoundException : public std::exception
 {
 
 public:
 
+	/*! Default Destructor
+	*
+	*  @return ()
+	*/
 	~FileNotFoundException( ) { };
 
-	FileNotFoundException( const FileNotFoundException & copy ) { };
-	FileNotFoundException & operator = ( const FileNotFoundException & copy ) { return *this; };
 
+	/*! Constructor with default error message
+	*
+	*  @return ()
+	*/
 	FileNotFoundException( )
 		: std::exception( "There was an error attempting to open an File" )
 	{
 
 	}
 
+	/*! Constructor with custom error message
+	*
+	*  @param[in] const std::string message
+	*  @return ()
+	*/
 	FileNotFoundException( const std::string message )
 		: std::exception( message.c_str( ) )
 	{
 
 	}
+
+private:
+
+	FileNotFoundException( const FileNotFoundException & copy ) { };
+	FileNotFoundException & operator = ( const FileNotFoundException & copy ) { return *this; };
+
+
 };
 
 #endif

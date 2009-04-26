@@ -7,7 +7,7 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( World_Tests, Suites::StateSuite( ) );
 #include "State/IEntity.hpp"
 #include "State/World.h"
 
-#include "System/Management.h"
+#include "Management/Management.h"
 
 void World_Tests::Entity_Should_Be_Created_on_CreateEntity()
 {
@@ -21,7 +21,7 @@ void World_Tests::GetSystemScenes_Should_Return_All_Extended_Scenes()
 {
 	World world;
 
-	Mock_System system1( RenderSystemType );
+	Mock_System system1( System::Types::RENDER );
 	world.AddSystemScene( system1.CreateScene( ) );
 
 	CPPUNIT_ASSERT( !world.GetSystemScenes( ).empty( ) );
@@ -31,7 +31,7 @@ void World_Tests::Update_Should_Call_Update_On_All_Attached_SystemScenes()
 {
 	World world;
 
-	Mock_SystemScene* scene = new Mock_SystemScene( TestSystemType );
+	Mock_SystemScene* scene = new Mock_SystemScene( System::Types::TEST );
 	scene->update_count.setExpected( 1 );
 
 	world.AddSystemScene( scene );

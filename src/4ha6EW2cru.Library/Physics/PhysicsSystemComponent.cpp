@@ -5,7 +5,7 @@
 #include <sstream>
 #include "../Logging/Logger.h"
 
-#include "../System/Management.h"
+#include "../Management/Management.h"
 
 #include "../io/FileBuffer.hpp"
 #include "../io/FileManager.h"
@@ -25,9 +25,9 @@
 #include <Physics/Utilities/Serialize/hkpPhysicsData.h>
 
 #include "../IO/ResourceManager.h"
-using namespace Resource;
+using namespace Resources;
 
-void PhysicsSystemComponent::Initialize( AnyValueMap properties )
+void PhysicsSystemComponent::Initialize( AnyValue::AnyValueMap properties )
 {
 	std::string bodyPath = properties[ "body" ].GetValue< std::string >( );
 
@@ -73,7 +73,7 @@ void PhysicsSystemComponent::Observe( ISubject* subject, unsigned int systemChan
 {
 	ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 
-	if( component->GetType( ) == GeometrySystemType )
+	if ( systemChanges & System::Changes::Geometry::All )
 	{
 		_body->setPositionAndRotation( 
 			component->GetPosition( ).AshkVector4( ),	

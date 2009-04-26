@@ -2,6 +2,7 @@
 
 #include "Events/Event.h"
 #include "Events/IEventData.hpp"
+using namespace Events;
 
 #include "../Mocks/MockEventData.hpp"
 

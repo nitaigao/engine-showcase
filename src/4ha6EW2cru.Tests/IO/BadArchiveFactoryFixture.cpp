@@ -6,7 +6,7 @@
 
 #include "Logging/Logger.h"
 #include "IO/FileManager.h"
-#include "System/Management.h"
+#include "Management/Management.h"
 
 #include "../Suites.h"
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( BadArchiveFactoryFixture, Suites::IOSuite( ) );

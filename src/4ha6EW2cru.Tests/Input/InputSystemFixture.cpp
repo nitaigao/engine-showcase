@@ -4,6 +4,7 @@
 #include "Logging/Logger.h"
 #include "IO/FileManager.h"
 #include "Events/EventManager.h"
+#include "Management/Management.h"
 
 #include "Exceptions/IntializeFailedException.hpp"
 #include "Exceptions/OutOfRangeException.hpp"

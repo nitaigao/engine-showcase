@@ -6,7 +6,7 @@
 #include "../Events/Event.h"
 #include "../Events/EventData.hpp"
 
-#include "../System/Management.h"
+#include "../Management/Management.h"
 #include "InputSystemComponent.h"
 
 using OIS::KeyEvent;
@@ -42,7 +42,7 @@ public:
 			( *i )->KeyDown( arg.key, _keyboard->getAsString( arg.key ) );
 		}
 
-		Event* event = new Event( INPUT_KEY_DOWN, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
+		Events::Event* event = new Events::Event( Events::INPUT_KEY_DOWN, new Events::KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 
 		return true;
@@ -56,7 +56,7 @@ public:
 			( *i )->KeyUp( arg.key, _keyboard->getAsString( arg.key ) );
 		}
 
-		Event* event = new Event( INPUT_KEY_UP, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
+		Events::Event* event = new Events::Event( Events::INPUT_KEY_UP, new Events::KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 
 		return true;

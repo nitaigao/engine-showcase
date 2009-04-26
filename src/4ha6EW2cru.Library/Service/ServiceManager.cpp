@@ -1,6 +1,6 @@
 #include "ServiceManager.h"
 
-IService* ServiceManager::FindService( SystemType systemType ) const
+IService* ServiceManager::FindService( System::Types::Type systemType ) const
 {
 	for( IService::ServiceList::const_iterator i = _services.begin( ); i != _services.end( ); ++i )
 	{
@@ -9,4 +9,6 @@ IService* ServiceManager::FindService( SystemType systemType ) const
 			return ( *i );
 		}
 	}
+
+	return 0;
 }

@@ -37,7 +37,7 @@ protected:
 private:
 
 	Mock_EventSubject* _eventTarget;
-	IEventListener* _eventListener;
+	Events::IEventListener* _eventListener;
 };
 
 #endif

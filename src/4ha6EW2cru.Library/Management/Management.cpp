@@ -2,21 +2,21 @@
 
 #include "../Exceptions/UnInitializedException.hpp"
 
-#include "../System/ServiceManager.h"
+#include "../Service/ServiceManager.h"
 #include "../System/SystemManager.h"
-#include "../System/PlatformManager.h"
+#include "../Platform/PlatformManager.h"
 #include "../IO/FileManager.h"
 #include "../IO/ResourceManager.h"
 
 static Management* g_ManagementInstance = 0;
 
-using namespace Resource;
+using namespace Resources;
 
 Management::Management( )
 {
 	_serviceManager = new ServiceManager( );
 	_platformManager = new PlatformManager( );
-	_eventManager = new EventManager( );
+	_eventManager = new Events::EventManager( );
 	_systemManager = new SystemManager( );
 	_fileManager = new FileManager( );
 	_resourceManager = new ResourceManager( );

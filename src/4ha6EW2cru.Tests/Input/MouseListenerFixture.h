@@ -33,7 +33,7 @@ protected:
 private:
 
 	MockEventTrigger* _eventTriggerMock;
-	EventManager* _eventManager;
+	Events::EventManager* _eventManager;
 
 };
 

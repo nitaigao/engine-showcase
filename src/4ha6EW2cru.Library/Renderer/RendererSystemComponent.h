@@ -24,7 +24,7 @@ public:
 
 	}
 
-	void Initialize( AnyValueMap properties );
+	void Initialize( AnyValue::AnyValueMap properties );
 	virtual void Update( float deltaMilliseconds );
 	void Destroy( );
 
@@ -42,10 +42,10 @@ public:
 	};
 
 	inline const std::string& GetName( ) { return _name; };
-	inline SystemType GetType( ) { return RenderSystemType; };
+	inline System::Types::Type GetType( ) { return System::Types::RENDER; };
 
-	AnyValueMap GetProperties( ) { return AnyValueMap( ); };
-	void SetProperties( AnyValueMap systemProperties ) { };
+	AnyValue::AnyValueMap GetProperties( ) { return AnyValue::AnyValueMap( ); };
+	void SetProperties( AnyValue::AnyValueMap systemProperties ) { };
 
 	inline MathVector3 GetPosition( ) { return MathVector3( _sceneNode->getPosition( ) ); };
 	inline MathVector3 GetScale( ) { return MathVector3( _sceneNode->getScale( ) ); };

@@ -2,8 +2,9 @@
 
 #include "InputSystemComponent.h"
 
-#include "../System/Management.h"
+#include "../Management/Management.h"
 #include "../Scripting/ScriptEvent.hpp"
+using namespace Events;
 
 using namespace OIS;
 
@@ -123,9 +124,9 @@ bool InputSystemScene::mouseMoved( const MouseEvent &arg )
 		{
 			InputSystemComponent* component = static_cast< InputSystemComponent* >( ( *i ) );
 
-			AnyValueMap existingProperties = component->GetProperties( );
+			AnyValue::AnyValueMap existingProperties = component->GetProperties( );
 
-			AnyValueMap properties;
+			AnyValue::AnyValueMap properties;
 			properties[ "mouseX" ] = AnyValue( arg.state.X.abs );
 			properties[ "mouseXDelta" ] = AnyValue( arg.state.X.rel );
 			properties[ "mouseY" ] = AnyValue( arg.state.Y.abs );

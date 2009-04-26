@@ -19,7 +19,7 @@ public:
 	void Initialize( ) { };
 	inline void Update( float deltaMilliseconds ) { };
 
-	inline SystemType GetType( ) { return GeometrySystemType; };
+	inline System::Types::Type GetType( ) { return System::Types::GEOMETRY; };
 
 	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 	void DestroyComponent( ISystemComponent* component );

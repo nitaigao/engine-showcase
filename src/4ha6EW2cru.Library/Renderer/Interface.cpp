@@ -3,11 +3,11 @@
 #include <luabind/table_policy.hpp>
 
 #include "../Events/Event.h"
-#include "../Events/EventManager.h"
+using namespace Events;
 
 #include "MyGUI_Any.h"
 
-#include "../System/Management.h"
+#include "../Management/Management.h"
 #include "../Scripting/ScriptSystemScene.h"
 #include "../Scripting/ScriptSystem.h"
 #include "../Scripting/ScriptComponent.h"
@@ -39,7 +39,7 @@ Interface::~Interface( )
 
 void Interface::Initialize( )
 {
-	g_InterfaceScriptScene = ( ScriptSystemScene* ) Management::GetInstance( )->GetSystemManager( )->GetSystem( ScriptSystemType )->CreateScene( );
+	g_InterfaceScriptScene = ( ScriptSystemScene* ) Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::SCRIPT )->CreateScene( );
 
 	_gui->initialise( _renderWindow, "/data/interface/core/core.xml" );
 
@@ -51,7 +51,7 @@ void Interface::Initialize( )
 
 	ScriptComponent* scriptComponent = ( ScriptComponent* ) g_InterfaceScriptScene->CreateComponent( "interface", "default" );
 
-	AnyValueMap properties;
+	AnyValue::AnyValueMap properties;
 	std::string scriptPath = "/data/interface/interface.lua";
 	properties.insert( std::make_pair( "scriptPath", scriptPath ) );
 	scriptComponent->Initialize( properties );
@@ -128,7 +128,7 @@ void Interface::LoadComponent( const std::string componentName )
 
 	ScriptComponent* scriptComponent = ( ScriptComponent* ) g_InterfaceScriptScene->CreateComponent( componentName, "default" );
 
-	AnyValueMap properties;
+	AnyValue::AnyValueMap properties;
 	properties.insert( std::make_pair( "scriptPath", scriptPath.str( ) ) );
 	scriptComponent->Initialize( properties );
 
@@ -283,7 +283,7 @@ void Interface::UnRegisterEventHandler( object function )
 
 void Interface::SetInputAllowed( bool inputAllowed )
 {
-	ISystem* inputSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( InputSystemType );
+	ISystem* inputSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::INPUT );
 
 	if ( inputSystem != 0 )
 	{
@@ -311,13 +311,13 @@ void Interface::ChangeResolution( int width, int height, bool isFullScreen )
 
 void Interface::SetFarClip( const float& farClip )
 {
-	ISystem* renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
+	ISystem* renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
 	renderSystem->SetProperty( "farClip", farClip );
 }
 
 std::vector< std::string > Interface::GetSupportedResolutions()
 {
-	ISystem* renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( RenderSystemType );
+	ISystem* renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
 	std::vector< std::string > resolutions = renderSystem->GetProperties( )[ "availableVideoModes" ].GetValue< std::vector< std::string > >( );
 
 	std::multimap< int, std::string > resolutionWidths;
@@ -327,7 +327,7 @@ std::vector< std::string > Interface::GetSupportedResolutions()
 		std::string resolution = ( *i );
 
 		std::stringstream resolutionStream;
-		resolutionStream << resolution.substr( 0, resolution.find( ' x ' ) );
+		resolutionStream << resolution.substr( 0, resolution.find( " x " ) );
 
 		int resolutionWidth = 0;
 		resolutionStream >> resolutionWidth;

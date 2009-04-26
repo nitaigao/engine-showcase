@@ -23,7 +23,7 @@ class WorldLoader_ComponentStrategy_Factory
 
 public:
 
-	static IWorldLoader_ComponentStrategy* Create( const SystemType& systemType );
+	static IWorldLoader_ComponentStrategy* Create( const System::Types::Type& systemType );
 
 private:
 

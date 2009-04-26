@@ -2,6 +2,7 @@
 
 #include "../Events/IEvent.hpp"
 #include "../Events/Event.h"
+using namespace Events;
 
 #include "ScriptEvent.hpp"
 #include "ScriptComponent.h"
@@ -9,7 +10,7 @@
 
 #include "../Logging/Logger.h"
 #include "../IO/FileManager.h"
-#include "../System/Management.h"
+#include "../Management/Management.h"
 #include "../Exceptions/ScriptException.hpp"
 
 #include <luabind/table_policy.hpp>
@@ -34,7 +35,7 @@ ScriptSystemScene::~ScriptSystemScene( )
 	_state = 0;
 }
 
-ScriptSystemScene::ScriptSystemScene( Configuration* configuration )
+ScriptSystemScene::ScriptSystemScene( Configuration::IConfiguration* configuration )
 {
 	_scriptConfiguration = new ScriptConfiguration( configuration );
 	_state = lua_open( );

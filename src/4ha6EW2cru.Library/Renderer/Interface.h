@@ -9,7 +9,7 @@ using namespace luabind;
 
 #include "IInterface.hpp"
 
-#include "../System/Configuration.h"
+#include "../Configuration/IConfiguration.hpp"
 #include "../System/ISystemScene.hpp"
 
 #include "../Events/IEvent.hpp"
@@ -19,14 +19,13 @@ using namespace luabind;
 
 class Interface : MyGUI::IUnlinkWidget, public IInterface
 {
-	typedef std::map< std::string, AnyValue > AnyValueMap;
 	typedef std::map< const std::string, object* > WidgetUserData;
 
 public:
 
 	virtual ~Interface( );
 
-	Interface( Configuration* configuration, Ogre::RenderWindow* renderWindow )
+	Interface( Configuration::IConfiguration* configuration, Ogre::RenderWindow* renderWindow )
 		: _renderWindow( renderWindow )
 		, _configuration( configuration )
 		, _gui( new Gui( ) )
@@ -117,10 +116,10 @@ private:
 	static void SetFarClip( const float& farClip );
 
 	/*! Registers a script method to receive Script events */
-	static void RegisterEvent( EventType eventType, object function );
+	static void RegisterEvent( Events::EventType eventType, object function );
 
 	/*! UnRegisters a script method to receive Script events */
-	static void UnRegisterEvent( EventType eventType, object function );
+	static void UnRegisterEvent( Events::EventType eventType, object function );
 
 	/*! Returns the Screen Width in pixels */
 	static inline int GetScreenWidth( ) { return Ogre::Root::getSingletonPtr( )->getRenderTarget( "Interactive View" )->getWidth( ); };
@@ -137,21 +136,21 @@ private:
 	/* -- Internal Event Handlers --*/
 
 	/*! Handler to intercept OnMouseMoved Events */
-	void OnMouseMoved( const IEvent* event );
+	void OnMouseMoved( const Events::IEvent* event );
 
 	/*! Handler to intercept OnMouseMoved Events */
-	void OnMousePressed( const IEvent* event );
+	void OnMousePressed( const Events::IEvent* event );
 
 	/*! Handler to intercept OnMouseMoved Events */
-	void OnMouseReleased( const IEvent* event );
+	void OnMouseReleased( const Events::IEvent* event );
 
 	/*! Handler to intercept OnKeyUp Events */
-	void OnKeyUp( const IEvent* event );
+	void OnKeyUp( const Events::IEvent* event );
 
 	/*! Handler to intercept OnKeyDown Events */
-	void OnKeyDown( const IEvent* event );
+	void OnKeyDown( const Events::IEvent* event );
 
-	Configuration* _configuration;
+	Configuration::IConfiguration* _configuration;
 	Ogre::RenderWindow* _renderWindow;
 	Gui* _gui;
 	int _updateSkipCount;

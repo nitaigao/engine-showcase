@@ -18,7 +18,7 @@ public:
 
 	virtual ~Mock_System( ) { };
 
-	Mock_System( SystemType systemType )
+	Mock_System( System::Types::Type systemType )
 		: MockObject( "Mock_System", 0 )
 		, initialize_count( "Mock_System/Initialize", this )
 		, release_count( "Mock_System/Release", this )
@@ -51,16 +51,16 @@ public:
 		return new Mock_SystemScene( _systemType );
 	}
 
-	SystemType GetType( ) { return _systemType; };
+	System::Types::Type GetType( ) { return _systemType; };
 
-	AnyValueMap GetProperties( ) { return AnyValueMap( ); };
+	AnyValue::AnyValueMap GetProperties( ) { return AnyValue::AnyValueMap( ); };
 	inline void SetProperty( const std::string& name, AnyValue value ) { };
 
 private:
 
 	Mock_System & operator = ( const Mock_System & copy ) { return *this; };
 
-	SystemType _systemType;
+	System::Types::Type _systemType;
 };
 
 

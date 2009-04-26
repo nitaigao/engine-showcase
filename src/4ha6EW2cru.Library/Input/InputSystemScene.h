@@ -31,7 +31,7 @@ public:
 	void Initialize( ) { };
 	void Update( float deltaMilliseconds );
 
-	inline SystemType GetType( ) { return InputSystemType; }
+	inline System::Types::Type GetType( ) { return System::Types::INPUT; }
 
 	ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 	void DestroyComponent( ISystemComponent* component );

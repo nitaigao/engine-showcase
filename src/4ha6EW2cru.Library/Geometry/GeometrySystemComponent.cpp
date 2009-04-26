@@ -4,9 +4,9 @@
 #include "../ai/AISystemComponent.h"
 #include "../Input/InputSystemComponent.h"
 
-void GeometrySystemComponent::Initialize( AnyValueMap properties )
+void GeometrySystemComponent::Initialize( AnyValue::AnyValueMap properties )
 {
-	for( AnyValueMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
+	for( AnyValue::AnyValueMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
 	{
 		if ( ( *i ).first == "position" )
 		{

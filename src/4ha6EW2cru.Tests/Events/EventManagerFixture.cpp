@@ -1,8 +1,11 @@
 #include "EventManagerFixture.h"
 #include "Logging/Logger.h"
+
 #include "Events/Event.h"
 #include "Events/EventManager.h"
-#include "System/Management.h"
+using namespace Events;
+
+#include "Management/Management.h"
 
 #include "../Mocks/MockEventTrigger.hpp"
 #include "../Mocks/Mock_EventSubject.hpp"

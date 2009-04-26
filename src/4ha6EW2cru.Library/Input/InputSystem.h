@@ -6,7 +6,7 @@
 #include "InputSystemScene.h"
 
 #include "../System/ISystem.hpp"
-#include "../System/Configuration.h"
+#include "../Configuration/IConfiguration.hpp"
 
 #include <OIS/OISInputManager.h>
 #include <OIS/OISKeyboard.h>
@@ -24,7 +24,7 @@ public:
 
 	~InputSystem( );
 
-	InputSystem( Configuration* configuration )
+	InputSystem( Configuration::IConfiguration* configuration )
 		: _inputAllowed( true )
 		, _configuration( configuration )
 		, _inputManager( 0 )
@@ -41,14 +41,14 @@ public:
 	/*! Releases the Input System */
 	void Release( ) { };
 
-	SystemType GetType( ) { return InputSystemType; };
+	System::Types::Type GetType( ) { return System::Types::INPUT; };
 
 	ISystemScene* CreateScene( );
 
-	inline AnyValueMap GetProperties( ) { return _properties; };
+	inline AnyValue::AnyValueMap GetProperties( ) { return _properties; };
 	void SetProperty( const std::string& name, AnyValue value );
 
-	ISystemComponent* CreateComponent( const std::string& name, SystemType systemType ) { return 0; };
+	ISystemComponent* CreateComponent( const std::string& name, System::Types::Type systemType ) { return 0; };
 
 	/* Fired when the user presses a button on the keyboard */
 	bool keyPressed( const OIS::KeyEvent &arg );
@@ -69,8 +69,8 @@ private:
 
 	bool _inputAllowed;
 
-	AnyValueMap _properties;
-	Configuration* _configuration;
+	AnyValue::AnyValueMap _properties;
+	Configuration::IConfiguration* _configuration;
 	InputSystemSceneList _inputScenes;
 
 	OIS::InputManager* _inputManager;

@@ -1,7 +1,7 @@
 #include "World.h"
 
 #include "../System/ISystem.hpp"
-#include "../System/Management.h"
+#include "../Management/Management.h"
 
 #include "Entity.h"
 
@@ -31,7 +31,7 @@ void World::Update( float deltaMilliseconds )
 	{
 		for( SystemSceneMap::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
 		{
-			if( ( *i ).second->GetType( ) != RenderSystemType )
+			if( ( *i ).second->GetType( ) != System::Types::RENDER )
 			{
 				( *i ).second->Update( logicStep );
 			}
@@ -42,7 +42,7 @@ void World::Update( float deltaMilliseconds )
 
 	for( SystemSceneMap::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
 	{
-		if( ( *i ).second->GetType( ) == RenderSystemType )
+		if( ( *i ).second->GetType( ) == System::Types::RENDER )
 		{
 			( *i ).second->Update( deltaMilliseconds );
 		}
@@ -75,4 +75,6 @@ IEntity* World::FindEntity( const std::string& name )
 			return ( *e );
 		}
 	}
+
+	return 0;
 }

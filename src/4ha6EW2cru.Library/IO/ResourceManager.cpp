@@ -5,7 +5,7 @@
 
 #include "../Logging/Logger.h"
 
-namespace Resource
+namespace Resources
 {
 	static const int MAX_RESOURCE_CACHE_SIZE = 50;
 

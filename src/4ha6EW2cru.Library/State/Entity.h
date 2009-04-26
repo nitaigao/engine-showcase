@@ -20,7 +20,7 @@ public:
 	inline const std::string& GetName( ) { return _name; };
 
 	void AddComponent( ISystemComponent* component );
-	ISystemComponent* FindComponent( SystemType systemType );
+	ISystemComponent* FindComponent( System::Types::Type systemType );
 
 	inline unsigned int GetRequestedChanges( ) { return 0; };
 	void Observe( ISubject* subject, unsigned int systemChanges );

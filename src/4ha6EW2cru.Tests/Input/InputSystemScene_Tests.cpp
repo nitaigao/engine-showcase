@@ -3,7 +3,7 @@
 #include "../Suites.h"
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( InputSystemScene_Tests, Suites::InputSuite( ) );
 
-#include "System/Management.h"
+#include "Management/Management.h"
 #include "System/ISystemComponent.hpp"
 #include "Input/InputSystemScene.h"
 

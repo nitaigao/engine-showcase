@@ -2,11 +2,13 @@
 
 #include "Logging/Logger.h"
 #include "IO/FileManager.h"
+#include "Management/Management.h"
 
 #include "Exceptions/OutOfRangeException.hpp"
 #include "Exceptions/FileNotFoundException.hpp"
 #include "Exceptions/FileWriteException.hpp"
-#include "System/ConfigurationFile.h"
+#include "Configuration/ConfigurationFile.h"
+using namespace Configuration;
 
 #include "../Suites.h"
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ConfigurationFileFixture, Suites::SystemSuite( ) );
@@ -39,7 +41,7 @@ void ConfigurationFileFixture::Should_Find_Default_Config_Item_On_FindConfigItem
 {
 	ConfigurationFile* config = ConfigurationFile::Load( "config/game.cfg" );
 	int width = 0;
-	width = config->FindConfigItem( "Display", "display_width", 100 );
+	width = config->FindConfigItem( "Display", "display_width", 100 ).GetValue< int >( );
 	CPPUNIT_ASSERT( width > 0 );
 	delete config;
 }
@@ -48,7 +50,7 @@ void ConfigurationFileFixture::Should_Find_Default_Config_Item_On_FindConfigItem
 {
 	ConfigurationFile* config = ConfigurationFile::Load( "config/game.cfg" );
 	std::string result = "Hello World";
-	std::string name = config->FindConfigItem( "Display", "blahhhh", result );
+	std::string name = config->FindConfigItem( "Display", "blahhhh", result ).GetValue< std::string >( );
 	CPPUNIT_ASSERT( name == result );
 	delete config;
 }
@@ -57,7 +59,7 @@ void ConfigurationFileFixture::Should_Find_Default_Config_Item_On_FindConfigItem
 {
 	ConfigurationFile* config = ConfigurationFile::Load( "config/game.cfg" );
 	bool result = true;
-	bool ok = config->FindConfigItem( "Display", "blahhhh", result );
+	bool ok = config->FindConfigItem( "Display", "blahhhh", result ).GetValue< bool >( );
 	CPPUNIT_ASSERT( ok == result );
 	delete config;
 }
@@ -66,7 +68,7 @@ void ConfigurationFileFixture::Should_Find_Stored_Config_Item_On_FindConfigItemB
 {
 	Management::GetInstance( )->GetFileManager( )->MountFileStore( "../../../etc/data/test", "/" );
 	ConfigurationFile* config = ConfigurationFile::Load( "config/test.cfg" );
-	bool ok = config->FindConfigItem( "Display", "fullscreen", false );
+	bool ok = config->FindConfigItem( "Display", "fullscreen", false ).GetValue< bool >( );
 	CPPUNIT_ASSERT( ok == true );
 	delete config;
 }

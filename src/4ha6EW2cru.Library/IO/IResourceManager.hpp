@@ -3,7 +3,7 @@
 
 #include "IResource.hpp"
 
-namespace Resource
+namespace Resources
 {
 	class IResourceManager
 	{
@@ -12,7 +12,7 @@ namespace Resource
 
 		virtual ~IResourceManager( ) { };
 
-		virtual Resource::IResource* GetResource( const std::string& filePath ) = 0;
+		virtual Resources::IResource* GetResource( const std::string& filePath ) = 0;
 		virtual void Update( float deltaMilliseconds ) = 0;
 
 	};
