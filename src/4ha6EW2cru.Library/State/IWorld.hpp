@@ -1,27 +1,81 @@
-#ifndef __IWORLD_H
-#define __IWORLD_H
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   IWorld.hpp
+*  @date   2009/04/27
+*/
+#ifndef __IWORLD_HPP
+#define __IWORLD_HPP
 
 #include <string>
-#include <map>
 
-#include "IEntity.hpp"
-#include "../System/ISystem.hpp"
+#include "../System/ISystemScene.hpp"
 
-class IWorld
+#include "IWorldEntity.hpp"
+
+namespace State
 {
+	/*!
+	 *  A container for all entities 
+	 */
+	class IWorld
+	{
 
-public:
+	public:
 
-	virtual ~IWorld( ) { };
+		/*! Default Destructor
+		 *
+		 *  @return ()
+		 */
+		virtual ~IWorld( ) { };
 
-	virtual IEntity* CreateEntity( const std::string& name ) = 0;
-	virtual IEntity* FindEntity( const std::string& name ) = 0;
-	virtual void AddSystemScene( ISystemScene* systemScene ) = 0;
-	virtual const SystemSceneMap& GetSystemScenes( ) = 0;
-	virtual void Update( float deltaMilliseconds ) = 0;
-	virtual void Clear( ) = 0;
+
+		/*! Creates a World Entity Container
+		 *
+		 *  @param[in] const std::string & name
+		 *  @return (IWorldEntity*)
+		 */
+		virtual IWorldEntity* CreateEntity( const std::string& name ) = 0;
+
+
+		/*! Finds a World Entity Container of the given name
+		 *
+		 *  @param[in] const std::string & name
+		 *  @return (IWorldEntity*)
+		 */
+		virtual IWorldEntity* FindEntity( const std::string& name ) = 0;
+
+
+		/*! Adds a System Scene to the internal scene list
+		 *
+		 *  @param[in] ISystemScene * systemScene
+		 *  @return (void)
+		 */
+		virtual void AddSystemScene( ISystemScene* systemScene ) = 0;
+
+
+		/*! Gets a list of internal system scenes
+		 *
+		 *  @return (const SystemSceneMap&)
+		 */
+		virtual const SystemSceneMap& GetSystemScenes( ) const = 0;
+
+
+		/*! Steps the world internal data
+		 *
+		 *  @param[in] float deltaMilliseconds
+		 *  @return (void)
+		 */
+		virtual void Update( const float& deltaMilliseconds ) = 0;
+
+
+		/*! Destroys all entities within the world
+		 *
+		 *  @return (void)
+		 */
+		virtual void Clear( ) = 0;
+
+	};
 };
-
-typedef std::map< std::string, IWorld* > WorldList;
 
 #endif

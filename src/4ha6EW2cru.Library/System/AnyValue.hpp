@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\System\AnyValue.hpp
+*  @file   AnyValue.hpp
 *  @date   2009/04/25
 */
 #ifndef __ANYVALUE_H

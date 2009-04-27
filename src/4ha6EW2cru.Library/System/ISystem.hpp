@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\System\ISystem.hpp
+*  @file   ISystem.hpp
 *  @date   2009/04/25
 */
 #ifndef __ISYSTEM_H
@@ -41,7 +41,7 @@ public:
 	*  @param[in] float deltaMilliseconds
 	*  @return (void)
 	*/
-	virtual void Update( float deltaMilliseconds ) = 0;
+	virtual void Update( const float& deltaMilliseconds ) = 0;
 
 
 	/*! Releases the System
@@ -55,7 +55,7 @@ public:
 	*
 	*  @return (System::Types::Type)
 	*/
-	virtual System::Types::Type GetType( ) = 0;
+	virtual System::Types::Type GetType( ) const = 0;
 
 
 	/*! Creates the System Scene
@@ -69,7 +69,7 @@ public:
 	*
 	*  @return (AnyValueMap)
 	*/
-	virtual AnyValue::AnyValueMap GetProperties( ) = 0;
+	virtual AnyValue::AnyValueMap GetProperties( ) const = 0;
 
 
 	/*! Sets a System Property

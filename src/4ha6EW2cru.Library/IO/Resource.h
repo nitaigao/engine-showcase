@@ -1,3 +1,9 @@
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   Resource.h
+*  @date   2009/04/26
+*/
 #ifndef __RESOURCE_H
 #define __RESOURCE_H
 
@@ -5,27 +11,45 @@
 
 namespace Resources
 {
+	/*! 
+	 *  A Game Resource
+	 */
 	class Resource : public IResource
 	{
 
 	public:
 
-		virtual ~Resource( )
+		/*! Default Destructor
+		 *
+		 *  @return ()
+		 */
+		~Resource( )
 		{
 			delete _fileBuffer;
 		};
 
-		Resource( FileBuffer* fileBuffer )
+
+		/*! Default Constructor
+		 *
+		 *  @param[in] FileBuffer * fileBuffer
+		 *  @return ()
+		 */
+		Resource( IO::FileBuffer* fileBuffer )
 			: _fileBuffer( fileBuffer )
 		{
 
 		};
 
-		inline FileBuffer* GetFileBuffer( ) const { return _fileBuffer; };
+
+		/*! Returns the file data of the Resource
+		 *
+		 *  @return (FileBuffer*)
+		 */
+		inline IO::FileBuffer* GetFileBuffer( ) const { return _fileBuffer; };
 
 	private:
 
-		FileBuffer* _fileBuffer;
+		IO::FileBuffer* _fileBuffer;
 
 	};
 }

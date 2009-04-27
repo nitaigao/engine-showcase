@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\Events\EventListener.h
+*  @file   EventListener.h
 *  @date   2009/04/25
 */
 #ifndef __EVENTLISTENER_H
@@ -56,21 +56,21 @@ namespace Events
 			if ( _handlerTarget == 0 )
 			{
 				NullReferenceException nullTarget( "EventListener::HandleEvent - HandlerTarget is NULL" );
-				Logger::GetInstance( )->Fatal( nullTarget.what( ) );
+				Logging::Logger::Fatal( nullTarget.what( ) );
 				throw nullTarget;
 			}
 
 			if ( _handlerFunctor == 0 )
 			{
 				NullReferenceException nullHandler( "EventListener::HandleEvent - HandlerFunctor is NULL" );
-				Logger::GetInstance( )->Fatal( nullHandler.what( ) );
+				Logging::Logger::Fatal( nullHandler.what( ) );
 				throw nullHandler;
 			}
 
 			if ( 0 == event )
 			{
 				NullReferenceException nullEvent( "EventListener::HandleEvent - Event is NULL" );
-				Logger::GetInstance( )->Fatal( nullEvent.what( ) );
+				Logging::Logger::Fatal( nullEvent.what( ) );
 				throw nullEvent;
 			}
 

@@ -4,15 +4,16 @@
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( World_Tests, Suites::StateSuite( ) );
 
 #include "../Mocks/Mock_System.hpp"
-#include "State/IEntity.hpp"
+#include "State/IWorldEntity.hpp"
 #include "State/World.h"
+using namespace State;
 
 #include "Management/Management.h"
 
 void World_Tests::Entity_Should_Be_Created_on_CreateEntity()
 {
 	World world;
-	IEntity* entity = world.CreateEntity( "test" );
+	IWorldEntity* entity = world.CreateEntity( "test" );
 
 	CPPUNIT_ASSERT( entity != 0 );
 }

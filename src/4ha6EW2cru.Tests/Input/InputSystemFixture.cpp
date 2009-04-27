@@ -1,8 +1,12 @@
 #include "InputSystemFixture.h"
 
 #include "Input/InputSystem.h"
+using namespace Input;
+
 #include "Logging/Logger.h"
-#include "IO/FileManager.h"
+using namespace Logging;
+
+#include "IO/FileSystem.h"
 #include "Events/EventManager.h"
 #include "Management/Management.h"
 
@@ -16,14 +20,12 @@
 
 void InputSystemFixture::setUp( )
 {
-	Logger::Initialize( );
 	Management::Initialize( );
 }
 
 void InputSystemFixture::tearDown( )
 {
 	Management::GetInstance( )->Release( );
-	Logger::GetInstance( )->Release( );
 }
 
 void InputSystemFixture::Should_Initialize_Properly( )

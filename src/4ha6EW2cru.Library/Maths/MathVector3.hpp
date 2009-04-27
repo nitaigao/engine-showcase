@@ -1,145 +1,260 @@
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   MathVector3.hpp
+*  @date   2009/04/26
+*/
 #ifndef __MATHVECTOR3_H
 #define __MATHVECTOR3_H
 
 #include <OgreVector3.h>
 #include <Common/Base/hkBase.h>
 
-#include "MathMatrix.hpp"
+#include "MathMatrix.h"
 
-class MathVector3
+namespace Maths
 {
-
-public:
-
-	~MathVector3( ) { };
-
-	MathVector3( )
-		: _x( 0 )
-		, _y( 0 )
-		, _z( 0 )
+	/*! 
+	 *  A Representation of a 3 Dimensional Maths Vector
+	 */
+	class MathVector3
 	{
 
-	}
+	public:
 
-	MathVector3( float x, float y, float z )
-		: _x( x )
-		, _y( y )
-		, _z( z )
-	{
+		float X, Y, Z;
 
-	}
-
-	MathVector3( Ogre::Vector3 vector )
-		: _x( vector.x )
-		, _y( vector.y )
-		, _z( vector.z )
-	{
-
-	}
-
-	inline float GetX( ) { return _x; };
-	inline float GetY( ) { return _y; };
-	inline float GetZ( ) { return _z; };
-
-	inline Ogre::Vector3 AsOgreVector3( ) { return Ogre::Vector3( _x, _y, _z ); };
-	inline hkVector4 AshkVector4( ) { return hkVector4( _x, _y, _z ); };
-
-	inline float DotProduct( const MathVector3& input )
-	{
-		return _x * input._x + _y * input._y + _z * input._z;
-	}
-
-	inline float Length( )
-	{
-		return sqrt( _x * _x + _y * _y + _z * _z );
-	}
-
-	inline MathVector3 CrossProduct( const MathVector3& input )
-	{
-		return MathVector3(
-			_y * input._z - _z * input._y,
-			_z * input._x - _x * input._z,
-			_x * input._y - _y * input._x
-			);
-	}
-
-	inline MathVector3 Normalize( )
-	{
-		float length = sqrt( _x * _x + _y * _y + _z * _z  );
-
-		MathVector3 result( _x, _y, _z );
-		
-		if ( length > 0.0f )
+		/*! Default Constructor, returns a Zero Vector
+		 *
+		 *  @return ()
+		 */
+		MathVector3( )
+			: X( 0 )
+			, Y( 0 )
+			, Z( 0 )
 		{
-			result = result / length;
+
 		}
 
-		return result;
-	}
 
-	inline MathVector3 operator / ( const float& real )
-	{
-		return MathVector3(
-			_x /= real,
-			_y /= real,
-			_z /= real
-			);
-	}
+		/*! Constructs from input values
+		 *
+		 *  @param[in] float x
+		 *  @param[in] float y
+		 *  @param[in] float z
+		 *  @return ()
+		 */
+		MathVector3( const float& x, const float& y, const float& z )
+			: X( x )
+			, Y( y )
+			, Z( z )
+		{
 
-	inline MathVector3 operator + ( const MathVector3& input )
-	{
-		return MathVector3(
-			input._x + _x,
-			input._y + _y,
-			input._z + _z
-			);
+		}
+
+
+		/*! Constructs from Ogre's representation of a 3 dimensional vector for convenience
+		 *
+		 *  @param[in] Ogre::Vector3 vector
+		 *  @return ()
+		 */
+		MathVector3( const Ogre::Vector3& vector )
+			: X( vector.x )
+			, Y( vector.y )
+			, Z( vector.z )
+		{
+
+		}
+
+
+		/*! Returns Ogre's representation of a 3 dimensional Vector for convenience
+		 *
+		 *  @return (Ogre::Vector3)
+		 */
+		inline Ogre::Vector3 AsOgreVector3( ) const { return Ogre::Vector3( X, Y, Z ); };
+
+		
+		/*! Returns Havok's representation of a 3 dimensional Vector for convenience
+		 *
+		 *  @return (hkVector4)
+		 */
+		inline hkVector4 AshkVector4( ) const { return hkVector4( X, Y, Z ); };
+
+
+		/*! Returns the Dot Product of the Vector and the specified input
+		 *
+		 *  @param[in] const MathVector3 & input
+		 *  @return (float)
+		 */
+		inline float DotProduct( const MathVector3& input )
+		{
+			return X * input.X + Y * input.Y + Z * input.Z;
+		}
+
+
+		
+		/*! Returns the length of the Vector
+		 *
+		 *  @return (float)
+		 */
+		inline float Length( ) const
+		{
+			return sqrt( X * X + Y * Y + Z * Z );
+		}
+
+
+		/*! Returns the Cross Product of the Vector and the specified input
+		 *
+		 *  @param[in] const MathVector3 & input
+		 *  @return (Maths::MathVector3)
+		 */
+		inline MathVector3 CrossProduct( const MathVector3& input )
+		{
+			return MathVector3(
+				Y * input.Z - Z * input.Y,
+				Z * input.X - X * input.Z,
+				X * input.Y - Y * input.X
+				);
+		}
+
+
+		/*! Returns a Normalized version of the Vector
+		 *
+		 *  @return (Maths::MathVector3)
+		 */
+		inline MathVector3 Normalize( ) const
+		{
+			float length = sqrt( X * X + Y * Y + Z * Z  );
+
+			MathVector3 result( X, Y, Z );
+			
+			if ( length > 0.0f )
+			{
+				result = result / length;
+			}
+
+			return result;
+		}
+
+
+		/*! Divides the Vector by the specified input
+		 *
+		 *  @param[in] const float & input
+		 *  @return (Maths::MathVector3)
+		 */
+		inline MathVector3 operator / ( const float& input )
+		{
+			return MathVector3(
+				X /= input,
+				Y /= input,
+				Z /= input
+				);
+		}
+
+
+		/*! Returns a version of the Vector that has been added to the input
+		 *
+		 *  @param[in] const MathVector3 & input
+		 *  @return (Maths::MathVector3)
+		 */
+		inline MathVector3 operator + ( const MathVector3& input )
+		{
+			return MathVector3(
+				input.X + X,
+				input.Y + Y,
+				input.Z + Z
+				);
+		};
+
+
+		/*! Returns a version of the Vector that has been added to the input
+		 *
+		 *  @param[in] const MathVector3 & input
+		 *  @return (Maths::MathVector3)
+		 */
+		inline MathVector3 operator += ( const MathVector3& input )
+		{
+			return *this + input;
+		};
+
+
+		/*! Returns a version of the Vector that has been subtracted from the input
+		 *
+		 *  @param[in] const MathVector3 & input
+		 *  @return (Maths::MathVector3)
+		 */
+		inline MathVector3 operator - ( const MathVector3& input )
+		{
+			return MathVector3(
+				input.X - X,
+				input.Y - Y,
+				input.Z - Z
+				);
+		};
+
+
+		/*! Returns a version of the Vector that has been multiplied by the input scalar
+		 *
+		 *  @param[in] const float & input
+		 *  @return (Maths::MathVector3)
+		 */
+		inline MathVector3 operator * ( const float& input )
+		{
+			return MathVector3(
+				input * X,
+				input * Y,
+				input * Z
+				);
+		};
+
+
+		/*! Returns a version of the Vector that has been multiplied by the input Vector
+		 *
+		 *  @param[in] const MathVector3 & input
+		 *  @return (Maths::MathVector3)
+		 */
+		inline MathVector3 operator * ( const MathVector3& input )
+		{
+			return MathVector3(
+				X * input.X,
+				Y * input.Y,
+				Z * input.Z
+				);
+		};
+
+
+		/*! Returns a version of the Vector that has been multiplied by the input Matrix
+		 *
+		 *  @param[in] const MathMatrix & input
+		 *  @return (Maths::MathVector3)
+		 */
+		inline MathVector3 operator * ( const MathMatrix& input )
+		{
+			return this->AsOgreVector3( ) * input;
+		}
+
+
+		/*! Returns a Vector pointing UP
+		 *
+		 *  @return (Maths::MathVector3)
+		 */
+		static inline MathVector3 Up( ) { return MathVector3( 0.0f, 1.0f, 0.0f ); };
+
+
+		/*! Returns a Vector pointing FORWARD
+		 *
+		 *  @return (Maths::MathVector3)
+		 */
+		static inline MathVector3 Forward( ) { return MathVector3( 0.0f, 0.0f, 1.0f ); };
+
+
+		/*! Returns a Zero Vector
+		 *
+		 *  @return (Maths::MathVector3)
+		 */
+		static inline MathVector3 Zero( ) { return MathVector3( 0.0f, 0.0f, 0.0f ); };
+
 	};
-
-	inline MathVector3 operator += ( const MathVector3& input )
-	{
-		return *this + input;
-	};
-
-	inline MathVector3 operator - ( const MathVector3& input )
-	{
-		return MathVector3(
-			input._x - _x,
-			input._y - _y,
-			input._z - _z
-			);
-	};
-
-	inline MathVector3 operator * ( const float& scalar )
-	{
-		return MathVector3(
-			scalar * _x,
-			scalar * _y,
-			scalar * _z
-			);
-	};
-
-	inline MathVector3 operator * ( const MathVector3& input )
-	{
-		return MathVector3(
-			_x * input._x,
-			_y * input._y,
-			_z * input._z
-			);
-	};
-
-	inline MathVector3 operator * ( const MathMatrix& input )
-	{
-		return this->AsOgreVector3( ) * input;
-	}
-
-	static inline MathVector3 Up( ) { return MathVector3( 0.0f, 1.0f, 0.0f ); };
-	static inline MathVector3 Forward( ) { return MathVector3( 0.0f, 0.0f, 1.0f ); };
-	static inline MathVector3 Zero( ) { return MathVector3( 0.0f, 0.0f, 0.0f ); };
-
-private:
-
-	float _x, _y, _z;
-
 };
 
 #endif

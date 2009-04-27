@@ -14,24 +14,24 @@ menu_ingame = false;
 
 function Menu.initialize( )
 
-	registerEventHandler( Menu.onEvent );
+	Script:registerEventHandler( Menu.onEvent );
 
 	Menu.onHideMenu( );
 	
-	local quitButton = findWidget( 'button_quit' );
-	scriptWidget( quitButton, 'onRelease', Menu.onQuitReleased );
+	local quitButton = ux:findWidget( 'button_quit' );
+	ux:scriptWidget( quitButton, 'onRelease', Menu.onQuitReleased );
 	
-	local optionsButton = findWidget( 'button_options' );
-	scriptWidget( optionsButton, 'onRelease', Menu.onOptionsReleased );
+	local optionsButton = ux:findWidget( 'button_options' );
+	ux:scriptWidget( optionsButton, 'onRelease', Menu.onOptionsReleased );
 	
-	local playButton = findWidget( 'button_play' );
-	scriptWidget( playButton, 'onRelease', Menu.onPlayReleased );
+	local playButton = ux:findWidget( 'button_play' );
+	ux:scriptWidget( playButton, 'onRelease', Menu.onPlayReleased );
 	
-	local resumeButton = findWidget( 'button_resume' );
-	scriptWidget( resumeButton, 'onRelease', Menu.onResumeReleased );
+	local resumeButton = ux:findWidget( 'button_resume' );
+	ux:scriptWidget( resumeButton, 'onRelease', Menu.onResumeReleased );
 	
-	local endGameButton = findWidget( 'button_endgame' );
-	scriptWidget( endGameButton, 'onRelease', Menu.onEndGameReleased );
+	local endGameButton = ux:findWidget( 'button_endgame' );
+	ux:scriptWidget( endGameButton, 'onRelease', Menu.onEndGameReleased );
 
 	Menu.updatePosition( );
 	
@@ -67,11 +67,11 @@ end
 
 function Menu.updatePosition( )
 
-	local menu = findWidget( 'menubox' );
+	local menu = ux:findWidget( 'menubox' );
 	
-	local menuX = getScreenWidth( ) / 20;
+	local menuX = ux:getScreenWidth( ) / 20;
 	
-	local halfScreenHeight = ( getScreenHeight( ) - menu:getDimensions( ).height ) / 2;
+	local halfScreenHeight = ( ux:getScreenHeight( ) - menu:getDimensions( ).height ) / 2;
 	local offsetY = halfScreenHeight / 2;
 	local menuY = halfScreenHeight + offsetY;
 	
@@ -81,17 +81,17 @@ end
 
 function Menu.onShowMenu( )
 
-	local menu = findWidget( 'menu' );
+	local menu = ux:findWidget( 'menu' );
 	menu:setVisible( true ); 
-	showMouse( );
+	ux:showMouse( );
 
 end
 
 function Menu.onHideMenu( )
 
-	local menu = findWidget( 'menu' );
+	local menu = ux:findWidget( 'menu' );
 	menu:setVisible( false );
-	hideMouse( );
+	ux:hideMouse( );
 
 end
 
@@ -107,46 +107,46 @@ end
 
 function Menu.ToggleInGameMenu( )
 	
-	local menu = findWidget( 'menu' );
+	local menu = ux:findWidget( 'menu' );
 	
 	if ( menu:isVisible( ) ) then 
 	
-		local playButton = findWidget( 'button_play' );
+		local playButton = ux:findWidget( 'button_play' );
 		playButton:setVisible( true );
 		
-		local resumeButton = findWidget( 'button_resume' );
+		local resumeButton = ux:findWidget( 'button_resume' );
 		resumeButton:setVisible( false );
 		
-		local quitButton = findWidget( 'button_quit' );
+		local quitButton = ux:findWidget( 'button_quit' );
 		quitButton:setVisible( true );
 		
-		local endGameButton = findWidget( 'button_endgame' );
+		local endGameButton = ux:findWidget( 'button_endgame' );
 		endGameButton:setVisible( false );
 		
-		local titleBackground = findWidget( 'background_title' );
+		local titleBackground = ux:findWidget( 'background_title' );
 		titleBackground:setVisible( true );
 	
-		setInputAllowed( true );
+		ux:setInputAllowed( true );
 		Menu.onHideMenu( );
 		
 	else
 	
-		local playButton = findWidget( 'button_play' );
+		local playButton = ux:findWidget( 'button_play' );
 		playButton:setVisible( false );
 		
-		local resumeButton = findWidget( 'button_resume' );
+		local resumeButton = ux:findWidget( 'button_resume' );
 		resumeButton:setVisible( true );
 		
-		local quitButton = findWidget( 'button_quit' );
+		local quitButton = ux:findWidget( 'button_quit' );
 		quitButton:setVisible( false );
 		
-		local endGameButton = findWidget( 'button_endgame' );
+		local endGameButton = ux:findWidget( 'button_endgame' );
 		endGameButton:setVisible( true );
 		
-		local titleBackground = findWidget( 'background_title' );
+		local titleBackground = ux:findWidget( 'background_title' );
 		titleBackground:setVisible( false );
 	
-		setInputAllowed( false );
+		ux:setInputAllowed( false );
 		Menu.onShowMenu( );
 	
 	end
@@ -161,14 +161,14 @@ end
 
 function Menu.onOptionsReleased( )
 
-	broadcastEvent( 'UI_OPTIONS' ); 
+	Script:broadcastEvent( 'UI_OPTIONS' ); 
 
 end
 
 function Menu.onPlayReleased( )
 
 	Menu.onHideMenu( );
-	hideMouse( );
+	ux:hideMouse( );
 	menu_ingame = true;
 	loadLevel( 'level0' );
 

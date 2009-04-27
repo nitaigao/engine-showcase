@@ -46,8 +46,8 @@ public:
 		delete component;
 	}
 
-	inline System::Types::Type GetType( ) { return _systemType; };
-	inline void Update( float deltaMilliseconds )
+	inline System::Types::Type GetType( ) const { return _systemType; };
+	inline void Update( const float& deltaMilliseconds )
 	{
 		update_count.inc( );
 	}

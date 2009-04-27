@@ -1,69 +1,85 @@
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   Logger.h
+*  @date   2009/04/26
+*/
 #ifndef __LOGGER_H
 #define __LOGGER_H
 
-#include <vector>
+#include "LogLevel.hpp"
+#include <string>
 #include <sstream>
 
-#include "IAppender.hpp"
-
-#include "LogLevel.hpp"
-
-/*!
-	Logging mechanism that logs to Console and a File
-*/
-class Logger
+namespace Logging
 {
-
-public:
-
-	~Logger( ) { };
-
-	Logger( )
-		: _logLevel( FATAL )
+	/*! 
+	 *  Logging mechanism that logs to Console and a File
+	 */
+	class Logger
 	{
 
-	}
+	public:
+		
+		/*! Logs a message with the DEBUG prefix
+		 *
+		 *  @param[in] const std::string message
+		 *  @return (void)
+		 */
+		static void Debug( const std::string& message );
 
-	/*! Retrieves an instance of the Logger Singleton */
-	static Logger* GetInstance( );
+		
+		/*! Logs a message with the INFO prefix
+		 *
+		 *  @param[in] const std::string message
+		 *  @return (void)
+		 */
+		static void Info( const std::string& message );
 
-	/*! Releases all resources and the Logger Singleton */
-	void Release( );
+		
+		/*! Logs a message with the WARN prefix
+		 *
+		 *  @param[in] const std::string message
+		 *  @return (void)
+		 */
+		static void Warn( const std::string& message );
 
-	/*! Initialized the Logging mechanism */
-	static bool Initialize( );
+		
+		/*! Logs a message with the FATAL prefix
+		 *
+		 *  @param[in] const std::string message
+		 *  @return (void)
+		 */
+		static void Fatal( const std::string& message );
 
-	/*! Adds a Logging Appender to the List */
-	void AddAppender( IAppender* appender ) { };
+		
+		/*! Sets the current logging level
+		 *
+		 *  @param[in] LogLevel logLevel
+		 *  @return (void)
+		 */
+		static void SetLogLevel( const LogLevel& logLevel ) { _logLevel = logLevel; };
 
-	/*! Logs a message with the DEBUG prefix */
-	void Debug( const std::string message );
+		
+		/*! Gets the current logging level
+		 *
+		 *  @return (LogLevel)
+		 */
+		static LogLevel GetLogLevel( ) { return _logLevel; };
 
-	/*! Logs a message with the INFO prefix */
-	void Info( const std::string message );
+	private:
 
-	/*! Logs a message with the WARN prefix */
-	void Warn( const std::string message );
+		static void LogMessage( const std::string& level, const std::string& message );
 
-	/*! Logs a message with the FATAL prefix */
-	void Fatal( const std::string message );
+		static LogLevel _logLevel;
+		static Logger _logger;
 
-	/*! Sets the current logging level */
-	inline void SetLogLevel( LogLevel logLevel ) { _logLevel = logLevel; };
+		~Logger( ) { };
+		Logger( ) { };
+		Logger( const Logger & copy ) { };
+		Logger & operator = ( const Logger & copy ) { return *this; };
 
-	/*! Gets the current logging level */
-	inline LogLevel GetLogLevel( ) { return _logLevel; };
-
-private:
-
-	/*! Logs a message */
-	void LogMessage( const std::string level, const std::string message );
-
-	LogLevel _logLevel;
-
-	Logger( const Logger & copy ) { };
-	Logger & operator = ( const Logger & copy ) { return *this; };
-
+	};
 };
 
 #endif

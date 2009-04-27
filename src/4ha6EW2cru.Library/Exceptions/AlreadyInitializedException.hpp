@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file  src\4ha6EW2cru.Library\Exceptions\AlreadyInitializedException.hpp
+*  @file  AlreadyInitializedException.hpp
 *  @date   2009/04/25
 */
 #ifndef __ALREADYINITIALIZEDEXCEPTION_H

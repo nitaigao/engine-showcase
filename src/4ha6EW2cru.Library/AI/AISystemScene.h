@@ -1,21 +1,25 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\AI\AISystemScene.h
+*  @file   AISystemScene.h
 *  @date   2009/04/25
 */
 #ifndef __AISYSTEMSCENE_H
 #define __AISYSTEMSCENE_H
 
-#include "../Scripting/ScriptSystemScene.h"
+#include "IAISystemComponent.hpp"
+#include "IAISystemScene.hpp"
+#include "../Scripting/IScriptSystemScene.hpp"
 
 namespace AI
 {
 	/*! 
 	*  An AI System Specific Scene
 	*/
-	class AISystemScene : public ISystemScene
+	class AISystemScene : public IAISystemScene
 	{
+
+		typedef std::vector< IAISystemComponent* > AISystemComponentList;
 
 	public:
 
@@ -32,26 +36,26 @@ namespace AI
 		 */
 		AISystemScene( );
 
-		/*! Initializes the AI System Scene
+		/*!  Initializes the System Scene
 		*
 		*  @return (void)
 		*/
 		void Initialize( );
 
-		/*! Steps internal data of the AI SystemScene
+		/*! Steps internal data of the SystemScene
 		*
 		*  @param[in] float deltaMilliseconds
 		*  @return (void)
 		*/
-		void Update( float deltaMilliseconds );
+		void Update( const float& deltaMilliseconds );
 
-		/*! Gets the System::Types::Type of the AI SystemScene
+		/*! Gets the System::Types::Type of the SystemScene
 		*
 		*  @return (System::Types::Type)
 		*/
-		inline System::Types::Type GetType( ) { return System::Types::AI; };
+		inline System::Types::Type GetType( ) const { return System::Types::AI; };
 
-		/*! Creates an AI SystemComponent specific to the AI SystemScene
+		/*! Creates a SystemComponent specific to the SystemScene
 		*
 		*  @param[in] const std::string & name
 		*  @param[in] const std::string & type
@@ -59,7 +63,7 @@ namespace AI
 		*/
 		ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 		
-		/*! Destroys an AI SystemComponent created by the AI SystemScene
+		/*! Destroys a SystemComponent created by the SystemScene
 		*
 		*  @param[in] ISystemComponent * component
 		*  @return (void)
@@ -75,8 +79,8 @@ namespace AI
 
 	private:
 
-		ScriptSystemScene* _scriptScene;
-		SystemComponentList _components;
+		Script::IScriptSystemScene* _scriptScene;
+		AISystemComponentList _components;
 
 	};
 };

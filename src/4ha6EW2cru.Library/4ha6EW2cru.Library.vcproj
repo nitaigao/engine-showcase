@@ -150,6 +150,14 @@
 	</References>
 	<Files>
 		<File
+			RelativePath=".\State\Serilaization\AIComponentSerializer.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Serilaization\AIComponentSerializer.h"
+			>
+		</File>
+		<File
 			RelativePath=".\AI\AISystem.cpp"
 			>
 		</File>
@@ -210,6 +218,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\State\Serilaization\ComponentSerializerFactory.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Serilaization\ComponentSerializerFactory.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Configuration\Configuration.cpp"
 			>
 		</File>
@@ -223,22 +239,6 @@
 		</File>
 		<File
 			RelativePath=".\Configuration\ConfigurationFile.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Logging\ConsoleAppender.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Logging\ConsoleAppender.h"
-			>
-		</File>
-		<File
-			RelativePath=".\State\Entity.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\State\Entity.h"
 			>
 		</File>
 		<File
@@ -266,23 +266,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Logging\FileAppender.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Logging\FileAppender.h"
-			>
-		</File>
-		<File
 			RelativePath=".\IO\FileBuffer.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\IO\FileManager.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\IO\FileManager.h"
 			>
 		</File>
 		<File
@@ -291,6 +275,14 @@
 		</File>
 		<File
 			RelativePath=".\IO\FileSearchResult.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\IO\FileSystem.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\IO\FileSystem.h"
 			>
 		</File>
 		<File
@@ -303,6 +295,14 @@
 		</File>
 		<File
 			RelativePath=".\Game.h"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Serilaization\GeometryComponentSerializer.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Serilaization\GeometryComponentSerializer.h"
 			>
 		</File>
 		<File
@@ -330,6 +330,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\State\Serilaization\GraphicsComponentSerializer.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Serilaization\GraphicsComponentSerializer.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Physics\HavokPhysicsSystem.cpp"
 			>
 		</File>
@@ -346,15 +354,27 @@
 			>
 		</File>
 		<File
+			RelativePath=".\AI\IAISystem.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\AI\IAISystemComponent.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\AI\IAISystemScene.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Renderer\IAnimationBlender.hpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Logging\IAppender.hpp"
+			RelativePath=".\AI\IBehavior.hpp"
 			>
 		</File>
 		<File
-			RelativePath=".\AI\IBehavior.hpp"
+			RelativePath=".\State\Serilaization\IComponentSerializer.hpp"
 			>
 		</File>
 		<File
@@ -363,10 +383,6 @@
 		</File>
 		<File
 			RelativePath=".\Configuration\IConfigurationFile.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\State\IEntity.hpp"
 			>
 		</File>
 		<File
@@ -382,7 +398,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\IO\IFileManager.hpp"
+			RelativePath=".\IO\IFileSystem.hpp"
 			>
 		</File>
 		<File
@@ -406,7 +422,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Renderer\IInterface.hpp"
+			RelativePath=".\State\Serilaization\InputComponentSerializer.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Serilaization\InputComponentSerializer.h"
 			>
 		</File>
 		<File
@@ -434,14 +454,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Renderer\Interface.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\Interface.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Exceptions\IntializeFailedException.hpp"
 			>
 		</File>
@@ -451,6 +463,10 @@
 		</File>
 		<File
 			RelativePath=".\Platform\IPlatformManager.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Renderer\IRendererSystem.hpp"
 			>
 		</File>
 		<File
@@ -466,7 +482,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\IO\IResourceManager.hpp"
+			RelativePath=".\IO\IResourceCache.hpp"
 			>
 		</File>
 		<File
@@ -475,6 +491,14 @@
 		</File>
 		<File
 			RelativePath=".\Scripting\IScriptConfiguration.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\IScriptSystem.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\IScriptSystemScene.hpp"
 			>
 		</File>
 		<File
@@ -506,15 +530,27 @@
 			>
 		</File>
 		<File
+			RelativePath=".\UX\IUXSystem.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\UX\IUXSystemComponent.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\UX\IUXSystemScene.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\State\IWorld.hpp"
 			>
 		</File>
 		<File
-			RelativePath=".\State\IWorldLoader.hpp"
+			RelativePath=".\State\IWorldEntity.hpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Input\KeyboardListener.hpp"
+			RelativePath=".\State\Serilaization\IWorldLoader.hpp"
 			>
 		</File>
 		<File
@@ -542,7 +578,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Maths\MathMatrix.hpp"
+			RelativePath=".\Maths\MathMatrix.h"
 			>
 		</File>
 		<File
@@ -555,10 +591,6 @@
 		</File>
 		<File
 			RelativePath=".\Maths\MathVector3.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\MouseListener.hpp"
 			>
 		</File>
 		<File
@@ -606,6 +638,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\State\Serilaization\PhysicsComponentSerializer.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Serilaization\PhysicsComponentSerializer.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Physics\PhysicsSystemCharacterComponent.cpp"
 			>
 		</File>
@@ -619,14 +659,6 @@
 		</File>
 		<File
 			RelativePath=".\Physics\PhysicsSystemComponent.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Platform\PlatformManager.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Platform\PlatformManager.h"
 			>
 		</File>
 		<File
@@ -674,11 +706,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\IO\ResourceManager.cpp"
+			RelativePath=".\IO\ResourceCache.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\IO\ResourceManager.h"
+			RelativePath=".\IO\ResourceCache.h"
 			>
 		</File>
 		<File
@@ -691,6 +723,14 @@
 		</File>
 		<File
 			RelativePath=".\Scripting\ScriptComponent.h"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Serilaization\ScriptComponentSerializer.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Serilaization\ScriptComponentSerializer.h"
 			>
 		</File>
 		<File
@@ -786,11 +826,43 @@
 			>
 		</File>
 		<File
+			RelativePath=".\UX\UXSystem.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\UX\UXSystem.h"
+			>
+		</File>
+		<File
+			RelativePath=".\UX\UXSystemComponent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\UX\UXSystemComponent.h"
+			>
+		</File>
+		<File
+			RelativePath=".\UX\UXSystemScene.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\UX\UXSystemScene.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Utility\OgreMax\Version.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Utility\OgreMax\Version.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Platform\Win32PlatformManager.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Platform\Win32PlatformManager.h"
 			>
 		</File>
 		<File
@@ -802,19 +874,19 @@
 			>
 		</File>
 		<File
-			RelativePath=".\State\WorldLoader.cpp"
+			RelativePath=".\State\WorldEntity.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\State\WorldLoader.h"
+			RelativePath=".\State\WorldEntity.h"
 			>
 		</File>
 		<File
-			RelativePath=".\State\WorldLoaderStrategies.cpp"
+			RelativePath=".\State\Serilaization\WorldSerializer.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\State\WorldLoaderStrategies.h"
+			RelativePath=".\State\Serilaization\WorldSerializer.h"
 			>
 		</File>
 	</Files>

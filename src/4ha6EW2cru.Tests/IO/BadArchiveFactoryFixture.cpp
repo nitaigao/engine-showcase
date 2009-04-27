@@ -5,7 +5,11 @@
 #include "Exceptions/NullReferenceException.hpp"
 
 #include "Logging/Logger.h"
-#include "IO/FileManager.h"
+using namespace Logging;
+
+#include "IO/FileSystem.h"
+using namespace IO;
+
 #include "Management/Management.h"
 
 #include "../Suites.h"
@@ -13,7 +17,6 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( BadArchiveFactoryFixture, Suites::IOSuite
 
 void BadArchiveFactoryFixture::setUp( )
 {
-	Logger::Initialize( );
 	Management::Initialize( );
 
 	_bfactory = new BadArchiveFactory( );
@@ -24,7 +27,6 @@ void BadArchiveFactoryFixture::tearDown( )
 	delete _bfactory;
 
 	Management::GetInstance( )->Release( );
-	Logger::GetInstance( )->Release( );
 }
 
 void BadArchiveFactoryFixture::Should_Create_BadArchive( )

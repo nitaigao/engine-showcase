@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\Events\EventManager.h
+*  @file   EventManager.h
 *  @date   2009/04/25
 */
 #ifndef __EVENTMANAGER_H
@@ -62,7 +62,7 @@ namespace Events
 		 *  @param[in] float deltaMilliseconds
 		 *  @return (void)
 		 */
-		void Update( float deltaMilliseconds );
+		void Update( const float& deltaMilliseconds );
 
 		
 		/*! Adds an EventListener for Event processing
@@ -81,14 +81,14 @@ namespace Events
 			if ( 0 == handlerTarget )
 			{
 				NullReferenceException nullTarget( "EventManager::AddEventListener - Event Target is NULL" );
-				Logger::GetInstance( )->Fatal( nullTarget.what( ) );
+				Logging::Logger::Fatal( nullTarget.what( ) );
 				throw nullTarget;
 			}
 
 			if ( 0 == handlerFunctor )
 			{
 				NullReferenceException nullFunctor( "EventManager::AddEventListener - Handler Functor is NULL" );
-				Logger::GetInstance( )->Fatal( nullFunctor.what( ) );
+				Logging::Logger::Fatal( nullFunctor.what( ) );
 				throw nullFunctor;
 			}
 
@@ -113,14 +113,14 @@ namespace Events
 			if ( 0 == handlerTarget )
 			{
 				NullReferenceException nullTarget( "EventManager::RemoveEventListener - Event Target is NULL" );
-				Logger::GetInstance( )->Fatal( nullTarget.what( ) );
+				Logging::Logger::Fatal( nullTarget.what( ) );
 				throw nullTarget;
 			}
 
 			if ( 0 == handlerFunctor )
 			{
 				NullReferenceException nullFunctor( "EventManager::RemoveEventListener - Handler Functor is NULL" );
-				Logger::GetInstance( )->Fatal( nullFunctor.what( ) );
+				Logging::Logger::Fatal( nullFunctor.what( ) );
 				throw nullFunctor;
 			}
 

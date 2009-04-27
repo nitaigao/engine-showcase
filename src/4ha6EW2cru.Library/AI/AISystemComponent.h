@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\AI\AISystemComponent.h
+*  @file   AISystemComponent.h
 *  @date   2009/04/25
 */
 #ifndef __AISYSTEMCOMPONENT_H
@@ -10,23 +10,21 @@
 #include <string>
 #include "../System/SystemType.hpp"
 
-#include "../Scripting/ScriptComponent.h"
-
 #include "../Maths/MathVector3.hpp"
 #include "../Maths/MathQuaternion.hpp"
 
 #include "IBehavior.hpp"
+#include "IAISystemComponent.hpp"
 
 namespace AI
 {
 	/*! 
 	 *  An Artificial Intelligence System Scene Component
 	 */
-	class AISystemComponent : public ISystemComponent, public IBehaviour
+	class AISystemComponent : public IAISystemComponent, public IBehaviour
 	{
 
 	public:
-
 
 		/*! Default Destructor
 		 *
@@ -41,7 +39,7 @@ namespace AI
 		 *  @param[in] IScriptComponent * scriptComponent
 		 *  @return ()
 		 */
-		AISystemComponent( const std::string& name, IScriptComponent* scriptComponent )
+		AISystemComponent( const std::string& name, Script::IScriptComponent* scriptComponent )
 			: _name( name )
 			, _scriptComponent( scriptComponent )
 			, _observer( 0 )
@@ -56,7 +54,7 @@ namespace AI
 		 *  @param[in] AnyValue::AnyValueMap properties
 		 *  @return (void)
 		 */
-		void Initialize( AnyValue::AnyValueMap properties );
+		void Initialize( AnyValue::AnyValueMap& properties );
 
 
 		/*! Steps the internal data of the Component
@@ -64,7 +62,7 @@ namespace AI
 		 *  @param[in] float deltaMilliseconds
 		 *  @return (void)
 		 */
-		void Update( float deltaMilliseconds );
+		void Update( const float& deltaMilliseconds );
 
 
 		/*! Destroys the Component
@@ -85,39 +83,39 @@ namespace AI
 		/*! Observes a change in the Subject
 		 *
 		 *  @param[in] ISubject * subject
-		 *  @param[in] unsigned int systemChanges
+		 *  @param[in] const unsigned int& systemChanges
 		 *  @return (void)
 		 */
-		void Observe( ISubject* subject, unsigned int systemChanges );
+		void Observe( ISubject* subject, const unsigned int& systemChanges );
 
 
 		/*! Pushes any Changes to the Observers
 		 *
-		 *  @param[in] unsigned int systemChanges
+		 *  @param[in] const unsigned int& systemChanges
 		 *  @return (void)
 		 */
-		void PushChanges( unsigned int systemChanges );
+		void PushChanges( const unsigned int& systemChanges );
 
 
 		/*! Gets the Name of the Component
 		 *
 		 *  @return (const std::string&)
 		 */
-		inline const std::string& GetName( ) { return _name; };
+		inline const std::string& GetName( ) const { return _name; };
 
 
 		/*! Gets the System::Types::Type of the Component
 		 *
 		 *  @return (System::Types::Type)
 		 */
-		inline System::Types::Type GetType( ) { return System::Types::AI; };
+		inline System::Types::Type GetType( ) const { return System::Types::AI; };
 
 
-		/*! Gets the Tyes of Changes this component is interested in
+		/*! Gets the types of Changes this component is interested in
 		 *
 		 *  @return (unsigned int)
 		 */
-		inline unsigned int GetRequestedChanges( ) 
+		inline unsigned int GetRequestedChanges( ) const  
 		{ 
 			return System::Changes::Geometry::All;
 		};
@@ -127,7 +125,7 @@ namespace AI
 		 *
 		 *  @return (AnyValueMap)
 		 */
-		inline AnyValue::AnyValueMap GetProperties( ) { return AnyValue::AnyValueMap( ); };
+		inline AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };
 
 
 		/*! Sets the Properties of the Component
@@ -135,28 +133,28 @@ namespace AI
 		 *  @param[in] AnyValue::AnyValueMap systemProperties
 		 *  @return (void)
 		 */
-		inline void SetProperties( AnyValue::AnyValueMap systemProperties ) { };
+		inline void SetProperties( AnyValue::AnyValueMap& properties ) { };
 
 
 		/*! Gets the Position of the Component
 		 *
 		 *  @return (MathVector3)
 		 */
-		inline MathVector3 GetPosition( ) { return _position; };
+		inline Maths::MathVector3 GetPosition( ) const { return _position; };
 
 
 		/*! Gets the Scale of the Component
 		 *
 		 *  @return (MathVector3)
 		 */
-		inline MathVector3 GetScale( ) { return MathVector3::Zero( ); };
+		inline Maths::MathVector3 GetScale( ) const { return Maths::MathVector3::Zero( ); };
 
 
 		/*! Gets the Orientation of the Component
 		 *
 		 *  @return (MathQuaternion)
 		 */
-		inline MathQuaternion GetOrientation( ) { return _orientation; };
+		inline Maths::MathQuaternion GetOrientation( ) const { return _orientation; };
 
 
 		/* Inherited from IBehavior */
@@ -177,7 +175,16 @@ namespace AI
 
 
 		/* AI Specific */
+
 		//TODO: Move these to the Scripting System
+
+		/*! Returns the Script Component attached to the AI Component
+		 *
+		 *  @return (void)
+		 */
+		inline Script::IScriptComponent* GetScriptComponent( ) { return _scriptComponent; };
+
+
 		/* Script Callbacks */
 
 		/*! Walks the Parent Entity Forward
@@ -217,17 +224,17 @@ namespace AI
 	private:
 
 		std::string _name;
-		IScriptComponent* _scriptComponent;
+		Script::IScriptComponent* _scriptComponent;
 
 		IObserver* _observer;
 
 		std::string _behavior;
 
-		MathVector3 _position;
-		MathQuaternion _orientation;
+		Maths::MathVector3 _position;
+		Maths::MathQuaternion _orientation;
 
-		MathVector3 _playerPosition;
-		MathQuaternion _playerOrientation;
+		Maths::MathVector3 _playerPosition;
+		Maths::MathQuaternion _playerOrientation;
 
 	};
 };

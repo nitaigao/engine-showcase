@@ -1,6 +1,7 @@
 #include "FileBufferFixture.h"
 
 #include "IO/FileBuffer.hpp"
+using namespace IO;
 
 #include "../Suites.h"
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( FileBufferFixture, Suites::IOSuite( ) );

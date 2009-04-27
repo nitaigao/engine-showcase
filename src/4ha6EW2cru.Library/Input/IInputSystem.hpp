@@ -1,18 +1,19 @@
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   IInputSystem.hpp
+*  @date   2009/04/26
+*/
 #ifndef __IINPUTSYSTEM_H
 #define __IINPUTSYSTEM_H
 
-class IInputSystem
+#include "../System/ISystem.hpp"
+
+/*! 
+ *  Interface to the Input System
+ */
+class IInputSystem : public ISystem
 {
-
-public:
-
-	virtual ~IInputSystem( ) { };
-
-	/* Initializes the Input System */
-	virtual void Initialize( ) = 0;
-
-	/* Performs a capture loop on all Input Devices */
-	virtual void Update( ) const = 0;
 
 };
 

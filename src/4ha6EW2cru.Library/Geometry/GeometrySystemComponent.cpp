@@ -1,50 +1,51 @@
 #include "GeometrySystemComponent.h"
 
-#include "../Physics/PhysicsSystemComponent.h"
-#include "../ai/AISystemComponent.h"
-#include "../Input/InputSystemComponent.h"
+using namespace Maths;
 
-void GeometrySystemComponent::Initialize( AnyValue::AnyValueMap properties )
+namespace Geometry
 {
-	for( AnyValue::AnyValueMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
+	void GeometrySystemComponent::Initialize( AnyValue::AnyValueMap& properties )
 	{
-		if ( ( *i ).first == "position" )
+		for( AnyValue::AnyValueMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
 		{
-			_position = ( *i ).second.GetValue< MathVector3 >( );
-			this->PushChanges( System::Changes::Geometry::Position );
-		}
+			if ( ( *i ).first == "position" )
+			{
+				_position = ( *i ).second.GetValue< MathVector3 >( );
+				this->PushChanges( System::Changes::Geometry::Position );
+			}
 
-		if ( ( *i ).first == "scale" )
-		{
-			_scale = ( *i ).second.GetValue< MathVector3 >( );
-			this->PushChanges( System::Changes::Geometry::Scale );
-		}
+			if ( ( *i ).first == "scale" )
+			{
+				_scale = ( *i ).second.GetValue< MathVector3 >( );
+				this->PushChanges( System::Changes::Geometry::Scale );
+			}
 
-		if ( ( *i ).first == "orientation" )
-		{
-			_orientation = ( *i ).second.GetValue< MathQuaternion >( );
-			this->PushChanges( System::Changes::Geometry::Orientation );
+			if ( ( *i ).first == "orientation" )
+			{
+				_orientation = ( *i ).second.GetValue< MathQuaternion >( );
+				this->PushChanges( System::Changes::Geometry::Orientation );
+			}
 		}
 	}
-}
 
-void GeometrySystemComponent::PushChanges( unsigned int systemChanges )
-{
-	for( ObserverList::iterator i = _observers.begin( ); i != _observers.end( ); ++i )
+	void GeometrySystemComponent::PushChanges( const unsigned int& systemChanges )
 	{
-		( *i )->Observe( this, systemChanges );
+		for( ObserverList::iterator i = _observers.begin( ); i != _observers.end( ); ++i )
+		{
+			( *i )->Observe( this, systemChanges );
+		}
 	}
-}
 
-void GeometrySystemComponent::Observe( ISubject* subject, unsigned int systemChanges )
-{
-	ISystemComponent* component = static_cast< ISystemComponent* >( subject );
+	void GeometrySystemComponent::Observe( ISubject* subject, const unsigned int& systemChanges )
+	{
+		ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 
-	_position = component->GetPosition( );
-	_orientation = component->GetOrientation( );
+		_position = component->GetPosition( );
+		_orientation = component->GetOrientation( );
 
-	this->PushChanges( 
-		System::Changes::Geometry::Position |
-		System::Changes::Geometry::Orientation
-		);
-}
+		this->PushChanges( 
+			System::Changes::Geometry::Position |
+			System::Changes::Geometry::Orientation
+			);
+	}
+};

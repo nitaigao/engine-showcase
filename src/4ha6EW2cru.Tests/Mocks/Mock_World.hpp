@@ -8,6 +8,7 @@
 USING_NAMESPACE_MOCKPP
 
 #include "State/IWorld.hpp"
+using namespace State;
 
 #include "Mock_SystemComponent.hpp"
 #include "Mock_Entity.hpp"
@@ -19,7 +20,7 @@ public:
 
 	virtual ~Mock_World( )
 	{
-		for ( EntityList::iterator e = _entities.begin( ); e != _entities.end( ); ++e )
+		for ( IWorldEntity::WorldEntityList::iterator e = _entities.begin( ); e != _entities.end( ); ++e )
 		{
 			SystemComponentList components = ( *e )->GetComponents( );
 
@@ -46,14 +47,14 @@ public:
 	ExpectationCounter createEntity_count;
 	ExpectationCounter destroyEntity_count;
 
-	IEntity* CreateEntity( const std::string& name )
+	IWorldEntity* CreateEntity( const std::string& name )
 	{
-		IEntity* entity = new Mock_Entity( );
+		IWorldEntity* entity = new Mock_Entity( );
 		_entities.push_back( entity );
 		return entity;
 	}
 
-	void DestroyEntity( IEntity* entity )
+	void DestroyEntity( IWorldEntity* entity )
 	{
 
 	}
@@ -63,14 +64,14 @@ public:
 		_systemScenes[ systemScene->GetType( ) ] = systemScene;
 	}
 
-	const SystemSceneMap& GetSystemScenes( ) { return _systemScenes; };
+	const SystemSceneMap& GetSystemScenes( ) const { return _systemScenes; };
 
-	void Update( float deltaMilliseconds ) { };
+	void Update( const float& deltaMilliseconds ) { };
 
 private:
 
 	SystemSceneMap _systemScenes;
-	EntityList _entities;
+	IWorldEntity::WorldEntityList _entities;
 
 private:
 

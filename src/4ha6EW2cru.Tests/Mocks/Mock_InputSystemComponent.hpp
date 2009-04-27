@@ -37,17 +37,17 @@ public:
 		keyUp_count.inc( );
 	}
 
-	void Initialize( AnyValue::AnyValueMap properties ) { };
+	void Initialize( AnyValue::AnyValueMap& properties ) { };
 	void Destroy( ) { };
 
 	void AddObserver( IObserver* observer ) { } ;
-	void PushChanges( unsigned int systemChanges ) { };
+	void PushChanges( const unsigned int& systemChanges ) { };
 
-	inline unsigned int GetRequestedChanges( ) { return 0; };
-	void Observe( ISubject* subject, unsigned int systemChanges ) { };
+	inline unsigned int GetRequestedChanges( ) const  { return 0; };
+	void Observe( ISubject* subject, const unsigned int& systemChanges ) { };
 
-	inline const std::string& GetName( ) { return "test"; }
-	inline System::Types::Type GetType( ) { return _systemType; };
+	inline const std::string& GetName( ) const { return "test"; }
+	inline System::Types::Type GetType( ) const { return _systemType; };
 
 private:
 

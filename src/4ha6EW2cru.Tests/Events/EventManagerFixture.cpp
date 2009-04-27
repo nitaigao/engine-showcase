@@ -1,5 +1,7 @@
 #include "EventManagerFixture.h"
+
 #include "Logging/Logger.h"
+using namespace Logging;
 
 #include "Events/Event.h"
 #include "Events/EventManager.h"
@@ -15,14 +17,12 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( EventManagerFixture, Suites::EventsSuite(
 
 void EventManagerFixture::setUp( )
 {
-	Logger::Initialize( );
 	Management::Initialize( );
 }
 
 void EventManagerFixture::tearDown( )
 {
 	Management::GetInstance( )->Release( ); 
-	Logger::GetInstance( )->Release( );
 }
 
 void EventManagerFixture:: Should_Queue_Event_Successfully_Given_Intiailized( )

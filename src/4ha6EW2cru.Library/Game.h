@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\System\Game.h
+*  @file   Game.h
 *  @date   2009/04/25
 */
 #ifndef __GAME_H
@@ -12,7 +12,7 @@
 
 #include "Events/IEvent.hpp"
 #include "State/IWorld.hpp"
-#include "State/IWorldLoader.hpp"
+#include "State/Serilaization/IWorldLoader.hpp"
 
 /*! 
  *  The core container of the Game
@@ -26,7 +26,7 @@ public:
 	 *
 	 *  @return ()
 	 */
-	virtual ~Game( );
+	~Game( );
 
 
 	/*! Default Constructor
@@ -55,7 +55,7 @@ public:
 	 *  @param[in] float deltaMilliseconds
 	 *  @return (void)
 	 */
-	void Update( float deltaMilliseconds );
+	void Update( const float& deltaMilliseconds );
 
 	
 	/*! Releases the Game
@@ -69,7 +69,7 @@ public:
 	 *
 	 *  @return (bool)
 	 */
-	inline bool IsQuitting( ) { return _isQuitting; };
+	inline bool IsQuitting( ) const { return _isQuitting; };
 
 private:
 
@@ -81,8 +81,8 @@ private:
 	bool _isInitialized;
 
 	Configuration::IConfiguration* _configuration;
-	IWorldLoader* _worldLoader;
-	IWorld* _world;
+	Serialization::IWorldSerializer* _worldLoader;
+	State::IWorld* _world;
 
 	Game( const Game & copy ) { };
 	Game & operator = ( const Game & copy ) { return *this; };

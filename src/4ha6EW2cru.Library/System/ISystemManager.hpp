@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\System\ISystemManager.hpp
+*  @file   ISystemManager.hpp
 *  @date   2009/04/25
 */
 #ifndef __ISYSTEMMANAGER_H
@@ -38,7 +38,7 @@ public:
 	 *  @param[in] System::Types::Type systemType
 	 *  @return (ISystem*)
 	 */
-	virtual ISystem* GetSystem( System::Types::Type systemType ) = 0;
+	virtual ISystem* GetSystem( const System::Types::Type& systemType ) const = 0;
 
 
 	/*! Initializes all Registered Systems
@@ -53,7 +53,7 @@ public:
 	 *  @param[in] float deltaMilliseconds
 	 *  @return (void)
 	 */
-	virtual void Update( float deltaMilliseconds ) = 0;
+	virtual void Update( const float& deltaMilliseconds ) = 0;
 
 
 	/*! Releases all Registered Systems
@@ -67,7 +67,7 @@ public:
 	 *
 	 *  @return (IWorld*)
 	 */
-	virtual IWorld* CreateWorld( ) = 0;
+	virtual State::IWorld* CreateWorld( ) = 0;
 
 };
 

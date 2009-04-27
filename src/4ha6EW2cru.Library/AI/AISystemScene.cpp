@@ -5,6 +5,8 @@
 #include "../Management/Management.h"
 
 #include "../Scripting/ScriptComponent.h"
+#include "../Scripting/ScriptSystemScene.h"
+using namespace Script;
 
 #include <luabind/luabind.hpp>
 using namespace luabind;
@@ -39,7 +41,7 @@ namespace AI
 	ISystemComponent* AISystemScene::CreateComponent( const std::string& name, const std::string& type )
 	{
 		ScriptComponent* scriptComponent = static_cast< ScriptComponent* >( _scriptScene->CreateComponent( name, type ) );
-		AISystemComponent* aiComponent = new AISystemComponent( name, scriptComponent );
+		IAISystemComponent* aiComponent = new AISystemComponent( name, scriptComponent );
 
 		_components.push_back( aiComponent );
 
@@ -48,10 +50,11 @@ namespace AI
 
 	void AISystemScene::DestroyComponent( ISystemComponent* component )
 	{
-		for( SystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+		for( AISystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
 		{
 			if ( ( *i )->GetName( ) == component->GetName( ) )
 			{
+				_scriptScene->DestroyComponent( ( *i )->GetScriptComponent( ) );
 				_components.erase( i );
 				delete component;
 				component = 0;
@@ -60,12 +63,11 @@ namespace AI
 		}
 	}
 
-	void AISystemScene::Update( float deltaMilliseconds )
+	void AISystemScene::Update( const float& deltaMilliseconds )
 	{
-		for( SystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+		for( AISystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
 		{
-			AISystemComponent* component = static_cast< AISystemComponent* > ( ( *i ) );
-			component->Update( deltaMilliseconds );
+			 ( *i )->Update( deltaMilliseconds );
 		}
 	}
 }

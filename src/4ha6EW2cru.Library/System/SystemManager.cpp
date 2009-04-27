@@ -1,5 +1,6 @@
 #include "SystemManager.h"
 
+using namespace State;
 
 SystemManager::~SystemManager()
 {
@@ -16,9 +17,9 @@ void SystemManager::RegisterSystem( ISystem* system )
 	_systems.push_back( system );
 }
 
-ISystem* SystemManager::GetSystem( System::Types::Type systemType )
+ISystem* SystemManager::GetSystem( const System::Types::Type& systemType ) const
 {
-	for( SystemList::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
+	for( SystemList::const_iterator i = _systems.begin( ); i != _systems.end( ); ++i )
 	{
 		if ( ( *i )->GetType( ) == systemType )
 		{
@@ -37,7 +38,7 @@ void SystemManager::InitializeAllSystems()
 	}
 }
 
-void SystemManager::Update( float deltaMilliseconds )
+void SystemManager::Update( const float& deltaMilliseconds )
 {
 	for( SystemList::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
 	{
@@ -47,7 +48,7 @@ void SystemManager::Update( float deltaMilliseconds )
 
 void SystemManager::Release()
 {
-	for( SystemList::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
+	for( SystemList::reverse_iterator i = _systems.rbegin( ); i != _systems.rend( ); ++i )
 	{
 		( *i )->Release( );
 	}

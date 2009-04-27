@@ -8,6 +8,7 @@
 USING_NAMESPACE_MOCKPP
 
 #include "System/ISystemComponent.hpp"
+using namespace Maths;
 
 class Mock_SystemComponent : public ISystemComponent, public MockObject
 {
@@ -21,25 +22,25 @@ public:
 	
 	};
 	
-	void Initialize( AnyValue::AnyValueMap properties ) { };
-	void Update( float deltaMilliseconds ){ };
+	void Initialize( AnyValue::AnyValueMap& properties ) { };
+	void Update( const float& deltaMilliseconds ){ };
 	void Destroy( ) { };
 
 	void AddObserver( IObserver* observer ) { } ;
-	void PushChanges( unsigned int systemChanges ) { };
+	void PushChanges( const unsigned int& systemChanges ) { };
 	
-	inline unsigned int GetRequestedChanges( ) { return 0; };
-	void Observe( ISubject* subject, unsigned int systemChanges ) { };
+	inline unsigned int GetRequestedChanges( ) const  { return 0; };
+	void Observe( ISubject* subject, const unsigned int& systemChanges ) { };
 
-	inline const std::string& GetName( ) { return "test"; }
-	inline System::Types::Type GetType( ) { return _systemType; };
+	inline const std::string& GetName( ) const { return "test"; }
+	inline System::Types::Type GetType( ) const { return _systemType; };
 
-	inline AnyValue::AnyValueMap GetProperties( ) { return AnyValue::AnyValueMap( ); };
-	inline void SetProperties( AnyValue::AnyValueMap systemProperties ) { };
+	inline AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };
+	inline void SetProperties( AnyValue::AnyValueMap& properties ) { };
 
-	inline MathVector3 GetPosition( ) { return MathVector3::Zero( ); };
-	inline MathVector3 GetScale( ) { return MathVector3::Zero( ); };
-	inline MathQuaternion GetOrientation( ) { return MathQuaternion::Identity( ); };
+	inline MathVector3 GetPosition( ) const { return MathVector3::Zero( ); };
+	inline MathVector3 GetScale( ) const { return MathVector3::Zero( ); };
+	inline MathQuaternion GetOrientation( ) const { return MathQuaternion::Identity( ); };
 
 private:
 

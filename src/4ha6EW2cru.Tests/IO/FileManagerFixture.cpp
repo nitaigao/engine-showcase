@@ -1,9 +1,11 @@
 #include "FileManagerFixture.h"
 
 #include "Management/Management.h"
-#include "IO/FileManager.h"
+#include "IO/FileSystem.h"
+using namespace IO;
+
 #include "Logging/Logger.h"
-#include "Logging/ConsoleAppender.h"
+using namespace Logging;
 
 #include "Exceptions/NullReferenceException.hpp"
 #include "Exceptions/FileNotFoundException.hpp"
@@ -14,41 +16,38 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( FileManagerFixture, Suites::IOSuite( ) );
 
 void FileManagerFixture::setUp( )
 {
-	Logger::Initialize( );
-	Logger::GetInstance( )->SetLogLevel( DEBUGA );
-	Management::Initialize( );
+	Logger::SetLogLevel( LEVEL_DEBUG );
 }
 
 void FileManagerFixture::tearDown( )
 {
-	Management::GetInstance( )->Release( );
-	Logger::GetInstance( )->Release( );
+
 }
 
 void FileManagerFixture::Should_Throw_Adding_NonExistant_FileStore( )
 {
-	FileManager fileManager;
-	CPPUNIT_ASSERT_THROW( fileManager.MountFileStore( "../game/bogus.bad", "data/" ), FileNotFoundException );
+	FileSystem fileManager;
+	CPPUNIT_ASSERT_THROW( fileManager.Mount( "../game/bogus.bad", "data/" ), FileNotFoundException );
 }
 
 void FileManagerFixture::Should_Add_FileStore_Given_Existing_FileStore( )
 {
-	FileManager fileManager;
-	fileManager.MountFileStore( "../../../etc/data/test/test.bad", "data/" );
+	FileSystem fileManager;
+	fileManager.Mount( "../../../etc/data/test/test.bad", "data/" );
 }
 
 void FileManagerFixture::Should_Throw_On_GetFile_Given_NonExisting_File( )
 {
-	FileManager fileManager;
-	fileManager.MountFileStore( "../../../etc/data/test/test.bad", "data/" );
+	FileSystem fileManager;
+	fileManager.Mount( "../../../etc/data/test/test.bad", "data/" );
 
 	CPPUNIT_ASSERT_THROW( fileManager.GetFile( "bogus.txt" ), FileNotFoundException );
 }
 
 void FileManagerFixture::Should_Return_FileBuffer_On_GetFile_Given_Existing_File( )
 {
-	FileManager fileManager;
-	fileManager.MountFileStore( "../../../etc/data/test/test.bad", "data/" );
+	FileSystem fileManager;
+	fileManager.Mount( "../../../etc/data/test/test.bad", "data/" );
 
 	FileBuffer* fileBuffer = fileManager.GetFile( "data/test/test.txt" );
 	CPPUNIT_ASSERT( fileBuffer != 0 );
@@ -57,8 +56,8 @@ void FileManagerFixture::Should_Return_FileBuffer_On_GetFile_Given_Existing_File
 
 void FileManagerFixture::Should_Return_True_Given_File_Exists( )
 {
-	FileManager fileManager;
-	fileManager.MountFileStore( "../../../etc/data/test", "/" );
+	FileSystem fileManager;
+	fileManager.Mount( "../../../etc/data/test", "/" );
 	bool result = fileManager.FileExists( "/test.txt" );
 
 	CPPUNIT_ASSERT( result );
@@ -66,7 +65,7 @@ void FileManagerFixture::Should_Return_True_Given_File_Exists( )
 
 void FileManagerFixture::Should_Return_False_Given_File_Doesnt_Exist( )
 {
-	FileManager fileManager;
+	FileSystem fileManager;
 	bool result = fileManager.FileExists( "RandomFile" );
 
 	CPPUNIT_ASSERT( !result );
@@ -74,8 +73,8 @@ void FileManagerFixture::Should_Return_False_Given_File_Doesnt_Exist( )
 
 void FileManagerFixture::Should_Return_No_Results_On_Recursive_File_Search_Given_Invalid_File_Pattern( )
 {
-	FileManager fileManager;
-	fileManager.MountFileStore( "../../../etc/data/test/test.bad", "data/" );
+	FileSystem fileManager;
+	fileManager.Mount( "../../../etc/data/test/test.bad", "data/" );
 
 	FileSearchResultList* results = fileManager.FileSearch( "/", "blah", true );
 
@@ -86,8 +85,8 @@ void FileManagerFixture::Should_Return_No_Results_On_Recursive_File_Search_Given
 
 void FileManagerFixture::Should_Return_Results_On_Recursive_File_Search_Given_Valid_File_Pattern( )
 {
-	FileManager fileManager;
-	fileManager.MountFileStore( "../../../etc/data/test/test.bad", "data/" );
+	FileSystem fileManager;
+	fileManager.Mount( "../../../etc/data/test/test.bad", "data/" );
 
 	FileSearchResultList* results = fileManager.FileSearch( "/", "*test*", true );
 
@@ -98,8 +97,8 @@ void FileManagerFixture::Should_Return_Results_On_Recursive_File_Search_Given_Va
 
 void FileManagerFixture::Should_Return_No_Results_On_Non_Recursive_File_Search_Given_Invalid_File_Pattern( )
 {
-	FileManager fileManager;
-	fileManager.MountFileStore( "../../../etc/data/test/test.bad", "data/" );
+	FileSystem fileManager;
+	fileManager.Mount( "../../../etc/data/test/test.bad", "data/" );
 
 	FileSearchResultList* results = fileManager.FileSearch( "/", "blah", false );
 
@@ -110,8 +109,8 @@ void FileManagerFixture::Should_Return_No_Results_On_Non_Recursive_File_Search_G
 
 void FileManagerFixture::Should_Return_Results_On_Non_Recursive_File_Search_Given_Valid_File_Pattern( )
 {
-	FileManager fileManager;
-	fileManager.MountFileStore( "../../../etc/data/test/test.bad", "/" );
+	FileSystem fileManager;
+	fileManager.Mount( "../../../etc/data/test/test.bad", "/" );
 
 	FileSearchResultList* results = fileManager.FileSearch( "/", "*test*", false );
 
@@ -122,7 +121,7 @@ void FileManagerFixture::Should_Return_Results_On_Non_Recursive_File_Search_Give
 
 void FileManagerFixture::Should_Throw_On_Save_Given_Path_Non_Existant_Or_Not_Writable( )
 {
-	FileManager fileManager;
+	FileSystem fileManager;
 
 	int contentLength = 3;
 	char* contentToWrite = new char[ contentLength ];
@@ -134,8 +133,8 @@ void FileManagerFixture::Should_Throw_On_Save_Given_Path_Non_Existant_Or_Not_Wri
 
 void FileManagerFixture::Should_Save_File_Successfully( )
 {
-	FileManager fileManager;
-	fileManager.MountFileStore( "../../../etc/data/test/", "/" );
+	FileSystem fileManager;
+	fileManager.Mount( "../../../etc/data/test/", "/" );
 
 	int contentLength = 3;
 	char* contentToWrite = new char[ contentLength ];

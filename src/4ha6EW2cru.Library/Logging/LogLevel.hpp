@@ -1,14 +1,26 @@
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file  LogLevel.hpp
+*  @date   2009/04/26
+*/
 #ifndef __LOGLEVEL_H
 #define __LOGLEVEL_H
 
-enum LogLevel
+namespace Logging
 {
-	OFF = 0,
-	FATAL = 1,
-	INFO = 2,
-	WARNA = 3,
-	DEBUGA = 4,
-	ALL = 99
+	/*! 
+	 *  Logging Level
+	 */
+	enum LogLevel
+	{
+		LEVEL_OFF = 0,
+		LEVEL_FATAL = 1,
+		LEVEL_INFO = 2,
+		LEVEL_WARN = 3,
+		LEVEL_DEBUG = 4,
+		LEVEL_ALL = 99
+	};
 };
 
 #endif

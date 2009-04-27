@@ -35,7 +35,7 @@ public:
 		initialize_count.inc( );
 	}
 
-	void Update( float deltaMilliseconds )
+	void Update( const float& deltaMilliseconds )
 	{
 
 	}
@@ -51,9 +51,9 @@ public:
 		return new Mock_SystemScene( _systemType );
 	}
 
-	System::Types::Type GetType( ) { return _systemType; };
+	System::Types::Type GetType( ) const { return _systemType; };
 
-	AnyValue::AnyValueMap GetProperties( ) { return AnyValue::AnyValueMap( ); };
+	AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };
 	inline void SetProperty( const std::string& name, AnyValue value ) { };
 
 private:

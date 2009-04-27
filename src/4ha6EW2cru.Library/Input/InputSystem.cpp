@@ -1,7 +1,8 @@
 #include "InputSystem.h"
 
-#include <sstream>
 #include "../Logging/Logger.h"
+using namespace Logging;
+
 #include "../Management/Management.h"
 
 #include "../Exceptions/IntializeFailedException.hpp"
@@ -9,139 +10,125 @@
 #include "../Exceptions/UnInitializedException.hpp"
 #include "../Exceptions/AlreadyInitializedException.hpp"
 
-#include "../Events/Event.h"
-#include "../Events/EventData.hpp"
-using namespace Events;
-
-#include "../Scripting/ScriptEvent.hpp"
-
 using namespace OIS;
 
-InputSystem::~InputSystem( )
+namespace Input
 {
-	_inputManager->destroyInputSystem( _inputManager );
-}
-
-void InputSystem::Initialize( ) 
-{ 	
-	Logger::GetInstance( )->Info( "Initializing Input System" );
-
-	_inputManager = OIS::InputManager::createInputSystem( Management::GetInstance( )->GetPlatformManager( )->GetHwnd( ) );
-
-	_keyboard = static_cast< OIS::Keyboard* >( _inputManager->createInputObject( OIS::OISKeyboard, true ) );
-	_keyboard->setEventCallback( this );
-
-	_mouse = static_cast< OIS::Mouse* >( _inputManager->createInputObject( OIS::OISMouse, true ) );
-	_mouse->setEventCallback( this );
-}
-
-ISystemScene* InputSystem::CreateScene( )
-{
-	InputSystemScene* inputScene = new InputSystemScene( _mouse, _keyboard );
-
-	_inputScenes.push_back( inputScene );
-
-	return inputScene;
-}
-
-void InputSystem::SetProperty( const std::string& name, AnyValue value )
-{
-	if ( name == "inputAllowed" )
+	InputSystem::~InputSystem( )
 	{
-		for( InputSystemSceneList::iterator j = _inputScenes.begin( ); j != _inputScenes.end( ); ++j )
+		_inputManager->destroyInputSystem( _inputManager );
+	}
+	
+	void InputSystem::Initialize( ) 
+	{ 	
+		Logger::Info( "Initializing Input System" );
+	
+		_inputManager = OIS::InputManager::createInputSystem( Management::GetInstance( )->GetPlatformManager( )->GetWindowId( ) );
+	
+		_keyboard = static_cast< OIS::Keyboard* >( _inputManager->createInputObject( OIS::OISKeyboard, true ) );
+		_keyboard->setEventCallback( this );
+	
+		_mouse = static_cast< OIS::Mouse* >( _inputManager->createInputObject( OIS::OISMouse, true ) );
+		_mouse->setEventCallback( this );
+	
+		Management::GetInstance( )->GetServiceManager( )->RegisterService( this );
+	}
+	
+	ISystemScene* InputSystem::CreateScene( )
+	{
+		InputSystemScene* inputScene = new InputSystemScene( _mouse, _keyboard );
+	
+		_inputScenes.push_back( inputScene );
+	
+		return inputScene;
+	}
+	
+	void InputSystem::SetProperty( const std::string& name, AnyValue value )
+	{
+		if ( name == "inputAllowed" )
 		{
-			( *j )->SetInputAllowed( value.GetValue< bool >( ) );
+			for( InputSystemSceneList::iterator j = _inputScenes.begin( ); j != _inputScenes.end( ); ++j )
+			{
+				( *j )->SetInputAllowed( value.GetValue< bool >( ) );
+			}
 		}
 	}
-}
-
-
-void InputSystem::Update( float deltaMilliseconds )
-{
-	_mouse->capture( );
-	_keyboard->capture( );
-
-	_mouse->getMouseState( ).width = _configuration->Find( "Graphics", "width" ).GetValue< int >( );
-	_mouse->getMouseState( ).height = _configuration->Find( "Graphics", "height" ).GetValue< int >( );
-}
-
-bool InputSystem::keyPressed( const KeyEvent &arg )
-{
-	for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+	
+	
+	void InputSystem::Update( const float& deltaMilliseconds )
 	{
-		( *i )->keyPressed( arg );
+		_mouse->capture( );
+		_keyboard->capture( );
+	
+		_mouse->getMouseState( ).width = _configuration->Find( "Graphics", "width" ).GetValue< int >( );
+		_mouse->getMouseState( ).height = _configuration->Find( "Graphics", "height" ).GetValue< int >( );
 	}
-
-	if ( arg.key != OIS::KC_GRAVE )
+	
+	bool InputSystem::keyPressed( const KeyEvent &arg )
 	{
-		Event* event = new Event( INPUT_KEY_DOWN, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
-		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
+		for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+		{
+			( *i )->KeyPressed( arg );
+		}
+	
+		return true;
 	}
-
-	return true;
-}
-
-bool InputSystem::keyReleased( const KeyEvent &arg )
-{
-	for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+	
+	bool InputSystem::keyReleased( const KeyEvent &arg )
 	{
-		( *i )->keyReleased( arg );
+		for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+		{
+			( *i )->KeyReleased( arg );
+		}
+	
+		return true;
 	}
-
-	if ( arg.key == OIS::KC_GRAVE )
+	
+	/* Fired when the user moves the mouse */
+	bool InputSystem::mouseMoved( const MouseEvent &arg )
 	{
-		Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "UI_CONSOLE" ) );
+		for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+		{
+			( *i )->MouseMoved( arg );
+		}
+	
+		return true;
 	}
-	else
+	
+	/* Fired when the user presses a button on the mouse */
+	bool InputSystem::mousePressed( const MouseEvent &arg, MouseButtonID id )
 	{
-		IEvent* scriptEvent = new ScriptEvent( "INPUT_KEY_UP", arg.key, _keyboard->getAsString( arg.key ) );
-		Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
-
-		IEvent* event = new Event( INPUT_KEY_UP, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
-		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
+		for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+		{
+			( *i )->MousePressed( arg, id );
+		}
+	
+		return true;
 	}
-
-	return true;
-}
-
-/* Fired when the user moves the mouse */
-bool InputSystem::mouseMoved( const MouseEvent &arg )
-{
-	for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+	
+	/* Fired when the user releases a button on the mouse */
+	bool InputSystem::mouseReleased( const MouseEvent &arg, MouseButtonID id )
 	{
-		( *i )->mouseMoved( arg );
+		for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+		{
+			( *i )->MouseReleased( arg, id );
+		}
+	
+		return true;
 	}
-
-	Event* event = new Event( INPUT_MOUSE_MOVED, new MouseEventData( arg.state, OIS::MB_Left ) );
-	Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
-
-	return true;
-}
-
-/* Fired when the user presses a button on the mouse */
-bool InputSystem::mousePressed( const MouseEvent &arg, MouseButtonID id )
-{
-	for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+	
+	AnyValue::AnyValueMap InputSystem::Execute( const std::string& actionName, AnyValue::AnyValueMap& parameters )
 	{
-		( *i )->mousePressed( arg, id );
+		AnyValue::AnyValueMap results;
+	
+		if ( actionName == "setInputAllowed" )
+		{
+			for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+			{
+				( *i )->SetInputAllowed( parameters[ "inputAllowed" ].GetValue< bool >( ) );
+			}
+		}
+	
+		return results;
 	}
-
-	Event* event = new Event( INPUT_MOUSE_PRESSED, new MouseEventData( arg.state, id ) );
-	Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
-
-	return true;
-}
-
-/* Fired when the user releases a button on the mouse */
-bool InputSystem::mouseReleased( const MouseEvent &arg, MouseButtonID id )
-{
-	for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
-	{
-		( *i )->mouseReleased( arg, id );
-	}
-
-	Event* event = new Event( INPUT_MOUSE_RELEASED, new MouseEventData( arg.state, id ) );
-	Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
-
-	return true;
 }

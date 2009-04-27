@@ -7,8 +7,8 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( WorldLoader_Tests, Suites::StateSuite( ) 
 #include "../Mocks/Mock_World.hpp"
 #include "../Mocks/Mock_System.hpp"
 
-#include "State/WorldLoader.h"
-#include "IO/FileManager.h"
+#include "State/Serilaization/WorldSerializer.h"
+#include "IO/FileSystem.h"
 #include "Logging/Logger.h"
 
 void WorldLoader_Tests::Should_Call_FileManager_On_Load_To_Load_Level_File( )
@@ -48,5 +48,5 @@ void WorldLoader_Tests::Should_Load_And_Parse_A_YAML_File( )
 	loader.Load( "/data/levels/level0.yaml" );
 
 	fileManager.Release( );
-	Logger::GetInstance( )->Release( );*/
+	Logger::Release( );*/
 }

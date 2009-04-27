@@ -3,16 +3,19 @@
 
 #include <vector>
 
-struct FileSearchResult
+namespace IO
 {
+	struct FileSearchResult
+	{
 
-public:
+	public:
 
-	std::string FileName;
-	std::string FilePath;
+		std::string FileName;
+		std::string FilePath;
 
+	};
+
+	typedef std::vector< FileSearchResult > FileSearchResultList;
 };
-
-typedef std::vector< FileSearchResult > FileSearchResultList;
 
 #endif

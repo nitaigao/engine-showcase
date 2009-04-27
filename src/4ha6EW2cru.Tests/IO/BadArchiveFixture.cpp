@@ -1,8 +1,12 @@
 #include "BadArchiveFixture.h"
 
-#include "IO/FileManager.h"
+#include "IO/FileSystem.h"
+
 #include "Logging/Logger.h"
+using namespace Logging;
+
 #include "IO/BadArchive.h"
+using namespace IO;
 
 #include "Management/Management.h"
 
@@ -13,16 +17,14 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( BadArchiveFixture, Suites::IOSuite( ) );
 
 void BadArchiveFixture::setUp( )
 {
-	Logger::Initialize( );
 	Management::Initialize( );
 	
-	Management::GetInstance( )->GetFileManager( )->MountFileStore( "../../../etc/data/test", "data/" );
+	Management::GetInstance( )->GetFileManager( )->Mount( "../../../etc/data/test", "data/" );
 }
 
 void BadArchiveFixture::tearDown( )
 {
 	Management::GetInstance( )->Release( );
-	Logger::GetInstance( )->Release( );
 }
 
 void BadArchiveFixture::Should_Return_True_On_Case_Sensitive( )

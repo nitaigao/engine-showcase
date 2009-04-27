@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\System\ISubject.hpp
+*  @file   ISubject.hpp
 *  @date   2009/04/25
 */
 #ifndef __ISUBJECT
@@ -24,10 +24,10 @@ public:
 
 	/*! Pushes the specified Changes to all Registered Observers
 	 *
-	 *  @param[in] unsigned int systemChanges
+	 *  @param[in] const unsigned int& systemChanges
 	 *  @return (void)
 	 */
-	virtual void PushChanges( unsigned int systemChanges ) = 0;
+	virtual void PushChanges( const unsigned int& systemChanges ) = 0;
 
 };
 

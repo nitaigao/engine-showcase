@@ -4,20 +4,21 @@
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScriptSystem_Tests, Suites::ScriptingSuite( ) );
 
 #include "Logging/Logger.h"
+using namespace Logging;
+
 #include "Management/Management.h"
 
 #include "Scripting/ScriptSystem.h"
+using namespace Script;
 
 void ScriptSystem_Tests::setUp()
 {
-	Logger::Initialize( );
 	Management::Initialize( );
 }
 
 void ScriptSystem_Tests::tearDown()
 {
 	Management::GetInstance( )->Release( );
-	Logger::GetInstance( )->Release( );
 }
 
 void ScriptSystem_Tests::Should_Initialize_Correctly()

@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\System\IObserver.hpp
+*  @file   IObserver.hpp
 *  @date   2009/04/25
 */
 #ifndef __IOBSERVER_H
@@ -23,16 +23,16 @@ public:
 	 *
 	 *  @return (unsigned int)
 	 */
-	virtual unsigned int GetRequestedChanges( ) = 0;
+	virtual unsigned int GetRequestedChanges( ) const  = 0;
 
 
 	/*! Observes the changes when the ISubject notifies
 	 *
 	 *  @param[in] ISubject * subject
-	 *  @param[in] unsigned int systemChanges
+	 *  @param[in] const unsigned int& systemChanges
 	 *  @return (void)
 	 */
-	virtual void Observe( ISubject* subject, unsigned int systemChanges ) = 0;
+	virtual void Observe( ISubject* subject, const unsigned int& systemChanges ) = 0;
 
 };
 

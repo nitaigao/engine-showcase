@@ -1,32 +1,67 @@
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   BadArchiveFactory.h
+*  @date   2009/04/26
+*/
 #ifndef __BADARCHIVEFACTORY_H
 #define __BADARCHIVEFACTORY_H
-
-#include <string>
 
 #include "OgreArchiveFactory.h"
 #include "OgreArchive.h"
 
-class BadArchiveFactory : public Ogre::ArchiveFactory
+namespace IO
 {
+	/*! 
+	 *  A Factory class to produce BadArchives for Ogre
+	 */
+	class BadArchiveFactory : public Ogre::ArchiveFactory
+	{
 
-public:
+	public:
 
-	virtual ~BadArchiveFactory( ) { };
-	BadArchiveFactory( ) { };
+		/*! Default Destructor
+		 *
+		 *  @return ()
+		 */
+		~BadArchiveFactory( ) { };
 
-	const Ogre::String& getType( ) const;
 
-	Ogre::Archive* createInstance( const Ogre::String& name ); 
+		/*! Default Constructor
+		 *
+		 *  @return ()
+		 */
+		BadArchiveFactory( ) { };
 
-	void destroyInstance( Ogre::Archive* );  
 
-	static const std::string BAD_ARCHTYPE;
+		/*! Returns the archive type of the BadArchive, in this case it's "BAD"
+		 *
+		 *  @return (const Ogre::String&)
+		 */
+		const Ogre::String& getType( ) const;
 
-private:
 
-	BadArchiveFactory( const BadArchiveFactory & copy ) { };
-	BadArchiveFactory & operator = ( const BadArchiveFactory & copy ) { return *this; };
+		/*! Creates an instance of a BadArchive
+		 *
+		 *  @param[in] const Ogre::String & name
+		 *  @return (Ogre::Archive*)
+		 */
+		Ogre::Archive* createInstance( const Ogre::String& name ); 
 
+
+		/*! Destroys an instance of a BadArchive
+		 *
+		 *  @param[in] Ogre::Archive *
+		 *  @return (void)
+		 */
+		void destroyInstance( Ogre::Archive* );  
+
+	private:
+
+		BadArchiveFactory( const BadArchiveFactory & copy ) { };
+		BadArchiveFactory & operator = ( const BadArchiveFactory & copy ) { return *this; };
+
+	};
 };
 
 #endif

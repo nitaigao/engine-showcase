@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\System\IServiceManager.h
+*  @file   IServiceManager.h
 *  @date   2009/04/25
 */
 #ifndef __ISERVICEMANAGER_H

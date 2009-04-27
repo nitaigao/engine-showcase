@@ -26,7 +26,7 @@ protected:
 
 private:
 
-	BadArchiveFactory* _bfactory;
+	IO::BadArchiveFactory* _bfactory;
 
 };
 

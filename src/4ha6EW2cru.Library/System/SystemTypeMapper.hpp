@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\System\SystemTypeMapper.hpp
+*  @file   SystemTypeMapper.hpp
 *  @date   2009/04/25
 */
 #ifndef __SYSTEMTYPEMAPPER_H
@@ -25,7 +25,7 @@ namespace System
 		 *  @param[in] std::string systemType
 		 *  @return (System::Types::Type)
 		 */
-		inline static System::Types::Type StringToType( std::string systemType )
+		inline static System::Types::Type StringToType( const std::string& systemType )
 		{
 			System::Types::Type returnType = System::Types::NONE;
 

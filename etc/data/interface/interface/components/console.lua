@@ -18,15 +18,15 @@ input = nil;
 
 function Console.initialize( )
 
-	registerEventHandler( Console.onEvent );
+	Script:registerEventHandler( Console.onEvent );
 	
-	console = findWidget( 'console' );
+	console = ux:findWidget( 'console' );
 	console:setVisible( false );
 	
-	input = findWidget( 'console_input' );
-	scriptWidget( input, 'onKeyUp', Console.onKeyUp );
+	input = ux:findWidget( 'console_input' );
+	ux:scriptWidget( input, 'onKeyUp', Console.onKeyUp );
 	
-	output = findWidget( 'console_output' );
+	output = ux:findWidget( 'console_output' );
 	
 end
 
@@ -53,24 +53,24 @@ function Console.onShowConsole( )
 		if ( console:isVisible( ) ) then
 		
 			console:setVisible( false );
-			local menu = findWidget( 'menu' );
+			local menu = ux:findWidget( 'menu' );
 			
 			if ( not menu:isVisible( ) ) then
 			
-				hideMouse( );
+				ux:hideMouse( );
 				input:setFocus( false );
 			
 			end
 			
-			setInputAllowed( true );
+			ux:setInputAllowed( true );
 			
 		else
 		
 			input:setFocus( true );
 			console:setVisible( true ); 
-			showMouse( );
+			ux:showMouse( );
 
-			setInputAllowed( false );
+			ux:setInputAllowed( false );
 			
 		end
 		
@@ -85,7 +85,7 @@ function Console.onKeyUp( keyCode, keyText )
 		local input = input:asEditBox( );
 	
 		local text = input:getText( );
-		executeString( text );
+		Script:executeString( text );
 		
 		input:setText( '' );
 		

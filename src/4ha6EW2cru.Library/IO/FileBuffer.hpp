@@ -1,49 +1,62 @@
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   FileBuffer.hpp
+*  @date   2009/04/26
+*/
 #ifndef __FILEBUFFER_H
 #define __FILEBUFFER_H
 
 #include <string>
 
-/*!
-	A container for file stream information
-*/
-struct FileBuffer
+namespace IO
 {
-
-public:
-
-	FileBuffer( char* fileBytes, const int& fileLength, const std::string& filePath )
-		: fileBytes( fileBytes )
-		, fileLength( fileLength )
-		, filePath( filePath )
+	/*! 
+	 *  A container for file data loaded from the file system
+	 */
+	struct FileBuffer
 	{
 
-	}
+	public:
 
-	~FileBuffer( )
-	{
-		if( fileBytes != 0 )
+		/*! Default Destructor
+		 *
+		 *  @return ()
+		 */
+		~FileBuffer( )
 		{
-			delete fileBytes;
+			if( fileBytes != 0 )
+			{
+				delete fileBytes;
+			}
 		}
-	}
 
-	int fileLength;
-	const std::string filePath;
-	char* fileBytes;
+		/*! Default Constructor
+		 *
+		 *  @param[in] char * fileBytes
+		 *  @param[in] const int & fileLength
+		 *  @param[in] const std::string & filePath
+		 *  @return ()
+		 */
+		FileBuffer( char* fileBytes, const int& fileLength, const std::string& filePath )
+			: fileBytes( fileBytes )
+			, fileLength( fileLength )
+			, filePath( filePath )
+		{
 
-private:
+		}
 
-	FileBuffer( )
-		: fileBytes( 0 )
-		, fileLength( 0 )
-		, filePath( 0 )
-	{
 
-	}
+		int fileLength;
+		const std::string filePath;
+		char* fileBytes;
 
-	FileBuffer( const FileBuffer & copy ) { };
-	FileBuffer & operator = ( const FileBuffer & copy ) { return *this; };
+	private:
 
+		FileBuffer( const FileBuffer & copy ) { };
+		FileBuffer & operator = ( const FileBuffer & copy ) { return *this; };
+
+	};
 };
 
 #endif

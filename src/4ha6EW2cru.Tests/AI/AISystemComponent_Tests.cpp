@@ -4,6 +4,8 @@
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( AISystemComponent_Tests, Suites::AISuite( ) );
 
 #include "Logging/Logger.h"
+using namespace Logging;
+
 #include "Management/Management.h"
 
 #include "AI/AISystemComponent.h"
@@ -11,15 +13,13 @@ using namespace AI;
 
 void AISystemComponent_Tests::setUp()
 {
-	Logger::Initialize( );
 	Management::Initialize( );
-	Management::GetInstance( )->GetFileManager( )->MountFileStore( "../../../etc/data", "/" );
+	Management::GetInstance( )->GetFileManager( )->Mount( "../../../etc/data", "/" );
 }
 
 void AISystemComponent_Tests::tearDown()
 {
 	Management::GetInstance( )->Release( );
-	Logger::GetInstance( )->Release( );
 }
 
 void AISystemComponent_Tests::Should_Return_Name_On_GetName()

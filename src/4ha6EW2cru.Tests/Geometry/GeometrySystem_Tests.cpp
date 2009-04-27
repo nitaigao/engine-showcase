@@ -4,6 +4,7 @@
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( GeometrySystem_Tests, Suites::GeometrySuite( ) );
 
 #include "Geometry/GeometrySystem.h"
+using namespace Geometry;
 
 #include "System/ISystemScene.hpp"
 

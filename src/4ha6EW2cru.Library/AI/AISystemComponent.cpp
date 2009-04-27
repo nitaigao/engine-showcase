@@ -1,14 +1,15 @@
 #include "AISystemComponent.h"
 
+using namespace Maths;
+
 #include "../IO/FileBuffer.hpp"
 #include "../Management/Management.h"
 
-#include "../Scripting/ScriptComponent.h"
-#include "../Geometry/GeometrySystemComponent.h"
-
 #include "../Maths/MathUnits.hpp"
 
+#include "../Scripting/ScriptComponent.h"
 #include "../Scripting/ScriptEvent.hpp"
+using namespace Script;
 
 #include <luabind/luabind.hpp>
 using namespace luabind;
@@ -17,9 +18,9 @@ using namespace luabind;
 
 namespace AI
 {
-	void AISystemComponent::Initialize( AnyValue::AnyValueMap properties )
+	void AISystemComponent::Initialize( AnyValue::AnyValueMap& properties )
 	{
-		ScriptComponent* scriptComponent = static_cast< ScriptComponent* >( _scriptComponent );
+		IScriptComponent* scriptComponent = static_cast< ScriptComponent* >( _scriptComponent );
 
 		scriptComponent->Initialize( properties );
 
@@ -28,9 +29,9 @@ namespace AI
 		scriptComponent->Execute( );
 	}
 
-	void AISystemComponent::Update( float deltaMilliseconds )
+	void AISystemComponent::Update( const float& deltaMilliseconds )
 	{
-		_scriptComponent->Update( deltaMilliseconds );
+		//_scriptComponent->Update( deltaMilliseconds );
 	}
 
 	void AISystemComponent::WalkForward()
@@ -43,7 +44,7 @@ namespace AI
 		this->PushChanges( System::Changes::Input::Move_Backward );
 	}
 
-	void AISystemComponent::PushChanges( unsigned int systemChanges )
+	void AISystemComponent::PushChanges( const unsigned int& systemChanges )
 	{
 		if ( _observer != 0 )
 		{
@@ -57,7 +58,7 @@ namespace AI
 		this->PushChanges( System::Changes::AI::Behavior );
 	}
 
-	void AISystemComponent::Observe( ISubject* subject, unsigned int systemChanges )
+	void AISystemComponent::Observe( ISubject* subject, const unsigned int& systemChanges )
 	{
 		ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 
@@ -88,7 +89,7 @@ namespace AI
 
 		MathVector3 aiToPlayerCross = aiToOrigin.CrossProduct( aiToPlayer );
 
-		if( aiToPlayerCross.GetY( ) < 0 )
+		if( aiToPlayerCross.Y < 0 )
 		{
 			float delta = Maths::PI - aiToPlayerAngle;
 			aiToPlayerAngle = Maths::PI + delta;
@@ -104,7 +105,7 @@ namespace AI
 
 		MathVector3 aiForwardToOriginCross = aiToForward.CrossProduct( aiToOrigin );
 
-		if( aiForwardToOriginCross.GetY( ) < 0 )
+		if( aiForwardToOriginCross.Y < 0 )
 		{
 			float delta = Maths::PI - aiForwardToOriginAngle;
 			aiForwardToOriginAngle = Maths::PI + delta;

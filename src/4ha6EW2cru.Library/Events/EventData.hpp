@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\Events\EventData.hpp
+*  @file   EventData.hpp
 *  @date   2009/04/25
 */
 #ifndef __EVENTDATA_H

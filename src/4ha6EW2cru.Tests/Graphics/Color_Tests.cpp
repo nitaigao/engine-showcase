@@ -1,6 +1,7 @@
 #include "Color_Tests.h"
 
 #include "Renderer/Color.hpp"
+using namespace Renderer;
 
 #include "../Suites.h"
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( Color_Tests, Suites::GraphicsSuite( ) );
@@ -13,7 +14,7 @@ void Color_Tests::Should_Set_RGB_On_Construction()
 
 	Color color( r, g, b );
 
-	CPPUNIT_ASSERT( color.GetRed( ) == r );
-	CPPUNIT_ASSERT( color.GetGreen( ) == g );
-	CPPUNIT_ASSERT( color.GetBlue( ) == b );
+	CPPUNIT_ASSERT( color.Red == r );
+	CPPUNIT_ASSERT( color.Green == g );
+	CPPUNIT_ASSERT( color.Blue == b );
 }

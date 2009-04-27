@@ -2,6 +2,7 @@
 
 #include "../Management/Management.h"
 #include "../IO/IResource.hpp"
+using namespace IO;
 
 namespace Configuration
 {

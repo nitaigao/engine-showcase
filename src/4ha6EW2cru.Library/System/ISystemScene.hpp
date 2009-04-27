@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\System\ISystemScene.hpp
+*  @file   ISystemScene.hpp
 *  @date   2009/04/25
 */
 #ifndef __ISYSTEMWORLD_H
@@ -20,6 +20,8 @@ class ISystemScene
 {
 
 public:
+
+	typedef std::map< System::Types::Type, ISystemScene* > SystemSceneMap;
 
 	/*! Default Destructor
 	 *
@@ -40,14 +42,14 @@ public:
 	 *  @param[in] float deltaMilliseconds
 	 *  @return (void)
 	 */
-	virtual void Update( float deltaMilliseconds ) = 0;
+	virtual void Update( const float& deltaMilliseconds ) = 0;
 
 
 	/*! Gets the System::Types::Type of the SystemScene
 	 *
 	 *  @return (System::Types::Type)
 	 */
-	virtual System::Types::Type GetType( ) = 0;
+	virtual System::Types::Type GetType( ) const = 0;
 
 
 	/*! Creates a SystemComponent specific to the SystemScene

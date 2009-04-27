@@ -1,13 +1,11 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\Events\IEventListener.hpp
+*  @file   IEventListener.hpp
 *  @date   2009/04/25
 */
 #ifndef __IEVENTLISTENER_H
 #define __IEVENTLISTENER_H
-
-#include <boost/function.hpp>
 
 #include "IEvent.hpp"
 #include "EventType.hpp"

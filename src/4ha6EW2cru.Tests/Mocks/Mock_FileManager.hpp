@@ -7,9 +7,10 @@
 
 USING_NAMESPACE_MOCKPP
 
-#include "IO/IFileManager.hpp"
+#include "IO/IFileSystem.hpp"
+using namespace IO;
 
-class Mock_FileManager : public IFileManager, public MockObject
+class Mock_FileManager : public IFileSystem, public MockObject
 {
 
 public:
@@ -21,7 +22,7 @@ public:
 
 	virtual ~Mock_FileManager( ) { };
 
-	bool MountFileStore( const std::string filePath, const std::string mountPoint )
+	bool Mount( const std::string filePath, const std::string mountPoint )
 	{
 		return false;
 	}

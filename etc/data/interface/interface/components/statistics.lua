@@ -2,7 +2,8 @@
 -- Global Variables
 ----------------------------------------------------------------
 
-Statistics = {}
+Statistics = { }
+frameSkip = 0;
 
 ----------------------------------------------------------------
 -- Local Variables
@@ -13,22 +14,26 @@ Statistics = {}
 
 function Statistics.initialize( )
 	
-	registerEventHandler( Statistics.onEvent );
-
 end
 
-function Statistics.onEvent( eventName, val1, val2 )
+function Statistics.onUpdate( deltaMilliseconds )
 
-	Statistics.updateStatistics( );
+	if ( frameSkip > 50 ) then
 	
+		Statistics.updateStatistics( )
+		frameSkip = 0;
+	end
+	
+	frameSkip = frameSkip + 1;
+
 end
 
 function Statistics.updateStatistics( )
 
-	local fps = getFps( );
-	local stats = findWidget( 'statistics' );
-	stats:setText( 'fps: ' .. fps );
+	local fps = ux:getFps( )
+	local stats = ux:findWidget( 'statistics' )
+	stats:setText( 'fps: ' .. fps )
 
 end
 
-Statistics.initialize( );
+Script:registerUpdateHandler( Statistics.onUpdate )

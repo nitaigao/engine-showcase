@@ -1,20 +1,20 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\AI\AISystem.h
+*  @file   AISystem.h
 *  @date   2009/04/25
 */
 #ifndef __AISYSTEM_H
 #define __AISYSTEM_H
 
-#include "../System/ISystem.hpp"
+#include "IAISystem.hpp"
 
 namespace AI
 {
 	/*! 
 	 *  The Artificial Intelligence System
 	 */
-	class AISystem : public ISystem
+	class AISystem : public IAISystem
 	{
 
 	public:
@@ -37,7 +37,7 @@ namespace AI
 		 *  @param[in] float deltaMilliseconds
 		 *  @return (void)
 		 */
-		inline void Update( float deltaMilliseconds ) { };
+		inline void Update( const float& deltaMilliseconds ) { };
 
 
 		/*! Releases the System
@@ -51,10 +51,10 @@ namespace AI
 		 *
 		 *  @return (System::Types::Type)
 		 */
-		inline System::Types::Type GetType( ) { return System::Types::AI; };
+		inline System::Types::Type GetType( ) const { return System::Types::UX; };
 
 
-		/*! Creates the System Scene
+		/*! Creates a System Scene
 		 *
 		 *  @return (ISystemScene*)
 		 */
@@ -65,7 +65,7 @@ namespace AI
 		 *
 		 *  @return (AnyValueMap)
 		 */
-		inline AnyValue::AnyValueMap GetProperties( ) { return _properties; };
+		inline AnyValue::AnyValueMap GetProperties( ) const { return _properties; };
 
 
 		/*! Sets a System Property

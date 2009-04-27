@@ -330,14 +330,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Input\KeyboardListenerFixture.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\KeyboardListenerFixture.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Logging\LoggerFixture.cpp"
 			>
 		</File>
@@ -394,19 +386,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Mocks\MockLogAppender.hpp"
-			>
-		</File>
-		<File
 			RelativePath=".\Mocks\MockScriptBinder.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\MouseListenerFixture.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\MouseListenerFixture.h"
 			>
 		</File>
 		<File

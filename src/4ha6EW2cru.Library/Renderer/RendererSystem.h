@@ -1,87 +1,137 @@
-#ifndef __OGRERENDERSYSTEM_H
-#define __OGRERENDERSYSTEM_H
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   RendererSystem.h
+*  @date   2009/04/27
+*/
+#ifndef __RENDERERSYSTEM_H
+#define __RENDERERSYSTEM_H
 
-#include "../Events/IEvent.hpp"
+#include <Ogre.h>
+
 #include "../Service/IService.hpp"
-#include "../System/ISystem.hpp"
 #include "../Configuration/IConfiguration.hpp"
 
-#include "../IO/IFileManager.hpp"
-
+#include "IRendererSystem.hpp"
 #include "IRenderSystemScene.h"
 
-#include "IInterface.hpp"
-#include <Ogre.h>
-using namespace Ogre;
-
-class RendererSystem : public ISystem, public IService, public Ogre::WindowEventListener
+namespace Renderer 
 {
-
-	typedef std::vector< std::string > StringList;
-
-public:
-
-	virtual ~RendererSystem( );
-
-	RendererSystem( Configuration::IConfiguration* configuration )
-		: _configuration( configuration )
-		, _badStubCreated( false )
-		, _isIntialized( false )
-		, _root( 0 )
-		, _window( 0 )
-		, _sceneManager( 0 )
-		, _interface( 0 )
-		, _badFactory( 0 )
-		, _scene( 0 )
-		, _configSectionName( "Graphics" )
+	/*!
+	 *  The Render System 
+	 */
+	class RendererSystem : public IRendererSystem, public IService, public Ogre::WindowEventListener
 	{
 
-	}
+	public:
 
-	virtual void Initialize( );
-	virtual void Update( float deltaMilliseconds );
-	virtual void Release( ) { };
+		/*! Default Destructor
+		*
+		*  @return ()
+		*/
+		~RendererSystem( );
 
-	inline System::Types::Type GetType( ) { return System::Types::RENDER; };
 
-	inline ISystemScene* CreateScene( );
+		/*! Default Constructor
+		*
+		*  @return ()
+		*/
+		RendererSystem( Configuration::IConfiguration* configuration )
+			: _configuration( configuration )
+			, _root( 0 )
+			, _window( 0 )
+			, _sceneManager( 0 )
+			, _scene( 0 )
+			, _configSectionName( "Graphics" )
+		{
 
-	inline AnyValue::AnyValueMap GetProperties( ) { return _properties; };
-	inline void SetProperty( const std::string& name, AnyValue value );
+		}
 
-	virtual void windowClosed( RenderWindow* rw );
 
-	AnyValue::AnyValueMap Execute( const std::string& actionName, AnyValue::AnyValueMap parameters );
+		/*! Initializes the System
+		*
+		*  @return (void)
+		*/
+		void Initialize( );
 
-private:
 
-	void OnGraphicsSettingsUpdated( const Events::IEvent* event );
+		/*! Steps the System's internal data
+		*
+		*  @param[in] float deltaMilliseconds
+		*  @return (void)
+		*/
+		void Update( const float& deltaMilliseconds );
 
-	void Constructor( Configuration::IConfiguration* configuration, IFileManager* fileManager );
-	void LoadResources( );
-	void CreateRenderWindow( const std::string& windowTitle, int width, int height, bool fullScreen );
-	std::vector< std::string > GetVideoModes( ) const;
 
-	AnyValue::AnyValueMap _properties;
-	Configuration::IConfiguration* _configuration;
-	IInterface* _interface;
-	bool _badStubCreated;
-	bool _isIntialized;
-	IRenderSystemScene* _scene;
+		/*! Releases internal data of the System
+		*
+		*  @return (System::Types::Type)
+		*/
+		void Release( ) { };
 
-	std::string _configSectionName;
-	std::vector< std::string > _supportedVideoModes;
-	std::string _skyBoxMaterial;
 
-	Ogre::Root* _root;
-	Ogre::SceneManager* _sceneManager;
-	Ogre::RenderWindow* _window;
-	Ogre::ArchiveFactory* _badFactory;
+		/*! Returns the type of the System
+		*
+		*  @return (System::Types::Type)
+		*/
+		inline System::Types::Type GetType( ) const { return System::Types::RENDER; };
 
-	RendererSystem( ) { };
-	RendererSystem( const RendererSystem & copy ) { };
-	RendererSystem & operator = ( const RendererSystem & copy ) { return *this; };
 
+		/*! Creates a System Scene
+		*
+		*  @return (ISystemScene*)
+		*/
+		inline ISystemScene* CreateScene( );
+
+
+		/*! Gets the System's Properties
+		*
+		*  @return (AnyValueMap)
+		*/
+		inline AnyValue::AnyValueMap GetProperties( ) const { return _properties; };
+
+
+		/*! Sets a System Property
+		*
+		*  @param[in] const std::string & name
+		*  @param[in] AnyValue value
+		*  @return (void)
+		*/
+		inline void SetProperty( const std::string& name, AnyValue value );
+
+
+		/*! Renderer Service Interface
+		 *
+		 *  @param[in] const std::string & actionName
+		 *  @param[in] AnyValue::AnyValueMap & parameters
+		 *  @return (AnyValue::AnyValueMap)
+		 */
+		AnyValue::AnyValueMap Execute( const std::string& actionName, AnyValue::AnyValueMap& parameters );
+		
+
+	private:
+
+		RendererSystem( const RendererSystem & copy ) { };
+		RendererSystem & operator = ( const RendererSystem & copy ) { return *this; };
+
+		void windowClosed( Ogre::RenderWindow* rw );
+
+		void LoadResources( );
+		void CreateRenderWindow( const std::string& windowTitle, int width, int height, bool fullScreen );
+		std::vector< std::string > GetVideoModes( ) const;
+
+		AnyValue::AnyValueMap _properties;
+		Configuration::IConfiguration* _configuration;
+		IRenderSystemScene* _scene;
+
+		std::string _configSectionName;
+		std::string _skyBoxMaterial;
+
+		Ogre::Root* _root;
+		Ogre::SceneManager* _sceneManager;
+		Ogre::RenderWindow* _window;
+
+	};
 };
 
 #endif

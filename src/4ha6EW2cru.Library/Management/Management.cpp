@@ -4,22 +4,26 @@
 
 #include "../Service/ServiceManager.h"
 #include "../System/SystemManager.h"
-#include "../Platform/PlatformManager.h"
-#include "../IO/FileManager.h"
-#include "../IO/ResourceManager.h"
+
+#include "../Platform/Win32PlatformManager.h"
+using namespace Platform;
+
+#include "../IO/FileSystem.h"
+using namespace IO;
+
+#include "../IO/ResourceCache.h"
+using namespace Resources;
 
 static Management* g_ManagementInstance = 0;
-
-using namespace Resources;
 
 Management::Management( )
 {
 	_serviceManager = new ServiceManager( );
-	_platformManager = new PlatformManager( );
+	_platformManager = new Win32PlatformManager( );
 	_eventManager = new Events::EventManager( );
 	_systemManager = new SystemManager( );
-	_fileManager = new FileManager( );
-	_resourceManager = new ResourceManager( );
+	_fileSystem = new FileSystem( );
+	_resourceCache = new ResourceCache( );
 }
 
 Management::~Management( )
@@ -28,8 +32,8 @@ Management::~Management( )
 	delete _systemManager;
 	delete _eventManager;
 	delete _platformManager;
-	delete _fileManager;
-	delete _resourceManager;
+	delete _fileSystem;
+	delete _resourceCache;
 }
 
 void Management::Initialize( )
@@ -62,10 +66,10 @@ void Management::Release( )
 	g_ManagementInstance = 0;
 }
 
-void Management::Update( float deltaMilliseconds )
+void Management::Update( const float& deltaMilliseconds )
 {
 	_systemManager->Update( deltaMilliseconds );
 	_platformManager->Update( deltaMilliseconds );
 	_eventManager->Update( deltaMilliseconds );
-	_resourceManager->Update( deltaMilliseconds );
+	_resourceCache->Update( deltaMilliseconds );
 }

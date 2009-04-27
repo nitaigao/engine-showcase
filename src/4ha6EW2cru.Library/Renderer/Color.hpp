@@ -1,29 +1,59 @@
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   Color.hpp
+*  @date   2009/04/26
+*/
 #ifndef __COLOR_H
 #define __COLOR_H
 
-class Color
+namespace Renderer
 {
-
-public:
-
-	Color( const float& red, const float& green, const float& blue )
-		: _red( red )
-		, _green( green )
-		, _blue( blue )
+	/*! 
+	 *  Internal Representation of a Color
+	 */
+	class Color
 	{
 
-	}
+	public:
 
-	inline float GetRed( ) { return _red; };
-	inline float GetGreen( ) { return _green; };
-	inline float GetBlue( ) { return _blue; };
+		float Red, Green, Blue;
 
-private:
+		/*! Default Destructor
+		 *
+		 *  @return ()
+		 */
+		~Color( ) { };
 
-	float _red;
-	float _blue;
-	float _green;
 
+		/*! Default Constructor
+		 *
+		 *  @param[in] const float & red
+		 *  @param[in] const float & green
+		 *  @param[in] const float & blue
+		 *  @return ()
+		 */
+		Color( const float& red, const float& green, const float& blue )
+			: Red( red )
+			, Green( green )
+			, Blue( blue )
+		{
+
+		}
+
+
+		/*! Default Copy Constructor
+		 *
+		 *  @param[in] const Color & copy
+		 *  @return ()
+		 */
+		Color( const Color & copy ) { };
+
+	private:
+		
+		Color & operator = ( const Color & copy ) { return *this; };
+
+	};
 };
 
 

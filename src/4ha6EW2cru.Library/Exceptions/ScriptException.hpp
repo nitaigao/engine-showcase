@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   c:\Users\NK\Development\viper\src\4ha6EW2cru.Library\Exceptions\ScriptException.hpp
+*  @file   ScriptException.hpp
 *  @date   2009/04/25
 */
 #ifndef __SCRIPTEXCEPTION_H

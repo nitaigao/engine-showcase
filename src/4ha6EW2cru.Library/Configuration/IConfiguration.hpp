@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\Configuration\IConfiguration.hpp
+*  @file   IConfiguration.hpp
 *  @date   2009/04/25
 */
 #ifndef __ICONFIGURATION_H

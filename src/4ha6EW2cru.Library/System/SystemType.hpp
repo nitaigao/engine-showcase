@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\System\SystemType.hpp
+*  @file   SystemType.hpp
 *  @date   2009/04/25
 */
 #ifndef __SYSTEMTYPES_H
@@ -20,6 +20,7 @@ namespace System
 			INPUT,
 			PHYSICS,
 			AI,
+			UX,
 			TEST
 		};
 	};

@@ -1,6 +1,7 @@
 
 task :clean do
 	filesToPurge = Array.new;
+	filesToPurge.push( '../../doc/*' );
 	filesToPurge.push( '../../**/*.obj' );
 	filesToPurge.push( '../../**/*.cache' );
 	filesToPurge.push( '../../**/*.ncb' );

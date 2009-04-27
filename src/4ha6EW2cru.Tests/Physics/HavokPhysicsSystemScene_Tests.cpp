@@ -1,6 +1,10 @@
 #include "HavokPhysicsSystemScene_Tests.h"
 
+#include "Physics/HavokPhysicsSystemScene.h"
+using namespace Physics;
+
 #include "Logging/Logger.h"
+using namespace Logging;
 
 #include "../Suites.h"
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( HavokPhysicsSystemScene_Tests, Suites::PhysicsSuite( ) );
@@ -9,8 +13,6 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( HavokPhysicsSystemScene_Tests, Suites::Ph
 
 void HavokPhysicsSystemScene_Tests::setUp()
 {
-	Logger::Initialize( );
-
 	hkPoolMemory* memoryManager = new hkPoolMemory( );
 	_threadMemory = new hkThreadMemory( memoryManager );
 	hkBaseSystem::init( memoryManager, _threadMemory, errorReportFunction );
@@ -28,8 +30,6 @@ void HavokPhysicsSystemScene_Tests::tearDown()
 	_threadMemory->removeReference();
 
 	hkBaseSystem::quit( );
-
-	Logger::GetInstance( )->Release( );
 }
 
 void HavokPhysicsSystemScene_Tests::Should_Return_A_PhysicsSystemComponent_On_CreateComponent()

@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\Configuration\ConfigurationFile.h
+*  @file   ConfigurationFile.h
 *  @date   2009/04/25
 */
 #ifndef __CONFIGURATIONFILE_H
@@ -66,7 +66,7 @@ namespace Configuration
 
 	private:
 
-		ConfigurationFile( const FileBuffer* fileBuffer );
+		ConfigurationFile( const IO::FileBuffer* fileBuffer );
 
 		CSimpleIni* _ini;
 

@@ -8,7 +8,7 @@
 USING_NAMESPACE_MOCKPP
 
 
-class Mock_Entity : public IEntity, public MockObject
+class Mock_Entity : public IWorldEntity, public MockObject
 {
 
 public:
@@ -21,10 +21,10 @@ public:
 
 	}
 
-	const std::string& GetName( ) { return "test_entity"; };
+	const std::string& GetName( ) const { return "test_entity"; };
 	void AddComponent( ISystemComponent* component ) { _components.push_back( component ); }
-	ISystemComponent* FindComponent( System::Types::Type systemType ) { return 0; };
-	SystemComponentList& GetComponents( ) { return _components; };
+	ISystemComponent* FindComponent( const System::Types::Type& systemType ) const { return 0; };
+	SystemComponentList GetComponents( ) const { return _components; };
 
 private:
 

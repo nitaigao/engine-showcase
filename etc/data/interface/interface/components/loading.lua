@@ -13,23 +13,23 @@ Loading = {}
 
 function Loading.initialize( )
 
-	registerEventHandler( Loading.onEvent );
+	Script:registerEventHandler( Loading.onEvent );
 	
 	Loading.onHideLoading( );
 	
-	local loading = findWidget( 'loadingbox' );
-	local loadingX = ( getScreenWidth( ) - loading:getDimensions( ).width ) / 2;
-	local loadingY = getScreenHeight( ) - ( loading:getDimensions( ).height * 3 );
+	local loading = ux:findWidget( 'loadingbox' );
+	local loadingX = ( ux:getScreenWidth( ) - loading:getDimensions( ).width ) / 2;
+	local loadingY = ux:getScreenHeight( ) - ( loading:getDimensions( ).height * 3 );
 	loading:setPosition( loadingX, loadingY );
 
 end
 
 function Loading.onShowLoading( levelName )
 
-	local progress = findWidget( 'loading_progress' ):asProgressBar( );
+	local progress = ux:findWidget( 'loading_progress' ):asProgressBar( );
 	progress:setProgress( 0 );
 
-	local loading = findWidget( 'loading' );
+	local loading = ux:findWidget( 'loading' );
 	loading:setVisible( true ); 
 	
 	print( 'Loading Started for Level ' .. levelName );
@@ -38,10 +38,10 @@ end
 
 function Loading.onHideLoading( )
 
-	local progress = findWidget( 'loading_progress' ):asProgressBar( );
+	local progress = ux:findWidget( 'loading_progress' ):asProgressBar( );
 	progress:setProgress( 105 );
 
-	local loading = findWidget( 'loading' );
+	local loading = ux:findWidget( 'loading' );
 	loading:setVisible( false );
 	
 	print( 'Loading Finished' );
@@ -50,7 +50,7 @@ end
 
 function Loading.onLoadProgress( totalProgress )
 
-	local progress = findWidget( 'loading_progress' ):asProgressBar( );
+	local progress = ux:findWidget( 'loading_progress' ):asProgressBar( );
 	progress:setProgress( tonumber( totalProgress ) );
 
 end

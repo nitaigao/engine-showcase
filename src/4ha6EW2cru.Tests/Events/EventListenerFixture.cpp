@@ -4,6 +4,9 @@
 #include "Events/Event.h"
 using namespace Events;
 
+#include "Logging/Logger.h"
+using namespace Logging;
+
 #include "Management/Management.h"
 
 #include "Exceptions/NullReferenceException.hpp"
@@ -15,7 +18,6 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( EventListenerFixture, Suites::EventsSuite
 
 void EventListenerFixture::setUp( )
 {
-	Logger::Initialize( );
 	Management::Initialize( );
 
 	_eventTarget = 0;
@@ -33,7 +35,6 @@ void EventListenerFixture::tearDown( )
 	_eventTarget = 0;
 
 	Management::GetInstance( )->Release( );
-	Logger::GetInstance( )->Release( );
 }
 
 void EventListenerFixture::EventListener_Should_Return_Correct_Event_Type( )

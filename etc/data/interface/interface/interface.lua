@@ -17,13 +17,13 @@ function Interface.initialize( )
 
 	--unregisterEvent( EventType.GAME_INITIALIZED, Interface.initialize );
 
-	loadComponent( 'title' );
-	loadComponent( 'menu' );
-	loadComponent( 'options' );
-	loadComponent( 'console' );
-	loadComponent( 'loading' );
-	loadComponent( 'hud' );
-	loadComponent( 'statistics' );
+	ux:loadComponent( 'title' );
+	ux:loadComponent( 'menu' );
+	ux:loadComponent( 'options' );
+	ux:loadComponent( 'console' );
+	ux:loadComponent( 'loading' );
+	ux:loadComponent( 'hud' );
+	ux:loadComponent( 'statistics' );
 	
 end
 
@@ -37,4 +37,4 @@ function Interface.onEvent( eventName )
 
 end
 
-registerEventHandler( Interface.onEvent );
+Script:registerEventHandler( Interface.onEvent );

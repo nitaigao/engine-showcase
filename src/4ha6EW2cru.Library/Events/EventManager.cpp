@@ -1,5 +1,8 @@
 #include "EventManager.h"
+
 #include "../Logging/Logger.h"
+using namespace Logging;
+
 #include "../Exceptions/UnInitializedException.hpp"
 #include "../Exceptions/AlreadyInitializedException.hpp"
 namespace Events
@@ -9,7 +12,7 @@ namespace Events
 		if ( 0 == event )
 		{
 			NullReferenceException e( "EventManager::QueueEvent - Attempted to add a NULL Event to the Queue" );
-			Logger::GetInstance( )->Fatal( e.what ( ) );
+			Logger::Fatal( e.what ( ) );
 			throw e;
 		}
 
@@ -21,7 +24,7 @@ namespace Events
 		if ( 0 == event )
 		{
 			NullReferenceException e( "EventManager::TriggerEvent - Attempted to trigger a NULL Event" );
-			Logger::GetInstance( )->Fatal( e.what ( ) );
+			Logger::Fatal( e.what ( ) );
 			throw e;
 		}
 
@@ -40,7 +43,7 @@ namespace Events
 		delete event;
 	}
 
-	void EventManager::Update( float deltaMilliseconds )
+	void EventManager::Update( const float& deltaMilliseconds )
 	{
 		while( _eventQueue.size( ) > 0 )
 		{
@@ -64,7 +67,7 @@ namespace Events
 
 	EventManager::~EventManager()
 	{
-		Logger::GetInstance( )->Info( "EventManager::Release - Releasing Event Manager" );
+		Logger::Info( "EventManager::Release - Releasing Event Manager" );
 
 		while( _eventQueue.size( ) > 0 )
 		{

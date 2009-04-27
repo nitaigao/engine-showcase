@@ -2,12 +2,15 @@
 
 #include "GeometrySystemComponent.h"
 
-ISystemComponent* GeometrySystemScene::CreateComponent( const std::string& name, const std::string& type )
+namespace Geometry
 {
-	return new GeometrySystemComponent( name );
-}
+	ISystemComponent* GeometrySystemScene::CreateComponent( const std::string& name, const std::string& type )
+	{
+		return new GeometrySystemComponent( name );
+	}
 
-void GeometrySystemScene::DestroyComponent( ISystemComponent* component )
-{
-	delete component;
+	void GeometrySystemScene::DestroyComponent( ISystemComponent* component )
+	{
+		delete component;
+	}
 }

@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\System\Management.h
+*  @file   Management.h
 *  @date   2009/04/25
 */
 #ifndef __MANAGEMENT_H
@@ -9,11 +9,11 @@
 
 #include "../Events/EventManager.h"
 
-#include "../IO/IResourceManager.hpp"
+#include "../IO/IResourceCache.hpp"
 #include "../Service/IServiceManager.h"
 #include "../Platform/IPlatformManager.h"
 #include "../System/ISystemManager.hpp"
-#include "../IO/IFileManager.hpp"
+#include "../IO/IFileSystem.hpp"
 
 /*! 
  *  An Interface to the Game Managers
@@ -27,7 +27,7 @@ public:
 	 *
 	 *  @return ()
 	 */
-	virtual ~Management( );
+	~Management( );
 
 
 	/*! Default Constructor
@@ -63,57 +63,57 @@ public:
 	 *  @param[in] float deltaMilliseconds
 	 *  @return (void)
 	 */
-	void Update( float deltaMilliseconds );
+	void Update( const float& deltaMilliseconds );
 
 
 	/*! Returns the System Manager
 	 *
 	 *  @return (ISystemManager*)
 	 */
-	inline ISystemManager* GetSystemManager( ) { return _systemManager; };
+	inline ISystemManager* GetSystemManager( ) const { return _systemManager; };
 
 
 	/*! Returns the Event Manager
 	 *
 	 *  @return (EventManager*)
 	 */
-	inline Events::EventManager* GetEventManager( ) { return _eventManager; };
+	inline Events::EventManager* GetEventManager( ) const { return _eventManager; };
 
 
 	/*! Returns the Platform Manager
 	 *
 	 *  @return (IPlatformManager*)
 	 */
-	inline IPlatformManager* GetPlatformManager( ) { return _platformManager; };
+	inline Platform::IPlatformManager* GetPlatformManager( ) const { return _platformManager; };
 
 
 	/*! Returns the File Manager
 	 *
-	 *  @return (IFileManager*)
+	 *  @return (IFileSystem*)
 	 */
-	inline IFileManager* GetFileManager( ) { return _fileManager; };
+	inline IO::IFileSystem* GetFileManager( ) const { return _fileSystem; };
 
 
 	/*! Returns the Service Manager
 	 *
 	 *  @return (IServiceManager*)
 	 */
-	inline IServiceManager* GetServiceManager( ) { return _serviceManager; };
+	inline IServiceManager* GetServiceManager( ) const { return _serviceManager; };
 
 
 	/*! Returns the Resources Manager
 	 *
-	 *  @return (Resources::IResourceManager*)
+	 *  @return (Resources::IResourceCache*)
 	 */
-	inline Resources::IResourceManager* GetResourceManager( ) { return _resourceManager; };
+	inline Resources::IResourceCache* GetResourceManager( ) const { return _resourceCache; };
 
 private:
 
 	IServiceManager* _serviceManager;
 	ISystemManager* _systemManager;
-	IPlatformManager* _platformManager;
-	IFileManager* _fileManager;
-	Resources::IResourceManager* _resourceManager;
+	Platform::IPlatformManager* _platformManager;
+	IO::IFileSystem* _fileSystem;
+	Resources::IResourceCache* _resourceCache;
 	Events::EventManager* _eventManager;
 
 	Management( const Management & copy ) { };

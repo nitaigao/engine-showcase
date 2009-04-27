@@ -13,13 +13,13 @@ Title = {}
 
 function Title.initialize( )
 
-	hideMouse( );
+	ux:hideMouse( );
 	
-	registerEventHandler( Title.onEvent );
+	Script:registerEventHandler( Title.onEvent );
 
-	local logo = findWidget( 'logo' );
-	local logoX = ( getScreenWidth( ) - logo:getDimensions( ).width ) / 2;
-	local logoY = ( getScreenHeight( ) - logo:getDimensions( ).height ) / 2;
+	local logo = ux:findWidget( 'logo' );
+	local logoX = ( ux:getScreenWidth( ) - logo:getDimensions( ).width ) / 2;
+	local logoY = ( ux:getScreenHeight( ) - logo:getDimensions( ).height ) / 2;
 	logo:setPosition( logoX, logoY );
 
 end
@@ -42,12 +42,12 @@ end
 
 function Title.onInput( )
 
-	unregisterEventHandler( Title.onEvent );
+	Script:unregisterEventHandler( Title.onEvent );
 
-	local logo = findWidget( 'title' );
+	local logo = ux:findWidget( 'title' );
 	logo:setVisible( false );
 	
-	broadcastEvent( 'UI_MAIN_MENU' ); 
+	Script:broadcastEvent( 'UI_MAIN_MENU' ); 
 
 end
 

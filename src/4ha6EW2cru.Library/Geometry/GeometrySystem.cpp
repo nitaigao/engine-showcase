@@ -2,7 +2,10 @@
 
 #include "GeometrySystemScene.h"
 
-ISystemScene* GeometrySystem::CreateScene( )
+namespace Geometry
 {
-	return new GeometrySystemScene( this );
-}
+	ISystemScene* GeometrySystem::CreateScene( )
+	{
+		return new GeometrySystemScene( this );
+	}
+};

@@ -1,7 +1,7 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   src\4ha6EW2cru.Library\System\ISystemComponent.hpp
+*  @file   ISystemComponent.hpp
 *  @date   2009/04/25
 */
 #ifndef __ISYSTEMENTITY_H
@@ -36,7 +36,7 @@ public:
 	*  @param[in] AnyValue::AnyValueMap properties
 	*  @return (void)
 	*/
-	virtual void Initialize( AnyValue::AnyValueMap properties ) = 0;
+	virtual void Initialize( AnyValue::AnyValueMap& properties ) = 0;
 
 
 	/*! Steps the internal data of the Component
@@ -44,7 +44,7 @@ public:
 	*  @param[in] float deltaMilliseconds
 	*  @return (void)
 	*/
-	virtual void Update( float deltaMilliseconds ) = 0;
+	virtual void Update( const float& deltaMilliseconds ) = 0;
 
 
 	/*! Destroys the Component
@@ -66,21 +66,21 @@ public:
 	*
 	*  @return (const std::string&)
 	*/
-	virtual const std::string& GetName( ) = 0;
+	virtual const std::string& GetName( ) const = 0;
 
 
 	/*! Gets the System::Types::Type of the Component
 	*
 	*  @return (System::Types::Type)
 	*/
-	virtual System::Types::Type GetType( ) = 0;
+	virtual System::Types::Type GetType( ) const = 0;
 
 
 	/*! Gets the properties of the Component
 	*
 	*  @return (AnyValueMap)
 	*/
-	virtual AnyValue::AnyValueMap GetProperties( ) = 0;
+	virtual AnyValue::AnyValueMap GetProperties( ) const = 0;
 
 
 	/*! Sets the Properties of the Component
@@ -88,28 +88,28 @@ public:
 	*  @param[in] AnyValue::AnyValueMap systemProperties
 	*  @return (void)
 	*/
-	virtual void SetProperties( AnyValue::AnyValueMap properties ) = 0;
+	virtual void SetProperties( AnyValue::AnyValueMap& properties ) = 0;
 
 
 	/*! Gets the Position of the Component
 	*
 	*  @return (MathVector3)
 	*/
-	virtual MathVector3 GetPosition( ) = 0;
+	virtual Maths::MathVector3 GetPosition( ) const = 0;
 
 
 	/*! Gets the Scale of the Component
 	*
 	*  @return (MathVector3)
 	*/
-	virtual MathVector3 GetScale( ) = 0;
+	virtual Maths::MathVector3 GetScale( ) const = 0;
 
 
 	/*! Gets the Orientation of the Component
 	*
 	*  @return (MathQuaternion)
 	*/
-	virtual MathQuaternion GetOrientation( ) = 0;	
+	virtual Maths::MathQuaternion GetOrientation( ) const = 0;	
 
 };
 

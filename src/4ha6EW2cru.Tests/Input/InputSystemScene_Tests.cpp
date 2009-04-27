@@ -4,13 +4,15 @@
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( InputSystemScene_Tests, Suites::InputSuite( ) );
 
 #include "Management/Management.h"
+#include "Logging/Logger.h"
+using namespace Logging;
+
 #include "System/ISystemComponent.hpp"
 #include "Input/InputSystemScene.h"
 
 
 void InputSystemScene_Tests::setUp()
 {
-	Logger::Initialize( );
 	Management::Initialize( );
 	Management::GetInstance( )->GetPlatformManager( )->CreateInteractiveWindow( "Test Window", 1, 1, false );
 }
@@ -18,7 +20,6 @@ void InputSystemScene_Tests::setUp()
 void InputSystemScene_Tests::tearDown()
 {
 	Management::GetInstance( )->Release( );
-	Logger::GetInstance( )->Release( );
 }
 
 /* Need to figure out a way to test these without requiring a window */

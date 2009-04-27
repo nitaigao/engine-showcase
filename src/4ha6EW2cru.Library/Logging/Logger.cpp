@@ -1,101 +1,67 @@
 #include "Logger.h"
 
-#include <fstream>
-#include <ostream>
-#include <iostream>
-#include <streambuf>
-#include <sstream>
-#include <vector>
-
 #include "../Exceptions/UnInitializedException.hpp"
 #include "../Exceptions/AlreadyInitializedException.hpp"
 #include "../Exceptions/NullReferenceException.hpp"
 
 #include "../Scripting/ScriptEvent.hpp"
-#include "../Events/EventData.hpp"
 #include "../Management/Management.h"
 
-static Logger* g_loggerInstance = 0;
-
-Logger* Logger::GetInstance( )
+namespace Logging
 {
-	if ( g_loggerInstance == 0 )
+	LogLevel Logger::_logLevel = LEVEL_FATAL;
+
+	void Logger::LogMessage( const std::string& level, const std::string& message )
 	{
-		throw UnInitializedException( );
+		if ( 0 == message.c_str( ) )
+		{
+			NullReferenceException e( "Logger::LogMessage - Attempted to Log a NULL message" );
+			throw e;
+		}
+
+		std::stringstream outputMessage;
+		outputMessage << level << ": " << message << "\n";
+
+		if( level != "DEBUG" )
+		{
+			//Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "MESSAGE_LOGGED", outputMessage.str( ) ) );
+		}
+
+	#ifdef _DEBUG
+		Management::GetInstance( )->GetPlatformManager( )->OutputDebugMessage( outputMessage.str( ) );
+	#endif // _DEBUG
+
 	}
 
-	return g_loggerInstance;
-}
-
-void Logger::Release( )
-{
-	delete g_loggerInstance;
-	g_loggerInstance = 0;
-}
-
-bool Logger::Initialize( )
-{
-	if ( g_loggerInstance != 0 )
+	void Logger::Info( const std::string& message )
 	{
-		AlreadyInitializedException e( "Logger::Initialize - Logger has already been Initialized" );
-		throw e;
+		if ( _logLevel >= LEVEL_INFO )
+		{
+			_logger.LogMessage( "INFO", message );
+		}
 	}
 
-	g_loggerInstance = new Logger( );
-
-	return true;	
-}
-
-void Logger::LogMessage( const std::string level, const std::string message )
-{
-	if ( 0 == message.c_str( ) )
+	void Logger::Debug( const std::string& message )
 	{
-		NullReferenceException e( "Logger::LogMessage - Attempted to Log a NULL message" );
-		throw e;
+		if ( _logLevel >= LEVEL_DEBUG )
+		{
+			_logger.LogMessage( "DEBUG", message );
+		}
 	}
 
-	std::stringstream outputMessage;
-	outputMessage << level << ": " << message << "\n";
-
-	if( level != "DEBUG" )
+	void Logger::Warn( const std::string& message )
 	{
-		//Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "MESSAGE_LOGGED", outputMessage.str( ) ) );
+		if ( _logLevel >= LEVEL_WARN )
+		{
+			_logger.LogMessage( "WARN", message );
+		}
 	}
 
-#ifdef _DEBUG
-		OutputDebugString( outputMessage.str( ).c_str( ) );
-#endif // _DEBUG
-
-}
-
-void Logger::Info( const std::string message )
-{
-	if ( _logLevel >= INFO )
+	void Logger::Fatal( const std::string& message )
 	{
-		g_loggerInstance->LogMessage( "INFO", message );
-	}
-}
-
-void Logger::Debug( const std::string message )
-{
-	if ( _logLevel >= DEBUGA )
-	{
-		g_loggerInstance->LogMessage( "DEBUG", message );
-	}
-}
-
-void Logger::Warn( const std::string message )
-{
-	if ( _logLevel >= WARNA )
-	{
-		g_loggerInstance->LogMessage( "WARN", message );
-	}
-}
-
-void Logger::Fatal( const std::string message )
-{
-	if ( _logLevel >= FATAL )
-	{
-		g_loggerInstance->LogMessage( "FATAL", message );
+		if ( _logLevel >= LEVEL_FATAL )
+		{
+			_logger.LogMessage( "FATAL", message );
+		}
 	}
 }

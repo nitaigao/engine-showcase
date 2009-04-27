@@ -1,7 +1,9 @@
 #include "ConfigurationFileFixture.h"
 
 #include "Logging/Logger.h"
-#include "IO/FileManager.h"
+using namespace Logging;
+
+#include "IO/FileSystem.h"
 #include "Management/Management.h"
 
 #include "Exceptions/OutOfRangeException.hpp"
@@ -15,14 +17,12 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ConfigurationFileFixture, Suites::SystemS
 
 void ConfigurationFileFixture::setUp( )
 {
-	Logger::Initialize( );
 	Management::Initialize( );
 }
 
 void ConfigurationFileFixture::tearDown( )
 {
 	Management::GetInstance( )->Release( );
-	Logger::GetInstance( )->Release( );
 }
 
 void ConfigurationFileFixture::Should_Throw_On_Load_Given_Invalid_FilePath( )
@@ -66,7 +66,7 @@ void ConfigurationFileFixture::Should_Find_Default_Config_Item_On_FindConfigItem
 
 void ConfigurationFileFixture::Should_Find_Stored_Config_Item_On_FindConfigItemBool( )
 {
-	Management::GetInstance( )->GetFileManager( )->MountFileStore( "../../../etc/data/test", "/" );
+	Management::GetInstance( )->GetFileManager( )->Mount( "../../../etc/data/test", "/" );
 	ConfigurationFile* config = ConfigurationFile::Load( "config/test.cfg" );
 	bool ok = config->FindConfigItem( "Display", "fullscreen", false ).GetValue< bool >( );
 	CPPUNIT_ASSERT( ok == true );
