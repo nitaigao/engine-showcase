@@ -62,7 +62,7 @@ namespace IO
 
 		PHYSFS_file *pFile = PHYSFS_openRead( filePath.c_str( ) );
 		
-		int fileLength = static_cast< int >( PHYSFS_fileLength( pFile ) );
+		unsigned int fileLength = static_cast< unsigned int >( PHYSFS_fileLength( pFile ) );
 
 		char* fileBytes = 0;
 		

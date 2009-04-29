@@ -31,6 +31,9 @@ namespace Script
 		delete _eventHandlers;
 		_eventHandlers = 0;
 
+		delete _soundController;
+		_soundController = 0;
+
 		delete _scriptConfiguration;
 		_scriptConfiguration = 0;
 
@@ -41,6 +44,7 @@ namespace Script
 	ScriptSystemScene::ScriptSystemScene( Configuration::IConfiguration* configuration )
 	{
 		_scriptConfiguration = new ScriptConfiguration( configuration );
+		_soundController = new SoundController( );
 		_state = lua_open( );
 		_eventHandlers = new EventHandlerList( );
 	}
@@ -96,6 +100,9 @@ namespace Script
 			def( "loadLevel", &ScriptSystemScene::LoadLevel ),
 			def( "endGame", &ScriptSystemScene::EndGame ),
 
+			class_< SoundController >( "SoundController" )
+				.def( "playMusic", &SoundController::PlayMusic ),
+
 			class_< ScriptConfiguration >( "Config" )
 				.property( "isFullScreen", &ScriptConfiguration::IsFullScreen, &ScriptConfiguration::SetFullScreen )
 				.property( "displayWidth", &ScriptConfiguration::GetDisplayWidth, &ScriptConfiguration::SetDisplayWidth )
@@ -107,6 +114,7 @@ namespace Script
 				.def( "registerEventHandler", &ScriptComponent::RegisterEvent )
 				.def( "registerUpdateHandler", &ScriptComponent::RegisterUpdate )
 				.def( "unregisterEventHandler", &ScriptComponent::UnRegisterEvent )
+				.def( "unregisterUpdateHandler", &ScriptComponent::UnRegisterUpdate )
 				.def( "getName", &ScriptComponent::GetName )
 				.def( "getTime", &ScriptComponent::GetTime )
 				.def( "executeString", &ScriptComponent::ExecuteString )
@@ -122,6 +130,8 @@ namespace Script
 		];
 
 		luabind::globals( _state )[ "Configuration" ] = _scriptConfiguration;
+		luabind::globals( _state )[ "sfx" ] = _soundController;
+
 		luabind::set_pcall_callback( &ScriptSystemScene::Script_PError );
 		luabind::set_error_callback( &ScriptSystemScene::Script_Error );
 		luabind::set_cast_failed_callback( &ScriptSystemScene::Script_CastError );

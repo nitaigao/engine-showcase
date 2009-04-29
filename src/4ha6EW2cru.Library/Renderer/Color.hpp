@@ -47,7 +47,13 @@ namespace Renderer
 		 *  @param[in] const Color & copy
 		 *  @return ()
 		 */
-		Color( const Color & copy ) { };
+		Color( const Color & copy )
+			: Red( copy.Red )
+			, Blue( copy.Blue )
+			, Green( copy.Green )
+		{
+
+		}
 
 	private:
 		

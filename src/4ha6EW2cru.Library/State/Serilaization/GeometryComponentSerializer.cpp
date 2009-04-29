@@ -7,7 +7,7 @@ using namespace Maths;
 
 namespace Serialization
 {
-	ISystemComponent* GeometryComponentSerializer::Deserialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes )
+	ISystemComponent* GeometryComponentSerializer::DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes )
 	{
 		AnyValue::AnyValueMap properties;
 	

@@ -41,8 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG;LUABIND_NO_EXCEPTIONS;NDEBUG;NOMINMAX"
+				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG;LUABIND_NO_EXCEPTIONS;NDEBUG;NOMINMAX;WIN32"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -108,7 +108,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
+				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
 				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;LUABIND_NO_EXCEPTIONS;NOMINMAX"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -494,6 +494,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Scripting\IScriptFunctionHandler.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Scripting\IScriptSystem.hpp"
 			>
 		</File>
@@ -507,6 +511,22 @@
 		</File>
 		<File
 			RelativePath=".\Service\IServiceManager.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\ISoundController.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Sound\ISoundScene.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Sound\ISoundSystem.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Sound\ISoundSystemComponent.hpp"
 			>
 		</File>
 		<File
@@ -746,6 +766,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Scripting\ScriptFunctionHandler.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Scripting\ScriptSystem.cpp"
 			>
 		</File>
@@ -775,6 +799,34 @@
 		</File>
 		<File
 			RelativePath=".\Utility\SimpleIni.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\SoundController.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\SoundController.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Sound\SoundScene.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Sound\SoundScene.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Sound\SoundSystem.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Sound\SoundSystem.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Sound\SoundSystemComponent.h"
 			>
 		</File>
 		<File

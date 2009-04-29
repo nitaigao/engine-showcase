@@ -587,7 +587,7 @@
   </Skin>
 
   <Skin name = "EditClient" size = "10 10">
-    <Property key="FontName" value = "Default" />
+    <Property key="FontName" value = "EditClient" />
     <Property key="TextAlign" value = "Left VCenter" />
     <Property key="TextColour" value = "#{MyGUI_Theme_Button_ColourNormal}" />
     <Property key="Pointer" value = "beam" />

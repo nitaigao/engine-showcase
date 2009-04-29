@@ -13,6 +13,7 @@
 #include "../Events/IEvent.hpp"
 
 #include "ScriptConfiguration.h"
+#include "SoundController.h"
 #include "IScriptSystemScene.hpp"
 #include "IScriptComponent.hpp"
 
@@ -132,6 +133,7 @@ namespace Script
 		void OnEvent( const Events::IEvent* event );
 
 		ScriptConfiguration* _scriptConfiguration;
+		SoundController* _soundController;
 
 		lua_State* _state;
 		ScriptComponentList _components;

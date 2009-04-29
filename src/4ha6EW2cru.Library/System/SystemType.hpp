@@ -21,6 +21,7 @@ namespace System
 			PHYSICS,
 			AI,
 			UX,
+			SOUND,
 			TEST
 		};
 	};

@@ -40,7 +40,7 @@ namespace Serialization
 		*  @param[in] const ISystemScene::SystemSceneMap & systemScenes
 		*  @return (ISystemComponent*)
 		*/
-		ISystemComponent* Deserialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes );
+		ISystemComponent* DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes );
 
 	private:
 

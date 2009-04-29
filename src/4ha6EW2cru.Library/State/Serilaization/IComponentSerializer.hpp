@@ -37,7 +37,7 @@ namespace Serialization
 		 *  @param[in] const ISystemScene::SystemSceneMap & systemScenes
 		 *  @return (ISystemComponent*)
 		 */
-		virtual ISystemComponent* Deserialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes ) = 0;
+		virtual ISystemComponent* DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes ) = 0;
 
 	};
 };

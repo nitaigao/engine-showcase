@@ -206,7 +206,8 @@ namespace MyGUI
 		MYGUI_LOG(Info, "Font '" << mName << "' using real height " << max_height << " pixels");
 		mHeightPix = max_height;
 
-        Ogre::uchar* imageData = new Ogre::uchar[data_size];
+		Ogre::uchar* imageData = OGRE_ALLOC_T( Ogre::uchar, data_size, Ogre::MEMCATEGORY_GENERAL ); //new Ogre::uchar[data_size];
+		
 		// Reset content (White, transparent)
         for (size_t i = 0; i < data_size; i += pixel_bytes) {
             imageData[i + 0] = 0xFF; // luminance
@@ -370,11 +371,11 @@ namespace MyGUI
 		}
 
 		// FIXME хз что сделать надо, старый вариант падает, а с этим по идее утечка (не могу проверить)
-#if OGRE_VERSION < MYGUI_DEFINE_VERSION(1, 6, 0)
+//#if OGRE_VERSION < MYGUI_DEFINE_VERSION(1, 6, 0)
 		Ogre::DataStreamPtr memStream( new Ogre::MemoryDataStream(imageData, data_size, true) );
-#else
-		Ogre::DataStreamPtr memStream( new Ogre::MemoryDataStream(imageData, data_size) );
-#endif
+//#else
+	//	Ogre::DataStreamPtr memStream( new Ogre::MemoryDataStream(imageData, data_size) );
+//#endif
 
 		Ogre::Image img;
 		img.loadRawData( memStream, finalWidth, finalHeight, Ogre::PF_BYTE_LA );

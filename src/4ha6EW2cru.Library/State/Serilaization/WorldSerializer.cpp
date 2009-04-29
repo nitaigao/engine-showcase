@@ -169,8 +169,8 @@ namespace Serialization
 			componentNode[ "system" ] >> system;
 	
 			System::Types::Type systemType = System::TypeMapper::StringToType( system );
-			IComponentSerializer* componentStrategy = ComponentSerializerFactory::Create( systemType );
-			ISystemComponent* entityComponent = componentStrategy->Deserialize( entity->GetName( ), componentNode, _world->GetSystemScenes( ) );
+			IComponentSerializer* serializer = ComponentSerializerFactory::Create( systemType );
+			ISystemComponent* entityComponent = serializer->DeSerialize( entity->GetName( ), componentNode, _world->GetSystemScenes( ) );
 	
 			entity->AddComponent( entityComponent );
 	
@@ -179,7 +179,7 @@ namespace Serialization
 				geometryComponent = entityComponent;
 			}
 	
-			delete componentStrategy;
+			delete serializer;
 		}
 	
 		if ( geometryComponent != 0 )

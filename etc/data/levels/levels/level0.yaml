@@ -151,29 +151,6 @@
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/misc_lamppost_101.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "0"
-      y: "0"
-      z: "0"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-  name: misc_lamppost_101
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
     model: /data/entities/models/player.model
     system: graphics
     type: camera
@@ -203,29 +180,6 @@
   - !ruby/object:InputComponent 
     system: input
   name: player
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/Fspot01.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "-0.707107"
-      x: "-0.707107"
-      y: "-0"
-      z: "-0"
-    position: !ruby/object:Vector 
-      x: "-5.73748"
-      y: "8.50297"
-      z: "-31.9123"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-  name: Fspot01
   type: entity
 - !ruby/object:REXML::Entity 
   components: 

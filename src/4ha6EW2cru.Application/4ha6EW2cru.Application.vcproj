@@ -42,8 +42,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;LUABIND_NO_EXCEPTIONS;NOMINMAX"
+				AdditionalIncludeDirectories="../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;LUABIND_NO_EXCEPTIONS;NOMINMAX;WIN32"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -61,8 +61,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib mockpp_44d.lib cppunitd.lib OgreMain_d.lib OIS_static_d.lib luad.lib luabindd.lib MyGUI_d.lib yamlcppd.lib hkBase.lib hkSerialize.lib hkSceneData.lib hkInternal.lib hkGeometryUtilities.lib hkVisualize.lib hkCompat.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib"
-				AdditionalLibraryDirectories="../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/myguiengine/lib/debug;../../etc/vendor/ogre/lib;../../etc/vendor/yaml/lib;../../etc/vendor/havok/lib/debug_multithreaded_dll"
+				AdditionalDependencies="winmm.lib mockpp_44d.lib cppunitd.lib OgreMain_d.lib OIS_static_d.lib luad.lib luabindd.lib MyGUI_d.lib yamlcppd.lib hkBase.lib hkSerialize.lib hkSceneData.lib hkInternal.lib hkGeometryUtilities.lib hkVisualize.lib hkCompat.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib fmodex_vc.lib fmod_event.lib"
+				AdditionalLibraryDirectories="../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/myguiengine/lib/debug;../../etc/vendor/ogre/lib;../../etc/vendor/yaml/lib;../../etc/vendor/havok/lib/debug_multithreaded_dll;../../etc/vendor/fmod/lib"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				TargetMachine="1"
@@ -87,7 +87,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy /Y ..\..\etc\vendor\mygui\shared\debug\mygui_d.dll ..\..\build\debug\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\ogremain_d.dll ..\..\build\debug\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\RenderSystem_Direct3D9_d.dll ..\..\build\debug\bin&#x0D;&#x0A;"
+				CommandLine="copy /Y ..\..\etc\vendor\mygui\shared\debug\mygui_d.dll ..\..\build\debug\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\ogremain_d.dll ..\..\build\debug\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\RenderSystem_Direct3D9_d.dll ..\..\build\debug\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\fmod\lib\fmodex.dll ..\..\build\debug\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\fmod\lib\fmod_event.dll ..\..\build\debug\bin&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source"
+				AdditionalIncludeDirectories="../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
 				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;LUABIND_NO_EXCEPTIONS;NOMINMAX"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -135,8 +135,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib OgreMain.lib OIS_static.lib lua.lib luabind.lib MyGUI.lib yamlcpp.lib hkBase.lib hkSerialize.lib hkSceneData.lib hkInternal.lib hkGeometryUtilities.lib hkVisualize.lib hkCompat.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib"
-				AdditionalLibraryDirectories="../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/myguiengine/lib/release;../../etc/vendor/ogre/lib;../../etc/vendor/yaml/lib;../../etc/vendor/havok/lib/release_multithreaded_dll"
+				AdditionalDependencies="winmm.lib OgreMain.lib OIS_static.lib lua.lib luabind.lib MyGUI.lib yamlcpp.lib hkBase.lib hkSerialize.lib hkSceneData.lib hkInternal.lib hkGeometryUtilities.lib hkVisualize.lib hkCompat.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib fmodex_vc.lib fmod_event.lib"
+				AdditionalLibraryDirectories="../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/myguiengine/lib/release;../../etc/vendor/ogre/lib;../../etc/vendor/yaml/lib;../../etc/vendor/havok/lib/release_multithreaded_dll;../../etc/vendor/fmod/lib"
 				GenerateDebugInformation="true"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -162,7 +162,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy /Y ..\..\etc\vendor\mygui\shared\release\mygui.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\ogremain.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\RenderSystem_Direct3D9.dll ..\..\build\release\bin&#x0D;&#x0A;"
+				CommandLine="copy /Y ..\..\etc\vendor\mygui\shared\release\mygui.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\ogremain.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\RenderSystem_Direct3D9.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\fmod\lib\fmodex.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\fmod\lib\fmod_event.dll ..\..\build\release\bin&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

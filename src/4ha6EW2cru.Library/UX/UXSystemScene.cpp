@@ -17,8 +17,6 @@ namespace UX
 {
 	UXSystemScene::~UXSystemScene()
 	{
-		assert( _components.size( ) == 1 );
-
 		for ( UXSystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
 		{
 			delete ( *i );
@@ -40,6 +38,7 @@ namespace UX
 		IService* renderService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::RENDER );
 		Ogre::RenderWindow* renderWindow = renderService->Execute( "getRenderWindow", AnyValue::AnyValueMap( ) )[ "renderWindow" ].GetValue< Ogre::RenderWindow* >( );
 		_gui->initialise( renderWindow, "/data/interface/core/core.xml" );
+		_gui->hidePointer( );
 
 		Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_PRESSED, this, &UXSystemScene::OnMousePressed );
 		Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_MOVED, this, &UXSystemScene::OnMouseMoved );
@@ -52,12 +51,12 @@ namespace UX
 		UXSystemComponent* component = new UXSystemComponent( scriptPath, this );
 		_components.push_back( component );
 
-		AnyValue::AnyValueMap parameters;
-		parameters[ "scriptPath" ] = scriptPath;
-		parameters[ "name" ] = scriptPath;
+		AnyValue::AnyValueMap scriptParameters;
+		scriptParameters[ "scriptPath" ] = scriptPath;
+		scriptParameters[ "name" ] = scriptPath;
 
 		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
-		lua_State* state = scriptService->Execute( "loadScript", parameters )[ "state" ].GetValue< lua_State* >( );
+		lua_State* state = scriptService->Execute( "loadScript", scriptParameters )[ "state" ].GetValue< lua_State* >( );
 
 		module( state )
 		[
@@ -82,6 +81,8 @@ namespace UX
 				.def( "getType", &Widget::getClassTypeName )
 				.def( "setVisible", &Widget::setVisible )
 				.def( "isVisible", &Widget::isVisible )
+				.def( "getAlpha", &Widget::getAlpha )
+				.def( "setAlpha", &Widget::setAlpha )
 				.def( "getText", &UXSystemScene::GetText )
 				.def( "setText", &UXSystemScene::SetText )
 				.def( "asButton", &UXSystemScene::AsButton )
@@ -119,6 +120,11 @@ namespace UX
 		
 		luabind::globals( state )[ "ux" ] = component;
 		lua_pcall( state, 0, 0, 0 );
+
+		IService* soundService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SOUND );
+		AnyValue::AnyValueMap soundParameters;
+		soundParameters[ "filePath" ] = "/data/sound/music/ux.fev";
+		soundService->Execute( "load", soundParameters );
 
 		WidgetManager::getInstancePtr( )->registerUnlinker( this );
 	}

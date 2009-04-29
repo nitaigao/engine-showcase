@@ -20,6 +20,7 @@ using namespace Events;
 using namespace luabind;
 
 #include "ScriptEvent.hpp"
+#include "ScriptFunctionHandler.hpp"
 
 namespace Script
 {
@@ -27,18 +28,19 @@ namespace Script
 	{
 		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( ALL_EVENTS, this, &ScriptComponent::OnEvent );
 
-		delete _eventHandlers;
-		_eventHandlers = 0;
+		for ( FunctionList::iterator i = _updateHandlers.begin( ); i != _updateHandlers.end( ); ++i )	
+		{
+			delete ( *i );
+		}
 
-		delete _updateHandlers;
-		_updateHandlers = 0;
+		for ( FunctionList::iterator i = _eventHandlers.begin( ); i != _eventHandlers.end( ); ++i )
+		{
+			delete ( *i );
+		}
 	}
 
 	void ScriptComponent::Initialize( AnyValue::AnyValueMap& properties )
 	{
-		_eventHandlers = new FunctionList( );
-		_updateHandlers = new FunctionList( );
-
 		Management::GetInstance( )->GetEventManager( )->AddEventListener( ALL_EVENTS, this, &ScriptComponent::OnEvent );
 
 		for ( AnyValue::AnyValueMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
@@ -86,38 +88,46 @@ namespace Script
 
 	void ScriptComponent::RegisterEvent( const luabind::object& function )
 	{
-		_eventHandlers->push_back( function );
+		_eventHandlers.push_back( new ScriptFunctionHandler( function ) );
 	}
 
 	void ScriptComponent::UnRegisterEvent( const luabind::object& function )
 	{
-		for ( FunctionList::iterator i = _eventHandlers->begin( ); i != _eventHandlers->end( ); ++i )
+		for ( FunctionList::iterator i = _eventHandlers.begin( ); i != _eventHandlers.end( ); ++i )
 		{
-			if ( ( *i ) == function )
+			if ( ( *i )->GetFunction( ) == function )
 			{
-				_eventHandlers->erase( i );
-				return;
+				( *i )->MarkForDeletion( ); 
 			}
 		}
 	}
 
 	void ScriptComponent::RegisterUpdate( const luabind::object& function )
 	{
-		_updateHandlers->push_back( function );
+		_updateHandlers.push_back( new ScriptFunctionHandler( function ) );
+	}
+
+	void ScriptComponent::UnRegisterUpdate( const luabind::object& function )
+	{
+		for ( FunctionList::iterator i = _updateHandlers.begin( ); i != _updateHandlers.end( ); ++i )
+		{
+			if ( ( *i )->GetFunction( ) == function )
+			{
+				( *i )->MarkForDeletion( ); 
+			}
+		}
 	}
 
 	void ScriptComponent::OnEvent( const IEvent* event )
 	{
-		FunctionList handlers( *_eventHandlers );
-
-		for ( FunctionList::iterator i = handlers.begin( ); i != handlers.end( ); ++i )
+		for ( FunctionList::iterator i = _eventHandlers.begin( ); i != _eventHandlers.end( ); ++i )
 		{
 			EventType eventType = event->GetEventType( );
 			
 			if ( event->GetEventType( ) == ALL_EVENTS )
 			{
 				ScriptEvent* scriptEvent = ( ScriptEvent* ) event;
-				call_function< void >( ( *i ), scriptEvent->GetEventName( ), scriptEvent->GetValue1( ), scriptEvent->GetValue2( ) );
+				call_function< void >( ( *i )->GetFunction( ), scriptEvent->GetEventName( ), scriptEvent->GetValue1( ), scriptEvent->GetValue2( ) );
 			}
 		}
 	}
@@ -238,9 +248,35 @@ namespace Script
 
 	void ScriptComponent::Update( const float& deltaMilliseconds )
 	{
-		for ( FunctionList::iterator i = _updateHandlers->begin( ); i != _updateHandlers->end( ); ++i )	
+		for ( FunctionList::iterator i = _updateHandlers.begin( ); i != _updateHandlers.end( ); ++i )	
 		{
-			call_function< void >( ( *i ), deltaMilliseconds );
+			call_function< void >( ( *i )->GetFunction( ), deltaMilliseconds );
+		}
+
+		for ( FunctionList::iterator i = _updateHandlers.begin( ); i != _updateHandlers.end( ); )	
+		{
+			if ( ( *i )->IsMarkedForDeletion( ) )
+			{
+				delete ( *i );
+				i = _updateHandlers.erase( i );
+			}
+			else
+			{
+				++i;
+			}
+		}
+
+		for ( FunctionList::iterator i = _eventHandlers.begin( ); i != _eventHandlers.end( ); )
+		{
+			if ( ( *i )->IsMarkedForDeletion( ) )
+			{
+				delete ( *i );
+				i = _eventHandlers.erase( i );
+			}
+			else
+			{
+				++i;
+			}
 		}
 	}
 

@@ -4,7 +4,7 @@
 
 namespace Serialization
 {
-	ISystemComponent* AIComponentSerializer::Deserialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes )
+	ISystemComponent* AIComponentSerializer::DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes )
 	{ 
 		AnyValue::AnyValueMap properties;
 	

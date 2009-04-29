@@ -6,7 +6,7 @@ using namespace Script;
 
 namespace Serialization
 {
-	ISystemComponent* ScriptComponentSerializer::Deserialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes )
+	ISystemComponent* ScriptComponentSerializer::DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes )
 	{
 		AnyValue::AnyValueMap properties;
 	

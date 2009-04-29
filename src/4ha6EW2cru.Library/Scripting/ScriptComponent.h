@@ -10,6 +10,8 @@
 #include "IScriptComponent.hpp"
 #include "../Events/IEvent.hpp"
 
+#include "IScriptFunctionHandler.hpp"
+
 #include <luabind/luabind.hpp>
 
 namespace Script
@@ -19,7 +21,7 @@ namespace Script
 	 */
 	class ScriptComponent : public IScriptComponent
 	{
-		typedef std::vector< luabind::object > FunctionList;
+		typedef std::vector< IScriptFunctionHandler* > FunctionList;
 
 	public:
 
@@ -219,6 +221,14 @@ namespace Script
 		void RegisterUpdate( const luabind::object& function );
 
 
+		/*! UnRegisters an LUA function from being included in the Game Update Loop
+		*
+		*  @param[in] luabind::object function
+		*  @return (void)
+		*/
+		void UnRegisterUpdate( const luabind::object& function );
+
+
 		/*! Executed the given string as LUA code against the components LUA State
 		 *
 		 *  @param[in] const std::string & input
@@ -329,8 +339,8 @@ namespace Script
 		lua_State* _state;
 		std::string _name;
 
-		FunctionList* _eventHandlers;
-		FunctionList* _updateHandlers;
+		FunctionList _eventHandlers;
+		FunctionList _updateHandlers;
 
 		IObserver* _observer;
 

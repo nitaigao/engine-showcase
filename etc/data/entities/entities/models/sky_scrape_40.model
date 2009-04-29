@@ -1,0 +1,10 @@
+<node name='sky_scrape_40'>
+  <scale x='0.865951' y='0.865951' z='0.865951'/>
+  <position x='-85.9219' y='7.46204' z='-239.853'/>
+  <rotation qw='1' qx='0' qy='-8.74228e-008' qz='0'/>
+  <entity name='sky_scrape_40' id='106' receiveShadows='true' meshFile='/data/entities/meshes/sky_scrape_40.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='skyscrp' index='0'/>
+    </subentities>
+  </entity>
+</node>

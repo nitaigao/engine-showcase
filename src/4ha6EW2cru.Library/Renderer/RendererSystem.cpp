@@ -148,7 +148,7 @@ namespace Renderer
 
 		if ( name == "ambientColor" )
 		{
-			Color color = value.GetValue< Color >( );
+			Color color = value.GetValue< Renderer::Color >( );
 			ColourValue colorValue( color.Red, color.Green, color.Blue );
 
 			_sceneManager->setAmbientLight( colorValue );
@@ -156,7 +156,7 @@ namespace Renderer
 
 		if ( name == "backgroundColor" )
 		{
-			Color color = value.GetValue< Color >( );
+			Color color = value.GetValue< Renderer::Color >( );
 			ColourValue colorValue( color.Red, color.Green, color.Blue );
 
 			_sceneManager->getCurrentViewport( )->setBackgroundColour( colorValue );

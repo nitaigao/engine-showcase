@@ -24,6 +24,7 @@ using namespace Serialization;
 #include "Physics/HavokPhysicsSystem.h"
 #include "AI/AISystem.h"
 #include "UX/UXSystem.h"
+#include "Sound/SoundSystem.h"
 
 #include "Events/Event.h"
 #include "Events/EventData.hpp"
@@ -59,12 +60,13 @@ void Game::Initialize( )
 
 	ISystemManager* systemManager = Management::GetInstance( )->GetSystemManager( );
 	systemManager->RegisterSystem( new Geometry::GeometrySystem( ) );
-	systemManager->RegisterSystem( new Physics::HavokPhysicsSystem( ) );
 	systemManager->RegisterSystem( new Renderer::RendererSystem( _configuration ) );
+	systemManager->RegisterSystem( new Physics::HavokPhysicsSystem( ) );
 	systemManager->RegisterSystem( new Input::InputSystem( _configuration ) );
 	systemManager->RegisterSystem( new Script::ScriptSystem( _configuration ) );
 	systemManager->RegisterSystem( new AI::AISystem( ) );
 	systemManager->RegisterSystem( new UX::UXSystem( ) );
+	systemManager->RegisterSystem( new Sound::SoundSystem( ) );
 	systemManager->InitializeAllSystems( );
 
 	// -- Setup the World and World Loader
@@ -145,8 +147,8 @@ void Game::OnGameEnded( const IEvent* event )
 	ISystem* renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
 
 	renderSystem->SetProperty( "activeCamera", "default" );
-	renderSystem->SetProperty( "ambientColor", Renderer::Color( 0.0f, 0.0f, 0.0f ) );
-	renderSystem->SetProperty( "backgroundColor", Renderer::Color( 0.0f, 0.0f, 0.0f ) );
+	//renderSystem->SetProperty( "ambientColor", Renderer::Color( 0.0f, 0.0f, 0.0f ) );
+	//renderSystem->SetProperty( "backgroundColor", Renderer::Color( 0.0f, 0.0f, 0.0f ) );
 	renderSystem->SetProperty( "skyBox", "" );
 }
 

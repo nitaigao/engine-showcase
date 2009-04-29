@@ -1,0 +1,10 @@
+<node name='misc_traffic-lighs_11'>
+  <scale x='1' y='1' z='1'/>
+  <position x='95.7269' y='-0.821905' z='-40.216'/>
+  <rotation qw='-7.54979e-008' qx='0' qy='1' qz='0'/>
+  <entity name='misc_traffic-lighs_11' id='295' receiveShadows='true' meshFile='/data/entities/meshes/misc_traffic-lighs_11.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='roads' index='0'/>
+    </subentities>
+  </entity>
+</node>

@@ -14,8 +14,8 @@ Interface = {}
 function Interface.initialize( )
 
 	print( 'Loading Interface' );
-
-	--unregisterEvent( EventType.GAME_INITIALIZED, Interface.initialize );
+	
+	Script:unregisterEventHandler( Interface.onEvent );
 
 	ux:loadComponent( 'title' );
 	ux:loadComponent( 'menu' );

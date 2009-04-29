@@ -4,7 +4,7 @@
 
 namespace Serialization
 {
-	ISystemComponent* GraphicsComponentSerializer::Deserialize( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap&  systemScenes )
+	ISystemComponent* GraphicsComponentSerializer::DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap&  systemScenes )
 	{
 		AnyValue::AnyValueMap properties;
 	

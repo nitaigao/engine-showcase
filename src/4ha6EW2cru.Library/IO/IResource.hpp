@@ -26,6 +26,22 @@ namespace Resources
 		*/
 		virtual IO::FileBuffer* GetFileBuffer( ) const = 0;
 
+
+		/*! Increments the reference count for this resource 
+		*   If it hit's 0 the resource will be queued for deletion
+		*
+		*  @return (void)
+		*/
+		virtual void AddReference( ) = 0;
+
+
+		/*! De increments the reference count for this resource 
+		 *  If it hit's 0 the resource will be queued for deletion
+		 *
+		 *  @return (void)
+		 */
+		virtual void RemoveReference( ) = 0;
+
 	};
 };
 

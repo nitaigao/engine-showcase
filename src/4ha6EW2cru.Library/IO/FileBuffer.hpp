@@ -38,16 +38,18 @@ namespace IO
 		 *  @param[in] const std::string & filePath
 		 *  @return ()
 		 */
-		FileBuffer( char* fileBytes, const int& fileLength, const std::string& filePath )
+		FileBuffer( char* fileBytes, const unsigned int& fileLength, const std::string& filePath )
 			: fileBytes( fileBytes )
 			, fileLength( fileLength )
 			, filePath( filePath )
+			, filePosition( 0 )
 		{
 
 		}
 
 
-		int fileLength;
+		unsigned int fileLength;
+		unsigned int filePosition;
 		const std::string filePath;
 		char* fileBytes;
 

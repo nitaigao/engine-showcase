@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout">
+    <Widget type="Window" skin="Window" position="452 208 516 472" align="Center" layer="Modal" name="options">
+        <Property key="Widget_Caption" value="Options"/>
+        <Widget type="Tab" skin="Tab" position="0 8 504 392" layer="Back" name="options_tabs">
+            <Widget type="TabItem" skin="Default" position="4 26 495 360" layer="Back">
+                <Property key="Widget_Caption" value="keyboard"/>
+                <Property key="Sheet_Select" value="true"/>
+                <Widget type="List" skin="List" position="4 7 488 352" layer="Back">
+                    <Property key="List_AddItem" value="Forward"/>
+                    <Property key="List_AddItem" value="Backward"/>
+                    <Property key="List_AddItem" value="Strafe left"/>
+                    <Property key="List_AddItem" value="Strafe right"/>
+                </Widget>
+            </Widget>
+            <Widget type="TabItem" skin="Default" position="4 26 495 360" layer="Back">
+                <Property key="Widget_Caption" value="Audio"/>
+            </Widget>
+            <Widget type="TabItem" skin="Default" position="4 26 495 360" layer="Back">
+                <Property key="Widget_Caption" value="Video"/>
+                <Widget type="Button" skin="CheckBox" position="264 48 127 36" name="options_fullscreen_checkbox">
+                    <Property key="Widget_Caption" value="FullScreen"/>
+                    <Property key="Widget_AlignText" value="Left VCenter"/>
+                </Widget>
+                <Widget type="ComboBox" skin="ComboBox" position="208 16 183 28" name="options_resolution_combo">
+                    <Property key="ComboBox_ModeDrop" value="true"/>
+                </Widget>
+                <Widget type="StaticText" skin="StaticText" position="104 24 103 15">
+                    <Property key="Widget_Caption" value="Resolution"/>
+                </Widget>
+            </Widget>
+            <Widget type="TabItem" skin="Default" position="4 26 495 360" layer="Back">
+                <Property key="Widget_Caption" value="Advanced"/>
+                <Widget type="Button" skin="CheckBox" position="144 16 192 36" name="options_console_checkbox">
+                    <Property key="Widget_Caption" value="developer Console"/>
+                    <Property key="Widget_AlignText" value="Left VCenter"/>
+                </Widget>
+            </Widget>
+        </Widget>
+        <Widget type="Button" skin="Button" position="376 406 123 24" align="Right Bottom" name="options_button_save">
+            <Property key="Widget_Caption" value="Save"/>
+        </Widget>
+    </Widget>
+</MyGUI>
