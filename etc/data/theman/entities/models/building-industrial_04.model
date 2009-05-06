@@ -1,0 +1,10 @@
+<node name='building-industrial_04'>
+  <scale x='2.04529' y='2.04529' z='2.04529'/>
+  <position x='495.344' y='0.205944' z='910.652'/>
+  <rotation qw='1' qx='0' qy='8.74228e-008' qz='0'/>
+  <entity name='building-industrial_04' id='2511' receiveShadows='true' meshFile='/data/entities/meshes/building-industrial_04.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='buildz5' index='0'/>
+    </subentities>
+  </entity>
+</node>

@@ -1,0 +1,65 @@
+Factions
+
+	One Line:
+	
+		A game about waring factions for the last of the planets resources
+		
+	Background:
+	
+		%PLANETNAME%, our planet, a planet once beautiful and thriving with life and some of the greatest technology conceived was destined for tragedy by the blade of its own inhabitants. As technological achievments grew in energy, 
+		communication, transportation and weaponry, leaders became greedy and used their knowledge to seize and drain resources from other regions of the globe. These other regions were oppressed with no forgiveness and soon the treatment 
+		of the population became too much. A war sparked between groups of milita formed into factions against their opposing cities. This war, a war fueled by an unsurpassed technological 
+		brilliance has devastated once beautiful and thriving life. Cities have been turned to craters as bomb after bomb destroyed each building of stature. Countryside turned to waste land after each faction has been drained for resources and man power. 
+		The sky turned to ash as each explosion fueled carbon monoxide in the atmosphere to astronomical levels. This war has been our way for over 100 years and this is where we join our hero, a faction insurgent that specialises in the procurement of
+		enemy technology so that we may learn and adapt it to our own needs, so that we the people may live to survive another day in the terrible destruction that surrounds us.
+		
+	Chapter 1:
+	
+		Description:
+		
+			The opposing city of %CITYNAME% has developed low energy nuclear reaction technology (LENR). This technology allows them to generate energy from air. Knowing that we will never be able to irradicate the technology we must study it if we
+			ever hope to have any way of shutting down anyting that is powered by it or develop anything of our own to compete with it. It's your ob to aquire this information. The technology is stored within a facility deep in the core of the city.
+			You must meet with our inside man who can give you access to the first level of the facility, from their you must find your way to the information and get out with it alive. Be careful though, they are already using LENR and we have no
+			knowledge of what could be guarding the facility and the information.
+			
+			Good Luck.
+
+		Level1: The Man
+
+			Objective:
+
+				Fight your way from the outskirts of the city to the informant who can give you the pass code and the location of the city
+
+			Enemies:
+
+				Marines, Mech Crawlers
+
+		Level2: The Way
+
+			Objective:
+
+				Find your way to the underground facility and use the code to get in
+
+			Enemies:
+
+				Marines, Mech Crawlers, Big Robot Guarding Facility
+				
+		Level3: The Facility
+
+			Objective:
+				
+				Infiltrate the facility, download the the information from the mainframe and get out. The passage used to get in is blocked, you must find a new way out. 
+				
+			Enemies:
+			
+				Marines
+				
+		Level4: Getting Home
+
+			Objective:
+			
+				Find a safe spot to signal for a pickup, get to the designated pickup point with the information
+				
+			Enemies:
+			
+				Marines, Mech Crawlers, Robots

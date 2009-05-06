@@ -1,0 +1,10 @@
+<node name='building-scyscrapers_38'>
+  <scale x='2.04529' y='2.04529' z='2.04529'/>
+  <position x='349.964' y='0.175819' z='794.161'/>
+  <rotation qw='1' qx='0' qy='0' qz='0'/>
+  <entity name='building-scyscrapers_38' id='2377' receiveShadows='true' meshFile='/data/entities/meshes/building-scyscrapers_38.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='skyscrapers' index='0'/>
+    </subentities>
+  </entity>
+</node>

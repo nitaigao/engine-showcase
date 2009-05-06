@@ -1,0 +1,262 @@
+material Material#25
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588 0.588 0.588 
+			diffuse 0.588 0.588 0.588 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/roads2.tga 
+			}
+		}
+	}
+}
+
+
+material Material#38
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588 0.588 0.588 
+			diffuse 0.588 0.588 0.588 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/grass-d.tga 
+			}
+		}
+	}
+}
+
+
+material Material#52
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588 0.588 0.588 
+			diffuse 0.588 0.588 0.588 
+			specular 0 0 0 10
+			emissive 1 1 1 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/Skyscrp.tga 
+			}
+		}
+	}
+}
+
+
+material NoMaterial
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.7 0.7 0.7 
+			diffuse 0.7 0.7 0.7 
+		}
+	}
+}
+
+
+material buildz1
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1 
+			diffuse 1 1 1 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/buildz1.tga 
+			}
+		}
+	}
+}
+
+
+material buildz2
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1 
+			diffuse 1 1 1 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/buildz2.tga 
+			}
+		}
+	}
+}
+
+
+material buildz3
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1 
+			diffuse 1 1 1 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/buildz3.tga 
+			}
+		}
+	}
+}
+
+
+material buildz4
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1 
+			diffuse 1 1 1 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/buildz4.tga 
+			}
+		}
+	}
+}
+
+
+material buildz5
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.980392 0.980392 0.980392 
+			diffuse 0.980392 0.980392 0.980392 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/buildz5.tga 
+			}
+		}
+	}
+}
+
+
+material buildz6
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1 
+			diffuse 1 1 1 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/buildz6.tga 
+			}
+		}
+	}
+}
+
+
+material skybox
+{
+	receive_shadows off
+	transparency_casts_shadows off
+	technique Map#7
+	{
+		pass Map#8
+		{
+			ambient 1 1 1 1
+			diffuse 0.992157 0.992157 0.992157 1
+			specular 0.898039 0.898039 0.898039 1 20
+			emissive 1 1 1 1
+			scene_blend one zero
+			depth_check on
+			depth_write on
+			depth_func less_equal
+			depth_bias 0 0
+			alpha_rejection always_pass 0
+			cull_hardware clockwise
+			cull_software back
+			lighting on
+			shading gouraud
+			polygon_mode solid
+			colour_write on
+			max_lights 8
+			start_light 0
+			iteration once 
+			texture_unit Map#9
+			{
+				cubic_texture /data/entities/textures/city_BK.jpg  /data/entities/textures/city_FR.jpg  /data/entities/textures/city_LF.jpg  /data/entities/textures/city_RT.jpg  /data/entities/textures/city_UP.jpg  /data/entities/textures/city_DN.jpg  separateUV
+				binding_type fragment
+				tex_coord_set 0
+				tex_address_mode wrap wrap wrap
+				tex_border_colour 0 0 0 1
+				filtering trilinear
+				max_anisotropy 1
+				mipmap_bias 0
+				colour_op_ex modulate src_texture src_current
+				alpha_op_ex modulate src_texture src_current
+				colour_op_multipass_fallback one zero
+				env_map off
+			}
+
+		}
+
+	}
+
+}
+
+material skyscrapers
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.588235 0.588235 0.588235 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/Skyscrp.tga 
+			}
+		}
+	}
+}
+
+

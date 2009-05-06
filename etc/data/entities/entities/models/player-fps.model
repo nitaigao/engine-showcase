@@ -1,0 +1,35 @@
+<node name='player' id='295'>
+  <scale x='1' y='1' z='1'/>
+  <position x='-0.0203857' y='1.75123' z='-2.49375'/>
+  <rotation qw='1' qx='0' qy='0' qz='0'/>
+  <node name='player-camera'>
+    <scale x='1' y='1' z='1'/>
+    <position x='1.78814e-007' y='-4.76837e-007' z='2.21411'/>
+    <rotation qw='0.996195' qx='-0.0871557' qy='-0' qz='-0'/>
+    <camera name='player' fov='1.04463' id='203'>
+      <clipping far='650' near='0.150001'/>
+    </camera>
+  </node>
+  <node name='player-body'>
+    <scale x='1' y='1' z='1'/>
+    <position x='0.0196115' y='-1.60681' z='2.34727'/>
+    <rotation qw='1' qx='0' qy='0' qz='0'/>
+    <entity name='player-body' id='48' receiveShadows='true' meshFile='/data/entities/meshes/player-body.mesh' castShadows='true'>
+      <subentities>
+        <subentity materialName='marine-body' index='0'/>
+      </subentities>
+      <boneAttachments>
+        <boneAttachment bone='Bip01 R Hand'>
+          <scale x='1' y='1' z='1'/>
+          <position x='0.214304' y='0.131607' z='-0.0223632'/>
+          <rotation qw='1' qx='2.2701e-009' qy='8.84756e-008' qz='-3.72529e-009'/>
+          <entity name='marine-gun' id='88' receiveShadows='true' meshFile='/data/entities/meshes/marine-gun.mesh' castShadows='true'>
+            <subentities>
+              <subentity materialName='07-Default' index='0'/>
+            </subentities>
+          </entity>
+        </boneAttachment>
+      </boneAttachments>
+    </entity>
+  </node>
+</node>
