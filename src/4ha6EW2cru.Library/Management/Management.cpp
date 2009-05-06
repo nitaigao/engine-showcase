@@ -39,6 +39,8 @@ Management::~Management( )
 void Management::Initialize( )
 {
 	g_ManagementInstance = new Management( );
+
+	g_ManagementInstance->_fileSystem->Initialize( );
 }
 
 Management* Management::GetInstance( )

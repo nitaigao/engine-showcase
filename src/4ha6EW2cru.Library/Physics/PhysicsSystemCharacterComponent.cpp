@@ -45,7 +45,6 @@ namespace Physics
 		_characterBody = new hkpCharacterRigidBody( characterInfo );
 
 		_body = _characterBody->getRigidBody( );
-		_body->setUserData( _componentId );
 		_body->setName( _name.c_str( ) );
 		_scene->GetWorld( )->addEntity( _body );
 
@@ -57,6 +56,7 @@ namespace Physics
 		_characterInput.m_up = MathVector3::Up( ).AshkVector4( );
 		_characterInput.m_forward = MathVector3::Forward( ).AshkVector4( );
 		_characterInput.m_characterGravity = hkVector4( 0.0f, -16.0f, 0.0f );
+		_characterInput.m_userData = false;
 	}
 
 	PhysicsSystemCharacterComponent::~PhysicsSystemCharacterComponent()
@@ -68,73 +68,83 @@ namespace Physics
 
 	void PhysicsSystemCharacterComponent::Update( const float& deltaMilliseconds )
 	{
-		_characterInput.m_inputUD = _forwardBackward;
-		_characterInput.m_inputLR = _leftRight;
-
-		_characterInput.m_stepInfo.m_deltaTime = deltaMilliseconds;
-		_characterInput.m_stepInfo.m_invDeltaTime = 1.0f / deltaMilliseconds;
-
-		_characterInput.m_velocity = _characterBody->getRigidBody( )->getLinearVelocity( );
-		_characterInput.m_position = _characterBody->getRigidBody( )->getPosition( );
-
-		_characterInput.m_forward.set( 0.0f, 0.0f, 1.0f );
-		_characterInput.m_forward.setRotatedDir( _characterBody->getRigidBody( )->getRotation( ), _characterInput.m_forward );
-
-		hkpSurfaceInfo ground;
-		_characterBody->checkSupport( _characterInput.m_stepInfo, ground );
-
-		const int skipFramesInAir = 10; 
-
-		if (_characterInput.m_wantJump)
+		if ( _characterInput.m_userData )
 		{
-			_framesInAir = skipFramesInAir;
-		}
+			_characterInput.m_inputUD = _forwardBackward;
+			_characterInput.m_inputLR = _leftRight;
 
-		if ( ground.m_supportedState != hkpSurfaceInfo::SUPPORTED )
-		{
-			if (_framesInAir < skipFramesInAir)
+			_characterInput.m_stepInfo.m_deltaTime = deltaMilliseconds;
+			_characterInput.m_stepInfo.m_invDeltaTime = 1.0f / deltaMilliseconds;
+
+			_characterInput.m_velocity = _characterBody->getRigidBody( )->getLinearVelocity( );
+			_characterInput.m_position = _characterBody->getRigidBody( )->getPosition( );
+
+			_characterInput.m_forward.set( 0.0f, 0.0f, 1.0f );
+			_characterInput.m_forward.setRotatedDir( _characterBody->getRigidBody( )->getRotation( ), _characterInput.m_forward );
+
+			hkpSurfaceInfo ground;
+			_characterBody->checkSupport( _characterInput.m_stepInfo, ground );
+
+			const int skipFramesInAir = 10; 
+
+			if (_characterInput.m_wantJump)
 			{
-				_characterInput.m_isSupported = true;
-				_characterInput.m_surfaceNormal = _previousGround->m_surfaceNormal;
-				_characterInput.m_surfaceVelocity = _previousGround->m_surfaceVelocity;
-				_characterInput.m_surfaceMotionType = _previousGround->m_surfaceMotionType;
+				_framesInAir = skipFramesInAir;
+			}
+
+			if ( ground.m_supportedState != hkpSurfaceInfo::SUPPORTED )
+			{
+				if (_framesInAir < skipFramesInAir)
+				{
+					_characterInput.m_isSupported = true;
+					_characterInput.m_surfaceNormal = _previousGround->m_surfaceNormal;
+					_characterInput.m_surfaceVelocity = _previousGround->m_surfaceVelocity;
+					_characterInput.m_surfaceMotionType = _previousGround->m_surfaceMotionType;
+				}
+				else
+				{
+					_characterInput.m_isSupported = false;
+					_characterInput.m_surfaceNormal = ground.m_surfaceNormal;
+					_characterInput.m_surfaceVelocity = ground.m_surfaceVelocity;	
+					_characterInput.m_surfaceMotionType = ground.m_surfaceMotionType;
+				}			
+
+				_framesInAir++;
 			}
 			else
 			{
-				_characterInput.m_isSupported = false;
+				_characterInput.m_isSupported = true;
 				_characterInput.m_surfaceNormal = ground.m_surfaceNormal;
-				_characterInput.m_surfaceVelocity = ground.m_surfaceVelocity;	
+				_characterInput.m_surfaceVelocity = ground.m_surfaceVelocity;
 				_characterInput.m_surfaceMotionType = ground.m_surfaceMotionType;
-			}			
 
-			_framesInAir++;
+				_previousGround->set(ground);
+
+				if (_framesInAir > skipFramesInAir)
+				{
+					_framesInAir = 0;
+				}			
+			}
+
+			hkpCharacterOutput output;
+			_characterContext->update( _characterInput, output );
+			_characterBody->setLinearVelocity( output.m_velocity, deltaMilliseconds );
+
+			this->PushChanges( 
+				System::Changes::Geometry::Orientation |
+				System::Changes::Geometry::Position
+				);
+
+			float stopSpeed = 0.0f;
+
+			_forwardBackward = stopSpeed;
+			_leftRight = stopSpeed;
+			_characterInput.m_inputLR = stopSpeed;
+			_characterInput.m_inputUD = stopSpeed;
+			_characterInput.m_wantJump = false;
+
+			_characterInput.m_userData = ( _characterBody->getLinearVelocity( ).compareEqual4( hkVector4::getZero( ) ).anyIsSet( ) );
 		}
-		else
-		{
-			_characterInput.m_isSupported = true;
-			_characterInput.m_surfaceNormal = ground.m_surfaceNormal;
-			_characterInput.m_surfaceVelocity = ground.m_surfaceVelocity;
-			_characterInput.m_surfaceMotionType = ground.m_surfaceMotionType;
-
-			_previousGround->set(ground);
-
-			if (_framesInAir > skipFramesInAir)
-			{
-				_framesInAir = 0;
-			}			
-		}
-
-		hkpCharacterOutput output;
-		_characterContext->update( _characterInput, output );
-		_characterBody->setLinearVelocity( output.m_velocity, deltaMilliseconds );
-
-		float stopSpeed = 0.0f;
-
-		_forwardBackward = stopSpeed;
-		_leftRight = stopSpeed;
-		_characterInput.m_inputLR = stopSpeed;
-		_characterInput.m_inputUD = stopSpeed;
-		_characterInput.m_wantJump = false;
 	}
 
 	void PhysicsSystemCharacterComponent::Observe( ISubject* subject, const unsigned int& systemChanges )
@@ -143,7 +153,7 @@ namespace Physics
 
 		ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 
-		float walkSpeed = 1.0f;
+		float walkSpeed = 2.0f;
 			
 		if( System::Changes::Input::Move_Forward & systemChanges )
 		{
@@ -170,13 +180,18 @@ namespace Physics
 			_characterInput.m_wantJump = true;
 		}
 
-		hkReal lengthSquared = _forwardBackward * _forwardBackward + _leftRight * _leftRight;
-
-		if (lengthSquared > HK_REAL_MIN)
+		if ( _forwardBackward || _leftRight )
 		{
-			lengthSquared = hkMath::sqrt(lengthSquared);
-			_forwardBackward /= lengthSquared;
-			_leftRight /= lengthSquared;
+			hkReal lengthSquared = _forwardBackward * _forwardBackward + _leftRight * _leftRight;
+
+			if (lengthSquared > HK_REAL_MIN)
+			{
+				lengthSquared = hkMath::sqrt(lengthSquared);
+				_forwardBackward /= lengthSquared;
+				_leftRight /= lengthSquared;
+			}
 		}
+
+		_characterInput.m_userData = true;
 	}
 }

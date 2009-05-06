@@ -62,11 +62,15 @@ namespace Serialization
 		{
 			this->LoadColor( node );
 		}
+		else if( type == "fog" )
+		{
+			this->LoadFog( node );
+		}
 		else if ( type == "skybox" )
 		{
 			this->LoadSkyBox( node );
 		}
-		else if ( type == "link" )
+		else if ( type == "entityLink" )
 		{
 			this->LoadLink( node );
 		}
@@ -74,60 +78,102 @@ namespace Serialization
 	
 	void WorldSerializer::LoadLink( const YAML::Node& node )
 	{ 
-		std::string entityName, entitySystem, observerName, observerSystem;
+		std::string subjectName, subjectSystem, observerName, observerSystem;
 	
-		node[ "entityName" ] >> entityName;
-		node[ "entitySystem" ] >> entitySystem;
+		node[ "subjectName" ] >> subjectName;
+		node[ "subjectSystem" ] >> subjectSystem;
 		node[ "observerName" ] >> observerName;
 		node[ "observerSystem" ] >> observerSystem;
 	
-		System::Types::Type entitySystemType = System::TypeMapper::StringToType( entitySystem );
+		System::Types::Type subjectSystemType = System::TypeMapper::StringToType( subjectSystem );
 		System::Types::Type observerSystemType = System::TypeMapper::StringToType( observerSystem );
-	
-		IWorldEntity* entity = _world->FindEntity( entityName );
-		IWorldEntity* observer = _world->FindEntity( observerName );
-	
-		ISystemComponent* entityComponent = entity->FindComponent( entitySystemType );
-		ISystemComponent* observerComponent = observer->FindComponent( observerSystemType );
-	
-		entityComponent->AddObserver( observerComponent );
+
+		if ( 
+			Management::GetInstance( )->GetSystemManager( )->HasSystem( subjectSystemType ) && 
+			Management::GetInstance( )->GetSystemManager( )->HasSystem( observerSystemType ) 
+			)
+		{
+			IWorldEntity* subject = _world->FindEntity( subjectName );
+			IWorldEntity* observer = _world->FindEntity( observerName );
+		
+			ISystemComponent* entityComponent = subject->FindComponent( subjectSystemType );
+			ISystemComponent* observerComponent = observer->FindComponent( observerSystemType );
+		
+			entityComponent->AddObserver( observerComponent );
+		}
 	
 	}
 	
 	void WorldSerializer::LoadSkyBox( const YAML::Node& node )
 	{
-		std::string materialName;
-		node[ "material" ] >> materialName;
-	
-		ISystem* renderer = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
-		renderer->SetProperty( "skyBox", materialName );
+		if ( Management::GetInstance( )->GetSystemManager( )->HasSystem( System::Types::RENDER ) )
+		{
+			std::string materialName;
+			node[ "material" ] >> materialName;
+
+			float distance;
+			node[ "distance" ] >> distance;
+
+			AnyValue::AnyValueMap parameters;
+			parameters[ "material" ] = materialName;
+			parameters[ "distance" ] = distance;
+		
+			ISystem* renderer = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
+			renderer->SetProperty( "skyBox", parameters );
+		}
+	}
+
+	void WorldSerializer::LoadFog( const YAML::Node& node )
+	{
+		if ( Management::GetInstance( )->GetSystemManager( )->HasSystem( System::Types::RENDER ) )
+		{
+			float linearEnd, linearStart;
+			node[ "linearEnd" ] >> linearEnd;
+			node[ "linearStart" ] >> linearStart;
+
+			float r, g, b;
+			node[ "r" ] >> r;
+			node[ "g" ] >> g;
+			node[ "b" ] >> b;
+
+			AnyValue::AnyValueMap parameters;
+			parameters[ "linearEnd" ] = linearEnd;
+			parameters[ "linearStart" ] = linearStart;
+			parameters[ "color" ] = Renderer::Color( r, g, b );
+
+			ISystem* renderer = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
+			renderer->SetProperty( "fog", parameters );
+		}
 	}
 	
 	void WorldSerializer::LoadColor( const YAML::Node& environmentNode )
 	{
-		std::string name;
-		environmentNode[ "name" ] >> name;
-	
-		AnyValue::AnyValueMap properties;
-	
-		float red = 0;
-		float green = 0;
-		float blue = 0;
-	
-		environmentNode[ "r" ] >> red;
-		environmentNode[ "g" ] >> green;
-		environmentNode[ "b" ] >> blue;
-	
-		ISystem* graphicsSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
-	
-		if ( name == "ambient" )
+		if ( Management::GetInstance( )->GetSystemManager( )->HasSystem( System::Types::RENDER ) )
 		{
-			graphicsSystem->SetProperty( "ambientColor", Color( red, green, blue ) );
-		}
-	
-		if ( name == "background" )
-		{
-			graphicsSystem->SetProperty( "backgroundColor", Color( red, green, blue ) );
+			std::string name;
+			environmentNode[ "name" ] >> name;
+		
+			AnyValue::AnyValueMap properties;
+		
+			float red = 0;
+			float green = 0;
+			float blue = 0;
+		
+			environmentNode[ "r" ] >> red;
+			environmentNode[ "g" ] >> green;
+			environmentNode[ "b" ] >> blue;
+		
+			ISystem* graphicsSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
+		
+			if ( name == "ambient" )
+			{
+				graphicsSystem->SetProperty( "ambientColor", Color( red, green, blue ) );
+			}
+		
+			if ( name == "background" )
+			{
+				graphicsSystem->SetProperty( "backgroundColor", Color( red, green, blue ) );
+			}
 		}
 	}
 	
@@ -161,25 +207,29 @@ namespace Serialization
 	{
 		ISystemComponent* geometryComponent = 0;
 	
-		for( YAML::Iterator components = node.begin( ); components != node.end( ); ++components ) 
+		for( YAML::Iterator component = node.begin( ); component != node.end( ); ++component ) 
 		{
-			const YAML::Node& componentNode = ( *components );
+			const YAML::Node& componentNode = ( *component );
 	
 			std::string system;
 			componentNode[ "system" ] >> system;
 	
 			System::Types::Type systemType = System::TypeMapper::StringToType( system );
-			IComponentSerializer* serializer = ComponentSerializerFactory::Create( systemType );
-			ISystemComponent* entityComponent = serializer->DeSerialize( entity->GetName( ), componentNode, _world->GetSystemScenes( ) );
-	
-			entity->AddComponent( entityComponent );
-	
-			if ( entityComponent->GetType( ) == System::Types::GEOMETRY )
+
+			if ( Management::GetInstance( )->GetSystemManager( )->HasSystem( systemType ) )
 			{
-				geometryComponent = entityComponent;
+				IComponentSerializer* serializer = ComponentSerializerFactory::Create( systemType );
+				ISystemComponent* entityComponent = serializer->DeSerialize( entity->GetName( ), componentNode, _world->GetSystemScenes( ) );
+		
+				entity->AddComponent( entityComponent );
+		
+				if ( entityComponent->GetType( ) == System::Types::GEOMETRY )
+				{
+					geometryComponent = entityComponent;
+				}
+		
+				delete serializer;
 			}
-	
-			delete serializer;
 		}
 	
 		if ( geometryComponent != 0 )
@@ -192,26 +242,23 @@ namespace Serialization
 	{
 		if ( !_loadQueue.empty( ) )
 		{
-			YAML::Node* loadSource = _loadQueue.front( );
-	
-			if( _activeNodeIndex < loadSource->size( ) )
+			if( ++_activeNodeIndex < _loadQueue.front( )->size( ) )
 			{
-				const YAML::Node& documentNode = loadSource[ 0 ];
+				const YAML::Node& documentNode = _loadQueue.front( )[ 0 ];
 				const YAML::Node& node = documentNode[ _activeNodeIndex ];
 	
 				this->LoadNode( node );
 		
 				float progressPercent = ( ( float ) ++_loadProgress / ( float ) _loadTotal ) * 100.0f;
 				Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WORLD_LOADING_PROGRESS", static_cast< int >( progressPercent ) ) );
-	
-				if ( ++_activeNodeIndex == loadSource->size( ) )
-				{
-					_activeNodeIndex = 0;
-					delete loadSource;
-					_loadQueue.pop( );
-				}
-	
-				if ( _loadProgress >= _loadTotal )
+			}
+			else
+			{
+				_activeNodeIndex = 0;
+				delete _loadQueue.front( );
+				_loadQueue.pop( );
+
+				if ( _loadQueue.empty( ) )
 				{
 					Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WORLD_LOADING_FINISHED" ) );
 				}

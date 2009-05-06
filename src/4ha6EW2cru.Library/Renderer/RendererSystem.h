@@ -116,7 +116,6 @@ namespace Renderer
 
 		void windowClosed( Ogre::RenderWindow* rw );
 
-		void LoadResources( );
 		void CreateRenderWindow( const std::string& windowTitle, int width, int height, bool fullScreen );
 		std::vector< std::string > GetVideoModes( ) const;
 

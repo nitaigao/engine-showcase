@@ -24,7 +24,7 @@ namespace Serialization
 	
 		std::string type = properties[ "type" ].GetValue< std::string >( );
 	
-		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, ( entityName, ( type == "character" ) ? type : "default" ) );
+		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, type );
 		IScriptComponent* scriptComponent = static_cast< IScriptComponent* >( systemComponent );
 		scriptComponent->Initialize( properties );
 		scriptComponent->Execute( );

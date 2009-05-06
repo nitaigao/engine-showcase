@@ -103,8 +103,7 @@ namespace Renderer
 			return 
 				System::Changes::Geometry::All |
 				System::Changes::Input::Mouse_Moved |
-				System::Changes::AI::Behavior |
-				System::Changes::Render::Ray_Cast;
+				System::Changes::AI::Behavior;
 		};
 
 
@@ -163,7 +162,8 @@ namespace Renderer
 
 		RendererSystemComponent( ) { };
 
-		void InitializeSceneNode( Ogre::SceneNode* sceneNode );
+		virtual void InitializeSceneNode( Ogre::SceneNode* sceneNode );
+		void LoadModel( Ogre::SceneNode* sceneNode, const std::string& modelPath );
 		void DestroySceneNode( Ogre::SceneNode* sceneNode );
 
 		std::string _name;

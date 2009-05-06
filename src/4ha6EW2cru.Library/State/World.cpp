@@ -11,6 +11,7 @@ namespace State
 	{
 		for ( SystemSceneMap::reverse_iterator i = _systemScenes.rbegin( ); i != _systemScenes.rend( ); ++i )
 		{
+			( *i ).second->Destroy( );
 			delete ( *i ).second;
 		}
 	}
@@ -22,8 +23,6 @@ namespace State
 		return entity;
 	}
 	
-	float _stepAccumulator;
-	
 	void World::Update( const float& deltaMilliseconds )
 	{
 		float logicStep = 1.0f / 100.0f;
@@ -33,7 +32,10 @@ namespace State
 		{
 			for( SystemSceneMap::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
 			{
-				if( ( *i ).second->GetType( ) != System::Types::RENDER )
+				if ( 
+					( *i ).second->GetType( ) != System::Types::AI && 
+					( *i ).second->GetType( ) != System::Types::RENDER
+					) 
 				{
 					( *i ).second->Update( logicStep );
 				}
@@ -44,7 +46,10 @@ namespace State
 	
 		for( SystemSceneMap::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
 		{
-			if( ( *i ).second->GetType( ) == System::Types::RENDER )
+			if( 
+				( *i ).second->GetType( ) == System::Types::AI ||
+				( *i ).second->GetType( ) == System::Types::RENDER
+				)
 			{
 				( *i ).second->Update( deltaMilliseconds );
 			}

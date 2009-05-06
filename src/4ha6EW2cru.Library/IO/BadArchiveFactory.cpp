@@ -36,8 +36,6 @@ namespace IO
 			archiveName.replace( extensionIndex, archiveName.length( ) - extensionIndex, "" );
 		}
 
-		Management::GetInstance( )->GetFileManager( )->Mount( name, "/data" );
-
 		return new BadArchive( archiveName, BAD_ARCHTYPE );
 	}
 

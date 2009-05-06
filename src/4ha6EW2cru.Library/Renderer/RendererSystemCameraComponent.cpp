@@ -3,6 +3,9 @@
 #include <Ogre.h>
 using namespace Ogre;
 
+#include "../Logging/Logger.h"
+using namespace Logging;
+
 namespace Renderer
 {
 	void RendererSystemCameraComponent::Observe( ISubject* subject, const unsigned int& systemChanges )
@@ -35,16 +38,19 @@ namespace Renderer
 	{
 		RendererSystemComponent::Update( deltaMilliseconds );
 
-		std::stringstream prefix;
-		prefix << _name << "_" << _name;
-
-		if ( _scene->GetSceneManager( )->hasCamera( prefix.str( ) ) )
+		if ( _scene->GetSceneManager( )->hasSceneNode( _cameraNode->getName( ) ) )
 		{
 			float xResult = this->AverageInputHistory( _xHistory, _weightModifier );
 			float yResult = this->AverageInputHistory( _yHistory, _weightModifier );
 
+			float pitch = _cameraNode->getOrientation( ).getPitch( ).valueDegrees( );
+
+			if ( pitch + yResult < 90.0f && pitch + yResult > -90.0f )
+			{
+				_cameraNode->pitch( Degree( yResult ) );
+			}
+
 			_sceneNode->yaw( Degree( -xResult ), Node::TS_PARENT );
-			_sceneNode->pitch( Degree( yResult ) );
 
 			_xHistory.pop_back( );
 			_xHistory.push_front( 0.0f );
@@ -58,7 +64,19 @@ namespace Renderer
 
 	void RendererSystemCameraComponent::Initialize( AnyValue::AnyValueMap& properties )
 	{
-		RendererSystemComponent::Initialize( properties );
+		_sceneNode = _scene->GetSceneManager( )->createSceneNode( _name );
+
+		std::stringstream cameraNodeName;
+		cameraNodeName << _name << "_camera";
+
+		_cameraNode = _scene->GetSceneManager( )->createSceneNode( cameraNodeName.str( ) );
+		_sceneNode->addChild( _cameraNode );
+
+		this->LoadModel( _cameraNode, properties[ "model" ].GetValue< std::string >( ) );
+
+		_scene->GetSceneManager( )->getRootSceneNode( )->addChild( _sceneNode );
+
+		this->InitializeSceneNode( _sceneNode );
 
 		for( int i = 0; i < _historySize; i++ )
 		{
@@ -78,5 +96,23 @@ namespace Renderer
 		}
 
 		return sum / _historySize;
+	}
+
+	void RendererSystemCameraComponent::InitializeSceneNode( Ogre::SceneNode* sceneNode )
+	{
+		RendererSystemComponent::InitializeSceneNode( sceneNode );
+
+		SceneNode::ObjectIterator objects = sceneNode->getAttachedObjectIterator( );
+
+		while( objects.hasMoreElements( ) )
+		{
+			MovableObject* object = objects.getNext( );
+
+			if( object->getMovableType( ) == "Camera" )
+			{
+				Camera* camera = _scene->GetSceneManager( )->getCamera( object->getName( ) );
+				_scene->GetSceneManager( )->getCurrentViewport( )->setCamera( camera );
+			}
+		}
 	}
 }

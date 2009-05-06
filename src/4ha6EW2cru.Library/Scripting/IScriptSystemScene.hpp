@@ -8,6 +8,7 @@
 #define __ISCRIPTSYSTEMSCENE_HPP
 
 #include "../System/ISystemScene.hpp"
+#include "../System/ISystemComponent.hpp"
 
 extern "C" 
 {
@@ -36,6 +37,15 @@ namespace Script
 		 *  @return (lua_State*)
 		 */
 		virtual lua_State* GetState( ) const = 0;
+
+
+		/*! Finds a Component within the Scene
+		 *
+		 *  @param[in] const std::string & name
+		 *  @return (IScriptComponent*)
+		 */
+		virtual ISystemComponent* FindComponent( const std::string& name ) const = 0;
+
 	};
 };
 

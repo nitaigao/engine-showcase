@@ -27,7 +27,7 @@ namespace Script
 
 		typedef std::pair< Events::EventType, luabind::object > EventHandler;
 		typedef std::vector< EventHandler > EventHandlerList;
-		typedef std::vector< IScriptComponent* > ScriptComponentList;
+		typedef std::map< std::string, IScriptComponent* > ScriptComponentList;
 
 	public:
 
@@ -60,6 +60,13 @@ namespace Script
 		inline void Update( const float& deltaMilliseconds );
 
 
+		/*! Destroys the System Scene
+		*
+		*  @return (void)
+		*/
+		inline void Destroy( );
+
+
 		/*! Creates a SystemComponent specific to the SystemScene
 		*
 		*  @param[in] const std::string & name
@@ -75,6 +82,14 @@ namespace Script
 		*  @return (void)
 		*/
 		void DestroyComponent( ISystemComponent* component );
+
+		
+		/*! Finds a Component within the Scene
+		*
+		*  @param[in] const std::string & name
+		*  @return (IScriptComponent*)
+		*/
+		ISystemComponent* FindComponent( const std::string& name ) const;
 
 
 		/*! Gets the System::Types::Type of the SystemScene

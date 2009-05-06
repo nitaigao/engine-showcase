@@ -45,6 +45,13 @@ public:
 	virtual void Update( const float& deltaMilliseconds ) = 0;
 
 
+	/*! Destroys the System Scene
+	 *
+	 *  @return (void)
+	 */
+	virtual void Destroy( ) = 0;
+
+
 	/*! Gets the System::Types::Type of the SystemScene
 	 *
 	 *  @return (System::Types::Type)

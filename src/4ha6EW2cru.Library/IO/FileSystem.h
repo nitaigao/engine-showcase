@@ -36,6 +36,13 @@ namespace IO
 		FileSystem( );
 
 
+		/*! Initializes the File System and any built in Mount Points
+		*
+		*  @return (void)
+		*/
+		void Initialize( );
+
+
 		/*! Mounts the given path into the file system
 		*
 		*  @param[in] const std::string path - can be a ZIP, BAD, PAK Archive or a Local Folder

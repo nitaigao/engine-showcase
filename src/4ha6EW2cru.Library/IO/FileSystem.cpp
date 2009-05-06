@@ -12,6 +12,9 @@ using namespace Logging;
 #include "../Exceptions/FileNotFoundException.hpp"
 #include "../Exceptions/FileWriteException.hpp"
 
+#include <boost/filesystem.hpp>
+using namespace boost::filesystem;
+
 namespace IO
 {
 	FileSystem::FileSystem( )
@@ -22,14 +25,34 @@ namespace IO
 		{
 			throw AlreadyInitializedException( "FileSystem::FileSystem - Attempted to initialized the FileSystem twice" );
 		}
-
-		PHYSFS_mount( "../game", "/", 1 );
-		PHYSFS_setWriteDir( "../game" );
 	}
 
 	FileSystem::~FileSystem()
 	{
 		PHYSFS_deinit( );
+	}
+
+	void FileSystem::Initialize()
+	{
+		PHYSFS_setWriteDir( "../game" );
+		this->Mount( "../game", "/" );
+
+		std::string developmentPath = "../../../etc/data";
+
+		if ( exists( developmentPath ) )
+		{
+			directory_iterator end;
+			for ( directory_iterator i( developmentPath ); i != end; ++i )
+			{
+				if ( is_directory( i->status( ) ) )
+				{
+					std::stringstream path;
+					path << i->path( );
+
+					this->Mount( path.str( ), "/data" );
+				}
+			}
+		}
 	}
 
 	bool FileSystem::FileExists( const std::string& filePath, const bool& throwOnFail ) const
@@ -46,6 +69,10 @@ namespace IO
 
 	bool FileSystem::Mount( const std::string& filePath, const std::string& mountPoint )
 	{
+		std::stringstream mountMessage;
+		mountMessage << "FileSystem::Mount - Mounting " << filePath << " to " << mountPoint;
+		Logger::Info( mountMessage.str( ) );
+
 		int result = ( PHYSFS_mount( filePath.c_str( ), mountPoint.c_str( ), 1 ) > 0 );
 
 		if ( !result )

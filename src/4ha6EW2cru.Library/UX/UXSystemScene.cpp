@@ -17,18 +17,6 @@ namespace UX
 {
 	UXSystemScene::~UXSystemScene()
 	{
-		for ( UXSystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
-		{
-			delete ( *i );
-		}
-
-		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_MOUSE_PRESSED, this, &UXSystemScene::OnMousePressed );
-		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_MOUSE_MOVED, this, &UXSystemScene::OnMouseMoved );
-		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_MOUSE_RELEASED, this, &UXSystemScene::OnMouseReleased );
-		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_KEY_DOWN, this, &UXSystemScene::OnKeyDown );
-		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_KEY_UP, this, &UXSystemScene::OnKeyUp );
-
-		_gui->shutdown( );
 		delete _gui;
 		_gui = 0;
 	}
@@ -119,14 +107,35 @@ namespace UX
 
 		
 		luabind::globals( state )[ "ux" ] = component;
-		lua_pcall( state, 0, 0, 0 );
+		lua_resume( state, 0 );
 
-		IService* soundService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SOUND );
+		/*IService* soundService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SOUND );
 		AnyValue::AnyValueMap soundParameters;
 		soundParameters[ "filePath" ] = "/data/sound/music/ux.fev";
-		soundService->Execute( "load", soundParameters );
+		soundService->Execute( "load", soundParameters );*/
 
 		WidgetManager::getInstancePtr( )->registerUnlinker( this );
+	}
+
+	void UXSystemScene::Destroy()
+	{
+		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
+
+		for ( UXSystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+		{
+			AnyValue::AnyValueMap parameters;
+			parameters[ "name" ] = ( *i )->GetName( );
+			scriptService->Execute( "unloadComponent", parameters );
+			delete ( *i );
+		}
+
+		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_MOUSE_PRESSED, this, &UXSystemScene::OnMousePressed );
+		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_MOUSE_MOVED, this, &UXSystemScene::OnMouseMoved );
+		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_MOUSE_RELEASED, this, &UXSystemScene::OnMouseReleased );
+		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_KEY_DOWN, this, &UXSystemScene::OnKeyDown );
+		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_KEY_UP, this, &UXSystemScene::OnKeyUp );
+
+		_gui->shutdown( );
 	}
 
 	ISystemComponent* UXSystemScene::CreateComponent( const std::string& name, const std::string& type )
@@ -148,7 +157,7 @@ namespace UX
 		UXSystemComponent* component = new UXSystemComponent( name, this );
 
 		luabind::globals( state )[ "ux" ] = component;
-		lua_pcall( state, 0, 0, 0 );
+		lua_resume( state, 0 );
 
 		_components.push_back( component );
 

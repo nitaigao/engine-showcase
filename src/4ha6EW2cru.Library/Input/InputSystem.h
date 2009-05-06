@@ -68,7 +68,14 @@ namespace Input
 		*  @return (void)
 		*/
 		inline void Update( const float& deltaMilliseconds );
-	
+
+
+		/*! Destroys the System Scene
+		*
+		*  @return (void)
+		*/
+		inline void Destroy( ) { };
+
 	
 		/*! Releases internal data of the System
 		*

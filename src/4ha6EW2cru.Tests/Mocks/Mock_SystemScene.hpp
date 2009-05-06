@@ -52,6 +52,13 @@ public:
 		update_count.inc( );
 	}
 
+	/*! Destroys the System Scene
+	*
+	*  @return (void)
+	*/
+	inline void Destroy( ) { };
+
+
 private:
 
 	Mock_SystemScene & operator = ( const Mock_SystemScene & copy ) { return *this; };

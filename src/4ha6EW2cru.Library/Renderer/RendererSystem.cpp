@@ -65,8 +65,8 @@ namespace Renderer
 
 		//_badFactory = new BadArchiveFactory( );
 		ArchiveManager::getSingletonPtr( )->addArchiveFactory( new BadArchiveFactory( ) );
-		this->LoadResources( );
 
+		ResourceGroupManager::getSingleton( ).addResourceLocation( "/", "BAD" );
 		ResourceGroupManager::getSingleton( ).initialiseAllResourceGroups( );
 
 		RenderSystemList *renderSystems = _root->getAvailableRenderers( );
@@ -111,12 +111,11 @@ namespace Renderer
 
 		_sceneManager = _root->createSceneManager( ST_GENERIC, "default" );
 
-		//_sceneManager->setFog(FOG_LINEAR, ColourValue( ), 0.0, 50, 100);
-
 		Camera* camera = _sceneManager->createCamera( "default" );
 		camera->setPosition( Vector3( 0, 0, 0 ) );
 		camera->lookAt( Vector3( 0, 0, 0 ) );
 		camera->setNearClipDistance( 1.0f );
+		camera->setFarClipDistance( 500.0f );
 
 		Viewport* viewPort = _window->addViewport( camera );
 		viewPort->setBackgroundColour( ColourValue( 0, 0, 0 ) );
@@ -128,6 +127,9 @@ namespace Renderer
 		_root->renderOneFrame( );
 
 		Management::GetInstance( )->GetServiceManager( )->RegisterService( this );
+
+		//CompositorManager::getSingletonPtr( )->addCompositor( _sceneManager->getCurrentViewport( ), "HDR" );
+		//CompositorManager::getSingletonPtr( )->setCompositorEnabled( _sceneManager->getCurrentViewport( ), "HDR", true );
 	}
 
 	void RendererSystem::Update( const float& deltaMilliseconds )
@@ -169,26 +171,44 @@ namespace Renderer
 			if ( _sceneManager->isSkyBoxEnabled( ) )
 			{
 				SceneManager::SkyBoxGenParameters skyBoxParameters = _sceneManager->getSkyBoxGenParameters( ); 
-				_sceneManager->setSkyBox( true, _skyBoxMaterial, farClip - 200.0f );
+				_sceneManager->setSkyBox( true, _skyBoxMaterial, 350 );
 			}
 
 			_sceneManager->getCurrentViewport( )->getCamera( )->setFarClipDistance( farClip );
 		}
 
+		if( name == "fog" )
+		{
+			AnyValue::AnyValueMap parameters = value.GetValue< AnyValue::AnyValueMap >( );
+			Color color = parameters[ "color" ].GetValue< Renderer::Color >( );
+
+			_sceneManager->setFog( 
+				FOG_LINEAR, 
+				ColourValue( color.Red, color.Green, color.Blue ), 
+				0.001000, 
+				parameters[ "linearStart" ].GetValue< float >( ), 
+				parameters[ "linearEnd" ].GetValue< float >( ) 
+				);				
+		}
+
 		if ( name == "skyBox" )
 		{
-			std::string materialName = value.GetValue< std::string >( );
+			AnyValue::AnyValueMap parameters = value.GetValue< AnyValue::AnyValueMap >( );
 
-			if ( materialName.empty( ) )
+			std::string material = parameters[ "material" ].GetValue< std::string >( );
+
+			if ( material.empty( ) )
 			{
 				_sceneManager->setSkyBox( false, "" );
 			}
 			else
 			{
-				_skyBoxMaterial = materialName;
-				SceneManager::SkyBoxGenParameters skyBoxParameters = _sceneManager->getSkyBoxGenParameters( ); 
-				float currentFarClip = _sceneManager->getCurrentViewport( )->getCamera( )->getFarClipDistance( );
-				_sceneManager->setSkyBox( true, _skyBoxMaterial, currentFarClip - 200.0f );
+				_skyBoxMaterial = material;
+
+				_sceneManager->setSkyBox( 
+					true, 
+					_skyBoxMaterial, 
+					parameters[ "distance" ].GetValue< float >( ) );
 			}
 		}
 	}
@@ -202,25 +222,6 @@ namespace Renderer
 	void RendererSystem::windowClosed( RenderWindow* rw )
 	{
 		Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
-	}
-
-	void RendererSystem::LoadResources( )
-	{
-		ConfigFile cf;
-		cf.load( "../game/config/resources.cfg" );
-
-		ConfigFile::SectionIterator seci = cf.getSectionIterator( );
-
-		while ( seci.hasMoreElements( ) )
-		{
-			std::string sectionName = seci.peekNextKey( );
-			ConfigFile::SettingsMultiMap *settings = seci.getNext( );
-
-			for ( ConfigFile::SettingsMultiMap::iterator i = settings->begin( ); i != settings->end( ); ++i )
-			{
-				ResourceGroupManager::getSingleton( ).addResourceLocation( i->second, "BAD" );
-			}
-		}
 	}
 
 	std::vector< std::string > RendererSystem::GetVideoModes( ) const

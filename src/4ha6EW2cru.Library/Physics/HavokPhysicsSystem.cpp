@@ -34,7 +34,7 @@ namespace Physics
 		info.m_simulationType = hkpWorldCinfo::SIMULATION_TYPE_DISCRETE;
 		info.m_gravity.set( 0,-9.8f,0);
 		info.m_collisionTolerance = 0.1f; 
-		info.setBroadPhaseWorldSize( 2000.0f );
+		info.setBroadPhaseWorldSize( 10000.0f );
 		info.setupSolverInfo( hkpWorldCinfo::SOLVER_TYPE_4ITERS_MEDIUM );
 
 		HavokPhysicsSystemScene* scene = new HavokPhysicsSystemScene( info );

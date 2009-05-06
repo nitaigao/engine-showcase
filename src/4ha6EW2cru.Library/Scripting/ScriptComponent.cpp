@@ -24,21 +24,6 @@ using namespace luabind;
 
 namespace Script
 {
-	ScriptComponent::~ScriptComponent()
-	{
-		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( ALL_EVENTS, this, &ScriptComponent::OnEvent );
-
-		for ( FunctionList::iterator i = _updateHandlers.begin( ); i != _updateHandlers.end( ); ++i )	
-		{
-			delete ( *i );
-		}
-
-		for ( FunctionList::iterator i = _eventHandlers.begin( ); i != _eventHandlers.end( ); ++i )
-		{
-			delete ( *i );
-		}
-	}
-
 	void ScriptComponent::Initialize( AnyValue::AnyValueMap& properties )
 	{
 		Management::GetInstance( )->GetEventManager( )->AddEventListener( ALL_EVENTS, this, &ScriptComponent::OnEvent );
@@ -53,6 +38,21 @@ namespace Script
 		}
 	}
 
+	void ScriptComponent::Destroy()
+	{
+		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( ALL_EVENTS, this, &ScriptComponent::OnEvent );
+
+		for ( FunctionList::iterator i = _updateHandlers.begin( ); i != _updateHandlers.end( ); ++i )	
+		{
+			delete ( *i );
+		}
+
+		for ( FunctionList::iterator i = _eventHandlers.begin( ); i != _eventHandlers.end( ); ++i )
+		{
+			delete ( *i );
+		}
+	}
+
 	void ScriptComponent::LoadScript( const std::string& scriptPath )
 	{
 		IResource* resource = Management::GetInstance( )->GetResourceManager( )->GetResource( scriptPath );
@@ -61,9 +61,10 @@ namespace Script
 
 		if ( LUA_ERRSYNTAX == result )
 		{
-			ScriptException syntaxE( "Script::Initialize - There is a syntax error within the Script" );
-			Logger::Fatal( syntaxE.what( ) );
-			throw syntaxE;
+			std::stringstream errorMessage;
+			errorMessage << lua_tostring( _state, -1 );
+			Logger::Warn( errorMessage.str( ) );
+			lua_pop( _state, 1 );
 		}
 
 		if ( LUA_ERRMEM == result )
@@ -76,6 +77,7 @@ namespace Script
 
 	void ScriptComponent::Execute( )
 	{
+		//lua_resume( _state, 0 );
 		lua_pcall( _state, 0, 0, 0 );
 	}
 

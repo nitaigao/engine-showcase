@@ -26,6 +26,17 @@ namespace Script
 			results[ "state" ] = scriptComponent->GetState( );
 		}
 
+		if ( actionName == "unloadComponent" )
+		{
+			ISystemComponent* component = _scene->FindComponent( parameters[ "name" ].GetValue< std::string >( ) );
+			_scene->DestroyComponent( component );
+		}
+
+		if ( actionName == "getMasterState" )
+		{
+			results[ "masterState" ] = _scene->GetState( );
+		}
+
 		return results;
 	}
 

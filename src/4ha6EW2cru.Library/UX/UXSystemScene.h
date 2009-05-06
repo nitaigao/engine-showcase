@@ -43,11 +43,13 @@ namespace UX
 
 		}
 
+
 		/*!  Initializes the System Scene
 		*
 		*  @return (void)
 		*/
 		void Initialize( );
+
 
 		/*! Steps internal data of the SystemScene
 		*
@@ -56,11 +58,20 @@ namespace UX
 		*/
 		void Update( const float& deltaMilliseconds ) { };
 
+
+		/*! Destroys the System Scene
+		*
+		*  @return (void)
+		*/
+		inline void Destroy( );
+
+
 		/*! Gets the System::Types::Type of the SystemScene
 		*
 		*  @return (System::Types::Type)
 		*/
 		inline System::Types::Type GetType( ) const { return System::Types::UX; };
+
 
 		/*! Creates a SystemComponent specific to the SystemScene
 		*
@@ -70,12 +81,14 @@ namespace UX
 		*/
 		ISystemComponent* CreateComponent( const std::string& name, const std::string& type );
 
+
 		/*! Destroys a SystemComponent created by the SystemScene
 		*
 		*  @param[in] ISystemComponent * component
 		*  @return (void)
 		*/
 		void DestroyComponent( ISystemComponent* component ) { };
+
 
 		/* UX System Specific */
 		

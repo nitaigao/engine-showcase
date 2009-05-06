@@ -14,7 +14,7 @@ namespace Resources
 
 	ResourceCache::ResourceCache()
 	{
-
+	
 	}
 
 	ResourceCache::~ResourceCache()

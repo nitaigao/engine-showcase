@@ -42,6 +42,8 @@ namespace Input
 		if ( _inputAllowed )
 		{
 			unsigned int changes = 0;
+
+			// Keyboard
 	
 			if ( _keyboard->isKeyDown( OIS::KC_W ) )
 			{
@@ -67,6 +69,10 @@ namespace Input
 			{
 				changes |= System::Changes::Input::Pause_Game;
 			}
+
+			// Mouse
+
+			MouseState mouseState = _mouse->getMouseState( );
 	
 			if ( _mouse->getMouseState( ).buttonDown( MB_Left ) )
 			{
@@ -75,7 +81,29 @@ namespace Input
 				IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_PRESSED", MB_Left );
 				Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
 			}
-	
+
+			for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
+			{
+				InputSystemComponent* component = static_cast< InputSystemComponent* >( ( *i ) );
+
+				AnyValue::AnyValueMap existingProperties = component->GetProperties( );
+
+				AnyValue::AnyValueMap properties;
+				properties[ "mouseX" ] = AnyValue( mouseState.X.abs );
+				properties[ "mouseXDelta" ] = AnyValue( mouseState.X.rel );
+				properties[ "mouseY" ] = AnyValue( mouseState.Y.abs );
+				properties[ "mouseYDelta" ] = AnyValue( mouseState.Y.rel );
+
+				component->SetProperties( properties );
+			}
+
+			const_cast< MouseState& >( _mouse->getMouseState( ) ).X.abs = _mouse->getMouseState( ).width / 2;
+			const_cast< MouseState& >( _mouse->getMouseState( ) ).Y.abs = _mouse->getMouseState( ).height / 2;
+
+			changes |= System::Changes::Input::Mouse_Moved;
+
+			// Change Control
+
 			if ( changes > 0 )
 			{
 				for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
@@ -147,55 +175,29 @@ namespace Input
 		Event* event = new Event( INPUT_MOUSE_MOVED, new MouseEventData( arg.state, OIS::MB_Left ) );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 	
-		if ( _inputAllowed )
-		{
-			for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
-			{
-				InputSystemComponent* component = static_cast< InputSystemComponent* >( ( *i ) );
-	
-				AnyValue::AnyValueMap existingProperties = component->GetProperties( );
-	
-				AnyValue::AnyValueMap properties;
-				properties[ "mouseX" ] = AnyValue( arg.state.X.abs );
-				properties[ "mouseXDelta" ] = AnyValue( arg.state.X.rel );
-				properties[ "mouseY" ] = AnyValue( arg.state.Y.abs );
-				properties[ "mouseYDelta" ] = AnyValue( arg.state.Y.rel );
-	
-				component->SetProperties( properties );
-	
-				component->PushChanges( System::Changes::Input::Mouse_Moved );
-			}
-		}
-	
 		return true;
 	}
 	
 	/* Fired when the user presses a button on the mouse */
 	bool InputSystemScene::MousePressed( const MouseEvent &arg, MouseButtonID id )
 	{
+		IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_PRESSED", id );
+		Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
+	
 		Event* event = new Event( INPUT_MOUSE_PRESSED, new MouseEventData( arg.state, id ) );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
-	
-		if( _inputAllowed )
-		{
-			IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_PRESSED", id );
-			Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
-		}
 	
 		return true;
 	}
 	
 	/* Fired when the user releases a button on the mouse */
 	bool InputSystemScene::MouseReleased( const MouseEvent &arg, MouseButtonID id )
-	{
+	{	
+		IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_RELEASED", id );
+		Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
+
 		Event* event = new Event( INPUT_MOUSE_RELEASED, new MouseEventData( arg.state, id ) );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
-	
-		if( _inputAllowed )
-		{
-			IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_RELEASED", id );
-			Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
-		}
 	
 		return true;
 	}

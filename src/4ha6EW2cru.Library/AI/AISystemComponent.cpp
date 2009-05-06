@@ -20,18 +20,24 @@ namespace AI
 {
 	void AISystemComponent::Initialize( AnyValue::AnyValueMap& properties )
 	{
-		IScriptComponent* scriptComponent = static_cast< ScriptComponent* >( _scriptComponent );
+		AnyValue::AnyValueMap parameters;
+		parameters[ "scriptPath" ] = properties[ "scriptPath" ].GetValue< std::string >( );
+		parameters[ "name" ] = _name + "_ai";
 
-		scriptComponent->Initialize( properties );
+		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
+		_scriptState = scriptService->Execute( "loadScript", parameters )[ "state" ].GetValue< lua_State* >( );
 
-		luabind::globals( scriptComponent->GetState( ) )[ "me" ] = this;
-
-		scriptComponent->Execute( );
+		luabind::globals( _scriptState )[ "ai" ] = this;
+		lua_resume( _scriptState, 0 );
 	}
 
-	void AISystemComponent::Update( const float& deltaMilliseconds )
+	void AISystemComponent::Destroy()
 	{
-		//_scriptComponent->Update( deltaMilliseconds );
+		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
+
+		AnyValue::AnyValueMap parameters;
+		parameters[ "name" ] = _name + "_ai";
+		scriptService->Execute( "unloadComponent", parameters );
 	}
 
 	void AISystemComponent::WalkForward()
@@ -117,11 +123,6 @@ namespace AI
 		this->PushChanges( System::Changes::Geometry::Orientation );
 	}
 
-	float AISystemComponent::GetPlayerDistance()
-	{
-		return ( ( _playerPosition - _position ) ).Length( );
-	}
-
 	void AISystemComponent::AddObserver( IObserver* observer )
 	{
 		_observer = observer;
@@ -136,5 +137,28 @@ namespace AI
 	void AISystemComponent::FireWeapon()
 	{
 		Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "AI_WEAPON_FIRED", _name ) );
+	}
+
+	void AISystemComponent::PlayAnimation( const std::string& animationName, const bool& loopAnimation )
+	{
+		IService* service = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::RENDER );
+
+		AnyValue::AnyValueMap parameters;
+
+		parameters[ "entityName" ] = _name;
+		parameters[ "animationName" ] = animationName;
+		parameters[ "loopAnimation" ] = loopAnimation;
+
+		service->Execute( "playAnimation", parameters );
+	}
+
+	void AISystemComponent::Update( const float& deltaMilliseconds )
+	{
+		_playerDistance = ( ( _playerPosition - _position ) ).Length( );
+
+		if ( _playerDistance < 50 )
+		{
+			luabind::call_function< void >( _scriptState, "update" );
+		}
 	}
 }

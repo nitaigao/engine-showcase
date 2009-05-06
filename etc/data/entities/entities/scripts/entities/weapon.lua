@@ -1,10 +1,10 @@
-Script:include( '/data/entities/scripts/base/object.lua' );
+script:include( '/data/entities/scripts/base/object.lua' )
 
 ----------------------------------------------------------------
 -- Global Variables
 ----------------------------------------------------------------
 
-Weapon = { };
+Weapon = { }
 
 ----------------------------------------------------------------
 -- Local Variables
@@ -16,41 +16,41 @@ Weapon = { };
 
 function Weapon:create( name, damage, fireRate )
 	
-	weapon = self:new( );
+	weapon = self:new( )
 	
-	weapon.name = name;
-	weapon.damage = damage;
-	weapon.fireRate = fireRate;
-	weapon.timeOfLastFire = Script:getTime( );
+	weapon.name = name
+	weapon.damage = damage
+	weapon.fireRate = fireRate
+	weapon.timeOfLastFire = script:getTime( )
 	
-	return weapon;
+	return weapon
 	
 end
 
 function Weapon:getType( )
 
-	return 'weapon';
+	return 'weapon'
 
 end
 
 function Weapon:fire( )
 
-	local timeNow = Script:getTime( );
+	local timeNow = script:getTime( )
 	
 	if ( ( timeNow - self.timeOfLastFire ) >= self.fireRate ) then
 		
-		local results = Script:rayQuery( true, 1 );
+		local results = script:rayQuery( true, 1 )
 		
 		for key, value in pairs( results ) do
 		
-			Script:broadcastEvent( 'ACTOR_HIT', value, self.damage );
+			script:broadcastEvent( 'ACTOR_HIT', value, self.damage )
 		
 		end
 		
-		self.timeOfLastFire = timeNow;
+		self.timeOfLastFire = timeNow
 	
 	end
 	
 end
 
-extend( Weapon, Object );
+extend( Weapon, Object )

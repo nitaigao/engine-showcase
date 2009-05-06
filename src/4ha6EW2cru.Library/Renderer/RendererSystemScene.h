@@ -59,6 +59,13 @@ namespace Renderer
 		void Update( const float& deltaMilliseconds );
 
 
+		/*! Destroys the System Scene
+		*
+		*  @return (void)
+		*/
+		inline void Destroy( ) { };
+
+
 		/*! Gets the System::Types::Type of the SystemScene
 		*
 		*  @return (System::Types::Type)
@@ -105,7 +112,6 @@ namespace Renderer
 		RendererSystemScene( ) { };
 		RendererSystemScene( const RendererSystemScene & copy ) { };
 		RendererSystemScene & operator = ( const RendererSystemScene & copy ) { return *this; };
-
 
 	};
 };

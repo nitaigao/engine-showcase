@@ -12,6 +12,7 @@ using namespace Logging;
 
 #include "../Management/Management.h"
 #include "../Exceptions/ScriptException.hpp"
+#include "../Exceptions/OutOfRangeException.hpp"
 
 #include "ScriptEvent.hpp"
 #include "ScriptComponent.h"
@@ -21,13 +22,6 @@ namespace Script
 {
 	ScriptSystemScene::~ScriptSystemScene( )
 	{
-		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( ALL_EVENTS, this, &ScriptSystemScene::OnEvent );
-
-		for( ScriptComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
-		{
-			delete ( *i );
-		}
-
 		delete _eventHandlers;
 		_eventHandlers = 0;
 
@@ -36,9 +30,6 @@ namespace Script
 
 		delete _scriptConfiguration;
 		_scriptConfiguration = 0;
-
-		lua_close( _state );
-		_state = 0;
 	}
 
 	ScriptSystemScene::ScriptSystemScene( Configuration::IConfiguration* configuration )
@@ -51,6 +42,15 @@ namespace Script
 
 	ISystemComponent* ScriptSystemScene::CreateComponent( const std::string& name, const std::string& type )
 	{
+		int result = lua_checkstack( _state, LUA_MINSTACK );
+
+		if( !result )
+		{
+			OutOfRangeException e( "ScriptSystemScene::CreateComponent - Unable to grow the LUA stack to the required size" );
+			Logger::Fatal( e.what( ) );
+			throw e;
+		}
+		
 		int top = lua_gettop( _state ); 
 		lua_getfield( _state, LUA_REGISTRYINDEX, "Scripts" ); // top + 1 
 
@@ -64,28 +64,21 @@ namespace Script
 		lua_getfenv( _state,top + 2 ); // that returns the global table (we are	going to protect) 
 		lua_setfield( _state, -2, "__index" ); // set global table as __index of the thread 
 		lua_setmetatable( _state, -2 );
-		lua_setfenv( _state,top + 2 );  // set environment of the new thread
+		lua_setfenv( _state, top + 2 );  // set environment of the new thread
 
-		luabind::globals( childState )[ "Script" ] = component;
+		luabind::globals( childState )[ "script" ] = component;
 
-		_components.push_back( component );
+		_components[ name ] = component;
 
 		return component;
 	}
 
 	void ScriptSystemScene::DestroyComponent( ISystemComponent* component )
 	{
-		for( ScriptComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
-		{
-			if ( ( *i )->GetName( ) == component->GetName( ) )
-			{
-				_components.erase( i );
-				component->Destroy( );
-				delete component;
-				component = 0;
-				return;
-			}
-		}
+		_components.erase( component->GetName( ) );
+		component->Destroy( );
+		delete component;
+		component = 0;
 	}
 
 	void ScriptSystemScene::Initialize( )
@@ -137,6 +130,14 @@ namespace Script
 		luabind::set_cast_failed_callback( &ScriptSystemScene::Script_CastError );
 
 		Management::GetInstance( )->GetEventManager( )->AddEventListener( ALL_EVENTS, this, &ScriptSystemScene::OnEvent );
+	}
+
+	void ScriptSystemScene::Destroy()
+	{
+		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( ALL_EVENTS, this, &ScriptSystemScene::OnEvent );
+
+		lua_close( _state );
+		_state = 0;
 	}
 
 	void ScriptSystemScene::OnEvent( const IEvent* event )
@@ -227,7 +228,12 @@ namespace Script
 	{
 		for( ScriptComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
 		{
-			( *i )->Update( deltaMilliseconds );
+			( *i ).second->Update( deltaMilliseconds );
 		}
+	}
+
+	ISystemComponent* ScriptSystemScene::FindComponent( const std::string& name ) const
+	{
+		return ( *( _components.find( name ) ) ).second;
 	}
 }

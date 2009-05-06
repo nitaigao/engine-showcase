@@ -1,4 +1,4 @@
-Script:include( '/data/entities/scripts/entities/character.lua' )
+script:include( '/data/entities/scripts/entities/character.lua' )
 
 States = {
 	IDLE = 0,
@@ -12,33 +12,33 @@ States = {
 -- Movement State Machine --
 
 MovementStateMachine = {
-	framesSinceLastMoveForward = 0;
-	framesSinceLastMoveBackward = 0;
-	framesSinceLastStrafeLeft = 0;
-	framesSinceLastStrafeRight = 0;
+	framesSinceLastMoveForward = 0
+	framesSinceLastMoveBackward = 0
+	framesSinceLastStrafeLeft = 0
+	framesSinceLastStrafeRight = 0
 }	
 
 function MovementStateMachine:actorMovedForward( )
 
-	self.framesSinceLastMoveForward = 0;
+	self.framesSinceLastMoveForward = 0
 
 end
 
 function MovementStateMachine:actorMovedBackward( )
 
-	self.framesSinceLastMoveBackward = 0;
+	self.framesSinceLastMoveBackward = 0
 
 end
 
 function MovementStateMachine:actorStrafedLeft( )
 
-	self.framesSinceLastStrafeLeft = 0;
+	self.framesSinceLastStrafeLeft = 0
 
 end
 
 function MovementStateMachine:actorStrafedRight( )
 
-	self.framesSinceLastStrafeRight = 0;
+	self.framesSinceLastStrafeRight = 0
 
 end
 
@@ -56,7 +56,7 @@ function MovementStateMachine:getState( )
 
 	local state = States.IDLE
 	
-	local frameWait = 5;
+	local frameWait = 5
 
 	if ( self.framesSinceLastMoveForward < frameWait ) then
 	
@@ -86,7 +86,7 @@ function MovementStateMachine:getState( )
 
 end
 
-extend( MovementStateMachine, Object );
+extend( MovementStateMachine, Object )
 
 -- Attack State Machine --
 
@@ -127,8 +127,8 @@ extend( AttackStateMachine, Object )
 ----------------------------------------------------------------
 
 Player = { 
-	attackStateMachine = AttackStateMachine:new( );
-	movementStateMachine = MovementStateMachine:new( );
+	attackStateMachine = AttackStateMachine:new( )
+	movementStateMachine = MovementStateMachine:new( )
 }
 
 ----------------------------------------------------------------
@@ -145,41 +145,41 @@ end
 
 function Player.onUpdate( deltaMilliseconds )
 
-	player.attackStateMachine:update( );
+	player.attackStateMachine:update( )
 
 	if ( player.attackStateMachine:getState( ) == States.FIRING ) then
 	
 		-- Default Actions
 		
-		Script:playAnimation( 'hit', false );
+		script:playAnimation( 'hit', false )
 		
 		-- Evaluation
 		
-		local transition = ( player.attackStateMachine:getState( ) == States.IDLE );
+		local transition = ( player.attackStateMachine:getState( ) == States.IDLE )
 		
 		-- Transition
 		
 		if ( transition ) then
 		
-			Script:playAnimation( 'stopped', false )
+			script:playAnimation( 'stopped', false )
 		
 		end
 	
 	end
 	
-	player.movementStateMachine:update( );
+	player.movementStateMachine:update( )
 	
 	if ( player.movementStateMachine:getState( ) == States.WALKING_FORWARD ) and ( player.attackStateMachine:getState( ) ~= States.FIRING ) then
 	
 		-- Default Actions
 		
-		Script:playAnimation( 'run_forward', false );
+		script:playAnimation( 'run_forward', false )
 		
 		-- Evaluation
 		
 		-- Transition
 		
-		return;
+		return
 		
 	end
 	
@@ -187,13 +187,13 @@ function Player.onUpdate( deltaMilliseconds )
 	
 		-- Default Actions
 		
-		Script:playAnimation( 'run_backward', false );
+		script:playAnimation( 'run_backward', false )
 		
 		-- Evaluation
 		
 		-- Transition
 		
-		return;
+		return
 		
 	end
 	
@@ -201,13 +201,13 @@ function Player.onUpdate( deltaMilliseconds )
 	
 		-- Default Actions
 		
-		Script:playAnimation( 'strafe_right', false );
+		script:playAnimation( 'strafe_right', false )
 		
 		-- Evaluation
 		
 		-- Transition
 		
-		return;
+		return
 		
 	end
 	
@@ -215,13 +215,13 @@ function Player.onUpdate( deltaMilliseconds )
 	
 		-- Default Actions
 		
-		Script:playAnimation( 'stafe_left', false );
+		script:playAnimation( 'stafe_left', false )
 		
 		-- Evaluation
 		
 		-- Transition
 		
-		return;
+		return
 		
 	end
 	
@@ -229,7 +229,7 @@ function Player.onUpdate( deltaMilliseconds )
 	
 		-- Default Actions
 		
-		Script:playAnimation( 'stopped', false );
+		script:playAnimation( 'stopped', false )
 		
 		-- Evaluation
 		
@@ -247,7 +247,7 @@ function Player.onEvent( eventName, var1, var2 )
 	
 	end
 	
-	if ( var1 == Script:getName( ) ) then
+	if ( var1 == script:getName( ) ) then
 	
 		if ( eventName == 'ACTOR_HIT' ) then
 			
@@ -263,31 +263,31 @@ function Player.onEvent( eventName, var1, var2 )
 		
 		if ( eventName == 'ACTOR_FIRED' ) then 
 		
-			player.attackStateMachine:actorFired( );
+			player.attackStateMachine:actorFired( )
 		
 		end
 		
 		if( eventName == 'ACTOR_STRAFE_RIGHT' ) then
 		
-			player.movementStateMachine:actorStrafedRight( );
+			player.movementStateMachine:actorStrafedRight( )
 		
 		end
 		
 		if( eventName == 'ACTOR_STRAFE_LEFT' ) then
 		
-			player.movementStateMachine:actorStrafedLeft( );
+			player.movementStateMachine:actorStrafedLeft( )
 		
 		end
 		
 		if( eventName == 'ACTOR_MOVE_FORWARD' ) then
 		
-			player.movementStateMachine:actorMovedForward( );
+			player.movementStateMachine:actorMovedForward( )
 		
 		end
 		
 		if( eventName == 'ACTOR_MOVE_BACKWARD' ) then
 		
-			player.movementStateMachine:actorMovedBackward( );
+			player.movementStateMachine:actorMovedBackward( )
 		
 		end
 		
@@ -299,5 +299,5 @@ extend( Player, Character )
 player = Player:new( )
 player:initialize( )
 
-Script:registerEventHandler( Player.onEvent )
-Script:registerUpdateHandler( Player.onUpdate )
+script:registerEventHandler( Player.onEvent )
+script:registerUpdateHandler( Player.onUpdate )

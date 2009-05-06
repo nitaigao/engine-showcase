@@ -8,6 +8,7 @@
 #define __WIN32PLATFORMMANAGER_H
 
 #include "IPlatformManager.h"
+#include "../Events/IEvent.hpp"
 
 namespace Platform
 {
@@ -89,6 +90,13 @@ namespace Platform
 		*  @return (void)
 		*/
 		void OutputDebugMessage( const std::string& message );
+
+
+		/*! Returns a map of the command line options used when launching the game
+		*
+		*  @return (AnyValue::AnyValueMap)
+		*/
+		AnyValue::AnyValueMap GetProgramOptions( ) const;
 
 	private:
 

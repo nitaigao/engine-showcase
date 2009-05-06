@@ -43,6 +43,10 @@ void Game::Initialize( )
 		throw e;
 	}
 
+#ifdef _DEBUG
+	Logger::SetLogLevel( Logging::LEVEL_ALL );
+#endif // _DEBUG
+
 	// -- Initialize All Singletons
 
 	Management::Initialize( );
@@ -64,9 +68,9 @@ void Game::Initialize( )
 	systemManager->RegisterSystem( new Physics::HavokPhysicsSystem( ) );
 	systemManager->RegisterSystem( new Input::InputSystem( _configuration ) );
 	systemManager->RegisterSystem( new Script::ScriptSystem( _configuration ) );
-	systemManager->RegisterSystem( new AI::AISystem( ) );
+	//systemManager->RegisterSystem( new AI::AISystem( ) );
 	systemManager->RegisterSystem( new UX::UXSystem( ) );
-	systemManager->RegisterSystem( new Sound::SoundSystem( ) );
+	//systemManager->RegisterSystem( new Sound::SoundSystem( ) );
 	systemManager->InitializeAllSystems( );
 
 	// -- Setup the World and World Loader
@@ -80,6 +84,15 @@ void Game::Initialize( )
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( GAME_ENDED, this, &Game::OnGameEnded );
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_INITIALIZED" ) );
+
+	AnyValue::AnyValueMap programOptions = Management::GetInstance( )->GetPlatformManager( )->GetProgramOptions( );
+	
+	if ( programOptions.find( System::Options::LevelName ) != programOptions.end( ) )
+	{
+		std::string levelName = programOptions[ System::Options::LevelName ].GetValue< std::string >( );
+		LevelChangedEventData* eventData = new LevelChangedEventData( levelName );
+		Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
+	}
 
 	_isInitialized = true;
 }
@@ -147,9 +160,7 @@ void Game::OnGameEnded( const IEvent* event )
 	ISystem* renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
 
 	renderSystem->SetProperty( "activeCamera", "default" );
-	//renderSystem->SetProperty( "ambientColor", Renderer::Color( 0.0f, 0.0f, 0.0f ) );
-	//renderSystem->SetProperty( "backgroundColor", Renderer::Color( 0.0f, 0.0f, 0.0f ) );
-	renderSystem->SetProperty( "skyBox", "" );
+	renderSystem->SetProperty( "backgroundColor", Renderer::Color( 0.0f, 0.0f, 0.0f ) );
 }
 
 // EOF

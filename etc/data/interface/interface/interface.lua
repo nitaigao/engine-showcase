@@ -13,17 +13,17 @@ Interface = {}
 
 function Interface.initialize( )
 
-	print( 'Loading Interface' );
+	print( 'Loading Interface' )
 	
-	Script:unregisterEventHandler( Interface.onEvent );
+	script:unregisterEventHandler( Interface.onEvent )
 
-	ux:loadComponent( 'title' );
-	ux:loadComponent( 'menu' );
-	ux:loadComponent( 'options' );
-	ux:loadComponent( 'console' );
-	ux:loadComponent( 'loading' );
-	ux:loadComponent( 'hud' );
-	ux:loadComponent( 'statistics' );
+	ux:loadComponent( 'title' )
+	ux:loadComponent( 'menu' )
+	ux:loadComponent( 'options' )
+	ux:loadComponent( 'console' )
+	ux:loadComponent( 'loading' )
+	ux:loadComponent( 'hud' )
+	ux:loadComponent( 'statistics' )
 	
 end
 
@@ -31,10 +31,10 @@ function Interface.onEvent( eventName )
 
 	if ( eventName == 'GAME_INITIALIZED' ) then
 	
-		Interface.initialize( );
+		Interface.initialize( )
 	
 	end
 
 end
 
-Script:registerEventHandler( Interface.onEvent );
+script:registerEventHandler( Interface.onEvent )

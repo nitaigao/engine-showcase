@@ -13,19 +13,43 @@ using namespace luabind;
 
 namespace AI
 {
-	AISystemScene::~AISystemScene( )
+	ISystemComponent* AISystemScene::CreateComponent( const std::string& name, const std::string& type )
 	{
-		delete _scriptScene;
+		_lastFrameAssignment = ( _lastFrameAssignment == 10 ) ? 0 : _lastFrameAssignment + 1;
+
+		IAISystemComponent* component = new AISystemComponent( name, _lastFrameAssignment );
+		_components.insert( std::make_pair( component->GetFrameAssignment( ), component ) );
+
+		return component;
 	}
 
-	AISystemScene::AISystemScene( )
+	void AISystemScene::DestroyComponent( ISystemComponent* component )
 	{
-		_scriptScene = static_cast< ScriptSystemScene* >( Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::SCRIPT )->CreateScene( ) );
+		IAISystemComponent* aiComponent = static_cast< IAISystemComponent* >( component );
+
+		AISystemComponentMap::iterator i = _components.find( aiComponent->GetFrameAssignment( ) );
+
+		while ( i != _components.end( ) )
+		{
+			if ( ( *i ).second->GetName( ) == component->GetName( ) )
+			{
+				_components.erase( i );
+				break;
+			}
+
+			++i;
+		}
+
+		aiComponent->Destroy( );
+		delete aiComponent;
 	}
 
-	void AISystemScene::Initialize( )
+	void AISystemScene::Initialize()
 	{
-		module( _scriptScene->GetState( ) )
+		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
+		lua_State* state = scriptService->Execute( "getMasterState", AnyValue::AnyValueMap( ) )[ "masterState" ].GetValue< lua_State* >( );
+
+		module( state )
 		[
 			class_< AISystemComponent >( "AISystemComponent" )
 				.def( "walkForward", &AISystemComponent::WalkForward )
@@ -35,39 +59,20 @@ namespace AI
 				.def( "getName", &AISystemComponent::GetName )
 				.def( "getPlayerDistance", &AISystemComponent::GetPlayerDistance )
 				.def( "fireWeapon", &AISystemComponent::FireWeapon )
+				.def( "playAnimation", &AISystemComponent::PlayAnimation )
 		];
-	}
-
-	ISystemComponent* AISystemScene::CreateComponent( const std::string& name, const std::string& type )
-	{
-		ScriptComponent* scriptComponent = static_cast< ScriptComponent* >( _scriptScene->CreateComponent( name, type ) );
-		IAISystemComponent* aiComponent = new AISystemComponent( name, scriptComponent );
-
-		_components.push_back( aiComponent );
-
-		return aiComponent;
-	}
-
-	void AISystemScene::DestroyComponent( ISystemComponent* component )
-	{
-		for( AISystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
-		{
-			if ( ( *i )->GetName( ) == component->GetName( ) )
-			{
-				_scriptScene->DestroyComponent( ( *i )->GetScriptComponent( ) );
-				_components.erase( i );
-				delete component;
-				component = 0;
-				return;
-			}
-		}
 	}
 
 	void AISystemScene::Update( const float& deltaMilliseconds )
 	{
-		for( AISystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+		_frameNumber = ( _frameNumber == 10 ) ? 0 : _frameNumber + 1;
+
+		AISystemComponentMap::iterator i = _components.find( _frameNumber );
+
+		while ( i != _components.end( ) )
 		{
-			 ( *i )->Update( deltaMilliseconds );
+			( *i ).second->Update( deltaMilliseconds );
+			++i;
 		}
 	}
 }

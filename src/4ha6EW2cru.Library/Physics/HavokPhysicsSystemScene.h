@@ -8,24 +8,26 @@
 #define __HAVOKPHYSICSSYSTEMSCENE_H
 
 #include "../System/ISystemScene.hpp"
-#include "../System/ISystemComponent.hpp"
 
 #include <Common/Base/hkBase.h>
 #include <Physics/Dynamics/World/hkpWorld.h>
-#include <Physics/Dynamics/World/Listener/hkpIslandPostIntegrateListener.h>
+#include <Physics/Dynamics/World/Listener/hkpWorldPostSimulationListener.h>
+#include <Physics/Dynamics/Entity/hkpEntityActivationListener.h>
 
 #include <Common/Visualize/hkVisualDebugger.h>
 #include <Physics/Utilities/VisualDebugger/hkpPhysicsContext.h>			
+
+#include "IPhysicsSystemComponent.hpp"
 
 namespace Physics
 {
 	/*! 
 	*  A Physics Specific Scene
 	*/
-	class HavokPhysicsSystemScene : public ISystemScene, public hkpIslandPostIntegrateListener
+	class HavokPhysicsSystemScene : public ISystemScene
 	{
 
-		typedef std::map< int, ISystemComponent* > PhysicsSystemComponentList;
+		typedef std::map< std::string, IPhysicsSystemComponent* > PhysicsSystemComponentList;
 
 	public:
 
@@ -57,6 +59,13 @@ namespace Physics
 		*  @return (void)
 		*/
 		void Update( const float& deltaMilliseconds );
+
+
+		/*! Destroys the System Scene
+		*
+		*  @return (void)
+		*/
+		inline void Destroy( ) { };
 
 
 		/*! Gets the System::Types::Type of the SystemScene
@@ -91,16 +100,18 @@ namespace Physics
 
 	private:
 
-		virtual void postIntegrateCallback( hkpSimulationIsland *island, const hkStepInfo &stepInfo );
+		void postSimulationCallback( hkpWorld* world );
+		void inactiveEntityMovedCallback( hkpEntity* entity );
+
+
+		void entityDeactivatedCallback( hkpEntity* entity );
+		void entityActivatedCallback( hkpEntity* entity );
 
 		hkpWorld* _world;
 		hkVisualDebugger* _vdb;
 		hkpPhysicsContext* _context;
 
 		PhysicsSystemComponentList _components;
-
-		float _stepAccumulator;
-		int _lastComponentId;
 
 		HavokPhysicsSystemScene( ) { };
 		HavokPhysicsSystemScene( const HavokPhysicsSystemScene & copy ) { };

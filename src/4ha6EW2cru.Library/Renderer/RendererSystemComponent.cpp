@@ -29,37 +29,34 @@ namespace Renderer
 
 	void RendererSystemComponent::Initialize( AnyValue::AnyValueMap& properties )
 	{
-		for ( AnyValue::AnyValueMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
+		_sceneNode = _scene->GetSceneManager( )->createSceneNode( _name );
+
+		this->LoadModel( _sceneNode, properties[ "model" ].GetValue< std::string >( ) );
+
+		_scene->GetSceneManager( )->getRootSceneNode( )->addChild( _sceneNode );
+
+		this->InitializeSceneNode( _sceneNode );
+	}
+
+	void RendererSystemComponent::LoadModel( Ogre::SceneNode* sceneNode, const std::string& modelPath )
+	{
+		OgreMaxModel* model = new OgreMaxModel( );
+
+		try
 		{
-			if ( ( *i ).first == "model" || ( *i ).first == "camera" )
-			{
-				std::string modelPath = ( *i ).second.GetValue< std::string >( );
+			std::stringstream prefix;
+			prefix << _name << "_";
 
-				_sceneNode = _scene->GetSceneManager( )->createSceneNode( _name );
-
-				OgreMaxModel* model = new OgreMaxModel( );
-
-				try
-				{
-					std::stringstream prefix;
-					prefix << _name << "_";
-
-					model->Load( modelPath );
-					model->CreateInstance( _scene->GetSceneManager( ), prefix.str( ), 0, 
-						OgreMaxModel::NO_OPTIONS, 0, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, _sceneNode );
-				}
-				catch( Ogre::FileNotFoundException e )
-				{
-					Logger::Fatal( e.what( ) );
-				}
-					
-				delete model;
-
-				_scene->GetSceneManager( )->getRootSceneNode( )->addChild( _sceneNode );
-
-				this->InitializeSceneNode( _sceneNode );
-			}
+			model->Load( modelPath );
+			model->CreateInstance( _scene->GetSceneManager( ), prefix.str( ), 0, 
+				OgreMaxModel::NO_OPTIONS, 0, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, sceneNode );
 		}
+		catch( Ogre::FileNotFoundException e )
+		{
+			Logger::Fatal( e.what( ) );
+		}
+
+		delete model;
 	}
 
 	void RendererSystemComponent::Destroy( )
@@ -106,12 +103,6 @@ namespace Renderer
 		while( objects.hasMoreElements( ) )
 		{
 			MovableObject* object = objects.getNext( );
-
-			if( object->getMovableType( ) == "Camera" )
-			{
-				IRendererSystem* renderSystem = ( IRendererSystem* ) Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
-				renderSystem->SetProperty( "activeCamera", object->getName( ) );
-			}
 
 			if( object->getMovableType( ) == "Entity" )
 			{

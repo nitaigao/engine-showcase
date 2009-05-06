@@ -1,4 +1,4 @@
-Script:include( '/data/entities/scripts/base/object.lua' );
+script:include( '/data/entities/scripts/base/object.lua' )
 
 ----------------------------------------------------------------
 -- Global Variables
@@ -14,4 +14,4 @@ Actor = { }
 -- Actor Functions
 ----------------------------------------------------------------
 
-extend( Actor, Object );
+extend( Actor, Object )

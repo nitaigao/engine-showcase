@@ -27,11 +27,11 @@ namespace AI
 		virtual ~IAISystemComponent( ) { };
 
 
-		/*! Returns the Script Component for the AI Component
+		/*! Returns the frame number that this ai will perform its logic update
 		 *
-		 *  @return (IScriptComponent*)
+		 *  @return (int)
 		 */
-		virtual Script::IScriptComponent* GetScriptComponent( ) = 0;
+		virtual int GetFrameAssignment( ) const = 0;
 
 	};
 };

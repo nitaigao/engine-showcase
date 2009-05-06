@@ -55,6 +55,14 @@ public:
 	void InitializeAllSystems( );
 
 
+	/*! Checks to see if a system has been registered
+	 *
+	 *  @param[in] const System::Types::Type & systemType
+	 *  @return (bool)
+	 */
+	bool HasSystem( const System::Types::Type& systemType ) const;
+
+
 	/*! Steps each Registered System
 	*
 	*  @param[in] float deltaMilliseconds
@@ -78,7 +86,7 @@ public:
 
 private:
 
-	SystemList _systems;
+	ISystem::SystemMap _systems;
 
 	SystemManager( const SystemManager & copy ) { };
 	SystemManager & operator = ( const SystemManager & copy ) { return *this; };

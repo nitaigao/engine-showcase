@@ -462,6 +462,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Physics\IPhysicsSystemComponent.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Platform\IPlatformManager.h"
 			>
 		</File>

@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout">
     <Widget type="StaticImage" skin="StaticImage" position_real="0 0 1 1" align="Stretch" layer="Main" name="menu">
-        <Widget type="StaticImage" skin="StaticImage" position_real="0 0 1 1" align="Stretch" layer="Main" name="background_ingame">
+        <Widget type="StaticImage" skin="StaticImage" position_real="0 0 1 1" align="Stretch" name="background_ingame">
             <Property key="Image_Texture" value="/data/interface/assets/background_title.png"/>
             <Property key="Widget_Alpha" value="0.5"/>
         </Widget>
-        <Widget type="StaticImage" skin="StaticImage" position_real="0 0 1 1" align="Stretch" layer="Main" name="background_title">
+        <Widget type="StaticImage" skin="StaticImage" position_real="0 0 1 1" align="Stretch" name="background_title">
             <Property key="Image_Texture" value="/data/interface/assets/background_streetgun.png"/>
         </Widget>
         <Widget type="Widget" skin="Default" position="0 0 216 144" name="menubox">

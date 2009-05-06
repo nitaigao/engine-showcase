@@ -69,6 +69,7 @@ namespace Serialization
 		void LoadNode( const YAML::Node& node );
 		void LoadColor( const YAML::Node& node );
 		void LoadSkyBox( const YAML::Node& node );
+		void LoadFog( const YAML::Node& node );
 		void LoadEntity( const YAML::Node& node );
 		void LoadLink( const YAML::Node& node );
 

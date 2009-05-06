@@ -62,7 +62,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="winmm.lib mockpp_44d.lib cppunitd.lib OgreMain_d.lib OIS_static_d.lib luad.lib luabindd.lib MyGUI_d.lib yamlcppd.lib hkBase.lib hkSerialize.lib hkSceneData.lib hkInternal.lib hkGeometryUtilities.lib hkVisualize.lib hkCompat.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib fmodex_vc.lib fmod_event.lib"
-				AdditionalLibraryDirectories="../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/myguiengine/lib/debug;../../etc/vendor/ogre/lib;../../etc/vendor/yaml/lib;../../etc/vendor/havok/lib/debug_multithreaded_dll;../../etc/vendor/fmod/lib"
+				AdditionalLibraryDirectories="../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/myguiengine/lib/debug;../../etc/vendor/ogre/lib;../../etc/vendor/yaml/lib;../../etc/vendor/havok/lib/debug_multithreaded_dll;../../etc/vendor/fmod/lib;../../etc/vendor/boost/lib"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				TargetMachine="1"

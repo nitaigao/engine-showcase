@@ -71,7 +71,7 @@ namespace State
 		*
 		*  @return (unsigned int)
 		*/
-		inline unsigned int GetRequestedChanges( ) const  { return 0; };
+		inline unsigned int GetRequestedChanges( ) const  { return System::Changes::None; };
 
 
 		/*! Observes the changes when the ISubject notifies

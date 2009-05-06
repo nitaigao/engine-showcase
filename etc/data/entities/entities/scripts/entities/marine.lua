@@ -1,4 +1,4 @@
-Script:include( '/data/entities/scripts/entities/character.lua' );
+script:include( '/data/entities/scripts/entities/character.lua' )
 
 ----------------------------------------------------------------
 -- Global Variables
@@ -16,17 +16,17 @@ Marine = { }
 
 function Marine.onEvent( eventName, var1, var2 )
 
-	if ( var1 == Script:getName( ) ) then
+	if ( var1 == script:getName( ) ) then
 
 		if ( eventName == 'AI_WEAPON_FIRED' ) then
 		
-			marine:fireWeapon( );
+			marine:fireWeapon( )
 		
 		end
 	
 		if ( eventName == 'ACTOR_HIT' ) then
 	
-			marine:onHit( var2 );
+			marine:onHit( var2 )
 		
 		end
 	
@@ -34,7 +34,7 @@ function Marine.onEvent( eventName, var1, var2 )
 
 end
 
-extend( Marine, Character );
-marine = Marine:new( );
+extend( Marine, Character )
+marine = Marine:new( )
 
-Script:registerEventHandler( Marine.onEvent );
+script:registerEventHandler( Marine.onEvent )

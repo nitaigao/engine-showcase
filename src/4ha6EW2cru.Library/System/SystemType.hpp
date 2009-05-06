@@ -7,6 +7,8 @@
 #ifndef __SYSTEMTYPES_H
 #define __SYSTEMTYPES_H
 
+#include <string>
+
 namespace System
 {
 	namespace Types
@@ -25,6 +27,11 @@ namespace System
 			TEST
 		};
 	};
+
+	namespace Options
+	{
+		static const std::string LevelName			=	"levelName";
+	}
 
 	namespace Changes
 	{

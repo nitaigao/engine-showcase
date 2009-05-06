@@ -116,10 +116,7 @@ namespace UX
 		*
 		*  @return (unsigned int)
 		*/
-		inline unsigned int GetRequestedChanges( ) const  
-		{ 
-			return System::Changes::Geometry::All;
-		};
+		inline unsigned int GetRequestedChanges( ) const { return System::Changes::None; };
 
 
 		/*! Gets the properties of the Component

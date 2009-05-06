@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <mmsystem.h>
 #include <crtdbg.h>
+#include <string>
 
 #include "Game.h"
 
@@ -28,7 +29,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 {
 
 #ifdef _DEBUG
-	//_crtBreakAlloc = 162020;
+	//_crtBreakAlloc = 11079;
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF ); 
 #endif
 

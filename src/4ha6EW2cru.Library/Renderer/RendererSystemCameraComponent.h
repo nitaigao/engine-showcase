@@ -40,6 +40,7 @@ namespace Renderer
 			, _observer( 0 )
 			, _historySize( 10 )
 			, _weightModifier( 0.5f ) 
+			, _cameraNode( 0 )
 		{
 
 		}
@@ -85,6 +86,10 @@ namespace Renderer
 		*/
 		void PushChanges( const unsigned int& systemChanges );
 
+	protected:
+
+		void InitializeSceneNode( Ogre::SceneNode* sceneNode );
+
 	private:
 
 		RendererSystemCameraComponent( ) { };
@@ -96,6 +101,7 @@ namespace Renderer
 		IObserver* _observer;
 		History _xHistory;
 		History _yHistory;
+		Ogre::SceneNode* _cameraNode;
 
 		float _weightModifier;
 		int _historySize;

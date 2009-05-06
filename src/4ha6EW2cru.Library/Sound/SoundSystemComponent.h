@@ -96,7 +96,7 @@ namespace Sound
 		*
 		*  @return (System::Types::Type)
 		*/
-		inline System::Types::Type GetType( ) const { return System::Types::GEOMETRY; };
+		inline System::Types::Type GetType( ) const { return System::Types::SOUND; };
 
 
 		/*! Gets the types of Changes this component is interested in

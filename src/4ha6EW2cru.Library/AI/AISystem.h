@@ -25,6 +25,14 @@ namespace AI
 		 */
 		~AISystem( ) { };
 
+
+		/*! Default Constructor
+		 *
+		 *  @return ()
+		 */
+		AISystem( ) { };
+
+
 		/*! Initializes the System
 		 *
 		 *  @return (void)
@@ -51,7 +59,7 @@ namespace AI
 		 *
 		 *  @return (System::Types::Type)
 		 */
-		inline System::Types::Type GetType( ) const { return System::Types::UX; };
+		inline System::Types::Type GetType( ) const { return System::Types::AI; };
 
 
 		/*! Creates a System Scene

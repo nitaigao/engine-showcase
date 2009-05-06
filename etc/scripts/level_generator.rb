@@ -3,38 +3,42 @@ require 'fileutils'
 require 'rexml/document'
 include REXML
 
-sourcePath = ARGV[ 0 ].to_s;
-file = File.new( sourcePath );
+sourcePath = ARGV[ 0 ].to_s
+file = File.new( sourcePath )
 
-$workingDirectory = File.dirname( sourcePath );
+$workingDirectory = File.dirname( sourcePath )
 $levelName = File.basename( sourcePath, '.scene' )
-$basePath = File.join( $workingDirectory, $levelName );
+$basePath = $workingDirectory
 
 $bodiesFullPath = $basePath + '/bodies'
 $texturesFullPath = $basePath + '/textures'
 $meshesFullPath = $basePath + '/meshes'
 $modelsFullPath = $basePath + '/models'
+$scriptsFullPath = $basePath + '/scripts'
 
 $baseGamePath = '/data/entities'
 $bodiesGamePath = $baseGamePath + '/bodies'
 $texturesGamePath = $baseGamePath + '/textures'
 $meshesGamePath = $baseGamePath + '/meshes'
 $modelsGamePath = $baseGamePath + '/models'
+$scriptsGamePath = $baseGamePath + '/scripts'
+
+$entityLinks = Array.new
 
 contents = file.read.gsub( '<![CDATA[', '' ).gsub( ']]>', '' )
 
-doc = Document.new( contents );
-root = doc.root;
+doc = Document.new( contents )
+root = doc.root
 
 class Color
 
 	def initialize( name, xmlNode )
 	
-		@name = name;
-		@r = xmlNode.attributes[ 'r' ];
-		@g = xmlNode.attributes[ 'g' ];
-		@b = xmlNode.attributes[ 'b' ];
-		@type = 'color';
+		@name = name
+		@r = xmlNode.attributes[ 'r' ]
+		@g = xmlNode.attributes[ 'g' ]
+		@b = xmlNode.attributes[ 'b' ]
+		@type = 'color'
 	
 	end
 	
@@ -76,12 +80,59 @@ class Color
 
 end
 
+
+class Fog
+
+	def initialize( xmlNode )
+	
+		@mode = xmlNode.attributes[ 'mode' ];
+		@linearStart = Float( xmlNode.attributes[ 'linearStart' ] ) * Float( xmlNode.elements[ '//clipping' ].attributes[ 'far' ] )
+		@linearEnd = Float( xmlNode.attributes[ 'linearEnd' ] ) * Float( xmlNode.elements[ '//clipping' ].attributes[ 'far' ] )
+		
+		@r = xmlNode.elements[ 'colourDiffuse' ].attributes[ 'r' ];
+		@g = xmlNode.elements[ 'colourDiffuse' ].attributes[ 'g' ];
+		@b = xmlNode.elements[ 'colourDiffuse' ].attributes[ 'b' ];
+		@type = 'fog'
+	
+	end
+
+	def mode
+		@mode
+	end
+	
+	def linearStart
+		@linearStart
+	end
+	
+	def linearEnd
+		@linearEnd
+	end
+	
+	def r
+		@r
+	end
+	
+	def g
+		@g
+	end
+	
+	def b
+		@b
+	end
+	
+	def type
+		@type
+	end
+
+end
+
+
 class Vector
 
     def initialize( x, y, z )
-        @x = x;
-        @y = y;
-        @z = z;
+        @x = x
+        @y = y
+        @z = z
     end
     
     def x=( x )
@@ -113,10 +164,10 @@ end
 class Quaternion
 
     def initialize( w, x, y, z )
-        @w = w;
-        @x = x;
-        @y = y;
-        @z = z;
+        @w = w
+        @x = x
+        @y = y
+        @z = z
     end
     
     def w=( w )
@@ -176,9 +227,37 @@ class GraphicsComponent < Component
 
     def initialize( ogreNode )
 	
-        super( 'graphics' );
+        super( 'graphics' )
 		
-        @model = $modelsGamePath + '/' + ogreNode.attributes[ 'name' ] + '.model'
+		overrideModel = ogreNode.elements[ './/overrideGraphicsModel' ]
+		defaultModel = $modelsGamePath + '/' + ogreNode.attributes[ 'name' ] + '.model'
+		
+		if ( overrideModel != nil ) then
+		
+			if ( overrideModel.text != nil ) then
+		
+				@model = $modelsGamePath + '/' + overrideModel.text
+				
+			else
+			
+				@model = defaultModel
+			
+			end
+		
+		else
+		
+			@model = defaultModel
+			
+		end
+		
+		graphicsType = ogreNode.elements[ './/graphicsType' ]
+		
+		if ( graphicsType != nil ) then
+		
+			@type = graphicsType.text
+		
+		end
+		
     end
     
     def model
@@ -187,28 +266,56 @@ class GraphicsComponent < Component
 
 end
 
+class ScriptComponent < Component
+
+	def initialize( ogreNode )
+	
+		super( 'script' )
+		
+		scriptName = ogreNode.elements[ './/scriptName' ]
+		
+		@scriptPath = $scriptsGamePath + '/' + scriptName.text
+	
+	end
+
+end
+
+class AIComponent < Component
+
+	def initialize( ogreNode )
+	
+		super( 'ai' )
+		
+		scriptName = ogreNode.elements[ './/aiScriptName' ]
+		
+		@scriptPath = $scriptsGamePath + '/' + scriptName.text
+	
+	end
+
+end
+
 class GeometryComponent < Component
 
      def initialize( ogreNode )
 	 
-        super( 'geometry' );
+        super( 'geometry' )
     
-        @scale = Vector.new( 0, 0, 0 );
-        @position = Vector.new( 0, 0, 0 );
-        @orientation = Quaternion.new( 0, 0, 0, 0 );
+        @scale = Vector.new( 0, 0, 0 )
+        @position = Vector.new( 0, 0, 0 )
+        @orientation = Quaternion.new( 0, 0, 0, 0 )
  
-        @scale.x = ogreNode.elements[ 'scale' ].attributes[ 'x' ];
-        @scale.y = ogreNode.elements[ 'scale' ].attributes[ 'y' ];
-        @scale.z = ogreNode.elements[ 'scale' ].attributes[ 'z' ];
+        @scale.x = ogreNode.elements[ 'scale' ].attributes[ 'x' ]
+        @scale.y = ogreNode.elements[ 'scale' ].attributes[ 'y' ]
+        @scale.z = ogreNode.elements[ 'scale' ].attributes[ 'z' ]
         
-        @position.x = ogreNode.elements[ 'position' ].attributes[ 'x' ];
-        @position.y = ogreNode.elements[ 'position' ].attributes[ 'y' ];
-        @position.z = ogreNode.elements[ 'position' ].attributes[ 'z' ];
+        @position.x = ogreNode.elements[ 'position' ].attributes[ 'x' ]
+        @position.y = ogreNode.elements[ 'position' ].attributes[ 'y' ]
+        @position.z = ogreNode.elements[ 'position' ].attributes[ 'z' ]
         
-        @orientation.w = ogreNode.elements[ 'rotation' ].attributes[ 'qw' ];
-        @orientation.x = ogreNode.elements[ 'rotation' ].attributes[ 'qx' ];
-        @orientation.y = ogreNode.elements[ 'rotation' ].attributes[ 'qy' ];
-        @orientation.z = ogreNode.elements[ 'rotation' ].attributes[ 'qz' ];
+        @orientation.w = ogreNode.elements[ 'rotation' ].attributes[ 'qw' ]
+        @orientation.x = ogreNode.elements[ 'rotation' ].attributes[ 'qx' ]
+        @orientation.y = ogreNode.elements[ 'rotation' ].attributes[ 'qy' ]
+        @orientation.z = ogreNode.elements[ 'rotation' ].attributes[ 'qz' ]
     end
     
     def position
@@ -227,12 +334,12 @@ end
 
 class PhysicsComponent < Component
 
-	def initialize( ogreNode )
+	def initialize( ogreNode, name )
 	
-		super( 'physics' );
+		super( 'physics' )
 		
-		@body = File.join( $bodiesGamePath, ogreNode.elements[ './/physicsBody' ].text );
-		@type = ogreNode.elements[ './/physicsType' ].text;
+		@body = '/data/entities/bodies/' + name + '.hkx' 
+		@type = ogreNode.elements[ './/physicsType' ].text
 	
 	end
 	
@@ -246,7 +353,7 @@ class InputComponent < Component
 
 	def initialize( ogreNode )
 	
-		super( 'input' );
+		super( 'input' )
 		
 	end
 
@@ -254,13 +361,13 @@ end
 
 class SkyBox
 
-	def initialize( ogreNode )
+	def initialize( xmlNode )
 	
-		@enabled = ogreNode.attributes[ 'enable' ];
-		@material = ogreNode.attributes[ 'material' ];
-		@distance = ogreNode.attributes[ 'distance' ];
-		@drawFirst = ogreNode.attributes[ 'drawFirst' ];
-		@type = 'skybox';
+		@enabled = xmlNode.attributes[ 'enable' ]
+		@material = xmlNode.attributes[ 'material' ]
+		@distance = Float( xmlNode.attributes[ 'distance' ] ) * Float( xmlNode.elements[ '//clipping' ].attributes[ 'far' ] )
+		@drawFirst = xmlNode.attributes[ 'drawFirst' ]
+		@type = 'skybox'
 	
 	end
 	
@@ -286,40 +393,94 @@ class SkyBox
 
 end
 
+class EntityLink
+
+	def initialize( subjectName, subjectSystem, observerName, observerSystem )
+	
+		@subjectName = subjectName
+		@subjectSystem = subjectSystem
+		@observerName = observerName
+		@observerSystem = observerSystem
+		@type = 'entityLink'
+
+	end
+	
+	def subjectName
+		@subjectName
+	end
+	
+	def subjectSystem
+		@subjectSystem
+	end
+	
+	def observerName
+		@observerName
+	end
+	
+	def observerSystem
+		@observerSystem
+	end
+	
+	def type
+		@type
+	end
+	
+end
+
 class Entity
 
     def initialize( ogreNode )
     
-		@name = ogreNode.attributes[ 'name' ];
+		@name = ogreNode.attributes[ 'name' ]
 		@type = 'entity'
 		
 		@components = Array.new
 		
-		attachGraphics = ogreNode.elements[ './/userData/components/attachGraphics' ];
+		attachGraphics = ogreNode.elements[ './/userData/components/attachGraphics' ]
 		
-		if ( attachGraphics == nil || attachGraphics.text == 'true')
+		if ( attachGraphics != nil && attachGraphics.text == 'true')
 			
-			@components.push( GraphicsComponent.new( ogreNode ) );
+			@components.push( GraphicsComponent.new( ogreNode ) )
 		
 		end
 	
-        @components.push( GeometryComponent.new( ogreNode ) );
+        @components.push( GeometryComponent.new( ogreNode ) )
 		
-		attachPhysics = ogreNode.elements[ './/userData/components/attachPhysics' ];
+		attachPhysics = ogreNode.elements[ './/userData/components/attachPhysics' ]
 		
 		if ( attachPhysics != nil && attachPhysics.text == 'true')
 			
-			physicsNode = ogreNode.elements[ './/userData' ];
-			@components.push( PhysicsComponent.new( physicsNode ) );
+			physicsNode = ogreNode.elements[ './/userData' ]
+			@components.push( PhysicsComponent.new( physicsNode, @name ) )
 		
 		end
 		
-		attachInput = ogreNode.elements[ './/userData/components/attachInput' ];
+		attachInput = ogreNode.elements[ './/userData/components/attachInput' ]
 		
 		if ( attachInput != nil && attachInput.text == 'true' )
 		
-			inputNode = ogreNode.elements[ './/userData' ];
-			@components.push( InputComponent.new( inputNode ) );
+			inputNode = ogreNode.elements[ './/userData' ]
+			@components.push( InputComponent.new( inputNode ) )
+		
+		end
+		
+		attachScript = ogreNode.elements[ './/userData/components/attachScript' ]
+		
+		if ( attachScript != nil && attachScript.text == 'true' )
+		
+			scriptNode = ogreNode.elements[ './/userData' ]
+			@components.push( ScriptComponent.new( scriptNode ) )
+		
+		end
+		
+		attachAI = ogreNode.elements[ './/userData/components/attachAI' ]
+		
+		if ( attachAI != nil && attachAI.text == 'true' )
+		
+			aiNode = ogreNode.elements[ './/userData' ]
+			@components.push( AIComponent.new( aiNode ) )
+			
+			$entityLinks.push( EntityLink.new( 'player', 'geometry', @name, 'ai' ) );
 		
 		end
         
@@ -345,13 +506,13 @@ def replaceMeshPaths( node )
 	
 	if ( childNode.name == 'entity' ) then
 	
-		meshFile = childNode.attributes[ 'meshFile' ];
-		fullMeshFile = $meshesGamePath + '/' + meshFile.to_s;
-		childNode.attributes[ 'meshFile' ] = fullMeshFile;
+		meshFile = childNode.attributes[ 'meshFile' ]
+		fullMeshFile = $meshesGamePath + '/' + meshFile.to_s
+		childNode.attributes[ 'meshFile' ] = fullMeshFile
 	
 	end
 		
-	replaceMeshPaths( childNode );
+	replaceMeshPaths( childNode )
 	
 	}
 
@@ -359,90 +520,114 @@ end
 
 def createEntities( xmlRoot )
 
-	entities = Array.new;
+	entities = Array.new
 	
-	replaceMeshPaths( xmlRoot );
+	#replaceMeshPaths( xmlRoot )
 
 	xmlRoot.each_element( "/scene/nodes/node" ) { | node |
 
-		entity = Entity.new( node );	
+		entity = Entity.new( node )	
 		
 		entities.each { | savedEntity |
 		
 			if ( savedEntity.name.eql? entity.name ) then
 			
-				puts '#### ERROR: Duplicate entity name found for: ' + entity.name;
-				Process.exit;
+				puts '#### ERROR: Duplicate entity name found for: ' + entity.name
+				Process.exit
 			
 			end
 		}
 		
-		entities.push( entity );
+		entities.push( entity )
 		
-		modelFilePath = $modelsFullPath + '/' + entity.name + '.model';
-		modelFile = File.new( modelFilePath, "w+" );
+		modelFilePath = $modelsFullPath + '/' + entity.name + '.model'
+		modelFile = File.new( modelFilePath, "w+" )
 		
-		node.elements.delete( 'entity//userData' );
+		outputXml = node
+		outputXml.elements.delete_all( './userData' )
+		outputXml.elements.delete_all( '*/userData' )
+		outputXml.elements.delete_all( '*/*/userData' )
+		outputXml.elements.delete_all( '*/*/*/userData' )
+		outputXml.elements.delete_all( '*/*/*/*/userData' )
+		outputXml.elements.delete_all( '*/*/*/*/*/userData' )
 		
 		formatter = REXML::Formatters::Pretty.new
 		modelNode = String.new
-		formatter.write( node, modelNode );
-	
-		modelFile.write( modelNode );
-		modelFile.close( );
+		formatter.write( outputXml, modelNode )
+		modelNode = modelNode.gsub(/meshFile='([A-Za-z0-9_\-\.]*\.mesh)'/, "meshFile='" + $meshesGamePath + "/" + '\1' + "'")
+
+		modelFile.write( modelNode )
+		modelFile.close( )
 		
-		puts 'Processed Entity: ' + entity.name;
+		puts 'Processed Entity: ' + entity.name
 	}
 	
-	return entities;
+	return entities
 
 end
 
 def createEnvironment( xmlRoot )
 
-	environment = Array.new;
+	environment = Array.new
 	
-	ambientColor = Color.new( 'ambient', xmlRoot.elements[ '//colourAmbient' ] );
-	environment.push( ambientColor );
+	ambientColor = Color.new( 'ambient', xmlRoot.elements[ '//colourAmbient' ] )
+	environment.push( ambientColor )
 	
-	backgroundColor = Color.new( 'background', xmlRoot.elements[ '//colourBackground' ] );
-	environment.push( backgroundColor );
+	backgroundColor = Color.new( 'background', xmlRoot.elements[ '//colourBackground' ] )
+	environment.push( backgroundColor )
 	
-	skyBoxElement = xmlRoot.elements[ '//skyBox' ];
+	skyBoxElement = xmlRoot.elements[ '//skyBox' ]
 	
 	if ( skyBoxElement != nil ) then
 	
-		skyBox = SkyBox.new( skyBoxElement );
-		environment.push( skyBox );
+		skyBox = SkyBox.new( skyBoxElement )
+		environment.push( skyBox )
 	
 	end
 	
-	return environment;
+	fogElement = xmlRoot.elements[ '//fog' ];
+	
+	if ( fogElement != nil ) then
+		
+		fog = Fog.new( fogElement )
+		environment.push( fog )
+	
+	end
+	
+	return environment
+
+end
+
+def createLinks( xmlRoot )
+
+	return $entityLinks
 
 end
 
 def processMaterials( materialsPath )
 
-	materialsDir = Dir.new( materialsPath );
+	materialsDir = Dir.new( materialsPath )
 	materialsDir.each { | entry |
 	
 		if ( entry.to_s.include? ".material" ) then
 		
-			materialFilePath = File.join( materialsPath, entry );
+			materialFilePath = File.join( materialsPath, entry )
 		
-			materialFile = File.new( materialFilePath, 'r+' );
-			materialContents = materialFile.read( );
+			materialFile = File.new( materialFilePath, 'r+' )
+			materialContents = materialFile.read( )
 			
 			if ( !materialContents.to_s.include? $texturesGamePath )
 			
-				materialContents = materialContents.gsub( "\ttexture ", "\ttexture " + $texturesGamePath + '/' );
-				materialFile.close( );
+				materialContents = materialContents.gsub(/([A-Za-z0-9_\-\.]*)(jpg|tga|bmp|gif)/, $texturesGamePath + '/\0 ')
+				#materialContents = materialContents.gsub( "\ttexture ", "\ttexture " + $texturesGamePath + '/' )
 				
-				materialFile = File.new( materialFilePath, 'w' );
-				materialFile.write( materialContents );
-				materialFile.close( );
+				materialFile.close( )
 				
-				puts 'Processed Material: ' + entry;
+				materialFile = File.new( materialFilePath, 'w' )
+				materialFile.write( materialContents )
+				materialFile.close( )
+				
+				puts 'Processed Material: ' + entry
 				
 			end
 			
@@ -453,28 +638,28 @@ end
 
 def processMeshes( meshesPath )
 
-	meshesDir = Dir.new( meshesPath );
+	meshesDir = Dir.new( meshesPath )
 	meshesDir.each { | entry |
 	
 		if ( entry.to_s.include? ".mesh" ) then
 		
-			meshFilePath = File.join( meshesPath, entry );
+			meshFilePath = File.join( meshesPath, entry )
 		
-			meshFile = File.new( meshFilePath, 'rb+' );
-			meshContents = meshFile.read( );
+			meshFile = File.new( meshFilePath, 'rb+' )
+			meshContents = meshFile.read( )
 			
 			skeletonFilename = File.basename( entry, '.mesh' ) + '.skeleton'
 			
 			if ( !meshContents.to_s.include? $meshesGamePath )
 			
-				meshContents = meshContents.gsub( skeletonFilename, $meshesGamePath + '/' + skeletonFilename );
-				meshFile.close( );
+				meshContents = meshContents.gsub( skeletonFilename, $meshesGamePath + '/' + skeletonFilename )
+				meshFile.close( )
 				
-				meshFile = File.new( meshFilePath, 'wb' );
-				meshFile.write( meshContents );
-				meshFile.close( );
+				meshFile = File.new( meshFilePath, 'wb' )
+				meshFile.write( meshContents )
+				meshFile.close( )
 				
-				puts 'Processed Mesh: ' + entry;
+				puts 'Processed Mesh: ' + entry
 			
 			end
 			
@@ -486,10 +671,10 @@ end
 
 def createBaseStructure( )
 
-	FileUtils.mkdir_p( $bodiesFullPath );
-	FileUtils.mkdir_p( $texturesFullPath );
-	FileUtils.mkdir_p( $meshesFullPath );
-	FileUtils.mkdir_p( $modelsFullPath );
+	FileUtils.mkdir_p( $bodiesFullPath )
+	FileUtils.mkdir_p( $texturesFullPath )
+	FileUtils.mkdir_p( $meshesFullPath )
+	FileUtils.mkdir_p( $modelsFullPath )
 
 end
 
@@ -501,15 +686,19 @@ puts ''
 puts 'Processing Scene File: ' + ARGV[ 0 ].to_s
 puts ''
 
-createBaseStructure( );
+createBaseStructure( )
 
-levelFilePath = File.join( $basePath, $levelName + '.yaml' );
+levelFilePath = File.join( $basePath, $levelName + '.yaml' )
 
-outputFile = File.new( levelFilePath,  "w+" );
-outputFile.write( createEnvironment( root ).to_yaml );
-outputFile.write( "...\n" );
-outputFile.write( createEntities( root ).to_yaml );
-outputFile.close( );
+outputFile = File.new( levelFilePath,  "w+" )
+outputFile.write( createEnvironment( root ).to_yaml )
+outputFile.write( "...\n" )
+outputFile.write( createEntities( root ).to_yaml )
+outputFile.write( "...\n" )
+outputFile.write( createLinks( root ).to_yaml )
+outputFile.write( "...\n" )
+outputFile.write( "---\n" )
+outputFile.close( )
 
 puts ''
 puts 'Finished Processing Scene Files'
@@ -519,18 +708,33 @@ puts ''
 puts 'Processing Materials'
 puts ''
 
-materialPath = File.join( $workingDirectory, 'materials' );
-processMaterials( materialPath );
-FileUtils.cp_r( materialPath, $basePath );
+materialPath = File.join( $workingDirectory, 'materials' )
+processMaterials( materialPath )
 
 puts ''
 puts 'Processing Meshes'
 puts ''
 
-meshesPath = File.join( $workingDirectory, 'meshes' );
-processMeshes( meshesPath );
-FileUtils.cp_r( meshesPath, $basePath );
+meshesPath = File.join( $workingDirectory, 'meshes' )
+processMeshes( meshesPath )
 
 puts ''
 puts 'Finished Processing Materials'
 puts ''
+
+puts ''
+puts 'Deleting Old Scene File'
+puts ''
+
+	file.close( )
+
+	FileUtils.rm( sourcePath )
+
+puts ''
+puts 'Finished Deleting Old Scene File'
+puts ''
+
+#temporary until we figure out a better export pipeline
+FileUtils.mv( levelFilePath, '../../levels/levels' )
+
+

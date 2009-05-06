@@ -30,7 +30,11 @@ namespace State
 		 *
 		 *  @return ()
 		 */
-		World( ) { };
+		World( )
+			: _stepAccumulator( 0 )
+		{
+
+		}
 
 
 		/*! Creates a World Entity Container
@@ -87,6 +91,7 @@ namespace State
 		IWorldEntity::WorldEntityList _entities;
 		SystemSceneMap _systemScenes;
 
+		float _stepAccumulator;
 	};
 };
 

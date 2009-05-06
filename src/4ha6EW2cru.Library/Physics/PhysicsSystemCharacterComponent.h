@@ -36,8 +36,8 @@ namespace Physics
 		 *  @param[in] int componentId
 		 *  @return ()
 		 */
-		PhysicsSystemCharacterComponent( const std::string& name, HavokPhysicsSystemScene* scene, int componentId )
-			: PhysicsSystemComponent( name, scene, componentId )
+		PhysicsSystemCharacterComponent( const std::string& name, HavokPhysicsSystemScene* scene )
+			: PhysicsSystemComponent( name, scene )
 			, _characterBody( 0 )
 			, _characterContext( 0 )
 			, _framesInAir( 0 )

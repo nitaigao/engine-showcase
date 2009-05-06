@@ -23,6 +23,8 @@ class ISystem
 
 public:
 
+	typedef std::map< System::Types::Type, ISystem* > SystemMap;
+
 	/*! Default Destructor
 	*
 	*  @return ()
@@ -81,7 +83,5 @@ public:
 	virtual void SetProperty( const std::string& name, AnyValue value ) = 0;
 
 };
-
-typedef std::deque< ISystem* > SystemList;
 
 #endif

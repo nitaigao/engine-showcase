@@ -8,6 +8,7 @@
 #define __IPLATFORMMANAGER_H
 
 #include <string>
+#include "../System/AnyValue.hpp"
 
 namespace Platform
 {
@@ -78,6 +79,13 @@ namespace Platform
 		 *  @return (void)
 		 */
 		virtual void OutputDebugMessage( const std::string& message ) = 0;
+
+
+		/*! Returns a map of the command line options used when launching the game
+		 *
+		 *  @return (AnyValue::AnyValueMap)
+		 */
+		virtual AnyValue::AnyValueMap GetProgramOptions( ) const = 0;
 	};
 };
 

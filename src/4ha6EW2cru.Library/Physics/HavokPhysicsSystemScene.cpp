@@ -7,15 +7,14 @@
 #include "PhysicsSystemComponent.h"
 #include "PhysicsSystemCharacterComponent.h"
 
+#include "../Logging/Logger.h"
+using namespace Logging;
+
 namespace Physics
 {
 	HavokPhysicsSystemScene::HavokPhysicsSystemScene( const hkpWorldCinfo& worldInfo )
 	{
-		_lastComponentId = 0;
-		_stepAccumulator = 0;
-
 		_world = new hkpWorld( worldInfo );
-		_world->addIslandPostIntegrateListener( this );
 
 		hkArray<hkProcessContext*> contexts;
 
@@ -42,18 +41,17 @@ namespace Physics
 	ISystemComponent* HavokPhysicsSystemScene::CreateComponent( const std::string& name, const std::string& type )
 	{
 		PhysicsSystemComponent* component = 0;
-		int componentId = _lastComponentId++;
 
 		if ( type == "character" )
 		{
-			component = new PhysicsSystemCharacterComponent( name, this, componentId );
+			component = new PhysicsSystemCharacterComponent( name, this );
 		}
 		else
 		{
-			component = new PhysicsSystemComponent( name, this, componentId );
+			component = new PhysicsSystemComponent( name, this );
 		}
 
-		_components[ componentId ] = component;
+		_components[ name ] = component;
 
 		return component;
 	}
@@ -62,40 +60,16 @@ namespace Physics
 	{
 		_world->stepDeltaTime( deltaMilliseconds );
 		_vdb->step( deltaMilliseconds );
+
+		for( PhysicsSystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+		{
+			( *i ).second->Update( deltaMilliseconds );
+		}
 	}
 
 	void HavokPhysicsSystemScene::DestroyComponent( ISystemComponent* component )
 	{
-		for( PhysicsSystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
-		{
-			if ( component->GetName( ) == ( *i ).second->GetName( ) )
-			{
-				_components.erase( i );
-				break;
-			}
-		}
-
+		_components.erase( component->GetName( ) );
 		delete component;
-	}
-
-	void HavokPhysicsSystemScene::postIntegrateCallback( hkpSimulationIsland *island, const hkStepInfo &stepInfo )
-	{
-		const hkArray< hkpEntity* >& entities = island->getEntities( );
-
-		for ( int i = 0; i < entities.getSize( ); i++ )
-		{
-			hkpEntity* entity = entities[ i ];
-			
-			int componentId = entity->getUserData( );
-			PhysicsSystemComponent* component = static_cast< PhysicsSystemComponent* >( _components[ componentId ] );
-
-			component->Update( stepInfo.m_deltaTime );
-
-			component->PushChanges( 
-				System::Changes::Geometry::Orientation |
-				System::Changes::Geometry::Position |
-				System::Changes::Geometry::Scale
-				);
-		}
 	}
 }

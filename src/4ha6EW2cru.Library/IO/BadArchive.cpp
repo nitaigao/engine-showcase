@@ -27,12 +27,9 @@ namespace IO
 
 	StringVectorPtr BadArchive::find( const String& pattern, bool recursive /* = true */, bool dirs /* = false */ )
 	{
-		std::stringstream mountPath;
-		mountPath << "/data/" << mName << "/";
-
 		StringVector* resultsVector = new StringVector( );
 
-		FileSearchResultList* results = Management::GetInstance( )->GetFileManager( )->FileSearch( mountPath.str( ), pattern, true );
+		FileSearchResultList* results = Management::GetInstance( )->GetFileManager( )->FileSearch( "/data/", pattern, true );
 
 		for( FileSearchResultList::iterator i = results->begin( ); i != results->end( ); ++i )
 		{

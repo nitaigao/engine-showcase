@@ -12,6 +12,11 @@
 #include <iostream>
 #include <fstream>
 
+#include <shellapi.h>
+
+#include <boost/program_options.hpp>
+using namespace boost::program_options;
+
 LRESULT CALLBACK WindowProcedure( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	switch( msg )
@@ -127,5 +132,40 @@ namespace Platform
 	void Win32PlatformManager::OutputDebugMessage( const std::string& message )
 	{
 		OutputDebugString( message.c_str( ) );
+	}
+
+	AnyValue::AnyValueMap Win32PlatformManager::GetProgramOptions( ) const
+	{
+		int argc = 0;
+		LPWSTR* argv = CommandLineToArgvW( GetCommandLineW( ), &argc );
+
+		options_description optionsDescription("Allowed options");
+		optionsDescription.add_options( ) (
+			System::Options::LevelName.c_str( ), 
+			boost::program_options::value< std::string >( ), 
+			"start the level immediately" 
+			);
+
+		positional_options_description  positionalDescription;
+		positionalDescription.add( System::Options::LevelName.c_str( ), 1 );
+
+		variables_map variablesMap;
+
+		store( 
+			wcommand_line_parser( argc, argv )
+			.options( optionsDescription )
+			.positional( positionalDescription )
+			.run( ), variablesMap 
+			);
+			
+
+		AnyValue::AnyValueMap programOptions;
+
+		for ( variables_map::iterator i = variablesMap.begin( ); i != variablesMap.end( ); ++i )
+		{
+			programOptions[ ( *i ).first ] = ( *i ).second.as< std::string >( );
+		}
+
+		return programOptions;
 	}
 }

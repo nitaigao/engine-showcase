@@ -18,9 +18,9 @@ States = {
 -- Local Variables
 ----------------------------------------------------------------
 
-movementState = States.IDLE;
-attackState = States.IDLE;
-attackDistance = 10;
+movementState = States.IDLE
+attackState = States.IDLE
+attackDistance = 10
 
 ----------------------------------------------------------------
 -- Marine Functions
@@ -32,7 +32,7 @@ end
 
 function Marine.onEvent( eventName, var1, var2 )
 
-	if ( var1 == Script:getName( ) ) then 
+	if ( var1 == script:getName( ) ) then 
 
 		if ( eventName == 'ACTOR_HIT' ) then
 		
@@ -40,8 +40,8 @@ function Marine.onEvent( eventName, var1, var2 )
 		
 		if( eventName == 'ACTOR_DEAD' ) then 
 		
-			movementState = States.DEAD;
-			attackState = States.DEAD;
+			movementState = States.DEAD
+			attackState = States.DEAD
 			
 		end
 		
@@ -57,17 +57,17 @@ function Marine.onUpdate( deltaMilliseconds )
 	
 		-- Default Actions
 	
-		me:facePlayer( );
+		ai:facePlayer( )
 		
 		-- Evaluation
 		
-		local transition = ( me:getPlayerDistance( ) > attackDistance );
+		local transition = ( ai:getPlayerDistance( ) > attackDistance )
 		
 		-- Transition
 		
 		if ( transition ) then
 		
-			movementState = States.IDLE;
+			movementState = States.IDLE
 		
 		end
 	
@@ -77,17 +77,17 @@ function Marine.onUpdate( deltaMilliseconds )
 	
 		-- Default Actions
 		
-		Script:playAnimation( 'idle', false );
+		ai:playAnimation( 'idle', false )
 		
 		-- Evaluation
 		
-		local transition = ( me:getPlayerDistance( ) <= attackDistance );
+		local transition = ( ai:getPlayerDistance( ) <= attackDistance )
 		
 		-- Transition
 		
 		if ( transition ) then
 		
-			movementState = States.ATTACK;
+			movementState = States.ATTACK
 		
 		end
 	
@@ -97,8 +97,8 @@ function Marine.onUpdate( deltaMilliseconds )
 	
 		-- Default Actions
 		
-		Script:playAnimation( 'die_backward', false );
-		movementState = States.NONE;
+		ai:playAnimation( 'die_backward', false )
+		movementState = States.NONE
 		
 		-- Evaluation
 		
@@ -112,18 +112,18 @@ function Marine.onUpdate( deltaMilliseconds )
 	
 		-- Default Actions
 		
-		me:fireWeapon( );
-		Script:playAnimation( 'hit', false );
+		ai:fireWeapon( )
+		ai:playAnimation( 'hit', false )
 		
 		-- Evaluation
 		
-		local transition = ( me:getPlayerDistance( ) > attackDistance );
+		local transition = ( ai:getPlayerDistance( ) > attackDistance )
 		
 		-- Transition
 		
 		if ( transition ) then
 		
-			attackState = States.IDLE;
+			attackState = States.IDLE
 		
 		end
 	
@@ -135,13 +135,13 @@ function Marine.onUpdate( deltaMilliseconds )
 		
 		-- Evaluation
 		
-		local transition = ( me:getPlayerDistance( ) <= attackDistance );
+		local transition = ( ai:getPlayerDistance( ) <= attackDistance )
 		
 		-- Transition
 		
 		if ( transition ) then
 		
-			attackState = States.ATTACK;
+			attackState = States.ATTACK
 		
 		end
 	
@@ -151,7 +151,7 @@ function Marine.onUpdate( deltaMilliseconds )
 	
 		-- Default Actions
 		
-		attackState = States.NONE;
+		attackState = States.NONE
 		
 		-- Evaluation
 		
@@ -161,7 +161,7 @@ function Marine.onUpdate( deltaMilliseconds )
 
 end
 
-Script:registerEventHandler( Marine.onEvent );
-Script:registerUpdateHandler( Marine.onUpdate );
+script:registerEventHandler( Marine.onEvent )
+script:registerUpdateHandler( Marine.onUpdate )
 
-Marine.initialize( );
+Marine.initialize( )

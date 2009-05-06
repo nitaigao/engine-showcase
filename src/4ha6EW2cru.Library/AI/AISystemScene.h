@@ -11,6 +11,8 @@
 #include "IAISystemScene.hpp"
 #include "../Scripting/IScriptSystemScene.hpp"
 
+#include <hash_map>
+
 namespace AI
 {
 	/*! 
@@ -19,7 +21,7 @@ namespace AI
 	class AISystemScene : public IAISystemScene
 	{
 
-		typedef std::vector< IAISystemComponent* > AISystemComponentList;
+		typedef stdext::hash_multimap< int, IAISystemComponent* > AISystemComponentMap;
 
 	public:
 
@@ -27,14 +29,19 @@ namespace AI
 		*
 		*  @return ()
 		*/
-		~AISystemScene( );
+		~AISystemScene( ) { };
 
 
 		/*! Default Constructor
 		 *
 		 *  @return ()
 		 */
-		AISystemScene( );
+		AISystemScene( )
+			: _frameNumber( 0 )
+			, _lastFrameAssignment( 0 )
+		{
+
+		}
 
 		/*!  Initializes the System Scene
 		*
@@ -48,6 +55,14 @@ namespace AI
 		*  @return (void)
 		*/
 		void Update( const float& deltaMilliseconds );
+
+
+		/*! Destroys the System Scene
+		*
+		*  @return (void)
+		*/
+		inline void Destroy( ) { };
+
 
 		/*! Gets the System::Types::Type of the SystemScene
 		*
@@ -75,12 +90,16 @@ namespace AI
 		 *
 		 *  @return (ISystemScene*)
 		 */
-		inline ISystemScene* GetScriptScene( ) { return _scriptScene; };
+	//	inline ISystemScene* GetScriptScene( ) { return 0; };
 
 	private:
 
-		Script::IScriptSystemScene* _scriptScene;
-		AISystemComponentList _components;
+		AISystemComponentMap _components;
+
+		int _lastFrameAssignment;
+		int _frameNumber;
+
+		//Script::IScriptSystemScene* _scriptScene;
 
 	};
 };

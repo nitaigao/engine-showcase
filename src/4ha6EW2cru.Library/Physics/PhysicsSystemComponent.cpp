@@ -34,7 +34,6 @@ namespace Physics
 		hkpPhysicsData* physicsData = static_cast< hkpPhysicsData* >( container->findObjectByType( "hkpPhysicsData" ) );
 
 		_body = physicsData->findRigidBodyByName( _name.c_str( ) );
-		_body->setUserData( _componentId );
 		_scene->GetWorld( )->addEntity( _body );
 	}
 

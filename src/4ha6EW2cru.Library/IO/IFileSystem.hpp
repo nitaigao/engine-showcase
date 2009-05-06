@@ -27,6 +27,13 @@ namespace IO
 		virtual ~IFileSystem( ) { };
 
 
+		/*! Initializes the File System
+		 *
+		 *  @return (void)
+		 */
+		virtual void Initialize( ) = 0;
+
+
 		/*! Mounts the given path into the file system
 		 *
 		 *  @param[in] const std::string path - can be a ZIP, BAD, PAK Archive or a Local Folder

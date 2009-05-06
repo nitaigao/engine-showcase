@@ -39,9 +39,10 @@ namespace AI
 		 *  @param[in] IScriptComponent * scriptComponent
 		 *  @return ()
 		 */
-		AISystemComponent( const std::string& name, Script::IScriptComponent* scriptComponent )
+		AISystemComponent( const std::string& name, const int& frameAssignment )
 			: _name( name )
-			, _scriptComponent( scriptComponent )
+			, _frameAssignment( frameAssignment )
+			, _scriptState( 0 )
 			, _observer( 0 )
 		{
 
@@ -69,7 +70,7 @@ namespace AI
 		 *
 		 *  @return (void)
 		 */
-		void Destroy( ) { };
+		void Destroy( );
 
 
 		/*! Adds an Observer to the Component
@@ -176,13 +177,11 @@ namespace AI
 
 		/* AI Specific */
 
-		//TODO: Move these to the Scripting System
-
-		/*! Returns the Script Component attached to the AI Component
-		 *
-		 *  @return (void)
-		 */
-		inline Script::IScriptComponent* GetScriptComponent( ) { return _scriptComponent; };
+		/*! Returns the frame number that this ai will perform its logic update
+		*
+		*  @return (int)
+		*/
+		inline int GetFrameAssignment( ) const { return _frameAssignment; };
 
 
 		/* Script Callbacks */
@@ -219,12 +218,22 @@ namespace AI
 		 *
 		 *  @return (float)
 		 */
-		float GetPlayerDistance( );
+		inline float GetPlayerDistance( ) { return _playerDistance; };
+
+
+		/*! Plays an Animation
+		 *
+		 *  @param[in] const std::string & animationName
+		 *  @param[in] const bool & loopAnimation
+		 *  @return (void)
+		 */
+		void PlayAnimation( const std::string& animationName, const bool& loopAnimation );
 
 	private:
 
 		std::string _name;
-		Script::IScriptComponent* _scriptComponent;
+		lua_State* _scriptState;
+		int _frameAssignment;
 
 		IObserver* _observer;
 
@@ -235,6 +244,7 @@ namespace AI
 
 		Maths::MathVector3 _playerPosition;
 		Maths::MathQuaternion _playerOrientation;
+		float _playerDistance;
 
 	};
 };

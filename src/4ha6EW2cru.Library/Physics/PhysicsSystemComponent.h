@@ -7,7 +7,7 @@
 #ifndef __PHYSICSSYSTEMCOMPONENT_H
 #define __PHYSICSSYSTEMCOMPONENT_H
 
-#include "../System/ISystemComponent.hpp"
+#include "IPhysicsSystemComponent.hpp"
 #include "HavokPhysicsSystemScene.h"
 
 #include "../Maths/MathVector3.hpp"
@@ -21,7 +21,7 @@ namespace Physics
 	/*! 
 	 *  A Standard Physics Component
 	 */
-	class PhysicsSystemComponent : public ISystemComponent
+	class PhysicsSystemComponent : public IPhysicsSystemComponent
 	{
 
 	public:
@@ -41,10 +41,9 @@ namespace Physics
 		 *  @param[in] int componentId
 		 *  @return ()
 		 */
-		PhysicsSystemComponent( const std::string& name, HavokPhysicsSystemScene* scene, int componentId )
+		PhysicsSystemComponent( const std::string& name, HavokPhysicsSystemScene* scene )
 			: _name ( name )
 			, _scene( scene )
-			, _componentId( componentId )
 			, _loadedData( 0 )
 			, _body( 0 )
 		{
@@ -120,7 +119,13 @@ namespace Physics
 		*/
 		inline unsigned int GetRequestedChanges( ) const  
 		{ 
-			return System::Changes::Geometry::All | System::Changes::Input::All;
+			return 
+				System::Changes::Geometry::All |
+				System::Changes::Input::Move_Forward |
+				System::Changes::Input::Move_Backward |
+				System::Changes::Input::Strafe_Left |
+				System::Changes::Input::Strafe_Right |
+				System::Changes::Input::Jump;
 		};
 
 
@@ -159,12 +164,18 @@ namespace Physics
 		*/
 		Maths::MathQuaternion GetOrientation( ) const;
 
+
+		/*! Returns the RigidBody of the Component
+		*
+		*  @return (hkpRigidBody*)
+		*/
+		inline hkpRigidBody* GetRigidBody( ) const { return _body; };
+
 	protected:
 
 		std::string _name;
 		IObserver* _observer;
 		HavokPhysicsSystemScene* _scene;
-		int _componentId;
 		
 		hkpRigidBody* _body;
 		hkPackfileData* _loadedData;

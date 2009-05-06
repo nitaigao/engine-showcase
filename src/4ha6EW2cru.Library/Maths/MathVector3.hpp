@@ -91,7 +91,6 @@ namespace Maths
 			return X * input.X + Y * input.Y + Z * input.Z;
 		}
 
-
 		
 		/*! Returns the length of the Vector
 		 *

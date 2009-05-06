@@ -3,7 +3,7 @@
 ----------------------------------------------------------------
 
 Statistics = { }
-frameSkip = 0;
+frameSkip = 0
 
 ----------------------------------------------------------------
 -- Local Variables
@@ -21,10 +21,10 @@ function Statistics.onUpdate( deltaMilliseconds )
 	if ( frameSkip > 50 ) then
 	
 		Statistics.updateStatistics( )
-		frameSkip = 0;
+		frameSkip = 0
 	end
 	
-	frameSkip = frameSkip + 1;
+	frameSkip = frameSkip + 1
 
 end
 
@@ -36,4 +36,4 @@ function Statistics.updateStatistics( )
 
 end
 
-Script:registerUpdateHandler( Statistics.onUpdate )
+script:registerUpdateHandler( Statistics.onUpdate )

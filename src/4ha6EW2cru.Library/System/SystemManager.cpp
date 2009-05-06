@@ -4,9 +4,9 @@ using namespace State;
 
 SystemManager::~SystemManager()
 {
-	for( SystemList::reverse_iterator i = _systems.rbegin( ); i != _systems.rend( ); ++i )
+	for( ISystem::SystemMap::reverse_iterator i = _systems.rbegin( ); i != _systems.rend( ); ++i )
 	{
-		delete ( *i );
+		delete ( *i ).second;
 	}
 
 	_systems.clear( );
@@ -14,43 +14,35 @@ SystemManager::~SystemManager()
 
 void SystemManager::RegisterSystem( ISystem* system )
 {
-	_systems.push_back( system );
+	_systems[ system->GetType( ) ] = system;
 }
 
 ISystem* SystemManager::GetSystem( const System::Types::Type& systemType ) const
 {
-	for( SystemList::const_iterator i = _systems.begin( ); i != _systems.end( ); ++i )
-	{
-		if ( ( *i )->GetType( ) == systemType )
-		{
-			return ( *i );
-		}
-	}
-
-	return 0;
+	return ( *( _systems.find( systemType ) ) ).second;
 }
 
 void SystemManager::InitializeAllSystems()
 {
-	for( SystemList::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
+	for( ISystem::SystemMap::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
 	{
-		( *i )->Initialize( );
+		( *i ).second->Initialize( );
 	}
 }
 
 void SystemManager::Update( const float& deltaMilliseconds )
 {
-	for( SystemList::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
+	for( ISystem::SystemMap::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
 	{
-		( *i )->Update( deltaMilliseconds );
+		( *i ).second->Update( deltaMilliseconds );
 	}
 }
 
 void SystemManager::Release()
 {
-	for( SystemList::reverse_iterator i = _systems.rbegin( ); i != _systems.rend( ); ++i )
+	for( ISystem::SystemMap::reverse_iterator i = _systems.rbegin( ); i != _systems.rend( ); ++i )
 	{
-		( *i )->Release( );
+		( *i ).second->Release( );
 	}
 }
 
@@ -58,10 +50,15 @@ IWorld* SystemManager::CreateWorld()
 {
 	IWorld* world = new World( );
 
-	for( SystemList::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
+	for( ISystem::SystemMap::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
 	{
-		world->AddSystemScene( ( *i )->CreateScene( ) );
+		world->AddSystemScene( ( *i ).second->CreateScene( ) );
 	}
 
 	return world;
+}
+
+bool SystemManager::HasSystem( const System::Types::Type& systemType ) const
+{
+	return ( _systems.find( systemType ) != _systems.end( ) );
 }
