@@ -184,11 +184,17 @@ namespace Renderer
 
 			_sceneManager->setFog( 
 				FOG_LINEAR, 
-				ColourValue( color.Red, color.Green, color.Blue ), 
+				ColourValue( color.Red, color.Green, color.Blue ),
 				0.001000, 
 				parameters[ "linearStart" ].GetValue< float >( ), 
 				parameters[ "linearEnd" ].GetValue< float >( ) 
 				);				
+
+			/*Ogre::Plane skyPlane;
+			skyPlane.d = 50;
+			skyPlane.normal = Vector3::NEGATIVE_UNIT_Y;
+
+			_sceneManager->setSkyPlane( true, skyPlane, "24-Default", 8, 4, true, 0, 4, 4 );*/
 		}
 
 		if ( name == "skyBox" )
@@ -211,6 +217,9 @@ namespace Renderer
 					parameters[ "distance" ].GetValue< float >( ) );
 			}
 		}
+
+			
+		
 	}
 
 	ISystemScene* RendererSystem::CreateScene( )

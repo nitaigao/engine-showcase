@@ -1,6 +1,6 @@
 <node name='enemy_marine06'>
   <scale x='1' y='1' z='1'/>
-  <position x='680.713' y='2.11502' z='713.284'/>
+  <position x='45.3756' y='2.11502' z='-217.144'/>
   <rotation qw='1' qx='0' qy='0' qz='0'/>
   <entity name='enemy_marine06' id='2747' receiveShadows='true' meshFile='/data/entities/meshes/enemy_marine06.mesh' castShadows='true'>
     <subentities>

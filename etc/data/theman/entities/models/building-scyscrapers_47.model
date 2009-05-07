@@ -1,6 +1,6 @@
 <node name='building-scyscrapers_47'>
   <scale x='2.04529' y='2.04529' z='2.04529'/>
-  <position x='585.782' y='0.214145' z='861.092'/>
+  <position x='-49.5559' y='0.214145' z='-69.3355'/>
   <rotation qw='1' qx='0' qy='0' qz='0'/>
   <entity name='building-scyscrapers_47' id='2535' receiveShadows='true' meshFile='/data/entities/meshes/building-scyscrapers_47.mesh' castShadows='true'>
     <subentities>

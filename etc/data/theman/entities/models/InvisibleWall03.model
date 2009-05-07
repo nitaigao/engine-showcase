@@ -1,0 +1,10 @@
+<node name='InvisibleWall03'>
+  <scale x='0.252194' y='1' z='0.161397'/>
+  <position x='109.893' y='5.87764e-007' z='-293.837'/>
+  <rotation qw='-0.5' qx='-0.5' qy='-0.5' qz='0.5'/>
+  <entity name='InvisibleWall03' id='2943' receiveShadows='true' meshFile='/data/entities/meshes/InvisibleWall03.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='NoMaterial' index='0'/>
+    </subentities>
+  </entity>
+</node>

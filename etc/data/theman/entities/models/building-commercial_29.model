@@ -1,6 +1,6 @@
 <node name='building-commercial_29'>
   <scale x='2.04529' y='2.04529' z='2.04529'/>
-  <position x='750.726' y='0.0353208' z='769.195'/>
+  <position x='115.388' y='0.0353208' z='-161.233'/>
   <rotation qw='0.707107' qx='0' qy='0.707107' qz='0'/>
   <entity name='building-commercial_29' id='2160' receiveShadows='true' meshFile='/data/entities/meshes/building-commercial_29.mesh' castShadows='true'>
     <subentities>

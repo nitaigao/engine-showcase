@@ -12,19 +12,11 @@
   r: "1"
   type: color
 - !ruby/object:SkyBox 
-  distance: 125.0
+  distance: 0.25
   drawFirst: "true"
   enabled: "true"
   material: skybox
   type: skybox
-- !ruby/object:Fog 
-  b: "0.435294"
-  g: "0.32549"
-  linearEnd: 237.5
-  linearStart: 212.5
-  mode: linear
-  r: "0.203922"
-  type: fog
 ...
 --- 
 - !ruby/object:REXML::Entity 
@@ -36,9 +28,9 @@
       y: "1"
       z: "0"
     position: !ruby/object:Vector 
-      x: "-183.254"
+      x: "-818.592"
       y: "-55.2718"
-      z: "564.623"
+      z: "-365.805"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -60,9 +52,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "246.645"
+      x: "-388.693"
       y: "0.286823"
-      z: "612.338"
+      z: "-318.09"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -88,9 +80,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "561.529"
+      x: "-73.8092"
       y: "0.286823"
-      z: "612.338"
+      z: "-318.09"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -116,9 +108,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "876.412"
+      x: "241.075"
       y: "0.286823"
-      z: "612.338"
+      z: "-318.09"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -144,9 +136,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "1191.3"
+      x: "555.958"
       y: "0.286823"
-      z: "612.338"
+      z: "-318.09"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -162,118 +154,6 @@
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/grass04.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "1506.18"
-      y: "0.286823"
-      z: "612.338"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/grass04.hkx
-    system: physics
-    type: default
-  name: grass04
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/grass05.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "1821.06"
-      y: "0.286823"
-      z: "612.338"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/grass05.hkx
-    system: physics
-    type: default
-  name: grass05
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/grass06.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "1821.06"
-      y: "0.286823"
-      z: "831.838"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/grass06.hkx
-    system: physics
-    type: default
-  name: grass06
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/grass07.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "1506.18"
-      y: "0.286823"
-      z: "831.838"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/grass07.hkx
-    system: physics
-    type: default
-  name: grass07
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
     model: /data/entities/models/grass08.model
     system: graphics
     type: default
@@ -284,9 +164,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "1191.3"
+      x: "555.958"
       y: "0.286823"
-      z: "831.838"
+      z: "-98.5899"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -312,9 +192,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "876.412"
+      x: "241.075"
       y: "0.286823"
-      z: "831.838"
+      z: "-98.5899"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -340,9 +220,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "561.529"
+      x: "-73.8092"
       y: "0.286823"
-      z: "831.838"
+      z: "-98.5899"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -368,9 +248,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "246.645"
+      x: "-388.693"
       y: "0.286823"
-      z: "831.838"
+      z: "-98.5899"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -386,62 +266,6 @@
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/grass12.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "1821.06"
-      y: "0.286823"
-      z: "1051.34"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/grass12.hkx
-    system: physics
-    type: default
-  name: grass12
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/grass13.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "1506.18"
-      y: "0.286823"
-      z: "1051.34"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/grass13.hkx
-    system: physics
-    type: default
-  name: grass13
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
     model: /data/entities/models/grass14.model
     system: graphics
     type: default
@@ -452,9 +276,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "1191.3"
+      x: "555.958"
       y: "0.286823"
-      z: "1051.34"
+      z: "120.91"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -480,9 +304,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "876.412"
+      x: "241.075"
       y: "0.286823"
-      z: "1051.34"
+      z: "120.91"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -508,9 +332,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "561.529"
+      x: "-73.8092"
       y: "0.286823"
-      z: "1051.34"
+      z: "120.91"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -536,9 +360,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "246.645"
+      x: "-388.693"
       y: "0.286823"
-      z: "1051.34"
+      z: "120.91"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -554,62 +378,6 @@
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/grass18.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "1821.06"
-      y: "0.286823"
-      z: "1270.84"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/grass18.hkx
-    system: physics
-    type: default
-  name: grass18
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/grass19.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "1506.18"
-      y: "0.286823"
-      z: "1270.84"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/grass19.hkx
-    system: physics
-    type: default
-  name: grass19
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
     model: /data/entities/models/grass20.model
     system: graphics
     type: default
@@ -620,9 +388,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "1191.3"
+      x: "555.958"
       y: "0.286823"
-      z: "1270.84"
+      z: "340.411"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -648,9 +416,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "876.412"
+      x: "241.075"
       y: "0.286823"
-      z: "1270.84"
+      z: "340.411"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -676,9 +444,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "561.529"
+      x: "-73.8092"
       y: "0.286823"
-      z: "1270.84"
+      z: "340.411"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -704,9 +472,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "246.645"
+      x: "-388.693"
       y: "0.286823"
-      z: "1270.84"
+      z: "340.411"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -722,62 +490,6 @@
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/grass24.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "1821.06"
-      y: "0.286823"
-      z: "1490.34"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/grass24.hkx
-    system: physics
-    type: default
-  name: grass24
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/grass25.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "1506.18"
-      y: "0.286823"
-      z: "1490.34"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/grass25.hkx
-    system: physics
-    type: default
-  name: grass25
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
     model: /data/entities/models/grass26.model
     system: graphics
     type: default
@@ -788,9 +500,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "1191.3"
+      x: "555.958"
       y: "0.286823"
-      z: "1490.34"
+      z: "559.911"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -816,9 +528,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "876.412"
+      x: "241.075"
       y: "0.286823"
-      z: "1490.34"
+      z: "559.911"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -844,9 +556,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "561.529"
+      x: "-73.8092"
       y: "0.286823"
-      z: "1490.34"
+      z: "559.911"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -872,9 +584,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "246.645"
+      x: "-388.693"
       y: "0.286823"
-      z: "1490.34"
+      z: "559.911"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -890,62 +602,6 @@
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/grass30.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "1821.06"
-      y: "0.286823"
-      z: "1709.84"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/grass30.hkx
-    system: physics
-    type: default
-  name: grass30
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/grass31.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "1506.18"
-      y: "0.286823"
-      z: "1709.84"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/grass31.hkx
-    system: physics
-    type: default
-  name: grass31
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
     model: /data/entities/models/grass32.model
     system: graphics
     type: default
@@ -956,9 +612,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "1191.3"
+      x: "555.958"
       y: "0.286823"
-      z: "1709.84"
+      z: "779.411"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -984,9 +640,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "876.412"
+      x: "241.075"
       y: "0.286823"
-      z: "1709.84"
+      z: "779.411"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -1012,9 +668,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "561.529"
+      x: "-73.8092"
       y: "0.286823"
-      z: "1709.84"
+      z: "779.411"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -1040,9 +696,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "246.645"
+      x: "-388.693"
       y: "0.286823"
-      z: "1709.84"
+      z: "779.411"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -1068,9 +724,9 @@
       y: "0.5373"
       z: "0"
     position: !ruby/object:Vector 
-      x: "359.215"
+      x: "-276.123"
       y: "0.205944"
-      z: "977.092"
+      z: "46.664"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1096,9 +752,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "674.952"
+      x: "39.6143"
       y: "0.205944"
-      z: "903.599"
+      z: "-26.8286"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1124,9 +780,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "755.975"
+      x: "120.637"
       y: "0.205944"
-      z: "985.069"
+      z: "54.6409"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1152,9 +808,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "758.88"
+      x: "123.543"
       y: "-0.662236"
-      z: "823.891"
+      z: "-106.537"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1180,9 +836,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "757.361"
+      x: "122.023"
       y: "0.205944"
-      z: "1104.9"
+      z: "174.471"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1208,9 +864,9 @@
       y: "0.707107"
       z: "0"
     position: !ruby/object:Vector 
-      x: "800.562"
+      x: "165.224"
       y: "0.205944"
-      z: "764.832"
+      z: "-165.596"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1236,9 +892,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "754.74"
+      x: "119.402"
       y: "0.205944"
-      z: "680.776"
+      z: "-249.652"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1264,9 +920,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "555.855"
+      x: "-79.4829"
       y: "0.205944"
-      z: "914.347"
+      z: "-16.0811"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1292,9 +948,9 @@
       y: "-0.707107"
       z: "0"
     position: !ruby/object:Vector 
-      x: "752.045"
+      x: "116.707"
       y: "0.170429"
-      z: "620.185"
+      z: "-310.243"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1320,9 +976,9 @@
       y: "-0.707107"
       z: "0"
     position: !ruby/object:Vector 
-      x: "682.498"
+      x: "47.1599"
       y: "0.0693431"
-      z: "828.925"
+      z: "-101.503"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1348,9 +1004,9 @@
       y: "0.707107"
       z: "0"
     position: !ruby/object:Vector 
-      x: "750.726"
+      x: "115.388"
       y: "0.0353208"
-      z: "769.195"
+      z: "-161.233"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1376,9 +1032,9 @@
       y: "8.74228e-008"
       z: "0"
     position: !ruby/object:Vector 
-      x: "764.757"
+      x: "129.419"
       y: "0.252388"
-      z: "1049.76"
+      z: "119.331"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1404,9 +1060,9 @@
       y: "1.74846e-007"
       z: "0"
     position: !ruby/object:Vector 
-      x: "614.779"
+      x: "-20.5586"
       y: "0.159091"
-      z: "908.351"
+      z: "-22.0771"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1432,9 +1088,9 @@
       y: "-0.707107"
       z: "0"
     position: !ruby/object:Vector 
-      x: "762.838"
+      x: "127.5"
       y: "0.205944"
-      z: "557.807"
+      z: "-372.621"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1460,9 +1116,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "440.206"
+      x: "-195.132"
       y: "0.205944"
-      z: "906.726"
+      z: "-23.7015"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1488,9 +1144,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "648.928"
+      x: "13.5904"
       y: "0.205944"
-      z: "851.497"
+      z: "-78.9312"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1516,9 +1172,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "457.36"
+      x: "-177.977"
       y: "0.205944"
-      z: "976.567"
+      z: "46.1394"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1544,9 +1200,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "673.653"
+      x: "38.3152"
       y: "-0.157898"
-      z: "656.346"
+      z: "-274.081"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1568,9 +1224,9 @@
       y: "0.113541"
       z: "-0.415711"
     position: !ruby/object:Vector 
-      x: "-174.539"
+      x: "-809.876"
       y: "908.937"
-      z: "2038.53"
+      z: "1108.1"
     scale: !ruby/object:Vector 
       x: "43.9487"
       y: "43.9487"
@@ -1592,9 +1248,9 @@
       y: "8.74228e-008"
       z: "0"
     position: !ruby/object:Vector 
-      x: "760.688"
+      x: "125.35"
       y: "0.189167"
-      z: "894.546"
+      z: "-35.8824"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1620,9 +1276,9 @@
       y: "0.707107"
       z: "0"
     position: !ruby/object:Vector 
-      x: "674.896"
+      x: "39.5578"
       y: "0.272495"
-      z: "770.172"
+      z: "-160.256"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1648,9 +1304,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "599.11"
+      x: "-36.2279"
       y: "0.214145"
-      z: "690.412"
+      z: "-240.016"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1676,9 +1332,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "536.268"
+      x: "-99.0694"
       y: "0.183177"
-      z: "688.191"
+      z: "-242.237"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1704,9 +1360,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "612.756"
+      x: "-22.5814"
       y: "0.0925059"
-      z: "765.67"
+      z: "-164.757"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1732,9 +1388,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "357.933"
+      x: "-277.405"
       y: "-0.157898"
-      z: "652.782"
+      z: "-277.645"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1760,9 +1416,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "349.964"
+      x: "-285.374"
       y: "0.175819"
-      z: "794.161"
+      z: "-136.267"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1788,9 +1444,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "440.227"
+      x: "-195.111"
       y: "0.205944"
-      z: "800.263"
+      z: "-130.165"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1816,9 +1472,9 @@
       y: "1"
       z: "0"
     position: !ruby/object:Vector 
-      x: "531.131"
+      x: "-104.207"
       y: "0.205944"
-      z: "764.153"
+      z: "-166.275"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1844,9 +1500,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "446.408"
+      x: "-188.93"
       y: "0.205944"
-      z: "834.125"
+      z: "-96.3031"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1872,9 +1528,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "441.811"
+      x: "-193.527"
       y: "0.205944"
-      z: "682.626"
+      z: "-247.802"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1900,9 +1556,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "487.737"
+      x: "-147.601"
       y: "0.205944"
-      z: "682.304"
+      z: "-248.124"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1928,9 +1584,9 @@
       y: "8.74228e-008"
       z: "0"
     position: !ruby/object:Vector 
-      x: "449.123"
+      x: "-186.214"
       y: "0.205944"
-      z: "754.381"
+      z: "-176.047"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1956,9 +1612,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "257.353"
+      x: "-377.985"
       y: "0.205944"
-      z: "754.203"
+      z: "-176.225"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -1980,9 +1636,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "884.36"
+      x: "249.022"
       y: "-101.721"
-      z: "1100.38"
+      z: "169.947"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -2004,9 +1660,9 @@
       y: "1"
       z: "0"
     position: !ruby/object:Vector 
-      x: "892.393"
+      x: "257.055"
       y: "0.205944"
-      z: "984.97"
+      z: "54.5417"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2032,9 +1688,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "887.88"
+      x: "252.542"
       y: "0.205944"
-      z: "1058.17"
+      z: "127.739"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2060,9 +1716,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "214.455"
+      x: "-420.883"
       y: "0.205944"
-      z: "659.457"
+      z: "-270.971"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2088,9 +1744,9 @@
       y: "0.707107"
       z: "0"
     position: !ruby/object:Vector 
-      x: "996.817"
+      x: "361.479"
       y: "0.205944"
-      z: "994.008"
+      z: "63.58"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2116,9 +1772,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "668.41"
+      x: "33.0723"
       y: "0.205944"
-      z: "581.57"
+      z: "-348.858"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2144,9 +1800,9 @@
       y: "0.707107"
       z: "0"
     position: !ruby/object:Vector 
-      x: "579.76"
+      x: "-55.5778"
       y: "0.205944"
-      z: "1010.05"
+      z: "79.6223"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2172,9 +1828,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "679.506"
+      x: "44.1683"
       y: "0.205944"
-      z: "537.831"
+      z: "-392.597"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2200,9 +1856,9 @@
       y: "-0.707107"
       z: "0"
     position: !ruby/object:Vector 
-      x: "433.833"
+      x: "-201.504"
       y: "0.205944"
-      z: "1037.49"
+      z: "107.065"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2228,9 +1884,9 @@
       y: "8.74228e-008"
       z: "0"
     position: !ruby/object:Vector 
-      x: "255.526"
+      x: "-379.812"
       y: "0.205944"
-      z: "888.176"
+      z: "-42.2519"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2256,9 +1912,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "339.532"
+      x: "-295.806"
       y: "0.205944"
-      z: "897.956"
+      z: "-32.472"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2284,9 +1940,9 @@
       y: "8.74228e-008"
       z: "0"
     position: !ruby/object:Vector 
-      x: "495.344"
+      x: "-139.994"
       y: "0.205944"
-      z: "910.652"
+      z: "-19.7755"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2312,9 +1968,9 @@
       y: "0.707107"
       z: "0"
     position: !ruby/object:Vector 
-      x: "802.61"
+      x: "167.272"
       y: "0.205944"
-      z: "888.838"
+      z: "-41.5899"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2340,9 +1996,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "452.363"
+      x: "-182.975"
       y: "0.205944"
-      z: "863.354"
+      z: "-67.0744"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2368,9 +2024,9 @@
       y: "-0.707107"
       z: "0"
     position: !ruby/object:Vector 
-      x: "690.041"
+      x: "54.7027"
       y: "0.205944"
-      z: "994.902"
+      z: "64.4742"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2396,9 +2052,9 @@
       y: "1.74846e-007"
       z: "0"
     position: !ruby/object:Vector 
-      x: "912.563"
+      x: "277.225"
       y: "0.159091"
-      z: "905.726"
+      z: "-24.7021"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2424,9 +2080,9 @@
       y: "-0.707107"
       z: "0"
     position: !ruby/object:Vector 
-      x: "368.014"
+      x: "-267.324"
       y: "0.205944"
-      z: "1052.45"
+      z: "122.026"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2452,9 +2108,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "986.324"
+      x: "350.987"
       y: "0.0925059"
-      z: "898.077"
+      z: "-32.3507"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2480,9 +2136,9 @@
       y: "0.819152"
       z: "0"
     position: !ruby/object:Vector 
-      x: "847.593"
+      x: "212.255"
       y: "0.205944"
-      z: "901.354"
+      z: "-29.0735"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2508,9 +2164,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "585.782"
+      x: "-49.5559"
       y: "0.214145"
-      z: "861.092"
+      z: "-69.3355"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2536,9 +2192,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "516.825"
+      x: "-118.513"
       y: "0.183177"
-      z: "862.91"
+      z: "-67.5181"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2564,9 +2220,9 @@
       y: "-0.707107"
       z: "0"
     position: !ruby/object:Vector 
-      x: "1078.73"
+      x: "443.389"
       y: "0.205944"
-      z: "896.44"
+      z: "-33.9882"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2588,9 +2244,9 @@
       y: "0.707107"
       z: "0"
     position: !ruby/object:Vector 
-      x: "793.53"
+      x: "158.192"
       y: "0.205944"
-      z: "982.852"
+      z: "52.4243"
     scale: !ruby/object:Vector 
       x: "2.04529"
       y: "2.04529"
@@ -2612,9 +2268,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "717.741"
+      x: "82.4029"
       y: "2.27755"
-      z: "617.802"
+      z: "-312.626"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -2647,9 +2303,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "741.693"
+      x: "106.355"
       y: "2.11502"
-      z: "653.531"
+      z: "-276.897"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -2683,9 +2339,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "701.789"
+      x: "66.451"
       y: "2.11502"
-      z: "663.995"
+      z: "-266.433"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -2719,9 +2375,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "718.783"
+      x: "83.4453"
       y: "2.11502"
-      z: "678.293"
+      z: "-252.135"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -2755,9 +2411,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "737.164"
+      x: "101.826"
       y: "2.11502"
-      z: "708.76"
+      z: "-221.668"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -2791,9 +2447,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "685.734"
+      x: "50.3965"
       y: "2.11502"
-      z: "727.706"
+      z: "-202.722"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -2827,9 +2483,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "680.713"
+      x: "45.3756"
       y: "2.11502"
-      z: "713.284"
+      z: "-217.144"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -2863,9 +2519,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "638.837"
+      x: "3.49893"
       y: "2.11502"
-      z: "728.774"
+      z: "-201.654"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -2899,9 +2555,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "642.469"
+      x: "7.13113"
       y: "2.11502"
-      z: "701.319"
+      z: "-229.109"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -2935,9 +2591,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "582.228"
+      x: "-53.1096"
       y: "2.11502"
-      z: "746.049"
+      z: "-184.379"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -2971,9 +2627,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "556.727"
+      x: "-78.6108"
       y: "2.11502"
-      z: "703.101"
+      z: "-227.327"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -3007,9 +2663,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "578.557"
+      x: "-56.7805"
       y: "2.11502"
-      z: "724.853"
+      z: "-205.575"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -3043,9 +2699,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "614.087"
+      x: "-21.2509"
       y: "2.11502"
-      z: "718.096"
+      z: "-212.332"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -3079,9 +2735,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "727.131"
+      x: "91.7934"
       y: "2.11502"
-      z: "727.699"
+      z: "-202.729"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -3115,9 +2771,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "725.138"
+      x: "89.8006"
       y: "2.11502"
-      z: "728.762"
+      z: "-201.666"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -3151,9 +2807,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "718.629"
+      x: "83.291"
       y: "2.11502"
-      z: "728.496"
+      z: "-201.932"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -3187,9 +2843,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "764.62"
+      x: "129.282"
       y: "2.11502"
-      z: "657.34"
+      z: "-273.088"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -3214,21 +2870,337 @@
   components: 
   - !ruby/object:GeometryComponent 
     orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
+      w: "-5.33851e-008"
+      x: "-5.33851e-008"
+      y: "-0.707107"
+      z: "0.707107"
+    position: !ruby/object:Vector 
+      x: "228.338"
+      y: "5.87764e-007"
+      z: "-23.8432"
+    scale: !ruby/object:Vector 
+      x: "0.20154"
+      y: "1"
+      z: "0.111176"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/InvisibleWall14.hkx
+    system: physics
+    type: default
+  name: InvisibleWall14
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.5"
+      x: "-0.5"
+      y: "-0.5"
+      z: "0.5"
+    position: !ruby/object:Vector 
+      x: "123.5"
+      y: "5.87764e-007"
+      z: "-89.8605"
+    scale: !ruby/object:Vector 
+      x: "0.128929"
+      y: "1"
+      z: "0.180951"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/InvisibleWall13.hkx
+    system: physics
+    type: default
+  name: InvisibleWall13
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.5"
+      x: "-0.5"
+      y: "-0.5"
+      z: "0.5"
+    position: !ruby/object:Vector 
+      x: "51.5888"
+      y: "5.87764e-007"
+      z: "-134.981"
+    scale: !ruby/object:Vector 
+      x: "0.0677169"
+      y: "1"
+      z: "0.15414"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/InvisibleWall12.hkx
+    system: physics
+    type: default
+  name: InvisibleWall12
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0.707107"
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "612.988"
-      y: "-178.909"
-      z: "870.968"
+      x: "-86.1283"
+      y: "5.87764e-007"
+      z: "-20.1139"
     scale: !ruby/object:Vector 
-      x: "1871.29"
-      y: "1871.29"
-      z: "1871.29"
+      x: "0.225126"
+      y: "1"
+      z: "0.103651"
     system: geometry
     type: default
-  name: environment
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/InvisibleWall11.hkx
+    system: physics
+    type: default
+  name: InvisibleWall11
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.5"
+      x: "-0.5"
+      y: "-0.5"
+      z: "0.5"
+    position: !ruby/object:Vector 
+      x: "-180.84"
+      y: "5.87764e-007"
+      z: "-119.608"
+    scale: !ruby/object:Vector 
+      x: "0.0939059"
+      y: "1"
+      z: "0.180951"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/InvisibleWall10.hkx
+    system: physics
+    type: default
+  name: InvisibleWall10
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-5.33851e-008"
+      x: "-5.33851e-008"
+      y: "-0.707107"
+      z: "0.707107"
+    position: !ruby/object:Vector 
+      x: "96.6277"
+      y: "5.87764e-007"
+      z: "59.8551"
+    scale: !ruby/object:Vector 
+      x: "0.537999"
+      y: "1"
+      z: "0.107255"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/InvisibleWall09.hkx
+    system: physics
+    type: default
+  name: InvisibleWall09
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0.707107"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-96.3879"
+      y: "5.87764e-007"
+      z: "-68.6708"
+    scale: !ruby/object:Vector 
+      x: "0.225126"
+      y: "1"
+      z: "0.171672"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/InvisibleWall08.hkx
+    system: physics
+    type: default
+  name: InvisibleWall08
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.5"
+      x: "-0.5"
+      y: "-0.5"
+      z: "0.5"
+    position: !ruby/object:Vector 
+      x: "-180.84"
+      y: "5.87764e-007"
+      z: "11.053"
+    scale: !ruby/object:Vector 
+      x: "0.0939059"
+      y: "1"
+      z: "0.10483"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/InvisibleWall07.hkx
+    system: physics
+    type: default
+  name: InvisibleWall07
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0.707107"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-231.585"
+      y: "5.87764e-007"
+      z: "46.6022"
+    scale: !ruby/object:Vector 
+      x: "0.0939059"
+      y: "1"
+      z: "0.126143"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/InvisibleWall06.hkx
+    system: physics
+    type: default
+  name: InvisibleWall06
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.5"
+      x: "-0.5"
+      y: "-0.5"
+      z: "0.5"
+    position: !ruby/object:Vector 
+      x: "-271.534"
+      y: "5.87764e-007"
+      z: "-78.2392"
+    scale: !ruby/object:Vector 
+      x: "0.325677"
+      y: "1"
+      z: "0.14316"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/InvisibleWall05.hkx
+    system: physics
+    type: default
+  name: InvisibleWall05
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0.707107"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-96.3879"
+      y: "5.87764e-007"
+      z: "-243.899"
+    scale: !ruby/object:Vector 
+      x: "0.325677"
+      y: "1"
+      z: "0.0547245"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/InvisibleWall04.hkx
+    system: physics
+    type: default
+  name: InvisibleWall04
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.5"
+      x: "-0.5"
+      y: "-0.5"
+      z: "0.5"
+    position: !ruby/object:Vector 
+      x: "109.893"
+      y: "5.87764e-007"
+      z: "-293.837"
+    scale: !ruby/object:Vector 
+      x: "0.252194"
+      y: "1"
+      z: "0.161397"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/InvisibleWall03.hkx
+    system: physics
+    type: default
+  name: InvisibleWall03
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0.707107"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-36.2491"
+      y: "5.87764e-007"
+      z: "-171.646"
+    scale: !ruby/object:Vector 
+      x: "0.309547"
+      y: "1"
+      z: "0.180951"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/InvisibleWall02.hkx
+    system: physics
+    type: default
+  name: InvisibleWall02
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0.707107"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "5.87764e-007"
+      y: "5.87764e-007"
+      z: "-411.586"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "0.343202"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/InvisibleWall01.hkx
+    system: physics
+    type: default
+  name: InvisibleWall01
   type: entity
 ...
 --- 

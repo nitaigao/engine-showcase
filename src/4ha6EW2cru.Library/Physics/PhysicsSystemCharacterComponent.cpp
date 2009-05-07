@@ -40,7 +40,7 @@ namespace Physics
 		characterInfo.m_maxForce = 1000.0f;
 		characterInfo.m_maxSlope = 70.0f * HK_REAL_DEG_TO_RAD;
 		characterInfo.m_up = MathVector3::Up( ).AshkVector4( );
-		characterInfo.m_shape = new hkpCapsuleShape( hkVector4( 0.0f, 1.0f, 0.0f ), hkVector4( 0.0f, -1.0f, 0.0f ), 0.6f );
+		characterInfo.m_shape = new hkpCapsuleShape( hkVector4( 0.0f, 0.55f, 0.0f ), hkVector4( 0.0f, -0.55f, 0.0f ), 0.3f );
 
 		_characterBody = new hkpCharacterRigidBody( characterInfo );
 

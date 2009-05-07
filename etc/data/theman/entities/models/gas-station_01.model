@@ -1,6 +1,6 @@
 <node name='gas-station_01'>
   <scale x='2.04529' y='2.04529' z='2.04529'/>
-  <position x='531.131' y='0.205944' z='764.153'/>
+  <position x='-104.207' y='0.205944' z='-166.275'/>
   <rotation qw='-7.54979e-008' qx='0' qy='1' qz='0'/>
   <entity name='gas-station_01' id='2390' receiveShadows='true' meshFile='/data/entities/meshes/gas-station_01.mesh' castShadows='true'>
     <subentities>
