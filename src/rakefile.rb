@@ -121,7 +121,7 @@ namespace :deploy do
 	begin	
 		versionInfo = VersionInfo.new
 		artifacts_path = $packagesdir
-		output_path = File.join(artifacts_path, versionInfo.getVersion( ) + '.zip')
+		output_path = File.join(artifacts_path, 'Factions.zip')
 	  
 	    FileUtils.rm_rf(artifacts_path)
 	    Dir.mkdir(artifacts_path)
@@ -132,7 +132,7 @@ namespace :deploy do
 	      Find.find(build_output_dir) do |path|     			
 			if File.directory?(path) == false then       
 				dest = path.slice(build_output_dir.length + 1, path.length - build_output_dir.length - 1)
-				puts "Adding #{dest} to #{output_path}.zip"
+				puts "Adding #{dest} to #{output_path}"
 				zipfile.add(dest,path) if dest
 			end
 	      end
