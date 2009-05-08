@@ -161,6 +161,8 @@ namespace UX
 
 		_components.push_back( component );
 
+		_gui->windowResized( _gui->getRenderWindow( ) );
+
 		return component;
 	}
 
@@ -208,5 +210,10 @@ namespace UX
 
 			delete widgetUserData;
 		}
+	}
+
+	void UXSystemScene::Update( const float& deltaMilliseconds )
+	{
+		_gui->injectFrameEntered( deltaMilliseconds );
 	}
 }

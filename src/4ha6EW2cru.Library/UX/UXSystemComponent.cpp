@@ -54,6 +54,8 @@ namespace UX
 		renderService->Execute( "changeResolution", parameters );
 
 		Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GRAPHICS_SETTINGS_CHANGED", width, height ) );
+
+		_scene->GetGui( )->windowResized( _scene->GetGui( )->getRenderWindow( ) );
 	}
 
 	void UXSystemComponent::SetInputAllowed( bool inputAllowed )

@@ -41,14 +41,14 @@ function Options.initialize( )
 	local supportedResolutions = ux:getSupportedResolutions( )
 	
 	for key, value in pairs( supportedResolutions ) do
-
-		local currentResolution = Configuration.displayWidth .. ' x ' .. Configuration.displayHeight
 	
 		resolutions:addItem( value, value )
+
+		local currentResolution = Configuration.displayWidth .. ' x ' .. Configuration.displayHeight
 		
 		if currentResolution == value then
 		
-            selectedIndex = index
+           selectedIndex = index
 			
 		end 
 		

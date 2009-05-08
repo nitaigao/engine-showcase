@@ -56,7 +56,7 @@ namespace UX
 		*  @param[in] float deltaMilliseconds
 		*  @return (void)
 		*/
-		void Update( const float& deltaMilliseconds ) { };
+		void Update( const float& deltaMilliseconds );
 
 
 		/*! Destroys the System Scene

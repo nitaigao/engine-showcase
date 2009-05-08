@@ -2,6 +2,7 @@
 <MyGUI type="Layout">
     <Widget type="Window" skin="Window" position="444 208 392 376" align="Center" layer="Modal" name="options">
         <Property key="Widget_Caption" value="Options"/>
+        <Property key="Widget_Alpha" value="1"/>
         <Widget type="Button" skin="Button" position="133 294 118 24" name="options_button_save">
             <Property key="Widget_Caption" value="Save"/>
         </Widget>

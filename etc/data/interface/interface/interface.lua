@@ -16,6 +16,7 @@ function Interface.initialize( )
 	print( 'Loading Interface' )
 	
 	script:unregisterEventHandler( Interface.onEvent )
+	ux:showMouse( )
 
 	ux:loadComponent( 'title' )
 	ux:loadComponent( 'menu' )
