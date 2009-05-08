@@ -7,11 +7,22 @@
 
 namespace Script
 {
+	ScriptSystem::~ScriptSystem()
+	{
+		delete _auxScene;
+		_auxScene = 0;
+	}
+
+	void ScriptSystem::Release()
+	{
+		_auxScene->Destroy( );
+	}
+
 	ISystemScene* ScriptSystem::CreateScene( )
 	{
-		_scene = new ScriptSystemScene( _configuration );
-		_scene->Initialize( );
-		return _scene;
+		ScriptSystemScene* scene = new ScriptSystemScene( _configuration );
+		scene->Initialize( );
+		return scene;
 	}
 
 	AnyValue::AnyValueMap ScriptSystem::Execute( const std::string& actionName, AnyValue::AnyValueMap& parameters )
@@ -20,7 +31,7 @@ namespace Script
 
 		if( actionName == "loadScript" )
 		{
-			ISystemComponent* systemComponent = _scene->CreateComponent( parameters[ "name" ].GetValue< std::string >( ), "default" );
+			ISystemComponent* systemComponent = _auxScene->CreateComponent( parameters[ "name" ].GetValue< std::string >( ), "default" );
 			IScriptComponent* scriptComponent = static_cast< IScriptComponent* >( systemComponent );
 			scriptComponent->Initialize( parameters );
 			results[ "state" ] = scriptComponent->GetState( );
@@ -28,13 +39,13 @@ namespace Script
 
 		if ( actionName == "unloadComponent" )
 		{
-			ISystemComponent* component = _scene->FindComponent( parameters[ "name" ].GetValue< std::string >( ) );
-			_scene->DestroyComponent( component );
+			ISystemComponent* component = _auxScene->FindComponent( parameters[ "name" ].GetValue< std::string >( ) );
+			_auxScene->DestroyComponent( component );
 		}
 
 		if ( actionName == "getMasterState" )
 		{
-			results[ "masterState" ] = _scene->GetState( );
+			results[ "masterState" ] = _auxScene->GetState( );
 		}
 
 		return results;
@@ -43,10 +54,12 @@ namespace Script
 	void ScriptSystem::Initialize()
 	{
 		Management::GetInstance( )->GetServiceManager( )->RegisterService( this );
+
+		_auxScene = static_cast< IScriptSystemScene* >( this->CreateScene( ) );  
 	}
 
 	void ScriptSystem::Update( const float& deltaMilliseconds )
 	{
-		_scene->Update( deltaMilliseconds );
+		_auxScene->Update( deltaMilliseconds );
 	}
 }

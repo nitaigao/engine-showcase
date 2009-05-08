@@ -15,7 +15,7 @@ namespace AI
 {
 	ISystemComponent* AISystemScene::CreateComponent( const std::string& name, const std::string& type )
 	{
-		_lastFrameAssignment = ( _lastFrameAssignment == 10 ) ? 0 : _lastFrameAssignment + 1;
+		_lastFrameAssignment = ( _lastFrameAssignment == 20 ) ? 0 : _lastFrameAssignment + 1;
 
 		IAISystemComponent* component = new AISystemComponent( name, _lastFrameAssignment );
 		_components.insert( std::make_pair( component->GetFrameAssignment( ), component ) );
@@ -57,6 +57,7 @@ namespace AI
 				.def( "facePlayer", &AISystemComponent::FacePlayer )
 				.def( "setBehavior", &AISystemComponent::SetBehavior )
 				.def( "getName", &AISystemComponent::GetName )
+				.def( "getId", &AISystemComponent::GetId )
 				.def( "getPlayerDistance", &AISystemComponent::GetPlayerDistance )
 				.def( "fireWeapon", &AISystemComponent::FireWeapon )
 				.def( "playAnimation", &AISystemComponent::PlayAnimation )
@@ -65,7 +66,7 @@ namespace AI
 
 	void AISystemScene::Update( const float& deltaMilliseconds )
 	{
-		_frameNumber = ( _frameNumber == 10 ) ? 0 : _frameNumber + 1;
+		_frameNumber = ( _frameNumber == 20 ) ? 0 : _frameNumber + 1;
 
 		AISystemComponentMap::iterator i = _components.find( _frameNumber );
 

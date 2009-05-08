@@ -25,7 +25,7 @@ function Marine.onEvent( eventName, var1, var2 )
 		end
 	
 		if ( eventName == 'ACTOR_HIT' ) then
-	
+
 			marine:onHit( var2 )
 		
 		end

@@ -260,7 +260,7 @@ function Player.onEvent( eventName, var1, var2 )
 		
 		if ( eventName == 'ACTOR_DEAD' ) then 
 			
-			--print( 'player just died' )
+			print( 'player just died' )
 				
 		end
 		

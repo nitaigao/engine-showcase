@@ -43,6 +43,7 @@ namespace UX
 		*/
 		UXSystemComponent( const std::string& name, IUXSystemScene* uxSystemScene )
 			: _name( name )
+			, _id( 0 )
 			, _scene( uxSystemScene )
 		{
 
@@ -55,7 +56,7 @@ namespace UX
 		*  @param[in] AnyValue::AnyValueMap properties
 		*  @return (void)
 		*/
-		void Initialize( AnyValue::AnyValueMap& properties ) { };
+		inline void Initialize( AnyValue::AnyValueMap& properties ) { };
 
 
 		/*! Steps the internal data of the Component
@@ -63,14 +64,14 @@ namespace UX
 		*  @param[in] float deltaMilliseconds
 		*  @return (void)
 		*/
-		void Update( const float& deltaMilliseconds ) { };
+		inline void Update( const float& deltaMilliseconds ) { };
 
 
 		/*! Destroys the Component
 		*
 		*  @return (void)
 		*/
-		void Destroy( ) { };
+		inline void Destroy( ) { };
 
 
 		/*! Adds an Observer to the Component
@@ -78,7 +79,7 @@ namespace UX
 		*  @param[in] IObserver * observer
 		*  @return (void)
 		*/
-		void AddObserver( IObserver* observer ) { };
+		inline void AddObserver( IObserver* observer ) { };
 
 
 		/*! Observes a change in the Subject
@@ -87,7 +88,7 @@ namespace UX
 		*  @param[in] const unsigned int& systemChanges
 		*  @return (void)
 		*/
-		void Observe( ISubject* subject, const unsigned int& systemChanges ) { };
+		inline void Observe( ISubject* subject, const unsigned int& systemChanges ) { };
 
 
 		/*! Pushes any Changes to the Observers
@@ -95,7 +96,7 @@ namespace UX
 		*  @param[in] const unsigned int& systemChanges
 		*  @return (void)
 		*/
-		void PushChanges( const unsigned int& systemChanges ) { };
+		inline void PushChanges( const unsigned int& systemChanges ) { };
 
 
 		/*! Gets the Name of the Component
@@ -103,6 +104,21 @@ namespace UX
 		*  @return (const std::string&)
 		*/
 		inline const std::string& GetName( ) const { return _name; };
+
+
+		/*! Sets the Id of the component unique to its containing World Entity
+		*
+		*  @param[in] const unsigned int & id
+		*  @return (void)
+		*/
+		inline void SetId( const unsigned int& id ) { _id = id; };
+
+
+		/*! Returns a numerical Id for the component unique to its containing World Entity
+		*
+		*  @return (unsigned int)
+		*/
+		inline unsigned int GetId( ) const { return _id; };
 
 
 		/*! Gets the System::Types::Type of the Component
@@ -275,6 +291,7 @@ namespace UX
 	private:
 
 		std::string _name;
+		unsigned int _id;
 		IUXSystemScene* _scene;
 
 		Maths::MathVector3 _position;

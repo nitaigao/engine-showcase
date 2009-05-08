@@ -60,6 +60,13 @@ namespace Serialization
 		*/
 		void Update( const float& deltaMilliseconds );
 
+
+		/*! Returns whether or no the Serializer has finished its loading task
+		*
+		*  @return (bool)
+		*/
+		inline bool IsFinishedLoading( ) const { return ( _loadProgress == _loadTotal ); };
+
 	private:
 
 		WorldSerializer( ) { };

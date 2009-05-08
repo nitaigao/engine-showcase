@@ -145,8 +145,6 @@ namespace Script
 		static void Script_Error( lua_State* luaState );
 		static void Script_CastError( lua_State* luaState, LUABIND_TYPE_INFO typeInfo );
 
-		void OnEvent( const Events::IEvent* event );
-
 		ScriptConfiguration* _scriptConfiguration;
 		SoundController* _soundController;
 

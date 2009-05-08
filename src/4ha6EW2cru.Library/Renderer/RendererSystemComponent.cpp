@@ -67,14 +67,12 @@ namespace Renderer
 	void RendererSystemComponent::Observe( ISubject* subject, const unsigned int& systemChanges )
 	{
 		ISystemComponent* component = static_cast< ISystemComponent* >( subject );
-
-		SceneNode* sceneNode = _scene->GetSceneManager( )->getSceneNode( _name );
 		
 		if ( System::Changes::Geometry::Position & systemChanges || System::Changes::Geometry::Orientation & systemChanges )
 		{
-			sceneNode->setPosition( component->GetPosition( ).AsOgreVector3( ) );
-			sceneNode->setScale( component->GetScale( ).AsOgreVector3( ) );
-			sceneNode->setOrientation( component->GetOrientation( ).AsOgreQuaternion( ) );
+			_sceneNode->setPosition( component->GetPosition( ).AsOgreVector3( ) );
+			_sceneNode->setScale( component->GetScale( ).AsOgreVector3( ) );
+			_sceneNode->setOrientation( component->GetOrientation( ).AsOgreQuaternion( ) );
 		}
 
 		if ( System::Changes::AI::Behavior & systemChanges )

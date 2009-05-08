@@ -4,17 +4,17 @@ namespace State
 {
 	void WorldEntity::AddComponent( ISystemComponent* component )
 	{
+		component->SetId( _id );
 		component->AddObserver( this );
+
 		_components.push_back( component );
 	}
 	
 	void WorldEntity::Observe( ISubject* subject, const unsigned int& systemChanges )
 	{
 		for( SystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
-		{
-			ISystemComponent* component = ( *i );
-			
-			if ( component->GetRequestedChanges( ) & systemChanges && component != subject )
+		{		
+			if ( ( *i )->GetRequestedChanges( ) & systemChanges && ( *i ) != subject )
 			{
 				( *i )->Observe( subject, systemChanges );
 			}

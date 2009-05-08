@@ -22,7 +22,7 @@ public:
 	*
 	*  @return ()
 	*/
-	~SystemManager( );
+	~SystemManager( ) { };
 
 
 	/*! Default Constructor

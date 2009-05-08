@@ -31,8 +31,9 @@ namespace State
 		 *  @param[in] const std::string & name
 		 *  @return ()
 		 */
-		WorldEntity( const std::string& name )
+		WorldEntity( const std::string& name, const unsigned int& id )
 			: _name( name )
+			, _id( id )
 		{
 
 		}
@@ -43,6 +44,13 @@ namespace State
 		*  @return (const std::string&)
 		*/
 		inline const std::string& GetName( ) const { return _name; };
+
+
+		/*! Returns a numerical Id for the whole Entity
+		*
+		*  @return (unsigned int)
+		*/
+		inline unsigned int GetId( ) const { return _id; };
 
 
 		/*! Adds a System Component to the Entity
@@ -88,6 +96,7 @@ namespace State
 		WorldEntity & operator = ( const WorldEntity & copy ) { return *this; };
 
 		std::string _name;
+		unsigned int _id;
 		SystemComponentList _components;
 
 	};

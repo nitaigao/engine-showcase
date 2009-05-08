@@ -68,9 +68,9 @@ void Game::Initialize( )
 	systemManager->RegisterSystem( new Physics::HavokPhysicsSystem( ) );
 	systemManager->RegisterSystem( new Input::InputSystem( _configuration ) );
 	systemManager->RegisterSystem( new Script::ScriptSystem( _configuration ) );
-	//systemManager->RegisterSystem( new AI::AISystem( ) );
 	systemManager->RegisterSystem( new UX::UXSystem( ) );
 	//systemManager->RegisterSystem( new Sound::SoundSystem( ) );
+	systemManager->RegisterSystem( new AI::AISystem( ) );
 	systemManager->InitializeAllSystems( );
 
 	// -- Setup the World and World Loader
@@ -112,7 +112,12 @@ void Game::Update( const float& deltaMilliseconds )
 	}
 
 	_worldLoader->Update( deltaMilliseconds );
-	_world->Update( deltaMilliseconds );
+
+	if ( _worldLoader->IsFinishedLoading( ) )
+	{
+		_world->Update( deltaMilliseconds );
+	}
+
 	Management::GetInstance( )->Update( deltaMilliseconds );
 }
 

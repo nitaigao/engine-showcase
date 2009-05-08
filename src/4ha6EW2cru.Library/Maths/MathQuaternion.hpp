@@ -71,7 +71,7 @@ namespace Maths
 		}
 
 
-		/*! Constructs from Ogre's representation of a Quaternion for convenience
+		/*! Constructs from Ogre's representation of a Quaternion for convenience and speed!
 		 *
 		 *  @param[in] const Ogre::Quaternion & quaternion
 		 *  @return ()
@@ -85,26 +85,40 @@ namespace Maths
 
 		}
 
+		/*! Constructs from Havok's representation of a Quaternion for convenience and speed!
+		 *
+		 *  @param[in] const hkQuaternion & quaternion
+		 *  @return ()
+		 */
+		MathQuaternion( const hkQuaternion& quaternion )
+			: _x( quaternion( 0 ) )
+			, _y( quaternion( 1 ) )
+			, _z( quaternion( 2 ) )
+			, _w( quaternion( 3 ) )
+		{
+
+		}
+
 
 		/*! Returns an Ogre representation the Quaternion for convenience
 		 *
 		 *  @return (Ogre::Quaternion)
 		 */
-		Ogre::Quaternion AsOgreQuaternion( ) const { return Ogre::Quaternion( _w, _x, _y, _z ); };
+		inline Ogre::Quaternion AsOgreQuaternion( ) const { return Ogre::Quaternion( _w, _x, _y, _z ); };
 
 
 		/*!  Returns a Havok representation the Quaternion for convenience
 		 *
 		 *  @return (hkQuaternion)
 		 */
-		hkQuaternion AshkQuaternion( ) const { return hkQuaternion( _x, _y, _z, _w ); };
+		inline hkQuaternion AshkQuaternion( ) const { return hkQuaternion( _x, _y, _z, _w ); };
 		
 
 		/*! Returns a Normalized version of the Quaternion
 		 *
 		 *  @return (Maths::MathQuaternion)
 		 */
-		MathQuaternion Normalize( ) const 
+		inline MathQuaternion Normalize( ) const 
 		{
 			float length = sqrt( 
 				_x * _x + _y * _y +
@@ -127,7 +141,7 @@ namespace Maths
 		 *  @param[out] MathVector3 & axis
 		 *  @return (void)
 		 */
-		void ToAngleAxis( float& angle, MathVector3& axis )
+		inline void ToAngleAxis( float& angle, MathVector3& axis )
 		{
 			float squaredLength = _x * _x + _y * _y + _z * _z;
 
@@ -155,7 +169,7 @@ namespace Maths
 		 *  @param[in] const MathQuaternion & input
 		 *  @return (Maths::MathQuaternion)
 		 */
-		MathQuaternion operator * ( const MathQuaternion& input )
+		inline MathQuaternion operator * ( const MathQuaternion& input )
 		{
 			return MathQuaternion(
 				_w * input._x + _x * input._w + _y * input._z - _z * input._y,

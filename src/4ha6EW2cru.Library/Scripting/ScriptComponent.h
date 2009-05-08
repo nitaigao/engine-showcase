@@ -39,6 +39,7 @@ namespace Script
 		*/
 		ScriptComponent( const std::string& name, lua_State* state )
 			: _name( name )
+			, _id( 0 )
 			, _state( state )
 			, _observer( 0 )
 			, _eventHandlers( 0 )
@@ -112,6 +113,21 @@ namespace Script
 		*  @return (const std::string&)
 		*/
 		inline const std::string& GetName( ) const { return _name; };
+
+
+		/*! Sets the Id of the component unique to its containing World Entity
+		*
+		*  @param[in] const unsigned int & id
+		*  @return (void)
+		*/
+		inline void SetId( const unsigned int& id ) { _id = id; };
+
+
+		/*! Returns a numerical Id for the component unique to its containing World Entity
+		*
+		*  @return (unsigned int)
+		*/
+		inline unsigned int GetId( ) const { return _id; };
 
 
 		/*! Gets the System::Types::Type of the Component
@@ -311,7 +327,7 @@ namespace Script
 		 *  @param[in] int maxResults
 		 *  @return (std::vector< std::string >)
 		 */
-		std::vector< std::string > RayQuery( const bool& sortByDistance, const int& maxResults );
+		std::vector< std::string > RayQuery( const bool& sortByDistance, const unsigned int& maxResults );
 
 
 
@@ -338,6 +354,7 @@ namespace Script
 
 		lua_State* _state;
 		std::string _name;
+		unsigned int _id;
 
 		FunctionList _eventHandlers;
 		FunctionList _updateHandlers;

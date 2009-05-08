@@ -44,6 +44,7 @@ namespace AI
 			, _frameAssignment( frameAssignment )
 			, _scriptState( 0 )
 			, _observer( 0 )
+			, _id( 0 )
 		{
 
 		}
@@ -103,6 +104,21 @@ namespace AI
 		 *  @return (const std::string&)
 		 */
 		inline const std::string& GetName( ) const { return _name; };
+
+
+		/*! Sets the Id of the component unique to its containing World Entity
+		*
+		*  @param[in] const unsigned int & id
+		*  @return (void)
+		*/
+		inline void SetId( const unsigned int& id ) { _id = id; };
+
+
+		/*! Returns a numerical Id for the component unique to its containing World Entity
+		*
+		*  @return (unsigned int)
+		*/
+		inline unsigned int GetId( ) const { return _id; };
 
 
 		/*! Gets the System::Types::Type of the Component
@@ -232,6 +248,8 @@ namespace AI
 	private:
 
 		std::string _name;
+		unsigned int _id;
+
 		lua_State* _scriptState;
 		int _frameAssignment;
 

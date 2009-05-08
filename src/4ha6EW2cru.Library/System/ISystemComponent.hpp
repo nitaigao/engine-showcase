@@ -69,6 +69,21 @@ public:
 	virtual const std::string& GetName( ) const = 0;
 
 
+	/*! Sets the Id of the component unique to its containing World Entity
+	 *
+	 *  @param[in] const unsigned int & id
+	 *  @return (void)
+	 */
+	virtual void SetId( const unsigned int& id ) = 0;
+
+
+	/*! Returns a numerical Id for the component unique to its containing World Entity
+	 *
+	 *  @return (unsigned int)
+	 */
+	virtual unsigned int GetId( ) const = 0;
+
+
 	/*! Gets the System::Types::Type of the Component
 	*
 	*  @return (System::Types::Type)

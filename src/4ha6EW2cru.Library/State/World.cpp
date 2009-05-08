@@ -18,7 +18,7 @@ namespace State
 	
 	IWorldEntity* World::CreateEntity( const std::string& name )
 	{
-		IWorldEntity* entity = new WorldEntity( name );
+		IWorldEntity* entity = new WorldEntity( name, _lastEntityId++ );
 		_entities.push_back( entity );
 		return entity;
 	}

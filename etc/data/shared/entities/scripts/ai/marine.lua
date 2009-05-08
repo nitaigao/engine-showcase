@@ -27,19 +27,23 @@ attackDistance = 10
 ----------------------------------------------------------------
 
 function Marine.initialize( )
+
+	script:registerEventHandler( Marine.onEvent )
 	
 end
 
 function Marine.onEvent( eventName, var1, var2 )
-
-	if ( var1 == script:getName( ) ) then 
+	
+	--print( '' .. var1 .. ' ' .. ai:getId( ) );
+			
+	if ( var1 == ai:getId( ) ) then 
 
 		if ( eventName == 'ACTOR_HIT' ) then
 		
 		end
 		
 		if( eventName == 'ACTOR_DEAD' ) then 
-		
+	
 			movementState = States.DEAD
 			attackState = States.DEAD
 			
@@ -50,6 +54,8 @@ function Marine.onEvent( eventName, var1, var2 )
 end
 
 function Marine.onUpdate( deltaMilliseconds )
+
+	local playerDistance = ai:getPlayerDistance( );
 	
 	------ Movement ------
 	
@@ -61,7 +67,7 @@ function Marine.onUpdate( deltaMilliseconds )
 		
 		-- Evaluation
 		
-		local transition = ( ai:getPlayerDistance( ) > attackDistance )
+		local transition = ( playerDistance > attackDistance )
 		
 		-- Transition
 		
@@ -81,7 +87,7 @@ function Marine.onUpdate( deltaMilliseconds )
 		
 		-- Evaluation
 		
-		local transition = ( ai:getPlayerDistance( ) <= attackDistance )
+		local transition = ( playerDistance <= attackDistance )
 		
 		-- Transition
 		
@@ -98,11 +104,13 @@ function Marine.onUpdate( deltaMilliseconds )
 		-- Default Actions
 		
 		ai:playAnimation( 'die_backward', false )
-		movementState = States.NONE
 		
 		-- Evaluation
 		
 		-- Transition
+		
+		script:unregisterEventHandler( Marine.onEvent )
+		movementState = States.NONE
 	
 	end
 	
@@ -117,7 +125,7 @@ function Marine.onUpdate( deltaMilliseconds )
 		
 		-- Evaluation
 		
-		local transition = ( ai:getPlayerDistance( ) > attackDistance )
+		local transition = ( playerDistance > attackDistance )
 		
 		-- Transition
 		
@@ -135,7 +143,7 @@ function Marine.onUpdate( deltaMilliseconds )
 		
 		-- Evaluation
 		
-		local transition = ( ai:getPlayerDistance( ) <= attackDistance )
+		local transition = ( playerDistance <= attackDistance )
 		
 		-- Transition
 		
@@ -161,7 +169,10 @@ function Marine.onUpdate( deltaMilliseconds )
 
 end
 
-script:registerEventHandler( Marine.onEvent )
-script:registerUpdateHandler( Marine.onUpdate )
+function update( deltaMilliseconds )
+
+	Marine.onUpdate( deltaMilliseconds )
+
+end
 
 Marine.initialize( )

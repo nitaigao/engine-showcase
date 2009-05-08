@@ -70,7 +70,7 @@ namespace AI
 
 		if ( systemChanges & System::Changes::Geometry::All )
 		{
-			if ( component->GetName( ) != this->GetName( ) )
+			if ( component->GetId( ) != this->GetId( ) )
 			{
 				_playerPosition = component->GetPosition( );
 				_playerOrientation = component->GetOrientation( );

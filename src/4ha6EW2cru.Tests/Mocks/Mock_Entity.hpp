@@ -21,6 +21,8 @@ public:
 
 	}
 
+	inline unsigned int GetId( ) const { return 0; };
+
 	const std::string& GetName( ) const { return "test_entity"; };
 	void AddComponent( ISystemComponent* component ) { _components.push_back( component ); }
 	ISystemComponent* FindComponent( const System::Types::Type& systemType ) const { return 0; };

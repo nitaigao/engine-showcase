@@ -32,6 +32,7 @@ namespace State
 		 */
 		World( )
 			: _stepAccumulator( 0 )
+			, _lastEntityId( 0 )
 		{
 
 		}
@@ -91,6 +92,7 @@ namespace State
 		IWorldEntity::WorldEntityList _entities;
 		SystemSceneMap _systemScenes;
 
+		unsigned int _lastEntityId;
 		float _stepAccumulator;
 	};
 };

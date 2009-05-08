@@ -129,7 +129,54 @@ namespace Script
 			if ( event->GetEventType( ) == ALL_EVENTS )
 			{
 				ScriptEvent* scriptEvent = ( ScriptEvent* ) event;
-				call_function< void >( ( *i )->GetFunction( ), scriptEvent->GetEventName( ), scriptEvent->GetValue1( ), scriptEvent->GetValue2( ) );
+
+				// this is for speed, _not_ elegance!
+				switch( scriptEvent->GetParamType( ) )
+				{
+
+				case ScriptEvent::PARAMCOMBO_NONE:
+
+					call_function< void >( ( *i )->GetFunction( ), scriptEvent->GetEventName( ) );
+
+					break;
+
+				case ScriptEvent::PARAMCOMBO_INT:
+
+					call_function< void >( ( *i )->GetFunction( ), scriptEvent->GetEventName( ), scriptEvent->GetValue1AsInt( ) );
+
+					break;
+
+				case ScriptEvent::PARAMCOMBO_STRING:
+
+					call_function< void >( ( *i )->GetFunction( ), scriptEvent->GetEventName( ), scriptEvent->GetValue1AsString( ) );
+
+					break;
+
+				case ScriptEvent::PARAMCOMBO_STRING_STRING:
+
+					call_function< void >( ( *i )->GetFunction( ), scriptEvent->GetEventName( ), scriptEvent->GetValue1AsString( ), scriptEvent->GetValue2AsString( ) );
+
+					break;
+
+				case ScriptEvent::PARAMCOMBO_STRING_INT:
+
+					call_function< void >( ( *i )->GetFunction( ), scriptEvent->GetEventName( ), scriptEvent->GetValue1AsString( ), scriptEvent->GetValue2AsInt( ) );
+
+					break;
+
+				case ScriptEvent::PARAMCOMBO_INT_STRING:
+
+					call_function< void >( ( *i )->GetFunction( ), scriptEvent->GetEventName( ), scriptEvent->GetValue1AsInt( ), scriptEvent->GetValue2AsString( ) );
+
+					break;
+
+				case ScriptEvent::PARAMCOMBO_INT_INT:
+
+					call_function< void >( ( *i )->GetFunction( ), scriptEvent->GetEventName( ), scriptEvent->GetValue1AsInt( ), scriptEvent->GetValue2AsInt( ) );
+
+					break;
+
+				}
 			}
 		}
 	}
@@ -177,7 +224,7 @@ namespace Script
 		}	
 	}
 
-	std::vector< std::string > ScriptComponent::RayQuery( const bool& sortByDistance, const int& maxResults )
+	std::vector< std::string > ScriptComponent::RayQuery( const bool& sortByDistance, const unsigned int& maxResults )
 	{	
 		Ogre::Vector3 axis;
 		Ogre::Degree angle;
@@ -194,6 +241,7 @@ namespace Script
 		parameters[ "sortByDistance" ] = sortByDistance;
 		parameters[ "origin" ] = _position;
 		parameters[ "destination" ] = MathVector3( destination );
+		parameters[ "maxResults" ] = maxResults;
 
 		IService* rayService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::PHYSICS );
 		return rayService->Execute( "rayQuery", parameters ) [ "hits" ].GetValue< std::vector< std::string > >( );

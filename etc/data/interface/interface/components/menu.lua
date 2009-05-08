@@ -100,7 +100,7 @@ end
 
 function Menu.onKeyUp( keyCode )
 
-	if ( keyCode == '1' and menu_ingame ) then
+	if ( keyCode == 1 and menu_ingame ) then
 	
 		Menu.ToggleInGameMenu( )
 	

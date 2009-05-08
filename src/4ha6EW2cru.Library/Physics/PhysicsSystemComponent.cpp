@@ -68,29 +68,4 @@ namespace Physics
 			);
 		}
 	}
-
-	MathVector3 PhysicsSystemComponent::GetPosition( ) const
-	{
-		hkVector4 position = _body->getPosition( );
-		
-		return MathVector3( 
-			position( 0 ),
-			position( 1 ),
-			position( 2 )
-			);
-	}
-
-	MathQuaternion PhysicsSystemComponent::GetOrientation( ) const
-	{
-		hkQuaternion physicsRotation = _body->getRotation( );
-
-		MathQuaternion rotation(
-			physicsRotation( 0 ),
-			physicsRotation( 1 ),
-			physicsRotation( 2 ),
-			physicsRotation( 3 )
-			);
-
-		return rotation;
-	}
 }

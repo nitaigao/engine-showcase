@@ -39,6 +39,12 @@ namespace Serialization
 		 */
 		virtual void Update( const float& deltaMilliseconds ) = 0;
 
+
+		/*! Returns whether or no the Serializer has finished its loading task
+		 *
+		 *  @return (bool)
+		 */
+		virtual bool IsFinishedLoading( ) const = 0;
 	};
 };
 

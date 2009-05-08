@@ -20,7 +20,7 @@ namespace Renderer
 	class RendererSystemScene : public IRenderSystemScene
 	{
 
-		typedef std::vector< IRendererSystemComponent* > RendererSystemComponentList;
+		typedef std::map< std::string, IRendererSystemComponent* > RendererSystemComponentList;
 
 	public:
 

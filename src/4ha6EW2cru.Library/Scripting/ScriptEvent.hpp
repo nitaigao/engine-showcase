@@ -18,8 +18,19 @@ namespace Script
 	 */
 	class ScriptEvent : public Events::IEvent
 	{
-
+	
 	public:
+
+		enum ParamComboType
+		{
+			PARAMCOMBO_NONE = 0,
+			PARAMCOMBO_STRING = 1,
+			PARAMCOMBO_INT = 2,
+			PARAMCOMBO_STRING_STRING = 3,
+			PARAMCOMBO_STRING_INT = 4,
+			PARAMCOMBO_INT_STRING = 5,
+			PARAMCOMBO_INT_INT = 6
+		};
 
 		/*! Default Destructor
 		 *
@@ -35,8 +46,11 @@ namespace Script
 		 */
 		ScriptEvent( const std::string eventName )
 			: _eventName( eventName )
-			, _value1( "" )
-			, _value2( "" )
+			, _value1String( "" )
+			, _value2String( "" )
+			, _value1Int( 0 )
+			, _value2Int( 0 )
+			, _paramType( PARAMCOMBO_NONE )
 		{
 
 		}
@@ -50,8 +64,11 @@ namespace Script
 		 */
 		ScriptEvent( const std::string eventName, const std::string value1 )
 			: _eventName( eventName )
-			, _value1( value1 )
-			, _value2( "" )
+			, _value1String( value1 )
+			, _value2String( "" )
+			, _value1Int( 0 )
+			, _value2Int( 0 )
+			, _paramType( PARAMCOMBO_STRING )
 		{
 
 		}
@@ -65,11 +82,13 @@ namespace Script
 		 */
 		ScriptEvent( const std::string eventName, const int value1 )
 			: _eventName( eventName )
-			, _value2( "" )
+			, _value1String( "" )
+			, _value2String( "" )
+			, _value1Int( value1 )
+			, _value2Int( 0 )
+			, _paramType( PARAMCOMBO_INT )
 		{
-			std::stringstream val1;
-			val1 << value1;
-			_value1 = val1.str( );
+
 		}
 
 
@@ -82,8 +101,11 @@ namespace Script
 		 */
 		ScriptEvent( const std::string eventName, const std::string value1, const std::string value2 )
 			: _eventName( eventName )
-			, _value1( value1 )
-			, _value2( value2 )
+			, _value1String( value1 )
+			, _value2String( value2 )
+			, _value1Int( 0 )
+			, _value2Int( 0 )
+			, _paramType( PARAMCOMBO_STRING_STRING )
 		{
 
 		}
@@ -98,11 +120,13 @@ namespace Script
 		 */
 		ScriptEvent( const std::string eventName, const int value1, const std::string value2 )
 			: _eventName( eventName )
-			, _value2( value2 )
+			, _value1String( "" )
+			, _value2String( value2 )
+			, _value1Int( value1 )
+			, _value2Int( 0 )
+			, _paramType( PARAMCOMBO_INT_STRING )
 		{
-			std::stringstream val1;
-			val1 << value1;
-			_value1 = val1.str( );
+
 		}
 
 
@@ -115,11 +139,13 @@ namespace Script
 		 */
 		ScriptEvent( const std::string eventName, const std::string value1, const int value2 )
 			: _eventName( eventName )
-			, _value1( value1 )
+			, _value1String( value1 )
+			, _value2String( "" )
+			, _value1Int( 0 )
+			, _value2Int( value2 )
+			, _paramType( PARAMCOMBO_STRING_INT )
 		{
-			std::stringstream val2;
-			val2 << value2;
-			_value2 = val2.str( );
+
 		}
 
 
@@ -132,14 +158,13 @@ namespace Script
 		 */
 		ScriptEvent( const std::string eventName, const int value1, const int value2 )
 			: _eventName( eventName )
+			, _value1String( "" )
+			, _value2String( "" )
+			, _value1Int( value1 )
+			, _value2Int( value2 )
+			, _paramType( PARAMCOMBO_INT_INT )
 		{
-			std::stringstream val1;
-			val1 << value1;
-			_value1 = val1.str( );
 
-			std::stringstream val2;
-			val2 << value2;
-			_value2 = val2.str( );
 		}
 
 		
@@ -150,18 +175,39 @@ namespace Script
 		inline std::string GetEventName( ) { return _eventName; };
 
 		
-		/*! Returns the first value passed to the script
+		/*! Returns the first value passed to the script as a string
 		 *
 		 *  @return (const std::string)
 		 */
-		inline const std::string GetValue1( ) { return _value1; };
+		inline const std::string GetValue1AsString( ) { return _value1String; };
 
+
+		/*! Returns the first value passed to the script as an integer
+		 *
+		 *  @return (const int)
+		 */
+		inline const int GetValue1AsInt( ) { return _value1Int; };
 		
-		/*! Returns the second value passed to the script
+
+		/*! Returns the second value passed to the script as a string
 		 *
 		 *  @return (const std::string)
 		 */
-		inline const std::string GetValue2( ) { return _value2; };
+		inline const std::string GetValue2AsString( ) { return _value2String; };
+
+
+		/*! Returns the second value pass to the script as an integer
+		 *
+		 *  @return (const int)
+		 */
+		inline const int GetValue2AsInt( ) { return _value2Int; };
+
+
+		/*! Returns the type of parameter combination data this event holds
+		 *
+		 *  @return (const ParamComboType)
+		 */
+		inline const ParamComboType GetParamType( ) const { return _paramType; };
 
 
 		/*! Overrides the event type, so that the Script Components can forward all events to LUA
@@ -180,8 +226,14 @@ namespace Script
 	private:
 
 		std::string _eventName;
-		std::string _value1;
-		std::string _value2;
+
+		std::string _value1String;
+		std::string _value2String;
+
+		int _value1Int;
+		int _value2Int;
+
+		ParamComboType _paramType;
 
 		ScriptEvent( ) { };
 		ScriptEvent( const ScriptEvent & copy ) { };

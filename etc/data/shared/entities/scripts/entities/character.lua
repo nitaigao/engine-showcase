@@ -30,9 +30,9 @@ end
 function Character:onHit( damage )
 
 	if ( not self.isdead ) then
-	
+
 		self.health = self.health - damage
-		
+
 		if ( self.health <= 0 ) then
 		
 			self:onDie( )
@@ -46,7 +46,7 @@ end
 function Character:onDie( )
 
 	self.isdead = true
-	script:broadcastEvent( 'ACTOR_DEAD', script:getName( ) )
+	script:broadcastEvent( 'ACTOR_DEAD', script:getId( ) )
 	
 end
 

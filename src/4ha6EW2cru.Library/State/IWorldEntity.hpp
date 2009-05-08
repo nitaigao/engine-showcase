@@ -35,6 +35,13 @@ namespace State
 		virtual const std::string& GetName( ) const = 0;
 
 
+		/*! Returns a numerical Id for the whole Entity
+		 *
+		 *  @return (unsigned int)
+		 */
+		virtual unsigned int GetId( ) const = 0;
+
+
 		/*! Adds a System Component to the Entity
 		 *
 		 *  @param[in] ISystemComponent * component

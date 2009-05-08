@@ -2,16 +2,6 @@
 
 using namespace State;
 
-SystemManager::~SystemManager()
-{
-	for( ISystem::SystemMap::reverse_iterator i = _systems.rbegin( ); i != _systems.rend( ); ++i )
-	{
-		delete ( *i ).second;
-	}
-
-	_systems.clear( );
-}
-
 void SystemManager::RegisterSystem( ISystem* system )
 {
 	_systems[ system->GetType( ) ] = system;
@@ -43,6 +33,7 @@ void SystemManager::Release()
 	for( ISystem::SystemMap::reverse_iterator i = _systems.rbegin( ); i != _systems.rend( ); ++i )
 	{
 		( *i ).second->Release( );
+		delete ( *i ).second;
 	}
 }
 

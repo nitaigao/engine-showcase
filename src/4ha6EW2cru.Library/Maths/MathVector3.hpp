@@ -53,7 +53,7 @@ namespace Maths
 		}
 
 
-		/*! Constructs from Ogre's representation of a 3 dimensional vector for convenience
+		/*! Constructs from Ogre's representation of a 3 dimensional vector for convenience and speed!
 		 *
 		 *  @param[in] Ogre::Vector3 vector
 		 *  @return ()
@@ -62,6 +62,20 @@ namespace Maths
 			: X( vector.x )
 			, Y( vector.y )
 			, Z( vector.z )
+		{
+
+		}
+
+
+		/*! Constructs from Havok's representation of a 3 dimensional vector for convenience and speed!
+		 *
+		 *  @param[in] const hkVector4 & vector
+		 *  @return ()
+		 */
+		MathVector3( const hkVector4& vector )
+			: X( vector( 0 ) )
+			, Y( vector( 1 ) )
+			, Z( vector( 2 ) )
 		{
 
 		}
@@ -125,14 +139,9 @@ namespace Maths
 		{
 			float length = sqrt( X * X + Y * Y + Z * Z  );
 
-			MathVector3 result( X, Y, Z );
-			
-			if ( length > 0.0f )
-			{
-				result = result / length;
-			}
-
-			return result;
+			return ( length > 0.0f ) 
+				? MathVector3( X, Y, Z ) / length
+				: MathVector3( X, Y, Z );
 		}
 
 

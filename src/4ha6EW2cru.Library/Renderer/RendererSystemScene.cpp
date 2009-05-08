@@ -17,44 +17,30 @@ namespace Renderer
 		{
 			component = new RendererSystemComponent( name, this );
 		}
-		
-		_components.push_back( component );
+
+		_components[ name ] = component;
+
 		return component;
 	}
 
 	void RendererSystemScene::DestroyComponent( ISystemComponent* component )
 	{
-		for( RendererSystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
-		{
-			if ( ( *i )->GetName( ) == component->GetName( ) )
-			{
-				_components.erase( i );
-				component->Destroy( );
-				delete component;
-				return;
-			}
-		}
+		_components.erase( component->GetName( ) );
+		component->Destroy( );
+		delete component;
+		component = 0;
 	}
 
 	void RendererSystemScene::Update( const float& deltaMilliseconds )
 	{
 		for( RendererSystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
 		{
-			RendererSystemComponent* renderSystemComponent = static_cast< RendererSystemComponent* > ( ( *i ) );
-			renderSystemComponent->Update( deltaMilliseconds );
+			( *i ).second->Update( deltaMilliseconds );
 		}
 	}
 
 	IRendererSystemComponent* RendererSystemScene::GetComponent( const std::string& name ) const
 	{
-		for( RendererSystemComponentList::const_iterator i = _components.begin( ); i != _components.end( ); ++i )
-		{
-			if ( ( *i )->GetName( ) == name )
-			{
-				return ( *i );
-			}
-		}
-
-		return 0;
+		return ( *( _components.find( name ) ) ).second;
 	}
 }

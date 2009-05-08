@@ -11,6 +11,7 @@ Console = {}
 console = nil
 output = nil
 input = nil
+console_ingame = false
 
 ----------------------------------------------------------------
 -- Console Functions
@@ -31,6 +32,12 @@ function Console.initialize( )
 end
 
 function Console.onEvent( eventName, val1 )
+
+	if ( eventName == 'WORLD_LOADING_FINISHED' ) then
+	
+		console_ingame = true
+		
+	end
 
 	if ( eventName == 'MESSAGE_LOGGED' ) then 
 	
@@ -62,16 +69,19 @@ function Console.onShowConsole( )
 			
 			end
 			
-			ux:setInputAllowed( true )
+			if ( console_ingame ) then
+			
+				ux:setInputAllowed( true )
+				
+			end
 			
 		else
 		
 			input:setFocus( true )
 			console:setVisible( true ) 
 			ux:showMouse( )
-
 			ux:setInputAllowed( false )
-			
+				
 		end
 		
 	end

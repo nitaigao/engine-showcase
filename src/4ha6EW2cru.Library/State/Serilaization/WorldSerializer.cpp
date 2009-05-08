@@ -44,7 +44,7 @@ namespace Serialization
 		{
 			YAML::Node* node = new YAML::Node( );
 			parser.GetNextDocument( *node );
-			_loadTotal += node->size( );
+			_loadTotal += node->size( ) - 1;
 			_loadQueue.push( node );
 		}
 	}
@@ -260,6 +260,7 @@ namespace Serialization
 
 				if ( _loadQueue.empty( ) )
 				{
+					_loadProgress = _loadTotal;
 					Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WORLD_LOADING_FINISHED" ) );
 				}
 			}

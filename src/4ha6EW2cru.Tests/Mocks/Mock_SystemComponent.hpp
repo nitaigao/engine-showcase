@@ -33,6 +33,8 @@ public:
 	void Observe( ISubject* subject, const unsigned int& systemChanges ) { };
 
 	inline const std::string& GetName( ) const { return "test"; }
+	inline void SetId( const unsigned int& id ) {  };
+	inline unsigned int GetId( ) const { return 0; };
 	inline System::Types::Type GetType( ) const { return _systemType; };
 
 	inline AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };

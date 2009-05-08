@@ -27,7 +27,7 @@ namespace Script
 		*
 		*  @return ()
 		*/
-		~ScriptSystem( ) { };
+		~ScriptSystem( );
 
 
 		/*! Default Constructor
@@ -36,6 +36,8 @@ namespace Script
 		*/
 		ScriptSystem( Configuration::IConfiguration* configuration )
 			: _configuration( configuration )
+			, _scene( 0 )
+			, _auxScene( 0 )
 		{
 
 		}
@@ -60,7 +62,7 @@ namespace Script
 		*
 		*  @return (System::Types::Type)
 		*/
-		void Release( ) { };
+		void Release( );
 
 
 		/*! Returns the type of the System
@@ -110,6 +112,7 @@ namespace Script
 		Configuration::IConfiguration* _configuration;
 
 		IScriptSystemScene* _scene;
+		IScriptSystemScene* _auxScene;
 
 	};
 };

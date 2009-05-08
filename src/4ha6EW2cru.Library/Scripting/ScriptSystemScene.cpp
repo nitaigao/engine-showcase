@@ -109,6 +109,7 @@ namespace Script
 				.def( "unregisterEventHandler", &ScriptComponent::UnRegisterEvent )
 				.def( "unregisterUpdateHandler", &ScriptComponent::UnRegisterUpdate )
 				.def( "getName", &ScriptComponent::GetName )
+				.def( "getId", &ScriptComponent::GetId )
 				.def( "getTime", &ScriptComponent::GetTime )
 				.def( "executeString", &ScriptComponent::ExecuteString )
 				.def( "rayQuery", &ScriptComponent::RayQuery, copy_table( result ) )
@@ -128,66 +129,46 @@ namespace Script
 		luabind::set_pcall_callback( &ScriptSystemScene::Script_PError );
 		luabind::set_error_callback( &ScriptSystemScene::Script_Error );
 		luabind::set_cast_failed_callback( &ScriptSystemScene::Script_CastError );
-
-		Management::GetInstance( )->GetEventManager( )->AddEventListener( ALL_EVENTS, this, &ScriptSystemScene::OnEvent );
 	}
 
 	void ScriptSystemScene::Destroy()
 	{
-		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( ALL_EVENTS, this, &ScriptSystemScene::OnEvent );
-
 		lua_close( _state );
 		_state = 0;
 	}
 
-	void ScriptSystemScene::OnEvent( const IEvent* event )
-	{
-		EventHandlerList handlers( *_eventHandlers );
-
-		for ( EventHandlerList::iterator i = handlers.begin( ); i != handlers.end( ); ++i )
-		{
-			if ( ( *i ).first == event->GetEventType( ) )
-			{
-				EventType eventType = event->GetEventType( );
-				if ( event->GetEventType( ) == ALL_EVENTS )
-				{
-					ScriptEvent* scriptEvent = ( ScriptEvent* ) event;
-					call_function< void >( ( *i ).second, scriptEvent->GetEventName( ), scriptEvent->GetValue1( ), scriptEvent->GetValue2( ) );
-				}
-				else
-				{
-					call_function< void >( ( *i ).second );
-				}
-			}
-		}
-	}
-
 	int ScriptSystemScene::Script_PError( lua_State* luaState )
 	{
-		lua_Debug d;
-
-		int result = 0;
-
-		result = lua_getstack( luaState, 1, &d );
-		result = lua_getinfo( luaState, "Sln", &d );
-
-		std::string error = lua_tostring( luaState, -1 );
-		lua_pop( luaState, 1 );
-
 		std::stringstream errorMessage;
-		errorMessage << "Script Error: " << d.short_src << ":" << d.currentline;
 
-		if ( d.name != 0 )
+		lua_Debug d;
+		int result = 0;
+		result = lua_getstack( luaState, 0, &d );
+
+		if ( result )
 		{
-			errorMessage << "(" << d.namewhat << " " << d.name << ")";
+			result = lua_getinfo( luaState, "Sln", &d );
+
+			errorMessage << "Script Error: " << d.short_src << ":" << d.currentline;
+
+			if ( d.name != 0 )
+			{
+				errorMessage << "(" << d.namewhat << " " << d.name << ")";
+			}
+
+			errorMessage << " ";
 		}
 
-		errorMessage << " " << error;
+		if ( lua_isstring( luaState, -1 ) )
+		{
+			std::string error = lua_tostring( luaState, -1 );
+			lua_pop( luaState, 1 );
+
+			errorMessage << error;
+		}
 
 		lua_pushstring( luaState, errorMessage.str( ).c_str( ) );
-
-		ScriptException e( errorMessage.str( ) );
-		Logger::Fatal( errorMessage.str( ) );
+		Logger::Warn( errorMessage.str( ) );
 
 		return 1;	
 	}
