@@ -39,8 +39,8 @@ void AISystemScene_Tests::Should_Return_Component_On_CreateComponent()
 
 void AISystemScene_Tests::Should_Create_ScriptScene_On_Initialize()
 {
-	AISystemScene scene;
-	scene.Initialize( );
+	//AISystemScene scene;
+	//scene.Initialize( );
 
 	//CPPUNIT_ASSERT( scene.GetScriptScene( ) != 0 );;
 }

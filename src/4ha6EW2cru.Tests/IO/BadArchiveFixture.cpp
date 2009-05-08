@@ -17,9 +17,8 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( BadArchiveFixture, Suites::IOSuite( ) );
 
 void BadArchiveFixture::setUp( )
 {
+	Logging::Logger::SetLogLevel( Logging::LEVEL_ALL );
 	Management::Initialize( );
-	
-	Management::GetInstance( )->GetFileManager( )->Mount( "../../../etc/data/test", "data/" );
 }
 
 void BadArchiveFixture::tearDown( )
@@ -38,7 +37,7 @@ void BadArchiveFixture::Should_Return_True_On_Case_Sensitive( )
 
 void BadArchiveFixture::Should_Return_DataStreamPtr_Given_File_Found( )
 {
-	BadArchive* archive = new BadArchive( "../../../etc/data/test/test.bad", "BAD" );
+	BadArchive* archive = new BadArchive( "/", "BAD" );
 	Ogre::DataStreamPtr stream = archive->open( "/data/test/test.txt" );
 
 	CPPUNIT_ASSERT( !stream.isNull( ) );

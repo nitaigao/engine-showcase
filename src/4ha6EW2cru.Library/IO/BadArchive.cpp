@@ -7,7 +7,7 @@ using namespace Resources;
 #include "../Management/Management.h"
 
 namespace IO
-	{
+{
 	Ogre::DataStreamPtr BadArchive::open( const Ogre::String& filename ) const
 	{
 		DataStreamPtr stream;

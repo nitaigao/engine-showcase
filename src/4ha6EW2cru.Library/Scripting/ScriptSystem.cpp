@@ -9,13 +9,19 @@ namespace Script
 {
 	ScriptSystem::~ScriptSystem()
 	{
-		delete _auxScene;
-		_auxScene = 0;
+		if ( _auxScene != 0 )
+		{
+			delete _auxScene;
+			_auxScene = 0;
+		}
 	}
 
 	void ScriptSystem::Release()
 	{
-		_auxScene->Destroy( );
+		if ( _auxScene != 0 )
+		{
+			_auxScene->Destroy( );
+		}
 	}
 
 	ISystemScene* ScriptSystem::CreateScene( )

@@ -13,7 +13,7 @@ using namespace Logging;
 using namespace Configuration;
 
 #include "../Suites.h"
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ConfigurationFileFixture, Suites::SystemSuite( ) );
+//CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ConfigurationFileFixture, Suites::SystemSuite( ) );
 
 void ConfigurationFileFixture::setUp( )
 {
@@ -66,8 +66,7 @@ void ConfigurationFileFixture::Should_Find_Default_Config_Item_On_FindConfigItem
 
 void ConfigurationFileFixture::Should_Find_Stored_Config_Item_On_FindConfigItemBool( )
 {
-	Management::GetInstance( )->GetFileManager( )->Mount( "../../../etc/data/test", "/" );
-	ConfigurationFile* config = ConfigurationFile::Load( "config/test.cfg" );
+	ConfigurationFile* config = ConfigurationFile::Load( "/data/config/test.cfg" );
 	bool ok = config->FindConfigItem( "Display", "fullscreen", false ).GetValue< bool >( );
 	CPPUNIT_ASSERT( ok == true );
 	delete config;

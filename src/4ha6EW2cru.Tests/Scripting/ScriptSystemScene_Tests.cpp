@@ -25,4 +25,5 @@ void ScriptSystemScene_Tests::Should_Initialize_Correctly()
 {
 	ScriptSystemScene scene( 0 );
 	scene.Initialize( );
+	scene.Destroy( );
 }

@@ -25,6 +25,7 @@ void ScriptSystem_Tests::Should_Initialize_Correctly()
 {
 	ScriptSystem system( 0 );
 	system.Initialize( );
+	system.Release( );
 }
 
 void ScriptSystem_Tests::Should_Return_Scene_On_CreateScene()
@@ -36,7 +37,11 @@ void ScriptSystem_Tests::Should_Return_Scene_On_CreateScene()
 
 	CPPUNIT_ASSERT( scene != 0 );
 
+	scene->Destroy( );
+
 	delete scene;
+
+	system.Release( );
 }
 
 void ScriptSystem_Tests::Should_Return_ScriptSystemType_On_GetType()
@@ -45,4 +50,6 @@ void ScriptSystem_Tests::Should_Return_ScriptSystemType_On_GetType()
 	system.Initialize( );
 
 	CPPUNIT_ASSERT( system.GetType( ) == System::Types::SCRIPT );
+
+	system.Release( );
 }
