@@ -40,7 +40,8 @@ namespace Physics
 		characterInfo.m_maxForce = 1000.0f;
 		characterInfo.m_maxSlope = 70.0f * HK_REAL_DEG_TO_RAD;
 		characterInfo.m_up = MathVector3::Up( ).AshkVector4( );
-		characterInfo.m_shape = new hkpCapsuleShape( hkVector4( 0.0f, 0.55f, 0.0f ), hkVector4( 0.0f, -0.55f, 0.0f ), 0.3f );
+		characterInfo.m_shape = new hkpCapsuleShape( hkVector4( 0.0f, 1.4f, 0.0f ), hkVector4( 0.0f, 0.35f, 0.0f ), 0.3f );
+		characterInfo.m_collisionFilterInfo = hkpGroupFilter::calcFilterInfo( 1, 1 );
 
 		_characterBody = new hkpCharacterRigidBody( characterInfo );
 
@@ -55,7 +56,7 @@ namespace Physics
 
 		_characterInput.m_up = MathVector3::Up( ).AshkVector4( );
 		_characterInput.m_characterGravity = hkVector4( 0.0f, -16.0f, 0.0f );
-		_characterInput.m_userData = false;
+		_characterInput.m_userData = true;
 	}
 
 	PhysicsSystemCharacterComponent::~PhysicsSystemCharacterComponent()

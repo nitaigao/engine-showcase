@@ -14,6 +14,8 @@
 #include <Physics/Dynamics/World/Listener/hkpWorldPostSimulationListener.h>
 #include <Physics/Dynamics/Entity/hkpEntityActivationListener.h>
 
+#include <Physics/Collide/Filter/Group/hkpGroupFilter.h>
+
 #include <Common/Visualize/hkVisualDebugger.h>
 #include <Physics/Utilities/VisualDebugger/hkpPhysicsContext.h>			
 
@@ -110,6 +112,8 @@ namespace Physics
 		hkpWorld* _world;
 		hkVisualDebugger* _vdb;
 		hkpPhysicsContext* _context;
+
+		hkpGroupFilter* _groupFilter;
 
 		PhysicsSystemComponentList _components;
 

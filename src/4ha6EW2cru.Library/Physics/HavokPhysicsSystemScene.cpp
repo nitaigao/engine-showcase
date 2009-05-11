@@ -15,6 +15,9 @@ namespace Physics
 	HavokPhysicsSystemScene::HavokPhysicsSystemScene( const hkpWorldCinfo& worldInfo )
 	{
 		_world = new hkpWorld( worldInfo );
+		_groupFilter = new hkpGroupFilter( );
+		_world->setCollisionFilter( _groupFilter );
+		_groupFilter->removeReference( );
 
 		hkArray<hkProcessContext*> contexts;
 

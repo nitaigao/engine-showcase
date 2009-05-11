@@ -32,9 +32,6 @@ namespace Input
 		_mouse->setEventCallback( this );
 	
 		Management::GetInstance( )->GetServiceManager( )->RegisterService( this );
-
-		_mouse->getMouseState( ).width = _configuration->Find( "Graphics", "width" ).GetValue< int >( );
-		_mouse->getMouseState( ).height = _configuration->Find( "Graphics", "height" ).GetValue< int >( );
 	}
 	
 	ISystemScene* InputSystem::CreateScene( )
@@ -62,6 +59,9 @@ namespace Input
 	{
 		_mouse->capture( );
 		_keyboard->capture( );
+
+		_mouse->getMouseState( ).width = _configuration->Find( "Graphics", "width" ).GetValue< int >( );
+		_mouse->getMouseState( ).height = _configuration->Find( "Graphics", "height" ).GetValue< int >( );
 	}
 	
 	bool InputSystem::keyPressed( const KeyEvent &arg )

@@ -14,12 +14,6 @@ namespace Geometry
 				this->PushChanges( System::Changes::Geometry::Position );
 			}
 
-			if ( ( *i ).first == "scale" )
-			{
-				_scale = ( *i ).second.GetValue< MathVector3 >( );
-				this->PushChanges( System::Changes::Geometry::Scale );
-			}
-
 			if ( ( *i ).first == "orientation" )
 			{
 				_orientation = ( *i ).second.GetValue< MathQuaternion >( );

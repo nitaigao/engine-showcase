@@ -33,8 +33,6 @@ function Marine.initialize( )
 end
 
 function Marine.onEvent( eventName, var1, var2 )
-	
-	--print( '' .. var1 .. ' ' .. ai:getId( ) );
 			
 	if ( var1 == ai:getId( ) ) then 
 

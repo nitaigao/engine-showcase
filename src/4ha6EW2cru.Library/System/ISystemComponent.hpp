@@ -117,7 +117,7 @@ public:
 	*
 	*  @return (MathVector3)
 	*/
-	virtual Maths::MathVector3 GetScale( ) const = 0;
+	//virtual Maths::MathVector3 GetScale( ) const = 0;
 
 
 	/*! Gets the Orientation of the Component

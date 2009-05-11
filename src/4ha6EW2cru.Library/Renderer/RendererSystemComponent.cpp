@@ -68,10 +68,13 @@ namespace Renderer
 	{
 		ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 		
-		if ( System::Changes::Geometry::Position & systemChanges || System::Changes::Geometry::Orientation & systemChanges )
+		if ( System::Changes::Geometry::Position & systemChanges )
 		{
 			_sceneNode->setPosition( component->GetPosition( ).AsOgreVector3( ) );
-			_sceneNode->setScale( component->GetScale( ).AsOgreVector3( ) );
+		}
+		
+		if ( System::Changes::Geometry::Orientation & systemChanges )
+		{
 			_sceneNode->setOrientation( component->GetOrientation( ).AsOgreQuaternion( ) );
 		}
 

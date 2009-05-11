@@ -44,7 +44,7 @@ namespace Serialization
 		{
 			YAML::Node* node = new YAML::Node( );
 			parser.GetNextDocument( *node );
-			_loadTotal += node->size( ) - 1;
+			_loadTotal += node->size( );
 			_loadQueue.push( node );
 		}
 	}
@@ -242,7 +242,7 @@ namespace Serialization
 	{
 		if ( !_loadQueue.empty( ) )
 		{
-			if( ++_activeNodeIndex < _loadQueue.front( )->size( ) )
+			if( _activeNodeIndex < _loadQueue.front( )->size( ) )
 			{
 				const YAML::Node& documentNode = _loadQueue.front( )[ 0 ];
 				const YAML::Node& node = documentNode[ _activeNodeIndex ];
@@ -251,6 +251,7 @@ namespace Serialization
 		
 				float progressPercent = ( ( float ) ++_loadProgress / ( float ) _loadTotal ) * 100.0f;
 				Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WORLD_LOADING_PROGRESS", static_cast< int >( progressPercent ) ) );
+				_activeNodeIndex++;
 			}
 			else
 			{
