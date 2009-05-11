@@ -1,6 +1,7 @@
 #include "ScriptSystemScene.h"
 
 #include <luabind/table_policy.hpp>
+#include <luabind/operator.hpp>
 using namespace luabind;
 
 #include "../Events/Event.h"
@@ -9,6 +10,8 @@ using namespace Events;
 
 #include "../Logging/Logger.h"
 using namespace Logging;
+
+using namespace Maths;
 
 #include "../Management/Management.h"
 #include "../Exceptions/ScriptException.hpp"
@@ -110,6 +113,8 @@ namespace Script
 				.def( "unregisterUpdateHandler", &ScriptComponent::UnRegisterUpdate )
 				.def( "getName", &ScriptComponent::GetName )
 				.def( "getId", &ScriptComponent::GetId )
+				.def( "getLookAt", &ScriptComponent::GetLookAt )
+				.def( "getPosition", &ScriptComponent::GetPosition )
 				.def( "getTime", &ScriptComponent::GetTime )
 				.def( "executeString", &ScriptComponent::ExecuteString )
 				.def( "rayQuery", &ScriptComponent::RayQuery, copy_table( result ) )
@@ -120,7 +125,15 @@ namespace Script
 				.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string&, const std::string& ) ) &ScriptComponent::BroadcastEvent )
 				.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string&, const int& ) ) &ScriptComponent::BroadcastEvent )
 				.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const int& ) ) &ScriptComponent::BroadcastEvent )
-				.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const std::string& ) ) &ScriptComponent::BroadcastEvent )
+				.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const std::string& ) ) &ScriptComponent::BroadcastEvent ),
+
+			class_< MathVector3 >( "Vector" )
+				.def( constructor< const float&, const float&, const float& >( ) )
+				.def( self + MathVector3( ) ),
+
+			class_< MathQuaternion >( "Quaternion" )
+				.def( constructor< const float&, const float&, const float&, const float& >( ) )
+
 		];
 
 		luabind::globals( _state )[ "Configuration" ] = _scriptConfiguration;

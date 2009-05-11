@@ -62,15 +62,21 @@ namespace System
 			static const unsigned int All			=	Move_Forward | Move_Backward | Strafe_Left | Strafe_Right | Turn_Left | Turn_Right | Pause_Game | Mouse_Moved | Jump | Fire;
 		};
 
+		namespace POI
+		{
+			static const unsigned int LookAt		=	( 1 << 15 );
+
+		};
+
 		namespace Render
 		{
-			static const unsigned int Ray_Cast		=	( 1 << 15 );
+			static const unsigned int Ray_Cast		=	( 1 << 16 );
 
 		};
 
 		namespace AI
 		{
-			static const unsigned int Behavior		=	( 1 << 16 );
+			static const unsigned int Behavior		=	( 1 << 17 );
 		}
 	};
 };

@@ -224,24 +224,24 @@ namespace Script
 		}	
 	}
 
-	std::vector< std::string > ScriptComponent::RayQuery( const bool& sortByDistance, const unsigned int& maxResults )
+	std::vector< std::string > ScriptComponent::RayQuery( MathVector3 origin, MathVector3 direction, const float& length, const bool& sortByDistance, const unsigned int& maxResults )
 	{	
-		Ogre::Vector3 axis;
-		Ogre::Degree angle;
-
-		_orientation.AsOgreQuaternion( ).ToAngleAxis( angle, axis );
-
-		Ogre::Matrix3 rotation;
-		rotation.FromAxisAngle( axis * Ogre::Vector3::NEGATIVE_UNIT_Y, angle );
-
-		Ogre::Vector3 facing = Ogre::Vector3::NEGATIVE_UNIT_Z * rotation;
-		Ogre::Vector3 destination = ( facing * 100.0f ) + _position.AsOgreVector3( );
-
 		AnyValue::AnyValueMap parameters;
+
+		MathVector3 originToDestination = direction - origin;
+		MathVector3 destination = origin + originToDestination * length;
+
+		parameters[ "origin" ] = origin;
+		parameters[ "destination" ] = destination;
 		parameters[ "sortByDistance" ] = sortByDistance;
-		parameters[ "origin" ] = _position;
-		parameters[ "destination" ] = MathVector3( destination );
 		parameters[ "maxResults" ] = maxResults;
+
+		/*AnyValue::AnyValueMap debugParameters;
+		debugParameters[ "origin" ] = origin;
+		debugParameters[ "destination" ] = destination;
+
+		IService* renderService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::RENDER );
+		renderService->Execute( "drawLine", debugParameters );*/
 
 		IService* rayService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::PHYSICS );
 		return rayService->Execute( "rayQuery", parameters ) [ "hits" ].GetValue< std::vector< std::string > >( );
@@ -251,10 +251,19 @@ namespace Script
 	{
 		ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 
-		if ( System::Changes::Geometry::Orientation & systemChanges || System::Changes::Geometry::Position & systemChanges )
+		if ( System::Changes::Geometry::Position & systemChanges )
 		{
 			_position = component->GetPosition( );
+		}
+
+		if ( System::Changes::Geometry::Orientation & systemChanges )
+		{
 			_orientation = component->GetOrientation( );
+		}
+
+		if ( System::Changes::POI::LookAt & systemChanges )
+		{
+			_lookAt = component->GetProperties( )[ "lookAt" ].GetValue< MathVector3 >( );
 		}
 
 		if ( System::Changes::Input::Move_Forward & systemChanges )

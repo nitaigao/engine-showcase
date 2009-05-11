@@ -2258,7 +2258,7 @@
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/player-fps.model
+    model: /data/entities/models/player.model
     system: graphics
     type: camera
   - !ruby/object:GeometryComponent 
@@ -2283,7 +2283,10 @@
     type: character
   - !ruby/object:InputComponent 
     system: input
-    type: default
+    type: mouse
+  - !ruby/object:InputComponent 
+    system: input
+    type: keyboard
   - !ruby/object:ScriptComponent 
     scriptPath: /data/entities/scripts/entities/player.lua
     system: script

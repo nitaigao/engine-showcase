@@ -54,7 +54,6 @@ namespace Physics
 		_characterInput.m_inputUD = 0.0f;
 
 		_characterInput.m_up = MathVector3::Up( ).AshkVector4( );
-		_characterInput.m_forward = MathVector3::Forward( ).AshkVector4( );
 		_characterInput.m_characterGravity = hkVector4( 0.0f, -16.0f, 0.0f );
 		_characterInput.m_userData = false;
 	}
@@ -79,8 +78,8 @@ namespace Physics
 			_characterInput.m_velocity = _characterBody->getRigidBody( )->getLinearVelocity( );
 			_characterInput.m_position = _characterBody->getRigidBody( )->getPosition( );
 
-			_characterInput.m_forward.set( 0.0f, 0.0f, 1.0f );
-			_characterInput.m_forward.setRotatedDir( _characterBody->getRigidBody( )->getRotation( ), _characterInput.m_forward );
+			_characterInput.m_forward = MathVector3::Forward( ).AshkVector4( );
+			_characterInput.m_forward.setRotatedDir( _body->getRotation( ), _characterInput.m_forward );
 
 			hkpSurfaceInfo ground;
 			_characterBody->checkSupport( _characterInput.m_stepInfo, ground );
@@ -157,22 +156,22 @@ namespace Physics
 			
 		if( System::Changes::Input::Move_Forward & systemChanges )
 		{
-			_forwardBackward = walkSpeed;
+			_forwardBackward = -walkSpeed;
 		}
 
 		if( System::Changes::Input::Move_Backward & systemChanges )
 		{
-			_forwardBackward = -walkSpeed;
+			_forwardBackward = walkSpeed;
 		}
 
 		if( System::Changes::Input::Strafe_Right & systemChanges )
 		{
-			_leftRight = walkSpeed;
+			_leftRight = -walkSpeed;
 		}
 
 		if( System::Changes::Input::Strafe_Left & systemChanges )
 		{
-			_leftRight = -walkSpeed;
+			_leftRight = walkSpeed;
 		}
 
 		if( System::Changes::Input::Jump & systemChanges )

@@ -14,6 +14,11 @@ using namespace Logging;
 #include "../IO/BadArchiveFactory.h"
 using namespace IO;
 
+#include "Line3d.h"
+
+#include "../Maths/MathVector3.hpp"
+using namespace Maths;
+
 namespace Renderer
 {
 
@@ -217,9 +222,6 @@ namespace Renderer
 					parameters[ "distance" ].GetValue< float >( ) );
 			}
 		}
-
-			
-		
 	}
 
 	ISystemScene* RendererSystem::CreateScene( )
@@ -302,18 +304,25 @@ namespace Renderer
 
 		if ( actionName == "changeResolution" )
 		{
-			//int width = _configuration->Find( _configSectionName, "width" ).GetValue< int >( );
-			//int height = _configuration->Find( _configSectionName, "height" ).GetValue< int >( );
-			//bool fullScreen = _configuration->Find( _configSectionName, "fullscreen" ).GetValue< bool >( );
-
-			//window->setFullscreen( fullScreen, width, height );
-			//_interface->ResetWidgetPositions( );
-
 			_window->setFullscreen(  
 				parameters[ "fullScreen" ].GetValue< bool >( ),
 				parameters[ "width" ].GetValue< int >( ),
 				parameters[ "height" ].GetValue< int >( )
 				);
+		}
+
+		if ( actionName == "drawLine" )
+		{
+			Line3D* line = new Line3D( );
+			line->drawLine( 
+				parameters[ "origin" ].GetValue< MathVector3 >( ).AsOgreVector3( ), 
+				parameters[ "destination" ].GetValue< MathVector3 >( ).AsOgreVector3( ) 
+				);
+
+			SceneNode* lineNode = _sceneManager->createSceneNode( );
+			lineNode->attachObject( line );
+			_sceneManager->getRootSceneNode( )->addChild( lineNode );
+
 		}
 
 		return results;

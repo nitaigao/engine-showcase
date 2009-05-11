@@ -194,9 +194,9 @@ namespace Maths
 		inline MathVector3 operator - ( const MathVector3& input )
 		{
 			return MathVector3(
-				input.X - X,
-				input.Y - Y,
-				input.Z - Z
+				X - input.X,
+				Y - input.Y,
+				Z - input.Z
 				);
 		};
 
@@ -253,7 +253,7 @@ namespace Maths
 		 *
 		 *  @return (Maths::MathVector3)
 		 */
-		static inline MathVector3 Forward( ) { return MathVector3( 0.0f, 0.0f, 1.0f ); };
+		static inline MathVector3 Forward( ) { return MathVector3( 0.0f, 0.0f, -1.0f ); };
 
 
 		/*! Returns a Zero Vector

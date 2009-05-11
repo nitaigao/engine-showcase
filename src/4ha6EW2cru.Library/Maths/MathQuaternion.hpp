@@ -23,15 +23,17 @@ namespace Maths
 
 	public:
 
+		float X, Y, Z, W;
+
 		/*! Default Constructor returning an IDENTITY Quaternion
 		 *
 		 *  @return ()
 		 */
 		MathQuaternion( )
-			: _x( 0 )
-			, _y( 0 )
-			, _z( 0 )
-			, _w( 1 )
+			: X( 0 )
+			, Y( 0 )
+			, Z( 0 )
+			, W( 1 )
 		{
 
 		}
@@ -45,10 +47,10 @@ namespace Maths
 		 */
 		MathQuaternion( const MathVector3& axis, const float& angle )
 		{
-			_w = cos( 0.5 * angle );
-			_x = sin( 0.5 * angle ) * axis.X; 
-			_y = sin( 0.5 * angle ) * axis.Y; 
-			_z = sin( 0.5 * angle ) * axis.Z; 
+			W = cos( 0.5 * angle );
+			X = sin( 0.5 * angle ) * axis.X; 
+			Y = sin( 0.5 * angle ) * axis.Y; 
+			Z = sin( 0.5 * angle ) * axis.Z; 
 
 		}
 
@@ -62,10 +64,10 @@ namespace Maths
 		 *  @return ()
 		 */
 		MathQuaternion( const float& x, const float& y, const float& z, const float& w )
-			: _x( x )
-			, _y( y )
-			, _z( z )
-			, _w( w )
+			: X( x )
+			, Y( y )
+			, Z( z )
+			, W( w )
 		{
 
 		}
@@ -77,10 +79,10 @@ namespace Maths
 		 *  @return ()
 		 */
 		MathQuaternion( const Ogre::Quaternion& quaternion )
-			: _x( quaternion.x )
-			, _y( quaternion.y )
-			, _z( quaternion.z )
-			, _w( quaternion.w )
+			: X( quaternion.x )
+			, Y( quaternion.y )
+			, Z( quaternion.z )
+			, W( quaternion.w )
 		{
 
 		}
@@ -91,10 +93,10 @@ namespace Maths
 		 *  @return ()
 		 */
 		MathQuaternion( const hkQuaternion& quaternion )
-			: _x( quaternion( 0 ) )
-			, _y( quaternion( 1 ) )
-			, _z( quaternion( 2 ) )
-			, _w( quaternion( 3 ) )
+			: X( quaternion( 0 ) )
+			, Y( quaternion( 1 ) )
+			, Z( quaternion( 2 ) )
+			, W( quaternion( 3 ) )
 		{
 
 		}
@@ -104,14 +106,14 @@ namespace Maths
 		 *
 		 *  @return (Ogre::Quaternion)
 		 */
-		inline Ogre::Quaternion AsOgreQuaternion( ) const { return Ogre::Quaternion( _w, _x, _y, _z ); };
+		inline Ogre::Quaternion AsOgreQuaternion( ) const { return Ogre::Quaternion( W, X, Y, Z ); };
 
 
 		/*!  Returns a Havok representation the Quaternion for convenience
 		 *
 		 *  @return (hkQuaternion)
 		 */
-		inline hkQuaternion AshkQuaternion( ) const { return hkQuaternion( _x, _y, _z, _w ); };
+		inline hkQuaternion AshkQuaternion( ) const { return hkQuaternion( X, Y, Z, W ); };
 		
 
 		/*! Returns a Normalized version of the Quaternion
@@ -121,15 +123,15 @@ namespace Maths
 		inline MathQuaternion Normalize( ) const 
 		{
 			float length = sqrt( 
-				_x * _x + _y * _y +
-				_z * _z + _w * _w
+				X * X + Y * Y +
+				Z * Z + W * W
 				);
 
 			return MathQuaternion(
-				_x / length,
-				_y / length,
-				_z / length,
-				_w / length
+				X / length,
+				Y / length,
+				Z / length,
+				W / length
 				);
 		};
 
@@ -143,17 +145,17 @@ namespace Maths
 		 */
 		inline void ToAngleAxis( float& angle, MathVector3& axis )
 		{
-			float squaredLength = _x * _x + _y * _y + _z * _z;
+			float squaredLength = X * X + Y * Y + Z * Z;
 
 			if( squaredLength > 0.0f )
 			{
-				angle = 2.0f * acos( _w );
+				angle = 2.0f * acos( W );
 				float inverseLength = 1.0f / sqrt( squaredLength );
 				
 				axis = MathVector3(
-					_x * inverseLength,
-					_y * inverseLength,
-					_z * inverseLength
+					X * inverseLength,
+					Y * inverseLength,
+					Z * inverseLength
 					);
 			}
 			else
@@ -172,10 +174,10 @@ namespace Maths
 		inline MathQuaternion operator * ( const MathQuaternion& input )
 		{
 			return MathQuaternion(
-				_w * input._x + _x * input._w + _y * input._z - _z * input._y,
-				_w * input._y + _y * input._w + _z * input._x - _x * input._z,
-				_w * input._z + _z * input._w + _x * input._y - _y * input._x,
-				_w * input._w - _x * input._x - _y * input._y - _z * input._z
+				W * input.X + X * input.W + Y * input.Z - Z * input.Y,
+				W * input.Y + Y * input.W + Z * input.X - X * input.Z,
+				W * input.Z + Z * input.W + X * input.Y - Y * input.X,
+				W * input.W - X * input.X - Y * input.Y - Z * input.Z
 			);
 		};
 
@@ -185,13 +187,6 @@ namespace Maths
 		 *  @return (Maths::MathQuaternion)
 		 */
 		static MathQuaternion Identity( ) { return MathQuaternion( ); }; 
-
-	private:
-
-		float _x;
-		float _y;
-		float _z;
-		float _w;
 
 	};
 };

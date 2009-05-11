@@ -38,9 +38,12 @@ namespace Renderer
 		RendererSystemCameraComponent( const std::string& name, IRenderSystemScene* scene )
 			: RendererSystemComponent( name, scene )
 			, _observer( 0 )
-			, _historySize( 10 )
-			, _weightModifier( 0.5f ) 
 			, _cameraNode( 0 )
+			, _weightModifier( 0.5f )
+			, _historySize( 10 )
+			, _totalYaw ( 0 )
+			, _totalPitch( 0 )
+			, _sensitivity( 0.01 )
 		{
 
 		}
@@ -89,6 +92,7 @@ namespace Renderer
 	protected:
 
 		void InitializeSceneNode( Ogre::SceneNode* sceneNode );
+		float AverageInputHistory( const History& inputHistory, const float& weightModifier );
 
 	private:
 
@@ -96,15 +100,19 @@ namespace Renderer
 		RendererSystemCameraComponent( const RendererSystemCameraComponent & copy ) { };
 		RendererSystemCameraComponent & operator = ( const RendererSystemCameraComponent & copy ) { return *this; };
 
-		float AverageInputHistory( const History& inputHistory, const float& weightModifier );
-
 		IObserver* _observer;
+		Ogre::SceneNode* _cameraNode;
+
 		History _xHistory;
 		History _yHistory;
-		Ogre::SceneNode* _cameraNode;
 
 		float _weightModifier;
 		int _historySize;
+
+		float _totalYaw;
+		float _totalPitch;
+
+		float _sensitivity;
 
 	};
 };

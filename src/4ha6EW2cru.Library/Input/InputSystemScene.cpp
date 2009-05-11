@@ -12,16 +12,33 @@ using namespace Script;
 using namespace Events;
 
 #include "InputSystemComponent.h"
+#include "KeyboardInputComponent.h"
+#include "MouseInputComponent.h"
 
 namespace Input
 {
 	ISystemComponent* InputSystemScene::CreateComponent( const std::string& name, const std::string& type )
 	{
-		InputSystemComponent* inputComponent = new InputSystemComponent( name );
+		ISystemComponent* inputComponent = 0;
+
+		if ( type == "keyboard" )
+		{
+			inputComponent = new KeyboardInputComponent( name, _keyboard );
+		}
+		else if ( type == "mouse" )
+		{
+			inputComponent = new MouseInputComponent( name, _mouse );
+		}
+		else
+		{
+			inputComponent = new InputSystemComponent( name );
+		}
+
 		_inputComponents.push_back( inputComponent );
+
 		return inputComponent;
 	}
-	
+
 	void InputSystemScene::DestroyComponent( ISystemComponent* component )
 	{
 		for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
@@ -32,88 +49,25 @@ namespace Input
 				break;
 			}
 		}
-	
+
 		delete component;
 		component = 0;
 	}
-	
+
 	void InputSystemScene::Update( const float& deltaMilliseconds )
 	{
 		if ( _inputAllowed )
 		{
-			unsigned int changes = 0;
-
-			// Keyboard
-	
-			if ( _keyboard->isKeyDown( OIS::KC_W ) )
-			{
-				changes |= System::Changes::Input::Move_Forward;
-			}
-	
-			if ( _keyboard->isKeyDown( OIS::KC_S ) )
-			{
-				changes |= System::Changes::Input::Move_Backward;
-			}
-	
-			if ( _keyboard->isKeyDown( OIS::KC_A ) )
-			{
-				changes |= System::Changes::Input::Strafe_Left;
-			}
-	
-			if ( _keyboard->isKeyDown( OIS::KC_D ) )
-			{
-				changes |= System::Changes::Input::Strafe_Right;
-			}
-	
-			if ( _keyboard->isKeyDown( OIS::KC_ESCAPE ) )
-			{
-				changes |= System::Changes::Input::Pause_Game;
-			}
-
-			// Mouse
-
-			MouseState mouseState = _mouse->getMouseState( );
-	
-			if ( _mouse->getMouseState( ).buttonDown( MB_Left ) )
-			{
-				changes |= System::Changes::Input::Fire;
-	
-				IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_PRESSED", MB_Left );
-				Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
-			}
-
 			for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
 			{
-				InputSystemComponent* component = static_cast< InputSystemComponent* >( ( *i ) );
-
-				AnyValue::AnyValueMap existingProperties = component->GetProperties( );
-
-				AnyValue::AnyValueMap properties;
-				properties[ "mouseX" ] = AnyValue( mouseState.X.abs );
-				properties[ "mouseXDelta" ] = AnyValue( mouseState.X.rel );
-				properties[ "mouseY" ] = AnyValue( mouseState.Y.abs );
-				properties[ "mouseYDelta" ] = AnyValue( mouseState.Y.rel );
-
-				component->SetProperties( properties );
+				( *i )->Update( deltaMilliseconds );
 			}
 
 			const_cast< MouseState& >( _mouse->getMouseState( ) ).X.abs = _mouse->getMouseState( ).width / 2;
 			const_cast< MouseState& >( _mouse->getMouseState( ) ).Y.abs = _mouse->getMouseState( ).height / 2;
-
-			changes |= System::Changes::Input::Mouse_Moved;
-
-			// Change Control
-
-			if ( changes > 0 )
-			{
-				for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
-				{
-					( *i )->PushChanges( changes );
-				}
-			}
 		}
 	}
-	
+
 	bool InputSystemScene::KeyPressed( const KeyEvent &arg )
 	{
 		if ( arg.key != OIS::KC_GRAVE )
@@ -121,28 +75,25 @@ namespace Input
 			Event* event = new Event( INPUT_KEY_DOWN, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
 			Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 		}
-	
+
 		if ( _inputAllowed )
 		{
 			unsigned int changes = 0;
-	
-			if ( arg.key == OIS::KC_SPACE )
+
+
+
+			/*if ( changes > 0 )
 			{
-				changes |= System::Changes::Input::Jump;
-			}
-	
-			if ( changes > 0 )
+			for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
 			{
-				for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
-				{
-					( *i )->PushChanges( changes );
-				}
+			( *i )->PushChanges( changes );
 			}
+			}*/
 		}
-	
+
 		return true;
 	}
-	
+
 	bool InputSystemScene::KeyReleased( const KeyEvent &arg )
 	{
 		if ( arg.key == OIS::KC_GRAVE )
@@ -153,43 +104,43 @@ namespace Input
 		{
 			IEvent* scriptEvent = new ScriptEvent( "INPUT_KEY_UP", arg.key, _keyboard->getAsString( arg.key ) );
 			Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
-	
+
 			IEvent* event = new Event( INPUT_KEY_UP, new KeyEventData( arg.key, _keyboard->getAsString( arg.key ) ) );
 			Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 		}
-	
-		if ( _inputAllowed )
+
+		/*if ( _inputAllowed )
 		{
-			for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
-			{
-				( *i )->KeyUp( arg.key, _keyboard->getAsString( arg.key ) );
-			}
+		for( InputSystemComponentList::iterator i = _inputComponents.begin( ); i != _inputComponents.end( ); ++i  )
+		{
+		( *i )->KeyUp( arg.key, _keyboard->getAsString( arg.key ) );
 		}
-	
+		}*/
+
 		return true;
 	}
-	
+
 	/* Fired when the user moves the mouse */
 	bool InputSystemScene::MouseMoved( const MouseEvent &arg )
 	{
 		Event* event = new Event( INPUT_MOUSE_MOVED, new MouseEventData( arg.state, OIS::MB_Left ) );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
-	
+
 		return true;
 	}
-	
+
 	/* Fired when the user presses a button on the mouse */
 	bool InputSystemScene::MousePressed( const MouseEvent &arg, MouseButtonID id )
 	{
 		IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_PRESSED", id );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
-	
+
 		Event* event = new Event( INPUT_MOUSE_PRESSED, new MouseEventData( arg.state, id ) );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
-	
+
 		return true;
 	}
-	
+
 	/* Fired when the user releases a button on the mouse */
 	bool InputSystemScene::MouseReleased( const MouseEvent &arg, MouseButtonID id )
 	{	
@@ -198,7 +149,7 @@ namespace Input
 
 		Event* event = new Event( INPUT_MOUSE_RELEASED, new MouseEventData( arg.state, id ) );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
-	
+
 		return true;
 	}
 }

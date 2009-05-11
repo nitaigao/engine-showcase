@@ -56,7 +56,7 @@ function MovementStateMachine:getState( )
 
 	local state = States.IDLE
 	
-	local frameWait = 5
+	local frameWait = 10
 
 	if ( self.framesSinceLastMoveForward < frameWait ) then
 	

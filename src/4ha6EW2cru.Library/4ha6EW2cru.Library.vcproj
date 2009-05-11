@@ -422,6 +422,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Input\IKeyboardInputComponent.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Input\IMouseInputComponent.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\State\Serilaization\InputComponentSerializer.cpp"
 			>
 		</File>
@@ -578,6 +586,22 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Input\KeyboardInputComponent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Input\KeyboardInputComponent.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Renderer\Line3d.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Renderer\Line3d.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Logging\Logger.cpp"
 			>
 		</File>
@@ -615,6 +639,14 @@
 		</File>
 		<File
 			RelativePath=".\Maths\MathVector3.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Input\MouseInputComponent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Input\MouseInputComponent.h"
 			>
 		</File>
 		<File

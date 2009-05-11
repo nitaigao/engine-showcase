@@ -1,5 +1,7 @@
 #include "RendererSystemCameraComponent.h"
 
+using namespace Maths;
+
 #include <Ogre.h>
 using namespace Ogre;
 
@@ -14,15 +16,18 @@ namespace Renderer
 
 		ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 
+		if ( System::Changes::Geometry::Orientation & systemChanges )
+		{
+			_sceneNode->setOrientation( component->GetOrientation( ).AsOgreQuaternion( ) );
+		}
+
 		if ( System::Changes::Input::Mouse_Moved & systemChanges )
 		{
-			float mouseXDelta = component->GetProperties( )[ "mouseXDelta" ].GetValue< int >( );
 			_xHistory.pop_back( );
-			_xHistory.push_front( mouseXDelta );
+			_xHistory.push_front( component->GetProperties( )[ "xDelta" ].GetValue< int >( ) );
 
-			float mouseYDelta = component->GetProperties( )[ "mouseYDelta" ].GetValue< int >( );
 			_yHistory.pop_back( );
-			_yHistory.push_front( mouseYDelta );
+			_yHistory.push_front( component->GetProperties( )[ "yDelta" ].GetValue< int >( ) );
 		}
 	}
 
@@ -37,33 +42,41 @@ namespace Renderer
 	void RendererSystemCameraComponent::Update( const float& deltaMilliseconds )
 	{
 		RendererSystemComponent::Update( deltaMilliseconds );
+		
+		float pitchDelta = this->AverageInputHistory( _yHistory, _weightModifier );
+		float pitch = _cameraNode->getOrientation( ).getPitch( ).valueDegrees( );
 
-		if ( _scene->GetSceneManager( )->hasSceneNode( _cameraNode->getName( ) ) )
+		if ( pitch + pitchDelta < 90.0f && pitch + pitchDelta > -90.0f )
 		{
-			float xResult = this->AverageInputHistory( _xHistory, _weightModifier );
-			float yResult = this->AverageInputHistory( _yHistory, _weightModifier );
-
-			float pitch = _cameraNode->getOrientation( ).getPitch( ).valueDegrees( );
-
-			if ( pitch + yResult < 90.0f && pitch + yResult > -90.0f )
-			{
-				_cameraNode->pitch( Degree( yResult ) );
-			}
-
-			_sceneNode->yaw( Degree( -xResult ), Node::TS_PARENT );
-
-			_xHistory.pop_back( );
-			_xHistory.push_front( 0.0f );
-
-			_yHistory.pop_back( );
-			_yHistory.push_front( 0.0f );
-
-			this->PushChanges( System::Changes::Geometry::Orientation );
+			_cameraNode->pitch( Degree( pitchDelta ) );
 		}
+
+		float yawDelta = this->AverageInputHistory( _xHistory, _weightModifier );
+		_sceneNode->yaw( Degree( -yawDelta ) );
+
+		Matrix3 yawMatrix;
+		_sceneNode->getOrientation( ).ToRotationMatrix( yawMatrix ); 
+
+		Matrix3 pitchmatrix;
+		_cameraNode->getOrientation( ).ToRotationMatrix( pitchmatrix );
+
+		Ogre::Vector3 forward = MathVector3::Forward( ).AsOgreVector3( );
+		forward = forward * pitchmatrix.Inverse( );
+		forward = forward * yawMatrix.Inverse( );
+		
+		_properties[ "lookAt" ] = MathVector3( _sceneNode->getPosition( ) + forward );
+
+		this->PushChanges( System::Changes::Geometry::Orientation | System::Changes::POI::LookAt );
 	}
 
 	void RendererSystemCameraComponent::Initialize( AnyValue::AnyValueMap& properties )
 	{
+		for( int i = 0; i < _historySize; i++ )
+		{
+			_xHistory.push_front( 0.0f );
+			_yHistory.push_front( 0.0f );
+		}
+
 		_sceneNode = _scene->GetSceneManager( )->createSceneNode( _name );
 
 		std::stringstream cameraNodeName;
@@ -77,25 +90,6 @@ namespace Renderer
 		_scene->GetSceneManager( )->getRootSceneNode( )->addChild( _sceneNode );
 
 		this->InitializeSceneNode( _sceneNode );
-
-		for( int i = 0; i < _historySize; i++ )
-		{
-			_xHistory.push_front( 0.0f );
-			_yHistory.push_front( 0.0f );
-		}
-	}
-
-	float RendererSystemCameraComponent::AverageInputHistory( const History& inputHistory, const float& weightModifier )
-	{
-		int index = 0;
-		float sum = 0.0f;
-
-		for ( History::const_iterator i = inputHistory.begin( ); i != inputHistory.end( ); ++i )
-		{
-			sum += ( *i ) * pow( weightModifier, index++ );
-		}
-
-		return sum / _historySize;
 	}
 
 	void RendererSystemCameraComponent::InitializeSceneNode( Ogre::SceneNode* sceneNode )
@@ -114,5 +108,18 @@ namespace Renderer
 				_scene->GetSceneManager( )->getCurrentViewport( )->setCamera( camera );
 			}
 		}
+	}
+
+	float RendererSystemCameraComponent::AverageInputHistory( const History& inputHistory, const float& weightModifier )
+	{
+		int index = 0;
+		float sum = 0.0f;
+
+		for ( History::const_iterator i = inputHistory.begin( ); i != inputHistory.end( ); ++i )
+		{
+			sum += ( *i ) * pow( weightModifier, index++ );
+		}
+
+		return sum / _historySize;
 	}
 }

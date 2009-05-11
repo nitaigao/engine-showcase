@@ -141,7 +141,7 @@ namespace Renderer
 		*
 		*  @return (AnyValueMap)
 		*/
-		AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };
+		AnyValue::AnyValueMap GetProperties( ) const { return _properties; };
 
 
 		/*! Sets the Properties of the Component
@@ -184,6 +184,8 @@ namespace Renderer
 
 		std::string _name;
 		unsigned int _id;
+
+		AnyValue::AnyValueMap _properties;
 
 		IRenderSystemScene* _scene;
 		Ogre::SceneNode* _sceneNode;

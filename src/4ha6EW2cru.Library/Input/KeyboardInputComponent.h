@@ -1,63 +1,42 @@
 /*!
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
-*  @file   PhysicsSystemComponent.h
-*  @date   2009/04/26
+*  @file   KeyboardInputComponent.h
+*  @date   2009/05/09
 */
-#ifndef __PHYSICSSYSTEMCOMPONENT_H
-#define __PHYSICSSYSTEMCOMPONENT_H
+#ifndef __KEYBOARDINPUTCOMPONENT_H
+#define __KEYBOARDINPUTCOMPONENT_H
 
-#include "IPhysicsSystemComponent.hpp"
-#include "HavokPhysicsSystemScene.h"
+#include <ois/OIS.h>
 
-#include "../Maths/MathVector3.hpp"
-#include "../Maths/MathQuaternion.hpp"
+#include "IKeyboardInputComponent.hpp"
 
-#include <Common/Base/hkBase.h>
-#include <Common/Serialize/Util/hkLoader.h>
-
-namespace Physics
+namespace Input
 {
-	/*! 
-	 *  A Standard Physics Component
+	/*!
+	 *  A Keyboard Input Component 
 	 */
-	class PhysicsSystemComponent : public IPhysicsSystemComponent
+	class KeyboardInputComponent : public IKeyboardInputComponent
 	{
 
 	public:
 
+		~KeyboardInputComponent( ) { };
 
-		/*! Default Destructor
-		 *
-		 *  @return ()
-		 */
-		virtual ~PhysicsSystemComponent( );
-
-
-		/*! Default Constructor
-		 *
-		 *  @param[in] const std::string & name
-		 *  @param[in] HavokPhysicsSystemScene * scene
-		 *  @param[in] int componentId
-		 *  @return ()
-		 */
-		PhysicsSystemComponent( const std::string& name, HavokPhysicsSystemScene* scene )
-			: _name ( name )
+		KeyboardInputComponent( const std::string& name, OIS::Keyboard* keyboard )
+			: _name( name )
 			, _id( 0 )
-			, _scene( scene )
-			, _loadedData( 0 )
-			, _body( 0 )
+			, _keyboard( keyboard )
 		{
 
 		}
-
 
 		/*! Initializes the Component
 		*
 		*  @param[in] AnyValue::AnyValueMap properties
 		*  @return (void)
 		*/
-		virtual void Initialize( AnyValue::AnyValueMap& properties );
+		void Initialize( AnyValue::AnyValueMap& properties ) { };
 
 
 		/*! Steps the internal data of the Component
@@ -65,7 +44,7 @@ namespace Physics
 		*  @param[in] float deltaMilliseconds
 		*  @return (void)
 		*/
-		virtual void Update( const float& deltaMilliseconds ) { };
+		void Update( const float& deltaMilliseconds );
 
 
 		/*! Destroys the Component
@@ -80,7 +59,7 @@ namespace Physics
 		*  @param[in] IObserver * observer
 		*  @return (void)
 		*/
-		inline void AddObserver( IObserver* observer ) { _observer = observer; };
+		void AddObserver( IObserver* observer ) { _observers.push_back( observer ); };
 
 
 		/*! Observes a change in the Subject
@@ -89,7 +68,7 @@ namespace Physics
 		*  @param[in] const unsigned int& systemChanges
 		*  @return (void)
 		*/
-		virtual void Observe( ISubject* subject, const unsigned int& systemChanges );
+		void Observe( ISubject* subject, const unsigned int& systemChanges ) { };
 
 
 		/*! Pushes any Changes to the Observers
@@ -126,18 +105,16 @@ namespace Physics
 		*
 		*  @return (System::Types::Type)
 		*/
-		inline System::Types::Type GetType( ) const { return System::Types::PHYSICS; };
+		inline System::Types::Type GetType( ) const { return System::Types::INPUT; };
 
 
 		/*! Gets the types of Changes this component is interested in
 		*
 		*  @return (unsigned int)
 		*/
-		inline unsigned int GetRequestedChanges( ) const  
-		{ 
-			return 
-				System::Changes::Geometry::All |
-				System::Changes::Input::All;
+		inline unsigned int GetRequestedChanges( ) const 
+		{
+			return System::Changes::Geometry::All;
 		};
 
 
@@ -146,8 +123,8 @@ namespace Physics
 		*  @return (AnyValueMap)
 		*/
 		inline AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };
-		
-		
+
+
 		/*! Sets the Properties of the Component
 		*
 		*  @param[in] AnyValue::AnyValueMap systemProperties
@@ -160,42 +137,39 @@ namespace Physics
 		*
 		*  @return (MathVector3)
 		*/
-		Maths::MathVector3 GetPosition( ) const { return Maths::MathVector3( _body->getPosition( ) ); };
+		inline Maths::MathVector3 GetPosition( ) const { return _position; };
 
 
 		/*! Gets the Scale of the Component
 		*
 		*  @return (MathVector3)
 		*/
-		inline Maths::MathVector3 GetScale( ) const { return Maths::MathVector3::Zero( ); };
-		
-		
+		inline Maths::MathVector3 GetScale( ) const { return _scale; };
+
+
 		/*! Gets the Orientation of the Component
 		*
 		*  @return (MathQuaternion)
 		*/
-		Maths::MathQuaternion GetOrientation( ) const { return Maths:: MathQuaternion( _body->getRotation( ) ); };
+		inline Maths::MathQuaternion GetOrientation( ) const { return _orientation; };
 
 
-		/*! Returns the RigidBody of the Component
-		*
-		*  @return (hkpRigidBody*)
-		*/
-		inline hkpRigidBody* GetRigidBody( ) const { return _body; };
 
-	protected:
+	private:
+
+		KeyboardInputComponent( const KeyboardInputComponent & copy ) { };
+		KeyboardInputComponent & operator = ( const KeyboardInputComponent & copy ) { return *this; };
 
 		std::string _name;
 		unsigned int _id;
 
-		IObserver* _observer;
-		HavokPhysicsSystemScene* _scene;
-		
-		hkpRigidBody* _body;
-		hkPackfileData* _loadedData;
+		OIS::Keyboard* _keyboard;
 
-		PhysicsSystemComponent( const PhysicsSystemComponent & copy ) { };
-		PhysicsSystemComponent & operator = ( const PhysicsSystemComponent & copy ) { return *this; };
+		ObserverList _observers;
+
+		Maths::MathVector3 _position;
+		Maths::MathVector3 _scale;
+		Maths::MathQuaternion _orientation;
 
 	};
 };

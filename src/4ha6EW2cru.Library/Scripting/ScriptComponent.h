@@ -104,7 +104,8 @@ namespace Script
 		{
 			return 
 				System::Changes::Geometry::All |
-				System::Changes::Input::All;
+				System::Changes::Input::All |
+				System::Changes::POI::LookAt;
 		};
 
 
@@ -327,8 +328,7 @@ namespace Script
 		 *  @param[in] int maxResults
 		 *  @return (std::vector< std::string >)
 		 */
-		std::vector< std::string > RayQuery( const bool& sortByDistance, const unsigned int& maxResults );
-
+		std::vector< std::string > RayQuery( Maths::MathVector3 origin, Maths::MathVector3 direction, const float& length, const bool& sortByDistance, const unsigned int& maxResults );
 
 
 		/*! If a Render Component is attached to this component's parent, 
@@ -347,6 +347,8 @@ namespace Script
 		 */
 		float GetTime( ) const;
 
+		Maths::MathVector3 GetLookAt( ) const { return _lookAt; };
+
 	private:
 
 		ScriptComponent( const ScriptComponent & copy ) { };
@@ -364,6 +366,7 @@ namespace Script
 		Maths::MathVector3 _position;
 		Maths::MathVector3 _scale;
 		Maths::MathQuaternion _orientation;
+		Maths::MathVector3 _lookAt;
 
 	};
 };

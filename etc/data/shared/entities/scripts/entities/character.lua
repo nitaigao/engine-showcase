@@ -10,7 +10,8 @@ assaultRifle = Weapon:create( 'assault_rifle', 10, 5 )
 Character = { 
 	health = 100,
 	weapon = assaultRifle,
-	isdead = false
+	isdead = false,
+	eyeLevel = Vector( 0, 1.73, 0 )
 }
 
 ----------------------------------------------------------------
@@ -23,7 +24,7 @@ Character = {
 
 function Character:fireWeapon( )
 	
-	self.weapon:fire( )
+	self.weapon:fireAt( script:getPosition( ) + self.eyeLevel, script:getLookAt( ) + self.eyeLevel )
 
 end
 
