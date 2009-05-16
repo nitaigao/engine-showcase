@@ -4,10 +4,11 @@
 *  @file   SoundController.h
 *  @date   2009/04/28
 */
-#ifndef __SOUNDCONTROLLER_H
-#define __SOUNDCONTROLLER_H
+#ifndef SOUNDCONTROLLER_H
+#define SOUNDCONTROLLER_H
 
 #include "ISoundController.hpp"
+#include "IScriptComponent.hpp"
 
 namespace Script
 {
@@ -30,11 +31,15 @@ namespace Script
 		 *
 		 *  @return ()
 		 */
-		SoundController( )
+		SoundController( IScriptComponent* scriptComponent )
+			: m_scriptComponent( scriptComponent )
 		{
 
 		}
 
+		void TriggerEvent( const std::string& eventPath );
+
+		void KeyOutEvent( const std::string& eventPath );
 
 		/*! Instructs the Sound System to play some music from the given event path
 		*
@@ -47,6 +52,8 @@ namespace Script
 
 		SoundController( const SoundController & copy ) { };
 		SoundController & operator = ( const SoundController & copy ) { return *this; };
+
+		IScriptComponent* m_scriptComponent;
 
 	};
 };

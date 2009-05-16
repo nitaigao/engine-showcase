@@ -4,8 +4,8 @@
 *  @file   Event.h
 *  @date   2009/04/25
 */
-#ifndef __EVENT_H
-#define __EVENT_H
+#ifndef EVENT_H
+#define EVENT_H
 
 #include "IEvent.hpp"
 #include "IEventData.hpp"
@@ -27,9 +27,10 @@ namespace Events
 		 */
 		~Event( )
 		{
-			if ( _eventData != 0 )
+			if ( m_eventData != 0 )
 			{
-				delete _eventData;
+				delete m_eventData;
+				m_eventData = 0;
 			}
 		}
 
@@ -37,12 +38,25 @@ namespace Events
 		/*! Default Constructor
 		 *
 		 *  @param[in] const EventType & eventType
-		 *  @param[in] IEventData * eventData
 		 *  @return ()
 		 */
-		Event( const EventType& eventType, IEventData* eventData = 0 )
-			: _eventType( eventType )
-			, _eventData( eventData )
+		Event( const EventType& eventType )
+			: m_eventType( eventType )
+			, m_eventData( 0 )
+		{
+
+		};
+
+
+		/*! Constructor that accepts an object containing Event Data
+		*
+		*  @param[in] const EventType & eventType
+		*  @param[in] IEventData * eventData
+		*  @return ()
+		*/
+		Event( const EventType& eventType, IEventData* eventData )
+			: m_eventType( eventType )
+			, m_eventData( eventData )
 		{
 
 		};
@@ -52,19 +66,19 @@ namespace Events
 		 *
 		 *  @return (EventType)
 		 */
-		inline EventType GetEventType( ) const { return _eventType; };
+		inline EventType GetEventType( ) const { return m_eventType; };
 
 		
 		/*! Returns Event Data attached to the Event
 		 *
 		 *  @return (IEventData*)
 		 */
-		inline IEventData* GetEventData( ) const { return _eventData; };
+		inline IEventData* GetEventData( ) const { return m_eventData; };
 
 	private:
 
-		EventType _eventType;
-		IEventData* _eventData;
+		EventType m_eventType;
+		IEventData* m_eventData;
 
 		Event( ) { };
 		Event( const Event & copy ) { };

@@ -4,8 +4,8 @@
 *  @file   EventData.hpp
 *  @date   2009/04/25
 */
-#ifndef __EVENTDATA_H
-#define __EVENTDATA_H
+#ifndef EVENTDATA_H
+#define EVENTDATA_H
 
 #include "IEventData.hpp"
 #include "OIS/OISMouse.h"
@@ -35,8 +35,8 @@ namespace Events
 		 *  @return ()
 		 */
 		KeyEventData( const OIS::KeyCode &keyCode, const std::string keyText )
-			: _keyCode( keyCode )
-			, _keyText( keyText )
+			: m_keyCode( keyCode )
+			, m_keyText( keyText )
 		{
 
 		};
@@ -46,19 +46,19 @@ namespace Events
 		 *
 		 *  @return (OIS::KeyCode)
 		 */
-		inline OIS::KeyCode GetKeyCode( ) { return _keyCode; };
+		inline OIS::KeyCode GetKeyCode( ) { return m_keyCode; };
 
 		
 		/*! Returns the text of the key pressed in the Event
 		 *
 		 *  @return (std::string)
 		 */
-		inline std::string GetKeyText( ) { return _keyText; };
+		inline std::string GetKeyText( ) { return m_keyText; };
 
 	private:
 
-		OIS::KeyCode _keyCode;
-		std::string _keyText;
+		OIS::KeyCode m_keyCode;
+		std::string m_keyText;
 
 		KeyEventData( ) { };
 		KeyEventData( const KeyEventData & copy ) { };
@@ -88,8 +88,8 @@ namespace Events
 		 *  @return ()
 		 */
 		MouseEventData( const OIS::MouseState& mouseState, const OIS::MouseButtonID& mouseButtonId )
-			: _mouseState( mouseState )
-			, _mouseButtonId( mouseButtonId )
+			: m_mouseState( mouseState )
+			, m_mouseButtonId( mouseButtonId )
 		{
 
 		};
@@ -99,19 +99,19 @@ namespace Events
 		 *
 		 *  @return (const OIS::MouseState&)
 		 */
-		inline const OIS::MouseState& GetMouseState( ) const { return _mouseState; };
+		inline const OIS::MouseState& GetMouseState( ) const { return m_mouseState; };
 
 		
 		/*! Returns the Mouse Button associated with the Event
 		 *
 		 *  @return (const OIS::MouseButtonID&)
 		 */
-		inline const OIS::MouseButtonID& GetMouseButtonId( ) const { return _mouseButtonId; };
+		inline const OIS::MouseButtonID& GetMouseButtonId( ) const { return m_mouseButtonId; };
 
 	private:
 
-		OIS::MouseState _mouseState;
-		OIS::MouseButtonID _mouseButtonId;
+		OIS::MouseState m_mouseState;
+		OIS::MouseButtonID m_mouseButtonId;
 
 		MouseEventData( ) { };
 		MouseEventData( const MouseEventData & copy ) { };
@@ -137,7 +137,7 @@ namespace Events
 		 *  @return ()
 		 */
 		ScriptCommandEventData( const std::string command )
-			: _command( command )
+			: m_command( command )
 		{
 
 		}
@@ -147,11 +147,11 @@ namespace Events
 		 *
 		 *  @return (std::string)
 		 */
-		inline std::string GetCommand( ) { return _command; };
+		inline std::string GetCommand( ) { return m_command; };
 
 	private:
 
-		std::string _command;
+		std::string m_command;
 
 		ScriptCommandEventData( ) { };
 		ScriptCommandEventData( const ScriptCommandEventData & copy ) { };
@@ -177,7 +177,7 @@ namespace Events
 		 *  @return ()
 		 */
 		LevelChangedEventData( const std::string levelName )
-			: _levelName( levelName )
+			: m_levelName( levelName )
 		{
 
 		}
@@ -187,11 +187,11 @@ namespace Events
 		 *
 		 *  @return (std::string)
 		 */
-		inline std::string GetLevelName( ) { return _levelName; };
+		inline std::string GetLevelName( ) { return m_levelName; };
 
 	private:
 
-		std::string _levelName;
+		std::string m_levelName;
 
 		LevelChangedEventData( ) { };
 		LevelChangedEventData( const LevelChangedEventData & copy ) { };
@@ -217,7 +217,7 @@ namespace Events
 		 *  @return ()
 		 */
 		MessageLoggedEventData( const std::string message )
-			: _message( message )
+			: m_message( message )
 		{
 
 		}
@@ -227,11 +227,11 @@ namespace Events
 		 *
 		 *  @return (std::string)
 		 */
-		inline std::string GetMessage( ) { return _message; };
+		inline std::string GetMessage( ) { return m_message; };
 
 	private:
 
-		std::string _message;
+		std::string m_message;
 
 		MessageLoggedEventData( ) { };
 		MessageLoggedEventData( const MessageLoggedEventData & copy ) { };

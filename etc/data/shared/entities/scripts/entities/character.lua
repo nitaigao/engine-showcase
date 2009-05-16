@@ -5,7 +5,7 @@ script:include( '/data/entities/scripts/entities/weapon.lua' )
 -- Global Variables
 ----------------------------------------------------------------
 
-assaultRifle = Weapon:create( 'assault_rifle', 10, 5 )
+assaultRifle = Weapon:create( 'fsg400', 10, 5 )
 
 Character = { 
 	health = 100,
@@ -25,6 +25,12 @@ Character = {
 function Character:fireWeapon( )
 	
 	self.weapon:fireAt( script:getPosition( ) + self.eyeLevel, script:getLookAt( ) + self.eyeLevel )
+
+end
+
+function Character:stopFiringWeapon( )
+
+	self.weapon:stopFiring( )
 
 end
 

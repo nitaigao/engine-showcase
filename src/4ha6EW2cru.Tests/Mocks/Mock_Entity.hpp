@@ -1,5 +1,5 @@
-#ifndef __MOCK_ENTITY_H
-#define __MOCK_ENTITY_H
+#ifndef MOCK_ENTITY_H
+#define MOCK_ENTITY_H
 
 #include "mockpp/mockpp.h"
 #include "mockpp/MockObject.h"

@@ -4,8 +4,8 @@
 *  @file   GeometryComponentSerializer.h
 *  @date   2009/04/27
 */
-#ifndef __GEOMETRYCOMPONENTSERIALIZER_H
-#define __GEOMETRYCOMPONENTSERIALIZER_H
+#ifndef GEOMETRYCOMPONENTSERIALIZER_H
+#define GEOMETRYCOMPONENTSERIALIZER_H
 
 #include "IComponentSerializer.hpp"
 

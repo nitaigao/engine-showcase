@@ -1,5 +1,5 @@
-#ifndef __MOCK_SYSTEMWORLD_H
-#define __MOCK_SYSTEMWORLD_H
+#ifndef MOCK_SYSTEMWORLD_H
+#define MOCK_SYSTEMWORLD_H
 
 #include "mockpp/mockpp.h"
 #include "mockpp/MockObject.h"

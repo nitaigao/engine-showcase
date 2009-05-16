@@ -4,8 +4,8 @@
 *  @file   Logger.h
 *  @date   2009/04/26
 */
-#ifndef __LOGGER_H
-#define __LOGGER_H
+#ifndef LOGGER_H
+#define LOGGER_H
 
 #include "LogLevel.hpp"
 #include <string>
@@ -58,21 +58,21 @@ namespace Logging
 		 *  @param[in] LogLevel logLevel
 		 *  @return (void)
 		 */
-		static void SetLogLevel( const LogLevel& logLevel ) { _logLevel = logLevel; };
+		static void SetLogLevel( const LogLevel& logLevel ) { s_logLevel = logLevel; };
 
 		
 		/*! Gets the current logging level
 		 *
 		 *  @return (LogLevel)
 		 */
-		static LogLevel GetLogLevel( ) { return _logLevel; };
+		static LogLevel GetLogLevel( ) { return s_logLevel; };
 
 	private:
 
 		static void LogMessage( const std::string& level, const std::string& message );
 
-		static LogLevel _logLevel;
-		static Logger _logger;
+		static LogLevel s_logLevel;
+		static Logger s_logger;
 
 		~Logger( ) { };
 		Logger( ) { };

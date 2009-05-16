@@ -4,8 +4,8 @@
 *  @file   IUXSystemScene.hpp
 *  @date   2009/04/26
 */
-#ifndef __IUXSYSTEMSCENE_H
-#define __IUXSYSTEMSCENE_H
+#ifndef IUXSYSTEMSCENE_H
+#define IUXSYSTEMSCENE_H
 
 #include "../System/ISystemScene.hpp"
 #include <MyGUI.h>

@@ -4,8 +4,8 @@
 *  @file   IScriptSystem.hpp
 *  @date   2009/04/27
 */
-#ifndef __ISCRIPTSYSTEM_HPP
-#define __ISCRIPTSYSTEM_HPP
+#ifndef ISCRIPTSYSTEM_HPP
+#define ISCRIPTSYSTEM_HPP
 
 #include "../System/ISystem.hpp"
 

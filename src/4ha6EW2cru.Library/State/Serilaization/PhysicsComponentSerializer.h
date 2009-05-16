@@ -4,8 +4,8 @@
 *  @file   PhysicsComponentSerializer.h
 *  @date   2009/04/27
 */
-#ifndef __PHYSICSCOMPONENTSERIALIZER_H
-#define __PHYSICSCOMPONENTSERIALIZER_H
+#ifndef PHYSICSCOMPONENTSERIALIZER_H
+#define PHYSICSCOMPONENTSERIALIZER_H
 
 #include "IComponentSerializer.hpp"
 

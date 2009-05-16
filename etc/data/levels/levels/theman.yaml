@@ -57,7 +57,7 @@
       z: "-318.09"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -85,7 +85,7 @@
       z: "-318.09"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -113,7 +113,7 @@
       z: "-318.09"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -141,7 +141,7 @@
       z: "-318.09"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -169,7 +169,7 @@
       z: "-98.5899"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -197,7 +197,7 @@
       z: "-98.5899"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -225,7 +225,7 @@
       z: "-98.5899"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -253,7 +253,7 @@
       z: "-98.5899"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -281,7 +281,7 @@
       z: "120.91"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -309,7 +309,7 @@
       z: "120.91"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -337,7 +337,7 @@
       z: "120.91"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -365,7 +365,7 @@
       z: "120.91"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -393,7 +393,7 @@
       z: "340.411"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -421,7 +421,7 @@
       z: "340.411"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -449,7 +449,7 @@
       z: "340.411"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -477,7 +477,7 @@
       z: "340.411"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -505,7 +505,7 @@
       z: "559.911"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -533,7 +533,7 @@
       z: "559.911"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -561,7 +561,7 @@
       z: "559.911"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -589,7 +589,7 @@
       z: "559.911"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -617,7 +617,7 @@
       z: "779.411"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -645,7 +645,7 @@
       z: "779.411"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -673,7 +673,7 @@
       z: "779.411"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -701,7 +701,7 @@
       z: "779.411"
     scale: !ruby/object:Vector 
       x: "1"
-      y: "1"
+      y: "0.4"
       z: "1"
     system: geometry
     type: default
@@ -1473,7 +1473,7 @@
       z: "0"
     position: !ruby/object:Vector 
       x: "-104.207"
-      y: "0.205944"
+      y: "-1.4905"
       z: "-166.275"
     scale: !ruby/object:Vector 
       x: "2.04529"
@@ -2258,7 +2258,7 @@
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/player.model
+    model: /data/entities/models/player-fps.model
     system: graphics
     type: camera
   - !ruby/object:GeometryComponent 
@@ -2268,9 +2268,9 @@
       y: "0"
       z: "0"
     position: !ruby/object:Vector 
-      x: "82.4029"
+      x: "76.4439"
       y: "2.27755"
-      z: "-312.626"
+      z: "-321.991"
     scale: !ruby/object:Vector 
       x: "1"
       y: "1"
@@ -2283,591 +2283,15 @@
     type: character
   - !ruby/object:InputComponent 
     system: input
-    type: mouse
-  - !ruby/object:InputComponent 
-    system: input
-    type: keyboard
+    type: default
   - !ruby/object:ScriptComponent 
     scriptPath: /data/entities/scripts/entities/player.lua
     system: script
     type: default
+  - !ruby/object:SoundComponent 
+    system: sound
+    type: default
   name: player
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "106.355"
-      y: "2.11502"
-      z: "-276.897"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine01.hkx
-    system: physics
-    type: character
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    scriptPath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  name: enemy_marine01
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "66.451"
-      y: "2.11502"
-      z: "-266.433"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine02.hkx
-    system: physics
-    type: character
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    scriptPath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  name: enemy_marine02
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "83.4453"
-      y: "2.11502"
-      z: "-252.135"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine03.hkx
-    system: physics
-    type: character
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    scriptPath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  name: enemy_marine03
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "101.826"
-      y: "2.11502"
-      z: "-221.668"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine04.hkx
-    system: physics
-    type: character
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    scriptPath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  name: enemy_marine04
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "50.3965"
-      y: "2.11502"
-      z: "-202.722"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine05.hkx
-    system: physics
-    type: character
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    scriptPath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  name: enemy_marine05
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "45.3756"
-      y: "2.11502"
-      z: "-217.144"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine06.hkx
-    system: physics
-    type: character
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    scriptPath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  name: enemy_marine06
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "3.49893"
-      y: "2.11502"
-      z: "-201.654"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine07.hkx
-    system: physics
-    type: character
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    scriptPath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  name: enemy_marine07
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "7.13113"
-      y: "2.11502"
-      z: "-229.109"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine08.hkx
-    system: physics
-    type: character
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    scriptPath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  name: enemy_marine08
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "-53.1096"
-      y: "2.11502"
-      z: "-184.379"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine09.hkx
-    system: physics
-    type: character
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    scriptPath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  name: enemy_marine09
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "-78.6108"
-      y: "2.11502"
-      z: "-227.327"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine10.hkx
-    system: physics
-    type: character
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    scriptPath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  name: enemy_marine10
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "-56.7805"
-      y: "2.11502"
-      z: "-205.575"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine11.hkx
-    system: physics
-    type: character
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    scriptPath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  name: enemy_marine11
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "-21.2509"
-      y: "2.11502"
-      z: "-212.332"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine12.hkx
-    system: physics
-    type: character
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    scriptPath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  name: enemy_marine12
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "91.7934"
-      y: "2.11502"
-      z: "-202.729"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine13.hkx
-    system: physics
-    type: character
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    scriptPath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  name: enemy_marine13
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "89.8006"
-      y: "2.11502"
-      z: "-201.666"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine14.hkx
-    system: physics
-    type: character
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    scriptPath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  name: enemy_marine14
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "83.291"
-      y: "2.11502"
-      z: "-201.932"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine15.hkx
-    system: physics
-    type: character
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    scriptPath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  name: enemy_marine15
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "129.282"
-      y: "2.11502"
-      z: "-273.088"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine16.hkx
-    system: physics
-    type: character
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    scriptPath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  name: enemy_marine16
   type: entity
 - !ruby/object:REXML::Entity 
   components: 
@@ -3205,6 +2629,1774 @@
     type: default
   name: InvisibleWall01
   type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/container_1.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.774298"
+      x: "0.00369172"
+      y: "0.632794"
+      z: "-0.00451726"
+    position: !ruby/object:Vector 
+      x: "75.3151"
+      y: "0.248126"
+      z: "-313.55"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/container_1.hkx
+    system: physics
+    type: default
+  name: container_1
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_road-sign_08.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.701135"
+      x: "-0.104245"
+      y: "-0.697698"
+      z: "-0.103734"
+    position: !ruby/object:Vector 
+      x: "70.1704"
+      y: "0"
+      z: "-258.955"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_road-sign_08.hkx
+    system: physics
+    type: default
+  name: misc_road-sign_08
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_traffic-lighs_01.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "-0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "70.0992"
+      y: "0.00301313"
+      z: "-193.475"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_traffic-lighs_01.hkx
+    system: physics
+    type: default
+  name: misc_traffic-lighs_01
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_traffic-lighs_02.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.650339"
+      x: "-0.277596"
+      y: "0.650339"
+      z: "-0.277596"
+    position: !ruby/object:Vector 
+      x: "97.0807"
+      y: "-2.93698"
+      z: "-222.048"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_traffic-lighs_02.hkx
+    system: physics
+    type: default
+  name: misc_traffic-lighs_02
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/road-block_08.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "87.4412"
+      y: "0"
+      z: "-240.247"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/road-block_08.hkx
+    system: physics
+    type: default
+  name: road-block_08
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_road-sign_13.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.0169446"
+      x: "0.701447"
+      y: "0.70539"
+      z: "0.100545"
+    position: !ruby/object:Vector 
+      x: "70.3875"
+      y: "0.323217"
+      z: "-236.285"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_road-sign_13.hkx
+    system: physics
+    type: default
+  name: misc_road-sign_13
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_05.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "96.7076"
+      y: "0.012053"
+      z: "-395.582"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_05.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_05
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_06.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.496704"
+      x: "-0.489433"
+      y: "0.510348"
+      z: "0.503275"
+    position: !ruby/object:Vector 
+      x: "70.3198"
+      y: "0.523242"
+      z: "-395.582"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_06.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_06
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_07.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "-0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "70.3198"
+      y: "0.012053"
+      z: "-319.475"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_07.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_07
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_08.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.697376"
+      x: "0.116906"
+      y: "0.700501"
+      z: "0.0964261"
+    position: !ruby/object:Vector 
+      x: "96.7076"
+      y: "-3.46646"
+      z: "-319.475"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_08.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_08
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_11.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "-0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "70.3198"
+      y: "0.012053"
+      z: "-83.5652"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_11.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_11
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_12.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "96.7076"
+      y: "0.012053"
+      z: "-83.5652"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_12.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_12
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_13.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "-0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "70.3198"
+      y: "0.012053"
+      z: "34.3896"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_13.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_13
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_14.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "96.7076"
+      y: "0.012053"
+      z: "34.3896"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_14.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_14
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_15.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "-0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "70.3198"
+      y: "0.012053"
+      z: "152.344"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_15.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_15
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_16.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "96.7076"
+      y: "0.012053"
+      z: "152.344"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_16.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_16
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_17.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "-0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "70.3198"
+      y: "0.012053"
+      z: "270.299"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_17.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_17
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_18.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "96.7076"
+      y: "0.012053"
+      z: "270.299"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_18.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_18
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_19.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "-0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "70.3198"
+      y: "0.012053"
+      z: "388.254"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_19.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_19
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_20.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "96.7076"
+      y: "0.012053"
+      z: "388.254"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_20.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_20
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_21.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "-0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "70.3198"
+      y: "0.012053"
+      z: "506.209"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_21.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_21
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_22.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "96.7076"
+      y: "0.012053"
+      z: "506.209"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_22.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_22
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_23.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "-0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "70.3198"
+      y: "0.012053"
+      z: "624.164"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_23.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_23
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_24.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "96.7076"
+      y: "0.012053"
+      z: "624.164"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_24.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_24
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_25.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "-0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "70.3198"
+      y: "0.012053"
+      z: "742.119"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_25.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_25
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_26.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "96.7076"
+      y: "0.012053"
+      z: "742.119"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_26.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_26
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_27.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "-0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "70.3198"
+      y: "0.012053"
+      z: "860.073"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_27.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_27
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_28.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.707107"
+      x: "0"
+      y: "0.707107"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "96.7076"
+      y: "0.012053"
+      z: "860.073"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_28.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_28
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_29.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.0012803"
+      x: "0"
+      y: "0.999999"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "59.9788"
+      y: "0.012053"
+      z: "-222.863"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_29.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_29
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_30.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.999999"
+      x: "0"
+      y: "0.00127998"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "60.0464"
+      y: "0.012053"
+      z: "-196.475"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_30.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_30
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_31.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.0012803"
+      x: "0"
+      y: "0.999999"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-57.9756"
+      y: "0.012053"
+      z: "-222.561"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_31.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_31
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_32.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.999999"
+      x: "0"
+      y: "0.00127998"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-57.9081"
+      y: "0.012053"
+      z: "-196.173"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_32.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_32
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_33.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.0012803"
+      x: "0"
+      y: "0.999999"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-175.93"
+      y: "0.012053"
+      z: "-222.259"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_33.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_33
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_34.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.999999"
+      x: "0"
+      y: "0.00127998"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-175.863"
+      y: "0.012053"
+      z: "-195.871"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_34.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_34
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_35.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.0012803"
+      x: "0"
+      y: "0.999999"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-293.885"
+      y: "0.012053"
+      z: "-221.957"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_35.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_35
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_36.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.999999"
+      x: "0"
+      y: "0.00127998"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-293.817"
+      y: "0.012053"
+      z: "-195.569"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_36.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_36
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_37.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.0012803"
+      x: "0"
+      y: "0.999999"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-411.839"
+      y: "0.012053"
+      z: "-221.655"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_37.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_37
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_38.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.999999"
+      x: "0"
+      y: "0.00127998"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-411.771"
+      y: "0.012053"
+      z: "-195.267"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_38.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_38
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_39.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.0012803"
+      x: "0"
+      y: "0.999999"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-529.793"
+      y: "0.012053"
+      z: "-221.353"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_39.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_39
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_40.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.999999"
+      x: "0"
+      y: "0.00127998"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-529.726"
+      y: "0.012053"
+      z: "-194.965"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_40.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_40
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_41.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.0012803"
+      x: "0"
+      y: "0.999999"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-647.748"
+      y: "0.012053"
+      z: "-221.051"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_41.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_41
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_42.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.999999"
+      x: "0"
+      y: "0.00127998"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-647.68"
+      y: "0.012053"
+      z: "-194.663"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_42.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_42
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_43.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.0012803"
+      x: "0"
+      y: "0.999999"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-765.702"
+      y: "0.012053"
+      z: "-220.749"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_43.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_43
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_44.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.999999"
+      x: "0"
+      y: "0.00127998"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-765.635"
+      y: "0.012053"
+      z: "-194.361"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_44.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_44
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_45.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "-0.0012803"
+      x: "0"
+      y: "0.999999"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-883.657"
+      y: "0.012053"
+      z: "-220.447"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_45.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_45
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/misc_lamppost_46.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.999999"
+      x: "0"
+      y: "0.00127998"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-883.589"
+      y: "0.012053"
+      z: "-194.059"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/misc_lamppost_46.hkx
+    system: physics
+    type: default
+  name: misc_lamppost_46
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/building_skyscrapers_14_top.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.503467"
+      x: "-0.617486"
+      y: "-0.484077"
+      z: "0.361803"
+    position: !ruby/object:Vector 
+      x: "47.8217"
+      y: "15.0342"
+      z: "-15.0542"
+    scale: !ruby/object:Vector 
+      x: "2.04529"
+      y: "2.04529"
+      z: "2.04529"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/building_skyscrapers_14_top.hkx
+    system: physics
+    type: default
+  name: building_skyscrapers_14_top
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/trafficlight_1.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.5"
+      x: "-0.5"
+      y: "0.5"
+      z: "0.5"
+    position: !ruby/object:Vector 
+      x: "97.0807"
+      y: "7.61137"
+      z: "-224.28"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/trafficlight_1.hkx
+    system: physics
+    type: default
+  name: trafficlight_1
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/trafficlight_02.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "0.675273"
+      x: "-0.675273"
+      y: "0.209777"
+      z: "0.209777"
+    position: !ruby/object:Vector 
+      x: "93.1778"
+      y: "7.61137"
+      z: "-224.28"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/trafficlight_02.hkx
+    system: physics
+    type: default
+  name: trafficlight_02
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/marine.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "78.3919"
+      y: "1.59898"
+      z: "-244.461"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/enemy_marine01.hkx
+    system: physics
+    type: character
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: default
+  - !ruby/object:AIComponent 
+    scriptPath: /data/entities/scripts/ai/marine.lua
+    system: ai
+    type: default
+  name: enemy_marine01
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/marine.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "84.0665"
+      y: "1.59898"
+      z: "-244.016"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/enemy_marine02.hkx
+    system: physics
+    type: character
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: default
+  - !ruby/object:AIComponent 
+    scriptPath: /data/entities/scripts/ai/marine.lua
+    system: ai
+    type: default
+  name: enemy_marine02
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/marine.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "80.6172"
+      y: "1.59898"
+      z: "-232.555"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/enemy_marine03.hkx
+    system: physics
+    type: character
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: default
+  - !ruby/object:AIComponent 
+    scriptPath: /data/entities/scripts/ai/marine.lua
+    system: ai
+    type: default
+  name: enemy_marine03
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/marine.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "75.4989"
+      y: "1.59898"
+      z: "-227.882"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/enemy_marine04.hkx
+    system: physics
+    type: character
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: default
+  - !ruby/object:AIComponent 
+    scriptPath: /data/entities/scripts/ai/marine.lua
+    system: ai
+    type: default
+  name: enemy_marine04
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/marine.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "87.2933"
+      y: "1.59898"
+      z: "-222.207"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/enemy_marine05.hkx
+    system: physics
+    type: character
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: default
+  - !ruby/object:AIComponent 
+    scriptPath: /data/entities/scripts/ai/marine.lua
+    system: ai
+    type: default
+  name: enemy_marine05
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/marine.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "85.0679"
+      y: "1.59898"
+      z: "-212.527"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/enemy_marine06.hkx
+    system: physics
+    type: character
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: default
+  - !ruby/object:AIComponent 
+    scriptPath: /data/entities/scripts/ai/marine.lua
+    system: ai
+    type: default
+  name: enemy_marine06
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/marine.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "76.0552"
+      y: "1.59898"
+      z: "-214.975"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/enemy_marine07.hkx
+    system: physics
+    type: character
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: default
+  - !ruby/object:AIComponent 
+    scriptPath: /data/entities/scripts/ai/marine.lua
+    system: ai
+    type: default
+  name: enemy_marine07
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/marine.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "75.3876"
+      y: "1.59898"
+      z: "-211.859"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/enemy_marine08.hkx
+    system: physics
+    type: character
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: default
+  - !ruby/object:AIComponent 
+    scriptPath: /data/entities/scripts/ai/marine.lua
+    system: ai
+    type: default
+  name: enemy_marine08
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/marine.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "81.6186"
+      y: "1.59898"
+      z: "-215.086"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/enemy_marine09.hkx
+    system: physics
+    type: character
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: default
+  - !ruby/object:AIComponent 
+    scriptPath: /data/entities/scripts/ai/marine.lua
+    system: ai
+    type: default
+  name: enemy_marine09
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/marine.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "55.1368"
+      y: "1.59898"
+      z: "-212.082"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/enemy_marine10.hkx
+    system: physics
+    type: character
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: default
+  - !ruby/object:AIComponent 
+    scriptPath: /data/entities/scripts/ai/marine.lua
+    system: ai
+    type: default
+  name: enemy_marine10
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/marine.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "58.4749"
+      y: "1.59898"
+      z: "-208.744"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/enemy_marine11.hkx
+    system: physics
+    type: character
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: default
+  - !ruby/object:AIComponent 
+    scriptPath: /data/entities/scripts/ai/marine.lua
+    system: ai
+    type: default
+  name: enemy_marine11
+  type: entity
 ...
 --- 
 - !ruby/object:EntityLink 
@@ -3269,36 +4461,6 @@
   type: entityLink
 - !ruby/object:EntityLink 
   observerName: enemy_marine11
-  observerSystem: ai
-  subjectName: player
-  subjectSystem: geometry
-  type: entityLink
-- !ruby/object:EntityLink 
-  observerName: enemy_marine12
-  observerSystem: ai
-  subjectName: player
-  subjectSystem: geometry
-  type: entityLink
-- !ruby/object:EntityLink 
-  observerName: enemy_marine13
-  observerSystem: ai
-  subjectName: player
-  subjectSystem: geometry
-  type: entityLink
-- !ruby/object:EntityLink 
-  observerName: enemy_marine14
-  observerSystem: ai
-  subjectName: player
-  subjectSystem: geometry
-  type: entityLink
-- !ruby/object:EntityLink 
-  observerName: enemy_marine15
-  observerSystem: ai
-  subjectName: player
-  subjectSystem: geometry
-  type: entityLink
-- !ruby/object:EntityLink 
-  observerName: enemy_marine16
   observerSystem: ai
   subjectName: player
   subjectSystem: geometry

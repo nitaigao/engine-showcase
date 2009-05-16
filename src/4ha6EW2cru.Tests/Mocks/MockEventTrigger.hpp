@@ -1,5 +1,5 @@
-#ifndef __MOCKEVENTTRIGGER_H
-#define __MOCKEVENTTRIGGER_H
+#ifndef MOCKEVENTTRIGGER_H
+#define MOCKEVENTTRIGGER_H
 
 #include "mockpp/mockpp.h"
 #include "mockpp/MockObject.h"

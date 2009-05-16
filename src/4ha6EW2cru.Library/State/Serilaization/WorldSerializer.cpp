@@ -119,7 +119,7 @@ namespace Serialization
 			parameters[ "distance" ] = distance;
 		
 			ISystem* renderer = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
-			renderer->SetProperty( "skyBox", parameters );
+			renderer->SetAttribute( "skyBox", parameters );
 		}
 	}
 
@@ -142,7 +142,7 @@ namespace Serialization
 			parameters[ "color" ] = Renderer::Color( r, g, b );
 
 			ISystem* renderer = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
-			renderer->SetProperty( "fog", parameters );
+			renderer->SetAttribute( "fog", parameters );
 		}
 	}
 	
@@ -167,12 +167,12 @@ namespace Serialization
 		
 			if ( name == "ambient" )
 			{
-				graphicsSystem->SetProperty( "ambientColor", Color( red, green, blue ) );
+				graphicsSystem->SetAttribute( "ambientColor", Color( red, green, blue ) );
 			}
 		
 			if ( name == "background" )
 			{
-				graphicsSystem->SetProperty( "backgroundColor", Color( red, green, blue ) );
+				graphicsSystem->SetAttribute( "backgroundColor", Color( red, green, blue ) );
 			}
 		}
 	}
@@ -265,6 +265,15 @@ namespace Serialization
 					Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WORLD_LOADING_FINISHED" ) );
 				}
 			}
+		}
+	}
+
+	WorldSerializer::~WorldSerializer()
+	{
+		while( _loadQueue.size( ) > 0 )
+		{
+			delete _loadQueue.front( );
+			_loadQueue.pop( );
 		}
 	}
 }

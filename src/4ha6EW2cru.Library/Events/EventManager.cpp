@@ -5,6 +5,8 @@ using namespace Logging;
 
 #include "../Exceptions/UnInitializedException.hpp"
 #include "../Exceptions/AlreadyInitializedException.hpp"
+using namespace Exceptions;
+
 namespace Events
 {
 	void EventManager::QueueEvent( const IEvent* event )
@@ -16,7 +18,7 @@ namespace Events
 			throw e;
 		}
 
-		_eventQueue.push( event );
+		m_eventQueue.push( event );
 	}
 
 	void EventManager::TriggerEvent( const IEvent* event )
@@ -28,7 +30,8 @@ namespace Events
 			throw e;
 		}
 
-		EventListenerList eventListeners( _eventListeners );
+		EventListenerList eventListeners( m_eventListeners );
+
 		for ( EventListenerList::iterator i = eventListeners.begin( ); i != eventListeners.end( ); ++i )
 		{
 			if ( 
@@ -45,18 +48,18 @@ namespace Events
 
 	void EventManager::Update( const float& deltaMilliseconds )
 	{
-		while( _eventQueue.size( ) > 0 )
+		while( m_eventQueue.size( ) > 0 )
 		{
-			this->TriggerEvent( _eventQueue.front( ) );
-			_eventQueue.pop( );
+			this->TriggerEvent( m_eventQueue.front( ) );
+			m_eventQueue.pop( );
 		}
 
-		for ( EventListenerList::iterator i = _eventListeners.begin( ); i != _eventListeners.end( ); )
+		for ( EventListenerList::iterator i = m_eventListeners.begin( ); i != m_eventListeners.end( ); )
 		{
 			if ( ( *i )->IsMarkedForDeletion( ) )
 			{
 				delete ( *i );
-				i = _eventListeners.erase( i );
+				i = m_eventListeners.erase( i );
 			}
 			else
 			{
@@ -69,17 +72,17 @@ namespace Events
 	{
 		Logger::Info( "EventManager::Release - Releasing Event Manager" );
 
-		while( _eventQueue.size( ) > 0 )
+		while( m_eventQueue.size( ) > 0 )
 		{
-			delete _eventQueue.front( );
-			_eventQueue.pop( );
+			delete m_eventQueue.front( );
+			m_eventQueue.pop( );
 		}
 
-		for( EventListenerList::iterator i = _eventListeners.begin( ); i != _eventListeners.end( ); ++i )
+		for( EventListenerList::iterator i = m_eventListeners.begin( ); i != m_eventListeners.end( ); ++i )
 		{
 			delete ( *i );
 		}
 
-		_eventListeners.clear( );
+		m_eventListeners.clear( );
 	}
 }

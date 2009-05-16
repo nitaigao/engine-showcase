@@ -4,8 +4,8 @@
 *  @file   IUXSystem.hpp
 *  @date   2009/04/26
 */
-#ifndef __IUXSYSTEM_H
-#define __IUXSYSTEM_H
+#ifndef IUXSYSTEM_H
+#define IUXSYSTEM_H
 
 #include "../System/ISystem.hpp"
 

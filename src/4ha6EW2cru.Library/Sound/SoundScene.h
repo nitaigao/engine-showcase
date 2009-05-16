@@ -4,10 +4,17 @@
 *  @file   SoundScene.h
 *  @date   2009/04/27
 */
-#ifndef __SOUNDSCENE_H
-#define __SOUNDSCENE_H
+#ifndef SOUNDSCENE_H
+#define SOUNDSCENE_H
 
 #include "ISoundScene.hpp"
+#include "ISoundSystem.hpp"
+
+#include "../Events/IEvent.hpp"
+#include "../Events/EventType.hpp"
+
+#include <fmod.hpp>
+#include <fmod_event.hpp>
 
 namespace Sound
 {
@@ -16,6 +23,8 @@ namespace Sound
 	 */
 	class SoundScene : public ISoundScene
 	{
+
+		typedef std::map< std::string, FMOD::Event* > SoundEventMap;
 
 	public:
 
@@ -31,7 +40,8 @@ namespace Sound
 		*  @param[in] ISystem * system
 		*  @return ()
 		*/
-		SoundScene( )
+		explicit SoundScene( ISoundSystem* soundSystem )
+			: m_soundSystem( soundSystem )
 		{
 
 		}
@@ -49,7 +59,7 @@ namespace Sound
 		*  @param[in] float deltaMilliseconds
 		*  @return (void)
 		*/
-		inline void Update( const float& deltaMilliseconds ) { };
+		void Update( const float& deltaMilliseconds ) { };
 
 
 		/*! Destroys the System Scene
@@ -80,8 +90,20 @@ namespace Sound
 		*  @param[in] ISystemComponent * component
 		*  @return (void)
 		*/
-		void DestroyComponent( ISystemComponent* component ) { };
+		void DestroyComponent( ISystemComponent* component );
 
+		inline ISoundSystem* GetSoundSystem( ) { return m_soundSystem; };
+
+	private:
+
+		void OnEvent( const Events::IEvent* event );
+
+		static FMOD_RESULT F_CALLBACK OnSoundEventStarted(	FMOD_EVENT* event, FMOD_EVENT_CALLBACKTYPE  type, void* param1, void* param2, void* userdata );
+
+		std::string TranslateEventName( const std::string& eventName );
+
+		ISoundSystem* m_soundSystem;
+		SoundEventMap m_eventList;
 	};
 };
 

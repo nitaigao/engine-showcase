@@ -1,5 +1,5 @@
-#ifndef __WORLDLOADER_TESTS_H
-#define __WORLDLOADER_TESTS_H
+#ifndef WORLDLOADER_TESTS_H
+#define WORLDLOADER_TESTS_H
 
 #include <cppunit/extensions/HelperMacros.h>
 

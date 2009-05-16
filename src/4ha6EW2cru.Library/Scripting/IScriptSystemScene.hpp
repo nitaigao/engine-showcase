@@ -4,8 +4,8 @@
 *  @file   IScriptSystemScene.hpp
 *  @date   2009/04/27
 */
-#ifndef __ISCRIPTSYSTEMSCENE_HPP
-#define __ISCRIPTSYSTEMSCENE_HPP
+#ifndef ISCRIPTSYSTEMSCENE_HPP
+#define ISCRIPTSYSTEMSCENE_HPP
 
 #include "../System/ISystemScene.hpp"
 #include "../System/ISystemComponent.hpp"

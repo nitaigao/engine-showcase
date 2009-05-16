@@ -4,17 +4,19 @@
 *  @file   ISFXController.hpp
 *  @date   2009/04/28
 */
-#ifndef __ISOUNDCONTROLLER_HPP
-#define __ISOUNDCONTROLLER_HPP
+#ifndef ISOUNDCONTROLLER_HPP
+#define ISOUNDCONTROLLER_HPP
 
 #include <string>
+
+#include "IScriptController.hpp"
 
 namespace Script
 {
 	/*!
 	 *  An Interface to the Sound System for Script 
 	 */
-	class ISoundController
+	class ISoundController : public IScriptController
 	{
 
 	public:

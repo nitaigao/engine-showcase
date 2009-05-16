@@ -4,8 +4,8 @@
 *  @file   Resource.h
 *  @date   2009/04/26
 */
-#ifndef __RESOURCE_H
-#define __RESOURCE_H
+#ifndef RESOURCE_H
+#define RESOURCE_H
 
 #include "../Exceptions/OutOfRangeException.hpp"
 
@@ -27,7 +27,7 @@ namespace Resources
 		 */
 		~Resource( )
 		{
-			delete _fileBuffer;
+			delete m_fileBuffer;
 		};
 
 
@@ -37,7 +37,7 @@ namespace Resources
 		 *  @return ()
 		 */
 		Resource( IO::FileBuffer* fileBuffer )
-			: _fileBuffer( fileBuffer )
+			: m_fileBuffer( fileBuffer )
 		{
 
 		};
@@ -47,7 +47,7 @@ namespace Resources
 		 *
 		 *  @return (FileBuffer*)
 		 */
-		inline IO::FileBuffer* GetFileBuffer( ) const { return _fileBuffer; };
+		inline IO::FileBuffer* GetFileBuffer( ) const { return m_fileBuffer; };
 
 
 		/*! Increments the reference count for this resource 
@@ -55,7 +55,7 @@ namespace Resources
 		*
 		*  @return (void)
 		*/
-		inline void AddReference( ) { _referenceCount++; };
+		inline void AddReference( ) { m_referenceCount++; };
 
 
 		/*! De increments the reference count for this resource 
@@ -65,18 +65,18 @@ namespace Resources
 		*/
 		inline void RemoveReference( )
 		{
-			if ( _referenceCount == 0 )
+			if ( m_referenceCount == 0 )
 			{
 				throw OutOfRangeException( "Attempted to de increment a reference on a Resource that already has a reference count of 0" );
 			}
 
-			_referenceCount--;
+			m_referenceCount--;
 		}
 
 	private:
 
-		IO::FileBuffer* _fileBuffer;
-		unsigned int _referenceCount;
+		IO::FileBuffer* m_fileBuffer;
+		unsigned int m_referenceCount;
 
 	};
 }

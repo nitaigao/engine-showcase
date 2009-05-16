@@ -4,8 +4,8 @@
 *  @file   IResourceManager.hpp
 *  @date   2009/04/26
 */
-#ifndef __IRESOURCECACHE_H
-#define __IRESOURCECACHE_H
+#ifndef IRESOURCECACHE_H
+#define IRESOURCECACHE_H
 
 #include "IResource.hpp"
 

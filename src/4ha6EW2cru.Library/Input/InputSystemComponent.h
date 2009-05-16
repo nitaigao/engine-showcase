@@ -4,21 +4,22 @@
 *  @file   InputSystemComponent.h
 *  @date   2009/04/26
 */
-#ifndef __INPUTSYSTEMCOMPONENT_H
-#define __INPUTSYSTEMCOMPONENT_H
+#ifndef INPUTSYSTEMCOMPONENT_H
+#define INPUTSYSTEMCOMPONENT_H
 
 #include <string>
 #include <ois/OIS.h>
 
+#include "IInputSystemComponent.hpp"
+
 #include "../System/SystemType.hpp"
-#include "../System/ISystemComponent.hpp"
 
 namespace Input
 {
 	/*! 
 	 *  An Input System Scene Component
 	 */
-	class InputSystemComponent : public ISystemComponent
+	class InputSystemComponent : public IInputSystemComponent
 	{
 	
 	public:
@@ -35,10 +36,11 @@ namespace Input
 		*  @param[in] const std::string & name
 		*  @return ()
 		*/
-		InputSystemComponent( const std::string& name )
-			: _name( name )
-			, _id( 0 )
-			, _observer( 0 )
+		InputSystemComponent( const std::string& name, OIS::Mouse* mouse, OIS::Keyboard* keyboard )
+			: m_name( name )
+			, m_id( 0 )
+			, m_mouse( mouse )
+			, m_keyboard( keyboard )
 		{
 	
 		}
@@ -57,7 +59,7 @@ namespace Input
 		*  @param[in] float deltaMilliseconds
 		*  @return (void)
 		*/
-		void Update( const float& deltaMilliseconds ) { };
+		void Update( const float& deltaMilliseconds );
 	
 	
 		/*! Destroys the Component
@@ -72,7 +74,7 @@ namespace Input
 		*  @param[in] IObserver * observer
 		*  @return (void)
 		*/
-		inline void AddObserver( IObserver* observer ) { _observer = observer; };
+		inline void AddObserver( IObserver* observer ) { m_observers.push_back( observer ); };
 	
 	
 		/*! Observes a change in the Subject
@@ -81,7 +83,7 @@ namespace Input
 		*  @param[in] const unsigned int& systemChanges
 		*  @return (void)
 		*/
-		void Observe( ISubject* subject, const unsigned int& systemChanges ) { };
+		void Observe( ISubject* subject, const unsigned int& systemChanges );
 	
 	
 		/*! Pushes any Changes to the Observers
@@ -96,7 +98,7 @@ namespace Input
 		*
 		*  @return (const std::string&)
 		*/
-		inline const std::string& GetName( ) const { return _name; };
+		inline const std::string& GetName( ) const { return m_name; };
 	
 
 		/*! Sets the Id of the component unique to its containing World Entity
@@ -104,14 +106,14 @@ namespace Input
 		*  @param[in] const unsigned int & id
 		*  @return (void)
 		*/
-		inline void SetId( const unsigned int& id ) { _id = id; };
+		inline void SetId( const unsigned int& id ) { m_id = id; };
 
 
 		/*! Returns a numerical Id for the component unique to its containing World Entity
 		*
 		*  @return (unsigned int)
 		*/
-		inline unsigned int GetId( ) const { return _id; };
+		inline unsigned int GetId( ) const { return m_id; };
 
 
 		/*! Gets the System::Types::Type of the Component
@@ -125,14 +127,14 @@ namespace Input
 		*
 		*  @return (unsigned int)
 		*/
-		inline unsigned int GetRequestedChanges( ) const  { return System::Changes::None; };
+		inline unsigned int GetRequestedChanges( ) const  { return System::Changes::Geometry::All; };
 	
 	
 		/*! Gets the properties of the Component
 		*
 		*  @return (AnyValueMap)
 		*/
-		inline AnyValue::AnyValueMap GetProperties( ) const { return _properties; };
+		inline AnyValue::AnyValueMap GetAttributes( ) const { return m_attributes; };
 	
 	
 		/*! Sets the Properties of the Component
@@ -140,59 +142,57 @@ namespace Input
 		*  @param[in] AnyValue::AnyValueMap systemProperties
 		*  @return (void)
 		*/
-		inline void SetProperties( AnyValue::AnyValueMap& properties ) { _properties = properties; };
+		inline void SetAttributes( AnyValue::AnyValueMap& properties ) { m_attributes = properties; };
 	
 	
 		/*! Gets the Position of the Component
 		*
 		*  @return (MathVector3)
 		*/
-		inline Maths::MathVector3 GetPosition( ) const { return Maths::MathVector3::Zero( ); };
+		inline Maths::MathVector3 GetPosition( ) const { return m_position; };
 	
 	
 		/*! Gets the Scale of the Component
 		*
 		*  @return (MathVector3)
 		*/
-		inline Maths::MathVector3 GetScale( ) const { return Maths::MathVector3::Zero( ); };
-	
+		inline Maths::MathVector3 GetScale( ) const { return m_scale; };
 	
 		/*! Gets the Orientation of the Component
 		*
 		*  @return (MathQuaternion)
 		*/
-		inline Maths::MathQuaternion GetOrientation( ) const { return Maths::MathQuaternion::Identity( ); };
-	
-	
-		/*! Callback from the Scene to notify the component a key has been pressed
-		 *
-		 *  @param[in] const OIS::KeyCode & keyCode
-		 *  @param[in] const std::string & keyText
-		 *  @return (void)
-		 */
-		virtual void KeyDown( const OIS::KeyCode& keyCode, const std::string& keyText );
-	
-	
-		/*! Callback from the Scene to notify the component a key has been released
-		 *
-		 *  @param[in] const OIS::KeyCode & keyCode
-		 *  @param[in] const std::string & keyText
-		 *  @return (void)
-		 */
-		virtual void KeyUp( const OIS::KeyCode& keyCode, const std::string& keyText );
+		inline Maths::MathQuaternion GetOrientation( ) const { return m_orientation; };
+
+
+		void MouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+
+
+		/*! Messages the Component to influence its internal state
+		*
+		*  @param[in] const std::string & message
+		*  @return (AnyValue)
+		*/
+		AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters ) { return AnyValue( ); };
 	
 	private:
-	
-		std::string _name;
-		unsigned int _id;
-
-		IObserver* _observer;
-	
-		AnyValue::AnyValueMap _properties;
 	
 		InputSystemComponent( ) { };
 		InputSystemComponent( const InputSystemComponent & copy ) { };
 		InputSystemComponent & operator = ( const InputSystemComponent & copy ) { return *this; };
+
+		std::string m_name;
+		unsigned int m_id;
+
+		OIS::Keyboard* m_keyboard;
+		OIS::Mouse* m_mouse;
+
+		ObserverList m_observers;
+		AnyValue::AnyValueMap m_attributes;
+
+		Maths::MathVector3 m_position;
+		Maths::MathVector3 m_scale;
+		Maths::MathQuaternion m_orientation;
 	
 	};
 };

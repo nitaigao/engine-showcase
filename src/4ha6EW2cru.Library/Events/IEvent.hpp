@@ -4,8 +4,8 @@
 *  @file   IEvent.hpp
 *  @date   2009/04/25
 */
-#ifndef __IEVENT_H
-#define __IEVENT_H
+#ifndef IEVENT_H
+#define IEVENT_H
 
 #include "EventType.hpp"
 #include "IEventData.hpp"

@@ -4,8 +4,8 @@
 *  @file   BadArchiveFactory.h
 *  @date   2009/04/26
 */
-#ifndef __BADARCHIVEFACTORY_H
-#define __BADARCHIVEFACTORY_H
+#ifndef BADARCHIVEFACTORY_H
+#define BADARCHIVEFACTORY_H
 
 #include "OgreArchiveFactory.h"
 #include "OgreArchive.h"

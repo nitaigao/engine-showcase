@@ -4,8 +4,8 @@
 *  @file   IService.hpp
 *  @date   2009/04/25
 */
-#ifndef __ISERVICE_H
-#define __ISERVICE_H
+#ifndef ISERVICE_H
+#define ISERVICE_H
 
 #include <vector>
 

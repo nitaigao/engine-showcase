@@ -1,5 +1,5 @@
-#ifndef __WORLD_TESTS_H
-#define __WORLD_TESTS_H
+#ifndef WORLD_TESTS_H
+#define WORLD_TESTS_H
 
 #include <cppunit/extensions/HelperMacros.h>
 

@@ -4,11 +4,8 @@
 *  @file   SoundSystem.h
 *  @date   2009/04/27
 */
-#ifndef __SOUNDSYSTEM_H
-#define __SOUNDSYSTEM_H
-
-#include <fmod.hpp>
-#include <fmod_event.hpp>
+#ifndef SOUNDSYSTEM_H
+#define SOUNDSYSTEM_H
 
 #include "../Service/IService.hpp"
 
@@ -36,8 +33,8 @@ namespace Sound
 		 *  @return ()
 		 */
 		SoundSystem( )
-			: _fmodSystem( 0 )
-			, _eventSystem( 0 )
+			: m_fmodSystem( 0 )
+			, m_eventSystem( 0 )
 		{
 
 		}
@@ -83,7 +80,7 @@ namespace Sound
 		*
 		*  @return (AnyValueMap)
 		*/
-		inline AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };
+		inline AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
 
 
 		/*! Sets a System Property
@@ -92,7 +89,7 @@ namespace Sound
 		*  @param[in] AnyValue value
 		*  @return (void)
 		*/
-		inline void SetProperty( const std::string& name, AnyValue value ) { };		
+		inline void SetAttribute( const std::string& name, AnyValue value ) { };		
 
 
 		/*! Sound Service Interface
@@ -103,13 +100,20 @@ namespace Sound
 		 */
 		AnyValue::AnyValueMap Execute( const std::string& actionName, AnyValue::AnyValueMap& parameters );
 
+
+		/*! Returns the FMOD Event System
+		 *
+		 *  @return (FMOD::EventSystem*)
+		 */
+		FMOD::EventSystem* GetEventSystem( ) const { return m_eventSystem; };
+
 	private:
 
 		SoundSystem( const SoundSystem & copy ) { };
 		SoundSystem & operator = ( const SoundSystem & copy ) { return *this; };
 
-		FMOD::System* _fmodSystem;
-		FMOD::EventSystem* _eventSystem;
+		FMOD::System* m_fmodSystem;
+		FMOD::EventSystem* m_eventSystem;
 
 		static FMOD_RESULT F_CALLBACK FileOpen( const char* name, int unicode, unsigned int* filesize, void** handle, void** userdata );
 		static FMOD_RESULT F_CALLBACK FileClose( void* handle, void*  userdata );

@@ -4,8 +4,8 @@
 *  @file   ISystemComponent.hpp
 *  @date   2009/04/25
 */
-#ifndef __ISYSTEMENTITY_H
-#define __ISYSTEMENTITY_H
+#ifndef ISYSTEMENTITY_H
+#define ISYSTEMENTITY_H
 
 #include <vector>
 
@@ -91,11 +91,11 @@ public:
 	virtual System::Types::Type GetType( ) const = 0;
 
 
-	/*! Gets the properties of the Component
+	/*! Gets the attributes of the Component
 	*
 	*  @return (AnyValueMap)
 	*/
-	virtual AnyValue::AnyValueMap GetProperties( ) const = 0;
+	virtual AnyValue::AnyValueMap GetAttributes( ) const = 0;
 
 
 	/*! Sets the Properties of the Component
@@ -103,7 +103,7 @@ public:
 	*  @param[in] AnyValue::AnyValueMap systemProperties
 	*  @return (void)
 	*/
-	virtual void SetProperties( AnyValue::AnyValueMap& properties ) = 0;
+	virtual void SetAttributes( AnyValue::AnyValueMap& attributes ) = 0;
 
 
 	/*! Gets the Position of the Component

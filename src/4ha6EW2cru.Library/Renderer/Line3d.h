@@ -1,5 +1,5 @@
-#ifndef __LINE3D_H__
-#define __LINE3D_H__
+#ifndef LINE3D_H__
+#define LINE3D_H__
 
 #include "Ogre.h"
 #include <vector>

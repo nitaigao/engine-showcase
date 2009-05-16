@@ -4,8 +4,8 @@
 *  @file   WorldEntity.h
 *  @date   2009/04/27
 */
-#ifndef __WORLDENTITY_H
-#define __WORLDENTITY_H
+#ifndef WORLDENTITY_H
+#define WORLDENTITY_H
 
 #include "IWorldEntity.hpp"
 
@@ -32,8 +32,8 @@ namespace State
 		 *  @return ()
 		 */
 		WorldEntity( const std::string& name, const unsigned int& id )
-			: _name( name )
-			, _id( id )
+			: m_name( name )
+			, m_id( id )
 		{
 
 		}
@@ -43,14 +43,14 @@ namespace State
 		*
 		*  @return (const std::string&)
 		*/
-		inline const std::string& GetName( ) const { return _name; };
+		inline const std::string& GetName( ) const { return m_name; };
 
 
 		/*! Returns a numerical Id for the whole Entity
 		*
 		*  @return (unsigned int)
 		*/
-		inline unsigned int GetId( ) const { return _id; };
+		inline unsigned int GetId( ) const { return m_id; };
 
 
 		/*! Adds a System Component to the Entity
@@ -72,7 +72,7 @@ namespace State
 		*
 		*  @return (SystemComponentList&)
 		*/
-		inline SystemComponentList GetComponents( ) const { return _components; };
+		inline SystemComponentList GetComponents( ) const { return m_components; };
 
 
 		/*! Gets the Changes the Observer is interested in
@@ -90,14 +90,22 @@ namespace State
 		*/
 		void Observe( ISubject* subject, const unsigned int& systemChanges );
 
+
+		/*! Messages the Component to influence its internal state
+		 *
+		 *  @param[in] const std::string & message
+		 *  @return (AnyValue)
+		 */
+		AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters );
+
 	private:
 
 		WorldEntity( const WorldEntity & copy ) { };
 		WorldEntity & operator = ( const WorldEntity & copy ) { return *this; };
 
-		std::string _name;
-		unsigned int _id;
-		SystemComponentList _components;
+		std::string m_name;
+		unsigned int m_id;
+		SystemComponentList m_components;
 
 	};
 };

@@ -1,5 +1,5 @@
-#ifndef __GAME_FIXTURE_H
-#define __GAME_FIXTURE_H
+#ifndef GAME_FIXTURE_H
+#define GAME_FIXTURE_H
 
 #include <cppunit/extensions/HelperMacros.h>
 

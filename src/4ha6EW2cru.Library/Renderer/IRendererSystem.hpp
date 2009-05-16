@@ -4,8 +4,8 @@
 *  @file   IRendererSystem.hpp
 *  @date   2009/04/27
 */
-#ifndef __IRENDERERSYSTEM_HPP
-#define __IRENDERERSYSTEM_HPP
+#ifndef IRENDERERSYSTEM_HPP
+#define IRENDERERSYSTEM_HPP
 
 #include "../System/ISystem.hpp"
 

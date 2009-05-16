@@ -1,5 +1,5 @@
-#ifndef __MOCK_SYSTEM_H
-#define __MOCK_SYSTEM_H
+#ifndef MOCK_SYSTEM_H
+#define MOCK_SYSTEM_H
 
 #include "mockpp/mockpp.h"
 #include "mockpp/MockObject.h"
@@ -53,8 +53,8 @@ public:
 
 	System::Types::Type GetType( ) const { return _systemType; };
 
-	AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };
-	inline void SetProperty( const std::string& name, AnyValue value ) { };
+	AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
+	inline void SetAttribute( const std::string& name, AnyValue value ) { };
 
 private:
 

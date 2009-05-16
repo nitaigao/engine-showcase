@@ -4,8 +4,8 @@
 *  @file   Game.h
 *  @date   2009/04/25
 */
-#ifndef __GAME_H
-#define __GAME_H
+#ifndef GAME_H
+#define GAME_H
 
 #include "System/ISystem.hpp"
 #include "Configuration/IConfiguration.hpp"
@@ -34,10 +34,10 @@ public:
 	 *  @return ()
 	 */
 	Game( )
-		: _isQuitting( false )
-		, _isInitialized( false )
-		, _world( 0 )
-		, _worldLoader( 0 )
+		: m_isQuitting( false )
+		, m_isInitialized( false )
+		, m_world( 0 )
+		, m_worldLoader( 0 )
 	{
 
 	}
@@ -69,7 +69,7 @@ public:
 	 *
 	 *  @return (bool)
 	 */
-	inline bool IsQuitting( ) const { return _isQuitting; };
+	inline bool IsQuitting( ) const { return m_isQuitting; };
 
 private:
 
@@ -77,12 +77,12 @@ private:
 	void OnGameLevelChanged( const Events::IEvent* event );
 	void OnGameEnded( const Events::IEvent* event );
 
-	bool _isQuitting;
-	bool _isInitialized;
+	bool m_isQuitting;
+	bool m_isInitialized;
 
-	Configuration::IConfiguration* _configuration;
-	Serialization::IWorldSerializer* _worldLoader;
-	State::IWorld* _world;
+	Configuration::IConfiguration* m_configuration;
+	Serialization::IWorldSerializer* m_worldLoader;
+	State::IWorld* m_world;
 
 	Game( const Game & copy ) { };
 	Game & operator = ( const Game & copy ) { return *this; };

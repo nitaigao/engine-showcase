@@ -4,8 +4,8 @@
 *  @file   GeometrySystem.h
 *  @date   2009/04/26
 */
-#ifndef __GEOMETRYSYSTEM_H
-#define __GEOMETRYSYSTEM_H
+#ifndef GEOMETRYSYSTEM_H
+#define GEOMETRYSYSTEM_H
 
 #include "../System/SystemType.hpp"
 #include "../System/ISystem.hpp"
@@ -75,7 +75,7 @@ namespace Geometry
 		*
 		*  @return (AnyValueMap)
 		*/
-		inline AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };
+		inline AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
 
 
 		/*! Sets a System Property
@@ -84,7 +84,7 @@ namespace Geometry
 		*  @param[in] AnyValue value
 		*  @return (void)
 		*/
-		inline void SetProperty( const std::string& name, AnyValue value ) { };
+		inline void SetAttribute( const std::string& name, AnyValue value ) { };
 
 	private:
 

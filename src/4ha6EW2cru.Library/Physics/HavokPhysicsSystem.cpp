@@ -39,7 +39,7 @@ namespace Physics
 
 		HavokPhysicsSystemScene* scene = new HavokPhysicsSystemScene( info );
 
-		_scenes.push_back( scene );
+		m_scenes.push_back( scene );
 
 		return scene;
 	}
@@ -47,22 +47,22 @@ namespace Physics
 	void HavokPhysicsSystem::Initialize()
 	{
 		hkPoolMemory* memoryManager = new hkPoolMemory( );
-		_threadMemory = new hkThreadMemory( memoryManager );
-		hkBaseSystem::init( memoryManager, _threadMemory, errorReportFunction );
+		m_threadMemory = new hkThreadMemory( memoryManager );
+		hkBaseSystem::init( memoryManager, m_threadMemory, errorReportFunction );
 		memoryManager->removeReference( );
 
 		int stackSize = 0x100000;
-		_stackBuffer = hkAllocate<char>( stackSize, HK_MEMORY_CLASS_BASE );
-		hkThreadMemory::getInstance( ).setStackArea( _stackBuffer, stackSize );
+		m_stackBuffer = hkAllocate<char>( stackSize, HK_MEMORY_CLASS_BASE );
+		hkThreadMemory::getInstance( ).setStackArea( m_stackBuffer, stackSize );
 
 		Management::GetInstance( )->GetServiceManager( )->RegisterService( this ); 
 	}
 
 	void HavokPhysicsSystem::Release()
 	{
-		_threadMemory->setStackArea(0, 0);
-		hkDeallocate( _stackBuffer );
-		_threadMemory->removeReference();
+		m_threadMemory->setStackArea(0, 0);
+		hkDeallocate( m_stackBuffer );
+		m_threadMemory->removeReference();
 
 		hkBaseSystem::quit( );
 	}
@@ -80,7 +80,7 @@ namespace Physics
 
 		hkpAllRayHitCollector collector;
 
-		_scenes[ 0 ]->GetWorld( )->castRay( input, collector );
+		m_scenes[ 0 ]->GetWorld( )->castRay( input, collector );
 
 		if( sortByDistance )
 		{

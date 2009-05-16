@@ -4,8 +4,8 @@
 *  @file   AISystemScene.h
 *  @date   2009/04/25
 */
-#ifndef __AISYSTEMSCENE_H
-#define __AISYSTEMSCENE_H
+#ifndef AISYSTEMSCENE_H
+#define AISYSTEMSCENE_H
 
 #include "IAISystemComponent.hpp"
 #include "IAISystemScene.hpp"
@@ -37,8 +37,8 @@ namespace AI
 		 *  @return ()
 		 */
 		AISystemScene( )
-			: _frameNumber( 0 )
-			, _lastFrameAssignment( 0 )
+			: m_frameNumber( 0 )
+			, m_lastFrameAssignment( 0 )
 		{
 
 		}
@@ -94,10 +94,10 @@ namespace AI
 
 	private:
 
-		AISystemComponentMap _components;
+		AISystemComponentMap m_components;
 
-		int _lastFrameAssignment;
-		int _frameNumber;
+		int m_lastFrameAssignment;
+		int m_frameNumber;
 
 		//Script::IScriptSystemScene* _scriptScene;
 

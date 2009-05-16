@@ -4,12 +4,12 @@
 *  @file   InputSystemScene.h
 *  @date   2009/04/26
 */
-#ifndef __INPUTSYSTEMSCENE_H
-#define __INPUTSYSTEMSCENE_H
+#ifndef INPUTSYSTEMSCENE_H
+#define INPUTSYSTEMSCENE_H
 
 #include <vector>
 
-#include "InputSystemComponent.h"
+#include "IInputSystemComponent.hpp"
 
 #include "../System/ISystem.hpp"
 #include "../System/ISystemScene.hpp"
@@ -25,7 +25,7 @@ namespace Input
 	*/
 	class InputSystemScene : public ISystemScene
 	{
-		typedef std::vector< ISystemComponent* > InputSystemComponentList;
+		typedef std::vector< IInputSystemComponent* > InputSystemComponentList;
 
 	public:
 
@@ -44,9 +44,9 @@ namespace Input
 		*  @return ()
 		*/
 		InputSystemScene( OIS::Mouse* mouse, OIS::Keyboard* keyboard )
-			: _inputAllowed( false )
-			, _mouse( mouse )
-			, _keyboard( keyboard )
+			: m_inputAllowed( false )
+			, m_mouse( mouse )
+			, m_keyboard( keyboard )
 		{
 
 		}
@@ -103,7 +103,7 @@ namespace Input
 		*  @param[in] const bool & inputAllowed
 		*  @return (void)
 		*/
-		void SetInputAllowed( const bool& inputAllowed ) { _inputAllowed = inputAllowed; };
+		void SetInputAllowed( const bool& inputAllowed ) { m_inputAllowed = inputAllowed; };
 
 
 		/*! Called by the System when a player presses a key on the keyboard
@@ -149,12 +149,12 @@ namespace Input
 
 	private:
 
-		bool _inputAllowed;
+		bool m_inputAllowed;
 
-		InputSystemComponentList _inputComponents;
+		InputSystemComponentList m_inputComponents;
 
-		OIS::Mouse* _mouse;
-		OIS::Keyboard* _keyboard;
+		OIS::Mouse* m_mouse;
+		OIS::Keyboard* m_keyboard;
 
 		InputSystemScene( ) { };
 		InputSystemScene( const InputSystemScene & copy ) { };

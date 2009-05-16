@@ -1,0 +1,10 @@
+<node name='misc_road-sign_13'>
+  <scale x='1' y='1' z='1'/>
+  <position x='70.3875' y='0.323217' z='-236.285'/>
+  <rotation qw='-0.0169446' qx='0.701447' qy='0.70539' qz='0.100545'/>
+  <entity name='misc_road-sign_13' id='3222' receiveShadows='true' meshFile='/data/entities/meshes/misc_road-sign_13.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='roads' index='0'/>
+    </subentities>
+  </entity>
+</node>

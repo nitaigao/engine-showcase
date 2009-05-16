@@ -4,8 +4,8 @@
 *  @file   IPhysicsSystemComponent.hpp
 *  @date   2009/05/05
 */
-#ifndef __IPHYSICSSYSTEMCOMPONENT_HPP
-#define __IPHYSICSSYSTEMCOMPONENT_HPP
+#ifndef IPHYSICSSYSTEMCOMPONENT_HPP
+#define IPHYSICSSYSTEMCOMPONENT_HPP
 
 #include "../System/ISystemComponent.hpp"
 

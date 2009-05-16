@@ -16,38 +16,38 @@ namespace Input
 {
 	InputSystem::~InputSystem( )
 	{
-		_inputManager->destroyInputSystem( _inputManager );
+		m_inputManager->destroyInputSystem( m_inputManager );
 	}
 	
 	void InputSystem::Initialize( ) 
 	{ 	
 		Logger::Info( "Initializing Input System" );
 	
-		_inputManager = OIS::InputManager::createInputSystem( Management::GetInstance( )->GetPlatformManager( )->GetWindowId( ) );
+		m_inputManager = OIS::InputManager::createInputSystem( Management::GetInstance( )->GetPlatformManager( )->GetWindowId( ) );
 	
-		_keyboard = static_cast< OIS::Keyboard* >( _inputManager->createInputObject( OIS::OISKeyboard, true ) );
-		_keyboard->setEventCallback( this );
+		m_keyboard = static_cast< OIS::Keyboard* >( m_inputManager->createInputObject( OIS::OISKeyboard, true ) );
+		m_keyboard->setEventCallback( this );
 	
-		_mouse = static_cast< OIS::Mouse* >( _inputManager->createInputObject( OIS::OISMouse, true ) );
-		_mouse->setEventCallback( this );
+		m_mouse = static_cast< OIS::Mouse* >( m_inputManager->createInputObject( OIS::OISMouse, true ) );
+		m_mouse->setEventCallback( this );
 	
 		Management::GetInstance( )->GetServiceManager( )->RegisterService( this );
 	}
 	
 	ISystemScene* InputSystem::CreateScene( )
 	{
-		InputSystemScene* inputScene = new InputSystemScene( _mouse, _keyboard );
+		InputSystemScene* inputScene = new InputSystemScene( m_mouse, m_keyboard );
 	
-		_inputScenes.push_back( inputScene );
+		m_inputScenes.push_back( inputScene );
 	
 		return inputScene;
 	}
 	
-	void InputSystem::SetProperty( const std::string& name, AnyValue value )
+	void InputSystem::SetAttribute( const std::string& name, AnyValue value )
 	{
 		if ( name == "inputAllowed" )
 		{
-			for( InputSystemSceneList::iterator j = _inputScenes.begin( ); j != _inputScenes.end( ); ++j )
+			for( InputSystemSceneList::iterator j = m_inputScenes.begin( ); j != m_inputScenes.end( ); ++j )
 			{
 				( *j )->SetInputAllowed( value.GetValue< bool >( ) );
 			}
@@ -57,16 +57,16 @@ namespace Input
 	
 	void InputSystem::Update( const float& deltaMilliseconds )
 	{
-		_mouse->capture( );
-		_keyboard->capture( );
+		m_mouse->capture( );
+		m_keyboard->capture( );
 
-		_mouse->getMouseState( ).width = _configuration->Find( "Graphics", "width" ).GetValue< int >( );
-		_mouse->getMouseState( ).height = _configuration->Find( "Graphics", "height" ).GetValue< int >( );
+		m_mouse->getMouseState( ).width = m_configuration->Find( "Graphics", "width" ).GetValue< int >( );
+		m_mouse->getMouseState( ).height = m_configuration->Find( "Graphics", "height" ).GetValue< int >( );
 	}
 	
 	bool InputSystem::keyPressed( const KeyEvent &arg )
 	{
-		for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+		for( InputSystemSceneList::iterator i = m_inputScenes.begin( ); i != m_inputScenes.end( ); ++i )
 		{
 			( *i )->KeyPressed( arg );
 		}
@@ -76,7 +76,7 @@ namespace Input
 	
 	bool InputSystem::keyReleased( const KeyEvent &arg )
 	{
-		for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+		for( InputSystemSceneList::iterator i = m_inputScenes.begin( ); i != m_inputScenes.end( ); ++i )
 		{
 			( *i )->KeyReleased( arg );
 		}
@@ -87,7 +87,7 @@ namespace Input
 	/* Fired when the user moves the mouse */
 	bool InputSystem::mouseMoved( const MouseEvent &arg )
 	{
-		for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+		for( InputSystemSceneList::iterator i = m_inputScenes.begin( ); i != m_inputScenes.end( ); ++i )
 		{
 			( *i )->MouseMoved( arg );
 		}
@@ -98,7 +98,7 @@ namespace Input
 	/* Fired when the user presses a button on the mouse */
 	bool InputSystem::mousePressed( const MouseEvent &arg, MouseButtonID id )
 	{
-		for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+		for( InputSystemSceneList::iterator i = m_inputScenes.begin( ); i != m_inputScenes.end( ); ++i )
 		{
 			( *i )->MousePressed( arg, id );
 		}
@@ -109,7 +109,7 @@ namespace Input
 	/* Fired when the user releases a button on the mouse */
 	bool InputSystem::mouseReleased( const MouseEvent &arg, MouseButtonID id )
 	{
-		for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+		for( InputSystemSceneList::iterator i = m_inputScenes.begin( ); i != m_inputScenes.end( ); ++i )
 		{
 			( *i )->MouseReleased( arg, id );
 		}
@@ -123,7 +123,7 @@ namespace Input
 	
 		if ( actionName == "setInputAllowed" )
 		{
-			for( InputSystemSceneList::iterator i = _inputScenes.begin( ); i != _inputScenes.end( ); ++i )
+			for( InputSystemSceneList::iterator i = m_inputScenes.begin( ); i != m_inputScenes.end( ); ++i )
 			{
 				( *i )->SetInputAllowed( parameters[ "inputAllowed" ].GetValue< bool >( ) );
 			}

@@ -4,8 +4,8 @@
 *  @file   Win32PlatformManager.h
 *  @date   2009/04/26
 */
-#ifndef __WIN32PLATFORMMANAGER_H
-#define __WIN32PLATFORMMANAGER_H
+#ifndef WIN32PLATFORMMANAGER_H
+#define WIN32PLATFORMMANAGER_H
 
 #include "IPlatformManager.h"
 #include "../Events/IEvent.hpp"
@@ -32,7 +32,7 @@ namespace Platform
 		 *  @return ()
 		 */
 		Win32PlatformManager( )
-			: _hWnd( 0 )
+			: m_hWnd( 0 )
 		{
 
 		}
@@ -100,7 +100,7 @@ namespace Platform
 
 	private:
 
-		size_t _hWnd;
+		size_t m_hWnd;
 
 		Win32PlatformManager( const Win32PlatformManager & copy ) { };
 		Win32PlatformManager & operator = ( const Win32PlatformManager & copy ) { return *this; };

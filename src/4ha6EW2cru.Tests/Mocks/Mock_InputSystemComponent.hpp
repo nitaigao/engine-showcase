@@ -1,5 +1,5 @@
-#ifndef __MOCK_INPUTSYSTEMCOMPONENT_H
-#define __MOCK_INPUTSYSTEMCOMPONENT_H
+#ifndef MOCK_INPUTSYSTEMCOMPONENT_H
+#define MOCK_INPUTSYSTEMCOMPONENT_H
 
 #include "mockpp/mockpp.h"
 #include "mockpp/MockObject.h"
@@ -54,7 +54,7 @@ private:
 	Mock_InputSystemComponent & operator = ( const Mock_InputSystemComponent & copy ) { return *this; };
 
 	System::Types::Type _systemType;
-	std::string _name;
+	std::string m_name;
 };
 
 

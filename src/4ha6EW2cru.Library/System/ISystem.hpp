@@ -4,8 +4,8 @@
 *  @file   ISystem.hpp
 *  @date   2009/04/25
 */
-#ifndef __ISYSTEM_H
-#define __ISYSTEM_H
+#ifndef ISYSTEM_H
+#define ISYSTEM_H
 
 #include <string>
 #include <deque>
@@ -71,7 +71,7 @@ public:
 	*
 	*  @return (AnyValueMap)
 	*/
-	virtual AnyValue::AnyValueMap GetProperties( ) const = 0;
+	virtual AnyValue::AnyValueMap GetAttributes( ) const = 0;
 
 
 	/*! Sets a System Property
@@ -80,7 +80,7 @@ public:
 	*  @param[in] AnyValue value
 	*  @return (void)
 	*/
-	virtual void SetProperty( const std::string& name, AnyValue value ) = 0;
+	virtual void SetAttribute( const std::string& name, AnyValue value ) = 0;
 
 };
 

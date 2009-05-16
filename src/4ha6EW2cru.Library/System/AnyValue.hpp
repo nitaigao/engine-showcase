@@ -4,8 +4,8 @@
 *  @file   AnyValue.hpp
 *  @date   2009/04/25
 */
-#ifndef __ANYVALUE_H
-#define __ANYVALUE_H
+#ifndef ANYVALUE_H
+#define ANYVALUE_H
 
 #include <map>
 #include <string>
@@ -42,7 +42,7 @@ public:
 	 *  @return ()
 	 */
 	AnyValue( const int& value )
-		: _value( value )
+		: m_value( value )
 	{
 
 	}
@@ -54,7 +54,7 @@ public:
 	 *  @return ()
 	 */
 	AnyValue( const char* value )
-		: _value( std::string( value ) )
+		: m_value( std::string( value ) )
 	{
 
 	}
@@ -67,7 +67,7 @@ public:
 	 */
 	template< class T >
 	AnyValue( const T& value )
-		: _value( value )
+		: m_value( value )
 	{
 
 	}
@@ -78,18 +78,18 @@ public:
 	 *  @return (boost::T)
 	 */
 	template< class T >
-	T GetValue( ) { return boost::any_cast< T >( _value ); };
+	T GetValue( ) { return boost::any_cast< T >( m_value ); };
 
 
 	/*! Gets the Type of the contained Value
 	 *
 	 *  @return (const std::type_info&)
 	 */
-	const std::type_info& GetType( ) { return _value.type( ); };
+	const std::type_info& GetType( ) { return m_value.type( ); };
 
 private:
 
-	boost::any _value;
+	boost::any m_value;
 
 };
 

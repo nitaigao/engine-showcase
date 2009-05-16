@@ -4,8 +4,8 @@
 *  @file   World.h
 *  @date   2009/04/27
 */
-#ifndef __WORLD_H
-#define __WORLD_H
+#ifndef WORLD_H
+#define WORLD_H
 
 #include "IWorld.hpp"
 
@@ -31,8 +31,8 @@ namespace State
 		 *  @return ()
 		 */
 		World( )
-			: _stepAccumulator( 0 )
-			, _lastEntityId( 0 )
+			: m_stepAccumulator( 0 )
+			, m_lastEntityId( 0 )
 		{
 
 		}
@@ -59,14 +59,14 @@ namespace State
 		*  @param[in] ISystemScene * systemScene
 		*  @return (void)
 		*/
-		inline void AddSystemScene( ISystemScene* systemScene ) { _systemScenes[ systemScene->GetType( ) ] = systemScene; }
+		inline void AddSystemScene( ISystemScene* systemScene ) { m_systemScenes[ systemScene->GetType( ) ] = systemScene; }
 		
 		
 		/*! Gets a list of internal system scenes
 		*
 		*  @return (const SystemSceneMap&)
 		*/
-		inline const SystemSceneMap& GetSystemScenes( ) const { return _systemScenes; };
+		inline const SystemSceneMap& GetSystemScenes( ) const { return m_systemScenes; };
 
 
 		/*! Steps the world internal data
@@ -88,12 +88,12 @@ namespace State
 		World( const World & copy ) { };
 		World & operator = ( const World & copy ) { return *this; };
 
-		std::string _name;
-		IWorldEntity::WorldEntityList _entities;
-		SystemSceneMap _systemScenes;
+		std::string m_name;
+		IWorldEntity::WorldEntityList m_entities;
+		SystemSceneMap m_systemScenes;
 
-		unsigned int _lastEntityId;
-		float _stepAccumulator;
+		unsigned int m_lastEntityId;
+		float m_stepAccumulator;
 	};
 };
 

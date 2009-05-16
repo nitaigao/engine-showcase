@@ -4,10 +4,11 @@
 *  @file   SoundSystemComponent.h
 *  @date   2009/04/27
 */
-#ifndef __SOUNDSYSTEMCOMPONENT_H
-#define __SOUNDSYSTEMCOMPONENT_H
+#ifndef SOUNDSYSTEMCOMPONENT_H
+#define SOUNDSYSTEMCOMPONENT_H
 
 #include "ISoundSystemComponent.hpp"
+#include "ISoundScene.hpp"
 
 namespace Sound
 {
@@ -16,6 +17,8 @@ namespace Sound
 	 */
 	class SoundSystemComponent : public ISoundSystemComponent
 	{
+
+		typedef std::map< std::string, FMOD::Event* > SoundEventList;
 
 	public:
 
@@ -31,9 +34,10 @@ namespace Sound
 		*  @param[in] const std::string & name
 		*  @return ()
 		*/
-		SoundSystemComponent( const std::string& name )
-			: _name( name )
-			, _id( 0 )
+		SoundSystemComponent( const std::string& name, ISoundScene* soundSystemScene )
+			: m_name( name )
+			, m_id( 0 )
+			, m_soundSystemScene( soundSystemScene )
 		{
 
 		}
@@ -43,7 +47,7 @@ namespace Sound
 		*  @param[in] AnyValue::AnyValueMap properties
 		*  @return (void)
 		*/
-		void Initialize( AnyValue::AnyValueMap& properties ) { };
+		void Initialize( AnyValue::AnyValueMap& properties );
 
 
 		/*! Steps the internal data of the Component
@@ -66,7 +70,7 @@ namespace Sound
 		*  @param[in] IObserver * observer
 		*  @return (void)
 		*/
-		void AddObserver( IObserver* observer ) { _observers.push_back( observer ); };
+		inline void AddObserver( IObserver* observer ) { m_observers.push_back( observer ); };
 
 
 		/*! Observes a change in the Subject
@@ -90,7 +94,7 @@ namespace Sound
 		*
 		*  @return (const std::string&)
 		*/
-		inline const std::string& GetName( ) const { return _name; };
+		inline const std::string& GetName( ) const { return m_name; };
 
 
 		/*! Sets the Id of the component unique to its containing World Entity
@@ -98,14 +102,14 @@ namespace Sound
 		*  @param[in] const unsigned int & id
 		*  @return (void)
 		*/
-		inline void SetId( const unsigned int& id ) { _id = id; };
+		inline void SetId( const unsigned int& id ) { m_id = id; };
 
 
 		/*! Returns a numerical Id for the component unique to its containing World Entity
 		*
 		*  @return (unsigned int)
 		*/
-		inline unsigned int GetId( ) const { return _id; };
+		inline unsigned int GetId( ) const { return m_id; };
 
 
 		/*! Gets the System::Types::Type of the Component
@@ -129,7 +133,7 @@ namespace Sound
 		*
 		*  @return (AnyValueMap)
 		*/
-		inline AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };
+		inline AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
 
 
 		/*! Sets the Properties of the Component
@@ -137,42 +141,59 @@ namespace Sound
 		*  @param[in] AnyValue::AnyValueMap systemProperties
 		*  @return (void)
 		*/
-		inline void SetProperties( AnyValue::AnyValueMap& properties ) { };
+		inline void SetAttributes( AnyValue::AnyValueMap& properties ) { };
 
 
 		/*! Gets the Position of the Component
 		*
 		*  @return (MathVector3)
 		*/
-		inline Maths::MathVector3 GetPosition( ) const { return _position; };
+		inline Maths::MathVector3 GetPosition( ) const { return m_position; };
 
 
 		/*! Gets the Scale of the Component
 		*
 		*  @return (MathVector3)
 		*/
-		inline Maths::MathVector3 GetScale( ) const { return _scale; };
+		inline Maths::MathVector3 GetScale( ) const { return m_scale; };
 
 
 		/*! Gets the Orientation of the Component
 		*
 		*  @return (MathQuaternion)
 		*/
-		inline Maths::MathQuaternion GetOrientation( ) const { return _orientation; };
+		inline Maths::MathQuaternion GetOrientation( ) const { return m_orientation; };
+
+
+		/*! Messages the Component to influence its internal state
+		*
+		*  @param[in] const std::string & message
+		*  @return (AnyValue)
+		*/
+		AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters );
+
+		void TriggerEvent( const std::string& eventPath );
+		void KeyoutEvent( const std::string& eventPath );
 
 	private:
 
 		SoundSystemComponent( const SoundSystemComponent & copy ) { };
 		SoundSystemComponent & operator = ( const SoundSystemComponent & copy ) { return *this; };
 
-		std::string _name;
-		unsigned int _id;
+		static FMOD_RESULT F_CALLBACK OnSoundEventStarted(	FMOD_EVENT* event, FMOD_EVENT_CALLBACKTYPE  type, void* param1, void* param2, void* userdata );
 
-		ObserverList _observers;
+		ISoundScene* m_soundSystemScene;
 
-		Maths::MathVector3 _position;
-		Maths::MathVector3 _scale;
-		Maths::MathQuaternion _orientation;
+		std::string m_name;
+		unsigned int m_id;
+
+		ObserverList m_observers;
+
+		Maths::MathVector3 m_position;
+		Maths::MathVector3 m_scale;
+		Maths::MathQuaternion m_orientation;
+
+		SoundEventList m_activeSoundEvents;
 
 	};
 };

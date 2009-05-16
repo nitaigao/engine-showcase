@@ -1,5 +1,5 @@
-#ifndef __COLOR_FIXTURE_H
-#define __COLOR_FIXTURE_H
+#ifndef COLOR_FIXTURE_H
+#define COLOR_FIXTURE_H
 
 #include <cppunit/extensions/HelperMacros.h>
 

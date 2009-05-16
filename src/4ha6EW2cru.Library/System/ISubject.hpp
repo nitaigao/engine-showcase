@@ -4,8 +4,8 @@
 *  @file   ISubject.hpp
 *  @date   2009/04/25
 */
-#ifndef __ISUBJECT
-#define __ISUBJECT
+#ifndef ISUBJECT
+#define ISUBJECT
 
 /*! 
  *  The Subject of a System Change

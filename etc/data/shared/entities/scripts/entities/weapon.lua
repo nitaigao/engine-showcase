@@ -23,6 +23,7 @@ function Weapon:create( name, damage, fireRate )
 	weapon.fireRate = fireRate
 	weapon.timeOfLastFire = script:getTime( )
 	weapon.bulletTravel = 100
+	weapon.isFiring = false;
 	
 	return weapon
 	
@@ -35,6 +36,13 @@ function Weapon:getType( )
 end
 
 function Weapon:fireAt( source, direction )
+
+	if ( not weapon.isFiring ) then
+		
+		sfx:triggerEvent( 'game/weapons/' .. self.name .. '/fire' )
+		weapon.isFiring = true
+		
+	end
 
 	local timeNow = script:getTime( )
 	
@@ -52,6 +60,13 @@ function Weapon:fireAt( source, direction )
 	
 	end
 	
+end
+
+function Weapon:stopFiring( )
+
+	weapon.isFiring = false
+	sfx:keyOutEvent( 'game/weapons/' .. self.name .. '/fire' )
+
 end
 
 extend( Weapon, Object )

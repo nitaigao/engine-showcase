@@ -4,8 +4,8 @@
 *  @file   RendererSystemScene.h
 *  @date   2009/04/27
 */
-#ifndef __RENDERERSYSTEMSCENE_H
-#define __RENDERERSYSTEMSCENE_H
+#ifndef RENDERERSYSTEMSCENE_H
+#define RENDERERSYSTEMSCENE_H
 
 #include <Ogre.h>
 
@@ -38,7 +38,7 @@ namespace Renderer
 		 *  @return ()
 		 */
 		RendererSystemScene( Ogre::SceneManager* sceneManager )
-			: _sceneManager( sceneManager )
+			: m_sceneManager( sceneManager )
 		{
 
 		}
@@ -94,7 +94,7 @@ namespace Renderer
 		 *
 		 *  @return (Ogre::SceneManager*)
 		 */
-		Ogre::SceneManager* GetSceneManager( ) const { return _sceneManager; };
+		Ogre::SceneManager* GetSceneManager( ) const { return m_sceneManager; };
 
 
 		/*! Returns a Render Scene Component of the given name
@@ -106,8 +106,8 @@ namespace Renderer
 
 	private:
 
-		Ogre::SceneManager* _sceneManager;
-		RendererSystemComponentList _components;
+		Ogre::SceneManager* m_sceneManager;
+		RendererSystemComponentList m_components;
 
 		RendererSystemScene( ) { };
 		RendererSystemScene( const RendererSystemScene & copy ) { };

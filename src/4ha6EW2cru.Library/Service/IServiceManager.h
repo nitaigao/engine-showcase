@@ -4,8 +4,8 @@
 *  @file   IServiceManager.h
 *  @date   2009/04/25
 */
-#ifndef __ISERVICEMANAGER_H
-#define __ISERVICEMANAGER_H
+#ifndef ISERVICEMANAGER_H
+#define ISERVICEMANAGER_H
 
 #include "IService.hpp"
 

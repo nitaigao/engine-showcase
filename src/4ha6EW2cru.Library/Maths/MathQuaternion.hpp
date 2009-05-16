@@ -4,8 +4,8 @@
 *  @file  MathQuaternion.hpp
 *  @date   2009/04/26
 */
-#ifndef __MATHQUATERNION_H
-#define __MATHQUATERNION_H
+#ifndef MATHQUATERNION_H
+#define MATHQUATERNION_H
 
 #include <OgreMatrix3.h>
 #include <OgreQuaternion.h>

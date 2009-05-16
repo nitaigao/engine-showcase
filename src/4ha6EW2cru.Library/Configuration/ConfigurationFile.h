@@ -4,8 +4,8 @@
 *  @file   ConfigurationFile.h
 *  @date   2009/04/25
 */
-#ifndef __CONFIGURATIONFILE_H
-#define __CONFIGURATIONFILE_H
+#ifndef CONFIGURATIONFILE_H
+#define CONFIGURATIONFILE_H
 
 #include "IConfigurationFile.hpp"
 
@@ -68,7 +68,7 @@ namespace Configuration
 
 		ConfigurationFile( const IO::FileBuffer* fileBuffer );
 
-		CSimpleIni* _ini;
+		CSimpleIni* m_ini;
 
 		ConfigurationFile( const ConfigurationFile & copy ) { };
 		ConfigurationFile & operator = ( const ConfigurationFile & copy ) { return *this; };

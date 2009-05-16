@@ -4,8 +4,8 @@
 *  @file   GeometrySystemScene.h
 *  @date   2009/04/26
 */
-#ifndef __GEOMETRYSYSTEMSCENE_H
-#define __GEOMETRYSYSTEMSCENE_H
+#ifndef GEOMETRYSYSTEMSCENE_H
+#define GEOMETRYSYSTEMSCENE_H
 
 #include "../System/ISystem.hpp"
 
@@ -31,8 +31,8 @@ namespace Geometry
 		 *  @param[in] ISystem * system
 		 *  @return ()
 		 */
-		GeometrySystemScene( ISystem* system )
-			: _system( system )
+		explicit GeometrySystemScene( ISystem* system )
+			: m_system( system )
 		{
 
 		}
@@ -85,7 +85,7 @@ namespace Geometry
 
 	private:
 
-		ISystem* _system;
+		ISystem* m_system;
 
 		GeometrySystemScene( ) { };
 		GeometrySystemScene( const GeometrySystemScene & copy ) { };

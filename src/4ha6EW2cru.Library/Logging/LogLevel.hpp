@@ -4,8 +4,8 @@
 *  @file  LogLevel.hpp
 *  @date   2009/04/26
 */
-#ifndef __LOGLEVEL_H
-#define __LOGLEVEL_H
+#ifndef LOGLEVEL_H
+#define LOGLEVEL_H
 
 namespace Logging
 {

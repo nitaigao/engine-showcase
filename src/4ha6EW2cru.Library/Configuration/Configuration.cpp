@@ -6,7 +6,7 @@ namespace Configuration
 {
 	ClientConfiguration::~ClientConfiguration()
 	{
-		delete _configFile;
+		delete m_configFile;
 	}
 
 	IConfiguration* ClientConfiguration::Load( const std::string& filePath )
@@ -19,11 +19,11 @@ namespace Configuration
 	{
 		AnyValue result;
 
-		for( DefaultPropertyList::iterator i = _defaultPropertyList.begin( ); i != _defaultPropertyList.end( ); ++i )
+		for( DefaultPropertyList::iterator i = m_defaultPropertyList.begin( ); i != m_defaultPropertyList.end( ); ++i )
 		{
 			if ( ( *i ).first == key )
 			{
-				result = _configFile->FindConfigItem( section, key, ( *i ).second );
+				result = m_configFile->FindConfigItem( section, key, ( *i ).second );
 			}
 		}
 
@@ -32,12 +32,12 @@ namespace Configuration
 
 	void ClientConfiguration::Set( const std::string& section, const std::string& key, const AnyValue& value )
 	{
-		_configFile->Update( section, key, value );
-		_configFile->Save( "config/game.cfg" );
+		m_configFile->Update( section, key, value );
+		m_configFile->Save( "config/game.cfg" );
 	}
 
 	void ClientConfiguration::SetDefault( const std::string& section, const std::string& key, const AnyValue& value )
 	{
-		_defaultPropertyList[ key ] = value;
+		m_defaultPropertyList[ key ] = value;
 	}
 }

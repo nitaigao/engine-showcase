@@ -4,8 +4,8 @@
 *  @file   IConfigurationFile.hpp
 *  @date   2009/04/25
 */
-#ifndef __ICONFIGURATIONFILE_H
-#define __ICONFIGURATIONFILE_H
+#ifndef ICONFIGURATIONFILE_H
+#define ICONFIGURATIONFILE_H
 
 #include "../System/AnyValue.hpp"
 

@@ -1,5 +1,5 @@
-#ifndef __SEARCHUTILITYFIXTURE_H
-#define __SEARCHUTILITYFIXTURE_H
+#ifndef SEARCHUTILITYFIXTURE_H
+#define SEARCHUTILITYFIXTURE_H
 
 #include <cppunit/extensions/HelperMacros.h>
 

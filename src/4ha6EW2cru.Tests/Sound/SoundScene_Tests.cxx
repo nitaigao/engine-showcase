@@ -1,5 +1,5 @@
-#ifndef __SOUNDSCENE_TESTS_H
-#define __SOUNDSCENE_TESTS_H
+#ifndef SOUNDSCENE_TESTS_H
+#define SOUNDSCENE_TESTS_H
 
 #include "Specification.hpp"
 
@@ -15,7 +15,7 @@ public:
 
 	void SetupTest( )
 	{
-		_subject = new SoundScene( );
+		_subject = new SoundScene( 0 );
 		_component = 0;
 	}
 

@@ -4,8 +4,8 @@
 *  @file   Management.h
 *  @date   2009/04/25
 */
-#ifndef __MANAGEMENT_H
-#define __MANAGEMENT_H
+#ifndef MANAGEMENT_H
+#define MANAGEMENT_H
 
 #include "../Events/EventManager.h"
 
@@ -70,51 +70,51 @@ public:
 	 *
 	 *  @return (ISystemManager*)
 	 */
-	inline ISystemManager* GetSystemManager( ) const { return _systemManager; };
+	inline ISystemManager* GetSystemManager( ) const { return m_systemManager; };
 
 
 	/*! Returns the Event Manager
 	 *
 	 *  @return (EventManager*)
 	 */
-	inline Events::EventManager* GetEventManager( ) const { return _eventManager; };
+	inline Events::EventManager* GetEventManager( ) const { return m_eventManager; };
 
 
 	/*! Returns the Platform Manager
 	 *
 	 *  @return (IPlatformManager*)
 	 */
-	inline Platform::IPlatformManager* GetPlatformManager( ) const { return _platformManager; };
+	inline Platform::IPlatformManager* GetPlatformManager( ) const { return m_platformManager; };
 
 
 	/*! Returns the File Manager
 	 *
 	 *  @return (IFileSystem*)
 	 */
-	inline IO::IFileSystem* GetFileManager( ) const { return _fileSystem; };
+	inline IO::IFileSystem* GetFileManager( ) const { return m_fileSystem; };
 
 
 	/*! Returns the Service Manager
 	 *
 	 *  @return (IServiceManager*)
 	 */
-	inline IServiceManager* GetServiceManager( ) const { return _serviceManager; };
+	inline IServiceManager* GetServiceManager( ) const { return m_serviceManager; };
 
 
 	/*! Returns the Resources Manager
 	 *
 	 *  @return (Resources::IResourceCache*)
 	 */
-	inline Resources::IResourceCache* GetResourceManager( ) const { return _resourceCache; };
+	inline Resources::IResourceCache* GetResourceManager( ) const { return m_resourceCache; };
 
 private:
 
-	IServiceManager* _serviceManager;
-	ISystemManager* _systemManager;
-	Platform::IPlatformManager* _platformManager;
-	IO::IFileSystem* _fileSystem;
-	Resources::IResourceCache* _resourceCache;
-	Events::EventManager* _eventManager;
+	IServiceManager* m_serviceManager;
+	ISystemManager* m_systemManager;
+	Platform::IPlatformManager* m_platformManager;
+	IO::IFileSystem* m_fileSystem;
+	Resources::IResourceCache* m_resourceCache;
+	Events::EventManager* m_eventManager;
 
 	Management( const Management & copy ) { };
 	Management & operator = ( const Management & copy ) { return *this; };

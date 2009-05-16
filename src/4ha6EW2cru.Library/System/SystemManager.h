@@ -4,8 +4,8 @@
 *  @file   SystemManager.h
 *  @date   2009/04/25
 */
-#ifndef __SYSTEMMANAGER_H
-#define __SYSTEMMANAGER_H
+#ifndef SYSTEMMANAGER_H
+#define SYSTEMMANAGER_H
 
 #include "ISystemManager.hpp"
 #include "../State/World.h"

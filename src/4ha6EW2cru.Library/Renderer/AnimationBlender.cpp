@@ -7,73 +7,74 @@ namespace Renderer
 {
 	void AnimationBlender::Blend( const std::string& animationName, const float& blendDuration, const bool& loopAnimation )
 	{
-		AnimationState* newTargetAnimationState = _entity->getAnimationState( animationName );
+		AnimationState* newTargetAnimationState = m_entity->getAnimationState( animationName );
 
-		if ( newTargetAnimationState == _sourceAnimationState )
+		if ( newTargetAnimationState == m_sourceAnimationState )
 		{
-			if ( _sourceAnimationState->hasEnded( ) )
+			if ( m_sourceAnimationState->hasEnded( ) )
 			{
-				_sourceAnimationState->setTimePosition( 0 );
+				m_sourceAnimationState->setTimePosition( 0 );
 			}
 		}
-		else if ( newTargetAnimationState == _targetAnimationState )
+		else if ( newTargetAnimationState == m_targetAnimationState )
 		{
 
 		}
 		else
 		{
-			if( _sourceAnimationState == 0 )
+			if( m_sourceAnimationState == 0 )
 			{
-				_sourceAnimationState = newTargetAnimationState;
-				_sourceAnimationState->setEnabled( true );
-				_sourceAnimationState->setLoop( false );
-				_sourceAnimationState->setTimePosition( 0 );
-				_sourceAnimationState->setWeight( 1 );
+				m_sourceAnimationState = newTargetAnimationState;
+				m_sourceAnimationState->setEnabled( true );
+				m_sourceAnimationState->setLoop( loopAnimation );
+				m_sourceAnimationState->setTimePosition( 0 );
+				m_sourceAnimationState->setWeight( 1 );
 			}
 			else
 			{
-				if ( _targetAnimationState != 0 )
+				if ( m_targetAnimationState != 0 )
 				{
-					_targetAnimationState->setTimePosition( 0 );
-					_targetAnimationState->setEnabled( false );
+					m_targetAnimationState->setTimePosition( 0 );
+					m_targetAnimationState->setEnabled( false );
 				}
 
-				_timeLeft = _blendDuration = blendDuration;
-				_targetAnimationState = newTargetAnimationState;
-				_targetAnimationState->setEnabled( true );
-				_targetAnimationState->setLoop( false );
-				_targetAnimationState->setTimePosition( 0 );
-				_targetAnimationState->setWeight( 1.0 - _timeLeft / _blendDuration );
+				m_timeLeft = m_blendDuration = blendDuration;
+				m_targetAnimationState = newTargetAnimationState;
+				m_targetAnimationState->setEnabled( true );
+				m_targetAnimationState->setLoop( loopAnimation );
+				m_targetAnimationState->setTimePosition( 0 );
+				m_targetAnimationState->setWeight( 1.0 - m_timeLeft / m_blendDuration );
 			}
 		}
 	}
 
 	void AnimationBlender::Update( const float& deltaMilliseconds )
 	{
-		if( _sourceAnimationState != 0 )
+		if( m_sourceAnimationState != 0 )
 		{
-			if ( _timeLeft > 0 )
+			if ( m_timeLeft > 0 )
 			{
-				_timeLeft -= deltaMilliseconds;
+				m_timeLeft -= deltaMilliseconds;
 
-				if ( _timeLeft <= 0 )
+				if ( m_timeLeft <= 0 )
 				{
-					_sourceAnimationState->setTimePosition( 0 );
-					_sourceAnimationState->setEnabled( false );
-					_sourceAnimationState = _targetAnimationState;
-					_sourceAnimationState->setWeight( 1 );
-					_targetAnimationState = 0;
+					m_sourceAnimationState->setTimePosition( 0 );
+					m_sourceAnimationState->setEnabled( false );
+					m_sourceAnimationState->setLoop( false );
+					m_sourceAnimationState = m_targetAnimationState;
+					m_sourceAnimationState->setWeight( 1 );
+					m_targetAnimationState = 0;
 				}
 				else
 				{
-					_sourceAnimationState->setWeight( _timeLeft / _blendDuration );
+					m_sourceAnimationState->setWeight( m_timeLeft / m_blendDuration );
 
-					_targetAnimationState->setWeight( 1.0 - _timeLeft / _blendDuration );
-					_targetAnimationState->addTime( deltaMilliseconds );
+					m_targetAnimationState->setWeight( 1.0 - m_timeLeft / m_blendDuration );
+					m_targetAnimationState->addTime( deltaMilliseconds );
 				}
 			}
 
-			_sourceAnimationState->addTime( deltaMilliseconds );
+			m_sourceAnimationState->addTime( deltaMilliseconds );
 		}
 	}
 }

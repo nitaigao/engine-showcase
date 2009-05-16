@@ -4,8 +4,8 @@
 *  @file   IWorldSerializer.hpp
 *  @date   2009/04/27
 */
-#ifndef __IWORLDLOADER_HPP
-#define __IWORLDLOADER_HPP
+#ifndef IWORLDLOADER_HPP
+#define IWORLDLOADER_HPP
 
 namespace Serialization
 {

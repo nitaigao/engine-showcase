@@ -1,5 +1,5 @@
-#ifndef __MATHMATRIX_H
-#define __MATHMATRIX_H
+#ifndef MATHMATRIX_H
+#define MATHMATRIX_H
 
 #include <OgreMatrix3.h>
 

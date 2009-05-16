@@ -1,0 +1,10 @@
+<node name='trafficlight_1'>
+  <scale x='1' y='1' z='1'/>
+  <position x='97.0807' y='7.61137' z='-224.28'/>
+  <rotation qw='0.5' qx='-0.5' qy='0.5' qz='0.5'/>
+  <entity name='trafficlight_1' id='3525' receiveShadows='true' meshFile='/data/entities/meshes/trafficlight_1.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='roads' index='0'/>
+    </subentities>
+  </entity>
+</node>

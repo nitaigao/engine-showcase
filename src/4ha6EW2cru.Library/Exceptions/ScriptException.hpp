@@ -4,8 +4,8 @@
 *  @file   ScriptException.hpp
 *  @date   2009/04/25
 */
-#ifndef __SCRIPTEXCEPTION_H
-#define __SCRIPTEXCEPTION_H
+#ifndef SCRIPTEXCEPTION_H
+#define SCRIPTEXCEPTION_H
 
 /*! 
 *  An Exception for when an error occurs inside a Script

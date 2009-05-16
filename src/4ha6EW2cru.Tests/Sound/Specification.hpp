@@ -4,8 +4,8 @@
 *  @file   Specification.hpp
 *  @date   2009/04/27
 */
-#ifndef __SPECIFICATION_HPP
-#define __SPECIFICATION_HPP
+#ifndef SPECIFICATION_HPP
+#define SPECIFICATION_HPP
 
 #include <cppunit/extensions/HelperMacros.h>
 

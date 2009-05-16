@@ -9,24 +9,24 @@ namespace Script
 {
 	ScriptSystem::~ScriptSystem()
 	{
-		if ( _auxScene != 0 )
+		if ( m_auxScene != 0 )
 		{
-			delete _auxScene;
-			_auxScene = 0;
+			delete m_auxScene;
+			m_auxScene = 0;
 		}
 	}
 
 	void ScriptSystem::Release()
 	{
-		if ( _auxScene != 0 )
+		if ( m_auxScene != 0 )
 		{
-			_auxScene->Destroy( );
+			m_auxScene->Destroy( );
 		}
 	}
 
 	ISystemScene* ScriptSystem::CreateScene( )
 	{
-		ScriptSystemScene* scene = new ScriptSystemScene( _configuration );
+		ScriptSystemScene* scene = new ScriptSystemScene( m_configuration );
 		scene->Initialize( );
 		return scene;
 	}
@@ -37,7 +37,7 @@ namespace Script
 
 		if( actionName == "loadScript" )
 		{
-			ISystemComponent* systemComponent = _auxScene->CreateComponent( parameters[ "name" ].GetValue< std::string >( ), "default" );
+			ISystemComponent* systemComponent = m_auxScene->CreateComponent( parameters[ "name" ].GetValue< std::string >( ), "default" );
 			IScriptComponent* scriptComponent = static_cast< IScriptComponent* >( systemComponent );
 			scriptComponent->Initialize( parameters );
 			results[ "state" ] = scriptComponent->GetState( );
@@ -45,13 +45,13 @@ namespace Script
 
 		if ( actionName == "unloadComponent" )
 		{
-			ISystemComponent* component = _auxScene->FindComponent( parameters[ "name" ].GetValue< std::string >( ) );
-			_auxScene->DestroyComponent( component );
+			ISystemComponent* component = m_auxScene->FindComponent( parameters[ "name" ].GetValue< std::string >( ) );
+			m_auxScene->DestroyComponent( component );
 		}
 
 		if ( actionName == "getMasterState" )
 		{
-			results[ "masterState" ] = _auxScene->GetState( );
+			results[ "masterState" ] = m_auxScene->GetState( );
 		}
 
 		return results;
@@ -61,11 +61,11 @@ namespace Script
 	{
 		Management::GetInstance( )->GetServiceManager( )->RegisterService( this );
 
-		_auxScene = static_cast< IScriptSystemScene* >( this->CreateScene( ) );  
+		m_auxScene = static_cast< IScriptSystemScene* >( this->CreateScene( ) );  
 	}
 
 	void ScriptSystem::Update( const float& deltaMilliseconds )
 	{
-		_auxScene->Update( deltaMilliseconds );
+		m_auxScene->Update( deltaMilliseconds );
 	}
 }

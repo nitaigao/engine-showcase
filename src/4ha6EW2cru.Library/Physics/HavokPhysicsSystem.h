@@ -4,8 +4,8 @@
 *  @file   HavokPhysicsSystem.h
 *  @date   2009/04/26
 */
-#ifndef __HAVOKPHYSICS_SYSTEM
-#define __HAVOKPHYSICS_SYSTEM
+#ifndef HAVOKPHYSICS_SYSTEM
+#define HAVOKPHYSICS_SYSTEM
 
 #include "../Service/IService.hpp"
 #include "../System/ISystem.hpp"
@@ -35,8 +35,8 @@ namespace Physics
 		 *  @return ()
 		 */
 		HavokPhysicsSystem( )
-			: _threadMemory( 0 )
-			, _stackBuffer( 0 )
+			: m_threadMemory( 0 )
+			, m_stackBuffer( 0 )
 		{
 
 		}
@@ -82,7 +82,7 @@ namespace Physics
 		*
 		*  @return (AnyValueMap)
 		*/
-		inline AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };
+		inline AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
 		
 
 		/*! Sets a System Property
@@ -91,7 +91,7 @@ namespace Physics
 		*  @param[in] AnyValue value
 		*  @return (void)
 		*/
-		inline void SetProperty( const std::string& name, AnyValue value ) { };
+		inline void SetAttribute( const std::string& name, AnyValue value ) { };
 
 
 		/*! Executes a command on the Exposed Physics Service
@@ -116,10 +116,10 @@ namespace Physics
 
 		static void errorReportFunction( const char* str, void* errorOutputObject );
 
-		hkThreadMemory* _threadMemory;
-		char* _stackBuffer;
+		hkThreadMemory* m_threadMemory;
+		char* m_stackBuffer;
 
-		SceneList _scenes;
+		SceneList m_scenes;
 
 		HavokPhysicsSystem( const HavokPhysicsSystem & copy ) { };
 		HavokPhysicsSystem & operator = ( const HavokPhysicsSystem & copy ) { return *this; };

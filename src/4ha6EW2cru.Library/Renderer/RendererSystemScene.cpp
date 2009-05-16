@@ -18,14 +18,14 @@ namespace Renderer
 			component = new RendererSystemComponent( name, this );
 		}
 
-		_components[ name ] = component;
+		m_components[ name ] = component;
 
 		return component;
 	}
 
 	void RendererSystemScene::DestroyComponent( ISystemComponent* component )
 	{
-		_components.erase( component->GetName( ) );
+		m_components.erase( component->GetName( ) );
 		component->Destroy( );
 		delete component;
 		component = 0;
@@ -33,7 +33,7 @@ namespace Renderer
 
 	void RendererSystemScene::Update( const float& deltaMilliseconds )
 	{
-		for( RendererSystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+		for( RendererSystemComponentList::iterator i = m_components.begin( ); i != m_components.end( ); ++i )
 		{
 			( *i ).second->Update( deltaMilliseconds );
 		}
@@ -41,6 +41,6 @@ namespace Renderer
 
 	IRendererSystemComponent* RendererSystemScene::GetComponent( const std::string& name ) const
 	{
-		return ( *( _components.find( name ) ) ).second;
+		return ( *( m_components.find( name ) ) ).second;
 	}
 }

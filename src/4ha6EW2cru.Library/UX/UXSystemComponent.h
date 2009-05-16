@@ -42,9 +42,9 @@ namespace UX
 		*  @return ()
 		*/
 		UXSystemComponent( const std::string& name, IUXSystemScene* uxSystemScene )
-			: _name( name )
-			, _id( 0 )
-			, _scene( uxSystemScene )
+			: m_name( name )
+			, m_id( 0 )
+			, m_scene( uxSystemScene )
 		{
 
 		}
@@ -103,7 +103,7 @@ namespace UX
 		*
 		*  @return (const std::string&)
 		*/
-		inline const std::string& GetName( ) const { return _name; };
+		inline const std::string& GetName( ) const { return m_name; };
 
 
 		/*! Sets the Id of the component unique to its containing World Entity
@@ -111,14 +111,14 @@ namespace UX
 		*  @param[in] const unsigned int & id
 		*  @return (void)
 		*/
-		inline void SetId( const unsigned int& id ) { _id = id; };
+		inline void SetId( const unsigned int& id ) { m_id = id; };
 
 
 		/*! Returns a numerical Id for the component unique to its containing World Entity
 		*
 		*  @return (unsigned int)
 		*/
-		inline unsigned int GetId( ) const { return _id; };
+		inline unsigned int GetId( ) const { return m_id; };
 
 
 		/*! Gets the System::Types::Type of the Component
@@ -139,7 +139,7 @@ namespace UX
 		*
 		*  @return (AnyValueMap)
 		*/
-		inline AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };
+		inline AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
 
 
 		/*! Sets the Properties of the Component
@@ -147,14 +147,14 @@ namespace UX
 		*  @param[in] AnyValue::AnyValueMap systemProperties
 		*  @return (void)
 		*/
-		inline void SetProperties( AnyValue::AnyValueMap& properties ) { };
+		inline void SetAttributes( AnyValue::AnyValueMap& properties ) { };
 
 
 		/*! Gets the Position of the Component
 		*
 		*  @return (MathVector3)
 		*/
-		inline Maths::MathVector3 GetPosition( ) const { return _position; };
+		inline Maths::MathVector3 GetPosition( ) const { return m_position; };
 
 
 		/*! Gets the Scale of the Component
@@ -168,7 +168,15 @@ namespace UX
 		*
 		*  @return (MathQuaternion)
 		*/
-		inline Maths::MathQuaternion GetOrientation( ) const { return _orientation; };
+		inline Maths::MathQuaternion GetOrientation( ) const { return m_orientation; };
+
+
+		/*! Messages the Component to influence its internal state
+		*
+		*  @param[in] const std::string & message
+		*  @return (AnyValue)
+		*/
+		AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters ) { return AnyValue( ); };
 
 
 		/*! -- Script Helpers -- */
@@ -186,7 +194,7 @@ namespace UX
 		 *  @param[in] const std::string widgetName
 		 *  @return (MyGUI::WidgetPtr)
 		 */
-		MyGUI::WidgetPtr FindWidget( const std::string widgetName ) { return _scene->GetGui( )->findWidgetT( widgetName ); };
+		MyGUI::WidgetPtr FindWidget( const std::string widgetName ) { return m_scene->GetGui( )->findWidgetT( widgetName ); };
 
 		
 		/*! Attaches an LUA function to a Widget Event
@@ -203,14 +211,14 @@ namespace UX
 		 *
 		 *  @return (void)
 		 */
-		inline void ShowMouse( ) { _scene->GetGui( )->showPointer( ); };
+		inline void ShowMouse( ) { m_scene->GetGui( )->showPointer( ); };
 
 		
 		/*! Hides the mouse
 		 *
 		 *  @return (void)
 		 */
-		inline void HideMouse( ) { _scene->GetGui( )->hidePointer( ); };
+		inline void HideMouse( ) { m_scene->GetGui( )->hidePointer( ); };
 
 		
 		/*! Sets whether or not the Player controls can manipulate the scene
@@ -243,21 +251,21 @@ namespace UX
 		 *
 		 *  @return (int)
 		 */
-		int GetScreenWidth( ) { return _scene->GetGui( )->getViewWidth( ); };
+		int GetScreenWidth( ) { return m_scene->GetGui( )->getViewWidth( ); };
 
 		
 		/*! Returns the Screen Height in pixels
 		 *
 		 *  @return (int)
 		 */
-		int GetScreenHeight( ) { return _scene->GetGui( )->getViewHeight( ); };
+		int GetScreenHeight( ) { return m_scene->GetGui( )->getViewHeight( ); };
 
 		
 		/*! Returns the Average FPS from the renderer
 		 *
 		 *  @return (int)
 		 */
-		inline int GetFps( ) { return static_cast< int >( _scene->GetGui( )->getRenderWindow( )->getAverageFPS( ) ); };
+		inline int GetFps( ) { return static_cast< int >( m_scene->GetGui( )->getRenderWindow( )->getAverageFPS( ) ); };
 
 
 		/*! -- Widget Event Handlers -- */
@@ -290,13 +298,13 @@ namespace UX
 
 	private:
 
-		std::string _name;
-		unsigned int _id;
-		IUXSystemScene* _scene;
+		std::string m_name;
+		unsigned int m_id;
+		IUXSystemScene* m_scene;
 
-		Maths::MathVector3 _position;
-		Maths::MathVector3 _scale;
-		Maths::MathQuaternion _orientation;
+		Maths::MathVector3 m_position;
+		Maths::MathVector3 m_scale;
+		Maths::MathQuaternion m_orientation;
 
 	};
 }

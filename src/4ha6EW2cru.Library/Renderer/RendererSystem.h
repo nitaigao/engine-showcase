@@ -4,8 +4,8 @@
 *  @file   RendererSystem.h
 *  @date   2009/04/27
 */
-#ifndef __RENDERERSYSTEM_H
-#define __RENDERERSYSTEM_H
+#ifndef RENDERERSYSTEM_H
+#define RENDERERSYSTEM_H
 
 #include <Ogre.h>
 
@@ -37,12 +37,12 @@ namespace Renderer
 		*  @return ()
 		*/
 		RendererSystem( Configuration::IConfiguration* configuration )
-			: _configuration( configuration )
-			, _root( 0 )
-			, _window( 0 )
-			, _sceneManager( 0 )
-			, _scene( 0 )
-			, _configSectionName( "Graphics" )
+			: m_configuration( configuration )
+			, m_root( 0 )
+			, m_window( 0 )
+			, m_sceneManager( 0 )
+			, m_scene( 0 )
+			, m_configSectionName( "Graphics" )
 		{
 
 		}
@@ -88,7 +88,7 @@ namespace Renderer
 		*
 		*  @return (AnyValueMap)
 		*/
-		inline AnyValue::AnyValueMap GetProperties( ) const { return _properties; };
+		inline AnyValue::AnyValueMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets a System Property
@@ -97,7 +97,7 @@ namespace Renderer
 		*  @param[in] AnyValue value
 		*  @return (void)
 		*/
-		inline void SetProperty( const std::string& name, AnyValue value );
+		inline void SetAttribute( const std::string& name, AnyValue value );
 
 
 		/*! Renderer Service Interface
@@ -119,16 +119,16 @@ namespace Renderer
 		void CreateRenderWindow( const std::string& windowTitle, int width, int height, bool fullScreen );
 		std::vector< std::string > GetVideoModes( ) const;
 
-		AnyValue::AnyValueMap _properties;
-		Configuration::IConfiguration* _configuration;
-		IRenderSystemScene* _scene;
+		AnyValue::AnyValueMap m_attributes;
+		Configuration::IConfiguration* m_configuration;
+		IRenderSystemScene* m_scene;
 
-		std::string _configSectionName;
-		std::string _skyBoxMaterial;
+		std::string m_configSectionName;
+		std::string m_skyBoxMaterial;
 
-		Ogre::Root* _root;
-		Ogre::SceneManager* _sceneManager;
-		Ogre::RenderWindow* _window;
+		Ogre::Root* m_root;
+		Ogre::SceneManager* m_sceneManager;
+		Ogre::RenderWindow* m_window;
 
 	};
 };

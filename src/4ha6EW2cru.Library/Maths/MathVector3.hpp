@@ -4,8 +4,8 @@
 *  @file   MathVector3.hpp
 *  @date   2009/04/26
 */
-#ifndef __MATHVECTOR3_H
-#define __MATHVECTOR3_H
+#ifndef MATHVECTOR3_H
+#define MATHVECTOR3_H
 
 #include <OgreVector3.h>
 #include <Common/Base/hkBase.h>

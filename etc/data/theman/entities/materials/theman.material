@@ -191,6 +191,26 @@ material buildz6
 }
 
 
+material roads
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.588235 0.588235 0.588235 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture /data/entities/textures/roads.tga 
+			}
+		}
+	}
+}
+
+
 material skybox
 {
 	receive_shadows off

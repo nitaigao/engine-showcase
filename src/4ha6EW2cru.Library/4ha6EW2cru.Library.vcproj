@@ -150,6 +150,10 @@
 	</References>
 	<Files>
 		<File
+			RelativePath=".\Utility\luabind\include\adopt_policy.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\State\Serilaization\AIComponentSerializer.cpp"
 			>
 		</File>
@@ -198,6 +202,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Utility\luabind\include\back_reference.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\back_reference_fwd.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\IO\BadArchive.cpp"
 			>
 		</File>
@@ -214,6 +226,46 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Utility\luabind\include\detail\calc_arity.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\call.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\call_function.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\call_member.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\call_operator_iterate.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\class.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\class_cache.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\class_info.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\class_registry.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\class_rep.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Renderer\Color.hpp"
 			>
 		</File>
@@ -223,6 +275,14 @@
 		</File>
 		<File
 			RelativePath=".\State\Serilaization\ComponentSerializerFactory.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\compute_score.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\config.hpp"
 			>
 		</File>
 		<File
@@ -239,6 +299,58 @@
 		</File>
 		<File
 			RelativePath=".\Configuration\ConfigurationFile.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\construct_rep.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\constructor.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\container_policy.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\conversion_storage.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\convert_to_lua.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\copy_policy.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\debug.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\decorate_type.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\deduce_signature.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\dependency_policy.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\discard_result_policy.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\enum_maker.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\error.hpp"
 			>
 		</File>
 		<File
@@ -266,6 +378,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Utility\luabind\include\exception_handler.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\IO\FileBuffer.hpp"
 			>
 		</File>
@@ -290,11 +406,31 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Utility\luabind\include\detail\find_best_match.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\format_signature.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\from_stack.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\function.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Game.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Game.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\garbage_collector.hpp"
 			>
 		</File>
 		<File
@@ -330,11 +466,31 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Utility\luabind\include\detail\get_overload_signature.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\get_pointer.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\get_signature.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\State\Serilaization\GraphicsComponentSerializer.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\State\Serilaization\GraphicsComponentSerializer.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\handle.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\has_get_pointer.hpp"
 			>
 		</File>
 		<File
@@ -422,11 +578,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Input\IKeyboardInputComponent.hpp"
+			RelativePath=".\Input\IInputSystemComponent.hpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Input\IMouseInputComponent.hpp"
+			RelativePath=".\Utility\luabind\include\detail\implicit_cast.hpp"
 			>
 		</File>
 		<File
@@ -498,11 +654,19 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Utility\luabind\include\detail\is_indirect_const.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Scripting\IScriptComponent.hpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Scripting\IScriptConfiguration.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\IScriptController.hpp"
 			>
 		</File>
 		<File
@@ -562,6 +726,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Utility\luabind\include\iterator_policy.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\UX\IUXSystem.hpp"
 			>
 		</File>
@@ -586,19 +754,15 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Input\KeyboardInputComponent.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\KeyboardInputComponent.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Renderer\Line3d.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Renderer\Line3d.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\link_compatibility.hpp"
 			>
 		</File>
 		<File
@@ -611,6 +775,18 @@
 		</File>
 		<File
 			RelativePath=".\Logging\LogLevel.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\lua_include.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\luabind.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\make_function.hpp"
 			>
 		</File>
 		<File
@@ -642,11 +818,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Input\MouseInputComponent.cpp"
+			RelativePath=".\Utility\luabind\include\detail\most_derived.hpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Input\MouseInputComponent.h"
+			RelativePath=".\Utility\luabind\include\nil.hpp"
 			>
 		</File>
 		<File
@@ -690,7 +866,43 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Utility\luabind\include\open.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\open.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\operator.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\operator_id.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\other.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\out_value_policy.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Exceptions\OutOfRangeException.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\overload_rep.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\overload_rep_base.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\pcall.hpp"
 			>
 		</File>
 		<File
@@ -718,11 +930,43 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Utility\luabind\include\detail\pointee_sizeof.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\pointee_typeid.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\policy.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\prefix.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\primitives.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Utility\OgreMax\ProgressCalculator.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Utility\OgreMax\ProgressCalculator.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\property.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\raw_policy.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\ref.hpp"
 			>
 		</File>
 		<File
@@ -767,6 +1011,14 @@
 		</File>
 		<File
 			RelativePath=".\IO\ResourceCache.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\return_reference_to_policy.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\scope.hpp"
 			>
 		</File>
 		<File
@@ -834,7 +1086,19 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Utility\luabind\include\detail\signature_match.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Utility\SimpleIni.h"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Serilaization\SoundComponentSerializer.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Serilaization\SoundComponentSerializer.h"
 			>
 		</File>
 		<File
@@ -862,7 +1126,15 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Sound\SoundSystemComponent.cpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Sound\SoundSystemComponent.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\stack_utils.hpp"
 			>
 		</File>
 		<File
@@ -879,6 +1151,10 @@
 		</File>
 		<File
 			RelativePath=".\System\SystemTypeMapper.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\tag_function.hpp"
 			>
 		</File>
 		<File
@@ -910,6 +1186,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Utility\luabind\include\detail\typetraits.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Exceptions\UnInitializedException.hpp"
 			>
 		</File>
@@ -938,11 +1218,19 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Utility\luabind\include\value_wrapper.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Utility\OgreMax\Version.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Utility\OgreMax\Version.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\weak_ref.hpp"
 			>
 		</File>
 		<File
@@ -975,6 +1263,18 @@
 		</File>
 		<File
 			RelativePath=".\State\Serilaization\WorldSerializer.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\wrapper_base.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\detail\yes_no.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Utility\luabind\include\yield_policy.hpp"
 			>
 		</File>
 	</Files>

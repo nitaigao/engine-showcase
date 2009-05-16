@@ -21,6 +21,16 @@
 						</subentities>
 					</entity>
 				</boneAttachment>
+				<boneAttachment bone="Bip01 R Hand" name="test">
+					<scale x="0.16079" y="0.09352" z="0.09352" />
+					<position x="1.20858" y="-0.0477334" z="-0.0816524" />
+					<rotation qx="-0.478125" qy="-0.488099" qz="0.431366" qw="0.589135" />
+					<entity name="gunfire" id="297" meshFile="/data/entities/meshes/gunfire.mesh" castShadows="true" receiveShadows="true">
+						<subentities>
+							<subentity index="0" materialName="gunfire" />
+						</subentities>
+					</entity>
+				</boneAttachment>
 			</boneAttachments>
 		</entity>
 	</node>

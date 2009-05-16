@@ -13,8 +13,6 @@ Title = {}
 
 function Title.initialize( )
 
-	--sfx:playMusic( 'ux/ui/title' )
-
 	ux:hideMouse( )
 	
 	script:registerEventHandler( Title.onEvent )

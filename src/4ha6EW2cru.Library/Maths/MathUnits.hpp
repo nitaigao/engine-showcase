@@ -4,8 +4,8 @@
 *  @file   MathUnits.hpp
 *  @date   2009/04/26
 */
-#ifndef __MATHUNITS_H
-#define __MATHUNITS_H
+#ifndef MATHUNITS_H
+#define MATHUNITS_H
 
 namespace Maths
 {

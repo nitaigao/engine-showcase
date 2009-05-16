@@ -4,8 +4,8 @@
 *  @file   SystemType.hpp
 *  @date   2009/04/25
 */
-#ifndef __SYSTEMTYPES_H
-#define __SYSTEMTYPES_H
+#ifndef SYSTEMTYPES_H
+#define SYSTEMTYPES_H
 
 #include <string>
 

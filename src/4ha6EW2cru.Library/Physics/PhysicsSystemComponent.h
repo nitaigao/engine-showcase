@@ -4,8 +4,8 @@
 *  @file   PhysicsSystemComponent.h
 *  @date   2009/04/26
 */
-#ifndef __PHYSICSSYSTEMCOMPONENT_H
-#define __PHYSICSSYSTEMCOMPONENT_H
+#ifndef PHYSICSSYSTEMCOMPONENT_H
+#define PHYSICSSYSTEMCOMPONENT_H
 
 #include "IPhysicsSystemComponent.hpp"
 #include "HavokPhysicsSystemScene.h"
@@ -145,7 +145,7 @@ namespace Physics
 		*
 		*  @return (AnyValueMap)
 		*/
-		inline AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };
+		inline AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
 		
 		
 		/*! Sets the Properties of the Component
@@ -153,7 +153,7 @@ namespace Physics
 		*  @param[in] AnyValue::AnyValueMap systemProperties
 		*  @return (void)
 		*/
-		inline void SetProperties( AnyValue::AnyValueMap& properties ) { };
+		inline void SetAttributes( AnyValue::AnyValueMap& properties ) { };
 
 
 		/*! Gets the Position of the Component
@@ -182,6 +182,14 @@ namespace Physics
 		*  @return (hkpRigidBody*)
 		*/
 		inline hkpRigidBody* GetRigidBody( ) const { return _body; };
+
+
+		/*! Messages the Component to influence its internal state
+		*
+		*  @param[in] const std::string & message
+		*  @return (AnyValue)
+		*/
+		AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters ) { return AnyValue( ); };
 
 	protected:
 

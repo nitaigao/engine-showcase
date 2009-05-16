@@ -2,6 +2,9 @@
 
 #include "../Management/Management.h"
 
+#include "AnimationBlender.h"
+#include "IRendererSystem.hpp"
+
 #include "../Utility/OgreMax/OgreMaxModel.hpp"
 using namespace OgreMax;
 using namespace Ogre;
@@ -12,16 +15,13 @@ using namespace AI;
 #include "../Logging/Logger.h"
 using namespace Logging;
 
-#include "AnimationBlender.h"
-#include "IRendererSystem.hpp"
-
 namespace Renderer
 {
 	RendererSystemComponent::~RendererSystemComponent( )
 	{
-		_scene->GetSceneManager( )->getRootSceneNode( )->removeAndDestroyChild( _name );
+		m_scene->GetSceneManager( )->getRootSceneNode( )->removeAndDestroyChild( m_name );
 
-		for( AnimationBlenderList::iterator i = _animationBlenders.begin( ); i != _animationBlenders.end( ); ++i )
+		for( AnimationBlenderList::iterator i = m_animationBlenders.begin( ); i != m_animationBlenders.end( ); ++i )
 		{
 			delete ( *i );
 		}
@@ -29,13 +29,13 @@ namespace Renderer
 
 	void RendererSystemComponent::Initialize( AnyValue::AnyValueMap& properties )
 	{
-		_sceneNode = _scene->GetSceneManager( )->createSceneNode( _name );
+		m_sceneNode = m_scene->GetSceneManager( )->createSceneNode( m_name );
 
-		this->LoadModel( _sceneNode, properties[ "model" ].GetValue< std::string >( ) );
+		this->LoadModel( m_sceneNode, properties[ "model" ].GetValue< std::string >( ) );
 
-		_scene->GetSceneManager( )->getRootSceneNode( )->addChild( _sceneNode );
+		m_scene->GetSceneManager( )->getRootSceneNode( )->addChild( m_sceneNode );
 
-		this->InitializeSceneNode( _sceneNode );
+		this->InitializeSceneNode( m_sceneNode );
 	}
 
 	void RendererSystemComponent::LoadModel( Ogre::SceneNode* sceneNode, const std::string& modelPath )
@@ -45,10 +45,10 @@ namespace Renderer
 		try
 		{
 			std::stringstream prefix;
-			prefix << _name << "_";
+			prefix << m_name << "_";
 
 			model->Load( modelPath );
-			model->CreateInstance( _scene->GetSceneManager( ), prefix.str( ), 0, 
+			model->CreateInstance( m_scene->GetSceneManager( ), prefix.str( ), 0, 
 				OgreMaxModel::NO_OPTIONS, 0, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, sceneNode );
 		}
 		catch( Ogre::FileNotFoundException e )
@@ -61,7 +61,7 @@ namespace Renderer
 
 	void RendererSystemComponent::Destroy( )
 	{
-		this->DestroySceneNode( _sceneNode );
+		this->DestroySceneNode( m_sceneNode );
 	}
 
 	void RendererSystemComponent::Observe( ISubject* subject, const unsigned int& systemChanges )
@@ -70,19 +70,19 @@ namespace Renderer
 		
 		if ( System::Changes::Geometry::Position & systemChanges )
 		{
-			_sceneNode->setPosition( component->GetPosition( ).AsOgreVector3( ) );
+			m_sceneNode->setPosition( component->GetPosition( ).AsOgreVector3( ) );
 		}
 		
 		if ( System::Changes::Geometry::Orientation & systemChanges )
 		{
-			_sceneNode->setOrientation( component->GetOrientation( ).AsOgreQuaternion( ) );
+			m_sceneNode->setOrientation( component->GetOrientation( ).AsOgreQuaternion( ) );
 		}
 
 		if ( System::Changes::AI::Behavior & systemChanges )
 		{
 			AISystemComponent* aiComponent = static_cast< AISystemComponent* >( subject );
 
-			for( AnimationBlenderList::iterator i = _animationBlenders.begin( ); i != _animationBlenders.end( ); ++i )
+			for( AnimationBlenderList::iterator i = m_animationBlenders.begin( ); i != m_animationBlenders.end( ); ++i )
 			{
 				this->PlayAnimation( aiComponent->GetBehavior( ), true );
 			}
@@ -91,7 +91,7 @@ namespace Renderer
 
 	void RendererSystemComponent::Update( const float& deltaMilliseconds )
 	{
-		for( AnimationBlenderList::iterator i = _animationBlenders.begin( ); i != _animationBlenders.end( ); ++i )
+		for( AnimationBlenderList::iterator i = m_animationBlenders.begin( ); i != m_animationBlenders.end( ); ++i )
 		{
 			( *i )->Update( deltaMilliseconds );
 		}
@@ -107,14 +107,14 @@ namespace Renderer
 
 			if( object->getMovableType( ) == "Entity" )
 			{
-				Entity* entity = _scene->GetSceneManager( )->getEntity( object->getName( ) );
+				Entity* entity = m_scene->GetSceneManager( )->getEntity( object->getName( ) );
 
 				AnimationStateSet* animationStates = entity->getAllAnimationStates( );
 
 				if ( animationStates != 0 )
 				{
 					IAnimationBlender* animationBlender = new AnimationBlender( entity );
-					_animationBlenders.push_back( animationBlender );
+					m_animationBlenders.push_back( animationBlender );
 				}
 			}
 		}
@@ -146,17 +146,17 @@ namespace Renderer
 
 			if( object->getMovableType( ) == "Entity" )
 			{
-				Entity* entity = _scene->GetSceneManager( )->getEntity( object->getName( ) );
+				Entity* entity = m_scene->GetSceneManager( )->getEntity( object->getName( ) );
 				
 				Ogre::Entity::ChildObjectListIterator childObjects = entity->getAttachedObjectIterator( );
 
 				while( childObjects.hasMoreElements( ) )
 				{
-					_scene->GetSceneManager( )->destroyMovableObject( childObjects.getNext( ) );
+					m_scene->GetSceneManager( )->destroyMovableObject( childObjects.getNext( ) );
 				}
 			}
 
-			_scene->GetSceneManager( )->destroyMovableObject( object );
+			m_scene->GetSceneManager( )->destroyMovableObject( object );
 		}
 
 		sceneNode->removeAndDestroyAllChildren( );
@@ -164,7 +164,26 @@ namespace Renderer
 
 	void RendererSystemComponent::PlayAnimation( const std::string& animationName, const bool& loopAnimation )
 	{
-		for( AnimationBlenderList::iterator i = _animationBlenders.begin( ); i != _animationBlenders.end( ); ++i )
+		if ( animationName == "hit" )
+		{
+			std::stringstream gunfireName;
+			gunfireName << m_name << "_gunfire";
+
+			Entity* gunfire = static_cast< Entity* >( m_scene->GetSceneManager( )->getMovableObject( gunfireName.str( ), "Entity" ) );
+			gunfire->setVisible( true );
+
+			if ( rand( ) % 2 == 1 )
+			{
+				gunfire->getParentNode()->roll( Degree( 91 ) );
+			}
+		}
+		else
+		{
+			MovableObject* gunfire = m_scene->GetSceneManager( )->getMovableObject( "player_gunfire", "Entity" );
+			gunfire->setVisible( false );
+		}
+
+		for( AnimationBlenderList::iterator i = m_animationBlenders.begin( ); i != m_animationBlenders.end( ); ++i )
 		{
 			( *i )->Blend( animationName, 0.2f, loopAnimation );
 		}

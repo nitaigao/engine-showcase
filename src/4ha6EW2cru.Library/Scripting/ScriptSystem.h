@@ -4,8 +4,8 @@
 *  @file   ScriptSystem.h
 *  @date   2009/04/27
 */
-#ifndef __SCRIPTSYSTEM_H
-#define __SCRIPTSYSTEM_H
+#ifndef SCRIPTSYSTEM_H
+#define SCRIPTSYSTEM_H
 
 #include "../Service/IService.hpp"
 #include "../Configuration/IConfiguration.hpp"
@@ -35,9 +35,9 @@ namespace Script
 		*  @return ()
 		*/
 		ScriptSystem( Configuration::IConfiguration* configuration )
-			: _configuration( configuration )
-			, _scene( 0 )
-			, _auxScene( 0 )
+			: m_configuration( configuration )
+			, m_scene( 0 )
+			, m_auxScene( 0 )
 		{
 
 		}
@@ -83,7 +83,7 @@ namespace Script
 		*
 		*  @return (AnyValueMap)
 		*/
-		inline AnyValue::AnyValueMap GetProperties( ) const { return _properties; };
+		inline AnyValue::AnyValueMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets a System Property
@@ -92,7 +92,7 @@ namespace Script
 		*  @param[in] AnyValue value
 		*  @return (void)
 		*/
-		inline void SetProperty( const std::string& name, AnyValue value ) { };
+		inline void SetAttribute( const std::string& name, AnyValue value ) { };
 
 
 		/*! Scripting Service Interface
@@ -108,11 +108,11 @@ namespace Script
 		ScriptSystem( const ScriptSystem & copy ) { };
 		ScriptSystem & operator = ( const ScriptSystem & copy ) { return *this; };
 
-		AnyValue::AnyValueMap _properties;
-		Configuration::IConfiguration* _configuration;
+		AnyValue::AnyValueMap m_attributes;
+		Configuration::IConfiguration* m_configuration;
 
-		IScriptSystemScene* _scene;
-		IScriptSystemScene* _auxScene;
+		IScriptSystemScene* m_scene;
+		IScriptSystemScene* m_auxScene;
 
 	};
 };

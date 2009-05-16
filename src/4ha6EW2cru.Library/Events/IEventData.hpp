@@ -4,8 +4,8 @@
 *  @file   IEventData.hpp
 *  @date   2009/04/25
 */
-#ifndef __IEVENTDATA_H
-#define __IEVENTDATA_H
+#ifndef IEVENTDATA_H
+#define IEVENTDATA_H
 
 namespace Events
 {

@@ -4,8 +4,8 @@
 *  @file   AnimationBlender.h
 *  @date   2009/04/25
 */
-#ifndef __ANIMATIONBLENDER_H
-#define __ANIMATIONBLENDER_H
+#ifndef ANIMATIONBLENDER_H
+#define ANIMATIONBLENDER_H
 
 #include "IAnimationBlender.hpp"
 
@@ -33,11 +33,11 @@ namespace Renderer
 		 *  @return ()
 		 */
 		AnimationBlender( Ogre::Entity* entity )
-			: _entity( entity )
-			, _sourceAnimationState( 0 )
-			, _targetAnimationState( 0 )
-			, _timeLeft( 0.0f )
-			, _blendDuration( 0.0f )
+			: m_entity( entity )
+			, m_sourceAnimationState( 0 )
+			, m_targetAnimationState( 0 )
+			, m_timeLeft( 0.0f )
+			, m_blendDuration( 0.0f )
 		{
 
 		}
@@ -64,12 +64,12 @@ namespace Renderer
 		AnimationBlender( const AnimationBlender & copy ) { };
 		AnimationBlender & operator = ( const AnimationBlender & copy ) { return *this; };
 
-		Ogre::Entity* _entity;
-		Ogre::AnimationState* _sourceAnimationState;
-		Ogre::AnimationState* _targetAnimationState;
+		Ogre::Entity* m_entity;
+		Ogre::AnimationState* m_sourceAnimationState;
+		Ogre::AnimationState* m_targetAnimationState;
 
-		float _timeLeft;
-		float _blendDuration;
+		float m_timeLeft;
+		float m_blendDuration;
 
 	};
 

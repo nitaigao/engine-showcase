@@ -4,8 +4,8 @@
 *  @file   BadArchive.h
 *  @date   2009/04/26
 */
-#ifndef __BADARCHIVE_H
-#define __BADARCHIVE_H
+#ifndef BADARCHIVE_H
+#define BADARCHIVE_H
 
 #include "OgreArchive.h"
 #include "FileSearchResult.hpp"
@@ -128,7 +128,7 @@ namespace IO
 
 	private:
 
-		TableOfContents _tableOfContents;
+		TableOfContents m_tableOfContents;
 
 		BadArchive & operator = ( const BadArchive & copy ) { return *this; };
 

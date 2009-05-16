@@ -4,8 +4,8 @@
 *  @file   ScriptSystemScene.h
 *  @date   2009/04/27
 */
-#ifndef __SCRIPTSYSTEMSCENE_H
-#define __SCRIPTSYSTEMSCENE_H
+#ifndef SCRIPTSYSTEMSCENE_H
+#define SCRIPTSYSTEMSCENE_H
 
 #include <luabind/luabind.hpp>
 
@@ -103,7 +103,7 @@ namespace Script
 		*
 		*  @return (lua_State*)
 		*/
-		lua_State* GetState( ) const { return _state; };
+		lua_State* GetState( ) const { return m_state; };
 
 		
 		/*!  Prints the specified message to the console
@@ -145,12 +145,11 @@ namespace Script
 		static void Script_Error( lua_State* luaState );
 		static void Script_CastError( lua_State* luaState, LUABIND_TYPE_INFO typeInfo );
 
-		ScriptConfiguration* _scriptConfiguration;
-		SoundController* _soundController;
+		ScriptConfiguration* m_scriptConfiguration;
 
-		lua_State* _state;
-		ScriptComponentList _components;
-		EventHandlerList* _eventHandlers;
+		lua_State* m_state;
+		ScriptComponentList m_components;
+		EventHandlerList* m_eventHandlers;
 
 	};
 };

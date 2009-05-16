@@ -1,5 +1,5 @@
-#ifndef __AI_SYSTEM_TESTS
-#define __AI_SYSTEM_TESTS
+#ifndef AI_SYSTEM_TESTS
+#define AI_SYSTEM_TESTS
 
 #include <cppunit/extensions/HelperMacros.h>
 

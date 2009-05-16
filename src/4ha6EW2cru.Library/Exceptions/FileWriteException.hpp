@@ -4,8 +4,8 @@
 *  @file   FileWriteException.hpp
 *  @date   2009/04/25
 */
-#ifndef __FILEACCESSEXCEPTION_H
-#define __FILEACCESSEXCEPTION_H
+#ifndef FILEACCESSEXCEPTION_H
+#define FILEACCESSEXCEPTION_H
 
 class FileWriteException : public std::exception
 {

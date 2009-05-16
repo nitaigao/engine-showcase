@@ -4,8 +4,8 @@
 *  @file   FileBuffer.hpp
 *  @date   2009/04/26
 */
-#ifndef __FILEBUFFER_H
-#define __FILEBUFFER_H
+#ifndef FILEBUFFER_H
+#define FILEBUFFER_H
 
 #include <string>
 

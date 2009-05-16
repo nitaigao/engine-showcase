@@ -30,10 +30,10 @@ namespace Physics
 		characterManager->registerState( state,	HK_CHARACTER_CLIMBING );
 		state->removeReference( );
 
-		_characterContext = new hkpCharacterContext( characterManager, HK_CHARACTER_ON_GROUND );
+		m_characterContext = new hkpCharacterContext( characterManager, HK_CHARACTER_ON_GROUND );
 		characterManager->removeReference( );
 
-		_characterContext->setCharacterType( hkpCharacterContext::HK_CHARACTER_RIGIDBODY );
+		m_characterContext->setCharacterType( hkpCharacterContext::HK_CHARACTER_RIGIDBODY );
 
 		hkpCharacterRigidBodyCinfo characterInfo;
 		characterInfo.m_mass = 100.0f;
@@ -43,92 +43,92 @@ namespace Physics
 		characterInfo.m_shape = new hkpCapsuleShape( hkVector4( 0.0f, 1.4f, 0.0f ), hkVector4( 0.0f, 0.35f, 0.0f ), 0.3f );
 		characterInfo.m_collisionFilterInfo = hkpGroupFilter::calcFilterInfo( 1, 1 );
 
-		_characterBody = new hkpCharacterRigidBody( characterInfo );
+		m_characterBody = new hkpCharacterRigidBody( characterInfo );
 
-		_body = _characterBody->getRigidBody( );
+		_body = m_characterBody->getRigidBody( );
 		_body->setName( _name.c_str( ) );
 		_scene->GetWorld( )->addEntity( _body );
 
-		_characterInput.m_wantJump = false;
-		_characterInput.m_atLadder = false;
-		_characterInput.m_inputLR = 0.0f;
-		_characterInput.m_inputUD = 0.0f;
+		m_characterInput.m_wantJump = false;
+		m_characterInput.m_atLadder = false;
+		m_characterInput.m_inputLR = 0.0f;
+		m_characterInput.m_inputUD = 0.0f;
 
-		_characterInput.m_up = MathVector3::Up( ).AshkVector4( );
-		_characterInput.m_characterGravity = hkVector4( 0.0f, -16.0f, 0.0f );
-		_characterInput.m_userData = true;
+		m_characterInput.m_up = MathVector3::Up( ).AshkVector4( );
+		m_characterInput.m_characterGravity = hkVector4( 0.0f, -16.0f, 0.0f );
+		m_characterInput.m_userData = true;
 	}
 
 	PhysicsSystemCharacterComponent::~PhysicsSystemCharacterComponent()
 	{
-		_characterBody->removeReference( );
-		delete _characterContext;
-		delete _previousGround;
+		m_characterBody->removeReference( );
+		delete m_characterContext;
+		delete m_previousGround;
 	}
 
 	void PhysicsSystemCharacterComponent::Update( const float& deltaMilliseconds )
 	{
-		if ( _characterInput.m_userData )
+		if ( m_characterInput.m_userData )
 		{
-			_characterInput.m_inputUD = _forwardBackward;
-			_characterInput.m_inputLR = _leftRight;
+			m_characterInput.m_inputUD = m_forwardBackward;
+			m_characterInput.m_inputLR = m_leftRight;
 
-			_characterInput.m_stepInfo.m_deltaTime = deltaMilliseconds;
-			_characterInput.m_stepInfo.m_invDeltaTime = 1.0f / deltaMilliseconds;
+			m_characterInput.m_stepInfo.m_deltaTime = deltaMilliseconds;
+			m_characterInput.m_stepInfo.m_invDeltaTime = 1.0f / deltaMilliseconds;
 
-			_characterInput.m_velocity = _characterBody->getRigidBody( )->getLinearVelocity( );
-			_characterInput.m_position = _characterBody->getRigidBody( )->getPosition( );
+			m_characterInput.m_velocity = m_characterBody->getRigidBody( )->getLinearVelocity( );
+			m_characterInput.m_position = m_characterBody->getRigidBody( )->getPosition( );
 
-			_characterInput.m_forward = MathVector3::Forward( ).AshkVector4( );
-			_characterInput.m_forward.setRotatedDir( _body->getRotation( ), _characterInput.m_forward );
+			m_characterInput.m_forward = MathVector3::Forward( ).AshkVector4( );
+			m_characterInput.m_forward.setRotatedDir( _body->getRotation( ), m_characterInput.m_forward );
 
 			hkpSurfaceInfo ground;
-			_characterBody->checkSupport( _characterInput.m_stepInfo, ground );
+			m_characterBody->checkSupport( m_characterInput.m_stepInfo, ground );
 
 			const int skipFramesInAir = 10; 
 
-			if (_characterInput.m_wantJump)
+			if (m_characterInput.m_wantJump)
 			{
-				_framesInAir = skipFramesInAir;
+				m_framesInAir = skipFramesInAir;
 			}
 
 			if ( ground.m_supportedState != hkpSurfaceInfo::SUPPORTED )
 			{
-				if (_framesInAir < skipFramesInAir)
+				if (m_framesInAir < skipFramesInAir)
 				{
-					_characterInput.m_isSupported = true;
-					_characterInput.m_surfaceNormal = _previousGround->m_surfaceNormal;
-					_characterInput.m_surfaceVelocity = _previousGround->m_surfaceVelocity;
-					_characterInput.m_surfaceMotionType = _previousGround->m_surfaceMotionType;
+					m_characterInput.m_isSupported = true;
+					m_characterInput.m_surfaceNormal = m_previousGround->m_surfaceNormal;
+					m_characterInput.m_surfaceVelocity = m_previousGround->m_surfaceVelocity;
+					m_characterInput.m_surfaceMotionType = m_previousGround->m_surfaceMotionType;
 				}
 				else
 				{
-					_characterInput.m_isSupported = false;
-					_characterInput.m_surfaceNormal = ground.m_surfaceNormal;
-					_characterInput.m_surfaceVelocity = ground.m_surfaceVelocity;	
-					_characterInput.m_surfaceMotionType = ground.m_surfaceMotionType;
+					m_characterInput.m_isSupported = false;
+					m_characterInput.m_surfaceNormal = ground.m_surfaceNormal;
+					m_characterInput.m_surfaceVelocity = ground.m_surfaceVelocity;	
+					m_characterInput.m_surfaceMotionType = ground.m_surfaceMotionType;
 				}			
 
-				_framesInAir++;
+				m_framesInAir++;
 			}
 			else
 			{
-				_characterInput.m_isSupported = true;
-				_characterInput.m_surfaceNormal = ground.m_surfaceNormal;
-				_characterInput.m_surfaceVelocity = ground.m_surfaceVelocity;
-				_characterInput.m_surfaceMotionType = ground.m_surfaceMotionType;
+				m_characterInput.m_isSupported = true;
+				m_characterInput.m_surfaceNormal = ground.m_surfaceNormal;
+				m_characterInput.m_surfaceVelocity = ground.m_surfaceVelocity;
+				m_characterInput.m_surfaceMotionType = ground.m_surfaceMotionType;
 
-				_previousGround->set(ground);
+				m_previousGround->set(ground);
 
-				if (_framesInAir > skipFramesInAir)
+				if (m_framesInAir > skipFramesInAir)
 				{
-					_framesInAir = 0;
+					m_framesInAir = 0;
 				}			
 			}
 
 			hkpCharacterOutput output;
-			_characterContext->update( _characterInput, output );
-			_characterBody->setLinearVelocity( output.m_velocity, deltaMilliseconds );
+			m_characterContext->update( m_characterInput, output );
+			m_characterBody->setLinearVelocity( output.m_velocity, deltaMilliseconds );
 
 			this->PushChanges( 
 				System::Changes::Geometry::Orientation |
@@ -137,13 +137,13 @@ namespace Physics
 
 			float stopSpeed = 0.0f;
 
-			_forwardBackward = stopSpeed;
-			_leftRight = stopSpeed;
-			_characterInput.m_inputLR = stopSpeed;
-			_characterInput.m_inputUD = stopSpeed;
-			_characterInput.m_wantJump = false;
+			m_forwardBackward = stopSpeed;
+			m_leftRight = stopSpeed;
+			m_characterInput.m_inputLR = stopSpeed;
+			m_characterInput.m_inputUD = stopSpeed;
+			m_characterInput.m_wantJump = false;
 
-			_characterInput.m_userData = ( _characterBody->getLinearVelocity( ).compareEqual4( hkVector4::getZero( ) ).anyIsSet( ) );
+			m_characterInput.m_userData = ( m_characterBody->getLinearVelocity( ).compareEqual4( hkVector4::getZero( ) ).anyIsSet( ) );
 		}
 	}
 
@@ -157,41 +157,41 @@ namespace Physics
 			
 		if( System::Changes::Input::Move_Forward & systemChanges )
 		{
-			_forwardBackward = -walkSpeed;
+			m_forwardBackward = -walkSpeed;
 		}
 
 		if( System::Changes::Input::Move_Backward & systemChanges )
 		{
-			_forwardBackward = walkSpeed;
+			m_forwardBackward = walkSpeed;
 		}
 
 		if( System::Changes::Input::Strafe_Right & systemChanges )
 		{
-			_leftRight = -walkSpeed;
+			m_leftRight = -walkSpeed;
 		}
 
 		if( System::Changes::Input::Strafe_Left & systemChanges )
 		{
-			_leftRight = walkSpeed;
+			m_leftRight = walkSpeed;
 		}
 
 		if( System::Changes::Input::Jump & systemChanges )
 		{
-			_characterInput.m_wantJump = true;
+			m_characterInput.m_wantJump = true;
 		}
 
-		if ( _forwardBackward || _leftRight )
+		if ( m_forwardBackward || m_leftRight )
 		{
-			hkReal lengthSquared = _forwardBackward * _forwardBackward + _leftRight * _leftRight;
+			hkReal lengthSquared = m_forwardBackward * m_forwardBackward + m_leftRight * m_leftRight;
 
 			if (lengthSquared > HK_REAL_MIN)
 			{
 				lengthSquared = hkMath::sqrt(lengthSquared);
-				_forwardBackward /= lengthSquared;
-				_leftRight /= lengthSquared;
+				m_forwardBackward /= lengthSquared;
+				m_leftRight /= lengthSquared;
 			}
 		}
 
-		_characterInput.m_userData = true;
+		m_characterInput.m_userData = true;
 	}
 }

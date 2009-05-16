@@ -8,16 +8,16 @@ namespace Configuration
 {
 	ConfigurationFile::~ConfigurationFile()
 	{
-		if( _ini != 0 )
+		if( m_ini != 0 )
 		{
-			delete _ini;
+			delete m_ini;
 		}
 	}
 
 	ConfigurationFile::ConfigurationFile( const FileBuffer* fileBuffer )
 	{
-		_ini = new CSimpleIni( true );
-		_ini->Load( fileBuffer->fileBytes );
+		m_ini = new CSimpleIni( true );
+		m_ini->Load( fileBuffer->fileBytes );
 	}
 
 	ConfigurationFile* ConfigurationFile::Load( const std::string& filePath )
@@ -33,17 +33,17 @@ namespace Configuration
 
 		if ( unConstDefaultValue.GetType( ) == typeid( bool ) )
 		{
-			result = _ini->GetBoolValue( section.c_str( ), key.c_str( ), unConstDefaultValue.GetValue< bool >( ) );
+			result = m_ini->GetBoolValue( section.c_str( ), key.c_str( ), unConstDefaultValue.GetValue< bool >( ) );
 		}
 
 		if ( unConstDefaultValue.GetType( ) == typeid( int ) )
 		{
-			result = static_cast< int >( _ini->GetLongValue( section.c_str( ), key.c_str( ), unConstDefaultValue.GetValue< int >( ) ) );
+			result = static_cast< int >( m_ini->GetLongValue( section.c_str( ), key.c_str( ), unConstDefaultValue.GetValue< int >( ) ) );
 		}
 
 		if ( unConstDefaultValue.GetType( ) == typeid( std::string ) )
 		{
-			result = _ini->GetValue( section.c_str( ), key.c_str( ), unConstDefaultValue.GetValue< std::string >( ).c_str( ) );
+			result = m_ini->GetValue( section.c_str( ), key.c_str( ), unConstDefaultValue.GetValue< std::string >( ).c_str( ) );
 		}
 
 		return result;
@@ -55,24 +55,24 @@ namespace Configuration
 
 		if ( unConstValue.GetType( ) == typeid( bool ) )
 		{
-			_ini->SetBoolValue( section.c_str( ), key.c_str( ), unConstValue.GetValue< bool >( ) );
+			m_ini->SetBoolValue( section.c_str( ), key.c_str( ), unConstValue.GetValue< bool >( ) );
 		}
 
 		if ( unConstValue.GetType( ) == typeid( int ) )
 		{
-			_ini->SetLongValue( section.c_str( ), key.c_str( ), unConstValue.GetValue< int >( ) );
+			m_ini->SetLongValue( section.c_str( ), key.c_str( ), unConstValue.GetValue< int >( ) );
 		}
 
 		if ( unConstValue.GetType( ) == typeid( std::string ) )
 		{
-			_ini->SetValue( section.c_str( ), key.c_str( ), unConstValue.GetValue< std::string >( ).c_str( ) );
+			m_ini->SetValue( section.c_str( ), key.c_str( ), unConstValue.GetValue< std::string >( ).c_str( ) );
 		}
 	}
 
 	void ConfigurationFile::Save( const std::string& filePath )
 	{
 		std::string output;
-		_ini->Save( output );
+		m_ini->Save( output );
 
 		char* outputBuffer = new char[ output.length( ) + 1 ];
 		memcpy( outputBuffer, output.c_str( ), output.length( ) );

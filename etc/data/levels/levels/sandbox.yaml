@@ -1,0 +1,83 @@
+--- 
+- !ruby/object:Color 
+  b: "1"
+  g: "1"
+  name: ambient
+  r: "1"
+  type: color
+- !ruby/object:Color 
+  b: "1"
+  g: "1"
+  name: background
+  r: "1"
+  type: color
+...
+--- 
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/Plane01.model
+    system: graphics
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-1.20825"
+      y: "0"
+      z: "2.08362"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/Plane01.hkx
+    system: physics
+    type: default
+  name: Plane01
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/player-fps.model
+    system: graphics
+    type: camera
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-0.249701"
+      y: "26.4867"
+      z: "2.86741"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/player.hkx
+    system: physics
+    type: character
+  - !ruby/object:InputComponent 
+    system: input
+    type: default
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/player.lua
+    system: script
+    type: default
+  name: player
+  type: entity
+...
+--- []
+
+...
+---

@@ -4,8 +4,8 @@
 *  @file   FileNotFoundException.hpp
 *  @date   2009/04/25
 */
-#ifndef __FILENOTFOUNDEXCEPTION
-#define __FILENOTFOUNDEXCEPTION
+#ifndef FILENOTFOUNDEXCEPTION
+#define FILENOTFOUNDEXCEPTION
 
 #include <string>
 

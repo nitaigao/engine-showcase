@@ -1,5 +1,5 @@
-#ifndef __LOGGER_FIXTURE_H
-#define __LOGGER_FIXTURE_H
+#ifndef LOGGER_FIXTURE_H
+#define LOGGER_FIXTURE_H
 
 #include <cppunit/extensions/HelperMacros.h>
 

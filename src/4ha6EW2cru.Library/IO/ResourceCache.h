@@ -4,8 +4,8 @@
 *  @file   ResourceManager.h
 *  @date   2009/04/26
 */
-#ifndef __RESOURCECACHE_H
-#define __RESOURCECACHE_H
+#ifndef RESOURCECACHE_H
+#define RESOURCECACHE_H
 
 #include <map>
 
@@ -54,7 +54,7 @@ namespace Resources
 
 	private:
 
-		ResourceMap _resourceCache;
+		ResourceMap m_resourceCache;
 
 	};
 };

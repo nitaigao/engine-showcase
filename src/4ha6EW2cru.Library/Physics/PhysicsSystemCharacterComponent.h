@@ -4,8 +4,8 @@
 *  @file   PhysicsSystemCharacterComponent.h
 *  @date   2009/04/26
 */
-#ifndef __PHYSICSSYSTEMCHARACTERCOMPONENT_H
-#define __PHYSICSSYSTEMCHARACTERCOMPONENT_H
+#ifndef PHYSICSSYSTEMCHARACTERCOMPONENT_H
+#define PHYSICSSYSTEMCHARACTERCOMPONENT_H
 
 #include "PhysicsSystemComponent.h"
 
@@ -38,12 +38,12 @@ namespace Physics
 		 */
 		PhysicsSystemCharacterComponent( const std::string& name, HavokPhysicsSystemScene* scene )
 			: PhysicsSystemComponent( name, scene )
-			, _characterBody( 0 )
-			, _characterContext( 0 )
-			, _framesInAir( 0 )
-			, _forwardBackward( 0 )
-			, _leftRight( 0 )
-			, _previousGround( new hkpSurfaceInfo( ) )
+			, m_characterBody( 0 )
+			, m_characterContext( 0 )
+			, m_framesInAir( 0 )
+			, m_forwardBackward( 0 )
+			, m_leftRight( 0 )
+			, m_previousGround( new hkpSurfaceInfo( ) )
 		{
 
 		}
@@ -75,14 +75,14 @@ namespace Physics
 
 	private:
 
-		hkpCharacterContext* _characterContext;
-		hkpCharacterRigidBody* _characterBody;
-		hkpCharacterInput _characterInput;
-		hkpSurfaceInfo* _previousGround;
+		hkpCharacterContext* m_characterContext;
+		hkpCharacterRigidBody* m_characterBody;
+		hkpCharacterInput m_characterInput;
+		hkpSurfaceInfo* m_previousGround;
 
-		float _forwardBackward;
-		float _leftRight;
-		int _framesInAir;
+		float m_forwardBackward;
+		float m_leftRight;
+		int m_framesInAir;
 
 		PhysicsSystemCharacterComponent & operator = ( const PhysicsSystemCharacterComponent & copy ) { return *this; };
 

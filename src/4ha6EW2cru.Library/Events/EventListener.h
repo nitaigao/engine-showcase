@@ -4,17 +4,15 @@
 *  @file   EventListener.h
 *  @date   2009/04/25
 */
-#ifndef __EVENTLISTENER_H
-#define __EVENTLISTENER_H
-
-#include <functional>
+#ifndef EVENTLISTENER_H
+#define EVENTLISTENER_H
 
 #include "../Logging/Logger.h"
 #include "../Exceptions/NullReferenceException.hpp"
 
 #include "IEvent.hpp"
-#include "EventType.hpp"
 #include "IEventListener.hpp"
+#include "EventType.hpp"
 
 namespace Events
 {
@@ -25,7 +23,7 @@ namespace Events
 	class EventListener : public IEventListener
 	{
 
-		typedef void ( T::*HandlerFunctor ) ( const IEvent* event ) ;
+		typedef void ( T::*HandlerFunctor ) ( const IEvent* event );
 
 	public:
 
@@ -36,11 +34,11 @@ namespace Events
 		 *  @param[in] HandlerFunctor handlerFunctor
 		 *  @return ()
 		 */
-		EventListener( const EventType eventType, T* const handlerTarget, HandlerFunctor handlerFunctor )
-			: _handlerFunctor( handlerFunctor )
-			, _eventType( eventType )
-			, _handlerTarget( handlerTarget )
-			, _markedForDeletion( false )
+		EventListener( const EventType& eventType, T* const handlerTarget, HandlerFunctor handlerFunctor )
+			: m_handlerFunctor( handlerFunctor )
+			, m_eventType( eventType )
+			, m_handlerTarget( handlerTarget )
+			, m_markedForDeletion( false )
 		{
 
 		}
@@ -53,14 +51,14 @@ namespace Events
 		 */
 		void HandleEvent( const IEvent* event ) const
 		{
-			if ( _handlerTarget == 0 )
+			if ( m_handlerTarget == 0 )
 			{
 				NullReferenceException nullTarget( "EventListener::HandleEvent - HandlerTarget is NULL" );
 				Logging::Logger::Fatal( nullTarget.what( ) );
 				throw nullTarget;
 			}
 
-			if ( _handlerFunctor == 0 )
+			if ( m_handlerFunctor == 0 )
 			{
 				NullReferenceException nullHandler( "EventListener::HandleEvent - HandlerFunctor is NULL" );
 				Logging::Logger::Fatal( nullHandler.what( ) );
@@ -74,9 +72,9 @@ namespace Events
 				throw nullEvent;
 			}
 
-			if ( !_markedForDeletion )
+			if ( !m_markedForDeletion )
 			{
-				( _handlerTarget->*_handlerFunctor )( event );
+				( m_handlerTarget->*m_handlerFunctor )( event );
 			}
 		}
 
@@ -85,42 +83,42 @@ namespace Events
 		 *
 		 *  @return (const EventType)
 		 */
-		inline const EventType GetEventType( ) const { return _eventType; };
+		inline EventType GetEventType( ) const { return m_eventType; };
 
 		
 		/*! Returns a pointer to the method assigned to handle the Event
 		 *
 		 *  @return (const HandlerFunctor)
 		 */
-		inline const HandlerFunctor GetHandlerFunctor( ) const { return _handlerFunctor; };
+		inline const HandlerFunctor GetHandlerFunctor( ) const { return m_handlerFunctor; };
 
 		
 		/*! Retrieves the object instance for which the EventListener is Listening
 		 *
 		 *  @return (const T*)
 		 */
-		inline const T* GetHandlerTarget( ) const { return _handlerTarget; };
+		inline const T* GetHandlerTarget( ) const { return m_handlerTarget; };
 
 		
 		/*! Marks the EventHandler for Deletion on the Next Update
 		 *
 		 *  @return (void)
 		 */
-		inline void MarkForDeletion( ) { _markedForDeletion = true; };
+		inline void MarkForDeletion( ) { m_markedForDeletion = true; };
 
 		
 		/*! Gets whether the EventHandler is marked for deletion
 		 *
 		 *  @return (bool)
 		 */
-		inline bool IsMarkedForDeletion( ) const { return _markedForDeletion; };
+		inline bool IsMarkedForDeletion( ) const { return m_markedForDeletion; };
 
 	private:
 
-		HandlerFunctor _handlerFunctor;
-		EventType _eventType;
-		T* _handlerTarget;
-		bool _markedForDeletion;
+		HandlerFunctor m_handlerFunctor;
+		EventType m_eventType;
+		T* m_handlerTarget;
+		bool m_markedForDeletion;
 
 		~EventListener( ) { };
 		EventListener( ) { };

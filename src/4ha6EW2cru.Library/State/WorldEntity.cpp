@@ -4,15 +4,15 @@ namespace State
 {
 	void WorldEntity::AddComponent( ISystemComponent* component )
 	{
-		component->SetId( _id );
+		component->SetId( m_id );
 		component->AddObserver( this );
 
-		_components.push_back( component );
+		m_components.push_back( component );
 	}
 	
 	void WorldEntity::Observe( ISubject* subject, const unsigned int& systemChanges )
 	{
-		for( SystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+		for( SystemComponentList::iterator i = m_components.begin( ); i != m_components.end( ); ++i )
 		{		
 			if ( ( *i )->GetRequestedChanges( ) & systemChanges && ( *i ) != subject )
 			{
@@ -23,7 +23,7 @@ namespace State
 	
 	ISystemComponent* WorldEntity::FindComponent( const System::Types::Type& systemType ) const
 	{
-		for( SystemComponentList::const_iterator i = _components.begin( ); i != _components.end( ); ++i )
+		for( SystemComponentList::const_iterator i = m_components.begin( ); i != m_components.end( ); ++i )
 		{
 			if ( systemType == ( *i )->GetType( ) )
 			{
@@ -32,5 +32,18 @@ namespace State
 		}
 	
 		return 0;
+	}
+
+	AnyValue WorldEntity::Message( const std::string& message, AnyValue::AnyValueMap parameters )
+	{
+		std::vector< AnyValue > results;
+
+		for( SystemComponentList::const_iterator i = m_components.begin( ); i != m_components.end( ); ++i )
+		{
+			AnyValue result = ( *i )->Message( message, parameters );
+			results.push_back( result );
+		}
+
+		return results;
 	}
 }

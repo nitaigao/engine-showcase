@@ -4,9 +4,10 @@
 *  @file   ISoundScene.hpp
 *  @date   2009/04/27
 */
-#ifndef __ISOUNDSCENE_HPP
-#define __ISOUNDSCENE_HPP
+#ifndef ISOUNDSCENE_HPP
+#define ISOUNDSCENE_HPP
 
+#include "ISoundSystem.hpp"
 #include "../System/ISystemScene.hpp"
 
 namespace Sound
@@ -24,6 +25,8 @@ namespace Sound
 		 *  @return ()
 		 */
 		virtual ~ISoundScene( ) { };
+
+		virtual ISoundSystem* GetSoundSystem( ) = 0;
 
 		
 

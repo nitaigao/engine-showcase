@@ -1,5 +1,5 @@
-#ifndef __CONFIGURATIONFILE_FIXTURE_H
-#define __CONFIGURATIONFILE_FIXTURE_H
+#ifndef CONFIGURATIONFILE_FIXTURE_H
+#define CONFIGURATIONFILE_FIXTURE_H
 
 #include <cppunit/extensions/HelperMacros.h>
 

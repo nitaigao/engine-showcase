@@ -4,8 +4,8 @@
 *  @file   IAnimationBlender.hpp
 *  @date   2009/04/26
 */
-#ifndef __IANIMATIONBLENDER_H
-#define __IANIMATIONBLENDER_H
+#ifndef IANIMATIONBLENDER_H
+#define IANIMATIONBLENDER_H
 
 #include <string>
 

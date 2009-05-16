@@ -4,8 +4,8 @@
 *  @file   IWorld.hpp
 *  @date   2009/04/27
 */
-#ifndef __IWORLD_HPP
-#define __IWORLD_HPP
+#ifndef IWORLD_HPP
+#define IWORLD_HPP
 
 #include <string>
 

@@ -4,8 +4,8 @@
 *  @file   ComponentSerializerFactory.h
 *  @date   2009/04/27
 */
-#ifndef __COMPONENTSERIALIZERFACTORY_H
-#define __COMPONENTSERIALIZERFACTORY_H
+#ifndef COMPONENTSERIALIZERFACTORY_H
+#define COMPONENTSERIALIZERFACTORY_H
 
 #include "IComponentSerializer.hpp"
 

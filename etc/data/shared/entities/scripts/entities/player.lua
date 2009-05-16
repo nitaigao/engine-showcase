@@ -91,18 +91,53 @@ extend( MovementStateMachine, Object )
 -- Attack State Machine --
 
 AttackStateMachine = { 
-	framesSinceFire = 0
+	framesSinceFire = 10
 }
 
 function AttackStateMachine:update( )
-
-	self.framesSinceFire = self.framesSinceFire + 1
+	
+	-- ATTACK --
+	
+	if ( self:getState( ) == States.FIRING ) then
+	
+		-- Default Actions
+		
+		player:fireWeapon( )
+		
+		self:increment( )
+		
+		-- Evaluation
+		
+		local transition = ( self:getState( ) == States.IDLE )
+		
+		-- Transition
+		
+		if ( transition ) then
+		
+			script:playAnimation( 'stopped', false )
+			player:stopFiringWeapon( )
+		
+		end
+		
+	end
 
 end
 
 function AttackStateMachine:actorFired( )
-
+	
+	if ( self:getState( ) == States.IDLE ) then
+	
+		script:playAnimation( 'hit', true )
+	
+	end
+	
 	self.framesSinceFire = 0
+
+end
+
+function AttackStateMachine:increment( )
+
+	self.framesSinceFire = self.framesSinceFire + 1
 
 end
 
@@ -149,26 +184,6 @@ end
 function Player.onUpdate( deltaMilliseconds )
 
 	player.attackStateMachine:update( )
-
-	if ( player.attackStateMachine:getState( ) == States.FIRING ) then
-	
-		-- Default Actions
-		
-		script:playAnimation( 'hit', false )
-		
-		-- Evaluation
-		
-		local transition = ( player.attackStateMachine:getState( ) == States.IDLE )
-		
-		-- Transition
-		
-		if ( transition ) then
-		
-			script:playAnimation( 'stopped', false )
-		
-		end
-	
-	end
 	
 	player.movementStateMachine:update( )
 	
@@ -243,12 +258,6 @@ function Player.onUpdate( deltaMilliseconds )
 end
 
 function Player.onEvent( eventName, var1, var2 )
-
-	if ( eventName == 'INPUT_MOUSE_PRESSED' ) then
-	
-		player:fireWeapon( )
-	
-	end
 	
 	if ( var1 == script:getName( ) ) then
 	
@@ -260,13 +269,13 @@ function Player.onEvent( eventName, var1, var2 )
 		
 		if ( eventName == 'ACTOR_DEAD' ) then 
 			
-			print( 'player just died' )
+			endGame( )
 				
 		end
 		
 		if ( eventName == 'ACTOR_FIRED' ) then 
 		
-			player.attackStateMachine:actorFired( )
+			player.attackStateMachine:actorFired( );
 		
 		end
 		

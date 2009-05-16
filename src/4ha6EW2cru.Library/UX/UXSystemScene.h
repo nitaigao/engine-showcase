@@ -4,8 +4,8 @@
 *  @file   UXSystemScene.h
 *  @date   2009/04/26
 */
-#ifndef __UXSYSTEMSCENE_H
-#define __UXSYSTEMSCENE_H
+#ifndef UXSYSTEMSCENE_H
+#define UXSYSTEMSCENE_H
 
 #include "IUXSystemScene.hpp"
 #include "IUXSystemComponent.hpp"
@@ -38,7 +38,7 @@ namespace UX
 		*  @return ()
 		*/
 		UXSystemScene( )
-			: _gui( new MyGUI::Gui( ) )
+			: m_gui( new MyGUI::Gui( ) )
 		{
 
 		}
@@ -92,7 +92,7 @@ namespace UX
 
 		/* UX System Specific */
 		
-		inline MyGUI::Gui* GetGui( ) const { return _gui; };
+		inline MyGUI::Gui* GetGui( ) const { return m_gui; };
 
 		/* -- Widget Script Helpers -- */
 
@@ -150,8 +150,8 @@ namespace UX
 
 		void _unlinkWidget( MyGUI::WidgetPtr widget );
 
-		MyGUI::Gui* _gui;
-		UXSystemComponentList _components;
+		MyGUI::Gui* m_gui;
+		UXSystemComponentList m_components;
 	};
 };
 

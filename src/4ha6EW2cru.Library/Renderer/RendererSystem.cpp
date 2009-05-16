@@ -24,19 +24,19 @@ namespace Renderer
 
 	RendererSystem::~RendererSystem( )
 	{	
-		Ogre::WindowEventUtilities::removeWindowEventListener( _window, this );
+		Ogre::WindowEventUtilities::removeWindowEventListener( m_window, this );
 
-		if ( _root != 0 )
+		if ( m_root != 0 )
 		{
-			_root->shutdown( );
-			delete _root;
-			_root = 0;
+			m_root->shutdown( );
+			delete m_root;
+			m_root = 0;
 		}
 	}
 
 	void RendererSystem::Initialize( )
 	{
-		if ( _configuration == 0 )
+		if ( m_configuration == 0 )
 		{
 			NullReferenceException e( "RenderSystem::Initialize - The Configuration is NULL" );
 			Logger::Fatal( e.what( ) );
@@ -50,19 +50,19 @@ namespace Renderer
 		bool defaultVsync = true;
 		std::string defaultWindowTitle = "Interactive View";
 
-		_configuration->SetDefault( _configSectionName, "fullscreen", defaultFullScreen );
-		_configuration->SetDefault( _configSectionName, "width", defaultWidth );
-		_configuration->SetDefault( _configSectionName, "height", defaultHeight );
-		_configuration->SetDefault( _configSectionName, "depth", defaultDepth );
-		_configuration->SetDefault( _configSectionName, "window_title", defaultWindowTitle );
-		_configuration->SetDefault( _configSectionName, "vsync", defaultVsync );
+		m_configuration->SetDefault( m_configSectionName, "fullscreen", defaultFullScreen );
+		m_configuration->SetDefault( m_configSectionName, "width", defaultWidth );
+		m_configuration->SetDefault( m_configSectionName, "height", defaultHeight );
+		m_configuration->SetDefault( m_configSectionName, "depth", defaultDepth );
+		m_configuration->SetDefault( m_configSectionName, "window_title", defaultWindowTitle );
+		m_configuration->SetDefault( m_configSectionName, "vsync", defaultVsync );
 
-		_root = new Root( );
+		m_root = new Root( );
 
 	#ifdef _DEBUG
-		_root->loadPlugin( "RenderSystem_Direct3D9_d" );
+		m_root->loadPlugin( "RenderSystem_Direct3D9_d" );
 	#else
-		_root->loadPlugin( "RenderSystem_Direct3D9" );
+		m_root->loadPlugin( "RenderSystem_Direct3D9" );
 
 		Ogre::LogManager::getSingletonPtr( )->destroyLog( Ogre::LogManager::getSingletonPtr( )->getDefaultLog( ) );
 		Ogre::LogManager::getSingletonPtr( )->createLog( "default", true, false, true );
@@ -74,83 +74,83 @@ namespace Renderer
 		ResourceGroupManager::getSingleton( ).addResourceLocation( "/", "BAD" );
 		ResourceGroupManager::getSingleton( ).initialiseAllResourceGroups( );
 
-		RenderSystemList *renderSystems = _root->getAvailableRenderers( );
+		RenderSystemList *renderSystems = m_root->getAvailableRenderers( );
 		RenderSystemList::iterator renderSystemIterator = renderSystems->begin( );
 
-		_root->setRenderSystem( *renderSystemIterator );
+		m_root->setRenderSystem( *renderSystemIterator );
 
 		std::stringstream videoModeDesc;
-		videoModeDesc << _configuration->Find( _configSectionName, "width" ).GetValue< int >( ) << " x " << _configuration->Find( _configSectionName, "height" ).GetValue< int >( ) << " @ " << defaultDepth << "-bit colour";
+		videoModeDesc << m_configuration->Find( m_configSectionName, "width" ).GetValue< int >( ) << " x " << m_configuration->Find( m_configSectionName, "height" ).GetValue< int >( ) << " @ " << defaultDepth << "-bit colour";
 		( *renderSystemIterator )->setConfigOption( "Video Mode", videoModeDesc.str( ) );
-		( *renderSystemIterator )->setConfigOption( "Full Screen", _configuration->Find( _configSectionName, "fullscreen" ).GetValue< bool >( ) ? "Yes" : "No" );
-		( *renderSystemIterator )->setConfigOption( "VSync", _configuration->Find( _configSectionName, "vsync" ).GetValue< bool >( ) ? "Yes" : "No" );
+		( *renderSystemIterator )->setConfigOption( "Full Screen", m_configuration->Find( m_configSectionName, "fullscreen" ).GetValue< bool >( ) ? "Yes" : "No" );
+		( *renderSystemIterator )->setConfigOption( "VSync", m_configuration->Find( m_configSectionName, "vsync" ).GetValue< bool >( ) ? "Yes" : "No" );
 
-		_root->initialise( false );
+		m_root->initialise( false );
 
 		try
 		{
 			this->CreateRenderWindow(
-				_configuration->Find( _configSectionName, "window_title" ).GetValue< std::string >( ), 
-				_configuration->Find( _configSectionName, "width" ).GetValue< int >( ), 
-				_configuration->Find( _configSectionName, "height" ).GetValue< int >( ),
-				_configuration->Find( _configSectionName, "fullscreen" ).GetValue< bool >( )
+				m_configuration->Find( m_configSectionName, "window_title" ).GetValue< std::string >( ), 
+				m_configuration->Find( m_configSectionName, "width" ).GetValue< int >( ), 
+				m_configuration->Find( m_configSectionName, "height" ).GetValue< int >( ),
+				m_configuration->Find( m_configSectionName, "fullscreen" ).GetValue< bool >( )
 				);
 		}
 		catch( Exception e )
 		{
 			if ( e.getNumber( ) == Exception::ERR_RENDERINGAPI_ERROR )
 			{
-				_configuration->Set( _configSectionName, "fullscreen", defaultFullScreen );
-				_configuration->Set( _configSectionName, "width", defaultWidth );
-				_configuration->Set( _configSectionName, "height", defaultHeight );
-				_configuration->Set( _configSectionName, "depth", defaultDepth );
-				_configuration->Set( _configSectionName, "window_title", defaultWindowTitle );
+				m_configuration->Set( m_configSectionName, "fullscreen", defaultFullScreen );
+				m_configuration->Set( m_configSectionName, "width", defaultWidth );
+				m_configuration->Set( m_configSectionName, "height", defaultHeight );
+				m_configuration->Set( m_configSectionName, "depth", defaultDepth );
+				m_configuration->Set( m_configSectionName, "window_title", defaultWindowTitle );
 
 				Management::GetInstance( )->GetPlatformManager( )->CloseWindow( );
 			}
 		}
 
-		Ogre::WindowEventUtilities::addWindowEventListener( _window, this );
+		Ogre::WindowEventUtilities::addWindowEventListener( m_window, this );
 
-		_properties[ "availableVideoModes" ] = this->GetVideoModes( );
+		m_attributes[ "availableVideoModes" ] = this->GetVideoModes( );
 
-		_sceneManager = _root->createSceneManager( ST_GENERIC, "default" );
+		m_sceneManager = m_root->createSceneManager( ST_GENERIC, "default" );
 
-		Camera* camera = _sceneManager->createCamera( "default" );
+		Camera* camera = m_sceneManager->createCamera( "default" );
 		camera->setPosition( Vector3( 0, 0, 0 ) );
 		camera->lookAt( Vector3( 0, 0, 0 ) );
 		camera->setNearClipDistance( 1.0f );
 		camera->setFarClipDistance( 500.0f );
 
-		Viewport* viewPort = _window->addViewport( camera );
+		Viewport* viewPort = m_window->addViewport( camera );
 		viewPort->setBackgroundColour( ColourValue( 0, 0, 0 ) );
 
 		camera->setAspectRatio(
 			Real( viewPort->getActualWidth( )) / Real( viewPort->getActualHeight( ) )
 			);
 
-		_root->renderOneFrame( );
+		m_root->renderOneFrame( );
 
 		Management::GetInstance( )->GetServiceManager( )->RegisterService( this );
 
-		//CompositorManager::getSingletonPtr( )->addCompositor( _sceneManager->getCurrentViewport( ), "HDR" );
-		//CompositorManager::getSingletonPtr( )->setCompositorEnabled( _sceneManager->getCurrentViewport( ), "HDR", true );
+		//CompositorManager::getSingletonPtr( )->addCompositor( m_sceneManager->getCurrentViewport( ), "HDR" );
+		//CompositorManager::getSingletonPtr( )->setCompositorEnabled( m_sceneManager->getCurrentViewport( ), "HDR", true );
 	}
 
 	void RendererSystem::Update( const float& deltaMilliseconds )
 	{
-		_root->renderOneFrame( );
+		m_root->renderOneFrame( );
 	}
 
-	void RendererSystem::SetProperty( const std::string& name, AnyValue value )
+	void RendererSystem::SetAttribute( const std::string& name, AnyValue value )
 	{
-		_properties[ name ] = value;
+		m_attributes[ name ] = value;
 
 		if ( name == "activeCamera" )
 		{
 			std::string cameraName = value.GetValue< std::string >( );
-			Camera* camera = _sceneManager->getCamera( cameraName );
-			_sceneManager->getCurrentViewport( )->setCamera( camera );
+			Camera* camera = m_sceneManager->getCamera( cameraName );
+			m_sceneManager->getCurrentViewport( )->setCamera( camera );
 		}
 
 		if ( name == "ambientColor" )
@@ -158,7 +158,7 @@ namespace Renderer
 			Color color = value.GetValue< Renderer::Color >( );
 			ColourValue colorValue( color.Red, color.Green, color.Blue );
 
-			_sceneManager->setAmbientLight( colorValue );
+			m_sceneManager->setAmbientLight( colorValue );
 		}
 
 		if ( name == "backgroundColor" )
@@ -166,20 +166,20 @@ namespace Renderer
 			Color color = value.GetValue< Renderer::Color >( );
 			ColourValue colorValue( color.Red, color.Green, color.Blue );
 
-			_sceneManager->getCurrentViewport( )->setBackgroundColour( colorValue );
+			m_sceneManager->getCurrentViewport( )->setBackgroundColour( colorValue );
 		}
 
 		if ( name == "farClip" )
 		{
 			float farClip = value.GetValue< float >( );
 
-			if ( _sceneManager->isSkyBoxEnabled( ) )
+			if ( m_sceneManager->isSkyBoxEnabled( ) )
 			{
-				SceneManager::SkyBoxGenParameters skyBoxParameters = _sceneManager->getSkyBoxGenParameters( ); 
-				_sceneManager->setSkyBox( true, _skyBoxMaterial, 350 );
+				SceneManager::SkyBoxGenParameters skyBoxParameters = m_sceneManager->getSkyBoxGenParameters( ); 
+				m_sceneManager->setSkyBox( true, m_skyBoxMaterial, 350 );
 			}
 
-			_sceneManager->getCurrentViewport( )->getCamera( )->setFarClipDistance( farClip );
+			m_sceneManager->getCurrentViewport( )->getCamera( )->setFarClipDistance( farClip );
 		}
 
 		if( name == "fog" )
@@ -187,7 +187,7 @@ namespace Renderer
 			AnyValue::AnyValueMap parameters = value.GetValue< AnyValue::AnyValueMap >( );
 			Color color = parameters[ "color" ].GetValue< Renderer::Color >( );
 
-			_sceneManager->setFog( 
+			m_sceneManager->setFog( 
 				FOG_LINEAR, 
 				ColourValue( color.Red, color.Green, color.Blue ),
 				0.001000, 
@@ -199,7 +199,7 @@ namespace Renderer
 			skyPlane.d = 50;
 			skyPlane.normal = Vector3::NEGATIVE_UNIT_Y;
 
-			_sceneManager->setSkyPlane( true, skyPlane, "24-Default", 8, 4, true, 0, 4, 4 );*/
+			m_sceneManager->setSkyPlane( true, skyPlane, "24-Default", 8, 4, true, 0, 4, 4 );*/
 		}
 
 		if ( name == "skyBox" )
@@ -210,15 +210,15 @@ namespace Renderer
 
 			if ( material.empty( ) )
 			{
-				_sceneManager->setSkyBox( false, "" );
+				m_sceneManager->setSkyBox( false, "" );
 			}
 			else
 			{
-				_skyBoxMaterial = material;
+				m_skyBoxMaterial = material;
 
-				_sceneManager->setSkyBox( 
+				m_sceneManager->setSkyBox( 
 					true, 
-					_skyBoxMaterial, 
+					m_skyBoxMaterial, 
 					parameters[ "distance" ].GetValue< float >( ) );
 			}
 		}
@@ -226,8 +226,8 @@ namespace Renderer
 
 	ISystemScene* RendererSystem::CreateScene( )
 	{
-		_scene = new RendererSystemScene( _sceneManager );
-		return _scene;
+		m_scene = new RendererSystemScene( m_sceneManager );
+		return m_scene;
 	}
 
 	void RendererSystem::windowClosed( RenderWindow* rw )
@@ -238,7 +238,7 @@ namespace Renderer
 	std::vector< std::string > RendererSystem::GetVideoModes( ) const
 	{
 		std::vector< std::string > availableDisplayModes;
-		ConfigOptionMap options = _root->getRenderSystem( )->getConfigOptions( );
+		ConfigOptionMap options = m_root->getRenderSystem( )->getConfigOptions( );
 
 		for( ConfigOptionMap::iterator cm = options.begin( ); cm != options.end( ); ++cm )
 		{
@@ -249,7 +249,7 @@ namespace Renderer
 				for( StringVector::iterator i = possibleModes.begin( ); i != possibleModes.end( ); ++i )
 				{
 					std::stringstream currentColorDepth;
-					currentColorDepth << _window->getColourDepth( );
+					currentColorDepth << m_window->getColourDepth( );
 
 					int result = ( *i ).find( currentColorDepth.str( ) );
 
@@ -273,9 +273,9 @@ namespace Renderer
 		
 		NameValuePairList params;
 		params[ "externalWindowHandle" ] = StringConverter::toString( ( int ) Management::GetInstance( )->GetPlatformManager( )->GetWindowId( ) );
-		params[ "vsync" ] = _configuration->Find( _configSectionName, "vsync" ).GetValue< bool >( ) ? "true" : "false";
+		params[ "vsync" ] = m_configuration->Find( m_configSectionName, "vsync" ).GetValue< bool >( ) ? "true" : "false";
 
-		_window = _root->createRenderWindow( windowTitle, width, height, fullScreen, &params ); 
+		m_window = m_root->createRenderWindow( windowTitle, width, height, fullScreen, &params ); 
 	}
 
 	AnyValue::AnyValueMap RendererSystem::Execute( const std::string& actionName, AnyValue::AnyValueMap& parameters )
@@ -284,7 +284,7 @@ namespace Renderer
 
 		if ( actionName == "playAnimation" )
 		{
-			IRendererSystemComponent* component = _scene->GetComponent( parameters[ "entityName" ].GetValue< std::string >( ) );
+			IRendererSystemComponent* component = m_scene->GetComponent( parameters[ "entityName" ].GetValue< std::string >( ) );
 			
 			component->PlayAnimation( 
 				parameters[ "animationName" ].GetValue< std::string >( ),
@@ -294,7 +294,7 @@ namespace Renderer
 
 		if ( actionName == "getRenderWindow" )
 		{
-			results[ "renderWindow" ] = _window;
+			results[ "renderWindow" ] = m_window;
 		}
 
 		if( actionName == "getAvailableVideoModes" )
@@ -304,7 +304,7 @@ namespace Renderer
 
 		if ( actionName == "changeResolution" )
 		{
-			_window->setFullscreen(  
+			m_window->setFullscreen(  
 				parameters[ "fullScreen" ].GetValue< bool >( ),
 				parameters[ "width" ].GetValue< int >( ),
 				parameters[ "height" ].GetValue< int >( )
@@ -319,10 +319,15 @@ namespace Renderer
 				parameters[ "destination" ].GetValue< MathVector3 >( ).AsOgreVector3( ) 
 				);
 
-			SceneNode* lineNode = _sceneManager->createSceneNode( );
+			SceneNode* lineNode = m_sceneManager->createSceneNode( );
 			lineNode->attachObject( line );
-			_sceneManager->getRootSceneNode( )->addChild( lineNode );
+			m_sceneManager->getRootSceneNode( )->addChild( lineNode );
 
+		}
+
+		if ( actionName == "screenShot" )
+		{
+			m_window->writeContentsToFile( "C:\\Users\\NK\\Desktop\\output.png" );
 		}
 
 		return results;

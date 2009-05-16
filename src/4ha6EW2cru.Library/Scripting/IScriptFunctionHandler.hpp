@@ -4,8 +4,8 @@
 *  @file   IScriptFunctionHandler.hpp
 *  @date   2009/04/28
 */
-#ifndef __ISCRIPTGENERICHANDLER_HPP
-#define __ISCRIPTGENERICHANDLER_HPP
+#ifndef ISCRIPTGENERICHANDLER_HPP
+#define ISCRIPTGENERICHANDLER_HPP
 
 #include <luabind/luabind.hpp>
 

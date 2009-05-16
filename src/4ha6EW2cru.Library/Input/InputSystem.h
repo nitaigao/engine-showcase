@@ -4,8 +4,8 @@
 *  @file   InputSystem.h
 *  @date   2009/04/26
 */
-#ifndef __INPUTMANAGER_H
-#define __INPUTMANAGER_H
+#ifndef INPUTMANAGER_H
+#define INPUTMANAGER_H
 
 #include <vector>
 
@@ -46,10 +46,10 @@ namespace Input
 		 */
 		InputSystem( Configuration::IConfiguration* configuration )
 			: _inputAllowed( true )
-			, _configuration( configuration )
-			, _inputManager( 0 )
-			, _keyboard( 0 )
-			, _mouse( 0 )
+			, m_configuration( configuration )
+			, m_inputManager( 0 )
+			, m_keyboard( 0 )
+			, m_mouse( 0 )
 		{
 	
 		}
@@ -102,7 +102,7 @@ namespace Input
 		*
 		*  @return (AnyValueMap)
 		*/
-		inline AnyValue::AnyValueMap GetProperties( ) const { return _properties; };
+		inline AnyValue::AnyValueMap GetAttributes( ) const { return m_attributes; };
 	
 	
 		/*! Sets a System Property
@@ -111,7 +111,7 @@ namespace Input
 		*  @param[in] AnyValue value
 		*  @return (void)
 		*/
-		void SetProperty( const std::string& name, AnyValue value );
+		void SetAttribute( const std::string& name, AnyValue value );
 	
 
 		/*! Creates a SystemComponent specific to the SystemScene
@@ -177,13 +177,13 @@ namespace Input
 	
 		bool _inputAllowed;
 	
-		AnyValue::AnyValueMap _properties;
-		Configuration::IConfiguration* _configuration;
-		InputSystemSceneList _inputScenes;
+		AnyValue::AnyValueMap m_attributes;
+		Configuration::IConfiguration* m_configuration;
+		InputSystemSceneList m_inputScenes;
 	
-		OIS::InputManager* _inputManager;
-		OIS::Mouse* _mouse;
-		OIS::Keyboard* _keyboard;
+		OIS::InputManager* m_inputManager;
+		OIS::Mouse* m_mouse;
+		OIS::Keyboard* m_keyboard;
 	
 		InputSystem( ) { };
 		InputSystem( const InputSystem & copy ) { };

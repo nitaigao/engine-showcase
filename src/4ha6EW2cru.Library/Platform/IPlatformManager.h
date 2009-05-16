@@ -4,8 +4,8 @@
 *  @file   IPlatformManager.h
 *  @date   2009/04/25
 */
-#ifndef __IPLATFORMMANAGER_H
-#define __IPLATFORMMANAGER_H
+#ifndef IPLATFORMMANAGER_H
+#define IPLATFORMMANAGER_H
 
 #include <string>
 #include "../System/AnyValue.hpp"

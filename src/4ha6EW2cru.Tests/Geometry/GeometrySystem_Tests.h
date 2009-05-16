@@ -1,5 +1,5 @@
-#ifndef __GEOMETRYSYSTEM_TESTS_H
-#define __GEOMETRYSYSTEM_TESTS_H
+#ifndef GEOMETRYSYSTEM_TESTS_H
+#define GEOMETRYSYSTEM_TESTS_H
 
 #include <cppunit/extensions/HelperMacros.h>
 

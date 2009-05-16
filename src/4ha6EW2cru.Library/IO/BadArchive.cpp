@@ -29,13 +29,13 @@ namespace IO
 	{
 		StringVector* resultsVector = new StringVector( );
 
-		FileSearchResultList* results = Management::GetInstance( )->GetFileManager( )->FileSearch( "/data/", pattern, true );
+		FileSearchResult::FileSearchResultList* results = Management::GetInstance( )->GetFileManager( )->FileSearch( "/data/", pattern, true );
 
-		for( FileSearchResultList::iterator i = results->begin( ); i != results->end( ); ++i )
+		for( FileSearchResult::FileSearchResultList::iterator i = results->begin( ); i != results->end( ); ++i )
 		{
 			FileSearchResult result = ( *i );
 
-			_tableOfContents.insert( std::make_pair( result.FilePath, result ) );
+			m_tableOfContents.insert( std::make_pair( result.FilePath, result ) );
 			resultsVector->push_back( result.FilePath );
 		}
 
@@ -54,7 +54,7 @@ namespace IO
 		{
 			std::string searchTerm = pattern.substr( wildCardIndex + 1, pattern.length( ) - wildCardIndex );
 
-			for( TableOfContents::iterator i = _tableOfContents.begin( ); i != _tableOfContents.end( ); ++i )
+			for( TableOfContents::iterator i = m_tableOfContents.begin( ); i != m_tableOfContents.end( ); ++i )
 			{
 				if ( ( *i ).first.find( searchTerm ) != ( *i ).first.npos )
 				{
@@ -70,9 +70,9 @@ namespace IO
 		}
 		else
 		{
-			TableOfContents::iterator i = _tableOfContents.find( pattern );
+			TableOfContents::iterator i = m_tableOfContents.find( pattern );
 
-			if ( i != _tableOfContents.end( ) )
+			if ( i != m_tableOfContents.end( ) )
 			{
 				FileInfo fileInfo;
 

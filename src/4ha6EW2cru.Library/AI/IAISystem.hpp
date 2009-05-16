@@ -4,8 +4,8 @@
 *  @file   IAISystem.hpp
 *  @date   2009/04/27
 */
-#ifndef __IAISYSTEM_H
-#define __IAISYSTEM_H
+#ifndef IAISYSTEM_H
+#define IAISYSTEM_H
 
 #include "../System/ISystem.hpp"
 

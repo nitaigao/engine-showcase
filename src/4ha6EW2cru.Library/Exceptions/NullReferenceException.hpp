@@ -4,8 +4,8 @@
 *  @file   NullReferenceException.hpp
 *  @date   2009/04/25
 */
-#ifndef __NULLREFERENCEEXCEPTION_H
-#define __NULLREFERENCEEXCEPTION_H
+#ifndef NULLREFERENCEEXCEPTION_H
+#define NULLREFERENCEEXCEPTION_H
 
 #include <exception>
 #include <string>

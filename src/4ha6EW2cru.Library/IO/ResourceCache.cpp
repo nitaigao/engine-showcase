@@ -19,7 +19,7 @@ namespace Resources
 
 	ResourceCache::~ResourceCache()
 	{
-		for ( ResourceMap::iterator i = _resourceCache.begin( ); i != _resourceCache.end( ); ++i )
+		for ( ResourceMap::iterator i = m_resourceCache.begin( ); i != m_resourceCache.end( ); ++i )
 		{
 			delete ( *i ).second;
 		}
@@ -27,9 +27,9 @@ namespace Resources
 
 	IResource* ResourceCache::GetResource( const std::string& filePath )
 	{
-		ResourceMap::iterator result = _resourceCache.find( filePath );
+		ResourceMap::iterator result = m_resourceCache.find( filePath );
 
-		if ( result != _resourceCache.end( ) )
+		if ( result != m_resourceCache.end( ) )
 		{
 			std::stringstream cacheHitMessage;
 			cacheHitMessage << "ResourceCache::GetResource: Cache Hit for " << filePath;
@@ -41,7 +41,7 @@ namespace Resources
 		FileBuffer* fileBuffer = Management::GetInstance( )->GetFileManager( )->GetFile( filePath, true );
 		IResource* resource = new Resource( fileBuffer );
 
-		_resourceCache.insert( std::make_pair( filePath, resource ) );
+		m_resourceCache.insert( std::make_pair( filePath, resource ) );
 
 		std::stringstream cacheMissMessage;
 		cacheMissMessage << "ResourceCache::GetResource: Cache Miss for " << filePath;

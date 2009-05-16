@@ -76,7 +76,7 @@ void FileManagerFixture::Should_Return_No_Results_On_Recursive_File_Search_Given
 	FileSystem fileManager;
 	fileManager.Mount( "../../../etc/data/test/test.bad", "data/" );
 
-	FileSearchResultList* results = fileManager.FileSearch( "/", "blah", true );
+	FileSearchResult::FileSearchResultList* results = fileManager.FileSearch( "/", "blah", true );
 
 	CPPUNIT_ASSERT( results->empty( ) );
 
@@ -88,7 +88,7 @@ void FileManagerFixture::Should_Return_Results_On_Recursive_File_Search_Given_Va
 	FileSystem fileManager;
 	fileManager.Mount( "../../../etc/data/test/test.bad", "data/" );
 
-	FileSearchResultList* results = fileManager.FileSearch( "/", "*test*", true );
+	FileSearchResult::FileSearchResultList* results = fileManager.FileSearch( "/", "*test*", true );
 
 	CPPUNIT_ASSERT( !results->empty( ) );
 
@@ -100,7 +100,7 @@ void FileManagerFixture::Should_Return_No_Results_On_Non_Recursive_File_Search_G
 	FileSystem fileManager;
 	fileManager.Mount( "../../../etc/data/test/test.bad", "data/" );
 
-	FileSearchResultList* results = fileManager.FileSearch( "/", "blah", false );
+	FileSearchResult::FileSearchResultList* results = fileManager.FileSearch( "/", "blah", false );
 
 	CPPUNIT_ASSERT( results->empty( ) );
 
@@ -112,7 +112,7 @@ void FileManagerFixture::Should_Return_Results_On_Non_Recursive_File_Search_Give
 	FileSystem fileManager;
 	fileManager.Mount( "../../../etc/data/test/test.bad", "/" );
 
-	FileSearchResultList* results = fileManager.FileSearch( "/", "*test*", false );
+	FileSearchResult::FileSearchResultList* results = fileManager.FileSearch( "/", "*test*", false );
 
 	CPPUNIT_ASSERT( !results->empty( ) && results->size( ) == 1 );
 

@@ -4,8 +4,8 @@
 *  @file   EventType.hpp
 *  @date   2009/04/25
 */
-#ifndef __EVENTTYPE_H
-#define __EVENTTYPE_H
+#ifndef EVENTTYPE_H
+#define EVENTTYPE_H
 
 namespace Events
 {

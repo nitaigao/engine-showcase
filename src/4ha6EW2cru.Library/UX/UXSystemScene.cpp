@@ -17,16 +17,16 @@ namespace UX
 {
 	UXSystemScene::~UXSystemScene()
 	{
-		delete _gui;
-		_gui = 0;
+		delete m_gui;
+		m_gui = 0;
 	}
 
 	void UXSystemScene::Initialize( )
 	{
 		IService* renderService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::RENDER );
 		Ogre::RenderWindow* renderWindow = renderService->Execute( "getRenderWindow", AnyValue::AnyValueMap( ) )[ "renderWindow" ].GetValue< Ogre::RenderWindow* >( );
-		_gui->initialise( renderWindow, "/data/interface/core/core.xml" );
-		_gui->hidePointer( );
+		m_gui->initialise( renderWindow, "/data/interface/core/core.xml" );
+		m_gui->hidePointer( );
 
 		Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_PRESSED, this, &UXSystemScene::OnMousePressed );
 		Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_MOVED, this, &UXSystemScene::OnMouseMoved );
@@ -37,7 +37,7 @@ namespace UX
 		std::string scriptPath = "/data/interface/interface.lua";
 
 		UXSystemComponent* component = new UXSystemComponent( scriptPath, this );
-		_components.push_back( component );
+		m_components.push_back( component );
 
 		AnyValue::AnyValueMap scriptParameters;
 		scriptParameters[ "scriptPath" ] = scriptPath;
@@ -121,7 +121,7 @@ namespace UX
 	{
 		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
 
-		for ( UXSystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+		for ( UXSystemComponentList::iterator i = m_components.begin( ); i != m_components.end( ); ++i )
 		{
 			AnyValue::AnyValueMap parameters;
 			parameters[ "name" ] = ( *i )->GetName( );
@@ -135,14 +135,14 @@ namespace UX
 		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_KEY_DOWN, this, &UXSystemScene::OnKeyDown );
 		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_KEY_UP, this, &UXSystemScene::OnKeyUp );
 
-		_gui->shutdown( );
+		m_gui->shutdown( );
 	}
 
 	ISystemComponent* UXSystemScene::CreateComponent( const std::string& name, const std::string& type )
 	{
 		std::stringstream layoutPath;
 		layoutPath << "/data/interface/components/" << name << ".layout";
-		_gui->load( layoutPath.str( ) );
+		m_gui->load( layoutPath.str( ) );
 
 		std::stringstream scriptPath;
 		scriptPath << "/data/interface/components/" << name << ".lua";
@@ -159,9 +159,9 @@ namespace UX
 		luabind::globals( state )[ "ux" ] = component;
 		lua_resume( state, 0 );
 
-		_components.push_back( component );
+		m_components.push_back( component );
 
-		_gui->windowResized( _gui->getRenderWindow( ) );
+		m_gui->windowResized( m_gui->getRenderWindow( ) );
 
 		return component;
 	}
@@ -169,31 +169,31 @@ namespace UX
 	void UXSystemScene::OnMouseMoved( const IEvent* event )
 	{
 		MouseEventData* eventData = static_cast< MouseEventData* >( event->GetEventData( ) );
-		_gui->injectMouseMove( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, eventData->GetMouseState( ).Z.abs );
+		m_gui->injectMouseMove( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, eventData->GetMouseState( ).Z.abs );
 	}
 
 	void UXSystemScene::OnMousePressed( const IEvent* event )
 	{
 		MouseEventData* eventData = static_cast< MouseEventData* >( event->GetEventData( ) );
-		_gui->injectMousePress( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, MouseButton::Enum( eventData->GetMouseButtonId( ) ) );
+		m_gui->injectMousePress( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, MouseButton::Enum( eventData->GetMouseButtonId( ) ) );
 	}
 
 	void UXSystemScene::OnMouseReleased( const IEvent* event )
 	{
 		MouseEventData* eventData = static_cast< MouseEventData* >( event->GetEventData( ) );
-		_gui->injectMouseRelease( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, MouseButton::Enum( eventData->GetMouseButtonId( ) ) );
+		m_gui->injectMouseRelease( eventData->GetMouseState( ).X.abs, eventData->GetMouseState( ).Y.abs, MouseButton::Enum( eventData->GetMouseButtonId( ) ) );
 	}
 
 	void UXSystemScene::OnKeyUp( const IEvent* event )
 	{
 		KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
-		_gui->injectKeyRelease( KeyCode::Enum( eventData->GetKeyCode( ) ) );
+		m_gui->injectKeyRelease( KeyCode::Enum( eventData->GetKeyCode( ) ) );
 	}
 
 	void UXSystemScene::OnKeyDown( const IEvent* event )
 	{
 		KeyEventData* eventData = static_cast< KeyEventData* >( event->GetEventData( ) );
-		_gui->injectKeyPress( KeyCode::Enum( eventData->GetKeyCode( ) ) );
+		m_gui->injectKeyPress( KeyCode::Enum( eventData->GetKeyCode( ) ) );
 	}
 
 	void UXSystemScene::_unlinkWidget( WidgetPtr widget )
@@ -214,6 +214,6 @@ namespace UX
 
 	void UXSystemScene::Update( const float& deltaMilliseconds )
 	{
-		_gui->injectFrameEntered( deltaMilliseconds );
+		m_gui->injectFrameEntered( deltaMilliseconds );
 	}
 }

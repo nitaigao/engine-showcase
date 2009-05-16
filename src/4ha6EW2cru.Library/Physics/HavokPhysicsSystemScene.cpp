@@ -14,31 +14,31 @@ namespace Physics
 {
 	HavokPhysicsSystemScene::HavokPhysicsSystemScene( const hkpWorldCinfo& worldInfo )
 	{
-		_world = new hkpWorld( worldInfo );
-		_groupFilter = new hkpGroupFilter( );
-		_world->setCollisionFilter( _groupFilter );
-		_groupFilter->removeReference( );
+		m_world = new hkpWorld( worldInfo );
+		m_groupFilter = new hkpGroupFilter( );
+		m_world->setCollisionFilter( m_groupFilter );
+		m_groupFilter->removeReference( );
 
 		hkArray<hkProcessContext*> contexts;
 
-		_context = new hkpPhysicsContext( );
+		m_context = new hkpPhysicsContext( );
 		hkpPhysicsContext::registerAllPhysicsProcesses( );
-		_context->addWorld( _world );
-		contexts.pushBack( _context );
+		m_context->addWorld( m_world );
+		contexts.pushBack( m_context );
 
-		hkpAgentRegisterUtil::registerAllAgents( _world->getCollisionDispatcher( ) );
+		hkpAgentRegisterUtil::registerAllAgents( m_world->getCollisionDispatcher( ) );
 
-		_vdb = new hkVisualDebugger( contexts );
-		_vdb->serve( );
+		m_vdb = new hkVisualDebugger( contexts );
+		m_vdb->serve( );
 	}
 
 	HavokPhysicsSystemScene::~HavokPhysicsSystemScene()
 	{
-		_world->markForWrite( );
-		_world->removeReference( );
+		m_world->markForWrite( );
+		m_world->removeReference( );
 
-		_vdb->removeReference( ); 
-		_context->removeReference( );
+		m_vdb->removeReference( ); 
+		m_context->removeReference( );
 	}
 
 	ISystemComponent* HavokPhysicsSystemScene::CreateComponent( const std::string& name, const std::string& type )
@@ -54,17 +54,17 @@ namespace Physics
 			component = new PhysicsSystemComponent( name, this );
 		}
 
-		_components[ name ] = component;
+		m_components[ name ] = component;
 
 		return component;
 	}
 
 	void HavokPhysicsSystemScene::Update( const float& deltaMilliseconds )
 	{
-		_world->stepDeltaTime( deltaMilliseconds );
-		_vdb->step( deltaMilliseconds );
+		m_world->stepDeltaTime( deltaMilliseconds );
+		m_vdb->step( deltaMilliseconds );
 
-		for( PhysicsSystemComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+		for( PhysicsSystemComponentList::iterator i = m_components.begin( ); i != m_components.end( ); ++i )
 		{
 			( *i ).second->Update( deltaMilliseconds );
 		}
@@ -72,7 +72,7 @@ namespace Physics
 
 	void HavokPhysicsSystemScene::DestroyComponent( ISystemComponent* component )
 	{
-		_components.erase( component->GetName( ) );
+		m_components.erase( component->GetName( ) );
 		delete component;
 	}
 }

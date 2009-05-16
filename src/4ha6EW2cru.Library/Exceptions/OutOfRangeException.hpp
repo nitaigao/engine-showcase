@@ -4,8 +4,8 @@
 *  @file   OutOfRangeException.hpp
 *  @date   2009/04/25
 */
-#ifndef __OUTOFRANGEEXCEPTION_H
-#define __OUTOFRANGEEXCEPTION_H
+#ifndef OUTOFRANGEEXCEPTION_H
+#define OUTOFRANGEEXCEPTION_H
 
 /*! 
 *  An Exception for when the system goes out of range

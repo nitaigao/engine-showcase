@@ -4,8 +4,8 @@
 *  @file   GraphicsComponentSerializer.h
 *  @date   2009/04/27
 */
-#ifndef __GRAPHICSCOMPONENTSERIALIZER_H
-#define __GRAPHICSCOMPONENTSERIALIZER_H
+#ifndef GRAPHICSCOMPONENTSERIALIZER_H
+#define GRAPHICSCOMPONENTSERIALIZER_H
 
 #include "IComponentSerializer.hpp"
 

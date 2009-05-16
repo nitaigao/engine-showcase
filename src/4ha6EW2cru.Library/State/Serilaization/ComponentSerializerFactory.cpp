@@ -9,6 +9,7 @@
 #include "InputComponentSerializer.h"
 #include "AIComponentSerializer.h"
 #include "ScriptComponentSerializer.h"
+#include "SoundComponentSerializer.h"
 
 namespace Serialization
 {
@@ -40,6 +41,10 @@ namespace Serialization
 		else if ( systemType == System::Types::SCRIPT )
 		{
 			strategy = new ScriptComponentSerializer( );
+		}
+		else if ( systemType == System::Types::SOUND )
+		{
+			strategy = new SoundComponentSerializer( );
 		}
 
 		return strategy;

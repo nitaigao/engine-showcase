@@ -1,5 +1,5 @@
-#ifndef __SUITES_H
-#define __SUITES_H
+#ifndef SUITES_H
+#define SUITES_H
 
 #include <string>
 

@@ -57,7 +57,7 @@ namespace Platform
 		int screenWidth = GetSystemMetrics( SM_CXSCREEN ) ;
 		int screenHeight = GetSystemMetrics( SM_CYSCREEN ) ;
 
-		_hWnd = ( size_t ) CreateWindowExA( WS_EX_CONTROLPARENT, "WindowClassName", title.c_str( ),
+		m_hWnd = ( size_t ) CreateWindowExA( WS_EX_CONTROLPARENT, "WindowClassName", title.c_str( ),
 			( fullScreen ) ? WS_POPUP | WS_EX_TOPMOST : WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE,
 			( screenWidth - width ) / 2,  ( screenHeight - height ) / 2, width, height, NULL, NULL, GetModuleHandle( NULL ), NULL );
 	}
@@ -111,17 +111,17 @@ namespace Platform
 
 	void Win32PlatformManager::CloseWindow( )
 	{
-		DestroyWindow( ( HWND ) _hWnd );
+		DestroyWindow( ( HWND ) m_hWnd );
 	}
 
 	size_t Win32PlatformManager::GetWindowId( ) const
 	{
-		if ( _hWnd == 0 )
+		if ( m_hWnd == 0 )
 		{
 			return ( size_t ) GetConsoleWindow( );
 		}
 
-		return _hWnd; 
+		return m_hWnd; 
 	}
 
 	float Win32PlatformManager::GetTime( ) const

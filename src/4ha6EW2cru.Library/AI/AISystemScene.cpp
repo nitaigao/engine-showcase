@@ -15,10 +15,10 @@ namespace AI
 {
 	ISystemComponent* AISystemScene::CreateComponent( const std::string& name, const std::string& type )
 	{
-		_lastFrameAssignment = ( _lastFrameAssignment == 20 ) ? 0 : _lastFrameAssignment + 1;
+		m_lastFrameAssignment = ( m_lastFrameAssignment == 20 ) ? 0 : m_lastFrameAssignment + 1;
 
-		IAISystemComponent* component = new AISystemComponent( name, _lastFrameAssignment );
-		_components.insert( std::make_pair( component->GetFrameAssignment( ), component ) );
+		IAISystemComponent* component = new AISystemComponent( name, m_lastFrameAssignment );
+		m_components.insert( std::make_pair( component->GetFrameAssignment( ), component ) );
 
 		return component;
 	}
@@ -27,13 +27,13 @@ namespace AI
 	{
 		IAISystemComponent* aiComponent = static_cast< IAISystemComponent* >( component );
 
-		AISystemComponentMap::iterator i = _components.find( aiComponent->GetFrameAssignment( ) );
+		AISystemComponentMap::iterator i = m_components.find( aiComponent->GetFrameAssignment( ) );
 
-		while ( i != _components.end( ) )
+		while ( i != m_components.end( ) )
 		{
 			if ( ( *i ).second->GetName( ) == component->GetName( ) )
 			{
-				_components.erase( i );
+				m_components.erase( i );
 				break;
 			}
 
@@ -66,11 +66,11 @@ namespace AI
 
 	void AISystemScene::Update( const float& deltaMilliseconds )
 	{
-		_frameNumber = ( _frameNumber == 20 ) ? 0 : _frameNumber + 1;
+		m_frameNumber = ( m_frameNumber == 20 ) ? 0 : m_frameNumber + 1;
 
-		AISystemComponentMap::iterator i = _components.find( _frameNumber );
+		AISystemComponentMap::iterator i = m_components.find( m_frameNumber );
 
-		while ( i != _components.end( ) )
+		while ( i != m_components.end( ) )
 		{
 			( *i ).second->Update( deltaMilliseconds );
 			++i;

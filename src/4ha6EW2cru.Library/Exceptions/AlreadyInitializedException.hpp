@@ -4,8 +4,8 @@
 *  @file  AlreadyInitializedException.hpp
 *  @date   2009/04/25
 */
-#ifndef __ALREADYINITIALIZEDEXCEPTION_H
-#define __ALREADYINITIALIZEDEXCEPTION_H
+#ifndef ALREADYINITIALIZEDEXCEPTION_H
+#define ALREADYINITIALIZEDEXCEPTION_H
 
 /*! 
  *  An Exception to note an Already Initialized Component

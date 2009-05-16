@@ -22,6 +22,8 @@ using namespace luabind;
 #include "ScriptEvent.hpp"
 #include "ScriptFunctionHandler.hpp"
 
+#include "SoundController.h"
+
 namespace Script
 {
 	void ScriptComponent::Initialize( AnyValue::AnyValueMap& properties )
@@ -36,18 +38,28 @@ namespace Script
 				this->LoadScript( scriptPath );
 			}
 		}
+
+
+		SoundController* soundController = new SoundController( this );
+		luabind::globals( m_state )[ "sfx" ] = soundController;
+		m_controllers.push_back( soundController );
 	}
 
 	void ScriptComponent::Destroy()
 	{
 		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( ALL_EVENTS, this, &ScriptComponent::OnEvent );
 
-		for ( FunctionList::iterator i = _updateHandlers.begin( ); i != _updateHandlers.end( ); ++i )	
+		for ( FunctionList::iterator i = m_updateHandlers.begin( ); i != m_updateHandlers.end( ); ++i )	
 		{
 			delete ( *i );
 		}
 
-		for ( FunctionList::iterator i = _eventHandlers.begin( ); i != _eventHandlers.end( ); ++i )
+		for ( FunctionList::iterator i = m_eventHandlers.begin( ); i != m_eventHandlers.end( ); ++i )
+		{
+			delete ( *i );
+		}
+
+		for( ScriptControllerList::iterator i = m_controllers.begin( ); i != m_controllers.end( ); ++i )
 		{
 			delete ( *i );
 		}
@@ -57,14 +69,14 @@ namespace Script
 	{
 		IResource* resource = Management::GetInstance( )->GetResourceManager( )->GetResource( scriptPath );
 
-		int result = luaL_loadbuffer( _state, resource->GetFileBuffer( )->fileBytes, resource->GetFileBuffer( )->fileLength, resource->GetFileBuffer( )->filePath.c_str( ) );
+		int result = luaL_loadbuffer( m_state, resource->GetFileBuffer( )->fileBytes, resource->GetFileBuffer( )->fileLength, resource->GetFileBuffer( )->filePath.c_str( ) );
 
 		if ( LUA_ERRSYNTAX == result )
 		{
 			std::stringstream errorMessage;
-			errorMessage << lua_tostring( _state, -1 );
+			errorMessage << lua_tostring( m_state, -1 );
 			Logger::Warn( errorMessage.str( ) );
-			lua_pop( _state, 1 );
+			lua_pop( m_state, 1 );
 		}
 
 		if ( LUA_ERRMEM == result )
@@ -77,8 +89,7 @@ namespace Script
 
 	void ScriptComponent::Execute( )
 	{
-		//lua_resume( _state, 0 );
-		lua_pcall( _state, 0, 0, 0 );
+		lua_pcall( m_state, 0, 0, 0 );
 	}
 
 	void ScriptComponent::IncludeScript( const std::string& scriptPath )
@@ -90,12 +101,12 @@ namespace Script
 
 	void ScriptComponent::RegisterEvent( const luabind::object& function )
 	{
-		_eventHandlers.push_back( new ScriptFunctionHandler( function ) );
+		m_eventHandlers.push_back( new ScriptFunctionHandler( function ) );
 	}
 
 	void ScriptComponent::UnRegisterEvent( const luabind::object& function )
 	{
-		for ( FunctionList::iterator i = _eventHandlers.begin( ); i != _eventHandlers.end( ); ++i )
+		for ( FunctionList::iterator i = m_eventHandlers.begin( ); i != m_eventHandlers.end( ); ++i )
 		{
 			if ( ( *i )->GetFunction( ) == function )
 			{
@@ -106,12 +117,12 @@ namespace Script
 
 	void ScriptComponent::RegisterUpdate( const luabind::object& function )
 	{
-		_updateHandlers.push_back( new ScriptFunctionHandler( function ) );
+		m_updateHandlers.push_back( new ScriptFunctionHandler( function ) );
 	}
 
 	void ScriptComponent::UnRegisterUpdate( const luabind::object& function )
 	{
-		for ( FunctionList::iterator i = _updateHandlers.begin( ); i != _updateHandlers.end( ); ++i )
+		for ( FunctionList::iterator i = m_updateHandlers.begin( ); i != m_updateHandlers.end( ); ++i )
 		{
 			if ( ( *i )->GetFunction( ) == function )
 			{
@@ -122,7 +133,7 @@ namespace Script
 
 	void ScriptComponent::OnEvent( const IEvent* event )
 	{
-		for ( FunctionList::iterator i = _eventHandlers.begin( ); i != _eventHandlers.end( ); ++i )
+		for ( FunctionList::iterator i = m_eventHandlers.begin( ); i != m_eventHandlers.end( ); ++i )
 		{
 			EventType eventType = event->GetEventType( );
 			
@@ -218,9 +229,9 @@ namespace Script
 
 	void ScriptComponent::PushChanges( const unsigned int& systemChanges )
 	{
-		if ( _observer != 0 )
+		if ( m_observer != 0 )
 		{
-			_observer->Observe( this, systemChanges );
+			m_observer->Observe( this, systemChanges );
 		}	
 	}
 
@@ -253,42 +264,42 @@ namespace Script
 
 		if ( System::Changes::Geometry::Position & systemChanges )
 		{
-			_position = component->GetPosition( );
+			m_position = component->GetPosition( );
 		}
 
 		if ( System::Changes::Geometry::Orientation & systemChanges )
 		{
-			_orientation = component->GetOrientation( );
+			m_orientation = component->GetOrientation( );
 		}
 
 		if ( System::Changes::POI::LookAt & systemChanges )
 		{
-			_lookAt = component->GetProperties( )[ "lookAt" ].GetValue< MathVector3 >( );
+			m_lookAt = component->GetAttributes( )[ "lookAt" ].GetValue< MathVector3 >( );
 		}
 
 		if ( System::Changes::Input::Move_Forward & systemChanges )
 		{
-			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_MOVE_FORWARD", _name ) );
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_MOVE_FORWARD", m_name ) );
 		}
 
 		if ( System::Changes::Input::Move_Backward & systemChanges )
 		{
-			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_MOVE_BACKWARD", _name ) );
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_MOVE_BACKWARD", m_name ) );
 		}
 
 		if ( System::Changes::Input::Strafe_Right & systemChanges )
 		{
-			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_STRAFE_RIGHT", _name ) );
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_STRAFE_RIGHT", m_name ) );
 		}
 
 		if ( System::Changes::Input::Strafe_Left & systemChanges )
 		{
-			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_STRAFE_LEFT", _name ) );
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_STRAFE_LEFT", m_name ) );
 		}
 
 		if( System::Changes::Input::Fire & systemChanges )
 		{
-			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_FIRED", _name ) );
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_FIRED", m_name ) );
 		}
 	}
 
@@ -298,7 +309,7 @@ namespace Script
 
 		AnyValue::AnyValueMap parameters;
 
-		parameters[ "entityName" ] = _name;
+		parameters[ "entityName" ] = m_name;
 		parameters[ "animationName" ] = animationName;
 		parameters[ "loopAnimation" ] = loopAnimation;
 
@@ -307,17 +318,17 @@ namespace Script
 
 	void ScriptComponent::Update( const float& deltaMilliseconds )
 	{
-		for ( FunctionList::iterator i = _updateHandlers.begin( ); i != _updateHandlers.end( ); ++i )	
+		for ( FunctionList::iterator i = m_updateHandlers.begin( ); i != m_updateHandlers.end( ); ++i )	
 		{
 			call_function< void >( ( *i )->GetFunction( ), deltaMilliseconds );
 		}
 
-		for ( FunctionList::iterator i = _updateHandlers.begin( ); i != _updateHandlers.end( ); )	
+		for ( FunctionList::iterator i = m_updateHandlers.begin( ); i != m_updateHandlers.end( ); )	
 		{
 			if ( ( *i )->IsMarkedForDeletion( ) )
 			{
 				delete ( *i );
-				i = _updateHandlers.erase( i );
+				i = m_updateHandlers.erase( i );
 			}
 			else
 			{
@@ -325,12 +336,12 @@ namespace Script
 			}
 		}
 
-		for ( FunctionList::iterator i = _eventHandlers.begin( ); i != _eventHandlers.end( ); )
+		for ( FunctionList::iterator i = m_eventHandlers.begin( ); i != m_eventHandlers.end( ); )
 		{
 			if ( ( *i )->IsMarkedForDeletion( ) )
 			{
 				delete ( *i );
-				i = _eventHandlers.erase( i );
+				i = m_eventHandlers.erase( i );
 			}
 			else
 			{
@@ -341,11 +352,16 @@ namespace Script
 
 	void ScriptComponent::ExecuteString( const std::string& input )
 	{
-		luaL_dostring( _state, input.c_str( ) );
+		luaL_dostring( m_state, input.c_str( ) );
 	}
 
 	float ScriptComponent::GetTime( ) const
 	{
 		return Management::GetInstance( )->GetPlatformManager( )->GetTime( );
+	}
+
+	AnyValue ScriptComponent::Message( const std::string& message, AnyValue::AnyValueMap parameters )
+	{
+		return AnyValue( );
 	}
 }

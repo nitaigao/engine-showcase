@@ -4,8 +4,8 @@
 *  @file   ScriptFunctionHandler.hpp
 *  @date   2009/04/28
 */
-#ifndef __SCRIPTGENERICHANDLER_HPP
-#define __SCRIPTGENERICHANDLER_HPP
+#ifndef SCRIPTGENERICHANDLER_HPP
+#define SCRIPTGENERICHANDLER_HPP
 
 #include "IScriptFunctionHandler.hpp"
 
@@ -30,8 +30,8 @@ namespace Script
 		 *  @return ()
 		 */
 		ScriptFunctionHandler( const luabind::object& functionHandler )
-			: _functionHandler( functionHandler )
-			, _isMarkedForDeletion( false )
+			: m_functionHandler( functionHandler )
+			, m_isMarkedForDeletion( false )
 		{
 
 		}
@@ -41,26 +41,26 @@ namespace Script
 		 *
 		 *  @return (void)
 		 */
-		inline void MarkForDeletion( ) { _isMarkedForDeletion = true; };
+		inline void MarkForDeletion( ) { m_isMarkedForDeletion = true; };
 
 
 		/*! Returns whether or not the handler is marked for deletion on the next UX Update or Event Tick
 		 *
 		 *  @return (bool)
 		 */
-		inline bool IsMarkedForDeletion( ) const { return _isMarkedForDeletion; };
+		inline bool IsMarkedForDeletion( ) const { return m_isMarkedForDeletion; };
 
 
 		/*! Returns the LUA function
 		*
 		*  @return (luabind::object)
 		*/
-		inline luabind::object GetFunction( ) const { return _functionHandler; };
+		inline luabind::object GetFunction( ) const { return m_functionHandler; };
 
 	private:
 
-		bool _isMarkedForDeletion;
-		luabind::object _functionHandler;
+		bool m_isMarkedForDeletion;
+		luabind::object m_functionHandler;
 
 		ScriptFunctionHandler( const ScriptFunctionHandler & copy ) { };
 		ScriptFunctionHandler & operator = ( const ScriptFunctionHandler & copy ) { return *this; };

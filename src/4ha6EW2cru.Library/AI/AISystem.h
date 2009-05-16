@@ -4,8 +4,8 @@
 *  @file   AISystem.h
 *  @date   2009/04/25
 */
-#ifndef __AISYSTEM_H
-#define __AISYSTEM_H
+#ifndef AISYSTEM_H
+#define AISYSTEM_H
 
 #include "IAISystem.hpp"
 
@@ -73,7 +73,7 @@ namespace AI
 		 *
 		 *  @return (AnyValueMap)
 		 */
-		inline AnyValue::AnyValueMap GetProperties( ) const { return _properties; };
+		inline AnyValue::AnyValueMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets a System Property
@@ -82,11 +82,11 @@ namespace AI
 		 *  @param[in] AnyValue value
 		 *  @return (void)
 		 */
-		inline void SetProperty( const std::string& name, AnyValue value ) { };
+		inline void SetAttribute( const std::string& name, AnyValue value ) { };
 
 	private:
 
-		AnyValue::AnyValueMap _properties;
+		AnyValue::AnyValueMap m_attributes;
 	};
 };
 

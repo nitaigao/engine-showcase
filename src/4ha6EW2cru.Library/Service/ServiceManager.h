@@ -4,8 +4,8 @@
 *  @file   ServiceManager.h
 *  @date   2009/04/25
 */
-#ifndef __SERVICEMANAGER_H
-#define __SERVICEMANAGER_H
+#ifndef SERVICEMANAGER_H
+#define SERVICEMANAGER_H
 
 #include <vector>
 #include "IServiceManager.h"
@@ -36,7 +36,7 @@ public:
 	*  @param[in] IService * service
 	*  @return (void)
 	*/
-	inline void RegisterService( IService* service ) { _services.push_back( service ); };
+	inline void RegisterService( IService* service ) { m_services.push_back( service ); };
 
 	/*! Finds a Registered Service by System::Types::Type
 	*
@@ -48,7 +48,7 @@ public:
 
 private:
 
-	IService::ServiceList _services;
+	IService::ServiceList m_services;
 
 };
 

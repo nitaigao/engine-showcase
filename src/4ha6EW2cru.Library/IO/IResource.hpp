@@ -1,5 +1,5 @@
-#ifndef __IRESOURCE_H
-#define __IRESOURCE_H
+#ifndef IRESOURCE_H
+#define IRESOURCE_H
 
 #include "FileBuffer.hpp"
 

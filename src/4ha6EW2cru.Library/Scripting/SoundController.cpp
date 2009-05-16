@@ -14,4 +14,20 @@ namespace Script
 
 		soundService->Execute( "playMusic", parameters );
 	}
+
+	void SoundController::TriggerEvent( const std::string& eventPath )
+	{
+		AnyValue::AnyValueMap parameters;
+		parameters[ "eventPath" ] = eventPath;
+
+		m_scriptComponent->PostMessage( "triggerEvent", parameters );
+	}
+
+	void SoundController::KeyOutEvent( const std::string& eventPath )
+	{
+		AnyValue::AnyValueMap parameters;
+		parameters[ "eventPath" ] = eventPath;
+
+		m_scriptComponent->PostMessage( "keyOutEvent", parameters );
+	}
 }

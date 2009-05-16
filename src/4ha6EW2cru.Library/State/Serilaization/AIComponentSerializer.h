@@ -4,8 +4,8 @@
 *  @file   AIComponentSerializer.h
 *  @date   2009/04/27
 */
-#ifndef __AICOMPONENTSERIALIZER_H
-#define __AICOMPONENTSERIALIZER_H
+#ifndef AICOMPONENTSERIALIZER_H
+#define AICOMPONENTSERIALIZER_H
 
 #include "IComponentSerializer.hpp"
 

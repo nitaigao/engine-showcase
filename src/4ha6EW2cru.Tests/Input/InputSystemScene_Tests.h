@@ -1,5 +1,5 @@
-#ifndef __INPUT_SYSTEMSCENE_TESTS
-#define __INPUT_SYSTEMSCENE_TESTS
+#ifndef INPUT_SYSTEMSCENE_TESTS
+#define INPUT_SYSTEMSCENE_TESTS
 
 #include <cppunit/extensions/HelperMacros.h>
 

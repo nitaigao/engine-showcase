@@ -1,5 +1,5 @@
-#ifndef __MOCK_FILEMANAGER_H
-#define __MOCK_FILEMANAGER_H
+#ifndef MOCK_FILEMANAGER_H
+#define MOCK_FILEMANAGER_H
 
 #include "mockpp/mockpp.h"
 #include "mockpp/MockObject.h"
@@ -45,9 +45,9 @@ public:
 		return false;
 	}
 
-	FileSearchResultList* FileSearch( const std::string path, const std::string searchPattern, const bool recursive ) const
+	FileSearchResult::FileSearchResultList* FileSearch( const std::string path, const std::string searchPattern, const bool recursive ) const
 	{
-		return new FileSearchResultList( );
+		return new FileSearchResult::FileSearchResultList( );
 	}
 
 private:

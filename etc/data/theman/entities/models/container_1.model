@@ -1,0 +1,10 @@
+<node name='container_1'>
+  <scale x='1' y='1' z='1'/>
+  <position x='75.3151' y='0.248126' z='-313.55'/>
+  <rotation qw='0.774298' qx='0.00369172' qy='0.632794' qz='-0.00451726'/>
+  <entity name='container_1' id='3132' receiveShadows='true' meshFile='/data/entities/meshes/container_1.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='NoMaterial' index='0'/>
+    </subentities>
+  </entity>
+</node>

@@ -1,5 +1,5 @@
-#ifndef __EVENT_FIXTURE_H
-#define __EVENT_FIXTURE_H
+#ifndef EVENT_FIXTURE_H
+#define EVENT_FIXTURE_H
 
 #include <cppunit/extensions/HelperMacros.h>
 

@@ -5,8 +5,8 @@
 *  @date   2009/04/27
 */
 
-#ifndef __IAISYSTEMSCENE_H
-#define __IAISYSTEMSCENE_H
+#ifndef IAISYSTEMSCENE_H
+#define IAISYSTEMSCENE_H
 
 #include "../System/ISystemScene.hpp"
 

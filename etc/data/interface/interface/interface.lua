@@ -15,6 +15,8 @@ function Interface.initialize( )
 
 	print( 'Loading Interface' )
 	
+	--sfx:triggerEvent( 'game/ux/title_loaded' )
+	
 	script:unregisterEventHandler( Interface.onEvent )
 	ux:showMouse( )
 

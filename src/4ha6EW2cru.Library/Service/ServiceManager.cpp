@@ -2,7 +2,7 @@
 
 IService* ServiceManager::FindService( System::Types::Type systemType ) const
 {
-	for( IService::ServiceList::const_iterator i = _services.begin( ); i != _services.end( ); ++i )
+	for( IService::ServiceList::const_iterator i = m_services.begin( ); i != m_services.end( ); ++i )
 	{
 		if ( ( *i )->GetType( ) == systemType )
 		{

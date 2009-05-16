@@ -4,8 +4,8 @@
 *  @file   ISystemScene.hpp
 *  @date   2009/04/25
 */
-#ifndef __ISYSTEMWORLD_H
-#define __ISYSTEMWORLD_H
+#ifndef ISYSTEMWORLD_H
+#define ISYSTEMWORLD_H
 
 #include <string>
 #include <map>

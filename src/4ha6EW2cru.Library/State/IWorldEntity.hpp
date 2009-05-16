@@ -4,8 +4,8 @@
 *  @file   IWorldEntity.hpp
 *  @date   2009/04/27
 */
-#ifndef __IWORLDENTITY_HPP
-#define __IWORLDENTITY_HPP
+#ifndef IWORLDENTITY_HPP
+#define IWORLDENTITY_HPP
 
 #include "../System/ISystemComponent.hpp"
 

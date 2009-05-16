@@ -6,8 +6,8 @@ namespace UX
 {
 	ISystemScene* UXSystem::CreateScene()
 	{
-		_scene = new UXSystemScene( );
-		_scene->Initialize( ); 
-		return _scene;
+		m_scene = new UXSystemScene( );
+		m_scene->Initialize( ); 
+		return m_scene;
 	}
 };

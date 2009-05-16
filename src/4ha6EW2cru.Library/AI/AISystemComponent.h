@@ -4,8 +4,8 @@
 *  @file   AISystemComponent.h
 *  @date   2009/04/25
 */
-#ifndef __AISYSTEMCOMPONENT_H
-#define __AISYSTEMCOMPONENT_H
+#ifndef AISYSTEMCOMPONENT_H
+#define AISYSTEMCOMPONENT_H
 
 #include <string>
 #include "../System/SystemType.hpp"
@@ -40,11 +40,11 @@ namespace AI
 		 *  @return ()
 		 */
 		AISystemComponent( const std::string& name, const int& frameAssignment )
-			: _name( name )
-			, _frameAssignment( frameAssignment )
-			, _scriptState( 0 )
-			, _observer( 0 )
-			, _id( 0 )
+			: m_name( name )
+			, m_frameAssignment( frameAssignment )
+			, m_scriptState( 0 )
+			, m_observer( 0 )
+			, m_id( 0 )
 		{
 
 		}
@@ -103,7 +103,7 @@ namespace AI
 		 *
 		 *  @return (const std::string&)
 		 */
-		inline const std::string& GetName( ) const { return _name; };
+		inline const std::string& GetName( ) const { return m_name; };
 
 
 		/*! Sets the Id of the component unique to its containing World Entity
@@ -111,14 +111,14 @@ namespace AI
 		*  @param[in] const unsigned int & id
 		*  @return (void)
 		*/
-		inline void SetId( const unsigned int& id ) { _id = id; };
+		inline void SetId( const unsigned int& id ) { m_id = id; };
 
 
 		/*! Returns a numerical Id for the component unique to its containing World Entity
 		*
 		*  @return (unsigned int)
 		*/
-		inline unsigned int GetId( ) const { return _id; };
+		inline unsigned int GetId( ) const { return m_id; };
 
 
 		/*! Gets the System::Types::Type of the Component
@@ -142,7 +142,7 @@ namespace AI
 		 *
 		 *  @return (AnyValueMap)
 		 */
-		inline AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };
+		inline AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
 
 
 		/*! Sets the Properties of the Component
@@ -150,14 +150,14 @@ namespace AI
 		 *  @param[in] AnyValue::AnyValueMap systemProperties
 		 *  @return (void)
 		 */
-		inline void SetProperties( AnyValue::AnyValueMap& properties ) { };
+		inline void SetAttributes( AnyValue::AnyValueMap& properties ) { };
 
 
 		/*! Gets the Position of the Component
 		 *
 		 *  @return (MathVector3)
 		 */
-		inline Maths::MathVector3 GetPosition( ) const { return _position; };
+		inline Maths::MathVector3 GetPosition( ) const { return m_position; };
 
 
 		/*! Gets the Scale of the Component
@@ -171,7 +171,7 @@ namespace AI
 		 *
 		 *  @return (MathQuaternion)
 		 */
-		inline Maths::MathQuaternion GetOrientation( ) const { return _orientation; };
+		inline Maths::MathQuaternion GetOrientation( ) const { return m_orientation; };
 
 
 		/* Inherited from IBehavior */
@@ -188,7 +188,7 @@ namespace AI
 		 *
 		 *  @return (std::string)
 		 */
-		std::string GetBehavior( ) const { return _behavior; };
+		std::string GetBehavior( ) const { return m_behavior; };
 
 
 		/* AI Specific */
@@ -197,7 +197,7 @@ namespace AI
 		*
 		*  @return (int)
 		*/
-		inline int GetFrameAssignment( ) const { return _frameAssignment; };
+		inline int GetFrameAssignment( ) const { return m_frameAssignment; };
 
 
 		/* Script Callbacks */
@@ -234,7 +234,7 @@ namespace AI
 		 *
 		 *  @return (float)
 		 */
-		inline float GetPlayerDistance( ) { return _playerDistance; };
+		inline float GetPlayerDistance( ) { return m_playerDistance; };
 
 
 		/*! Plays an Animation
@@ -245,24 +245,31 @@ namespace AI
 		 */
 		void PlayAnimation( const std::string& animationName, const bool& loopAnimation );
 
+
+		/*! Messages the Component to influence its internal state
+		*
+		*  @param[in] const std::string & message
+		*  @return (AnyValue)
+		*/
+		AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters ) { return AnyValue( ); };
+
 	private:
 
-		std::string _name;
-		unsigned int _id;
+		std::string m_name;
+		unsigned int m_id;
 
-		lua_State* _scriptState;
-		int _frameAssignment;
+		lua_State* m_scriptState;
+		int m_frameAssignment;
 
-		IObserver* _observer;
+		IObserver* m_observer;
+		std::string m_behavior;
 
-		std::string _behavior;
+		Maths::MathVector3 m_position;
+		Maths::MathQuaternion m_orientation;
 
-		Maths::MathVector3 _position;
-		Maths::MathQuaternion _orientation;
-
-		Maths::MathVector3 _playerPosition;
-		Maths::MathQuaternion _playerOrientation;
-		float _playerDistance;
+		Maths::MathVector3 m_playerPosition;
+		Maths::MathQuaternion m_playerOrientation;
+		float m_playerDistance;
 
 	};
 };

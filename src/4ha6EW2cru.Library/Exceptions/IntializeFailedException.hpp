@@ -4,8 +4,8 @@
 *  @file   IntializeFailedException.hpp
 *  @date   2009/04/25
 */
-#ifndef __INITAILIZEFAILED_EXCEPTION_H
-#define __INITAILIZEFAILED_EXCEPTION_H
+#ifndef INITAILIZEFAILED_EXCEPTION_H
+#define INITAILIZEFAILED_EXCEPTION_H
 
 /*! 
 *  An Exception for when a component fails to initialize properly

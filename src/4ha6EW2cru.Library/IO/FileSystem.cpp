@@ -125,16 +125,16 @@ namespace IO
 		PHYSFS_close( file );
 	}
 
-	FileSearchResultList* FileSystem::FileSearch( const std::string& path, const std::string& searchPattern, const bool& recursive ) const
+	FileSearchResult::FileSearchResultList* FileSystem::FileSearch( const std::string& path, const std::string& searchPattern, const bool& recursive ) const
 	{
-		FileSearchResultList* results = new FileSearchResultList( );
+		FileSearchResult::FileSearchResultList* results = new FileSearchResult::FileSearchResultList( );
 		
-		_FileSearch( path, searchPattern, recursive, results );
+		this->_FileSearch( path, searchPattern, recursive, results );
 		
 		return results;
 	}
 
-	FileSearchResultList* FileSystem::_FileSearch( const std::string& path, const std::string& pattern, const bool& recursive, FileSearchResultList* results ) const
+	FileSearchResult::FileSearchResultList* FileSystem::_FileSearch( const std::string& path, const std::string& pattern, const bool& recursive, FileSearchResult::FileSearchResultList* results ) const
 	{
 		char **rc = PHYSFS_enumerateFiles( path.c_str( ) );
 
@@ -150,7 +150,7 @@ namespace IO
 				std::stringstream newPath;
 				newPath << path << *i << "/";
 
-				_FileSearch( newPath.str( ), pattern, recursive, results );
+				this->_FileSearch( newPath.str( ), pattern, recursive, results );
 			}
 			else
 			{

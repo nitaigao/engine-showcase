@@ -8,7 +8,7 @@
 <build_project>1</build_project>
 <build_headerfile>0</build_headerfile>
 <build_banklists>0</build_banklists>
-<build_programmerreport>1</build_programmerreport>
+<build_programmerreport>0</build_programmerreport>
 <build_applytemplate>0</build_applytemplate>
 <currentbank>ux_bank01</currentbank>
 <currentlanguage>default</currentlanguage>
@@ -396,7 +396,7 @@
 <notes></notes>
 <currentplatform>PC</currentplatform>
 <_PC_encryptionkey></_PC_encryptionkey>
-<_PC_builddirectory>C:/Users/NK/Development/viper/etc/data/sound/music</_PC_builddirectory>
+<_PC_builddirectory>C:/Users/NK/Development/viper/etc/data/sound/sound/music</_PC_builddirectory>
 <_PC_audiosourcedirectory></_PC_audiosourcedirectory>
 <_PC_prebuildcommands></_PC_prebuildcommands>
 <_PC_postbuildcommands></_PC_postbuildcommands>

@@ -4,8 +4,8 @@
 *  @file   IAISystemComponent.hpp
 *  @date   2009/04/27
 */
-#ifndef __IAISYSTEMCOMPONENT_HPP
-#define __IAISYSTEMCOMPONENT_HPP
+#ifndef IAISYSTEMCOMPONENT_HPP
+#define IAISYSTEMCOMPONENT_HPP
 
 #include "../System/ISystemComponent.hpp"
 #include "../Scripting/IScriptComponent.hpp"

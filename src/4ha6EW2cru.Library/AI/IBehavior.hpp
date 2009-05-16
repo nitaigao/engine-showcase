@@ -4,8 +4,8 @@
 *  @file   IBehavior.hpp
 *  @date   2009/04/27
 */
-#ifndef __IBEHAVIOR_HPP
-#define __IBEHAVIOR_HPP
+#ifndef IBEHAVIOR_HPP
+#define IBEHAVIOR_HPP
 
 namespace AI
 {

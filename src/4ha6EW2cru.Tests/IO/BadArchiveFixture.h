@@ -1,5 +1,5 @@
-#ifndef __BADARCHIVE_FIXTURE_H
-#define __BADARCHIVE_FIXTURE_H
+#ifndef BADARCHIVE_FIXTURE_H
+#define BADARCHIVE_FIXTURE_H
 
 #include <cppunit/extensions/HelperMacros.h>
 

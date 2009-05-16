@@ -1,5 +1,5 @@
-#ifndef __MOCKSCRIPTBINDER_H
-#define __MOCKSCRIPTBINDER_H
+#ifndef MOCKSCRIPTBINDER_H
+#define MOCKSCRIPTBINDER_H
 
 #include "Events/IEventListener.hpp"
 

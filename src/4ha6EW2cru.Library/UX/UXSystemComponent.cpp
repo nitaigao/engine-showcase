@@ -55,7 +55,7 @@ namespace UX
 
 		Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GRAPHICS_SETTINGS_CHANGED", width, height ) );
 
-		_scene->GetGui( )->windowResized( _scene->GetGui( )->getRenderWindow( ) );
+		m_scene->GetGui( )->windowResized( m_scene->GetGui( )->getRenderWindow( ) );
 	}
 
 	void UXSystemComponent::SetInputAllowed( bool inputAllowed )
@@ -97,7 +97,7 @@ namespace UX
 
 	void UXSystemComponent::LoadComponent( const std::string componentName )
 	{
-		_scene->CreateComponent( componentName, "default" );
+		m_scene->CreateComponent( componentName, "default" );
 	}
 
 	void UXSystemComponent::SetFarClip( const float& farClip )

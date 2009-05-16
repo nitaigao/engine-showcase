@@ -4,8 +4,8 @@
 *  @file   IScriptConfiguration.hpp
 *  @date   2009/04/27
 */
-#ifndef __ISCRIPTCONFIGURATION_HPP
-#define __ISCRIPTCONFIGURATION_HPP
+#ifndef ISCRIPTCONFIGURATION_HPP
+#define ISCRIPTCONFIGURATION_HPP
 
 namespace Script
 {

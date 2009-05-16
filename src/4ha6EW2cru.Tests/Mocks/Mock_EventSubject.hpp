@@ -1,5 +1,5 @@
-#ifndef __MOCK_EVENTSUBJECT_H
-#define __MOCK_EVENTSUBJECT_H
+#ifndef MOCK_EVENTSUBJECT_H
+#define MOCK_EVENTSUBJECT_H
 
 #include "mockpp/mockpp.h"
 #include "mockpp/MockObject.h"

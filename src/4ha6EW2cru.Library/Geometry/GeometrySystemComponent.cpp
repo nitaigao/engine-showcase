@@ -10,13 +10,13 @@ namespace Geometry
 		{
 			if ( ( *i ).first == "position" )
 			{
-				_position = ( *i ).second.GetValue< MathVector3 >( );
+				m_position = ( *i ).second.GetValue< MathVector3 >( );
 				this->PushChanges( System::Changes::Geometry::Position );
 			}
 
 			if ( ( *i ).first == "orientation" )
 			{
-				_orientation = ( *i ).second.GetValue< MathQuaternion >( );
+				m_orientation = ( *i ).second.GetValue< MathQuaternion >( );
 				this->PushChanges( System::Changes::Geometry::Orientation );
 			}
 		}
@@ -24,7 +24,7 @@ namespace Geometry
 
 	void GeometrySystemComponent::PushChanges( const unsigned int& systemChanges )
 	{
-		for( ObserverList::iterator i = _observers.begin( ); i != _observers.end( ); ++i )
+		for( ObserverList::iterator i = m_observers.begin( ); i != m_observers.end( ); ++i )
 		{
 			( *i )->Observe( this, systemChanges );
 		}
@@ -34,8 +34,8 @@ namespace Geometry
 	{
 		ISystemComponent* component = static_cast< ISystemComponent* >( subject );
 
-		_position = component->GetPosition( );
-		_orientation = component->GetOrientation( );
+		m_position = component->GetPosition( );
+		m_orientation = component->GetOrientation( );
 
 		this->PushChanges( 
 			System::Changes::Geometry::Position |

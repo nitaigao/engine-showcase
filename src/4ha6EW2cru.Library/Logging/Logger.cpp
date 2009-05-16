@@ -9,7 +9,7 @@
 
 namespace Logging
 {
-	LogLevel Logger::_logLevel = LEVEL_FATAL;
+	LogLevel Logger::s_logLevel = LEVEL_FATAL;
 
 	void Logger::LogMessage( const std::string& level, const std::string& message )
 	{
@@ -35,33 +35,33 @@ namespace Logging
 
 	void Logger::Info( const std::string& message )
 	{
-		if ( _logLevel >= LEVEL_INFO )
+		if ( s_logLevel >= LEVEL_INFO )
 		{
-			_logger.LogMessage( "INFO", message );
+			s_logger.LogMessage( "INFO", message );
 		}
 	}
 
 	void Logger::Debug( const std::string& message )
 	{
-		if ( _logLevel >= LEVEL_DEBUG )
+		if ( s_logLevel >= LEVEL_DEBUG )
 		{
-			_logger.LogMessage( "DEBUG", message );
+			s_logger.LogMessage( "DEBUG", message );
 		}
 	}
 
 	void Logger::Warn( const std::string& message )
 	{
-		if ( _logLevel >= LEVEL_WARN )
+		if ( s_logLevel >= LEVEL_WARN )
 		{
-			_logger.LogMessage( "WARN", message );
+			s_logger.LogMessage( "WARN", message );
 		}
 	}
 
 	void Logger::Fatal( const std::string& message )
 	{
-		if ( _logLevel >= LEVEL_FATAL )
+		if ( s_logLevel >= LEVEL_FATAL )
 		{
-			_logger.LogMessage( "FATAL", message );
+			s_logger.LogMessage( "FATAL", message );
 		}
 	}
 }

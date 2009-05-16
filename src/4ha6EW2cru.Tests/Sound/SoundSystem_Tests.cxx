@@ -1,5 +1,5 @@
-#ifndef __SOUNDSYSTEM_SPECS_H
-#define __SOUNDSYSTEM_SPECS_H
+#ifndef SOUNDSYSTEM_SPECS_H
+#define SOUNDSYSTEM_SPECS_H
 
 #include "../Suites.h"
 #include "Specification.hpp"

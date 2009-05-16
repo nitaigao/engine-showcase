@@ -4,12 +4,13 @@
 *  @file   ScriptComponent.h
 *  @date   2009/04/27
 */
-#ifndef __SCRIPTCOMPONENT_H
-#define __SCRIPTCOMPONENT_H
+#ifndef SCRIPTCOMPONENT_H
+#define SCRIPTCOMPONENT_H
 
 #include "IScriptComponent.hpp"
 #include "../Events/IEvent.hpp"
 
+#include "IScriptController.hpp"
 #include "IScriptFunctionHandler.hpp"
 
 #include <luabind/luabind.hpp>
@@ -22,6 +23,7 @@ namespace Script
 	class ScriptComponent : public IScriptComponent
 	{
 		typedef std::vector< IScriptFunctionHandler* > FunctionList;
+		typedef std::vector< IScriptController* > ScriptControllerList;
 
 	public:
 
@@ -38,11 +40,11 @@ namespace Script
 		*  @return ()
 		*/
 		ScriptComponent( const std::string& name, lua_State* state )
-			: _name( name )
-			, _id( 0 )
-			, _state( state )
-			, _observer( 0 )
-			, _eventHandlers( 0 )
+			: m_name( name )
+			, m_id( 0 )
+			, m_state( state )
+			, m_observer( 0 )
+			, m_eventHandlers( 0 )
 		{
 
 		};
@@ -76,7 +78,7 @@ namespace Script
 		*  @param[in] IObserver * observer
 		*  @return (void)
 		*/
-		inline void AddObserver( IObserver* observer ) { _observer = observer; };
+		inline void AddObserver( IObserver* observer ) { m_observer = observer; };
 
 
 		/*! Observes a change in the Subject
@@ -113,7 +115,7 @@ namespace Script
 		*
 		*  @return (const std::string&)
 		*/
-		inline const std::string& GetName( ) const { return _name; };
+		inline const std::string& GetName( ) const { return m_name; };
 
 
 		/*! Sets the Id of the component unique to its containing World Entity
@@ -121,14 +123,14 @@ namespace Script
 		*  @param[in] const unsigned int & id
 		*  @return (void)
 		*/
-		inline void SetId( const unsigned int& id ) { _id = id; };
+		inline void SetId( const unsigned int& id ) { m_id = id; };
 
 
 		/*! Returns a numerical Id for the component unique to its containing World Entity
 		*
 		*  @return (unsigned int)
 		*/
-		inline unsigned int GetId( ) const { return _id; };
+		inline unsigned int GetId( ) const { return m_id; };
 
 
 		/*! Gets the System::Types::Type of the Component
@@ -142,7 +144,7 @@ namespace Script
 		*
 		*  @return (AnyValueMap)
 		*/
-		AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };
+		AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
 
 
 		/*! Sets the Properties of the Component
@@ -150,35 +152,52 @@ namespace Script
 		*  @param[in] AnyValue::AnyValueMap systemProperties
 		*  @return (void)
 		*/
-		void SetProperties( AnyValue::AnyValueMap& properties ) { };
+		void SetAttributes( AnyValue::AnyValueMap& properties ) { };
 
 
 		/*! Gets the Position of the Component
 		*
 		*  @return (MathVector3)
 		*/
-		inline Maths::MathVector3 GetPosition( ) const { return _position; };
+		inline Maths::MathVector3 GetPosition( ) const { return m_position; };
 
 
 		/*! Gets the Scale of the Component
 		*
 		*  @return (MathVector3)
 		*/
-		inline Maths::MathVector3 GetScale( ) const { return _scale; };
+		inline Maths::MathVector3 GetScale( ) const { return m_scale; };
 
 
 		/*! Gets the Orientation of the Component
 		*
 		*  @return (MathQuaternion)
 		*/
-		inline Maths::MathQuaternion GetOrientation( ) const { return _orientation; };
+		inline Maths::MathQuaternion GetOrientation( ) const { return m_orientation; };
+
+
+		/*! Messages the Component to influence its internal state
+		*
+		*  @param[in] const std::string & message
+		*  @return (AnyValue)
+		*/
+		AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters );
+
+
+		/*! Posts a message to the parent Entity
+		 *
+		 *  @param[in] const std::string & message
+		 *  @param[in] AnyValue::AnyValueMap parameters
+		 *  @return (AnyValue)
+		 */
+		AnyValue PostMessage( const std::string& message, AnyValue::AnyValueMap parameters ) { return m_observer->Message( message, parameters ); };
 
 
 		/*! Returns the LUA state of the Component
 		*
 		*  @return (lua_State*)
 		*/
-		inline lua_State* GetState( ) const { return _state; };
+		inline lua_State* GetState( ) const { return m_state; };
 
 
 		/*! Generic Event Handler to Forward Game Events to the Script
@@ -347,26 +366,28 @@ namespace Script
 		 */
 		float GetTime( ) const;
 
-		Maths::MathVector3 GetLookAt( ) const { return _lookAt; };
+		Maths::MathVector3 GetLookAt( ) const { return m_lookAt; };
 
 	private:
 
 		ScriptComponent( const ScriptComponent & copy ) { };
 		ScriptComponent & operator = ( const ScriptComponent & copy ) { return *this; };
 
-		lua_State* _state;
-		std::string _name;
-		unsigned int _id;
+		lua_State* m_state;
+		std::string m_name;
+		unsigned int m_id;
 
-		FunctionList _eventHandlers;
-		FunctionList _updateHandlers;
+		FunctionList m_eventHandlers;
+		FunctionList m_updateHandlers;
 
-		IObserver* _observer;
+		ScriptControllerList m_controllers;
 
-		Maths::MathVector3 _position;
-		Maths::MathVector3 _scale;
-		Maths::MathQuaternion _orientation;
-		Maths::MathVector3 _lookAt;
+		IObserver* m_observer;
+
+		Maths::MathVector3 m_position;
+		Maths::MathVector3 m_scale;
+		Maths::MathQuaternion m_orientation;
+		Maths::MathVector3 m_lookAt;
 
 	};
 };

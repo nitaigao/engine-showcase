@@ -4,8 +4,8 @@
 *  @file   IFileSystem.hpp
 *  @date   2009/04/26
 */
-#ifndef __IFILESYSTEM_H
-#define __IFILESYSTEM_H
+#ifndef IFILESYSTEM_H
+#define IFILESYSTEM_H
 
 #include "FileBuffer.hpp"
 #include "FileSearchResult.hpp"
@@ -76,7 +76,7 @@ namespace IO
 		 *  @param[in] const bool recursive
 		 *  @return (FileSearchResultList*)
 		 */
-		virtual FileSearchResultList* FileSearch( const std::string& path, const std::string& searchPattern, const bool& recursive ) const = 0;
+		virtual FileSearchResult::FileSearchResultList* FileSearch( const std::string& path, const std::string& searchPattern, const bool& recursive ) const = 0;
 
 	};
 };

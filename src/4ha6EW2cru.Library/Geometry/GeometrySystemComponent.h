@@ -4,8 +4,8 @@
 *  @file   GeometrySystemComponent.h
 *  @date   2009/04/26
 */
-#ifndef __GEOMETRYSYSTEMCOMPONENT_H
-#define __GEOMETRYSYSTEMCOMPONENT_H
+#ifndef GEOMETRYSYSTEMCOMPONENT_H
+#define GEOMETRYSYSTEMCOMPONENT_H
 
 #include "../System/IObserver.hpp"
 #include "../System/ISystemComponent.hpp"
@@ -38,9 +38,9 @@ namespace Geometry
 		 *  @param[in] const std::string & name
 		 *  @return ()
 		 */
-		GeometrySystemComponent( const std::string& name )
-			: _name( name )
-			, _id( 0 )
+		explicit GeometrySystemComponent( const std::string& name )
+			: m_name( name )
+			, m_id( 0 )
 		{
 
 		}
@@ -74,7 +74,7 @@ namespace Geometry
 		*  @param[in] IObserver * observer
 		*  @return (void)
 		*/
-		void AddObserver( IObserver* observer ) { _observers.push_back( observer ); };
+		void AddObserver( IObserver* observer ) { m_observers.push_back( observer ); };
 
 
 		/*! Observes a change in the Subject
@@ -98,7 +98,7 @@ namespace Geometry
 		*
 		*  @return (const std::string&)
 		*/
-		inline const std::string& GetName( ) const { return _name; };
+		inline const std::string& GetName( ) const { return m_name; };
 
 
 		/*! Sets the Id of the component unique to its containing World Entity
@@ -106,14 +106,14 @@ namespace Geometry
 		*  @param[in] const unsigned int & id
 		*  @return (void)
 		*/
-		inline void SetId( const unsigned int& id ) { _id = id; };
+		inline void SetId( const unsigned int& id ) { m_id = id; };
 
 
 		/*! Returns a numerical Id for the component unique to its containing World Entity
 		*
 		*  @return (unsigned int)
 		*/
-		inline unsigned int GetId( ) const { return _id; };
+		inline unsigned int GetId( ) const { return m_id; };
 
 
 		/*! Gets the System::Types::Type of the Component
@@ -137,7 +137,7 @@ namespace Geometry
 		*
 		*  @return (AnyValueMap)
 		*/
-		inline AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };
+		inline AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
 
 
 		/*! Sets the Properties of the Component
@@ -145,39 +145,47 @@ namespace Geometry
 		*  @param[in] AnyValue::AnyValueMap systemProperties
 		*  @return (void)
 		*/
-		inline void SetProperties( AnyValue::AnyValueMap& properties ) { };
+		inline void SetAttributes( AnyValue::AnyValueMap& properties ) { };
 
 
 		/*! Gets the Position of the Component
 		*
 		*  @return (MathVector3)
 		*/
-		inline Maths::MathVector3 GetPosition( ) const { return _position; };
+		inline Maths::MathVector3 GetPosition( ) const { return m_position; };
 
 
 		/*! Gets the Scale of the Component
 		*
 		*  @return (MathVector3)
 		*/
-		inline Maths::MathVector3 GetScale( ) const { return _scale; };
+		inline Maths::MathVector3 GetScale( ) const { return m_scale; };
 
 
 		/*! Gets the Orientation of the Component
 		*
 		*  @return (MathQuaternion)
 		*/
-		inline Maths::MathQuaternion GetOrientation( ) const { return _orientation; };
+		inline Maths::MathQuaternion GetOrientation( ) const { return m_orientation; };
+
+
+		/*! Messages the Component to influence its internal state
+		*
+		*  @param[in] const std::string & message
+		*  @return (AnyValue)
+		*/
+		AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters ) { return AnyValue( ); };
 
 	private:
 
-		std::string _name;
-		unsigned int _id;
+		std::string m_name;
+		unsigned int m_id;
 
-		ObserverList _observers;
+		ObserverList m_observers;
 
-		Maths::MathVector3 _position;
-		Maths::MathVector3 _scale;
-		Maths::MathQuaternion _orientation;
+		Maths::MathVector3 m_position;
+		Maths::MathVector3 m_scale;
+		Maths::MathQuaternion m_orientation;
 
 		GeometrySystemComponent( ) { };
 		GeometrySystemComponent( const GeometrySystemComponent & copy ) { };

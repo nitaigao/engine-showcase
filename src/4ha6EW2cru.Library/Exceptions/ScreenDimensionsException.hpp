@@ -4,8 +4,8 @@
 *  @file   ScreenDimensionsException.hpp
 *  @date   2009/04/25
 */
-#ifndef __SCREENDIMENSIONSEXCEPTION
-#define __SCREENDIMENSIONSEXCEPTION
+#ifndef SCREENDIMENSIONSEXCEPTION
+#define SCREENDIMENSIONSEXCEPTION
 
 /*! 
 *  An Exception for when the game cannotachieve a given resolution

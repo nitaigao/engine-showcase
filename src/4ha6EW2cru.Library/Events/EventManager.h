@@ -2,17 +2,16 @@
 *  @company Black Art Studios
 *  @author Nicholas Kostelnik
 *  @file   EventManager.h
-*  @date   2009/04/25
+*  @date   2008/10/25
 */
-#ifndef __EVENTMANAGER_H
-#define __EVENTMANAGER_H
+#ifndef EVENTMANAGER_H
+#define EVENTMANAGER_H
 
 #include <queue>
 #include <map>
 
 #include "IEvent.hpp"
 #include "EventListener.h"
-#include "IEventListener.hpp"
 
 namespace Events
 {
@@ -41,7 +40,7 @@ namespace Events
 		EventManager( ) { };
 
 		
-		/*! Queues an Event for processing on the next Tick
+		/*! Queues an Event for processing on the next call to Update
 		 *
 		 *  @param[in] const IEvent * event
 		 *  @return (void)
@@ -49,7 +48,7 @@ namespace Events
 		void QueueEvent( const Events::IEvent* event );
 
 
-		/*!  Processes an Event immediately
+		/*! Processes an Event immediately
 		 *
 		 *  @param[in] const IEvent * event
 		 *  @return (void)
@@ -57,7 +56,7 @@ namespace Events
 		void TriggerEvent( const Events::IEvent* event );
 
 		
-		/*! Fires all events in the Event Queue
+		/*! Dispatched all events in the Event Queue to their Listening Event Handlers
 		 *
 		 *  @param[in] float deltaMilliseconds
 		 *  @return (void)
@@ -68,15 +67,15 @@ namespace Events
 		/*! Adds an EventListener for Event processing
 		 *
 		 *  @param[in] const EventType eventType
-		 *  @param[in] AT * handlerTarget
+		 *  @param[in] T * handlerTarget
 		 *  @param[in] void 
-		 *  @param[in] AT:: * handlerFunctor 
+		 *  @param[in] T:: * handlerFunctor 
 		 *  @param[in] 
 		 *  @param[in] const IEvent * event 
 		 *  @return (void)
 		 */
-		template< class AT >
-		void AddEventListener( const EventType eventType, AT* handlerTarget, void ( AT::*handlerFunctor ) ( const IEvent* event ) )
+		template< class T >
+		void AddEventListener( const EventType eventType, T* handlerTarget, void ( T::*handlerFunctor ) ( const IEvent* event ) )
 		{
 			if ( 0 == handlerTarget )
 			{
@@ -92,23 +91,23 @@ namespace Events
 				throw nullFunctor;
 			}
 
-			EventListener< AT >* eventListener = new EventListener< AT >( eventType, handlerTarget, handlerFunctor );
-			_eventListeners.push_back( eventListener );
+			EventListener< T >* eventListener = new EventListener< T >( eventType, handlerTarget, handlerFunctor );
+			m_eventListeners.push_back( eventListener );
 		}
 
-		
-		/*! Marks an Event Listener for Removal on the Next Update
+
+		/*! Marks an Event Listener for removal on the next call to Update
 		 *
 		 *  @param[in] const EventType eventType
-		 *  @param[in] RT * handlerTarget
+		 *  @param[in] T * handlerTarget
 		 *  @param[in] void 
-		 *  @param[in] RT:: * handlerFunctor 
+		 *  @param[in] T:: * handlerFunctor 
 		 *  @param[in] 
 		 *  @param[in] const IEvent * event 
 		 *  @return (void)
 		 */
-		template< class RT >
-		void RemoveEventListener( const EventType eventType, RT* handlerTarget, void ( RT::*handlerFunctor ) ( const IEvent* event ) )
+		template< class T >
+		void RemoveEventListener( const EventType eventType, T* handlerTarget, void ( T::*handlerFunctor ) ( const IEvent* event ) )
 		{
 			if ( 0 == handlerTarget )
 			{
@@ -124,9 +123,9 @@ namespace Events
 				throw nullFunctor;
 			}
 
-			for ( EventListenerList::iterator i = _eventListeners.begin( ); i != _eventListeners.end( ); ++i )
+			for ( EventListenerList::iterator i = m_eventListeners.begin( ); i != m_eventListeners.end( ); ++i )
 			{
-				EventListener< RT >* eventListener = static_cast< EventListener< RT >* >( ( *i ) );
+				EventListener< T >* eventListener = static_cast< EventListener< T >* >( ( *i ) );
 
 				if (
 					handlerFunctor == eventListener->GetHandlerFunctor( ) &&
@@ -142,11 +141,11 @@ namespace Events
 
 	private:
 
-		EventQueue _eventQueue;
-		EventListenerList _eventListeners;
-
 		EventManager( const EventManager & copy ) { };
 		EventManager & operator = ( const EventManager & copy ) { return *this; };
+
+		EventQueue m_eventQueue;
+		EventListenerList m_eventListeners;
 
 	};
 };

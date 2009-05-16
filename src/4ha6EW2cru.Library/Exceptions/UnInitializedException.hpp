@@ -4,8 +4,10 @@
 *  @file   UnInitializedException.hpp
 *  @date   2009/04/25
 */
-#ifndef __UNINITIALIZEDEXCEPTION
-#define __UNINITIALIZEDEXCEPTION
+#ifndef UNINITIALIZEDEXCEPTION
+#define UNINITIALIZEDEXCEPTION
+
+namespace Exceptions{ };
 
 /*! 
 *  An Exception for when the system tries to access something that hasn't been initialized

@@ -1,5 +1,5 @@
-#ifndef __HAVOKPHYSICS_SYSTEM_TESTS
-#define __HAVOKPHYSICS_SYSTEM_TESTS
+#ifndef HAVOKPHYSICS_SYSTEM_TESTS
+#define HAVOKPHYSICS_SYSTEM_TESTS
 
 #include <cppunit/extensions/HelperMacros.h>
 

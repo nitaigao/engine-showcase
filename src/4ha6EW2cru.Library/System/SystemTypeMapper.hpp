@@ -4,8 +4,8 @@
 *  @file   SystemTypeMapper.hpp
 *  @date   2009/04/25
 */
-#ifndef __SYSTEMTYPEMAPPER_H
-#define __SYSTEMTYPEMAPPER_H
+#ifndef SYSTEMTYPEMAPPER_H
+#define SYSTEMTYPEMAPPER_H
 
 #include <string>
 #include "../Exceptions/OutOfRangeException.hpp"
@@ -52,6 +52,10 @@ namespace System
 			else if ( systemType == "ai" )
 			{
 				return System::Types::AI;
+			}
+			else if( systemType == "sound" )
+			{
+				return System::Types::SOUND;
 			}
 
 			if ( returnType == System::Types::NONE )

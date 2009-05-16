@@ -4,8 +4,8 @@
 *  @file   FileSystem.h
 *  @date   2009/04/26
 */
-#ifndef __FILESYSTEM_H
-#define __FILESYSTEM_H
+#ifndef FILESYSTEM_H
+#define FILESYSTEM_H
 
 #include "IFileSystem.hpp"
 
@@ -85,11 +85,11 @@ namespace IO
 		*  @param[in] const bool recursive
 		*  @return (FileSearchResultList*)
 		*/
-		FileSearchResultList* FileSearch( const std::string& path, const std::string& searchPattern, const bool& recursive ) const;
+		FileSearchResult::FileSearchResultList* FileSearch( const std::string& path, const std::string& searchPattern, const bool& recursive ) const;
 
 	private:
 
-		FileSearchResultList* _FileSearch( const std::string& path, const std::string& pattern, const bool& recursive, FileSearchResultList* results ) const;
+		FileSearchResult::FileSearchResultList*_FileSearch( const std::string& path, const std::string& pattern, const bool& recursive, FileSearchResult::FileSearchResultList* results ) const;
 
 		FileSystem( const FileSystem & copy ) { };
 		FileSystem & operator = ( const FileSystem & copy ) { return *this; };

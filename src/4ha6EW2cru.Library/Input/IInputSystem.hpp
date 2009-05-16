@@ -4,8 +4,8 @@
 *  @file   IInputSystem.hpp
 *  @date   2009/04/26
 */
-#ifndef __IINPUTSYSTEM_H
-#define __IINPUTSYSTEM_H
+#ifndef IINPUTSYSTEM_H
+#define IINPUTSYSTEM_H
 
 #include "../System/ISystem.hpp"
 

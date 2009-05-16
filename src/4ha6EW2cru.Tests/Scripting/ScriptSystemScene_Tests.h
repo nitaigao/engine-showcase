@@ -1,5 +1,5 @@
-#ifndef __SCRIPT_SYSTEMSCENE_TESTS
-#define __SCRIPT_SYSTEMSCENE_TESTS
+#ifndef SCRIPT_SYSTEMSCENE_TESTS
+#define SCRIPT_SYSTEMSCENE_TESTS
 
 #include <cppunit/extensions/HelperMacros.h>
 

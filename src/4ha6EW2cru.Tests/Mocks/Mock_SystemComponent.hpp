@@ -1,5 +1,5 @@
-#ifndef __MOCK_SYSTEMENTITY_H
-#define __MOCK_SYSTEMENTITY_H
+#ifndef MOCK_SYSTEMENTITY_H
+#define MOCK_SYSTEMENTITY_H
 
 #include "mockpp/mockpp.h"
 #include "mockpp/MockObject.h"
@@ -37,12 +37,14 @@ public:
 	inline unsigned int GetId( ) const { return 0; };
 	inline System::Types::Type GetType( ) const { return _systemType; };
 
-	inline AnyValue::AnyValueMap GetProperties( ) const { return AnyValue::AnyValueMap( ); };
-	inline void SetProperties( AnyValue::AnyValueMap& properties ) { };
+	inline AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
+	inline void SetAttributes( AnyValue::AnyValueMap& properties ) { };
 
 	inline MathVector3 GetPosition( ) const { return MathVector3::Zero( ); };
 	inline MathVector3 GetScale( ) const { return MathVector3::Zero( ); };
 	inline MathQuaternion GetOrientation( ) const { return MathQuaternion::Identity( ); };
+
+	AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters ) { return AnyValue( 0 ); };
 
 private:
 

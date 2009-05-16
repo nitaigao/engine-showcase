@@ -4,8 +4,8 @@
 *  @file   IRenderSystemScene.h
 *  @date   2009/04/27
 */
-#ifndef __IRENDERSYSTEMSCENE_H
-#define __IRENDERSYSTEMSCENE_H
+#ifndef IRENDERSYSTEMSCENE_H
+#define IRENDERSYSTEMSCENE_H
 
 #include "../System/ISystemScene.hpp"
 #include "IRendererSystemComponent.hpp"

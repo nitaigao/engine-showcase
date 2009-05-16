@@ -25,27 +25,23 @@ namespace Script
 {
 	ScriptSystemScene::~ScriptSystemScene( )
 	{
-		delete _eventHandlers;
-		_eventHandlers = 0;
+		delete m_eventHandlers;
+		m_eventHandlers = 0;
 
-		delete _soundController;
-		_soundController = 0;
-
-		delete _scriptConfiguration;
-		_scriptConfiguration = 0;
+		delete m_scriptConfiguration;
+		m_scriptConfiguration = 0;
 	}
 
 	ScriptSystemScene::ScriptSystemScene( Configuration::IConfiguration* configuration )
 	{
-		_scriptConfiguration = new ScriptConfiguration( configuration );
-		_soundController = new SoundController( );
-		_state = lua_open( );
-		_eventHandlers = new EventHandlerList( );
+		m_scriptConfiguration = new ScriptConfiguration( configuration );
+		m_state = lua_open( );
+		m_eventHandlers = new EventHandlerList( );
 	}
 
 	ISystemComponent* ScriptSystemScene::CreateComponent( const std::string& name, const std::string& type )
 	{
-		int result = lua_checkstack( _state, LUA_MINSTACK );
+		int result = lua_checkstack( m_state, LUA_MINSTACK );
 
 		if( !result )
 		{
@@ -54,31 +50,31 @@ namespace Script
 			throw e;
 		}
 		
-		int top = lua_gettop( _state ); 
-		lua_getfield( _state, LUA_REGISTRYINDEX, "Scripts" ); // top + 1 
+		int top = lua_gettop( m_state ); 
+		lua_getfield( m_state, LUA_REGISTRYINDEX, "Scripts" ); // top + 1 
 
-		lua_State *childState = lua_newthread( _state ); // top + 2 
+		lua_State *childState = lua_newthread( m_state ); // top + 2 
 
 		ScriptComponent* component = new ScriptComponent( name, childState );
 		
-		lua_newtable( _state );  // a global table for this script 
-		lua_newtable( _state );  // meta table 
+		lua_newtable( m_state );  // a global table for this script 
+		lua_newtable( m_state );  // meta table 
 		
-		lua_getfenv( _state,top + 2 ); // that returns the global table (we are	going to protect) 
-		lua_setfield( _state, -2, "__index" ); // set global table as __index of the thread 
-		lua_setmetatable( _state, -2 );
-		lua_setfenv( _state, top + 2 );  // set environment of the new thread
+		lua_getfenv( m_state,top + 2 ); // that returns the global table (we are	going to protect) 
+		lua_setfield( m_state, -2, "__index" ); // set global table as __index of the thread 
+		lua_setmetatable( m_state, -2 );
+		lua_setfenv( m_state, top + 2 );  // set environment of the new thread
 
 		luabind::globals( childState )[ "script" ] = component;
 
-		_components[ name ] = component;
+		m_components[ name ] = component;
 
 		return component;
 	}
 
 	void ScriptSystemScene::DestroyComponent( ISystemComponent* component )
 	{
-		_components.erase( component->GetName( ) );
+		m_components.erase( component->GetName( ) );
 		component->Destroy( );
 		delete component;
 		component = 0;
@@ -86,18 +82,15 @@ namespace Script
 
 	void ScriptSystemScene::Initialize( )
 	{
-		luaL_openlibs( _state );
-		luabind::open( _state );
+		luaL_openlibs( m_state );
+		luabind::open( m_state );
 
-		module( _state )
+		module( m_state )
 		[
 			def( "print", &ScriptSystemScene::Print ),
 			def( "quit", &ScriptSystemScene::Quit ),
 			def( "loadLevel", &ScriptSystemScene::LoadLevel ),
 			def( "endGame", &ScriptSystemScene::EndGame ),
-
-			class_< SoundController >( "SoundController" )
-				.def( "playMusic", &SoundController::PlayMusic ),
 
 			class_< ScriptConfiguration >( "Config" )
 				.property( "isFullScreen", &ScriptConfiguration::IsFullScreen, &ScriptConfiguration::SetFullScreen )
@@ -127,6 +120,10 @@ namespace Script
 				.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const int& ) ) &ScriptComponent::BroadcastEvent )
 				.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const std::string& ) ) &ScriptComponent::BroadcastEvent ),
 
+				class_< SoundController >( "SoundController" )
+					.def( "triggerEvent", &SoundController::TriggerEvent )
+					.def( "keyOutEvent", &SoundController::KeyOutEvent ),
+
 			class_< MathVector3 >( "Vector" )
 				.def( constructor< const float&, const float&, const float& >( ) )
 				.def( self + MathVector3( ) ),
@@ -136,8 +133,7 @@ namespace Script
 
 		];
 
-		luabind::globals( _state )[ "Configuration" ] = _scriptConfiguration;
-		luabind::globals( _state )[ "sfx" ] = _soundController;
+		luabind::globals( m_state )[ "Configuration" ] = m_scriptConfiguration;
 
 		luabind::set_pcall_callback( &ScriptSystemScene::Script_PError );
 		luabind::set_error_callback( &ScriptSystemScene::Script_Error );
@@ -146,8 +142,8 @@ namespace Script
 
 	void ScriptSystemScene::Destroy()
 	{
-		lua_close( _state );
-		_state = 0;
+		lua_close( m_state );
+		m_state = 0;
 	}
 
 	int ScriptSystemScene::Script_PError( lua_State* luaState )
@@ -220,7 +216,7 @@ namespace Script
 
 	void ScriptSystemScene::Update( const float& deltaMilliseconds )
 	{
-		for( ScriptComponentList::iterator i = _components.begin( ); i != _components.end( ); ++i )
+		for( ScriptComponentList::iterator i = m_components.begin( ); i != m_components.end( ); ++i )
 		{
 			( *i ).second->Update( deltaMilliseconds );
 		}
@@ -228,6 +224,6 @@ namespace Script
 
 	ISystemComponent* ScriptSystemScene::FindComponent( const std::string& name ) const
 	{
-		return ( *( _components.find( name ) ) ).second;
+		return ( *( m_components.find( name ) ) ).second;
 	}
 }

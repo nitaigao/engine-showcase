@@ -9,7 +9,7 @@ namespace State
 {
 	World::~World()
 	{
-		for ( SystemSceneMap::reverse_iterator i = _systemScenes.rbegin( ); i != _systemScenes.rend( ); ++i )
+		for ( SystemSceneMap::reverse_iterator i = m_systemScenes.rbegin( ); i != m_systemScenes.rend( ); ++i )
 		{
 			( *i ).second->Destroy( );
 			delete ( *i ).second;
@@ -18,19 +18,19 @@ namespace State
 	
 	IWorldEntity* World::CreateEntity( const std::string& name )
 	{
-		IWorldEntity* entity = new WorldEntity( name, _lastEntityId++ );
-		_entities.push_back( entity );
+		IWorldEntity* entity = new WorldEntity( name, m_lastEntityId++ );
+		m_entities.push_back( entity );
 		return entity;
 	}
 	
 	void World::Update( const float& deltaMilliseconds )
 	{
 		float logicStep = 1.0f / 100.0f;
-		_stepAccumulator += deltaMilliseconds;
+		m_stepAccumulator += deltaMilliseconds;
 	
-		while( _stepAccumulator >= logicStep )
+		while( m_stepAccumulator >= logicStep )
 		{
-			for( SystemSceneMap::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
+			for( SystemSceneMap::iterator i = m_systemScenes.begin( ); i != m_systemScenes.end( ); ++i )
 			{
 				if ( 
 					( *i ).second->GetType( ) != System::Types::AI && 
@@ -41,12 +41,13 @@ namespace State
 				}
 			}
 	
-			_stepAccumulator -= logicStep;
+			m_stepAccumulator -= logicStep;
 		}
 	
-		for( SystemSceneMap::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
+		for( SystemSceneMap::iterator i = m_systemScenes.begin( ); i != m_systemScenes.end( ); ++i )
 		{
 			if( 
+				( *i ).second->GetType( ) == System::Types::INPUT ||
 				( *i ).second->GetType( ) == System::Types::AI ||
 				( *i ).second->GetType( ) == System::Types::RENDER
 				)
@@ -58,24 +59,24 @@ namespace State
 	
 	void World::Clear( )
 	{
-		for ( IWorldEntity::WorldEntityList::iterator e = _entities.begin( ); e != _entities.end( ); ++e )
+		for ( IWorldEntity::WorldEntityList::iterator e = m_entities.begin( ); e != m_entities.end( ); ++e )
 		{
 			SystemComponentList components = ( *e )->GetComponents( );
 	
 			for( SystemComponentList::iterator c = components.begin( ); c != components.end( ); ++c )
 			{
-				_systemScenes[ ( *c )->GetType( ) ]->DestroyComponent( ( *c ) );
+				m_systemScenes[ ( *c )->GetType( ) ]->DestroyComponent( ( *c ) );
 			}
 	
 			delete ( *e );
 		}
 	
-		_entities.clear( );
+		m_entities.clear( );
 	}
 	
 	IWorldEntity* World::FindEntity( const std::string& name )
 	{
-		for ( IWorldEntity::WorldEntityList::iterator e = _entities.begin( ); e != _entities.end( ); ++e )
+		for ( IWorldEntity::WorldEntityList::iterator e = m_entities.begin( ); e != m_entities.end( ); ++e )
 		{
 			if ( ( *e )->GetName( ) == name )
 			{

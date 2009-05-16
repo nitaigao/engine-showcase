@@ -22,13 +22,13 @@ namespace AI
 	{
 		AnyValue::AnyValueMap parameters;
 		parameters[ "scriptPath" ] = properties[ "scriptPath" ].GetValue< std::string >( );
-		parameters[ "name" ] = _name + "_ai";
+		parameters[ "name" ] = m_name + "_ai";
 
 		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
-		_scriptState = scriptService->Execute( "loadScript", parameters )[ "state" ].GetValue< lua_State* >( );
+		m_scriptState = scriptService->Execute( "loadScript", parameters )[ "state" ].GetValue< lua_State* >( );
 
-		luabind::globals( _scriptState )[ "ai" ] = this;
-		lua_resume( _scriptState, 0 );
+		luabind::globals( m_scriptState )[ "ai" ] = this;
+		lua_resume( m_scriptState, 0 );
 	}
 
 	void AISystemComponent::Destroy()
@@ -36,7 +36,7 @@ namespace AI
 		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
 
 		AnyValue::AnyValueMap parameters;
-		parameters[ "name" ] = _name + "_ai";
+		parameters[ "name" ] = m_name + "_ai";
 		scriptService->Execute( "unloadComponent", parameters );
 	}
 
@@ -52,15 +52,15 @@ namespace AI
 
 	void AISystemComponent::PushChanges( const unsigned int& systemChanges )
 	{
-		if ( _observer != 0 )
+		if ( m_observer != 0 )
 		{
-			_observer->Observe( this, systemChanges );
+			m_observer->Observe( this, systemChanges );
 		}
 	}
 
 	void AISystemComponent::SetBehavior( const std::string& behavior )
 	{
-		_behavior = behavior;
+		m_behavior = behavior;
 		this->PushChanges( System::Changes::AI::Behavior );
 	}
 
@@ -72,13 +72,13 @@ namespace AI
 		{
 			if ( component->GetId( ) != this->GetId( ) )
 			{
-				_playerPosition = component->GetPosition( );
-				_playerOrientation = component->GetOrientation( );
+				m_playerPosition = component->GetPosition( );
+				m_playerOrientation = component->GetOrientation( );
 			}
 			else
 			{
-				_position = component->GetPosition( );
-				_orientation = component->GetOrientation( );
+				m_position = component->GetPosition( );
+				m_orientation = component->GetOrientation( );
 			}
 		}
 	}
@@ -87,8 +87,8 @@ namespace AI
 	{
 		// Angle from Origin to Player
 
-		MathVector3 aiToPlayer = ( _playerPosition - _position ).Normalize( );
-		MathVector3 aiToOrigin = ( MathVector3::Zero( ) - _position ).Normalize( );
+		MathVector3 aiToPlayer = ( m_playerPosition - m_position ).Normalize( );
+		MathVector3 aiToOrigin = ( MathVector3::Zero( ) - m_position ).Normalize( );
 
 		float aiToPlayerDot = aiToOrigin.DotProduct( aiToPlayer );
 		float aiToPlayerAngle = acos( Maths::Clamp( aiToPlayerDot, -1.0f, 1.0f ) );
@@ -103,8 +103,8 @@ namespace AI
 
 		// Angle from Forward to Origin
 
-		MathVector3 aiForward = _position + MathVector3( 0.0f, 0.0f, -1.0f );
-		MathVector3 aiToForward = ( aiForward - _position ).Normalize( );
+		MathVector3 aiForward = m_position + MathVector3( 0.0f, 0.0f, -1.0f );
+		MathVector3 aiToForward = ( aiForward - m_position ).Normalize( );
 
 		float aiForwardToOrigin = aiToForward.DotProduct( aiToOrigin );
 		float aiForwardToOriginAngle = acos( Maths::Clamp( aiForwardToOrigin, -1.0f, 1.0f ) );
@@ -119,24 +119,24 @@ namespace AI
 
 		// rotate to origin - then rotate to player from origin
 
-		_orientation = MathQuaternion( MathVector3::Up( ), aiForwardToOriginAngle ) * MathQuaternion( MathVector3::Up( ), aiToPlayerAngle );
+		m_orientation = MathQuaternion( MathVector3::Up( ), aiForwardToOriginAngle ) * MathQuaternion( MathVector3::Up( ), aiToPlayerAngle );
 		this->PushChanges( System::Changes::Geometry::Orientation );
 	}
 
 	void AISystemComponent::AddObserver( IObserver* observer )
 	{
-		_observer = observer;
+		m_observer = observer;
 
 		// update the new observers with our current behavior
-		if ( !_behavior.empty( ) )
+		if ( !m_behavior.empty( ) )
 		{
-			this->SetBehavior( _behavior );
+			this->SetBehavior( m_behavior );
 		}
 	}
 
 	void AISystemComponent::FireWeapon()
 	{
-		Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "AI_WEAPON_FIRED", _name ) );
+		Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "AI_WEAPON_FIRED", m_name ) );
 	}
 
 	void AISystemComponent::PlayAnimation( const std::string& animationName, const bool& loopAnimation )
@@ -145,7 +145,7 @@ namespace AI
 
 		AnyValue::AnyValueMap parameters;
 
-		parameters[ "entityName" ] = _name;
+		parameters[ "entityName" ] = m_name;
 		parameters[ "animationName" ] = animationName;
 		parameters[ "loopAnimation" ] = loopAnimation;
 
@@ -154,11 +154,11 @@ namespace AI
 
 	void AISystemComponent::Update( const float& deltaMilliseconds )
 	{
-		_playerDistance = ( ( _playerPosition - _position ) ).Length( );
+		m_playerDistance = ( ( m_playerPosition - m_position ) ).Length( );
 
-		if ( _playerDistance < 50 )
+		if ( m_playerDistance < 50 )
 		{
-			luabind::call_function< void >( _scriptState, "update" );
+			luabind::call_function< void >( m_scriptState, "update" );
 		}
 	}
 }

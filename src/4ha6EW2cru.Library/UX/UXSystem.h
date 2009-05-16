@@ -4,8 +4,8 @@
 *  @file   UXSystem.h
 *  @date   2009/04/26
 */
-#ifndef __UXSYSTEM_H
-#define __UXSYSTEM_H
+#ifndef UXSYSTEM_H
+#define UXSYSTEM_H
 
 #include "IUXSystem.hpp"
 #include "IUXSystemScene.hpp"
@@ -32,7 +32,7 @@ namespace UX
 		 *  @return ()
 		 */
 		UXSystem( )
-			: _scene( 0 )
+			: m_scene( 0 )
 		{
 
 		}
@@ -78,7 +78,7 @@ namespace UX
 		*
 		*  @return (AnyValueMap)
 		*/
-		inline AnyValue::AnyValueMap GetProperties( ) const { return _properties; };
+		inline AnyValue::AnyValueMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets a System Property
@@ -87,13 +87,13 @@ namespace UX
 		*  @param[in] AnyValue value
 		*  @return (void)
 		*/
-		inline void SetProperty( const std::string& name, AnyValue value ) { };
+		inline void SetAttribute( const std::string& name, AnyValue value ) { };
 
 	private:
 
-		AnyValue::AnyValueMap _properties;
+		AnyValue::AnyValueMap m_attributes;
 
-		IUXSystemScene* _scene;
+		IUXSystemScene* m_scene;
 
 	};
 };

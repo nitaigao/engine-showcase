@@ -4,8 +4,8 @@
 *  @file   HavokPhysicsSystemScene.h
 *  @date   2009/04/26
 */
-#ifndef __HAVOKPHYSICSSYSTEMSCENE_H
-#define __HAVOKPHYSICSSYSTEMSCENE_H
+#ifndef HAVOKPHYSICSSYSTEMSCENE_H
+#define HAVOKPHYSICSSYSTEMSCENE_H
 
 #include "../System/ISystemScene.hpp"
 
@@ -98,7 +98,7 @@ namespace Physics
 		 *
 		 *  @return (hkpWorld*)
 		 */
-		hkpWorld* GetWorld( ) const { return _world; };
+		hkpWorld* GetWorld( ) const { return m_world; };
 
 	private:
 
@@ -109,13 +109,13 @@ namespace Physics
 		void entityDeactivatedCallback( hkpEntity* entity );
 		void entityActivatedCallback( hkpEntity* entity );
 
-		hkpWorld* _world;
-		hkVisualDebugger* _vdb;
-		hkpPhysicsContext* _context;
+		hkpWorld* m_world;
+		hkVisualDebugger* m_vdb;
+		hkpPhysicsContext* m_context;
 
-		hkpGroupFilter* _groupFilter;
+		hkpGroupFilter* m_groupFilter;
 
-		PhysicsSystemComponentList _components;
+		PhysicsSystemComponentList m_components;
 
 		HavokPhysicsSystemScene( ) { };
 		HavokPhysicsSystemScene( const HavokPhysicsSystemScene & copy ) { };

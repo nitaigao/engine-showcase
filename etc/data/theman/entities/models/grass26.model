@@ -1,5 +1,5 @@
 <node name='grass26'>
-  <scale x='1' y='1' z='1'/>
+  <scale x='1' y='0.4' z='1'/>
   <position x='555.958' y='0.286823' z='559.911'/>
   <rotation qw='1' qx='0' qy='0' qz='0'/>
   <entity name='grass26' id='2054' receiveShadows='true' meshFile='/data/entities/meshes/grass.mesh' castShadows='true'>

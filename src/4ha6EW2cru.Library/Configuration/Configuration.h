@@ -4,8 +4,8 @@
 *  @file   Configuration.h
 *  @date   2009/04/25
 */
-#ifndef __CONFIGURATION_H
-#define __CONFIGURATION_H
+#ifndef CONFIGURATION_H
+#define CONFIGURATION_H
 
 #include "IConfiguration.hpp"
 #include "IConfigurationFile.hpp"
@@ -67,13 +67,13 @@ namespace Configuration
 	private:
 
 		ClientConfiguration( IConfigurationFile* configFile )
-			: _configFile( configFile )
+			: m_configFile( configFile )
 		{
 
 		};
 
-		IConfigurationFile* _configFile;
-		DefaultPropertyList _defaultPropertyList;
+		IConfigurationFile* m_configFile;
+		DefaultPropertyList m_defaultPropertyList;
 
 		ClientConfiguration( const ClientConfiguration & copy ) { };
 		ClientConfiguration & operator = ( const ClientConfiguration & copy ) { return *this; };

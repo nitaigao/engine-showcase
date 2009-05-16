@@ -4,8 +4,8 @@
 *  @file   Color.hpp
 *  @date   2009/04/26
 */
-#ifndef __COLOR_H
-#define __COLOR_H
+#ifndef COLOR_H
+#define COLOR_H
 
 namespace Renderer
 {

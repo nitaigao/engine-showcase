@@ -1,5 +1,5 @@
-#ifndef __MOCK_KEYBOARD_H
-#define __MOCK_KEYBOARD_H
+#ifndef MOCK_KEYBOARD_H
+#define MOCK_KEYBOARD_H
 
 #include "mockpp/mockpp.h"
 #include "mockpp/MockObject.h"

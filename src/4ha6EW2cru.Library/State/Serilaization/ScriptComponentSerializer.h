@@ -4,8 +4,8 @@
 *  @file   ScriptComponentSerializer.h
 *  @date   2009/04/27
 */
-#ifndef __SCRIPTCOMPONENTSERIALIZER_H
-#define __SCRIPTCOMPONENTSERIALIZER_H
+#ifndef SCRIPTCOMPONENTSERIALIZER_H
+#define SCRIPTCOMPONENTSERIALIZER_H
 
 #include "IComponentSerializer.hpp"
 

@@ -4,8 +4,8 @@
 *  @file   ISystemManager.hpp
 *  @date   2009/04/25
 */
-#ifndef __ISYSTEMMANAGER_H
-#define __ISYSTEMMANAGER_H
+#ifndef ISYSTEMMANAGER_H
+#define ISYSTEMMANAGER_H
 
 #include "ISystem.hpp"
 #include "../State/IWorld.hpp"

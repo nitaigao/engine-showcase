@@ -4,8 +4,8 @@
 *  @file   IEventListener.hpp
 *  @date   2009/04/25
 */
-#ifndef __IEVENTLISTENER_H
-#define __IEVENTLISTENER_H
+#ifndef IEVENTLISTENER_H
+#define IEVENTLISTENER_H
 
 #include "IEvent.hpp"
 #include "EventType.hpp"
@@ -39,7 +39,7 @@ namespace Events
 		 *
 		 *  @return (const EventType)
 		 */
-		virtual inline const EventType GetEventType( ) const = 0;
+		virtual inline EventType GetEventType( ) const = 0;
 
 		
 		/*! Marks the EventHandler for Deletion on the Next Update

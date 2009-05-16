@@ -36,7 +36,7 @@ using namespace Script;
 
 void Game::Initialize( )
 {
-	if ( _isInitialized )
+	if ( m_isInitialized )
 	{
 		AlreadyInitializedException e ( "Game::Initialize - Attempted to Initialized when the game had already been Initialized" );
 		Logger::Fatal( e.what( ) );
@@ -53,30 +53,30 @@ void Game::Initialize( )
 
 	// -- Set Configuration Defaults 
 
-	_configuration = ClientConfiguration::Load( "config/game.cfg" );
-	_configuration->SetDefault( "Developer", "console", false );
-	_configuration->SetDefault( "Logging", "level", static_cast< int >( LEVEL_FATAL ) );
+	m_configuration = ClientConfiguration::Load( "config/game.cfg" );
+	m_configuration->SetDefault( "Developer", "console", false );
+	m_configuration->SetDefault( "Logging", "level", static_cast< int >( LEVEL_FATAL ) );
 
-	LogLevel logLevel = static_cast< LogLevel >( _configuration->Find( "Logging", "level" ).GetValue< int >( ) );
+	LogLevel logLevel = static_cast< LogLevel >( m_configuration->Find( "Logging", "level" ).GetValue< int >( ) );
 	Logger::SetLogLevel( logLevel );
 
 	// -- Initialize All Systems
 
 	ISystemManager* systemManager = Management::GetInstance( )->GetSystemManager( );
 	systemManager->RegisterSystem( new Geometry::GeometrySystem( ) );
-	systemManager->RegisterSystem( new Renderer::RendererSystem( _configuration ) );
+	systemManager->RegisterSystem( new Renderer::RendererSystem( m_configuration ) );
 	systemManager->RegisterSystem( new Physics::HavokPhysicsSystem( ) );
-	systemManager->RegisterSystem( new Input::InputSystem( _configuration ) );
-	systemManager->RegisterSystem( new Script::ScriptSystem( _configuration ) );
+	systemManager->RegisterSystem( new Input::InputSystem( m_configuration ) );
+	systemManager->RegisterSystem( new Script::ScriptSystem( m_configuration ) );
 	systemManager->RegisterSystem( new UX::UXSystem( ) );
-	//systemManager->RegisterSystem( new Sound::SoundSystem( ) );
+	systemManager->RegisterSystem( new Sound::SoundSystem( ) );
 	systemManager->RegisterSystem( new AI::AISystem( ) );
 	systemManager->InitializeAllSystems( );
 
 	// -- Setup the World and World Loader
 
-	_world = systemManager->CreateWorld( );
-	_worldLoader = new Serialization::WorldSerializer( _world );
+	m_world = systemManager->CreateWorld( );
+	m_worldLoader = new Serialization::WorldSerializer( m_world );
 
 	// -- Register Events
 
@@ -94,28 +94,28 @@ void Game::Initialize( )
 		Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
 	}
 
-	_isInitialized = true;
+	m_isInitialized = true;
 }
 
 Game::~Game( )
 {
-	delete _configuration;
+	delete m_configuration;
 }
 
 void Game::Update( const float& deltaMilliseconds )
 {
-	if ( !_isInitialized )
+	if ( !m_isInitialized )
 	{
 		UnInitializedException e( "Game::StartLoop - Cannot Start the Loop when not Initialized" );
 		Logger::Fatal( e.what( ) );
 		throw e;
 	}
 
-	_worldLoader->Update( deltaMilliseconds );
+	m_worldLoader->Update( deltaMilliseconds );
 
-	if ( _worldLoader->IsFinishedLoading( ) )
+	if ( m_worldLoader->IsFinishedLoading( ) )
 	{
-		_world->Update( deltaMilliseconds );
+		m_world->Update( deltaMilliseconds );
 	}
 
 	Management::GetInstance( )->Update( deltaMilliseconds );
@@ -123,7 +123,7 @@ void Game::Update( const float& deltaMilliseconds )
 
 void Game::Release( )
 {
-	if ( !_isInitialized )
+	if ( !m_isInitialized )
 	{
 		UnInitializedException e( "Game::Release - Cannot Release when not Initialized" );
 		Logger::Fatal( e.what( ) );
@@ -133,17 +133,17 @@ void Game::Release( )
 	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GAME_QUIT, this, &Game::OnGameQuit );
 	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
 
-	_world->Clear( );
+	m_world->Clear( );
 
-	delete _worldLoader;
-	delete _world;
+	delete m_worldLoader;
+	delete m_world;
 
 	Management::GetInstance( )->Release( );
 }
 
 void Game::OnGameQuit( const IEvent* event )
 {
-	_isQuitting = true;
+	m_isQuitting = true;
 }
 
 void Game::OnGameLevelChanged( const IEvent* event )
@@ -155,17 +155,17 @@ void Game::OnGameLevelChanged( const IEvent* event )
 	std::stringstream levelPath;
 	levelPath << "/data/levels/" << eventData->GetLevelName( ) << ".yaml";
 	
-	_worldLoader->Load( levelPath.str( ) );
+	m_worldLoader->Load( levelPath.str( ) );
 }
 
 void Game::OnGameEnded( const IEvent* event )
 {
-	_world->Clear( );
+	m_world->Clear( );
 
 	ISystem* renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
 
-	renderSystem->SetProperty( "activeCamera", "default" );
-	renderSystem->SetProperty( "backgroundColor", Renderer::Color( 0.0f, 0.0f, 0.0f ) );
+	renderSystem->SetAttribute( "activeCamera", "default" );
+	renderSystem->SetAttribute( "backgroundColor", Renderer::Color( 0.0f, 0.0f, 0.0f ) );
 }
 
 // EOF

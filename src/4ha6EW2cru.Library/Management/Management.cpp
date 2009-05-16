@@ -18,29 +18,29 @@ static Management* g_ManagementInstance = 0;
 
 Management::Management( )
 {
-	_serviceManager = new ServiceManager( );
-	_platformManager = new Win32PlatformManager( );
-	_eventManager = new Events::EventManager( );
-	_systemManager = new SystemManager( );
-	_fileSystem = new FileSystem( );
-	_resourceCache = new ResourceCache( );
+	m_serviceManager = new ServiceManager( );
+	m_platformManager = new Win32PlatformManager( );
+	m_eventManager = new Events::EventManager( );
+	m_systemManager = new SystemManager( );
+	m_fileSystem = new FileSystem( );
+	m_resourceCache = new ResourceCache( );
 }
 
 Management::~Management( )
 {
-	delete _serviceManager;
-	delete _systemManager;
-	delete _eventManager;
-	delete _platformManager;
-	delete _fileSystem;
-	delete _resourceCache;
+	delete m_serviceManager;
+	delete m_systemManager;
+	delete m_eventManager;
+	delete m_platformManager;
+	delete m_fileSystem;
+	delete m_resourceCache;
 }
 
 void Management::Initialize( )
 {
 	g_ManagementInstance = new Management( );
 
-	g_ManagementInstance->_fileSystem->Initialize( );
+	g_ManagementInstance->m_fileSystem->Initialize( );
 }
 
 Management* Management::GetInstance( )
@@ -56,13 +56,13 @@ Management* Management::GetInstance( )
 
 void Management::Release( )
 {
-	_systemManager->Release( );
+	m_systemManager->Release( );
 	
 	/* This has been commented so we can see that we have not 
 	 * released some of the EventListeners properly, go find those
 	 * EventListeners and delete them! */
 
-	//_eventManager->Release( );
+	//m_eventManager->Release( );
 
 	delete g_ManagementInstance;
 	g_ManagementInstance = 0;
@@ -70,8 +70,8 @@ void Management::Release( )
 
 void Management::Update( const float& deltaMilliseconds )
 {
-	_systemManager->Update( deltaMilliseconds );
-	_platformManager->Update( deltaMilliseconds );
-	_eventManager->Update( deltaMilliseconds );
-	_resourceCache->Update( deltaMilliseconds );
+	m_systemManager->Update( deltaMilliseconds );
+	m_platformManager->Update( deltaMilliseconds );
+	m_eventManager->Update( deltaMilliseconds );
+	m_resourceCache->Update( deltaMilliseconds );
 }

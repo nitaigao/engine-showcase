@@ -6,6 +6,11 @@ namespace Sound
 {
 	ISystemComponent* SoundScene::CreateComponent( const std::string& name, const std::string& type )
 	{
-		return new SoundSystemComponent( name );
+		return new SoundSystemComponent( name, this );
 	}
+
+	void SoundScene::DestroyComponent( ISystemComponent* component )
+	{
+		delete component;
+	};
 }

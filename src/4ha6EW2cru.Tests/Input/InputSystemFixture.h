@@ -1,5 +1,5 @@
-#ifndef __INPUTSYSTEM_FIXTURE_H
-#define __INPUTSYSTEM_FIXTURE_H
+#ifndef INPUTSYSTEM_FIXTURE_H
+#define INPUTSYSTEM_FIXTURE_H
 
 #include <cppunit/extensions/HelperMacros.h>
 

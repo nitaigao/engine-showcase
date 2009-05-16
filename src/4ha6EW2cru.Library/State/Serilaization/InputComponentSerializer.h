@@ -4,8 +4,8 @@
 *  @file   InputComponentSerializer.h
 *  @date   2009/04/27
 */
-#ifndef __INPUTCOMPONENTSERIALIZER_H
-#define __INPUTCOMPONENTSERIALIZER_H
+#ifndef INPUTCOMPONENTSERIALIZER_H
+#define INPUTCOMPONENTSERIALIZER_H
 
 #include "IComponentSerializer.hpp"
 

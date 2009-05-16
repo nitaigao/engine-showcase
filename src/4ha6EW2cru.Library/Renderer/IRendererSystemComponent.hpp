@@ -4,8 +4,8 @@
 *  @file   IRendererSystemComponent.hpp
 *  @date   2009/04/27
 */
-#ifndef __IRENDERERSYSTEMCOMPONENT_HPP
-#define __IRENDERERSYSTEMCOMPONENT_HPP
+#ifndef IRENDERERSYSTEMCOMPONENT_HPP
+#define IRENDERERSYSTEMCOMPONENT_HPP
 
 #include "../System/ISystemComponent.hpp"
 

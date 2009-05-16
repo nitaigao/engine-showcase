@@ -4,8 +4,8 @@
 *  @file   WorldSerializer.h
 *  @date   2009/04/27
 */
-#ifndef __WORLDLOADER_H
-#define __WORLDLOADER_H
+#ifndef WORLDLOADER_H
+#define WORLDLOADER_H
 
 #include <queue>
 #include <yaml.h>
@@ -28,7 +28,7 @@ namespace Serialization
 		*
 		*  @return ()
 		*/
-		~WorldSerializer( ) { };
+		~WorldSerializer( );
 
 
 		/*! Default Constructor

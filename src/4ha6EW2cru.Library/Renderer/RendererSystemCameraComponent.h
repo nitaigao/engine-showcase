@@ -4,8 +4,8 @@
 *  @file   RendererSystemCameraComponent.h
 *  @date   2009/04/27
 */
-#ifndef __RENDERERSYSTEMCAMERACOMPONENT_H
-#define __RENDERERSYSTEMCAMERACOMPONENT_H
+#ifndef RENDERERSYSTEMCAMERACOMPONENT_H
+#define RENDERERSYSTEMCAMERACOMPONENT_H
 
 #include "RendererSystemComponent.h"
 #include "IRenderSystemScene.h"
@@ -37,13 +37,13 @@ namespace Renderer
 		 */
 		RendererSystemCameraComponent( const std::string& name, IRenderSystemScene* scene )
 			: RendererSystemComponent( name, scene )
-			, _observer( 0 )
-			, _cameraNode( 0 )
-			, _weightModifier( 0.5f )
-			, _historySize( 10 )
-			, _totalYaw ( 0 )
-			, _totalPitch( 0 )
-			, _sensitivity( 0.01 )
+			, m_observer( 0 )
+			, m_cameraNode( 0 )
+			, m_weightModifier( 0.5f )
+			, m_historySize( 10 )
+			, m_totalYaw ( 0 )
+			, m_totalPitch( 0 )
+			, m_sensitivity( 0.01 )
 		{
 
 		}
@@ -70,7 +70,7 @@ namespace Renderer
 		*  @param[in] IObserver * observer
 		*  @return (void)
 		*/
-		void AddObserver( IObserver* observer ) { _observer = observer; };
+		void AddObserver( IObserver* observer ) { m_observer = observer; };
 
 
 		/*! Observes a change in the Subject
@@ -100,19 +100,19 @@ namespace Renderer
 		RendererSystemCameraComponent( const RendererSystemCameraComponent & copy ) { };
 		RendererSystemCameraComponent & operator = ( const RendererSystemCameraComponent & copy ) { return *this; };
 
-		IObserver* _observer;
-		Ogre::SceneNode* _cameraNode;
+		IObserver* m_observer;
+		Ogre::SceneNode* m_cameraNode;
 
-		History _xHistory;
-		History _yHistory;
+		History m_xHistory;
+		History m_yHistory;
 
-		float _weightModifier;
-		int _historySize;
+		float m_weightModifier;
+		int m_historySize;
 
-		float _totalYaw;
-		float _totalPitch;
+		float m_totalYaw;
+		float m_totalPitch;
 
-		float _sensitivity;
+		float m_sensitivity;
 
 	};
 };

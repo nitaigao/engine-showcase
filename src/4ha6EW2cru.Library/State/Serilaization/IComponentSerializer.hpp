@@ -4,8 +4,8 @@
 *  @file   IComponentSerializer.hpp
 *  @date   2009/04/27
 */
-#ifndef __ICOMPONENTSERIALIZER_HPP
-#define __ICOMPONENTSERIALIZER_HPP
+#ifndef ICOMPONENTSERIALIZER_HPP
+#define ICOMPONENTSERIALIZER_HPP
 
 #include <string>
 #include <yaml.h>
