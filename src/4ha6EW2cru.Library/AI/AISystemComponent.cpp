@@ -159,6 +159,12 @@ namespace AI
 		if ( m_playerDistance < 50 )
 		{
 			luabind::call_function< void >( m_scriptState, "update" );
+
+			MathVector3 forward = m_orientation * MathVector3::Forward( );ww
+			MathVector3 aiToOrigin = MathVector3::Zero( ) - m_position;
+
+			m_attributes[ "lookAt" ] = m_position + forward;
+			this->PushChanges( System::Changes::POI::LookAt );
 		}
 	}
 }

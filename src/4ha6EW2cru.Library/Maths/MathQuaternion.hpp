@@ -182,6 +182,22 @@ namespace Maths
 		};
 
 
+		/*! Returns a version of the Vector that has been multiplies by the input Quaternion
+		*
+		*  @param[in] const MathQuaternion & input
+		*  @return (Maths::MathVector3)
+		*/
+		inline MathVector3 operator * ( const MathVector3& input ) const
+		{
+			MathVector3 qVector( X, Y, Z );
+
+			MathVector3 uv = qVector.CrossProduct( input ) * ( 2.0f * W );
+			MathVector3 uuv = qVector.CrossProduct( uv ) * 2.0f;
+
+			return input + uv + uuv;
+		}
+
+
 		/*! Returns an IDENTITY Quaternion
 		 *
 		 *  @return (Maths::MathQuaternion)

@@ -53,10 +53,10 @@ namespace AI
 
 		/*! Initializes the Component
 		 *
-		 *  @param[in] AnyValue::AnyValueMap properties
+		 *  @param[in] AnyValue::AnyValueMap attributes
 		 *  @return (void)
 		 */
-		void Initialize( AnyValue::AnyValueMap& properties );
+		void Initialize( AnyValue::AnyValueMap& attributes );
 
 
 		/*! Steps the internal data of the Component
@@ -138,11 +138,11 @@ namespace AI
 		};
 
 
-		/*! Gets the properties of the Component
+		/*! Gets the attributes of the Component
 		 *
 		 *  @return (AnyValueMap)
 		 */
-		inline AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
+		inline AnyValue::AnyValueMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets the Properties of the Component
@@ -150,7 +150,7 @@ namespace AI
 		 *  @param[in] AnyValue::AnyValueMap systemProperties
 		 *  @return (void)
 		 */
-		inline void SetAttributes( AnyValue::AnyValueMap& properties ) { };
+		inline void SetAttributes( AnyValue::AnyValueMap& attributes ) { m_attributes = attributes; };
 
 
 		/*! Gets the Position of the Component
@@ -270,6 +270,8 @@ namespace AI
 		Maths::MathVector3 m_playerPosition;
 		Maths::MathQuaternion m_playerOrientation;
 		float m_playerDistance;
+
+		AnyValue::AnyValueMap m_attributes;
 
 	};
 };

@@ -165,7 +165,7 @@ namespace Maths
 		 *  @param[in] const MathVector3 & input
 		 *  @return (Maths::MathVector3)
 		 */
-		inline MathVector3 operator + ( const MathVector3& input )
+		inline MathVector3 operator + ( const MathVector3& input ) const
 		{
 			return MathVector3(
 				input.X + X,

@@ -247,12 +247,12 @@ namespace Script
 		parameters[ "sortByDistance" ] = sortByDistance;
 		parameters[ "maxResults" ] = maxResults;
 
-		/*AnyValue::AnyValueMap debugParameters;
+		AnyValue::AnyValueMap debugParameters;
 		debugParameters[ "origin" ] = origin;
 		debugParameters[ "destination" ] = destination;
 
 		IService* renderService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::RENDER );
-		renderService->Execute( "drawLine", debugParameters );*/
+		renderService->Execute( "drawLine", debugParameters );
 
 		IService* rayService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::PHYSICS );
 		return rayService->Execute( "rayQuery", parameters ) [ "hits" ].GetValue< std::vector< std::string > >( );
