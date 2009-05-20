@@ -9,6 +9,7 @@
 
 #include <OgreVector3.h>
 #include <Common/Base/hkBase.h>
+#include <fmod.hpp>
 
 #include "MathMatrix.h"
 
@@ -93,6 +94,12 @@ namespace Maths
 		 *  @return (hkVector4)
 		 */
 		inline hkVector4 AshkVector4( ) const { return hkVector4( X, Y, Z ); };
+
+		/*! Returns FMOD's representation of a 3 dimensional Vector for convenience
+		 *
+		 *  @return (FMOD_VECTOR)
+		 */
+		inline FMOD_VECTOR AsFMODVector( ) const { FMOD_VECTOR returnValue; returnValue.x = X; returnValue.y = Y; returnValue.z = Z; return returnValue; };
 
 
 		/*! Returns the Dot Product of the Vector and the specified input

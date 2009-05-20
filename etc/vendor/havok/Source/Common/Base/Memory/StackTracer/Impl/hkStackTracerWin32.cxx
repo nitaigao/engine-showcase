@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -43,6 +43,7 @@ typedef BOOL    (__stdcall *tStackWalk64)( DWORD MachineType, HANDLE hProcess, H
 typedef PVOID   (__stdcall *tSymFunctionTableAccess64)( HANDLE hProcess, DWORD64 AddrBase );
 typedef DWORD64 (__stdcall *tSymGetModuleBase64)( IN HANDLE hProcess, IN DWORD64 dwAddr );
 typedef BOOL    (__stdcall *tSymGetLineFromAddr64)( IN HANDLE hProcess, IN DWORD64 dwAddr, OUT PDWORD pdwDisplacement, OUT PIMAGEHLP_LINE64 Line );
+typedef BOOL    (__stdcall *tSymCleanup)( IN HANDLE hProcess );
 
 static HINSTANCE hDbgHelpDll;
 static int s_DllReferences;
@@ -55,6 +56,7 @@ static tStackWalk64 pStackWalk64;
 static tSymFunctionTableAccess64 pSymFunctionTableAccess64;
 static tSymGetModuleBase64 pSymGetModuleBase64;
 static tSymGetLineFromAddr64 pSymGetLineFromAddr64;
+static tSymCleanup pSymCleanup;
 
 #define LOAD_FUNCTION(A) if(1) { p##A = (t##A) GetProcAddress(hDbgHelpDll, #A); HK_ASSERT2(0x7ff2db1c, p##A, "Could not load symbol from imghelp.dll"); } else
 extern const char* hkStackTracerDbghelpPath;
@@ -82,6 +84,7 @@ hkStackTracer::hkStackTracer()
 		LOAD_FUNCTION(SymFunctionTableAccess64);
 		LOAD_FUNCTION(SymGetModuleBase64);
 		LOAD_FUNCTION(SymGetLineFromAddr64);
+		LOAD_FUNCTION(SymCleanup);
 
 		DWORD symOptions = pSymGetOptions();
 		symOptions |= SYMOPT_LOAD_LINES | SYMOPT_DEBUG;
@@ -101,6 +104,7 @@ hkStackTracer::~hkStackTracer()
 	s_DllReferences -= 1;
 	if( s_DllReferences == 0 )
 	{
+		pSymCleanup( GetCurrentProcess() );
 		pSymInitialize = 0;
 		pSymGetOptions = 0;
 		pSymSetOptions = 0;
@@ -109,6 +113,7 @@ hkStackTracer::~hkStackTracer()
 		pSymFunctionTableAccess64 = 0;
 		pSymGetModuleBase64 = 0;
 		pSymGetLineFromAddr64 = 0;
+		pSymCleanup = 0;
 		FreeLibrary( hDbgHelpDll );
 		hDbgHelpDll = 0;
 	}
@@ -282,9 +287,9 @@ int hkStackTracer::getStackTrace( hkUlong* trace, int maxtrace )
 #endif
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

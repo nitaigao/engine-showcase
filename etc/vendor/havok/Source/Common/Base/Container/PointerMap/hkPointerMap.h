@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -35,7 +35,7 @@ class hkPointerMap
 		typedef typename hkPointerMapStorage<sizeof(K)>::Type Storage;
 			/// Iterator class
 			/// All iterators are invalidated after a mutating operation. i.e. insertion,removal
-		typedef typename hkPointerMapBase<Storage>::Iterator Iterator;
+		typedef typename hkPointerMapBase<Storage, Storage>::Iterator Iterator;
 
 			/// Create an empty pointermap.
 		hkPointerMap()
@@ -61,6 +61,13 @@ class hkPointerMap
 		HK_FORCE_INLINE Iterator findKey( K key ) const
 		{
 			return m_map.findKey( Storage(key) );
+		}
+
+			/// If key is present return its iterator, else insert (key,val) and return the new iterator.
+			/// Thus the returned iterator is always valid.
+		HK_FORCE_INLINE Iterator findOrInsertKey( K key, V val )
+		{
+			return m_map.findOrInsertKey( Storage(key), Storage(val) );
 		}
 
 			/// Return if this map contains the given key.
@@ -187,25 +194,26 @@ class hkPointerMap
 		inline hkBool wasReallocated() const { return m_map.wasReallocated(); }
 
 			/// Calculates buffer size required to store the specified number of keys.
-		static int HK_CALL getSizeInBytesFor(int numOfKeys) { return hkPointerMapBase<Storage>::getSizeInBytesFor(numOfKeys); }
+		static int HK_CALL getSizeInBytesFor(int numOfKeys) { return hkPointerMapBase<Storage,Storage>::getSizeInBytesFor(numOfKeys); }
 
 	private:
 
-		hkPointerMap<K,V>& operator = (const hkPointerMap<K,V>& map) { HK_ASSERT2(0xad87a6aa, false, "This doesn't work."); } 
+		void operator = (const hkPointerMap<K,V>& map) {}
+		hkPointerMap ( const hkPointerMap<K,V>& map ) {}
 
 	public:
 
 	protected:
 
-		hkPointerMapBase<Storage> m_map;
+		hkPointerMapBase<Storage,Storage> m_map;
 };
 
 #endif // HKBASE_HKPOINTERMAP_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

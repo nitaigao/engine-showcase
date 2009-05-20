@@ -43,10 +43,9 @@ namespace Physics
 		 */
 		PhysicsSystemComponent( const std::string& name, HavokPhysicsSystemScene* scene )
 			: _name ( name )
-			, _id( 0 )
 			, _scene( scene )
-			, _loadedData( 0 )
-			, _body( 0 )
+			, m_loadedData( 0 )
+			, m_body( 0 )
 		{
 
 		}
@@ -57,7 +56,7 @@ namespace Physics
 		*  @param[in] AnyValue::AnyValueMap properties
 		*  @return (void)
 		*/
-		virtual void Initialize( AnyValue::AnyValueMap& properties );
+		virtual void Initialize( );
 
 
 		/*! Steps the internal data of the Component
@@ -80,108 +79,31 @@ namespace Physics
 		*  @param[in] IObserver * observer
 		*  @return (void)
 		*/
-		inline void AddObserver( IObserver* observer ) { _observer = observer; };
-
-
-		/*! Observes a change in the Subject
-		*
-		*  @param[in] ISubject * subject
-		*  @param[in] const unsigned int& systemChanges
-		*  @return (void)
-		*/
-		virtual void Observe( ISubject* subject, const unsigned int& systemChanges );
-
-
-		/*! Pushes any Changes to the Observers
-		*
-		*  @param[in] const unsigned int& systemChanges
-		*  @return (void)
-		*/
-		void PushChanges( const unsigned int& systemChanges );
-
-
-		/*! Gets the Name of the Component
-		*
-		*  @return (const std::string&)
-		*/
-		inline const std::string& GetName( ) const { return _name; };
-
-
-		/*! Sets the Id of the component unique to its containing World Entity
-		*
-		*  @param[in] const unsigned int & id
-		*  @return (void)
-		*/
-		inline void SetId( const unsigned int& id ) { _id = id; };
-
-
-		/*! Returns a numerical Id for the component unique to its containing World Entity
-		*
-		*  @return (unsigned int)
-		*/
-		inline unsigned int GetId( ) const { return _id; };
-
-
-		/*! Gets the System::Types::Type of the Component
-		*
-		*  @return (System::Types::Type)
-		*/
-		inline System::Types::Type GetType( ) const { return System::Types::PHYSICS; };
-
-
-		/*! Gets the types of Changes this component is interested in
-		*
-		*  @return (unsigned int)
-		*/
-		inline unsigned int GetRequestedChanges( ) const  
-		{ 
-			return 
-				System::Changes::Geometry::All |
-				System::Changes::Input::All;
-		};
+		inline void AddObserver( IObserver* observer ) { m_observer = observer; };
 
 
 		/*! Gets the properties of the Component
 		*
-		*  @return (AnyValueMap)
+		*  @return (AnyValueKeyMap)
 		*/
-		inline AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
-		
-		
-		/*! Sets the Properties of the Component
+		AnyValue::AnyValueKeyMap GetAttributes( ) const { return m_attributes; };
+
+
+		/*! Sets an Attribute on the Component *
 		*
-		*  @param[in] AnyValue::AnyValueMap systemProperties
-		*  @return (void)
+		*  @param[in] const unsigned int attributeId
+		*  @param[in] const AnyValue & value
 		*/
-		inline void SetAttributes( AnyValue::AnyValueMap& properties ) { };
+		inline void SetAttribute( const unsigned int& attributeId, const AnyValue& value ) { m_attributes[ attributeId ] = value; };
 
 
-		/*! Gets the Position of the Component
+		/*! Posts a message to observers
 		*
-		*  @return (MathVector3)
+		*  @param[in] const std::string & message
+		*  @param[in] AnyValue::AnyValueMap parameters
+		*  @return (AnyValue)
 		*/
-		Maths::MathVector3 GetPosition( ) const { return Maths::MathVector3( _body->getPosition( ) ); };
-
-
-		/*! Gets the Scale of the Component
-		*
-		*  @return (MathVector3)
-		*/
-		inline Maths::MathVector3 GetScale( ) const { return Maths::MathVector3::Zero( ); };
-		
-		
-		/*! Gets the Orientation of the Component
-		*
-		*  @return (MathQuaternion)
-		*/
-		Maths::MathQuaternion GetOrientation( ) const { return Maths:: MathQuaternion( _body->getRotation( ) ); };
-
-
-		/*! Returns the RigidBody of the Component
-		*
-		*  @return (hkpRigidBody*)
-		*/
-		inline hkpRigidBody* GetRigidBody( ) const { return _body; };
+		AnyValue PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
 
 
 		/*! Messages the Component to influence its internal state
@@ -189,18 +111,25 @@ namespace Physics
 		*  @param[in] const std::string & message
 		*  @return (AnyValue)
 		*/
-		AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters ) { return AnyValue( ); };
+		virtual AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
+
+
+		/*! Returns the RigidBody of the Component
+		*
+		*  @return (hkpRigidBody*)
+		*/
+		inline hkpRigidBody* GetRigidBody( ) const { return m_body; };
 
 	protected:
 
 		std::string _name;
-		unsigned int _id;
+		AnyValue::AnyValueKeyMap m_attributes;
 
-		IObserver* _observer;
+		IObserver* m_observer;
 		HavokPhysicsSystemScene* _scene;
 		
-		hkpRigidBody* _body;
-		hkPackfileData* _loadedData;
+		hkpRigidBody* m_body;
+		hkPackfileData* m_loadedData;
 
 		PhysicsSystemComponent( const PhysicsSystemComponent & copy ) { };
 		PhysicsSystemComponent & operator = ( const PhysicsSystemComponent & copy ) { return *this; };

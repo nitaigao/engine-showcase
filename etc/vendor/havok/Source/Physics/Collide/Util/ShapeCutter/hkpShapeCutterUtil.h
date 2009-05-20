@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -80,7 +80,7 @@ class hkpShapeCutterUtil
             /// If the resulting shape is empty, HK_NULL will be returned
 			/// If the shape was a sphere, capsule or a cylinder, it will get \a extraConvexRadius as its extra convex radius.
             /// If the shape isn't cut at all it will be returned (with reference count incremented)
-        static const hkpShape* HK_CALL cut(const hkpShape* shape, const hkVector4& plane, hkReal extraConvexRadius = 0.001f );
+        static const hkpShape* HK_CALL cut(const hkpShape* shape, const hkVector4& plane, hkReal extraConvexRadiusForImplicitShapes = 0.001f );
 
             /// Creates potentially two new shapes, one on either side of the plane.
             /// ShapeAOut will be the shape on the inside of the plane (opposite side to the normal), shapeBOut will be on the outside of the plane
@@ -148,9 +148,9 @@ class hkpShapeCutterUtil
 #endif // HK_SHAPE_PLANE_CUT_UTIL_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

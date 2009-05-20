@@ -39,7 +39,8 @@ namespace Script
 		{
 			ISystemComponent* systemComponent = m_auxScene->CreateComponent( parameters[ "name" ].GetValue< std::string >( ), "default" );
 			IScriptComponent* scriptComponent = static_cast< IScriptComponent* >( systemComponent );
-			scriptComponent->Initialize( parameters );
+			scriptComponent->SetAttribute( System::Attributes::ScriptPath, parameters[ "scriptPath" ].GetValue< std::string >( ) );
+			scriptComponent->Initialize( );
 			results[ "state" ] = scriptComponent->GetState( );
 		}
 

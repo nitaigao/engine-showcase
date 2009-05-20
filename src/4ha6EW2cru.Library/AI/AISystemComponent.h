@@ -21,7 +21,7 @@ namespace AI
 	/*! 
 	 *  An Artificial Intelligence System Scene Component
 	 */
-	class AISystemComponent : public IAISystemComponent, public IBehaviour
+	class AISystemComponent : public IAISystemComponent
 	{
 
 	public:
@@ -44,7 +44,7 @@ namespace AI
 			, m_frameAssignment( frameAssignment )
 			, m_scriptState( 0 )
 			, m_observer( 0 )
-			, m_id( 0 )
+			, m_playerDistance( 0 )
 		{
 
 		}
@@ -56,7 +56,7 @@ namespace AI
 		 *  @param[in] AnyValue::AnyValueMap attributes
 		 *  @return (void)
 		 */
-		void Initialize( AnyValue::AnyValueMap& attributes );
+		void Initialize( );
 
 
 		/*! Steps the internal data of the Component
@@ -79,116 +79,39 @@ namespace AI
 		 *  @param[in] IObserver * observer
 		 *  @return (void)
 		 */
-		void AddObserver( IObserver* observer );
+		inline void AddObserver( IObserver* observer ) { m_observer = observer; };
 
 
-		/*! Observes a change in the Subject
-		 *
-		 *  @param[in] ISubject * subject
-		 *  @param[in] const unsigned int& systemChanges
-		 *  @return (void)
-		 */
-		void Observe( ISubject* subject, const unsigned int& systemChanges );
-
-
-		/*! Pushes any Changes to the Observers
-		 *
-		 *  @param[in] const unsigned int& systemChanges
-		 *  @return (void)
-		 */
-		void PushChanges( const unsigned int& systemChanges );
-
-
-		/*! Gets the Name of the Component
-		 *
-		 *  @return (const std::string&)
-		 */
-		inline const std::string& GetName( ) const { return m_name; };
-
-
-		/*! Sets the Id of the component unique to its containing World Entity
+		/*! Posts a message to observers
 		*
-		*  @param[in] const unsigned int & id
-		*  @return (void)
+		*  @param[in] const std::string & message
+		*  @param[in] AnyValue::AnyValueMap parameters
+		*  @return (AnyValue)
 		*/
-		inline void SetId( const unsigned int& id ) { m_id = id; };
+		AnyValue PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
 
 
-		/*! Returns a numerical Id for the component unique to its containing World Entity
+		/*! Messages the Component to influence its internal state
 		*
-		*  @return (unsigned int)
+		*  @param[in] const std::string & message
+		*  @return (AnyValue)
 		*/
-		inline unsigned int GetId( ) const { return m_id; };
-
-
-		/*! Gets the System::Types::Type of the Component
-		 *
-		 *  @return (System::Types::Type)
-		 */
-		inline System::Types::Type GetType( ) const { return System::Types::AI; };
-
-
-		/*! Gets the types of Changes this component is interested in
-		 *
-		 *  @return (unsigned int)
-		 */
-		inline unsigned int GetRequestedChanges( ) const  
-		{ 
-			return System::Changes::Geometry::All;
-		};
+		AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
 
 
 		/*! Gets the attributes of the Component
 		 *
 		 *  @return (AnyValueMap)
 		 */
-		inline AnyValue::AnyValueMap GetAttributes( ) const { return m_attributes; };
+		inline AnyValue::AnyValueKeyMap GetAttributes( ) const { return m_attributes; };
 
 
-		/*! Sets the Properties of the Component
-		 *
-		 *  @param[in] AnyValue::AnyValueMap systemProperties
-		 *  @return (void)
-		 */
-		inline void SetAttributes( AnyValue::AnyValueMap& attributes ) { m_attributes = attributes; };
-
-
-		/*! Gets the Position of the Component
-		 *
-		 *  @return (MathVector3)
-		 */
-		inline Maths::MathVector3 GetPosition( ) const { return m_position; };
-
-
-		/*! Gets the Scale of the Component
-		 *
-		 *  @return (MathVector3)
-		 */
-		inline Maths::MathVector3 GetScale( ) const { return Maths::MathVector3::Zero( ); };
-
-
-		/*! Gets the Orientation of the Component
-		 *
-		 *  @return (MathQuaternion)
-		 */
-		inline Maths::MathQuaternion GetOrientation( ) const { return m_orientation; };
-
-
-		/* Inherited from IBehavior */
-
-		/*! Sets the current Behavior of the Component
-		 *
-		 *  @param[in] const std::string & behavior
-		 *  @return (void)
-		 */
-		void SetBehavior( const std::string& behavior );
-
-
-		/*! Gets the current Behavior of the Component
-		 *
-		 *  @return (std::string)
-		 */
-		std::string GetBehavior( ) const { return m_behavior; };
+		/*! Sets an Attribute on the Component *
+		*
+		*  @param[in] const unsigned int attributeId
+		*  @param[in] const AnyValue & value
+		*/
+		inline void SetAttribute( const unsigned int& attributeId, const AnyValue& value ) { m_attributes[ attributeId ] = value; };
 
 
 		/* AI Specific */
@@ -245,33 +168,24 @@ namespace AI
 		 */
 		void PlayAnimation( const std::string& animationName, const bool& loopAnimation );
 
-
-		/*! Messages the Component to influence its internal state
+		/*! Gets the Name of the Component
 		*
-		*  @param[in] const std::string & message
-		*  @return (AnyValue)
+		*  @return (const std::string&)
 		*/
-		AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters ) { return AnyValue( ); };
+		inline std::string GetName( ) { return m_attributes[ System::Attributes::Name ].GetValue< std::string >( ); };
 
 	private:
 
 		std::string m_name;
-		unsigned int m_id;
 
 		lua_State* m_scriptState;
 		int m_frameAssignment;
 
 		IObserver* m_observer;
-		std::string m_behavior;
 
-		Maths::MathVector3 m_position;
-		Maths::MathQuaternion m_orientation;
-
-		Maths::MathVector3 m_playerPosition;
-		Maths::MathQuaternion m_playerOrientation;
 		float m_playerDistance;
 
-		AnyValue::AnyValueMap m_attributes;
+		AnyValue::AnyValueKeyMap m_attributes;
 
 	};
 };

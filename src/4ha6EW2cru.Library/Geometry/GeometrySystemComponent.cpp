@@ -4,42 +4,33 @@ using namespace Maths;
 
 namespace Geometry
 {
-	void GeometrySystemComponent::Initialize( AnyValue::AnyValueMap& properties )
+	AnyValue GeometrySystemComponent::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
 	{
-		for( AnyValue::AnyValueMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
+		if ( messageId & System::Messages::SetPosition )
 		{
-			if ( ( *i ).first == "position" )
-			{
-				m_position = ( *i ).second.GetValue< MathVector3 >( );
-				this->PushChanges( System::Changes::Geometry::Position );
-			}
-
-			if ( ( *i ).first == "orientation" )
-			{
-				m_orientation = ( *i ).second.GetValue< MathQuaternion >( );
-				this->PushChanges( System::Changes::Geometry::Orientation );
-			}
+			m_attributes[ System::Attributes::Position ] = parameters[ System::Attributes::Position ].GetValue< MathVector3 >( );
 		}
+
+		if ( messageId & System::Messages::SetOrientation )
+		{
+			m_attributes[ System::Attributes::Orientation ] = parameters[ System::Attributes::Orientation ].GetValue< MathQuaternion >( );
+		}
+
+		if ( messageId & System::Messages::AddedToComponent )
+		{
+			this->PushMessage( System::Messages::SetPosition | System::Messages::SetOrientation, m_attributes );
+		}
+
+		return MathVector3( );
 	}
 
-	void GeometrySystemComponent::PushChanges( const unsigned int& systemChanges )
+	AnyValue GeometrySystemComponent::PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
 	{
 		for( ObserverList::iterator i = m_observers.begin( ); i != m_observers.end( ); ++i )
 		{
-			( *i )->Observe( this, systemChanges );
+			( *i )->Message( System::Messages::SetPosition, m_attributes );
 		}
-	}
 
-	void GeometrySystemComponent::Observe( ISubject* subject, const unsigned int& systemChanges )
-	{
-		ISystemComponent* component = static_cast< ISystemComponent* >( subject );
-
-		m_position = component->GetPosition( );
-		m_orientation = component->GetOrientation( );
-
-		this->PushChanges( 
-			System::Changes::Geometry::Position |
-			System::Changes::Geometry::Orientation
-			);
+		return AnyValue( );
 	}
 };

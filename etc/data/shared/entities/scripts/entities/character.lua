@@ -5,14 +5,14 @@ script:include( '/data/entities/scripts/entities/weapon.lua' )
 -- Global Variables
 ----------------------------------------------------------------
 
-assaultRifle = Weapon:create( 'fsg400', 10, 5 )
-
 Character = { 
 	health = 100,
-	weapon = assaultRifle,
+	weapon = Weapon:create( 'fsg400', 10, 5 ),
 	isdead = false,
 	eyeLevel = Vector( 0, 1.73, 0 )
 }
+
+extend( Character, Actor )
 
 ----------------------------------------------------------------
 -- Local Variables
@@ -53,8 +53,6 @@ end
 function Character:onDie( )
 
 	self.isdead = true
-	script:broadcastEvent( 'ACTOR_DEAD', script:getId( ) )
+	script:broadcastEvent( 'ACTOR_DEAD', script:getName( ) )
 	
 end
-
-extend( Character, Actor )

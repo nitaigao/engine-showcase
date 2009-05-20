@@ -5,6 +5,10 @@
 #include "AnimationBlender.h"
 #include "IRendererSystem.hpp"
 
+#include "../Maths/MathVector3.hpp"
+#include "../Maths/MathQuaternion.hpp"
+using namespace Maths;
+
 #include "../Utility/OgreMax/OgreMaxModel.hpp"
 using namespace OgreMax;
 using namespace Ogre;
@@ -21,17 +25,17 @@ namespace Renderer
 	{
 		m_scene->GetSceneManager( )->getRootSceneNode( )->removeAndDestroyChild( m_name );
 
-		for( AnimationBlenderList::iterator i = m_animationBlenders.begin( ); i != m_animationBlenders.end( ); ++i )
+		for( IAnimationBlender::AnimationBlenderList::iterator i = m_animationBlenders.begin( ); i != m_animationBlenders.end( ); ++i )
 		{
 			delete ( *i );
 		}
 	}
 
-	void RendererSystemComponent::Initialize( AnyValue::AnyValueMap& properties )
+	void RendererSystemComponent::Initialize( )
 	{
 		m_sceneNode = m_scene->GetSceneManager( )->createSceneNode( m_name );
 
-		this->LoadModel( m_sceneNode, properties[ "model" ].GetValue< std::string >( ) );
+		this->LoadModel( m_sceneNode, m_attributes[ System::Attributes::Model ].GetValue< std::string >( ) );
 
 		m_scene->GetSceneManager( )->getRootSceneNode( )->addChild( m_sceneNode );
 
@@ -64,34 +68,41 @@ namespace Renderer
 		this->DestroySceneNode( m_sceneNode );
 	}
 
-	void RendererSystemComponent::Observe( ISubject* subject, const unsigned int& systemChanges )
+	AnyValue RendererSystemComponent::PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
 	{
-		ISystemComponent* component = static_cast< ISystemComponent* >( subject );
-		
-		if ( System::Changes::Geometry::Position & systemChanges )
+		return m_observer->Message( messageId, parameters );
+	}
+
+	AnyValue RendererSystemComponent::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	{
+		if ( messageId & System::Messages::SetPosition )
 		{
-			m_sceneNode->setPosition( component->GetPosition( ).AsOgreVector3( ) );
-		}
-		
-		if ( System::Changes::Geometry::Orientation & systemChanges )
-		{
-			m_sceneNode->setOrientation( component->GetOrientation( ).AsOgreQuaternion( ) );
+			m_sceneNode->setPosition( parameters[ System::Attributes::Position ].GetValue< MathVector3 >( ).AsOgreVector3( ) );
 		}
 
+		if ( messageId & System::Messages::SetOrientation )
+		{
+			m_sceneNode->setOrientation( parameters[ System::Attributes::Orientation ].GetValue< MathQuaternion >( ).AsOgreQuaternion( ) );
+		}
+
+		/*
 		if ( System::Changes::AI::Behavior & systemChanges )
 		{
-			AISystemComponent* aiComponent = static_cast< AISystemComponent* >( subject );
+		AISystemComponent* aiComponent = static_cast< AISystemComponent* >( subject );
 
-			for( AnimationBlenderList::iterator i = m_animationBlenders.begin( ); i != m_animationBlenders.end( ); ++i )
-			{
-				this->PlayAnimation( aiComponent->GetBehavior( ), true );
-			}
+		for( AnimationBlenderList::iterator i = m_animationBlenders.begin( ); i != m_animationBlenders.end( ); ++i )
+		{
+		this->PlayAnimation( aiComponent->GetBehavior( ), true );
 		}
+		}
+		*/
+
+		return AnyValue( );
 	}
 
 	void RendererSystemComponent::Update( const float& deltaMilliseconds )
 	{
-		for( AnimationBlenderList::iterator i = m_animationBlenders.begin( ); i != m_animationBlenders.end( ); ++i )
+		for( IAnimationBlender::AnimationBlenderList::iterator i = m_animationBlenders.begin( ); i != m_animationBlenders.end( ); ++i )
 		{
 			( *i )->Update( deltaMilliseconds );
 		}
@@ -183,7 +194,7 @@ namespace Renderer
 			gunfire->setVisible( false );
 		}
 
-		for( AnimationBlenderList::iterator i = m_animationBlenders.begin( ); i != m_animationBlenders.end( ); ++i )
+		for( IAnimationBlender::AnimationBlenderList::iterator i = m_animationBlenders.begin( ); i != m_animationBlenders.end( ); ++i )
 		{
 			( *i )->Blend( animationName, 0.2f, loopAnimation );
 		}

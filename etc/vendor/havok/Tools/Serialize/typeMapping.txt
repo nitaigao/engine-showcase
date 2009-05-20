@@ -3,7 +3,7 @@ hkObjectIndex:hkUint16
 hkChar:char
 hkUchar:char
 hkUFloat8:hkUint8
-hkHalf:hkInt16
 hkTime:hkReal
+hkHalf:hkUint16
 hclConvexHeightFieldSample:hkUint32
 hclPlanarHeightFieldSample:hkUint32

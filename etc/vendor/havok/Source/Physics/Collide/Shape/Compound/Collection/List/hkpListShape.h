@@ -2,12 +2,15 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
 #ifndef HK_COLLIDE2_LIST_SHAPE_H
 #define HK_COLLIDE2_LIST_SHAPE_H
+
+
+#include <Common/Internal/1AxisSweep/hk1AxisSweep.h>
 
 #include <Physics/Collide/Shape/Compound/Collection/hkpShapeCollection.h>
 #include <Physics/Collide/Util/hkpAabbUtil.h>
@@ -26,14 +29,12 @@ class hkpListShape : public hkpShapeCollection
 {
 	public:
 
-		//+version(2)
 		HK_DECLARE_REFLECTION();
 
 		enum { MAX_CHILDREN_FOR_SPU_MIDPHASE = 252 };
 
 		struct ChildInfo
 		{
-			//+version(1)
 			HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_COLLIDE, hkpListShape::ChildInfo );
 			HK_DECLARE_REFLECTION();
 			HK_ALIGN16(const hkpShape* m_shape);	// we need this because all the child infos might not fit into a cacheline
@@ -73,19 +74,49 @@ class hkpListShape : public hkpShapeCollection
 			/// Also returns the aabb
 		void recalcAabbExtents( hkAabb& aabbOut );
 
+
+			/// Allows for quickly disabling a child shape.
+			/// Warning: you also have to invalidate the corresponding cached aabb in the hkpCollidable::m_boundingVolumeData::m_childShapeAabbs.
+			/// You can use the hkpBreakOffPartsUtil::removeKeysFromListShape() to do this for you
+		void disableChild( hkpShapeKey index );
+
+			/// Allows for quickly enabling a child shape.
+		void enableChild( hkpShapeKey index );
+
+			/// Check whether a child is enabled
+		HK_FORCE_INLINE hkBool32 isChildEnabled( hkpShapeKey index ) const
+		{
+			HK_ASSERT2(0xad808208, index < hkUint32(m_childInfo.getSize()), "hkpListShape child index out of bounds");
+			if ( index < MAX_DISABLED_CHILDREN )
+			{
+				return m_enabledChildren[ index>>5 ] & (1<<(index&0x1f));
+			}
+			return true;
+		}
+
 		//
 		// hkpShapeCollection interface
 		//
 
-
 			// hkpShapeCollection interface implementation.
-		inline virtual int getNumChildShapes() const { return m_childInfo.getSize(); }
-
-			/// Get the first child shape key.
-		inline virtual hkpShapeKey getFirstKey() const { return 0; }
+		inline virtual int getNumChildShapes() const { return m_childInfo.getSize() - m_numDisabledChildren; }
 
 			/// Get the next child shape key.
-		inline virtual hkpShapeKey getNextKey( hkpShapeKey key ) const { return int(++key) < m_childInfo.getSize() ? key : HK_INVALID_SHAPE_KEY; }
+		inline virtual hkpShapeKey getNextKey( hkpShapeKey key ) const 
+		{
+			for ( int i = key+1; i < m_childInfo.getSize(); i++ )
+			{
+				if (isChildEnabled( i ))
+				{
+					return hkpShapeKey(i);
+				}
+			}
+			return HK_INVALID_SHAPE_KEY;
+		}
+
+			/// Get the first child shape key.
+		inline virtual hkpShapeKey getFirstKey() const { return hkpListShape::getNextKey( hkpShapeKey(-1) ); }
+
 
 			// hkpShapeContainer::getCollisionFilterInfo() interface implementation.
 		HKP_SHAPE_VIRTUAL hkUint32 getCollisionFilterInfoImpl( HKP_SHAPE_VIRTUAL_THIS hkpShapeKey key ) HKP_SHAPE_VIRTUAL_CONST;
@@ -93,29 +124,7 @@ class hkpListShape : public hkpShapeCollection
 			/// Sets the collisionFilterInfo for a given index
 		void setCollisionFilterInfo( hkpShapeKey index, hkUint32 filterInfo );
 
-		/// Allows for quickly disabling a child shape.
-		/// Warning: you also have to invalidate the corresponding cached aabb in the hkpCollidable::m_boundingVolumeData::m_childShapeAabbs.
-		/// You can use the hkpBreakOffPartsUtil::removeKeysFromListShape() to do this for you
-		HK_FORCE_INLINE void disableChild( hkpShapeKey index )
-		{
-			HK_ASSERT2( 0xf0f34fe5, index < MAX_DISABLED_CHILDREN, "You can only disable the first 256 children" );
-			m_enabledChildren[ index>>5 ] &= ~(1<<(index&0x1f));
-		}
 
-		/// Allows for quickly enabling a child shape.
-		HK_FORCE_INLINE void enableChild( hkpShapeKey index )
-		{
-			m_enabledChildren[ index>>5 ] |= (1<<(index&0x1f));
-		}
-
-		HK_FORCE_INLINE hkBool32 isChildEnabled( hkpShapeKey index ) const
-		{
-			if ( index < MAX_DISABLED_CHILDREN )
-			{
-				return m_enabledChildren[ index>>5 ] & (1<<(index&0x1f));
-			}
-			return true;
-		}
 
 			/// hkpShapeContainer::getChildShape() interface implementation.
 		HKP_SHAPE_VIRTUAL const hkpShape* getChildShapeImpl( HKP_SHAPE_VIRTUAL_THIS hkpShapeKey key, ShapeBuffer& buffer ) HKP_SHAPE_VIRTUAL_CONST;
@@ -130,11 +139,17 @@ class hkpListShape : public hkpShapeCollection
 			//	hkpShape interface implementation.
 		HKP_SHAPE_VIRTUAL hkBool castRayImpl( HKP_SHAPE_VIRTUAL_THIS const hkpShapeRayCastInput& input, hkpShapeRayCastOutput& results) HKP_SHAPE_VIRTUAL_CONST;
 
+			//	hkpShape interface implementation.
+		HKP_SHAPE_VIRTUAL void castRayWithCollectorImpl( HKP_SHAPE_VIRTUAL_THIS const hkpShapeRayCastInput& input, const hkpCdBody& cdBody, hkpRayHitCollector& collector) HKP_SHAPE_VIRTUAL_CONST;
+
 			/// Returns a struct of function pointers needed by the SPU
 		static void HK_CALL registerSimulationFunctions( ShapeFuncs& sf );
 
 			/// Returns a struct of function pointers needed by the SPU
 		static void HK_CALL registerCollideQueryFunctions( ShapeFuncs& sf );
+
+			/// Returns a struct of function pointers needed by the SPU
+		static void HK_CALL registerRayCastFunctions( ShapeFuncs& sf );
 
 			/// Returns a struct of function pointers needed by the SPU
 		static void HK_CALL registerGetAabbFunction( ShapeFuncs& sf );
@@ -143,19 +158,22 @@ class hkpListShape : public hkpShapeCollection
 
 		virtual int calcSizeForSpu(const CalcSizeForSpuInput& input, int spuBufferSizeLeft) const;
 
-		void getAabbWithChildShapes(const hkpCollisionInput& collisionInput, const hkpAabbUtil::OffsetAabbInput& input, const hkTransform& localToWorld, const hkVector4& massCenter, hkReal tolerance, hkAabbUint32& rootAabbUint32, hkAabbUint32* childShapesAabbUint32, int numAabbs) const;
 
-			// Returns the number of enabled child shapes.
-		int getAabbWithChildShapesForAgent(const hkpCollisionInput& collisionInput, const hkpAabbUtil::OffsetAabbInput& input, hkBool32 useContinuousPhysics, const hkTransform& localToWorld, hkReal tolerance, hkAabb& rootAabb, hkAabbUint32* aabbsOut, int numAabbs) const;
-
+		inline int getNumAabbsForSharedBufferForAabbsAndChildInfos() const
+		{
+			int maxByteSize = hkpListShape::getNumChildShapes() * sizeof(hkAabbUint32) + (m_childInfo.getSize()-hkpListShape::getNumChildShapes())*sizeof(ChildInfo);
+			int maxNumAabbs = (maxByteSize + sizeof(hkAabbUint32) - 1) / sizeof(hkAabbUint32) + 1;
+			return maxNumAabbs;
+		}
 
 	public:
 
 		friend class hkpListAgent;
-		// hkInplaceArray<struct ChildInfo,4> m_childInfo;
+
 		hkArray<struct ChildInfo>	m_childInfo;
 
-		hkUint32 m_flags; ///
+		hkUint16 m_flags;				///
+		hkUint16 m_numDisabledChildren; /// < the number of disabled children
 
 		hkVector4					m_aabbHalfExtents;
 		hkVector4					m_aabbCenter;
@@ -177,9 +195,9 @@ class hkpListShape : public hkpShapeCollection
 #endif // HK_COLLIDE2_LIST_SHAPE_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

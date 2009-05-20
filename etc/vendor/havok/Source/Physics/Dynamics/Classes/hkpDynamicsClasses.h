@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -12,6 +12,7 @@ HK_ABSTRACT_CLASS(hkWorldMemoryAvailableWatchDog)
 HK_ABSTRACT_CLASS(hkpAction)
 HK_ABSTRACT_CLASS(hkpArrayAction)
 HK_ABSTRACT_CLASS(hkpBinaryAction)
+HK_ABSTRACT_CLASS(hkpBreakableBody)
 HK_ABSTRACT_CLASS(hkpConstraintChainData)
 HK_ABSTRACT_CLASS(hkpConstraintData)
 HK_ABSTRACT_CLASS(hkpConstraintMotor)
@@ -73,6 +74,7 @@ HK_CLASS(hkpWorld)
 HK_CLASS(hkpWorldCinfo)
 HK_STRUCT(hkpBallAndSocketConstraintDataAtoms)
 HK_STRUCT(hkpBallSocketChainDataConstraintInfo)
+HK_STRUCT(hkpConstraintInstanceSmallArraySerializeOverrideType)
 HK_STRUCT(hkpEntityExtendedListeners)
 HK_STRUCT(hkpEntitySmallArraySerializeOverrideType)
 HK_STRUCT(hkpEntitySpuCollisionCallback)
@@ -98,9 +100,9 @@ HK_STRUCT(hkpStiffSpringConstraintDataAtoms)
 HK_STRUCT(hkpWheelConstraintDataAtoms)
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -74,7 +74,7 @@ PackfileImportExport::PackfileImportExport( hkDemoEnvironment* env)
 	}
 
 	if( HK_SUCCESS == loadFile(
-			"Common/Api/Serialize/SimpleLoad/Resources/simple.xml",
+			"Resources/Common/Api/Serialize/SimpleLoad/simple.xml",
 			m_linker,
 			&m_physicsData ) )
 	{
@@ -265,9 +265,9 @@ HK_DECLARE_DEMO(PackfileImportExport, HK_DEMO_TYPE_PRIME | HK_DEMO_TYPE_SERIALIZ
 	"Bring up the tweak menu to change the file format used and the order of loading.\nDebug logging is printed to the console");
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

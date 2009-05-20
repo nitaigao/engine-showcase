@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -40,7 +40,6 @@ class hkpWorldObject : public hkReferencedObject
 {
 	public:
 	
-		//+version(9)
 		HK_DECLARE_REFLECTION();
 
 			/// Adds a property to the entity. Properties must be unique. 
@@ -54,15 +53,29 @@ class hkpWorldObject : public hkReferencedObject
 			/// ###ACCESS_CHECKS###( [m_world,HK_ACCESS_IGNORE] [this,HK_ACCESS_RW] );
 		hkpPropertyValue removeProperty( hkUint32 key );
 
+			/// Should multithreading checks enabled or disabled
+		enum MtChecks
+		{
+			MULTI_THREADING_CHECKS_ENABLE,	///
+			MULTI_THREADING_CHECKS_IGNORE	///
+		};
+
 			/// Updates the property with a new value. The property's key must already exist.
+			/// Note: you can set \a mtCheck to MULTI_THREADING_CHECKS_IGNORE, if you are sure to only call getProperty(), hasProperty() and editProperty()
+			/// when accessing the engine from multiple threads.
 			/// ###ACCESS_CHECKS###( [m_world,HK_ACCESS_IGNORE] [this,HK_ACCESS_RO] [plock,HK_ACCESS_RW] [this,HK_ACCESS_RW] );
-		void editProperty( hkUint32 key, hkpPropertyValue value );
+		void editProperty( hkUint32 key, hkpPropertyValue value, MtChecks mtCheck = MULTI_THREADING_CHECKS_ENABLE );
+
 
 			/// Returns the property specified, or 0 if there is no property of the given type.
-		inline hkpPropertyValue getProperty( hkUint32 key ) const;
+			/// Note: you can set \a mtCheck to MULTI_THREADING_CHECKS_IGNORE, if you are sure to only call getProperty(), hasProperty() and editProperty()
+			/// when accessing the engine from multiple threads.
+		inline hkpPropertyValue getProperty( hkUint32 key, MtChecks mtCheck = MULTI_THREADING_CHECKS_ENABLE ) const;
 
 			/// Returns whether a property of this type has been set for the entity.
-		inline hkBool hasProperty( hkUint32 key ) const;
+			/// Note: you can set \a mtCheck to MULTI_THREADING_CHECKS_IGNORE, if you are sure to only call getProperty(), hasProperty() and editProperty()
+			/// when accessing the engine from multiple threads.
+		inline bool hasProperty( hkUint32 key, MtChecks mtCheck = MULTI_THREADING_CHECKS_ENABLE ) const;
 
 			/// locks all property field of all entities, allows for
 			/// calling editProperty even if you only have 'read only' access for this entity.
@@ -183,19 +196,23 @@ class hkpWorldObject : public hkReferencedObject
 		friend class hkpWorldOperationUtil;
 		inline void setWorld( hkpWorld* world );
 
-			// gets the motion state 
-		virtual class hkMotionState* getMotionState() = 0;
-
 		hkpWorldObject( const hkpShape* shape, BroadPhaseType type ); 
 
 		inline virtual ~hkpWorldObject(); // virtual for the sake of serialization flags
 
 	public:
+		// gets the motion state 
+		virtual class hkMotionState* getMotionState() = 0;
 
 		inline hkMultiThreadCheck& getMultiThreadCheck();
 		inline const hkMultiThreadCheck& getMultiThreadCheck() const;
 
 		inline void copyProperties( const hkpWorldObject* otherObj );
+
+
+		class hkaiObjectData* getAiObjectData() const; 
+
+		void setAiObjectData( hkaiObjectData* data );
 
 	protected:
 
@@ -215,6 +232,9 @@ class hkpWorldObject : public hkReferencedObject
 
 		hkArray<class hkpProperty> m_properties;
 
+	private:
+		class hkReferencedObject* m_aiData; //+nosave
+
 	public:
 
 		hkpWorldObject( class hkFinishLoadedObjectFlag flag );
@@ -232,9 +252,9 @@ inline hkpWorldObject* hkGetWorldObject(const hkpCollidable* collidable)
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HKBASE_HKBASETYPES_H
@@ -20,9 +20,6 @@
 #	define HK_COMPILER_GCC
 #elif defined(__MWERKS__)
 #	define HK_COMPILER_MWERKS
-#	if __MWERKS__ > 0x4200
-#		define HK_COMPILER_RADIX
-#	endif
 #elif defined(__INTEL_COMPILER)
 #	define HK_COMPILER_INTEL
 #else
@@ -118,6 +115,9 @@ enum hkResult
 	HK_FAILURE = 1
 };
 
+#if defined( HK_PLATFORM_PS3_SPU) 
+#	include <spu_intrinsics.h>
+#endif
 
 //
 // useful macros
@@ -136,8 +136,13 @@ enum hkResult
 #	define HK_MULTILINE_MACRO_BEGIN	do {
 #	define HK_MULTILINE_MACRO_END		} while(0)
 #else
+#	if defined(HK_PLATFORM_PS3_PPU ) || defined(HK_PLATFORM_PS3_SPU)
+#		define HK_MULTILINE_MACRO_BEGIN	{
+#		define HK_MULTILINE_MACRO_END	 } 
+#	else
 #		define HK_MULTILINE_MACRO_BEGIN	if(1) {
 #		define HK_MULTILINE_MACRO_END		} else
+#	endif
 #endif
 
 #		define HK_BREAKPOINT(ID) __asm { int 3 }
@@ -214,13 +219,34 @@ enum hkResult
 	//			METROWERKS
 	// *************************************
 
+#if defined(HK_PLATFORM_SIM_PPU) || defined(HK_PLATFORM_SIM_SPU)
+#       define HK_PLATFORM_SIM
+#endif
+
+#if defined(HK_PLATFORM_PS3_PPU) || defined(HK_PLATFORM_PS3_SPU) || defined(HK_PLATFORM_SIM)
+#	define HK_PLATFORM_HAS_SPU
+#	define HK_ON_PLATFORM_HAS_SPU(code) code
+#else
 #	define HK_ON_PLATFORM_HAS_SPU(code)
+#endif
 
+#if defined(HK_PLATFORM_PS3_PPU) || defined(HK_PLATFORM_WIN32) || defined(HK_PLATFORM_XBOX360) || defined(HK_PLATFORM_MAC386) || defined(HK_PLATFORM_MACPPC) || defined(HK_PLATFORM_UNIX)
 #	define HK_PLATFORM_MULTI_THREAD
+#endif
 
+#if defined(HK_PLATFORM_PS3_PPU) || defined(HK_PLATFORM_PS3_SPU)
+#		define HK_ALWAYS_INLINE __attribute__((always_inline)) inline
+#	if !defined (HK_DEBUG)
+#		define HK_LOCAL_INLINE inline
+#	else
+#		define HK_LOCAL_INLINE
+#	endif
+#	define HK_ASM_SEP(a) __asm("#*****" a )
+#else
 #	define HK_ALWAYS_INLINE HK_FORCE_INLINE
 #	define HK_LOCAL_INLINE HK_FORCE_INLINE
 #	define HK_ASM_SEP(a) 
+#endif
 
 #	define HK_NOSPU_VIRTUAL virtual
 
@@ -318,6 +344,13 @@ HK_FORCE_INLINE hkUint32 hkNextPowerOf2(hkUint32 in)
 	return in + 1; 
 }
 
+class hkFinishLoadedObjectFlag
+{
+public:
+	hkFinishLoadedObjectFlag() : m_finishing(0) {}
+	int m_finishing;
+};
+
 #define hkSizeOf(A) int(sizeof(A))
 
 #define HK_REFLECTION_CLASSFILE_DESTINATION(PATH)
@@ -330,11 +363,13 @@ HK_FORCE_INLINE hkUint32 hkNextPowerOf2(hkUint32 in)
 class hkClass;
 
 /// A generic object with metadata.
+
 struct hkVariant
 {
 	void* m_object;
 	const hkClass* m_class;
 };
+
 
 	/// False is zero, true is _any_ non-zero value.
 	/// Thus comparisons like bool32 == true will not work as expected.
@@ -385,8 +420,9 @@ class hkBool
 class hkHalf
 {
     public:
-    
-	    inline hkHalf(){   }
+		HK_DECLARE_REFLECTION();
+
+	    inline hkHalf() { }
     
 	    inline hkHalf(const float& f)
 	    {
@@ -580,8 +616,24 @@ class hkFlags
 		STORAGE m_storage;
 };
 
+#if defined(HK_PLATFORM_PS3_SPU) 
+	template <typename TYPE> struct hkSpuStorage {}; // default is error
+	template <typename TYPE> struct hkSpuStorage<TYPE*> { typedef vec_uint4 StorageType; typedef unsigned PromoteType;  };
+	template <> struct hkSpuStorage<void*> { typedef vec_uint4 StorageType; typedef unsigned PromoteType; };
+	template <> struct hkSpuStorage<int> { typedef vec_int4 StorageType; typedef int PromoteType; };
+	template <> struct hkSpuStorage<unsigned> { typedef vec_uint4 StorageType; typedef unsigned PromoteType; };
+	template <> struct hkSpuStorage<float> { typedef vec_float4 StorageType; typedef float PromoteType; };
+	template <> struct hkSpuStorage<hkBool> { typedef vec_int4 StorageType; typedef hkBool PromoteType; };
+	template <> struct hkSpuStorage<hkUchar> { typedef vec_uchar16 StorageType; typedef hkUchar PromoteType; };
+	template <> struct hkSpuStorage<hkUint16> { typedef vec_ushort8 StorageType; typedef unsigned short PromoteType; };
+	
+#	define HK_PADSPU_PROMOTE(e) spu_promote( (typename hkSpuStorage<TYPE>::PromoteType)(e), 0 )
+#	define HK_PADSPU_EXTRACT(e) (TYPE)spu_extract( e, 0 )
+
+#else
 #	define HK_PADSPU_PROMOTE(e) e
 #	define HK_PADSPU_EXTRACT(e) e
+#endif
 
 	/// wrapper class for variables in structures. 
 	/// Basically on the PLAYSTATION(R)3 spu, the spu can only poorly
@@ -621,7 +673,14 @@ class hkPadSpu
 
 	private:
 
+#	if defined(HK_PLATFORM_PS3_SPU) 
+		typename hkSpuStorage<TYPE>::StorageType m_storage;
+#	elif defined(HK_PLATFORM_HAS_SPU)
+		HK_ALIGN16(TYPE m_storage);
+		hkUchar m_pad[ 16-sizeof(TYPE) ];
+#	else
 		TYPE m_storage;
+#	endif
 };
 
 #	define HK_PAD_ON_SPU(TYPE) TYPE
@@ -629,99 +688,6 @@ class hkPadSpu
 #	define HK_ON_SPU(code)
 
 #define HK_HINT_SIZE16(A) hkInt16(A)
-
-class hkFinishLoadedObjectFlag
-{
-	public:
-		hkFinishLoadedObjectFlag() : m_finishing(0) {}
-		int m_finishing;
-};
-
-	/// A simple helper class to automatically add and remove references to classes
-template <typename TYPE>
-class hkRefPtr
-{
-	public:
-
-		HK_FORCE_INLINE hkRefPtr()
-		{
-			m_pntr = HK_NULL;
-		}
-
-		hkRefPtr (hkFinishLoadedObjectFlag ) {}
-
-		HK_FORCE_INLINE hkRefPtr(const hkRefPtr& rp)
-		{
-			if ( rp.m_pntr )
-			{
-				rp.m_pntr->addReference();
-			}
-			m_pntr = rp.m_pntr;
-		}
-
-		HK_FORCE_INLINE hkRefPtr(TYPE* e)
-		{
-			if ( e )
-			{
-				e->addReference();
-			}
-			m_pntr = e;
-		}
-
-		HK_FORCE_INLINE ~hkRefPtr()
-		{
-			if ( m_pntr )
-			{
-				m_pntr->removeReference();
-			}
-			m_pntr = HK_NULL;
-		}
-
-		HK_FORCE_INLINE void operator=(const hkRefPtr& rp)
-		{
-			if ( rp.m_pntr )
-			{
-				rp.m_pntr->addReference(); // add reference first to allow self-assignment
-			}
-			if ( m_pntr )
-			{
-				m_pntr->removeReference();
-			}
-			m_pntr = rp.m_pntr;
-		}
-
-		HK_FORCE_INLINE void operator=(TYPE* e)
-		{
-			if ( e )
-			{
-				e->addReference(); // add reference first to allow self-assignment
-			}
-			if ( m_pntr )
-			{
-				m_pntr->removeReference();
-			}
-			m_pntr = e;
-		}
-
-		HK_FORCE_INLINE TYPE* val() const
-		{
-			return m_pntr;
-		}
-
-		HK_FORCE_INLINE TYPE* operator->() const
-		{
-			return m_pntr;
-		}
-
-		HK_FORCE_INLINE operator TYPE*() const
-		{
-			return val();
-		}
-
-	private:
-
-		TYPE* m_pntr;
-};
 
 
 struct hkCountOfBadArgCheck
@@ -737,19 +703,32 @@ struct hkCountOfBadArgCheck
 	0 * sizeof( ::hkCountOfBadArgCheck::isArrayType((x), &(x)) ) + \
 	sizeof(x) / sizeof((x)[0]) ) 
 
+#if defined(HK_PLATFORM_PS3_SPU)
+	extern hkUlong g_spuLowestStack;
+#	define HK_SPU_INIT_STACK_SIZE_TRACE()   { int reference = 0; g_spuLowestStack = hkUlong(&reference); }
+#	define HK_SPU_UPDATE_STACK_SIZE_TRACE() { int reference = 0; if ( hkUlong(&reference) < g_spuLowestStack ) g_spuLowestStack = hkUlong(&reference); }
+#	define HK_SPU_OUTPUT_STACK_SIZE_TRACE() { int reference = 0; hkUlong stackSize = hkUlong(&reference) - g_spuLowestStack; static hkUlong maxStackSize = 0; if ( stackSize > maxStackSize ) { maxStackSize = stackSize; HK_SPU_DEBUG_PRINTF(("Maximum real stack size on spu: %d\n", stackSize)); } }
+	// Place a marker just after the static data section
+#	define HK_SPU_BSS_GUARD_INIT()		{ extern char* _end; *(unsigned int *)&_end = 0x4323e345; }
+	// Check marker at end of static data section to see if the stack has grown into it
+#	define HK_SPU_BSS_GUARD_CHECK()		{ extern char* _end; if ( *((unsigned int *)&_end) != 0x4323e345) { __asm ("stop"); } }
+	// Makes sure that the program stack hasn't overrun the hkSpuStack
+#	define HK_SPU_STACK_POINTER_CHECK() { int reference = 0; if ( hkUlong(&reference) < hkUlong(hkSpuStack::getInstance().getStackNext()) ) { HK_BREAKPOINT(66); }  }
+#else
 #	define HK_SPU_INIT_STACK_SIZE_TRACE()
 #	define HK_SPU_UPDATE_STACK_SIZE_TRACE()
 #	define HK_SPU_OUTPUT_STACK_SIZE_TRACE()
 #	define HK_SPU_BSS_GUARD_INIT()
 #	define HK_SPU_BSS_GUARD_CHECK()
 #	define HK_SPU_STACK_POINTER_CHECK()
+#endif
 
 #endif // HKBASE_HKBASETYPES_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

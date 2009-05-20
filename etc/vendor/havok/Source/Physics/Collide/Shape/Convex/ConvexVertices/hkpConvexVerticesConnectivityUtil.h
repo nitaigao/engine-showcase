@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -12,6 +12,7 @@
 #include <Physics/Collide/Shape/Convex/hkpConvexShape.h>
 #include <Physics/Collide/Shape/Convex/ConvexVertices/hkpConvexVerticesConnectivity.h>
 #include <Common/Base/Types/Geometry/hkGeometry.h>
+#include <Common/Base/Types/Geometry/hkStridedVertices.h>
 
 class hkpConvexVerticesShape;
 
@@ -19,14 +20,10 @@ class hkpConvexVerticesShape;
 /// a hkpConvexVerticesConnectivity
 /// Since it may not be possible to find valid connectivity the methods will return if they successfully found
 /// connectivity.
-
+/// The connectivity is used to find the inertia tensor and to cut the shape using a plane.
 class hkpConvexVerticesConnectivityUtil
 {
 	public:
-
-            /// Will return a shape with connectivity information
-            /// May return the input shape ref counted
-        static const hkpConvexVerticesShape* HK_CALL createConnectivity(const hkpConvexVerticesShape* shape);
 
 
             /// Will traverse the shape hierarchy and if any hkpConvexVerticesShape types are found it will set
@@ -35,7 +32,7 @@ class hkpConvexVerticesConnectivityUtil
 
             /// Checks if there is connectivity information. If not it will create a shape with connectivity
             /// May return the input shape reference counted
-        static const hkpConvexVerticesShape* HK_CALL ensureConnectivity(const hkpConvexVerticesShape* shape);
+        static hkResult HK_CALL ensureConnectivity(const hkpConvexVerticesShape* shape);
 
             /// Find the connectivity from the convex shape
             /// Finding the connectivity may be a fairly slow process - as will need to reconstruct the convex
@@ -45,7 +42,7 @@ class hkpConvexVerticesConnectivityUtil
             /// Cuts the \a shape with the \a plane. The part of the shape that is on the positive side of the plane is kept.
             /// Returns HK_NULL if nothing was produced or if the volume of the produced shape is below \a minVolume.
             /// May return shape reference counted (and with connectivity set) if the plane does not cut the shape.
-        static const hkpConvexVerticesShape* HK_CALL cut(const hkpConvexVerticesShape* shape, const hkVector4& plane, hkReal minVolume = HK_REAL_EPSILON);
+        static const hkpConvexVerticesShape* HK_CALL cut(const hkpConvexVerticesShape* shape, const hkVector4& plane, hkReal convexRadius, hkReal minVolume);
 
             /// Creates geometry from a hkpConvexVerticesShape and connectivity information
         static hkGeometry* HK_CALL createGeometry(const hkpConvexVerticesShape* shape,const hkpConvexVerticesConnectivity* conn);
@@ -59,8 +56,11 @@ class hkpConvexVerticesConnectivityUtil
             /// Quickly calculates the volume specified in the connectivity with the specified vertices
         static hkReal HK_CALL calculateVolume(const hkArray<hkVector4>& vertices,const hkpConvexVerticesConnectivity* conn);
 
+			/// Calculates the convex hull of the points in stridedVertsIn and returns the vertices used, the plane equations generated, the geometry of hull and the connectivity.
+		static void HK_CALL createConvexGeometry( const hkStridedVertices& stridedVertsIn, hkGeometry& geometryOut, hkArray<hkVector4>& planeEquationsOut, hkpConvexVerticesConnectivity** connectivityOut );
 
-    protected:
+
+    public:
 
 
         struct Edge
@@ -96,9 +96,9 @@ class hkpConvexVerticesConnectivityUtil
 #endif // HK_CONVEX_VERTICES_CONNECTIVITY_UTIL_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

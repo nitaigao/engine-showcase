@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -21,6 +21,7 @@ class hkgTexture;
 class hkgVertexSet;
 class hkgShader;
 class hkgShaderContext;
+class hkgShaderCollection;
 class hkgMaterial;
 class hkgWindow;
 class hkgBlendMatrixSet;
@@ -88,6 +89,8 @@ class hkgDisplayContext : public hkgReferencedObject
 			/// Get the current active pixel shader.
 		inline hkgShader*		getCurrentPixelShader() const;
 
+		virtual hkgShaderCollection* getCurrentGlobalShaderCollection( ) const;
+
 			/// Get the current active set of blend matrices.
 		inline hkgBlendMatrixSet* getCurrentBlendMatrices() const;
 
@@ -111,6 +114,8 @@ class hkgDisplayContext : public hkgReferencedObject
 
 		/// Set the current active shader. 
 		virtual void		    setCurrentPixelShader(hkgShader* s); // will bind to it aswell
+
+		void					setCurrentGlobalShaderCollection( hkgShaderCollection* globalShaders );
 
 			/// Set the current active blend matrix set
 		virtual void		    setCurrentBlendMatrices(hkgBlendMatrixSet* bm); // will bind to it aswell
@@ -342,6 +347,8 @@ class hkgDisplayContext : public hkgReferencedObject
 		mutable hkgShaderContext*   m_shaderContext;
 		hkgShader*		    m_currentBoundVertexShader;
 		hkgShader*		    m_currentBoundPixelShader;
+		hkgShaderCollection* m_globalShaderCollection;
+
 		hkgBlendMatrixSet*  m_currentBlendMatrices;
 		hkgVertexSet*		m_currentVertexSet;
 
@@ -385,9 +392,9 @@ class hkgDisplayContextAutoLock
 #endif //HK_GRAPHICS_DISPLAY_CONTEXT_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

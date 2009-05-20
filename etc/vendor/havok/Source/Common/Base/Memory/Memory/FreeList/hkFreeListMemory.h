@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -49,9 +49,9 @@ class hkFreeListMemory : public hkMemory, public hkLargeBlockLimitedMemoryListen
 
 			// hkMemory interface implementation
 
-		virtual void allocateChunkBatch(void** blocksOut, int nblocks, int nbytes);
+		virtual void allocateChunkBatch(void** blocksOut, int nblocks, int nbytes, HK_MEMORY_CLASS cl);
 
-		virtual void deallocateChunkBatch(void** blocks, int nblocks, int nbytes);
+		virtual void deallocateChunkBatch(void** blocks, int nblocks, int nbytes, HK_MEMORY_CLASS cl);
 
 		virtual void* allocateChunk(int nbytes, HK_MEMORY_CLASS cl);
 
@@ -124,13 +124,14 @@ class hkFreeListMemory : public hkMemory, public hkLargeBlockLimitedMemoryListen
 			FREELIST_ALIGNMENT = 16,
 				/// The maximum memory allocation size that will be handled via a freelist -> the rest go to the large
 				/// block allocator
-			MAX_FREELIST_SIZE = 512,
+				/// The size is designed to be big enough to hold a complete hkpRigidBody in free list
+			MAX_FREELIST_SIZE = hkThreadMemory::MEMORY_MAX_SIZE_SMALL_BLOCK,
 				/// Shift to go from a size to a freelist
 			FREELIST_SHIFT = 4,
 				/// The total amount of size->freelist lookup entries
 			MAX_FREELISTS = (MAX_FREELIST_SIZE >> FREELIST_SHIFT)+1,
 				/// The total amount of unique freelists that is supported
-			MAX_UNIQUE_FREELISTS = 32
+			MAX_UNIQUE_FREELISTS = 32 + 2
 		};
 
 			/// The server being used
@@ -161,9 +162,9 @@ class hkFreeListMemory : public hkMemory, public hkLargeBlockLimitedMemoryListen
 #endif // HK_FREELIST_MEMORY
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

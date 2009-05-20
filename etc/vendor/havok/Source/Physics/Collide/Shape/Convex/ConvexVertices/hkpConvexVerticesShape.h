@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -10,11 +10,10 @@
 #define HK_COLLIDE2_CONVEX_VERTICES_SHAPE_H
 
 #include <Physics/Collide/Shape/Convex/hkpConvexShape.h>
-#include <Common/Base/Types/Geometry/hkStridedVertices.h>
-
 
 extern const hkClass hkpConvexVerticesShapeClass;
 
+struct hkStridedVertices;
 class hkpConvexVerticesConnectivity;
 
 /// You can use this shape class to create a convex geometric object by specifying a set of vertices.
@@ -24,14 +23,12 @@ class hkpConvexVerticesShape : public hkpConvexShape
 {
 	public:
 
-		//+version(1)
 		HK_DECLARE_REFLECTION();
 		HK_DECLARE_GET_SIZE_FOR_SPU(hkpConvexVerticesShape);
 
 		// 4 vectors stored transposed in the "columns" not the rows
 		struct FourVectors
 		{
-			//+version(1)
 			HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_COLLIDE, hkpConvexVerticesShape::FourVectors );
 			HK_DECLARE_REFLECTION();
 
@@ -58,6 +55,8 @@ class hkpConvexVerticesShape : public hkpConvexShape
 				hkVector4* planes, int numPlanes,
 				const hkAabb& aabb, hkReal radius = hkConvexShapeDefaultRadius );
 
+		hkpConvexVerticesShape( hkFinishLoadedObjectFlag flag ) : hkpConvexShape(flag), m_rotatedVertices(flag), m_planeEquations(flag) { m_type = HK_SHAPE_CONVEX_VERTICES; }
+
 			/// Dtor
 		~hkpConvexVerticesShape();
 
@@ -68,6 +67,14 @@ class hkpConvexVerticesShape : public hkpConvexShape
 
 			/// Returns the plane equations passed into the constructor
 		const hkArray<hkVector4>& getPlaneEquations() const;
+			
+			/// Overwrite plane equations passed into the constructor
+		void setPlaneEquations( const hkArray<hkVector4>& planes );
+
+			/// convenience function to convert this shape to a new space
+		void transformVerticesAndPlaneEquations( const hkTransform& t );
+		void scaleVerticesAndPlaneEquations( hkReal scale );
+
 
 		//
 		// hkpConvexShape implementation
@@ -109,7 +116,7 @@ class hkpConvexVerticesShape : public hkpConvexShape
 
 			// Set the connectivity. Setting to HK_NULL will remove connectivity information.
             // The connectivity information is a 'cache' of information - so can be used to modify a const shape
-        void setConnectivity(const hkpConvexVerticesConnectivity* connect) const;
+        void setConnectivity(const hkpConvexVerticesConnectivity* connect);
 
 		//
 		// hkpShape implementation
@@ -122,16 +129,23 @@ class hkpConvexVerticesShape : public hkpConvexShape
 		static void HK_CALL registerCollideQueryFunctions( ShapeFuncs& sf );
 
 			/// Returns a struct of function pointers needed by the SPU
+		static void HK_CALL registerRayCastFunctions( ShapeFuncs& sf );
+
+			/// Returns a struct of function pointers needed by the SPU
 		static void HK_CALL registerGetAabbFunction( ShapeFuncs& sf );
 
 		void copyVertexData(const float* vertexIn, int byteStriding, int numVertices);
 
 	protected:
 
+		void sortPlanes(void);
+
+	protected:
+
 		hkVector4	m_aabbHalfExtents;
 		hkVector4	m_aabbCenter;
 
-		// hkInplaceArray<FourVectors, 3> m_rotatedVertices;
+		//hkInplaceArray<FourVectors, 3> m_rotatedVertices;
 		hkArray<struct FourVectors> m_rotatedVertices;
 		hkInt32		m_numVertices;
 
@@ -141,19 +155,16 @@ class hkpConvexVerticesShape : public hkpConvexShape
 		// set to HK_NULL if connectivity information is not present
 		// (Ref counted)
         mutable const hkpConvexVerticesConnectivity* m_connectivity;
-
-	public:
-
-		hkpConvexVerticesShape( hkFinishLoadedObjectFlag flag ) : hkpConvexShape(flag), m_rotatedVertices(flag), m_planeEquations(flag) { m_type = HK_SHAPE_CONVEX_VERTICES; }
+		
 };
 
 
 #endif // HK_COLLIDE2_CONVEX_VERTICES_SHAPE_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

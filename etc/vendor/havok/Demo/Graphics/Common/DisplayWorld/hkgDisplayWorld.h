@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -148,20 +148,21 @@ class hkgDisplayWorld : public hkgReferencedObject
 		/// Only call this instead of render() if you know what you are doing.
 		/// Commonly called by multi pass shader demos (prelude then multiple renderobject calls)
 		void renderPrelude(hkgDisplayContext* context) const;
-		void renderObjects(hkgDisplayContext* context, bool enableFrustumCull = true, unsigned int cullObjectFilterOnBits = 0, unsigned int cullObjectFilterOffBits = 0) const;
+		void renderObjects(hkgDisplayContext* context, bool enableFrustumCull = true, unsigned int drawObjectFilterBits = 0, unsigned int cullObjectFilterBits = 0) const;
 
 		/// For PlayStation(R)2:
 		void frameEndCleanup() const;
 
-		/// Mutable's aabb update control. Can be 0 for no update of mutable aabbs.
+		/// Mutable's aabb update control. Can be 0 for no update of mutable aabbs. Set to -1 for continous update of all per frame.
 		inline void setMutableObjectsUpdatedPerFrame(int i) const;
-
 
 		inline void setAlphaDepthSortEnabled(bool on);
 		inline bool getAlphaDepthSortEnabled() const;
 
 		void setFlagOnAll( unsigned int /*HKG_DISPLAY_OBJECT_STATUS*/  f, bool setOn = true );
-
+	
+	
+	
 		void lock() const;
 		void unlock() const;
 
@@ -207,9 +208,9 @@ class hkgDisplayWorld : public hkgReferencedObject
 #endif //HK_GRAPHICS_DISPLAY_WORLD_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

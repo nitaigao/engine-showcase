@@ -2,14 +2,14 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
 #include <Demos/demos.h>
 
 #include <Demos/DemoCommon/Utilities/Character/CharacterUtils.h>
-#include <Demos/DemoCommon/Utilities/Character/Gun/FirstPersonGun.h>
+#include <Physics/Utilities/Weapons/hkpFirstPersonGun.h>
 
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
 #include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
@@ -31,6 +31,14 @@
 #include <Graphics/Common/DisplayObject/hkgDisplayObject.h>
 #include <Graphics/Bridge/DisplayHandler/hkgDisplayHandler.h>
 
+
+	#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
+	#undef _WIN32_WINNT
+	#define _WIN32_WINNT 0x0500	  // win2000
+	#undef _WIN32_WINDOWS 
+	#define _WIN32_WINDOWS 0x0500 // win2000
+	#undef WINVER	
+	#define WINVER 0x0500	      // win2000
 
 	#include <windows.h>
 
@@ -61,7 +69,7 @@ void HK_CALL CharacterUtils::getUserInputForCharacter( hkDemoEnvironment* env, f
 
 	bool haveProperGamePad = env->m_window->hasGamePads() && !(env->m_options->m_forceKeyboardGamepad);
 
-	// No gamepad (win32 and ps3 default at the mo)
+	// No gamepad (win32 and PLAYSTATION(R)3 default at the mo)
 	if (!haveProperGamePad)
 	{
 		const hkReal MOUSE_SENSITIVITY = 1.0f;
@@ -181,7 +189,7 @@ void HK_CALL CharacterUtils::getUserInputForCharacter( hkDemoEnvironment* env, c
 
 	}
 
-	// No gamepad (win32 and ps3 default at the mo)
+	// No gamepad (win32 and PLAYSTATION(R)3 default at the mo)
 	if( env->m_window->getMouse().isValid() )
 	{
 		int mouseX = env->m_window->getMouse().getPosX();
@@ -229,6 +237,27 @@ void HK_CALL CharacterUtils::getUserInputForCharacter( hkDemoEnvironment* env, c
 		posY /= lenSqd;
 		posX /= lenSqd;
 	}
+}
+
+// Compute the blend params that will produce the desired velocity
+void CharacterUtils::computeBlendParams( hkReal desiredVel, hkReal walkVel, hkReal runVel, hkReal walkDur, hkReal runDur, hkReal& blend, hkReal& walkSpeed, hkReal& runSpeed )
+{
+	// Analytical solution of blending aproximation
+	// Solution is second root of quadratic equation 
+
+	const hkReal runWalkRatio = runDur / walkDur;
+
+	const hkReal wVratio = walkVel*runWalkRatio;
+	const hkReal rVratio = runVel*runWalkRatio;
+	const hkReal rVratio2 = rVratio*runWalkRatio;
+	const hkReal dVratio = desiredVel*runWalkRatio;
+
+	blend = (-2.0f*wVratio+walkVel+rVratio2-sqrt(walkVel*walkVel-2.0f*walkVel*rVratio2+runVel*rVratio2*runWalkRatio*runWalkRatio+4.0f*(-walkVel*dVratio+wVratio*dVratio+rVratio2*desiredVel-rVratio2*dVratio)))/(2.0f*(walkVel-wVratio-rVratio+rVratio2));
+
+	blend = hkMath::clamp(blend, 0.f, 1.f);
+	runSpeed  = (1.0f-blend) * runWalkRatio + blend;
+	walkSpeed = blend * (1.0f / runWalkRatio) + (1.0f - blend);	
+
 }
 
 
@@ -344,13 +373,14 @@ SimpleCharacter::SimpleCharacter( hkpCharacterRigidBody* characterRb, hkpCharact
 	//m_hasUserControl = false;
 }
 
-void SimpleCharacter::createDefaultCharacterController( const hkVector4& position, const hkVector4& up )
+void SimpleCharacter::createDefaultCharacterController( const hkVector4& position, const hkVector4& up, hkReal capsuleHeight, hkReal capsuleRadius )
 {
 	//  Create character
 	{
-		hkVector4 vertexA; vertexA.setMul4(.4f, up );
-		hkVector4 vertexB; vertexB.setMul4(-.4f, up);
-		hkpShape* characterShape = new hkpCapsuleShape(vertexA, vertexB, .6f);
+		hkReal h = capsuleHeight * 0.5f - capsuleRadius;
+		hkVector4 vertexA; vertexA.setMul4( h, up );
+		hkVector4 vertexB; vertexB.setMul4( -h, up);
+		hkpShape* characterShape = new hkpCapsuleShape(vertexA, vertexB, capsuleRadius);
 
 		// Construct a character rigid body
 		hkpCharacterRigidBodyCinfo info;
@@ -405,6 +435,9 @@ FirstPersonCharacterCinfo::FirstPersonCharacterCinfo()
 	m_direction.set(1,0,0);
 	m_up.set(0,1,0);
 	m_gravityStrength = 16;
+	m_capsuleHeight = 2.0f;
+	m_capsuleRadius = 0.6f;
+	m_eyeHeight	= 0.7f;
 
 	m_invertUpDown = false;
 	m_verticalSensitivity = .1f;
@@ -426,7 +459,7 @@ FirstPersonCharacter::FirstPersonCharacter( FirstPersonCharacterCinfo& info, hkD
 {
 	if ( info.m_characterRb == HK_NULL )
 	{
-		createDefaultCharacterController( info.m_position, info.m_up );
+		createDefaultCharacterController( info.m_position, info.m_up, info.m_capsuleHeight, info.m_capsuleRadius );
 	}
 	else
 	{
@@ -484,6 +517,7 @@ FirstPersonCharacter::FirstPersonCharacter( FirstPersonCharacterCinfo& info, hkD
 	m_horizontalSensitivity = info.m_horizontalSensitivity;
 	m_sensivityPadX = info.m_sensivityPadX;
 	m_sensivityPadY = info.m_sensivityPadY;
+	m_eyeHeight = info.m_eyeHeight;
 
 	m_maxUpDownAngle = info.m_maxUpDownAngle;
 	m_canDetachFromCharacter = info.m_canDetachFromCharacter;
@@ -495,16 +529,13 @@ FirstPersonCharacter::FirstPersonCharacter( FirstPersonCharacterCinfo& info, hkD
 
 	m_env = env;
 	m_world = world;
-
-
-	
 }
 
 FirstPersonCharacter::~FirstPersonCharacter()
 {
 	if (m_currentGun)
 	{
-		m_currentGun->quitGun( m_env, m_world, this );
+		m_currentGun->quitGun( m_world );
 		m_currentGun->removeReference();
 	}
 }
@@ -523,17 +554,39 @@ void FirstPersonCharacter::getForwardDir( hkVector4& forward )
 	forward.setRotatedDir( upOrient, forward );
 }
 
-
-FirstPersonGun* FirstPersonCharacter::setGun( FirstPersonGun* gun )
+void FirstPersonCharacter::setForwardDir( const hkVector4& forward )
 {
-	gun->addReference();
+	hkReal sinUp = forward.dot3( m_characterRb->m_up );
+	hkVector4 remaining = forward; 
+	remaining.subMul4( sinUp, m_characterRb->m_up );
+	hkReal cosUp = remaining.length3();
+	m_currentElevation = hkMath::atan2fApproximation( sinUp, cosUp );
+
+	hkVector4 X; X.set(1,0,0);
+	hkVector4 R; R.setCross( m_characterRb->m_up, X );
+	hkReal sinX = X.dot3(forward);
+	hkReal cosX = R.dot3(forward);
+
+	m_currentAngle = hkMath::atan2fApproximation( cosX, sinX );
+}
+
+
+hkpFirstPersonGun* FirstPersonCharacter::setGun( hkpFirstPersonGun* gun )
+{
+	if (gun)
+	{
+		gun->addReference();
+	}
 	if (m_currentGun)
 	{
-		m_currentGun->quitGun( m_env, m_world, this );
+		m_currentGun->quitGun( m_world );
 		m_currentGun->removeReference();
 	}
 	m_currentGun = gun;
-	gun->initGun( m_env, m_world, this );
+	if (gun)
+	{
+		gun->initGun( m_world );
+	}
 	return gun;
 }
 
@@ -553,13 +606,15 @@ void FirstPersonCharacter::update( hkReal timestep )
 			controls.m_forwardBack = 0;
 			controls.m_straffeLeftRight = 0;
 			controls.m_wantJump = false;
+			controls.m_fire = false;
+			controls.m_fireRmb = false;
 		}
 
 		if ( controls.m_fire && m_currentGun )
 		{
 			hkTransform viewTransform;
 			this->getViewTransform( viewTransform );
-			m_currentGun->fireGun( m_env, m_world, viewTransform );
+			m_currentGun->fireGun( m_world, viewTransform );
 		}
 
 		SimpleCharacter::update( timestep, controls, false );
@@ -567,13 +622,16 @@ void FirstPersonCharacter::update( hkReal timestep )
 
 		if (m_currentGun)
 		{
-			m_currentGun->stepGun( timestep, m_env, m_world, this, &controls );
+			hkpRigidBody* body = m_characterRb->m_character;
+			hkTransform viewTransform; getViewTransform(viewTransform);
+			m_currentGun->stepGun( timestep, m_world, body, viewTransform, controls.m_fire, controls.m_fireRmb );
 		}
 		m_world->unlock();
 	}
 
 
-	if (m_env->m_window->getKeyboard().wasKeyPressed('P'))
+	const hkgKeyboard& keyBoard = m_env->m_window->getKeyboard();
+	if (keyBoard.wasKeyPressed('P') || keyBoard.wasKeyPressed('O') )
 	{
 		m_hasUserControl = !m_hasUserControl;
 		if (m_hasUserControl)
@@ -581,6 +639,33 @@ void FirstPersonCharacter::update( hkReal timestep )
 			// Snap mouse back to middle
 			m_env->m_window->setMousePosition(m_env->m_window->getWidth() >> 1, m_env->m_window->getHeight() >> 1);
 			m_env->m_mousePickingEnabled = false;
+
+			// position rigid body at camera position
+			hkgViewport* viewPort = m_env->m_window->getViewport(0);
+			hkgCamera* c = viewPort->getCamera();
+
+			hkVector4 position; position.setZero4();
+			c->getFrom( &position(0) );
+			hkVector4 to; to.setZero4();
+			c->getTo( &to(0) );
+			hkVector4 dir; dir.setSub4( to, position );
+			dir.normalize3();
+
+			{
+				position.subMul4( m_eyeHeight, m_characterRb->m_up);
+				hkpRigidBody* body = m_characterRb->m_character;
+				body->setPosition( position );
+				body->setLinearVelocity( hkVector4::getZero() );
+			}
+			setForwardDir( dir );
+			if ( keyBoard.wasKeyPressed('O') )
+			{
+				m_gravity.setZero4();
+			}
+			else
+			{
+				m_gravity.setMul4( -16, m_characterRb->m_up );
+			}
 		}
 		else
 		{
@@ -664,7 +749,7 @@ void FirstPersonCharacter::setInputFromUserControls( hkDemoEnvironment* env, Cha
 
 void FirstPersonCharacter::updateCamera( hkpWorld* world, hkgWindow* window )
 {
-	const hkReal height = .7f; // XXX
+	const hkReal height = m_eyeHeight; 
 
 	hkVector4 from;
 	from = m_characterRb->getPosition();
@@ -773,9 +858,9 @@ hkpRigidBody* FirstPersonCharacter::getRigidBody()
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

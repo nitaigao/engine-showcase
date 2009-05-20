@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -46,11 +46,14 @@ class hkMeshSectionBuilder
             /// Start a new primitive
         void startMeshSection(hkMeshVertexBuffer* vertexBuffer = HK_NULL, hkMeshMaterial* material = HK_NULL);
 
-            /// Add indices (should be triangle indices) to the current primitive
-        void addTriangleIndices(const hkUint16* indices, int numIndices);
+			/// Add indices to the current primitive
+		hkResult concatPrimitives(hkMeshSection::PrimitiveType primType, const hkUint16* indices, int numIndices, int indexBase = 0);
 
-            /// Add non indexed - this will add a new mesh section
-		void addUnindexed(hkMeshSection::PrimitiveType primType, int vertexStartIndex, int numIndices);
+			/// Add indices to the current primitive
+		hkResult concatPrimitives(hkMeshSection::PrimitiveType primType, const hkUint32* indices, int numIndices, int indexBase = 0);
+
+			/// Add non indexed - this will add a new mesh section
+		hkResult concatUnindexed(hkMeshSection::PrimitiveType primType, int vertexStartIndex, int numIndices);
 
             /// End the current primitive
         void endMeshSection();
@@ -67,18 +70,38 @@ class hkMeshSectionBuilder
             /// Get the number of primitives
         HK_FORCE_INLINE int getNumSections() const { return m_sections.getSize(); }
 
+		static hkBool canConcatPrimitives(hkMeshSection::PrimitiveType b, hkMeshSection::PrimitiveType a);
+
     protected:
 
+		hkUint32* _addIndices32(int numIndices);
+		hkUint16* _addIndices16(int numIndices);
+		hkBool _canConcatPrimitive(hkMeshSection::PrimitiveType primType);
+		void _makeIndices32();
+		void _concatIndices(int vertexStartIndex, int numIndices);
+		void _concatIndices(const hkUint16* srcIndices, int numIndices, int indexBase = 0);
+		void _concatIndices(const hkUint32* srcIndices, int numIndices, int indexBase = 0);
+		hkResult _makeConcatable(hkMeshSection::PrimitiveType primType);
+		hkBool _isIndexed() const;
+		hkResult _concatPrimitives(hkMeshSection::PrimitiveType primType, const hkUint16* indices, int numIndices, int indexBase);
+		hkResult _concatPrimitives(hkMeshSection::PrimitiveType primType, const hkUint32* indices, int numIndices, int indexBase);
+
+		static hkBool HK_CALL _needsIndices32(const hkUint16* srcIndices, int numIndices, int indexBase);
+		
+		int m_indexBase16;									
+		int m_indexBase32;									
+
 		hkArray<hkMeshSectionCinfo> m_sections;             ///
-        hkArray<hkUint16> m_indices;                        ///
+        hkArray<hkUint16> m_indices16;                        ///
+		hkArray<hkUint32> m_indices32;						///
 };
 
 #endif // HK_MESH_SECTION_BUILDER_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

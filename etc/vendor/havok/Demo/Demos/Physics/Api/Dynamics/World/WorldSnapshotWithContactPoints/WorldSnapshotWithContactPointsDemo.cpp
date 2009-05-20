@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -32,9 +32,9 @@
 
 #include <Common/Base/Thread/Job/ThreadPool/Cpu/hkCpuJobThreadPool.h>
 
-static const char ORIGINAL_FILE[] = "Physics/Api/Dynamics/World/WorldSnapshotWithContactPoints/Resources/ChairsAndTables.hkx";
+static const char ORIGINAL_FILE[] = "Resources/Physics/Api/Dynamics/World/WorldSnapshotWithContactPoints/ChairsAndTables.hkx";
 
-static const char SCRATCH_FILE[] = "Physics/Api/Dynamics/World/WorldSnapshotWithContactPoints/Resources/snapshot.hkx";
+static const char SCRATCH_FILE[] = "Resources/Physics/Api/Dynamics/World/WorldSnapshotWithContactPoints/snapshot.hkx";
 
 
 static hkpWorld* loadWorld( const char* path, hkpPhysicsData** physicsData, hkPackfileReader::AllocatedData** memData )
@@ -231,9 +231,9 @@ static const char helpString[] = \
 HK_DECLARE_DEMO(WorldSnapshotWithContactPointsDemo, HK_DEMO_TYPE_OTHER, "Shows how to take a snapshot of a world", helpString);
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

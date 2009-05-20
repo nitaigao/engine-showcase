@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -11,7 +11,8 @@
 
 /// This IK solver operates on a single bone (specified as a transform in model space). It rotates it so the forward axis (m_fwdLS) points towards the
 /// specified target (targetMS). The movement is clamped around a cone specified by m_limitAxisMS and m_limitAngle. Finally, the rotation applied by the IK
-/// can be weighted by a gain value (gain), in the range [0..1]. The solver returns false if the target is over limits.
+/// can be weighted by a gain value (gain), in the range [0..1]. The solver returns false if the target is over limits.  Optionally, the user may specify
+/// individual limits for the up, down, left, and right directions of motion
 class hkaLookAtIkSolver : public hkReferencedObject
 {
 	public:
@@ -45,18 +46,48 @@ class hkaLookAtIkSolver : public hkReferencedObject
 
 		};
 
-		/// Solves the specified lookAt constraint. Check the documentation for hkaLookAtIkSolver for details.
-		static hkBool HK_CALL solve ( const Setup& setup, const hkVector4& targetMS, hkReal gain, hkQsTransform& boneModelSpaceInOut );
+		// Setup information for optionally specifying individual range limits
+		struct RangeLimits
+		{
+			/// Limiting angles in the up direction; must be in range [ -pi/2, pi/2 ]
+			hkReal m_limitAngleUp;   // Example:  pi/4  (45deg up)
+			hkReal m_limitAngleDown; // Example: -pi/6  (30deg down)
 
+			/// Limiting angle in the side direction; must be in range [ -pi, pi ]
+			hkReal m_limitAngleLeft; // Example:  pi/2  (90deg left)
+			hkReal m_limitAngleRight;// Example: -pi/2  (90deg right)
+
+			/// Up unit vector in model space, must be
+			/// perpendicular to setup.m_limitAxisMS
+			/// Side vector is calculated as cross( setup.m_limitAxisMS, m_upAxisMS )
+			hkVector4 m_upAxisMS;
+		};
+
+
+		/// Solves the specified lookAt constraint. Check the documentation for hkaLookAtIkSolver for details.
+		static hkBool HK_CALL solve ( const Setup& setup, const hkVector4& targetMS, hkReal gain, hkQsTransform& boneModelSpaceInOut, const RangeLimits* limits = HK_NULL );
+
+		/// Converts from spherical to cartesian coordinates
+		/// Like a globe: X axis near London, Y axis near China, Z axis through the North Pole
+		/// XYZ <- rho theta phi (radius, longitude, lattitude )
+		static void HK_CALL cartesianFromSpherical( hkVector4& sphericalInCartesianOut );
+
+		/// Converts from cartesian to spherical coordinates
+		/// Like a globe: X axis near London, Y axis near China, Z axis through the North Pole
+		/// XYZ -> rho theta phi (radius, longitude, lattitude )
+		static void HK_CALL sphericalFromCartesian( hkVector4& cartesianInSphericalOut );
+
+		/// Wrapper for atan2 function
+		static hkReal HK_CALL lookAtAtan2( hkReal y, hkReal x );
 };
 
 
 #endif // INC_HK_LOOK_AT_IK_SOLVER_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

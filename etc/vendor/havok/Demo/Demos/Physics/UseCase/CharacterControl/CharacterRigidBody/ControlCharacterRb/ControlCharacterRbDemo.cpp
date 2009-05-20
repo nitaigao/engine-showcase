@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -51,6 +51,9 @@
 #include <Demos/DemoCommon/Utilities/Character/CharacterUtils.h>
 #include <Demos/DemoCommon/DemoFramework/hkTextDisplay.h>
 
+// Reducing collision tolerances between characters and fixed entities.
+#include <Physics/Collide/Agent/hkpCollisionQualityInfo.h>
+#include <Physics/Collide/Dispatch/hkpCollisionDispatcher.h>
 
 #include <Physics/Internal/Collide/Agent3/Machine/Nn/hkpAgentNnTrack.h>
 
@@ -89,13 +92,20 @@ ControlCharacterRbDemo::ControlCharacterRbDemo(hkDemoEnvironment* env)
 		info.setBroadPhaseWorldSize( 350.0f );
 		info.m_gravity.set(0,0,-9.8f);
 		info.m_contactPointGeneration = hkpWorldCinfo::CONTACT_POINT_ACCEPT_ALWAYS;
-		// NOTE: This small collision tolerance slightly improves the characters abilitiy to climb stairs smoothly.
-		// Increase it to .1 to observe the effect
-		info.m_collisionTolerance = 0.01f;
 		m_world = new hkpWorld( info );
 		m_world->lock();
 
 		hkpAgentRegisterUtil::registerAllAgents(m_world->getCollisionDispatcher());
+		// The world has the default collision tolerance of 0.1f. Decreasing the collision tolerance between characters
+		// and fixed entities as follows improves character rigid bodies' ability to climb stairs smoothly.
+		{
+			const hkReal characterTolerance = 0.01f;
+			hkpCollisionQualityInfo& characterCollisionQuality = m_world->m_collisionDispatcher->m_collisionQualityInfo[ hkpCollisionDispatcher::COLLISION_QUALITY_CHARACTER ];
+			characterCollisionQuality.m_manifoldTimDistance = characterTolerance;
+			characterCollisionQuality.m_createContact = characterTolerance;
+			characterCollisionQuality.m_keepContact = characterTolerance;
+			characterCollisionQuality.m_create4dContact = characterTolerance;
+		}
 
 		setupGraphics();
 	}
@@ -219,6 +229,7 @@ ControlCharacterRbDemo::ControlCharacterRbDemo(hkDemoEnvironment* env)
 		info.m_up = UP;
 		info.m_position.set(10.0f, 0.0f, -6.0f);
 		info.m_maxSlope = 70.0f * HK_REAL_DEG_TO_RAD;
+		info.m_supportDistance = 0.01f;
 
 
 		m_characterRigidBody = new hkpCharacterRigidBody( info );
@@ -277,7 +288,6 @@ ControlCharacterRbDemo::~ControlCharacterRbDemo()
 
 	delete m_previousGround;
 
-
 	// need to delete world before we wipe the loader
 	if(m_world)
 	{
@@ -286,7 +296,7 @@ ControlCharacterRbDemo::~ControlCharacterRbDemo()
 	}
 
 	delete m_loader;
-}
+}	
 
 hkDemo::Result ControlCharacterRbDemo::stepDemo()
 {
@@ -385,11 +395,19 @@ hkDemo::Result ControlCharacterRbDemo::stepDemo()
 				hkpSurfaceInfo ground;
 				m_characterRigidBody->checkSupport(stepInfo, ground);
 
-				
+				// Change character rigid body color according to its state
+				if( ground.m_supportedState == hkpSurfaceInfo::SUPPORTED )
+				{
+					HK_SET_OBJECT_COLOR( (hkUlong) m_characterRigidBody->getRigidBody()->getCollidable(), hkColor::GREEN );
+				}
+				else
+				{
+					HK_SET_OBJECT_COLOR( (hkUlong) m_characterRigidBody->getRigidBody()->getCollidable(), hkColor::BLUE );
+				}
+
 				// Avoid accidental state changes (Smooth movement on stairs)
 				// During transition supported->unsupported continue to return N-frames hkpSurfaceInfo data from previous supported state
 				{
-
 					// Number of frames to skip (continue with previous hkpSurfaceInfo data)
 					const int skipFramesInAir = 3;
 
@@ -397,7 +415,7 @@ hkDemo::Result ControlCharacterRbDemo::stepDemo()
 					{
 						m_framesInAir = skipFramesInAir;
 					}
-					
+
 					if ( ground.m_supportedState != hkpSurfaceInfo::SUPPORTED )
 					{
 						if (m_framesInAir < skipFramesInAir)
@@ -433,7 +451,7 @@ hkDemo::Result ControlCharacterRbDemo::stepDemo()
 						}			
 
 					}
-				}				
+				}
 			}
 
 			HK_TIMER_END();
@@ -444,7 +462,7 @@ hkDemo::Result ControlCharacterRbDemo::stepDemo()
 			HK_TIMER_BEGIN( "update character state", HK_NULL );
 
 			m_characterContext->update(input, output);
-
+			
 			HK_TIMER_END();
 		}
 
@@ -522,6 +540,7 @@ hkDemo::Result ControlCharacterRbDemo::stepDemo()
 			if ( m_env->m_gamePad->wasButtonPressed(HKG_PAD_BUTTON_3) )
 			{
 				m_world->lock();
+
 				if (m_characterRigidBody->getRigidBody()->getCollidable()->getShape() == m_newShape)
 				{
 					m_characterRigidBody->getRigidBody()->setShape(m_standShape);
@@ -531,7 +550,6 @@ hkDemo::Result ControlCharacterRbDemo::stepDemo()
 					m_characterRigidBody->getRigidBody()->setShape(m_newShape);
 				}
 				m_world->unlock();
-
 			}
 
 		}
@@ -630,9 +648,9 @@ HK_DECLARE_DEMO(ControlCharacterRbDemo, HK_DEMO_TYPE_PRIME, "CharacterTest", hel
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

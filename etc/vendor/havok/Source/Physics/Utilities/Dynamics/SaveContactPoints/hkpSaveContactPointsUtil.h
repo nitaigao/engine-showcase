@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -12,9 +12,6 @@
 #include <Common/Base/hkBase.h>
 
 #include <Physics/Internal/Collide/Agent3/Machine/Nn/hkpAgentNnTrack.h>
-#include <Physics/Dynamics/Collide/hkpSimpleConstraintContactMgr.h>
-
-#include <Physics/ConstraintSolver/Constraint/Contact/hkpContactPointProperties.h>
 
 #include <Physics/Utilities/Dynamics/SaveContactPoints/hkpSerializedAgentNnEntry.h>
 
@@ -38,9 +35,9 @@ class hkpSaveContactPointsUtil
 			// Top level functions
 			//
 
-		typedef hkUlong (*GetIdForEntityFunc)( const hkpEntity* entity );
+		typedef hkUlong (HK_CALL *GetIdForEntityFunc)( const hkpEntity* entity );
 
-		typedef hkpEntity* (*GetEntityFromIdFunc)( hkUlong id );
+		typedef hkpEntity* (HK_CALL *GetEntityFromIdFunc)( hkUlong id );
 
 		struct SavePointsInput
 		{
@@ -159,19 +156,19 @@ class hkpSaveContactPointsUtil
 
 		static hkResult HK_CALL serializeCollisionEntry( const SavePointsInput& input, const hkpAgentNnEntry* entry, const hkpProcessCollisionInput* collisionInput, hkpSerializedAgentNnEntry& serializedEntryOut );
 
-		static hkResult HK_CALL deserializeCollisionEntry( const LoadPointsInput& input, const hkpSerializedAgentNnEntry& serializedEntryIn, hkpEntity* entityA, hkpEntity* entityB, hkpProcessCollisionInput* collisionInput, hkpAgentNnEntry* entry );
+		static hkResult HK_CALL deserializeCollisionEntry( const LoadPointsInput& input, const hkpSerializedAgentNnEntry& serializedEntryIn, hkpEntity* entityA, hkpEntity* entityB, const hkpProcessCollisionInput* collisionInput, hkpAgentNnEntry* entry );
 
 
 		static hkResult HK_CALL serializeEntry( const hkpAgentEntry* entry, hkBool isNnEntry, const hkpProcessCollisionInput* input, int& sizeOfThisEntryOut, enum hkpSerializedAgentNnEntry::SerializedAgentType& agentTypeOut, const hkpAgent1nTrack*& agent1nTrackOut, hkpSerializedTrack1nInfo& trackInfoOut );
 
-		static hkResult HK_CALL destroyOldEntry( const hkpSerializedAgentNnEntry::SerializedAgentType agentType, hkpProcessCollisionInput* input, hkpDynamicsContactMgr* mgr, hkpConstraintOwner* constraintOwner, hkpAgentNnEntry* entryInOut );
+		static hkResult HK_CALL destroyOldEntry( const hkpSerializedAgentNnEntry::SerializedAgentType agentType, const hkpProcessCollisionInput* input, hkpDynamicsContactMgr* mgr, hkpConstraintOwner* constraintOwner, hkpAgentNnEntry* entryInOut );
 			//this is only used for nn entries
-		static hkResult HK_CALL deserializeEntry( const hkpSerializedAgentNnEntry& serializedEntryIn, const hkpSerializedAgentNnEntry::SerializedAgentType agentType, const hkpSerializedTrack1nInfo& serializedTrack, hkpProcessCollisionInput* input, hkpAgentNnEntry* entryInOut );
+		static hkResult HK_CALL deserializeEntry( const hkpSerializedAgentNnEntry& serializedEntryIn, const hkpSerializedAgentNnEntry::SerializedAgentType agentType, const hkpSerializedTrack1nInfo& serializedTrack, const hkpProcessCollisionInput* input, hkpAgentNnEntry* entryInOut );
 
 
 		static hkResult HK_CALL serialize1nTrack( const hkArray<hkpAgent1nSector*>& sectorsIn, const hkpProcessCollisionInput* input, hkpSerializedTrack1nInfo& trackInfoOut);
 
-		static hkResult HK_CALL deserialize1nTrack( const hkpSerializedTrack1nInfo& serializedTrack, hkpProcessCollisionInput* input, hkArray<hkpAgent1nSector*>& sectorsOut);
+		static hkResult HK_CALL deserialize1nTrack( const hkpSerializedTrack1nInfo& serializedTrack, const hkpProcessCollisionInput* input, hkArray<hkpAgent1nSector*>& sectorsOut);
 
 			//
 			// New helper functions
@@ -196,9 +193,9 @@ class hkpSaveContactPointsUtil
 #endif // HK_UTILITIES2_SAVE_CONTACT_POINTS_UTIL_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

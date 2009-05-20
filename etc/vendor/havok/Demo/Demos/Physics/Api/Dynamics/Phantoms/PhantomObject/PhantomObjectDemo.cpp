@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -175,6 +175,7 @@ hkDemo::Result PhantomObjectDemo::stepDemo()
 	//	Move the phantom
 	//
 	{
+		
 		hkReal circleParam = m_time * 0.3f;
 		hkReal si = hkMath::sin( circleParam ) * radius;
 		hkReal co = hkMath::cos( circleParam ) * radius;
@@ -186,6 +187,7 @@ hkDemo::Result PhantomObjectDemo::stepDemo()
 		// setAabb() method to explicitly set its new location in the World. It
 		// automtically updates its own list of entities which it currently overlaps.
 		m_phantom->setAabb( aabb );
+		
 
 		// (The phantom outline is displayed automatically by the demo framework.)
 	}
@@ -251,6 +253,7 @@ void hkMovingRBCollectorPhantom::removeOverlappingCollidable( hkpCollidable* c )
 	}
 }
 
+
 // As you can see these methods simply check that we have a rigid body which is not fixed (i.e. the floor) 
 // and if so, either add and remove collidables from the phantom's internal list of overlapping collidables.
 // Since the phantom maintains this list, we can at any point query the phantom for all objects overlapping
@@ -272,9 +275,9 @@ static const char helpString[] = \
 HK_DECLARE_DEMO(PhantomObjectDemo, HK_DEMO_TYPE_PRIME | HK_DEMO_TYPE_CRITICAL, "Using a broadphase Phantom Entity for fast AABB region queries", helpString);
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

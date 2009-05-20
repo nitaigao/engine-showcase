@@ -22,7 +22,7 @@ public:
 	
 	};
 	
-	void Initialize( AnyValue::AnyValueMap& properties ) { };
+	void Initialize( ) { };
 	void Update( const float& deltaMilliseconds ){ };
 	void Destroy( ) { };
 
@@ -37,14 +37,16 @@ public:
 	inline unsigned int GetId( ) const { return 0; };
 	inline System::Types::Type GetType( ) const { return _systemType; };
 
-	inline AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
-	inline void SetAttributes( AnyValue::AnyValueMap& properties ) { };
+	AnyValue::AnyValueKeyMap GetAttributes( ) const { return AnyValue::AnyValueKeyMap( ); };
+
+	inline void SetAttribute( const unsigned int& attributeId, const AnyValue& value ) {  };
 
 	inline MathVector3 GetPosition( ) const { return MathVector3::Zero( ); };
 	inline MathVector3 GetScale( ) const { return MathVector3::Zero( ); };
 	inline MathQuaternion GetOrientation( ) const { return MathQuaternion::Identity( ); };
 
-	AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters ) { return AnyValue( 0 ); };
+	inline AnyValue PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters ) { return AnyValue( ); };
+	AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters ) { return AnyValue( 0 ); };
 
 private:
 

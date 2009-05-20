@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -30,7 +30,7 @@ class hctConvertToPhantomActionFilter : public hctFilterInterface
 		/*virtual*/ ~hctConvertToPhantomActionFilter();
 
 		// The main method in any filter, it does the job
-		/*virtual*/ void process( class hkRootLevelContainer& data, bool batchMode );
+		/*virtual*/ void process( class hkRootLevelContainer& data  );
 
 		// Asks the filter to show its UI for options
 		/*virtual*/ HWND showOptions(HWND owner);
@@ -81,9 +81,9 @@ extern hctConvertToPhantomActionFilterDesc g_convertToPhantomActionDesc;
 #endif // HAVOK_FILTER_CONVERT_TO_PHANTOM_ACTION_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

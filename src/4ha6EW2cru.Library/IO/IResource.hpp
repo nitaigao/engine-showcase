@@ -13,6 +13,8 @@ namespace Resources
 
 	public:
 
+		typedef std::map< std::string, IResource* > ResourceMap;
+
 		/*! Default Destructor
 		*
 		*  @return ()

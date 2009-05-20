@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -35,8 +35,10 @@ RigidBodyCharacterProxy::RigidBodyCharacterProxy( RigidBodyCharacterProxyCinfo& 
 	//
 	hkpCharacterRigidBodyCinfo charInfo;
 	charInfo.m_shape = characterShape;
-	charInfo.m_position.setZero4();
 	charInfo.m_up = info.m_upLocal;
+
+	charInfo.m_position = info.m_position;
+	charInfo.m_rotation = info.m_rotation;
 
 	charInfo.m_collisionFilterInfo = info.m_collisionFilterInfo;
 
@@ -48,6 +50,13 @@ RigidBodyCharacterProxy::~RigidBodyCharacterProxy()
 {
 	m_characterRb->removeReference();
 }
+
+
+void RigidBodyCharacterProxy::addToWorld( hkpWorld* world )
+{
+	world->addEntity( m_characterRb->getRigidBody() );
+}
+
 
 // Get the current transform of the character
 void RigidBodyCharacterProxy::getTransform( hkTransform& transform ) const
@@ -62,6 +71,11 @@ void RigidBodyCharacterProxy::setTransform( const hkTransform& transform )
 	hkTransform fixed = transform;
 	fixed.getRotation().renormalize();
 	m_characterRb->getRigidBody()->setTransform( transform );
+}
+
+const hkVector4& RigidBodyCharacterProxy::getPosition()
+{
+	return m_characterRb->getRigidBody()->getTransform().getTranslation();
 }
 
 // Get the linear velocity of the proxy
@@ -94,11 +108,21 @@ void RigidBodyCharacterProxy::setCollisionFilterInfo(hkUint32 filterInfo)
 		HK_UPDATE_FILTER_ON_ENTITY_FULL_CHECK,	HK_UPDATE_COLLECTION_FILTER_IGNORE_SHAPE_COLLECTIONS	);
 }
 
+hkUint32 RigidBodyCharacterProxy::getCollisionFilterInfo( )
+{
+	return 	m_characterRb->getRigidBody()->getCollisionFilterInfo( );
+}
+
+
+hkpWorldObject* RigidBodyCharacterProxy::getWorldObject()
+{
+	return m_characterRb->getRigidBody();
+}
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

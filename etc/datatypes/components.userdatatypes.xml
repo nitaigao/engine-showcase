@@ -11,6 +11,7 @@
 		<data displayName="Attach Graphics" name="attachGraphics" groupName="Graphics" type="bool" default="false" />
 		<data displayName="Override Model" name="overrideGraphicsModel" groupName="Graphics" type="string" />
 		<data displayName="Graphics Type" name="graphicsType" groupName="Graphics" type="graphicsTypeOptions" />
+		<data displayName="Attach Sound" name="attachSound" groupName="Sound" type="bool" default="false" />	
 		<data displayName="Attach Input" name="attachInput" groupName="Input" type="bool" default="false" />	
 		<data displayName="Attach Script" name="attachScript" groupName="Script" type="bool" default="false" />
 		<data displayName="Script Name" name="scriptName" groupName="Script" type="string" />

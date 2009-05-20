@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -22,10 +22,10 @@
 #include <Graphics/Common/Font/hkgFont.h>
 
 #if defined(USING_HAVOK_PHYSICS)
-#include <Demos/DemoCommon/DemoFramework/hkDefaultPhysicsDemo.h>	
-#include <Physics/Utilities/Serialize/hkpHavokSnapshot.h>			
-#include <Physics/Utilities/Serialize/hkpPhysicsData.h>				
-#include <Physics/Utilities/VisualDebugger/hkpPhysicsContext.h>		
+#include <Demos/DemoCommon/DemoFramework/hkDefaultPhysicsDemo.h>
+#include <Physics/Utilities/Serialize/hkpHavokSnapshot.h>
+#include <Physics/Utilities/Serialize/hkpPhysicsData.h>
+#include <Physics/Utilities/VisualDebugger/hkpPhysicsContext.h>
 #endif
 
 #include <Common/Base/Reflection/Registry/hkTypeInfoRegistry.h>
@@ -40,6 +40,8 @@
 
 #include <Demos/DemoCommon/DemoFramework/hkPerformanceCounterUtility.h>
 #include <Common/Base/Types/Color/hkColor.h>
+
+#include <Common/Internal/Misc/hkSystemDate.h>
 
 // For processor info
 #include <Common/Base/Fwd/hkwindows.h>
@@ -57,7 +59,6 @@ extern const char* LASTDEMO_FILENAME_BOOTSTRAP;
 	// set the next define to force the bootstrap to execute a single demo only
 //#define SPECIAL_DEMO "PhysicsApi/Dynamics/Constraints/BallAndSocketRope/Length 200"
 //#define SPECIAL_DEMO "Examples/Physics/Continuous/BrickWall/8x8x3 Continuous"
-//#define SPECIAL_DEMO "Physics/Api/Dynamics/Multithreaded/PhysicsInSeparateThread/50 ragdolls, separate multiple physics threads -- all threads running initially"
 void hkSetLastDemoBootstrap(const char* namein)
 {
 	hkOfstream out(LASTDEMO_FILENAME_BOOTSTRAP);
@@ -85,13 +86,21 @@ static const int DEMO_MASK_SERIALIZE = HK_DEMO_TYPE_SERIALIZE;
 
 static const int DEMO_MASK_BEHAVIOR = HK_DEMO_TYPE_BEHAVIOR;
 
-static const int DEMO_MASK_DESTRUCTION = HK_DEMO_TYPE_DESTRUCTION;
+static const int DEMO_MASK_DESTRUCTION = HK_DEMO_TYPE_DESTRUCTION |
+										 HK_DEMO_TYPE_DESTRUCTION_CRITICAL |
+										 HK_DEMO_TYPE_DESTRUCTION_CRITICAL_FILEBASED;
 
 static const int DEMO_MASK_CLOTH = HK_DEMO_TYPE_CLOTH;
 
 static const int DEMO_MASK_ALL_CRITICAL = HK_DEMO_TYPE_CRITICAL;
 
+static const int DEMO_MASK_AI = HK_DEMO_TYPE_AI;
+
 static const int DEMO_MASK_ALL_STATS = HK_DEMO_TYPE_STATS;
+
+static const int DEMO_MASK_STATS_CRITICAL = HK_DEMO_TYPE_STATS |
+											HK_DEMO_TYPE_CRITICAL;
+
 
 
 // Definitions of variants
@@ -104,7 +113,6 @@ struct BootstrapVariant
 };
 
 
-//#define SPECIAL_DEMO "Examples/Physics/Continuous/BrickWall/8x8x3 Cont"
 static const BootstrapVariant g_variants[] =
 {
 { "BootstrapAll",			BootstrapDemo::TEST_NORMAL, DEMO_MASK_ALL,			"Running all demos", },
@@ -113,19 +121,21 @@ static const BootstrapVariant g_variants[] =
 { "BootstrapBehavior",		BootstrapDemo::TEST_NORMAL, DEMO_MASK_BEHAVIOR,		"Running behavior demos" },
 { "BootstrapDestruction",	BootstrapDemo::TEST_NORMAL, DEMO_MASK_DESTRUCTION,	"Running destruction demos" },
 { "BootstrapCloth",			BootstrapDemo::TEST_NORMAL, DEMO_MASK_CLOTH,		"Running cloth demos" },
+{ "BootstrapAI",			BootstrapDemo::TEST_NORMAL, DEMO_MASK_AI,			"Running AI demos" },
 { "BootstrapSerialize",		BootstrapDemo::TEST_NORMAL, DEMO_MASK_SERIALIZE,	"Running demos using serialization" },
 { "BootstrapCritical",		BootstrapDemo::TEST_NORMAL, DEMO_MASK_ALL_CRITICAL,	"Running all critical demos" },
 
-{ "BootstrapStats",					BootstrapDemo::TEST_STATISTICS, 				DEMO_MASK_ALL_STATS,   "Running demos to gather statistics" },
-{ "BootstrapStatsDetailedTimings",	BootstrapDemo::TEST_STATISTICS_DETAILED, 		DEMO_MASK_ALL_STATS,   "Running demos to gather detailed statistics" },
-{ "BootstrapStatsSingleThreaded",	BootstrapDemo::TEST_STATISTICS_SINGLE_THREADED, DEMO_MASK_ALL_STATS,   "Running demos to gather single threaded statistics" },
+{ "BootstrapStats",					BootstrapDemo::TEST_STATISTICS, 				DEMO_MASK_ALL_STATS,		"Running demos to gather statistics" },
+{ "BootstrapStatsCritical",			BootstrapDemo::TEST_STATISTICS_CRITICAL,		DEMO_MASK_STATS_CRITICAL,	"Running critical demos to gather statistics" },
+{ "BootstrapStatsDetailedTimings",	BootstrapDemo::TEST_STATISTICS_DETAILED, 		DEMO_MASK_ALL_STATS,		"Running demos to gather detailed statistics" },
+{ "BootstrapStatsSingleThreaded",	BootstrapDemo::TEST_STATISTICS_SINGLE_THREADED, DEMO_MASK_ALL_STATS,		"Running demos to gather single threaded statistics" },
 
 { "BootstrapFpuExceptionsEnabled", BootstrapDemo::TEST_FPU_EXCEPTIONS, DEMO_MASK_ALL, "Running all demos, with FPU exceptions" },
 
 { "SerializeAll (Binary)", BootstrapDemo::TEST_SERIALIZE_BINARY, DEMO_MASK_ALL, "Binary serializing all demos" },
 { "SerializeAll (XML)",    BootstrapDemo::TEST_SERIALIZE_XML,    DEMO_MASK_ALL, "XML serializing all demos" },
 
-#if defined(USING_HAVOK_PHYSICS)
+#if defined(USING_HAVOK_PHYSICS) && defined(HK_ENABLE_DETERMINISM_CHECKS)
 { "DeterminismPhysics",    BootstrapDemo::TEST_DETERMINISM, DEMO_MASK_PHYSICS, "Determinism testing all demos" },
 { "Mt DeterminismPhysics", BootstrapDemo::TEST_MULTITHREADING_DETERMINISM, DEMO_MASK_PHYSICS, "Multi threading determinism testing all demos" },
 #endif
@@ -198,7 +208,10 @@ BootstrapDemo::BootstrapDemo(hkDemoEnvironment* env)
 		m_testType = variant.m_testType;
 	}
 
-	if ( ( m_testType == TEST_STATISTICS ) || ( m_testType == TEST_STATISTICS_SINGLE_THREADED ) || ( m_testType == TEST_STATISTICS_DETAILED ) )
+	if ( ( m_testType == TEST_STATISTICS ) 
+		|| ( m_testType == TEST_STATISTICS_SINGLE_THREADED ) 
+		|| ( m_testType == TEST_STATISTICS_DETAILED ) 
+		|| ( m_testType == TEST_STATISTICS_CRITICAL ) )
 	{
 		m_streamAnalyzer = new hkMonitorStreamAnalyzer( 80000000 ); //80 megs for multithreading
 	}
@@ -213,12 +226,22 @@ BootstrapDemo::BootstrapDemo(hkDemoEnvironment* env)
 	// Get suitable demo entries
 	//
 	{
-		const hkObjectArray<hkDemoDatabase::hkDemoEntry>& db = hkDemoDatabase::getInstance().getDemos();
+		const hkObjectArray<hkDemoEntry>& db = hkDemoDatabase::getInstance().getDemos();
 		for (int i=0; i<db.getSize(); i++)
 		{
-			const hkDemoDatabase::hkDemoEntry& entry = db[i];
+			const hkDemoEntry& entry = db[i];
 
-			if( entry.m_demoTypeFlags & m_demoTypeMask )
+			int useDemoTest = 0;
+			useDemoTest = ( entry.m_demoTypeFlags & m_demoTypeMask );
+
+			if ( m_demoTypeMask == DEMO_MASK_STATS_CRITICAL)
+			{
+				useDemoTest = ( !(( entry.m_demoTypeFlags & m_demoTypeMask ) ^ m_demoTypeMask ) );
+			}
+
+#if !defined(SPECIAL_DEMO)
+			if ( useDemoTest )
+#endif
 			{
 				bool useDemo = true;
 
@@ -238,7 +261,7 @@ BootstrapDemo::BootstrapDemo(hkDemoEnvironment* env)
 					useDemo &=  ! entry.m_menuPath.beginsWith("Physics/Api/Dynamics/MemoryIssues");
 					useDemo &=  ! entry.m_menuPath.beginsWith("PhysicsApi/VehiclePhysics/SerializedVehicle");
 					useDemo &=  ! entry.m_menuPath.beginsWith("Physics/Test/Feature/Dynamics/AsynchronuousSpecialEffectsThread");	// nondeterministic second thread
-					useDemo &=  ! entry.m_menuPath.beginsWith("Physics/UseCase/AssetStreaming");
+					useDemo &=  ! entry.m_menuPath.beginsWith("Resources/Physics/UseCase/AssetStreaming");
 
 					useDemo &=  ! entry.m_menuPath.beginsWith("Physics/UseCase/CharacterControl");						// non deterministic
 					useDemo &=  ! entry.m_menuPath.beginsWith("Physics/UseCase/Fracture");								// slow and not deterministic
@@ -246,7 +269,7 @@ BootstrapDemo::BootstrapDemo(hkDemoEnvironment* env)
 					// and those are not needed and/or too slow
 					useDemo &=  ! entry.m_menuPath.beginsWith("Physics/Test/Performance/BenchmarkSuite");		// way too slow
 
-					useDemo &=  ! entry.m_menuPath.beginsWith("Common/Api/Serialize/SimpleLoad/Resources/Simple"); // unrelevant
+					useDemo &=  ! entry.m_menuPath.beginsWith("Resources/Common/Api/Serialize/SimpleLoad/Simple"); // unrelevant
 
 					useDemo &=  ! entry.m_menuPath.endsWith("BatchAddRemoveBodies"); // slow
 					useDemo &=  ! entry.m_menuPath.beginsWith("PhysicsApi/CollisionDetection/Raycasting"); // unrelevant
@@ -263,6 +286,19 @@ BootstrapDemo::BootstrapDemo(hkDemoEnvironment* env)
 					useDemo &=  ! entry.m_menuPath.beginsWith("Examples/Physics/Ragdoll/SlidingRagdolls"); 
 					useDemo &=  ! entry.m_menuPath.endsWith("DestructibleWalls/Destructible Walls");		// uses a second world to simulate the wall
 					useDemo &=  ! entry.m_menuPath.endsWith("DestructibleWalls/Single Brick Tmp");			// uses a second world to simulate the wall
+
+					useDemo &=  ! entry.m_menuPath.endsWith("RagdollVsMopp/60Hz Discrete RealTime");			// uses camera to set ragdoll velocity
+					useDemo &=  ! entry.m_menuPath.endsWith("RagdollVsMopp/30Hz Discrete RealTime");			// uses camera to set ragdoll velocity
+					useDemo &=  ! entry.m_menuPath.endsWith("RagdollVsMopp/15Hz Discrete RealTime");			// uses camera to set ragdoll velocity
+					useDemo &=  ! entry.m_menuPath.endsWith("RagdollVsMopp/10Hz Discrete RealTime");			// uses camera to set ragdoll velocity
+					useDemo &=  ! entry.m_menuPath.endsWith("RagdollVsMopp/15Hz Discrete 4xSlower");			// uses camera to set ragdoll velocity
+					useDemo &=  ! entry.m_menuPath.endsWith("RagdollVsMopp/30Hz Continuous RealTime");			// uses camera to set ragdoll velocity
+					useDemo &=  ! entry.m_menuPath.endsWith("RagdollVsMopp/15Hz Continuous RealTime");			// uses camera to set ragdoll velocity
+					useDemo &=  ! entry.m_menuPath.endsWith("RagdollVsMopp/10Hz Continuous RealTime");			// uses camera to set ragdoll velocity
+					useDemo &=  ! entry.m_menuPath.endsWith("RagdollVsMopp/7 Hz Continuous RealTime");			// uses camera to set ragdoll velocity
+					useDemo &=  ! entry.m_menuPath.endsWith("RagdollVsMopp/5 Hz Continuous RealTime");			// uses camera to set ragdoll velocity
+
+
 				}
 				if( m_testType == TEST_SERIALIZE_BINARY || m_testType == TEST_SERIALIZE_XML )
 				{
@@ -325,6 +361,8 @@ BootstrapDemo::~BootstrapDemo()
 
 	hkMtSafeDeleteDemo(m_demo);
 
+	delete m_streamAnalyzer;
+
 #if defined(USING_HAVOK_PHYSICS)
 	hkpWorld::m_forceMultithreadedSimulation = m_forceMultithreadedSimulationBackup;
 	m_env->m_options->m_forceMT = m_forceMultithreadedSimulationBackup;
@@ -335,20 +373,30 @@ BootstrapDemo::~BootstrapDemo()
 		hkCheckDeterminismUtil::destroyInstance();
 	}
 
-	if ( ( m_testType == TEST_STATISTICS ) || ( m_testType == TEST_STATISTICS_SINGLE_THREADED ) || ( m_testType == TEST_STATISTICS_DETAILED ) )
+	if ( ( m_testType == TEST_STATISTICS ) 
+		|| ( m_testType == TEST_STATISTICS_SINGLE_THREADED ) 
+		|| ( m_testType == TEST_STATISTICS_DETAILED ))
 	{
 		hkString defaultStatsDir = "Statistics/";
 		hkString statsDir = (m_env->m_options->m_statsDir == HK_NULL ? defaultStatsDir : m_env->m_options->m_statsDir);
-		hkString allStatsFile = statsDir + hkString("Multiplatform_Performance_Statistics");
-		hkString platStatsFile = statsDir + getPlatform(true) + hkString("_Performance_Statistics");
 
-        hkOutputStatsSummaryToFile( allStatsFile.cString(), m_statsRecords, m_env->m_options->m_numThreads, m_env->m_options->m_numSpus );
+		// Add the stats to the multiplatform stats file.
+		hkString allStatsFile = statsDir + hkString("Multiplatform_Performance_Statistics");
+		hkOutputStatsSummaryToFile( allStatsFile.cString(), m_statsRecords, m_env->m_options->m_numThreads, m_env->m_options->m_numSpus );
+
+		// Add the stats to the current platform's stats file.
+		hkString platStatsFile = statsDir + getPlatform(true) + hkString("_Performance_Statistics");
 		hkOutputStatsSummaryToFile( platStatsFile.cString(), m_statsRecords, m_env->m_options->m_numThreads, m_env->m_options->m_numSpus );
+
+		// Create a unique stats file for this (day's) stats run.
+		char stringDate[80];
+		hkSystemDate::getStringDate(stringDate);
+		hkString uniqueStatsFile = statsDir + getPlatform(true) +  hkString("_") + hkString(HAVOK_SDK_VERSION_STRING) 
+								 + hkString("_") + hkString(stringDate) + hkString("_Performance_Statistics");
+		hkOutputStatsSummaryToFile( uniqueStatsFile.cString(), m_statsRecords, m_env->m_options->m_numThreads, m_env->m_options->m_numSpus );
 	}
 
 }
-
-
 static void fillStatus(hkArray<char>& bar, int cur, int max, int maxchars)
 {
 	if(cur > max)
@@ -391,7 +439,7 @@ hkDemo::Result BootstrapDemo::stepDemo()
 		return DEMO_STOP;
 	}
 
-	const hkDemoDatabase::hkDemoEntry* entry = m_entries[m_demoIndex].m_entry;
+	const hkDemoEntry* entry = m_entries[m_demoIndex].m_entry;
 
 	//
 	// Need to start the next demo?
@@ -399,7 +447,11 @@ hkDemo::Result BootstrapDemo::stepDemo()
 	if(m_demo == HK_NULL)
 	{
 		{
-			if (( m_testType == TEST_MULTITHREADING_DETERMINISM ) || ( m_testType == TEST_STATISTICS ) || ( m_testType == TEST_STATISTICS_SINGLE_THREADED ) || ( m_testType == TEST_STATISTICS_DETAILED ))
+			if (( m_testType == TEST_MULTITHREADING_DETERMINISM ) 
+				|| ( m_testType == TEST_STATISTICS ) 
+				|| ( m_testType == TEST_STATISTICS_SINGLE_THREADED ) 
+				|| ( m_testType == TEST_STATISTICS_DETAILED )
+				|| ( m_testType == TEST_STATISTICS_CRITICAL ) )
 			{
 				if ( m_testType == TEST_STATISTICS_SINGLE_THREADED )
 				{
@@ -419,9 +471,21 @@ hkDemo::Result BootstrapDemo::stepDemo()
 #endif
 					m_env->m_options->m_forceMT = true;
 
-					// Set the appropriate number of threads and spus for best performance.
+					// Set the appropriate number of spus.
+#if defined(HK_PLATFORM_PS3_PPU)
+					m_env->m_options->m_numSpus = 5;
+#else
 					m_env->m_options->m_numSpus = 0;
-					m_env->m_options->m_numThreads = 4;
+#endif
+					// Set the appropriate number of threads.
+					hkHardwareInfo info;
+					hkGetHardwareInfo(info);
+					m_env->m_options->m_numThreads = info.m_numThreads;
+
+#if defined(HK_PLATFORM_SIM)
+					m_env->m_options->m_numSpus = 1;
+					m_env->m_options->m_numThreads = 2;
+#endif
 				}
 			}
 
@@ -525,6 +589,7 @@ hkDemo::Result BootstrapDemo::stepDemo()
 	case TEST_STATISTICS:
 	case TEST_STATISTICS_SINGLE_THREADED:
 	case TEST_STATISTICS_DETAILED:
+	case TEST_STATISTICS_CRITICAL:
 		StatsStepDemo();
 		break;
 
@@ -666,43 +731,110 @@ void BootstrapDemo::StatsStepDemo()
 	if ( m_steps >= m_demo->m_bootstrapIterations )
 	{
 		hkString demoName = m_entries[m_demoIndex].m_entry->m_menuPath.substr(m_entries[m_demoIndex].m_entry->m_menuPath.lastIndexOf('/') + 1);
-		int a = m_entries[m_demoIndex].m_entry->m_menuPath.lastIndexOf( '/' );
-		int b = m_entries[m_demoIndex].m_entry->m_menuPath.lastIndexOf('/', 0, a ) + 1;
-		hkString fileName = m_entries[m_demoIndex].m_entry->m_menuPath.substr(b);
-		fileName = fileName.replace('/', '_');
 
 		hkString statsFileName;
-		hkString statsDir = "statistics/";
-		statsFileName += (m_env->m_options->m_statsDir == HK_NULL ? statsDir : m_env->m_options->m_statsDir);
-		statsFileName += getPlatform();
-		statsFileName += "_";
-		statsFileName += fileName;
-		statsFileName += ".txt";
-
-		hkReal average = (m_statsTotalTime*1000000)/m_statsNumSamples;
-
-		StatsRecord record;
-		record.m_demoName = m_entries[m_demoIndex].m_entry->m_menuPath;
-		record.m_avgStepDemoTime = average;
-		m_statsRecords.pushBack( record );
-
-		hkSort( m_statsRecords.begin(), m_statsRecords.getSize() );
-
-		//hkString name; name.printf("Profile%s_%s.txt", prefix, type);
-		hkOfstream ostr(statsFileName.cString());
-
-		ostr.printf("DemoName: %s\n", demoName.cString());
-		ostr.printf("============================\n\n");
-		ostr.printf("Average time (microsecs): %f\n\n", average );
-		
-		int reportLevel = (	( m_testType == TEST_STATISTICS_SINGLE_THREADED )
-							? hkMonitorStreamAnalyzer::REPORT_TOTAL
-							: hkMonitorStreamAnalyzer::REPORT_ALL );
-		if (( m_testType == TEST_STATISTICS_SINGLE_THREADED ) || ( m_testType == TEST_STATISTICS_DETAILED ))
 		{
-			m_streamAnalyzer->writeStatistics( ostr, reportLevel );
+			int a = m_entries[m_demoIndex].m_entry->m_menuPath.lastIndexOf( '/' );
+			int b = m_entries[m_demoIndex].m_entry->m_menuPath.lastIndexOf('/', 0, a ) + 1;
+			hkString fileName = m_entries[m_demoIndex].m_entry->m_menuPath.substr(b);
+			fileName = fileName.replace('/', '_');
+
+			hkString statsDir = "Statistics/";
+			statsFileName += (m_env->m_options->m_statsDir == HK_NULL ? statsDir : m_env->m_options->m_statsDir);
+			if ( m_demoTypeMask == DEMO_MASK_STATS_CRITICAL )
+			{
+				statsFileName += "Crit_";
+			}
+			statsFileName += getPlatform();
+			statsFileName += "_";
+			statsFileName += fileName;
+			statsFileName += ".txt";
 		}
 
+		hkReal average = (m_statsTotalTime*1000000)/m_statsNumSamples;
+		
+		// critical statistics
+		// will read in previous average times from a file and see if current
+		// average time is significantly slower or faster
+		if ( m_demoTypeMask == DEMO_MASK_STATS_CRITICAL )
+		{
+			char readString[80] = "";
+
+			// temporary list to store previous average times
+			hkArray< hkReal > previousAverageTimes;
+			previousAverageTimes.clear();
+
+			// istream has to be in its own scope so the handle on the file is lost
+			// this allows the out stream to write the file later on, can cause problems on the xbox360 without this
+			{
+				hkIfstream istr(statsFileName.cString());
+				if (istr.isOk())
+				{
+					do
+					{
+						istr.getline(readString, 80, '\n');
+
+						// add previous average times to list
+						if (hkString(readString).getLength() != 0)
+						{
+							previousAverageTimes.pushBack(hkString::atof(readString));
+						}
+					}
+					while (hkString(readString).getLength() != 0);
+				}
+			}
+
+			// if the file is empty
+			if (!previousAverageTimes.isEmpty())
+			{
+				// check for a significant difference faster or slower than 10%
+				hkReal oldAverage = previousAverageTimes.back();
+				hkBool performanceDifference = (((oldAverage / average) > 1.1) || ((average / oldAverage) > 1.1));
+				if (performanceDifference)
+				{
+					// throw error if significant performance difference
+					char averageString[80];
+					hkString::sprintf (averageString, "%f", average);
+					HK_ERROR (0x55e10a7e, (hkString("Performance of demo: ") + demoName + hkString(" took ")
+							+ hkString(averageString) +	hkString(" microseconds. (At least 10 percent difference.)")));
+				}
+			}
+			// print out file again
+			hkOfstream ostr(statsFileName.cString());
+
+			for (int i = 0; i < previousAverageTimes.getSize(); i++)
+			{
+				ostr.printf("%f\n", previousAverageTimes[i] );
+			}
+			ostr.printf("%f\n", average );
+		}
+		// not critical statistics
+		else
+		{
+			StatsRecord record;
+			record.m_demoName = m_entries[m_demoIndex].m_entry->m_menuPath;
+			record.m_avgStepDemoTime = average;
+			m_statsRecords.pushBack( record );
+
+			hkSort( m_statsRecords.begin(), m_statsRecords.getSize() );
+
+			//hkString name; name.printf("Profile%s_%s.txt", prefix, type);
+			hkOfstream ostr(statsFileName.cString());
+
+			ostr.printf("DemoName: %s\n", demoName.cString());
+			ostr.printf("============================\n\n");
+			ostr.printf("Average time (microsecs): %f\n\n", average );
+#if !defined(HK_PLATFORM_PSP) && !defined(HK_PLATFORM_PS3_PPU)
+			
+			int reportLevel = (	( m_testType == TEST_STATISTICS_SINGLE_THREADED )
+								? hkMonitorStreamAnalyzer::REPORT_TOTAL
+								: hkMonitorStreamAnalyzer::REPORT_ALL );
+			if (( m_testType == TEST_STATISTICS_SINGLE_THREADED ) || ( m_testType == TEST_STATISTICS_DETAILED ))
+			{
+				m_streamAnalyzer->writeStatistics( ostr, reportLevel );
+			}
+#endif
+		}
 		m_streamAnalyzer->reset();
 
 		hkMtSafeDeleteDemo(m_demo);
@@ -742,7 +874,7 @@ void BootstrapDemo::NormalStepDemo()
 
 	popDoubleConversionCheck();
 
-	// The PS3 bootstrapper uses TTY output to determine if the executable has timed out.
+	// The PLAYSTATION(R)3 bootstrapper uses TTY output to determine if the executable has timed out.
 	// This helps keep it alive.
 	if ( (m_steps % 10) == 0)
 	{
@@ -777,7 +909,6 @@ void BootstrapDemo::NormalStepDemo()
 		m_demoIndex++;
 	}
 }
-
 
 void BootstrapDemo::SerializeStepDemo()
 {
@@ -823,7 +954,7 @@ void BootstrapDemo::SerializeStepDemo()
 
 
 			//
-			// Test file load times on PS2 etc:
+			// Test file load times on PlayStation(R)2 etc:
 			if (0)
 			{
 				{
@@ -986,6 +1117,7 @@ static void hkOutputStatsSummaryToFile( const char* filename, const hkObjectArra
 				oldStats = hkString( statsBuf, bufSize ).replace("\r","");
 				// Excel has a habit of appening commas to the info string, remove them
 				oldStats = oldStats.substr( 0, oldStats.indexOf('\n') ).replace(",","") + oldStats.substr( oldStats.indexOf('\n') );
+				hkDeallocate(statsBuf);
 			}
 		}
 
@@ -1001,7 +1133,11 @@ static void hkOutputStatsSummaryToFile( const char* filename, const hkObjectArra
 		newStats = oldStats.substr(0, idx) + "," + HAVOK_SDK_VERSION_STRING + " " + BootstrapDemo::getPlatform(true);
 
 		hkString threadInfo;
+#if defined(HK_PLATFORM_PS3_PPU)
+		threadInfo.printf( " (%d PPU Threads %d SPU Threads)\n", numThreads, numSpus );
+#else
 		threadInfo.printf( " (%d Threads)\n", numThreads );
+#endif
 		newStats += threadInfo;
 
 		oldStats = (oldStats.substr(idx).getLength() > 0) ? oldStats.substr(idx+1) : "";
@@ -1097,7 +1233,12 @@ static void hkOutputStatsSummaryToFile( const char* filename, const hkObjectArra
 
 		htmlFile->printf("<p>Havok Version: %s</p>\n", HAVOK_SDK_VERSION_STRING);
 		htmlFile->printf("<p>Platform: %s</p>\n", BootstrapDemo::getPlatform());
+#if defined(HK_PLATFORM_PS3_PPU)
+		htmlFile->printf("<p>PPU Threads: %d</p>\n", numThreads );
+		htmlFile->printf("<p>SPU Threads: %d</p>\n", numSpus );
+#else
 		htmlFile->printf("<p>Threads: %d</p>\n", numThreads );
+#endif
 		htmlFile->printf("<table>\n<tr><td><p>Demo Path</p></td><td><p>Demo Name</p></td><td><p>Average StepDemo() time - microseconds</p></td></tr>\n");
 		for (int i=0; i < statsRecords.getSize(); i++)
 		{
@@ -1124,9 +1265,9 @@ static void hkOutputStatsSummaryToFile( const char* filename, const hkObjectArra
 HK_DECLARE_DEMO_VARIANT_USING_STRUCT( BootstrapDemo, HK_DEMO_TYPE_OTHER, BootstrapVariant, g_variants, "Test bootstrap [Hold \222\\\223 and press \231 to continue from last\\next demo]" );
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #include <Demos/DemoCommon/DemoFramework/hkDemo.h>
@@ -16,6 +16,7 @@
 #include <Common/Base/Algorithm/Sort/hkSort.h>
 #include <Common/Base/System/Io/IStream/hkIStream.h>
 #include <Common/Base/System/Io/FileSystem/hkNativeFileSystem.h>
+#include <Common/Base/Reflection/hkClassEnum.h>
 
 
 hkDemoDatabase::hkDemoDatabase()
@@ -48,10 +49,34 @@ hkDemoEntryRegister::hkDemoEntryRegister( DemoCreationFunction func, int type, c
 	}
 }
 
+// for demos which create other entries
+hkDemoEntryRegister::hkDemoEntryRegister(DemoCreationFunction func, int type, const char* path,
+					DemoEntriesCreationFunction entryCreateFunc, 
+					const char* help, const char* details, bool actuallyReg )
+{
+	new(this)hkDemoEntryRegister( func, type, path, -1, HK_NULL, help, details, actuallyReg ); 
+	m_createEntryFunc = entryCreateFunc;
+}
+
+
+hkDemoEntryRegister::hkDemoEntryRegister( DemoCreationFunction func, int type, const char* path,
+										 hkDemoEntryRegister* entries, int numEntries,
+										 const hkClassEnum& cenum, 
+										 const char* help, const char* details, bool actuallyReg )
+{
+	int nitems = cenum.getNumItems();
+	HK_ASSERT(0x7d4ed233, numEntries >= nitems );
+ 	for( int i = 0; i < nitems; i++ )
+	{
+		const hkClassEnum::Item& item = cenum.getItem(i);
+		new (&entries[i]) hkDemoEntryRegister( func, type, path, item.getValue(), item.getName(), help, details, actuallyReg );
+	}
+}
+
 hkDemoEntryRegister::hkDemoEntryRegister(	DemoCreationFunction func, int typeflags, const char* path,
 										 int variant, const char* variantName, 
 										 const char* help, const char* details, bool actuallyReg )
-										 :	m_func(func), m_demoTypeFlags(typeflags), m_demoPath(path),
+										 :	m_func(func), m_createEntryFunc(HK_NULL), m_demoTypeFlags(typeflags), m_demoPath(path),
 										 m_variantId( variant ), m_variantName( variantName ),
 										 m_help(help), m_details(details)
 {
@@ -78,7 +103,7 @@ void hkDemoEntryRegister::registerDemo()
 class demoEntryPathAndVariantIdLess
 {
 private:
-	hkBool areVariants( const hkDemoDatabase::hkDemoEntry* a, const hkDemoDatabase::hkDemoEntry* b )
+	hkBool areVariants( const hkDemoEntry* a, const hkDemoEntry* b )
 	{
 		// check if they have a valid variant field
 		if( (a->m_variantId >= 0) && (b->m_variantId >= 0) ) 
@@ -99,7 +124,7 @@ private:
 		}
 	}
 	// true if the paths are the same and a->variantId < b->variantId
-	HK_FORCE_INLINE hkBool ifSameLessVariantId( const hkDemoDatabase::hkDemoEntry* a, const hkDemoDatabase::hkDemoEntry* b )
+	HK_FORCE_INLINE hkBool ifSameLessVariantId( const hkDemoEntry* a, const hkDemoEntry* b )
 	{
 		// if they are variants of the same demo check the variant id
 		return areVariants(a,b) && ( a->m_variantId < b->m_variantId );
@@ -107,15 +132,19 @@ private:
 
 public:
 
-	HK_FORCE_INLINE hkBool operator() ( const hkDemoDatabase::hkDemoEntry* a, const hkDemoDatabase::hkDemoEntry* b )
+	HK_FORCE_INLINE hkBool operator() ( const hkDemoEntry* a, const hkDemoEntry* b )
 	{
-		// order by variant id if they are variants of the same demo, alphabetically otherwise
-		return ( ifSameLessVariantId(a, b) || ( a->m_menuPath < b->m_menuPath ) );
+		// order by variant id if they are variants of the same demo
+		if (areVariants(a,b))
+			return ( a->m_variantId < b->m_variantId );
+
+		// alphabetically otherwise
+		return ( a->m_menuPath < b->m_menuPath );
 	}
 };
 
 
-hkString findCommonRootPath( const hkArray< hkDemoDatabase::hkDemoEntry* >& demos )
+hkString findCommonRootPath( const hkArray< hkDemoEntry* >& demos )
 {
 	hkString prefix = "";
 	//
@@ -201,8 +230,16 @@ void hkDemoDatabase::rebuildDatabase()
 		entry->m_variantId = e->m_variantId;
 		entry->m_help = e->m_help;
 		entry->m_details = e->m_details;
-		demos.pushBack(entry);
 
+		if ( e->m_createEntryFunc )	// now we have a create other demos function
+		{
+			e->m_createEntryFunc(*entry, demos);
+			delete entry;
+		}
+		else
+		{
+			demos.pushBack(entry);
+		}
 		e = e->m_next;
 	}
 
@@ -342,9 +379,9 @@ hkDemoEntryRegister* hkDemoDatabase::s_demoList;
 HK_SINGLETON_IMPLEMENTATION(hkDemoDatabase);
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

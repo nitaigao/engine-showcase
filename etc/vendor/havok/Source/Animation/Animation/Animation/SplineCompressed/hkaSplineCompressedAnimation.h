@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -24,7 +24,6 @@ class hkaSplineCompressedAnimation : public hkaAnimation
 {
 public:
 
-	//+version(1)
 	HK_DECLARE_CLASS_ALLOCATOR( HK_MEMORY_CLASS_ANIM_COMPRESSED );
 	HK_DECLARE_REFLECTION();
 
@@ -34,7 +33,6 @@ public:
 	/// Compression settings for a single animation track
 	struct TrackCompressionParams
 	{
-		//+version(1)
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_ANIM_COMPRESSED, hkaSplineCompressedAnimation::TrackCompressionParams );
 		HK_DECLARE_REFLECTION();
 
@@ -74,13 +72,19 @@ public:
 		static hkBool validQuantization( RotationQuantization ); ///
 		static hkBool validQuantization( ScalarQuantization ); ///
 
+		// Validity test
+		hkBool isOk() const;
+
+		// Approximate quantization accuracy
+		static hkReal HK_CALL approximateQuantizationAccuracy( RotationQuantization );
+		static hkReal HK_CALL approximateQuantizationAccuracy( ScalarQuantization );
+
 		// Constructor
 		TrackCompressionParams(); ///
 	};
 
 	struct AnimationCompressionParams
 	{
-		//+version(1)
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_ANIM_COMPRESSED, hkaSplineCompressedAnimation::AnimationCompressionParams );
 		HK_DECLARE_REFLECTION();
 
@@ -103,6 +107,9 @@ public:
 		/// An array of indices into the palette above 
 		hkArray<int> m_trackIndexToPaletteIndex; ///
 		hkArray<int> m_floatTrackIndexToPaletteIndex; ///
+
+		/// Validity check
+		hkBool isOk() const;
 	};
 
 	/// Constructor with uniform compression settins for each track
@@ -225,7 +232,9 @@ private:
 
 	static void evaluateSimple( hkReal time, int p, hkReal U[ MAX_DEGREE * 2 ], hkVector4 P[ MAX_ORDER ], hkVector4 & );
 
+#if !defined(HK_PLATFORM_SIM)
 	static void evaluateSIMD( hkReal time, int p, hkReal U[ MAX_DEGREE * 2 ], hkVector4 P[ MAX_ORDER ], hkVector4 & );
+#endif
 
 	static void evaluateLinear( hkReal time, int p, hkReal U[ MAX_DEGREE * 2 ], hkVector4 P[ MAX_ORDER ], hkVector4 & );
 
@@ -303,9 +312,9 @@ private:
 #endif // HKANIMATION_ANIMATION_SPLINE_HKSPLINEANIMATION_XML_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

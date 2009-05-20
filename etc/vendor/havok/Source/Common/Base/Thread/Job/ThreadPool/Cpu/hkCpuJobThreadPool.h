@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -43,8 +43,11 @@ struct hkCpuJobThreadPoolCinfo
 	bool m_allocateRuntimeMemoryBlocks;
 
 		/// If this data is used to set the hardware thread ids, on XBox360, XSetThreadProcessor is called on each thread
-		/// with the hardware id. If this array is not set then it defaults to 0, 2, 4, 1, 3, 5 (i.e. the first 3 threads
+		/// with the hardware id. If this array is not set then it defaults to {2, 4, 1, 3, 5, 0} (i.e. the first 3 threads
 		/// are set to separate cores).
+		/// On Windows, it will use SetThreadIdealProcessor, and will use {1,2...,(numProcessors-1),0} by default if this array 
+		/// not set. 
+		/// The two defaults assume that you are using core 0 as your main calling thread (that will do work too)
 	hkArray<int> m_hardwareThreadIds;
 
 		/// The thread name to be passed to hkThread::startThread
@@ -73,7 +76,7 @@ class hkCpuJobThreadPool : public hkJobThreadPool
 		~hkCpuJobThreadPool();
 
 			/// Process jobs using all threads until completion for all jobs on the queue
-		virtual void processAllJobs( hkJobQueue* queue );
+		virtual void processAllJobs( hkJobQueue* queue, hkJobType firstJobType_unused = HK_JOB_TYPE_MAX );
 
 			/// Wait until all threads have emptied the Queue
 		virtual void waitForCompletion( );
@@ -185,9 +188,9 @@ class hkCpuJobThreadPool : public hkJobThreadPool
 #endif // HK_BASE_CPU_THREAD_POOL_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

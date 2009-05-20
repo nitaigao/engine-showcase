@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -22,12 +22,12 @@
 
 struct MultipleCharactersVariant
 {
-	const char*	 m_name;
+	const char*	m_name;
 	const char*	m_landscapeType;
 	const char* m_details;
 };
 
-static const MultipleCharactersVariant g_variants[] =
+static const MultipleCharactersVariant g_variants[] = 
 {
 	{ "100 Characters on 4800-Triangle Landscape", "simpleFlatLandOneMetreTris", "CharacterTest" },
 	{ "100 Characters on 79000-Triangle Landscape", "defaultFlatLandOneMetreTris", "CharacterTest" },
@@ -60,7 +60,7 @@ MultipleCharactersDemo::MultipleCharactersDemo(hkDemoEnvironment* env)
 		hkpWorldCinfo info;
 		info.setBroadPhaseWorldSize( 350.0f );  
 		info.m_gravity.set(0, -9.8f, 0);
-		info.m_collisionTolerance = 0.1f;		
+		info.m_collisionTolerance = 0.1f;
 		m_world = new hkpWorld( info );
 		m_world->lock();
 
@@ -85,7 +85,7 @@ MultipleCharactersDemo::MultipleCharactersDemo(hkDemoEnvironment* env)
 
 		m_world->addEntity(groundbody)->removeReference();
 
-		setupDefaultCameras( env, m_landscapeContainer->m_cameraFrom, m_landscapeContainer->m_cameraTo, hkVector4(0,1,0) );
+		setupDefaultCameras( env, m_landscapeContainer->m_cameraFrom, m_landscapeContainer->m_cameraTo, hkVector4(0,1,0) ); 
 	}
 
 	AabbSpawnUtil spawnUtil( m_landscapeContainer->m_spawnVolumes );
@@ -257,7 +257,6 @@ hkDemo::Result MultipleCharactersDemo::stepDemo()
 
 		for (int i=0; i < numCharacters; i++)
 		{
-
 			hkStepInfo csi;
 			csi.m_deltaTime = m_timestep;
 			csi.m_invDeltaTime = 1.0f / m_timestep;
@@ -274,7 +273,6 @@ hkDemo::Result MultipleCharactersDemo::stepDemo()
 				pos(1) = 5;
 				m_characterProxy[i]->setPosition(pos);
 			}
-
 		}
 
 		HK_TIMER_END();
@@ -298,14 +296,13 @@ hkDemo::Result MultipleCharactersDemo::stepDemo()
 static const char helpString[] = \
 "A demo used to test the performance of multiple characters";
 
-//HK_DECLARE_DEMO_VARIANT_USING_STRUCT( MultipleCharactersDemo, HK_DEMO_TYPE_PRIME | HK_DEMO_TYPE_CRITICAL, MultipleCharactersVariant, g_variants, helpString ); 
 HK_DECLARE_DEMO_VARIANT(MultipleCharactersDemo, HK_DEMO_TYPE_PRIME | HK_DEMO_TYPE_CRITICAL | HK_DEMO_TYPE_STATS, g_variants[0].m_name, 0, helpString, g_variants[0].m_details);
 HK_DECLARE_DEMO_VARIANT(MultipleCharactersDemo, HK_DEMO_TYPE_PRIME                         | HK_DEMO_TYPE_STATS, g_variants[1].m_name, 1, helpString, g_variants[1].m_details);
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

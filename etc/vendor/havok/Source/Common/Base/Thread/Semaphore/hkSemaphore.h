@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -11,6 +11,9 @@
 
 #include <Common/Base/Config/hkConfigThread.h>
 
+#if defined(HK_PLATFORM_PS3_PPU) 
+#	include <sys/synchronization.h>	
+#endif
 
 
 	/// A wrapper class for a semaphore.
@@ -48,16 +51,41 @@ class hkSemaphore
 			
 	protected:
 
+#if defined(HK_PLATFORM_PS3_PPU) && (HK_CONFIG_THREAD == HK_CONFIG_MULTI_THREADED)
+
+		struct hkSemaphorePS3
+		{
+			int			curCount;
+			int			maxCount;
+			sys_mutex_t	mutex;
+			sys_cond_t	cond;
+		} m_semaphore;
+
+#elif (defined(HK_PLATFORM_MACPPC) || defined(HK_PLATFORM_MAC386) || defined(HK_PLATFORM_UNIX)) && (HK_CONFIG_THREAD == HK_CONFIG_MULTI_THREADED)
+
+		//Mutex used to simulate the Semaphore
+		struct hkSemaphorePosix
+		{
+			int				curCount;
+			int				maxCount;
+			pthread_mutex_t	mutex;
+			pthread_cond_t	cond;
+		} m_semaphore;
+
+#elif defined(HK_PLATFORM_SIM) // spu simulator
+	public:		void* m_semaphore;
+#else
 	protected:	void* m_semaphore;
+#endif
 
 };
 
 #endif // HKBASE_HK_SEMAPHORE_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

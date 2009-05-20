@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -43,6 +43,9 @@ class CharacterUtils
 		// Convenience function to display character state as text on screen
 	static void HK_CALL displayCharacterState(hkpCharacterContext* context, hkDemoEnvironment* env );
 
+		// Compute the blend params that will produce the desired velocity
+	static void computeBlendParams( hkReal desiredVel, hkReal walkVel, hkReal runVel, hkReal walkDur, hkReal runDur, hkReal& blend, hkReal& walkSpeed, hkReal& runSpeed );
+
 };
 
 struct CharacterControls 
@@ -76,7 +79,8 @@ class SimpleCharacter : public hkReferencedObject
 	public:
 		SimpleCharacter() {}
 
-		void createDefaultCharacterController( const hkVector4& position, const hkVector4& up );
+			/// create a simple character with a capsule shape, the \a capsuleHeight is the total height of the capsule
+		void createDefaultCharacterController( const hkVector4& position, const hkVector4& up, hkReal capsuleHeight = 2.0f, hkReal capsuleRadius = 0.6f );
 
 		hkpCharacterRigidBody* m_characterRb;
 		hkpCharacterContext* m_characterRbContext;
@@ -96,6 +100,9 @@ struct FirstPersonCharacterCinfo
 	hkVector4 m_direction;
 	hkVector4 m_up;
 	hkReal m_gravityStrength;
+	hkReal m_capsuleHeight;		// the total height
+	hkReal m_capsuleRadius;
+	hkReal m_eyeHeight;		// the height of the eyes relative to the characters center
 
 	hkBool m_invertUpDown;
 	hkReal m_verticalSensitivity;
@@ -114,7 +121,7 @@ struct FirstPersonCharacterCinfo
 	hkpCharacterContext* m_context;
 };
 
-class FirstPersonGun;
+class hkpFirstPersonGun;
 
 
 class FirstPersonCharacter : public SimpleCharacter
@@ -128,11 +135,14 @@ class FirstPersonCharacter : public SimpleCharacter
 
 		void update( hkReal timestep);
 
-		FirstPersonGun* setGun( FirstPersonGun* listener );
+		hkpFirstPersonGun* setGun( hkpFirstPersonGun* listener );
 
 	public:
 
 		void getForwardDir( hkVector4& forward );
+
+			/// sets the current angles based on the forward direction
+		void setForwardDir( const hkVector4& forward );
 
 			// Helper functions
 		void setInputFromUserControls( hkDemoEnvironment* env, CharacterControls& controls );
@@ -153,6 +163,7 @@ class FirstPersonCharacter : public SimpleCharacter
 		hkReal m_horizontalSensitivity;
 		hkReal m_sensivityPadX;
 		hkReal m_sensivityPadY;
+		hkReal m_eyeHeight;
 
 		hkReal m_maxUpDownAngle;
 		hkBool m_canDetachFromCharacter;
@@ -170,7 +181,7 @@ class FirstPersonCharacter : public SimpleCharacter
 		hkpWorld* m_world;
 		hkDemoEnvironment* m_env;
 
-		FirstPersonGun* m_currentGun;
+		hkpFirstPersonGun* m_currentGun;
 	public:
 
 		hkArray< hkUlong > m_transparentObjects;
@@ -180,9 +191,9 @@ class FirstPersonCharacter : public SimpleCharacter
 #endif // HK_CHARACTER_UTILS_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

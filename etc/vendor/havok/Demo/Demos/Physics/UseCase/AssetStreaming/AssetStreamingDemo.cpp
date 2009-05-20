@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -26,6 +26,7 @@
 
 // Demo includes
 #include <Demos/DemoCommon/Utilities/Asset/hkAssetManagementUtil.h>
+#include <Common/Base/Algorithm/PseudoRandom/hkPseudoRandomGenerator.h>
 	
 AssetStreamingDemo::AssetStreamingDemo( hkDemoEnvironment* env )
 :hkDefaultPhysicsDemo( env )
@@ -50,16 +51,16 @@ AssetStreamingDemo::AssetStreamingDemo( hkDemoEnvironment* env )
 
 	// Pathnames of instanced world sections	
 	{
-		m_instancedWorldSectionPathnames.pushBack( "Physics/UseCase/AssetStreaming/World_Section_1_Instanced.hkx" );
-		m_instancedWorldSectionPathnames.pushBack( "Physics/UseCase/AssetStreaming/World_Section_2_Instanced.hkx" );
-		m_instancedWorldSectionPathnames.pushBack( "Physics/UseCase/AssetStreaming/World_Section_3_Instanced.hkx" );
-		m_instancedWorldSectionPathnames.pushBack( "Physics/UseCase/AssetStreaming/World_Section_4_Instanced.hkx" );
-		m_instancedWorldSectionPathnames.pushBack( "Physics/UseCase/AssetStreaming/World_Section_5_Instanced.hkx" );
-		m_instancedWorldSectionPathnames.pushBack( "Physics/UseCase/AssetStreaming/World_Section_6_Instanced.hkx" );
+		m_instancedWorldSectionPathnames.pushBack( "Resources/Physics/World_Section_1_Instanced.hkx" );
+		m_instancedWorldSectionPathnames.pushBack( "Resources/Physics/World_Section_2_Instanced.hkx" );
+		m_instancedWorldSectionPathnames.pushBack( "Resources/Physics/World_Section_3_Instanced.hkx" );
+		m_instancedWorldSectionPathnames.pushBack( "Resources/Physics/World_Section_4_Instanced.hkx" );
+		m_instancedWorldSectionPathnames.pushBack( "Resources/Physics/World_Section_5_Instanced.hkx" );
+		m_instancedWorldSectionPathnames.pushBack( "Resources/Physics/World_Section_6_Instanced.hkx" );
 	}
 
 	// Pathname of shape registry
-	m_shapeRegistryPathname = "Physics/UseCase/AssetStreaming/ShapeRegistry.hkx";
+	m_shapeRegistryPathname = "Resources/Physics/ShapeRegistry.hkx";
 
 
 	// Build shape sharing version of world 
@@ -147,9 +148,11 @@ hkDemo::Result AssetStreamingDemo::stepDemo()
 	{	
 		m_world->lock();
 
+		hkPseudoRandomGenerator generator(m_frameCounter + (int)m_world->getCurrentPsiTime());
+
 		// Randomly pick a section to unload.  If it's not loaded we skip unloading this time.
 		{
-			hkInt32 sectionToUnloadIndex = (hkInt32)hkMath::randRange( 0, HK_ASSET_STREAMING_DEMO_NUM_WORLD_SECTIONS );
+			hkInt32 sectionToUnloadIndex = (hkInt32)generator.getRandRange( 0, HK_ASSET_STREAMING_DEMO_NUM_WORLD_SECTIONS );
 
 			if( m_worldSections[sectionToUnloadIndex] != HK_NULL )
 			{
@@ -160,7 +163,7 @@ hkDemo::Result AssetStreamingDemo::stepDemo()
 
 		// Randomly pick a section to load.  If it's loaded we skip loading this time.
 		{
-			hkInt32 sectionToLoadIndex = (hkInt32)hkMath::randRange( 0, HK_ASSET_STREAMING_DEMO_NUM_WORLD_SECTIONS );
+			hkInt32 sectionToLoadIndex = (hkInt32)generator.getRandRange( 0, HK_ASSET_STREAMING_DEMO_NUM_WORLD_SECTIONS );
 
 			if( m_worldSections[sectionToLoadIndex] == HK_NULL )
 			{
@@ -503,9 +506,9 @@ void AssetStreamingDemo::removeSectionFromWorld( hkpPhysicsData* physicsData, hk
 HK_DECLARE_DEMO(AssetStreamingDemo, HK_DEMO_TYPE_PHYSICS, "", "" );
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

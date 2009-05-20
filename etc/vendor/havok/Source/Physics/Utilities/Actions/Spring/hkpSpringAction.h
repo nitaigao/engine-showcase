@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -11,6 +11,7 @@
 
 #include <Physics/Dynamics/Action/hkpBinaryAction.h>
 #include <Common/Base/hkBase.h>
+#include <Common/Base/Reflection/Attributes/hkAttributes.h>
 
 extern const hkClass hkpSpringActionClass;
 
@@ -19,7 +20,6 @@ class hkpSpringAction: public hkpBinaryAction
 {
 	public:
 
-		//+version(1)
 		HK_DECLARE_REFLECTION();
 
 			///Creates a spring with the specified construction info.
@@ -88,25 +88,25 @@ class hkpSpringAction: public hkpBinaryAction
 		hkVector4 m_lastForce;
 
 			/// The point in bodyA where the spring is attached. 	
-		hkVector4 m_positionAinA; 
+		hkVector4 m_positionAinA; //+hk.RangeReal(absmin=-1000.0,absmax=1000.0, softmin=-10.0, softmax=10.0) +hk.Semantics("POSITION") +hk.Ui(group="Pivot", visible=true, label="Pivot")
 
-			/// The point in bodyB where the spring is attached. 	
-		hkVector4 m_positionBinB;
+			/// The point in bodyB where the spring is attach^ed. 	
+		hkVector4 m_positionBinB; //+hk.RangeReal(absmin=-1000.0,absmax=1000.0, softmin=-10.0, softmax=10.0) +hk.Semantics("POSITION") +hk.Ui(visible=true, label="Pivot On Other Body", endGroup=true)
 
 			/// The desired rest length of the spring. 	
-		hkReal	m_restLength;
+		hkReal	m_restLength; //+default(1.0f) +hk.RangeReal(absmin=0.0,absmax=1000.0, softmin=0.1, softmax=10.0) +hk.Semantics("DISTANCE") +hk.Ui(group="Constants", visible=true, label="Resting Length")
 
 			/// The desired strength of the spring. 	
-		hkReal	m_strength;
+		hkReal	m_strength; //+default(1000.0f) +hk.RangeReal(absmin=0.1,absmax=1000.0) +hk.Ui(visible=true)
 
 			/// The damping to be applied to the spring. 	
-		hkReal	m_damping;
+		hkReal	m_damping; //+default(0.1f) +hk.RangeReal(absmin=0.1,absmax=1000.0) +hk.Ui(visible=true)
 
 			/// Flag to indicate if the spring acts during compression. 	
-		hkBool	m_onCompression;
+		hkBool	m_onCompression; //+default(true) +hk.Ui(visible=true)
 
 			/// Flag to indicate if the spring acts during extension. 	
-		hkBool	m_onExtension;
+		hkBool	m_onExtension; //+default(true) +hk.Ui(visible=true, endGroup=true)
 
 	public:
 
@@ -118,9 +118,9 @@ class hkpSpringAction: public hkpBinaryAction
 #endif // HK_SPRING_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

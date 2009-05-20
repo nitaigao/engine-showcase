@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -165,6 +165,10 @@ class hkpCollisionDispatcher : public hkReferencedObject
 			hkReal m_collisionTolerance;
 			hkReal m_minDeltaTime;
 			hkReal m_maxLinearVelocity;
+			hkReal m_numToisTillAllowedPenetrationSimplifiedToi;
+			hkReal m_numToisTillAllowedPenetrationToi;
+			hkReal m_numToisTillAllowedPenetrationToiHigher;
+			hkReal m_numToisTillAllowedPenetrationToiForced;
 			hkUint16 m_defaultConstraintPriority;
 			hkUint16 m_toiConstraintPriority;
 			hkUint16 m_toiHigherConstraintPriority;
@@ -408,11 +412,15 @@ class hkpCollisionDispatcher : public hkReferencedObject
 			// values must be corresponding to hkpConstraintInstance::ConstraintPriority
 		enum CollisionQualityLevel
 		{
-				/// invalid
+				/// Invalid.
 			COLLISION_QUALITY_INVALID,
 
-				/// use this to get discrete stepping behavior or for fixed objects
+				/// Use this to get discrete stepping behavior or for fixed objects.
 			COLLISION_QUALITY_PSI,
+
+				/// Use this to avoid fast-moving debris object penetrating through the ground and other static objects.
+				/// This only backsteps the debris objects.
+			COLLISION_QUALITY_SIMPLIFIED_TOI,
 
 				/// Application: Ensure non-penetration between pairs of non-fixed objects
 				/// Use this if you want to prevent bullet through paper
@@ -500,9 +508,9 @@ class hkpCollisionDispatcher : public hkReferencedObject
 #endif // HK_COLLIDE2_COLLISION_DISPATCHER_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

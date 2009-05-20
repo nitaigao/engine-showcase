@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -17,6 +17,8 @@
 class hkAabb;
 struct hkpShapeRayCastInput;
 struct hkpShapeRayCastOutput;
+struct hkpShapeRayBundleCastInput;
+struct hkpShapeRayBundleCastOutput;
 class hkpRayHitCollector;
 class hkpCdBody;
 class hkpShapeContainer;
@@ -68,7 +70,6 @@ class hkpShape : public hkReferencedObject
 {
 	public:
 
-		//+version(3)
 		HK_DECLARE_REFLECTION();
 		HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CDINFO);
 
@@ -104,16 +105,23 @@ class hkpShape : public hkReferencedObject
 			/// This is data driven, and places the results in hkpShapeRayCastOutput
 			/// Implementation notes: For all convex shapes except hkSphere and hkCapsule the radius of the shape will be ignored.
 		HK_FORCE_INLINE hkBool castRay( const hkpShapeRayCastInput& input, hkpShapeRayCastOutput& output ) const;
-	
+
+			/// Casts a bundle of rays against the shape
+		HK_FORCE_INLINE hkVector4Comparison castRayBundle( const hkpShapeRayBundleCastInput& input, hkpShapeRayBundleCastOutput& output) const;
+		HK_FORCE_INLINE hkVector4Comparison castRayBundle( const hkpShapeRayBundleCastInput& input, hkpShapeRayBundleCastOutput& output,  hkVector4ComparisonParameter mask ) const;
+
 			/// Finds the closest intersection between the shape and a ray defined in the shape's local space, starting at fromLocal, ending at toLocal.
 			/// This is a callback driven raycast. For each hit found, the hkpRayHitCollector receives a callback with the hit info.
 			/// Implementation notes: For all convex shapes except hkSphere and hkCapsule the radius of the shape will be ignored.
-		virtual void castRayWithCollector( const hkpShapeRayCastInput& input, const hkpCdBody& cdBody, hkpRayHitCollector& collector ) const = 0;
+		HK_FORCE_INLINE void castRayWithCollector( const hkpShapeRayCastInput& input, const hkpCdBody& cdBody, hkpRayHitCollector& collector ) const;
 
 			/// Query if the shape supports the container interface.
 			/// Returns a pointer to the interface if the shape has one or more child shapes.
 			/// Otherwise returns null.
 		virtual const hkpShapeContainer* getContainer() const { return HK_NULL; }
+
+			/// Returns true if the shape is a convex shape
+		virtual bool isConvex() const { return false; }
 
 
 			// Returns the size of the shape class. The default implementation returns -1 which will force the shape onto the PPU.
@@ -135,6 +143,14 @@ class hkpShape : public hkReferencedObject
 
 			/// hkpShape::castRay() interface implementation.
 		HKP_SHAPE_VIRTUAL hkBool castRayImpl( HKP_SHAPE_VIRTUAL_THIS const hkpShapeRayCastInput& input, hkpShapeRayCastOutput& output ) HKP_SHAPE_VIRTUAL_CONST = 0;
+
+			/// hkpShape::castRayWithCollector() interface implementation.
+		HKP_SHAPE_VIRTUAL void castRayWithCollectorImpl( HKP_SHAPE_VIRTUAL_THIS const hkpShapeRayCastInput& input, const hkpCdBody& cdBody, hkpRayHitCollector& collector ) HKP_SHAPE_VIRTUAL_CONST = 0;
+
+
+		HKP_SHAPE_VIRTUAL hkVector4Comparison castRayBundleImpl( HKP_SHAPE_VIRTUAL_THIS const hkpShapeRayBundleCastInput& input, hkpShapeRayBundleCastOutput& output, hkVector4ComparisonParameter mask  ) HKP_SHAPE_VIRTUAL_CONST;
+
+	
 	public:
 
 			// These only need to be called in debug; the table is always fully written.
@@ -154,8 +170,10 @@ class hkpShape : public hkReferencedObject
 			typedef int  (HK_CALL *GetNumCollisionSpheresFunc)		(const void* thisObj );
 			typedef const hkSphere* (HK_CALL *GetCollisionSpheresFunc)(const void* thisObj, hkSphere* sphereBuffer );
 
-			typedef void (HK_CALL *GetAabbFunc)					(const void* thisObj, const hkTransform& localToWorld, hkReal tolerance, hkAabb& out );
+			typedef void (HK_CALL *GetAabbFunc)	(const void* thisObj, const hkTransform& localToWorld, hkReal tolerance, hkAabb& out );
 			typedef hkBool (HK_CALL *CastRayFunc) (const void* thisObj, const hkpShapeRayCastInput& input, hkpShapeRayCastOutput& output );
+			typedef void (HK_CALL *CastRayWithCollectorFunc) (const void* thisObj, const hkpShapeRayCastInput& input, const hkpCdBody& cdBody, hkpRayHitCollector& collector );
+			typedef hkVector4Comparison (HK_CALL *CastRayBundleFunc) (const void* thisObj, const hkpShapeRayBundleCastInput& input, hkpShapeRayBundleCastOutput& output, hkVector4ComparisonParameter mask );
 
 			typedef const hkpShape* (HK_CALL *GetChildShapeFunc) (const void* thisObj, hkpShapeKey key, ShapeBuffer& buffer );
 			typedef hkUint32 (HK_CALL *GetCollisionFilterInfoFunc) (const void* thisObj, hkpShapeKey key );
@@ -173,6 +191,8 @@ class hkpShape : public hkReferencedObject
 				hkPadSpu<GetCollisionSpheresFunc>			m_getCollisionSpheresFunc;
 				hkPadSpu<GetAabbFunc>						m_getAabbFunc;
 				hkPadSpu<CastRayFunc>						m_castRay;
+				hkPadSpu<CastRayWithCollectorFunc>			m_castRayWithCollector;
+				hkPadSpu<CastRayBundleFunc>					m_castRayBundle;
 				hkPadSpu<GetChildShapeFunc>					m_getChildShapeFunc;
 				hkPadSpu<GetCollisionFilterInfoFunc>		m_getCollisionFilterInfoFunc;
 
@@ -192,6 +212,8 @@ class hkpShape : public hkReferencedObject
 				GetCollisionSpheresFunc				m_getCollisionSpheresFunc;
 				GetAabbFunc							m_getAabbFunc;
 				CastRayFunc							m_castRay;
+				CastRayWithCollectorFunc			m_castRayWithCollector;
+				CastRayBundleFunc					m_castRayBundle;
 				GetChildShapeFunc					m_getChildShapeFunc;
 				GetCollisionFilterInfoFunc			m_getCollisionFilterInfoFunc;
 			};
@@ -225,9 +247,9 @@ class hkpShape : public hkReferencedObject
 #endif // HK_COLLIDE2_SHAPE_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

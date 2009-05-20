@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -32,6 +32,10 @@ enum hkpContactPointAccept
 	HK_CONTACT_POINT_REJECT = 1
 };
 
+#if defined(HK_PLATFORM_PS3_SPU) 
+	template <> struct hkSpuStorage<hkpContactPointAccept> { typedef vec_int4 StorageType; typedef int PromoteType; };
+	//HK_COMPILE_TIME_ASSERT( sizeof(hkpContactPointAccept) == 4 );
+#endif
 
 struct hkpToiPointAddedEvent;
 struct hkpManifoldPointAddedEvent;
@@ -439,9 +443,9 @@ class hkpCollisionListener
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -20,6 +20,7 @@ class AnyValue
 public:
 
 	typedef std::map< std::string, AnyValue > AnyValue::AnyValueMap;
+	typedef std::map< unsigned int, AnyValue > AnyValue::AnyValueKeyMap;
 
 
 	/*! Default Destructor
@@ -78,7 +79,7 @@ public:
 	 *  @return (boost::T)
 	 */
 	template< class T >
-	T GetValue( ) { return boost::any_cast< T >( m_value ); };
+	T GetValue( ) const { return boost::any_cast< T >( m_value ); };
 
 
 	/*! Gets the Type of the contained Value

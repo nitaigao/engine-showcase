@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HKSCENEDATA_MESH_FORMATS_HKXVERTEXP4N4T4B4W4I4C1Q2_HKCLASS_H
@@ -63,6 +63,8 @@ class hkxVertexP4N4T4B4W4I4Q4
 // 1 or 2 Tcoords
 class hkxVertexP4N4T4B4W4I4C1T4
 {
+	// +version(1) 
+
 	public:
 
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_SCENE_DATA, hkxVertexP4N4T4B4W4I4C1T4 );
@@ -84,13 +86,13 @@ class hkxVertexP4N4T4B4W4I4C1T4
 		hkUint8 m_i1;
 		hkUint8 m_i2;
 		hkUint8 m_i3;
-		hkUint32 m_diffuse;
+		hkUint32 m_diffuseA;
 		hkReal m_u0;
 
 		hkReal m_v0;
 		hkReal m_u1;
 		hkReal m_v1;
-		hkReal m_padding;
+		hkUint32 m_diffuseB;
 };
 
 class hkxVertexP4N4T4B4W4I4T6
@@ -128,6 +130,8 @@ public:
 // 3 or 4 Tcoords
 class hkxVertexP4N4T4B4W4I4C1T8
 {
+	// +version(1) 
+
 	public:
 
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_SCENE_DATA, hkxVertexP4N4T4B4W4I4C1T8 );
@@ -148,7 +152,7 @@ class hkxVertexP4N4T4B4W4I4C1T8
 		hkUint8 m_i1;
 		hkUint8 m_i2;
 		hkUint8 m_i3;
-		hkUint32 m_diffuse;
+		hkUint32 m_diffuseA;
 		hkReal m_u0;
 
 		hkReal m_v0;
@@ -159,12 +163,14 @@ class hkxVertexP4N4T4B4W4I4C1T8
 		hkReal m_v2;
 		hkReal m_u3;
 		hkReal m_v3;
-		hkReal m_padding;
+		hkUint32 m_diffuseB;
 };
 
 // 5 or 6 Tcoords
 class hkxVertexP4N4T4B4W4I4C1T12
 {
+	// +version(1) 
+
 	public:
 
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_SCENE_DATA, hkxVertexP4N4T4B4W4I4C1T12 );
@@ -186,7 +192,7 @@ class hkxVertexP4N4T4B4W4I4C1T12
 		hkUint8 m_i1;
 		hkUint8 m_i2;
 		hkUint8 m_i3;
-		hkUint32 m_diffuse;
+		hkUint32 m_diffuseA;
 		hkReal m_u0;
 
 		hkReal m_v0;
@@ -202,14 +208,14 @@ class hkxVertexP4N4T4B4W4I4C1T12
 		hkReal m_v4;
 		hkReal m_u5;
 		hkReal m_v5;
-		hkReal m_padding;
+		hkUint32 m_diffuseB;
 };
 #endif // HKSCENEDATA_MESH_FORMATS_HKXVERTEXP4N4T4B4W4I4C1Q2_HKCLASS_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -74,6 +74,9 @@ class hkVertexSharingUtil
             /// must not be zero. If the vertices are different the hash has to be different.
         int addVertex(hkUint32 hash);
 
+            /// Finds the vertex index. Returns -1 if not found
+        int findVertexIndex(hkUint32 hash, const void* vertex) const;
+
             /// Add a vertex. The data for the vertex is held in data pointed to by vertex. The data must be
             /// dword aligned, and be in exactly the same layout (memorywise) as the work vertex.
             /// Any padding in the vertex must be zero'd for correct comparison with threshold of 0
@@ -123,9 +126,9 @@ class hkVertexSharingUtil
 #endif // HK_VERTEX_SHARING_UTIL_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

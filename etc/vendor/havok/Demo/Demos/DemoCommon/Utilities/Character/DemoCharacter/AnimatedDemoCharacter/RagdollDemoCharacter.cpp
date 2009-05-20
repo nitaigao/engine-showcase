@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -13,6 +13,7 @@
 #include <Demos/DemoCommon/Utilities/Character/DemoCharacter/AnimatedDemoCharacter/RagdollDemoCharacter.h>
 #include <Demos/DemoCommon/Utilities/Character/CharacterStepInput.h>
 #include <Demos/DemoCommon/Utilities/Character/CharacterProxy/CharacterProxy.h>
+#include <Demos/DemoCommon/Utilities/Character/CharacterUtils.h>
 
 #include <Common/Visualize/hkDebugDisplay.h>
 #include <Graphics/Bridge/SceneData/hkgSceneDataConverter.h>
@@ -75,11 +76,154 @@
 #include <Graphics/Common/Shader/hkgShaderCollection.h>
 #include <Graphics/Common/DisplayObject/hkgDisplayObject.h>
 
+
+RagdollCharacterFactory::RagdollCharacterFactory( CharacterType defaultType )
+:	AnimatedCharacterFactory( defaultType )
+{
+	loadRagdollAnimations( m_type );
+
+	m_proxyNoCollideCollisionFilterInfo = hkpGroupFilter::calcFilterInfo(LAYER_COLLIDE_NONE);
+	m_proxyGettingUpCollisionFilterInfo = hkpGroupFilter::calcFilterInfo(LAYER_GET_UP);
+	m_ragdollFilterLayer = LAYER_RAGDOLL;
+
+}
+
+DemoCharacter* RagdollCharacterFactory::createCharacterUsingProxy( CharacterProxy* proxy, const hkVector4& gravity, hkDemoEnvironment* env )
+{
+	proxy->getWorldObject()->removeProperty(HK_PROPERTY_DEBUG_DISPLAY_COLOR);
+	proxy->getWorldObject()->addProperty(HK_PROPERTY_DEBUG_DISPLAY_COLOR, 0x00FFFFFF);
+
+	// Ragdoll Character
+	RagdollDemoCharacterCinfo info;
+	info.m_characterProxy = proxy;
+	info.m_gravity = gravity;
+	info.m_animationForwardLocal = m_animSet[m_type].m_animFwdLocal;
+
+	info.m_animationUpLocal = m_animSet[m_type].m_animUpLocal;
+	info.m_animationSet = &m_animSet[m_type];
+	info.m_ragdollAnimationSet = &m_ragdollAnimSet[m_type];
+	info.m_poseMatchingBones[0] = m_ragdollAnimSet[m_type].m_poseMatchingBones[0];
+	info.m_poseMatchingBones[1] = m_ragdollAnimSet[m_type].m_poseMatchingBones[1];
+	info.m_poseMatchingBones[2] = m_ragdollAnimSet[m_type].m_poseMatchingBones[2];
+	
+	
+	// RagdollDemoCharacter will create its own clone of the ragdoll instance and handle the reference counting there.
+	info.m_shouldCloneRagdollInstance = true;
+
+	// TODO
+	info.m_ragdollFilterLayer = m_ragdollFilterLayer;
+	info.m_proxyNormalCollisionFilterInfo = proxy->getWorldObject()->getCollidable()->getCollisionFilterInfo();
+	info.m_proxyNoCollideCollisionFilterInfo = m_proxyNoCollideCollisionFilterInfo;
+	info.m_proxyGettingUpCollisionFilterInfo = m_proxyGettingUpCollisionFilterInfo;
+
+	RagdollDemoCharacter* ragdollCharacter = new RagdollDemoCharacter( info );
+	ragdollCharacter->loadSkin( m_loader, env, m_type );
+	proxy->removeReference();
+
+	return ragdollCharacter;
+	
+}
+
+void RagdollCharacterFactory::loadRagdollAnimations( CharacterType type )
+{
+	hkRootLevelContainer* ragdollContainer = HK_NULL;
+
+	RagdollDemoCharacterAnimationSet* set = &m_ragdollAnimSet[type];
+
+	switch (type)
+	{
+	case FIREFIGHTER:
+		// Load the ragdoll-specific animations
+		{
+			set->m_die	 = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/ShowCase/Gdc2005/Animations/hkDie.hkx" );
+			set->m_getUp = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/ShowCase/Gdc2005/Animations/hkKnockdown2.hkx" );
+
+			set->m_poseMatchingAnims[0] =  AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/ShowCase/Gdc2005/Animations/hkKnockdown2.hkx" );
+			set->m_poseMatchingAnims[1] =  AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/ShowCase/Gdc2005/Animations/hkGetupBack1.hkx" );
+			set->m_poseMatchingAnims[2] =  AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/ShowCase/Gdc2005/Animations/hkGetupFront1.hkx" );
+			ragdollContainer =  m_animSet[type].m_rigContainer;
+		}
+		break;
+	case HAVOK_GIRL:
+		// Load the ragdoll-specific animations
+		{
+			set->m_die	 = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/HavokGirl/hkProtect.hkx" );
+			set->m_getUp = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/HavokGirl/hkIdle.hkx" );
+
+			set->m_poseMatchingAnims[0] =  AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/HavokGirl/hkIdle.hkx" );
+			set->m_poseMatchingAnims[1] =  AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/HavokGirl/hkIdle.hkx" );
+			set->m_poseMatchingAnims[2] =  AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/HavokGirl/hkIdle.hkx" );
+
+			// Get the rig
+			{
+				hkString assetFile = hkAssetManagementUtil::getFilePath("Resources/Animation/Ragdoll/hires_ragdoll.hkx");
+				ragdollContainer = m_loader->load(  assetFile.cString() );
+			}
+		}
+		break;
+	default:
+		{
+			HK_ASSERT2(0x0, 0, "Invalid character type");
+		}
+	}
+
+
+	// Load the ragdoll instance and skeleton mappers
+	{
+		// The m_rigContainer was set in AnimatedDemoCharacterLoadingUtils
+		HK_ASSERT2(0x27343437, ragdollContainer != HK_NULL , "Could not load asset");
+		set->m_ragdollInstance = reinterpret_cast<hkaRagdollInstance*>( ragdollContainer->findObjectByType( hkaRagdollInstanceClass.getName() ));
+
+		// Mappers
+		const hkaSkeleton* ragdollSkeleton = set->m_ragdollInstance->getSkeleton();
+		set->m_highResToRagdollMapper = HK_NULL;
+		set->m_ragdollToHighResMapper = HK_NULL;
+		void *objectFound = ragdollContainer->findObjectByType(hkaSkeletonMapperClass.getName());
+		while (objectFound)
+		{
+			hkaSkeletonMapper* mapperFound = reinterpret_cast<hkaSkeletonMapper*> (objectFound);
+
+			// Use the skeleton to determine which mapper is which
+			if (mapperFound->m_mapping.m_skeletonA == ragdollSkeleton)
+			{
+				set->m_ragdollToHighResMapper = mapperFound;
+			}
+			else
+			{
+				HK_ASSERT(0,mapperFound->m_mapping.m_skeletonB == ragdollSkeleton);
+				set->m_highResToRagdollMapper = mapperFound;
+			}
+
+			objectFound = ragdollContainer->findObjectByType(hkaSkeletonMapperClass.getName(), objectFound);
+		}
+		HK_ASSERT2(0, set->m_highResToRagdollMapper, "Couldn't load high-to-ragdoll mapping");
+		HK_ASSERT2(0, set->m_ragdollToHighResMapper, "Couldn't load ragdoll-to-high mapping");
+	}
+
+	switch (type)
+	{
+	case FIREFIGHTER:
+		set->m_poseMatchingBones[0] = hkaSkeletonUtils::findBoneWithName( *set->m_ragdollInstance->getSkeleton(), "Biped_Root");
+		set->m_poseMatchingBones[1] = hkaSkeletonUtils::findBoneWithName( *set->m_ragdollInstance->getSkeleton(), "Biped_Head");
+		set->m_poseMatchingBones[2] = hkaSkeletonUtils::findBoneWithName( *set->m_ragdollInstance->getSkeleton(), "Biped_RightShoulder");
+		break;
+	case HAVOK_GIRL:
+		set->m_poseMatchingBones[0] = hkaSkeletonUtils::findBoneWithName( *set->m_ragdollInstance->getSkeleton(), "Ragdoll Head");
+		set->m_poseMatchingBones[1] = hkaSkeletonUtils::findBoneWithName( *set->m_ragdollInstance->getSkeleton(), "HavokBipedRig Pelvis");
+		set->m_poseMatchingBones[2] = hkaSkeletonUtils::findBoneWithName( *set->m_ragdollInstance->getSkeleton(), "Ragdoll R Clavicle");
+		break;
+	default:
+		{
+			HK_ASSERT2(0x0, 0, "Invalid character type");
+		}
+	}
+}
+
+
 RagdollDemoCharacter::RagdollDemoCharacter( RagdollDemoCharacterCinfo& info )
 : DemoCharacter(info)
 {
 	m_gravity = info.m_gravity;
-	m_characterProxy->setTransform( info.m_initialTransform );
 
 	//
 	// Setup the proxyFromAnimation transform
@@ -109,31 +253,30 @@ RagdollDemoCharacter::RagdollDemoCharacter( RagdollDemoCharacterCinfo& info )
 	// Clone?
 	if (info.m_shouldCloneRagdollInstance)
 	{
-		m_ragdollInstance = info.m_animationSet->m_ragdollInstance->clone(hkpConstraintInstance::CLONE_DATAS_WITH_MOTORS);
+		m_ragdollInstance = info.m_ragdollAnimationSet->m_ragdollInstance->clone(hkpConstraintInstance::CLONE_DATAS_WITH_MOTORS);
 	}
 	else
 	{
-		m_ragdollInstance = info.m_animationSet->m_ragdollInstance;
+		m_ragdollInstance = info.m_ragdollAnimationSet->m_ragdollInstance;
 		m_ragdollInstance->addReference();
 	}
 
 	initRagdoll(info.m_ragdollFilterLayer, info.m_motorForce, info.m_motorTau, info.m_motorProportionalRecoveryVelocity, info.m_motorConstantRecoveryVelocity);
 
-	m_world = info.m_world;
-	m_ragdollToHighResMapper = info.m_animationSet->m_ragdollToHighResMapper;
-	m_highResToRagdollMapper = info.m_animationSet->m_highResToRagdollMapper;
+	m_ragdollToHighResMapper = info.m_ragdollAnimationSet->m_ragdollToHighResMapper;
+	m_highResToRagdollMapper = info.m_ragdollAnimationSet->m_highResToRagdollMapper;
 
 	// This also updates the current animation pose
-	initAnimation( info.m_animationSet );
+	initAnimation( info.m_ragdollAnimationSet, info.m_animationSet );
 
 	m_poseMatchingSystem = new RagdollDemoCharacter::PoseMatchingSystem();
 	m_poseMatchingSystem->m_rootIdx = info.m_poseMatchingBones[0];
 	m_poseMatchingSystem->m_otherIdx = info.m_poseMatchingBones[1];
 	m_poseMatchingSystem->m_anotherIdx = info.m_poseMatchingBones[2];
 
-	m_poseMatchingSystem->m_poseMatchingAnims[0] = info.m_animationSet->m_poseMatchingAnims[0];
-	m_poseMatchingSystem->m_poseMatchingAnims[1] = info.m_animationSet->m_poseMatchingAnims[1];
-	m_poseMatchingSystem->m_poseMatchingAnims[2] = info.m_animationSet->m_poseMatchingAnims[2];
+	m_poseMatchingSystem->m_poseMatchingAnims[0] = info.m_ragdollAnimationSet->m_poseMatchingAnims[0];
+	m_poseMatchingSystem->m_poseMatchingAnims[1] = info.m_ragdollAnimationSet->m_poseMatchingAnims[1];
+	m_poseMatchingSystem->m_poseMatchingAnims[2] = info.m_ragdollAnimationSet->m_poseMatchingAnims[2];
 
 	initPoseMatching();
 
@@ -173,7 +316,7 @@ void AnimatedDemoCharacter_setSkinningShader( hkgShaderCollection* shader, hkgDi
 hkgShaderCollection* AnimatedDemoCharacter_loadSkinningShader(hkDemoEnvironment* env);
 bool AnimatedDemoCharacter_supportsHardwareSkinning(hkDemoEnvironment* env);
 
-void RagdollDemoCharacter::loadSkin( hkLoader* loader, hkDemoEnvironment* env, CharacterChoice choice )
+void RagdollDemoCharacter::loadSkin( hkLoader* m_loader, hkDemoEnvironment* env, AnimatedCharacterFactory::CharacterType choice )
 {
 	m_hardwareSkinning = AnimatedDemoCharacter_supportsHardwareSkinning(env);
 
@@ -181,43 +324,22 @@ void RagdollDemoCharacter::loadSkin( hkLoader* loader, hkDemoEnvironment* env, C
 
 	switch ( choice )
 	{
-	case HK_CHARACTER_ROY:
-		{
-			assetFile = hkAssetManagementUtil::getFilePath("Resources/Cloth/male/male_roy_cloth_setup.hkx");
-			m_hardwareSkinning = false;
-		}
-		break;
-	case HK_CHARACTER_LEON:
-		{
-			assetFile = hkAssetManagementUtil::getFilePath("Resources/Cloth/male/male_leon_cloth_setup.hkx");
-			m_hardwareSkinning = false;
-		}
-		break;
-	case HK_CHARACTER_PRIS:
-		{
-			assetFile = hkAssetManagementUtil::getFilePath("Resources/Cloth/female/female_ponytail.hkx");
-			m_hardwareSkinning = false;
-		}
-		break;
-	case HK_CHARACTER_KHORA:
-		{
-			assetFile = hkAssetManagementUtil::getFilePath("Resources/Cloth/female/female_dress.hkx");
-			m_hardwareSkinning = false;
-		}
-		break;
-	case HK_CHARACTER_HAVOK_GIRL:
+	case AnimatedCharacterFactory::HAVOK_GIRL:
 		assetFile = hkAssetManagementUtil::getFilePath("Resources/Animation/HavokGirl/hkLowResSkinWithEyes.hkx");
 		m_hardwareSkinning = false;
 		break;
-	case HK_CHARACTER_BADDY:
+	case AnimatedCharacterFactory::FIREFIGHTER:
 		{
-			assetFile = hkAssetManagementUtil::getFilePath("Resources/ShowCase/Gdc2005/Model/hkBaddieSkin.hkx"); 
+			assetFile = hkAssetManagementUtil::getFilePath("Resources/Animation/Showcase/Gdc2005/Model/Firefighter_Skin.hkx"); 
+			break;
 		}
+		break;
+	default: 
 		break;
 	}
 
 
-	hkRootLevelContainer* rootContainer = loader->load( assetFile.cString() );
+	hkRootLevelContainer* rootContainer = m_loader->load( assetFile.cString() );
 	HK_ASSERT2(0x27343437, rootContainer != HK_NULL , "Could not load asset");
 	hkaAnimationContainer* ac = reinterpret_cast<hkaAnimationContainer*>( rootContainer->findObjectByType( hkaAnimationContainerClass.getName() ));
 
@@ -266,136 +388,7 @@ void RagdollDemoCharacter::loadSkin( hkLoader* loader, hkDemoEnvironment* env, C
 
 }
 
-void RagdollDemoCharacterLoadingUtils::loadBasicAnimations( hkLoader* loader, struct RagdollDemoCharacterAnimationSet* set, hkVector4& animFwdLocal, hkVector4& animUpLocal, hkInt16 poseMatchingBones[3], CharacterChoice choice )
-{
-	AnimatedDemoCharacterLoadingUtils::loadBasicAnimations(loader, set, animFwdLocal, animUpLocal, choice);
-
-	hkRootLevelContainer* ragdollContainer = HK_NULL;
-
-	switch (choice)
-	{
-	case HK_CHARACTER_BADDY:
-		// Load the ragdoll-specific animations
-		{
-			set->m_die	 = AnimationUtils::loadAnimation( *loader, "Resources/ShowCase/Gdc2005/Animations/hkDie.hkx" );
-			set->m_getUp = AnimationUtils::loadAnimation( *loader, "Resources/ShowCase/Gdc2005/Animations/hkKnockdown2.hkx" );
-
-			set->m_poseMatchingAnims[0] =  AnimationUtils::loadAnimation( *loader, "Resources/ShowCase/Gdc2005/Animations/hkKnockdown2.hkx" );
-			set->m_poseMatchingAnims[1] =  AnimationUtils::loadAnimation( *loader, "Resources/ShowCase/Gdc2005/Animations/hkGetupBack1.hkx" );
-			set->m_poseMatchingAnims[2] =  AnimationUtils::loadAnimation( *loader, "Resources/ShowCase/Gdc2005/Animations/hkGetupFront1.hkx" );
-			ragdollContainer =  set->m_rigContainer;
-		}
-		break;
-	case HK_CHARACTER_LEON:
-	case HK_CHARACTER_ROY:
-		// Load the ragdoll-specific animations
-		{
-			set->m_die	 = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/Male/Animations/male_diveroll.hkx" );
-			set->m_getUp = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/Male/Animations/male_idle.hkx" );
-
-			set->m_poseMatchingAnims[0] =  AnimationUtils::loadAnimation( *loader, "Resources/Cloth/Male/Animations/male_idle.hkx" );
-			set->m_poseMatchingAnims[1] =  AnimationUtils::loadAnimation( *loader, "Resources/Cloth/Male/Animations/male_idle.hkx" );
-			set->m_poseMatchingAnims[2] =  AnimationUtils::loadAnimation( *loader, "Resources/Cloth/Male/Animations/male_idle.hkx" );
-
-			// Get the rig
-			{
-				ragdollContainer = loader->load( hkAssetManagementUtil::getFilePath("Resources/Cloth/Male/male_physics_ragdoll.hkx").cString()  );
-			}
-		}
-		break;
-	case HK_CHARACTER_PRIS:
-	case HK_CHARACTER_KHORA:
-		// Load the ragdoll-specific animations
-		{
-			set->m_die	 = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/female/Animations/female_idle.hkx" );
-			set->m_getUp = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/female/Animations/female_diveroll.hkx" );
-
-			set->m_poseMatchingAnims[0] =  AnimationUtils::loadAnimation( *loader, "Resources/Cloth/female/Animations/female_idle.hkx" );
-			set->m_poseMatchingAnims[1] =  AnimationUtils::loadAnimation( *loader, "Resources/Cloth/female/Animations/female_idle.hkx" );
-			set->m_poseMatchingAnims[2] =  AnimationUtils::loadAnimation( *loader, "Resources/Cloth/female/Animations/female_idle.hkx" );
-
-			// Get the rig
-			{
-				ragdollContainer = loader->load( hkAssetManagementUtil::getFilePath("Resources/Cloth/female/female_physics_ragdoll.hkx").cString()  );
-			}
-		}
-		break;
-	case HK_CHARACTER_HAVOK_GIRL:
-		// Load the ragdoll-specific animations
-		{
-			set->m_die	 = AnimationUtils::loadAnimation( *loader, "Resources/Animation/HavokGirl/hkProtect.hkx" );
-			set->m_getUp = AnimationUtils::loadAnimation( *loader, "Resources/Animation/HavokGirl/hkIdle.hkx" );
-
-			set->m_poseMatchingAnims[0] =  AnimationUtils::loadAnimation( *loader, "Resources/Animation/HavokGirl/hkIdle.hkx" );
-			set->m_poseMatchingAnims[1] =  AnimationUtils::loadAnimation( *loader, "Resources/Animation/HavokGirl/hkIdle.hkx" );
-			set->m_poseMatchingAnims[2] =  AnimationUtils::loadAnimation( *loader, "Resources/Animation/HavokGirl/hkIdle.hkx" );
-
-			// Get the rig
-			{
-				ragdollContainer = loader->load( "Resources/Animation/hires_ragdoll.hkx"  );
-			}
-		}
-		break;
-	}
-
-
-	// Load the ragdoll instance and skeleton mappers
-	{
-		// The m_rigContainer was set in AnimatedDemoCharacterLoadingUtils
-		HK_ASSERT2(0x27343437, ragdollContainer != HK_NULL , "Could not load asset");
-		set->m_ragdollInstance = reinterpret_cast<hkaRagdollInstance*>( ragdollContainer->findObjectByType( hkaRagdollInstanceClass.getName() ));
-
-		// Mappers
-		const hkaSkeleton* ragdollSkeleton = set->m_ragdollInstance->getSkeleton();
-		set->m_highResToRagdollMapper = HK_NULL;
-		set->m_ragdollToHighResMapper = HK_NULL;
-		void *objectFound = ragdollContainer->findObjectByType(hkaSkeletonMapperClass.getName());
-		while (objectFound)
-		{
-			hkaSkeletonMapper* mapperFound = reinterpret_cast<hkaSkeletonMapper*> (objectFound);
-
-			// Use the skeleton to determine which mapper is which
-			if (mapperFound->m_mapping.m_skeletonA == ragdollSkeleton)
-			{
-				set->m_ragdollToHighResMapper = mapperFound;
-			}
-			else
-			{
-				HK_ASSERT(0,mapperFound->m_mapping.m_skeletonB == ragdollSkeleton);
-				set->m_highResToRagdollMapper = mapperFound;
-			}
-
-			objectFound = ragdollContainer->findObjectByType(hkaSkeletonMapperClass.getName(), objectFound);
-		}
-		HK_ASSERT2(0, set->m_highResToRagdollMapper, "Couldn't load high-to-ragdoll mapping");
-		HK_ASSERT2(0, set->m_ragdollToHighResMapper, "Couldn't load ragdoll-to-high mapping");
-	}
-
-	switch (choice)
-	{
-	case HK_CHARACTER_BADDY:
-		poseMatchingBones[0] = hkaSkeletonUtils::findBoneWithName( *set->m_ragdollInstance->getSkeleton(), "Biped_Root");
-		poseMatchingBones[1] = hkaSkeletonUtils::findBoneWithName( *set->m_ragdollInstance->getSkeleton(), "Biped_Head");
-		poseMatchingBones[2] = hkaSkeletonUtils::findBoneWithName( *set->m_ragdollInstance->getSkeleton(), "Biped_RightShoulder");
-		break;
-	case HK_CHARACTER_PRIS:
-	case HK_CHARACTER_KHORA:
-	case HK_CHARACTER_LEON:
-	case HK_CHARACTER_ROY:
-		poseMatchingBones[0] = hkaSkeletonUtils::findBoneWithName( *set->m_ragdollInstance->getSkeleton(), "Ragdoll_Bip01 Pelvis01");
-		poseMatchingBones[1] = hkaSkeletonUtils::findBoneWithName( *set->m_ragdollInstance->getSkeleton(), "Ragdoll_Bip01 Head01");
-		poseMatchingBones[2] = hkaSkeletonUtils::findBoneWithName( *set->m_ragdollInstance->getSkeleton(), "Ragdoll_Bip01 R UpperArm01");
-		break;
-	case HK_CHARACTER_HAVOK_GIRL:
-		poseMatchingBones[0] = hkaSkeletonUtils::findBoneWithName( *set->m_ragdollInstance->getSkeleton(), "Ragdoll Head");
-		poseMatchingBones[1] = hkaSkeletonUtils::findBoneWithName( *set->m_ragdollInstance->getSkeleton(), "HavokBipedRig Pelvis");
-		poseMatchingBones[2] = hkaSkeletonUtils::findBoneWithName( *set->m_ragdollInstance->getSkeleton(), "Ragdoll R Clavicle");
-		break;
-	}
-}
-
-
-void RagdollDemoCharacter::initAnimation( const RagdollDemoCharacterAnimationSet* set )
+void RagdollDemoCharacter::initAnimation( const RagdollDemoCharacterAnimationSet* ragdollSet,  const AnimatedDemoCharacterAnimationSet* set  )
 {
 	// Initialize the state machine.
 	RagdollBipedStateManager* wrapperManager = new RagdollBipedStateManager();
@@ -528,13 +521,13 @@ void RagdollDemoCharacter::initAnimation( const RagdollDemoCharacterAnimationSet
 		control->removeReference();
 
 		// DYING_CONTROL
-		control = new hkaDefaultAnimationControl( set->m_die );
+		control = new hkaDefaultAnimationControl( ragdollSet->m_die );
 		control->easeOut(0.0f);
 		m_animatedSkeleton->addAnimationControl( control );
 		control->removeReference();
 
 		// GET_UP_CONTROL
-		control = new hkaDefaultAnimationControl( set->m_getUp );
+		control = new hkaDefaultAnimationControl( ragdollSet->m_getUp );
 		control->easeOut(0.0f);
 		control->setPlaybackSpeed(0.0f);
 		m_animatedSkeleton->addAnimationControl( control );
@@ -579,6 +572,29 @@ void RagdollDemoCharacter::initAnimation( const RagdollDemoCharacterAnimationSet
 
 void RagdollDemoCharacter::updatePosition( hkReal timestep, const CharacterStepInput& input, bool& isSupportedOut )
 {
+	// Synchronize walk and run so it transitions smoothly
+	{
+		hkaDefaultAnimationControl* walkControl = (hkaDefaultAnimationControl*)m_animatedSkeleton->getAnimationControl( WALK_CONTROL );
+		hkaDefaultAnimationControl* runControl = (hkaDefaultAnimationControl*)m_animatedSkeleton->getAnimationControl( RUN_CONTROL );
+
+		hkReal forwardWalkRunBlend, walkSpeed, runSpeed;
+		CharacterUtils::computeBlendParams( input.m_forwardVelocity, m_walkVelocity, m_runVelocity, 
+			walkControl->getAnimationBinding()->m_animation->m_duration, 
+			runControl->getAnimationBinding()->m_animation->m_duration,
+			forwardWalkRunBlend,
+			walkSpeed,
+			runSpeed);
+
+		runControl->setPlaybackSpeed( runSpeed );
+		walkControl->setPlaybackSpeed( walkSpeed );
+
+		const hkaDefaultAnimationControl* control = (hkaDefaultAnimationControl*)m_animatedSkeleton->getAnimationControl( MOVE_CONTROL );
+		const hkReal controlWeight = control->getWeight() / control->getMasterWeight();
+		runControl->setMasterWeight( forwardWalkRunBlend * controlWeight );
+		walkControl->setMasterWeight( (1.0f - forwardWalkRunBlend) * controlWeight );
+	}	
+
+	/*
 	// Map forward speed to blend between walk and run animations
 	hkReal forwardWalkRunBlend = hkMath::clamp( (( input.m_forwardVelocity - m_walkVelocity) / (m_runVelocity - m_walkVelocity)), 0.f, 1.f);
 
@@ -606,6 +622,7 @@ void RagdollDemoCharacter::updatePosition( hkReal timestep, const CharacterStepI
 		runControl->setMasterWeight( runWeight * controlWeight );
 		walkControl->setMasterWeight( walkWeight * controlWeight );
 	}
+	*/
 
 	// Advance the active animations
 	m_animatedSkeleton->stepDeltaTime( timestep );
@@ -767,7 +784,7 @@ void RagdollDemoCharacter::updatePoseFromRagdoll(hkaPose& pose)
 }
 
 
-void RagdollDemoCharacter::update( hkReal timestep, const CharacterStepInput& input, const struct CharacterActionInfo& actionInfo )
+void RagdollDemoCharacter::update( hkReal timestep, hkpWorld* world, const CharacterStepInput& input, struct CharacterActionInfo* actionInfo )
 {
 	bool isSupported;
 
@@ -780,15 +797,28 @@ void RagdollDemoCharacter::update( hkReal timestep, const CharacterStepInput& in
 	stateInput.m_shouldWalk = input.m_forwardVelocity > 0.01f;
 	stateInput.m_isSupported = isSupported;
 	stateInput.m_shouldJump = input.m_jumpVelocity > 0;
-	stateInput.m_shouldDive = actionInfo.m_wasDivePressed;
 	stateInput.m_animMachine = m_animationMachine;
 	stateInput.m_context = m_animationStateMachine;
 	stateInput.m_ragdollContext = m_wrapperStateMachine;
 
-	// Only die if not already dead
-	stateInput.m_shouldDie = deadOrDying ? hkBool(false) : actionInfo.m_wasDiePressed;
-	// Can only get up if dead
-	stateInput.m_shouldGetUp = (oldState != DEAD_STATE) ? hkBool(false) : actionInfo.m_wasGetUpPressed;
+	if (actionInfo != HK_NULL )
+	{
+		stateInput.m_shouldDive = actionInfo->m_wasDivePressed;
+
+		// Only die if not already dead
+		stateInput.m_shouldDie = deadOrDying ? hkBool(false) : actionInfo->m_wasDiePressed;
+		// Can only get up if dead
+		stateInput.m_shouldGetUp = (oldState != DEAD_STATE) ? hkBool(false) : actionInfo->m_wasGetUpPressed;
+	}
+	else
+	{
+		stateInput.m_shouldDive = false;
+
+		// Only die if not already dead
+		stateInput.m_shouldDie = false;
+		// Can only get up if dead
+		stateInput.m_shouldGetUp = false;
+	}
 
 	// check if we need to remove the ragdoll
 	if (!deadOrDying && m_ragdollInstance->getWorld())
@@ -803,7 +833,7 @@ void RagdollDemoCharacter::update( hkReal timestep, const CharacterStepInput& in
 		hkString::memCpy(oldAnimationModelSpace.begin(), m_currentAnimationPose->getSyncedPoseModelSpace().begin(), getSkeleton()->m_numBones*sizeof(hkQsTransform));
 		updateAnimation( timestep, m_currentAnimationPose->accessUnsyncedPoseLocalSpace().begin());
 
-		addRagdollToWorld(timestep, oldAnimationModelSpace.begin());
+		addRagdollToWorld(timestep, world, oldAnimationModelSpace.begin());
 	}
 	else
 	{
@@ -848,7 +878,7 @@ void RagdollDemoCharacter::update( hkReal timestep, const CharacterStepInput& in
 
 	if (oldState != GETTING_UP_STATE && currentState == GETTING_UP_STATE)
 	{
-		startGetUp();
+		startGetUp( world );
 	}
 
 
@@ -959,7 +989,7 @@ void RagdollDemoCharacter::initRagdoll(int  ragdollLayer, hkReal force, hkReal t
 	}
 }
 
-void RagdollDemoCharacter::addRagdollToWorld(hkReal timestep, hkQsTransform* oldAnimationModelSpace)
+void RagdollDemoCharacter::addRagdollToWorld(hkReal timestep, hkpWorld* world, hkQsTransform* oldAnimationModelSpace)
 {
 	// First of all, disable the proxy's collisions
 	getProxy()->setCollisionFilterInfo(m_proxyNoCollideCollisionFilterInfo);
@@ -987,7 +1017,13 @@ void RagdollDemoCharacter::addRagdollToWorld(hkReal timestep, hkQsTransform* old
 	m_ragdollInstance->setPoseAndVelocitiesModelSpace(oldRagdollPose.getSyncedPoseModelSpace().begin(), worldFromModelQst,
 														ragdollPose.getSyncedPoseModelSpace().begin(), futureQst, timestep);
 
-	m_ragdollInstance->addToWorld(m_world, false);
+	m_ragdollInstance->addToWorld( world, false);
+
+	for (int i=0 ; i < m_ragdollInstance->getRigidBodyArray().getSize(); i++)
+	{
+		HK_SET_OBJECT_COLOR( (hkUlong)m_ragdollInstance->getRigidBodyArray()[i]->getCollidable(), 0x0);
+	}
+
 	hkaRagdollPoweredConstraintController::startMotors( m_ragdollInstance );
 }
 
@@ -1201,7 +1237,7 @@ void RagdollDemoCharacter::stopGetUp()
 	m_poseMatchingSystem->m_currentMatch = -1;
 }
 
-void RagdollDemoCharacter::startGetUp()
+void RagdollDemoCharacter::startGetUp( hkpWorld* world )
 {
 	const hkaSkeleton* rSkel = m_ragdollInstance->getSkeleton();
 	PoseMatchingSystem* sys = m_poseMatchingSystem;
@@ -1218,12 +1254,16 @@ void RagdollDemoCharacter::startGetUp()
 	// Grab the pose from the ragdoll
 	hkLocalBuffer<hkQsTransform> ragdollWorldSpace( rSkel->m_numBones );
 	m_ragdollInstance->getPoseModelSpace( ragdollWorldSpace.begin() , hkQsTransform::getIdentity());
-	hkQuaternion charFromAnim(m_characterFromAnimation);
 
-	ragdollWorldSpace[0].m_rotation.mul(charFromAnim);
 
+	
 	// Work out reference frames for both the ragdoll and the animation
+	hkQsTransform charAnimRot; charAnimRot.setIdentity();
+	charAnimRot.m_rotation.set( m_characterFromAnimation );
+	hkaSkeletonUtils::transformModelPoseToWorldPose( rSkel->m_numBones , charAnimRot, referenceModelSpace.begin(), referenceModelSpace.begin() );
+
 	m_poseMatchingSystem->m_poseMatchUtils->computeReferenceFrame(referenceModelSpace.begin(), ragdollWorldSpace.begin(), sys->m_animFrame, sys->m_ragdollFrame);
+
 
 	// If the ragdoll does not exactly match the first pose of the get up animation then the position
 	// of the animation reference frame will not be exact. We compensate for this by projecting the frame using a ray cast
@@ -1241,7 +1281,7 @@ void RagdollDemoCharacter::startGetUp()
 		//	raycastIn.m_filterInfo=hkpGroupFilter::calcFilterInfo(LAYER_RAYCAST,0); XXX
 
 		// cast the ray into the landscape
-		m_world->castRay( raycastIn, rayCollector );
+		world->castRay( raycastIn, rayCollector );
 
 		const hkBool didHit = rayCollector.hasHit();
 		if (didHit)
@@ -1293,12 +1333,6 @@ void RagdollDemoCharacter::doGetup ( const hkVector4& characterPosition, hkaPose
 	hkQsTransform currentTransform = sys->m_ragdollFrame;
 	currentTransform.setInterpolate4(sys->m_animFrame, sys->m_ragdollFrame, blendWeight);
 	hkTransform t;	currentTransform.copyToTransformNoScale( t );
-
-
-
-	hkRotation r;
-	r.setTranspose(m_characterFromAnimation );
-	t.getRotation().mul( r );
 	getProxy()->setTransform(t);
 
 	// Blend the poses in local space
@@ -1308,16 +1342,25 @@ void RagdollDemoCharacter::doGetup ( const hkVector4& characterPosition, hkaPose
 		hkString::memCpy( ragdollHighResModelSpace.begin(), pose.getSyncedPoseModelSpace().begin(), pose.getSkeleton()->m_numBones * sizeof(hkQsTransform) );
 
 		// Get the current pose form the ragdoll
-		hkLocalBuffer<hkQsTransform> ragdollModelSpace( rSkel->m_numBones );
-		m_ragdollInstance->getPoseModelSpace( ragdollModelSpace.begin() , sys->m_ragdollFrame );
+		hkLocalBuffer<hkQsTransform> ragdollWorldSpace( rSkel->m_numBones );
+		m_ragdollInstance->getPoseModelSpace( ragdollWorldSpace.begin() , hkQsTransform::getIdentity());
+
+		hkQuaternion charFromAnim( m_characterFromAnimation );
+
+		hkLocalBuffer<hkQsTransform> ragdollAnimModelSpace( rSkel->m_numBones );
+		hkQsTransform s = sys->m_ragdollFrame; 
+		s.m_rotation.mul( charFromAnim );
+
+		m_ragdollInstance->getPoseModelSpace( ragdollAnimModelSpace.begin() , s );
+
 
 		// Map ragdoll pose in model space from low res to high res
-		m_ragdollToHighResMapper->mapPose( ragdollModelSpace.begin(), pose.getSyncedPoseLocalSpace().begin(), ragdollHighResModelSpace.begin(), hkaSkeletonMapper::CURRENT_POSE );
+		m_ragdollToHighResMapper->mapPose( ragdollAnimModelSpace.begin(), pose.getSyncedPoseLocalSpace().begin(), ragdollHighResModelSpace.begin(), hkaSkeletonMapper::CURRENT_POSE );
 
 		// Compute the local space pose for the ragdoll
 		hkLocalBuffer<hkQsTransform> ragdollHighResLocalSpace( pose.getSkeleton()->m_numBones );
 		hkaSkeletonUtils::transformModelPoseToLocalPose( pose.getSkeleton()->m_numBones, pose.getSkeleton()->m_parentIndices, ragdollHighResModelSpace.begin(), ragdollHighResLocalSpace.begin() );
-
+		
 		const hkQsTransform* originalLocal = pose.getSyncedPoseLocalSpace().begin();
 		hkaSkeletonUtils::blendPoses(  getSkeleton()->m_numBones,
 			originalLocal,
@@ -1328,9 +1371,9 @@ void RagdollDemoCharacter::doGetup ( const hkVector4& characterPosition, hkaPose
 }
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

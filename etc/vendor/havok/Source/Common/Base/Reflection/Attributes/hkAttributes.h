@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HK_ATTRIBUTE_CLASS_H
@@ -85,12 +85,25 @@ extern const hkClass hkUiAttributeClass;
 struct hkUiAttribute
 {
 	//+defineattribute(true)
+	//+version(1)
 	public:
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_HKCLASS, hkUiAttribute );
 		HK_DECLARE_REFLECTION();
 
+		// This is a bitfield(!) used to filter out certain modelers from displaying selected GUI elements.
+		enum HideInModeler
+		{
+			NONE = 0,
+
+			MAX  = 1,			/// This member will not be displayed in 3ds Max's GUI.
+			MAYA = 2,			/// This member will not be displayed in Maya's GUI.
+		};
+
 			/// Defines whether the member is visible in an editor
 		hkBool m_visible;
+
+			/// Can be used to explicitly hide GUI elements in certain modelers.
+		hkEnum<HideInModeler,hkInt8> m_hideInModeler;
 
 			/// An alternative label for the GUI element.
 		const char* m_label;
@@ -101,8 +114,59 @@ struct hkUiAttribute
 			/// Close the current subgroup.
 		hkBool m_endGroup;
 
+			/// Close a second subgroup on the same line. Kinda hacky right now.
+		hkBool m_endGroup2;
+
 			/// If set to true, this member will only show up under the 'Advanced Settings' section in the GUI.
 		hkBool m_advanced;
+};
+
+extern const hkClass hkGizmoAttributeClass;
+
+	/// An attribute for specifying visual editing aids ('Gizmos') to be displayed in the modeler
+struct hkGizmoAttribute
+{
+	//+defineattribute(true)
+	public:
+		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_HKCLASS, hkGizmoAttribute );
+		HK_DECLARE_REFLECTION();
+
+		enum GizmoType
+		{
+			POINT = 0,		///
+			SPHERE,			///
+			PLANE,			///
+			ARROW			///
+		};
+
+			/// Defines whether the gizmo is visible in the modeler
+		hkBool m_visible;
+
+			/// An alternative label for the GUI element.
+		const char* m_label;
+
+			/// The gizmo type.
+		hkEnum<GizmoType,hkInt8> m_type;
+};
+
+extern const hkClass hkModelerNodeTypeAttributeClass;
+
+	/// An attribute for specifying the type of base modeler node this class needs
+struct hkModelerNodeTypeAttribute
+{
+	//+defineattribute(true)
+	HK_DECLARE_REFLECTION();
+	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_HKCLASS, hkModelerNodeTypeAttribute );
+
+	enum ModelerType
+	{
+		DEFAULT = 0,
+
+		LOCATOR,	/// This class should use a locator type node.
+	};
+
+		/// Can be used to define the modeler node type
+	hkEnum<ModelerType,hkInt8> m_type;
 };
 
 extern const hkClass hkLinkAttributeClass;
@@ -124,7 +188,7 @@ struct hkLinkAttribute
 		PARENT_NAME,	/// This member represents a link to the name of the object (effectively will store the name of the object in the string)
 	};
 
-	/// Can be used to define the link type
+		/// Can be used to define the link type
 	hkEnum<Link,hkInt8> m_type;
 };
 
@@ -152,7 +216,7 @@ struct hkSemanticsAttribute
 
 extern const hkClass hkDescriptionAttributeClass;
 
-/// An attribute giving a string description to a class member.
+	/// An attribute giving a string description to a class member.
 struct hkDescriptionAttribute
 {
 	//+defineattribute(true)
@@ -163,12 +227,58 @@ struct hkDescriptionAttribute
 	char* m_string;
 };
 
+extern const hkClass hkArrayTypeAttributeClass;
+
+	/// An attribute for specifying the type of an hkArray
+struct hkArrayTypeAttribute
+{
+	//+defineattribute(true)
+	HK_DECLARE_REFLECTION();
+	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_HKCLASS, hkArrayTypeAttribute );
+
+	enum ArrayType
+	{
+		NONE = 0,
+		POINTSOUP,	/// This member represents an array of points in space.
+	};
+
+		/// Can be used to define the array type
+	hkEnum<ArrayType,hkInt8> m_type;
+};
+
+extern const hkClass hkDataObjectTypeAttributeClass;
+
+	/// An attribute overriding reflected member type for hkDataObject.
+struct hkDataObjectTypeAttribute
+{
+	//+defineattribute(true)
+	HK_DECLARE_REFLECTION();
+	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_HKCLASS, hkDataObjectTypeAttribute );
+
+		/// The type name string.
+	char* m_typeName;
+};
+
+extern const hkClass hkDocumentationAttributeClass;
+
+/// An attribute linking a class to the corresponding section in the documentation.
+struct hkDocumentationAttribute
+{
+	//+defineattribute(true)
+	HK_DECLARE_REFLECTION();
+	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_HKCLASS, hkDocumentationAttribute );
+
+		/// The XML tag linking to the section (SECT1) that holds the documentation.
+	const char* m_docsSectionTag;
+};
+
+
 #endif // HK_ATTRIBUTE_CLASS_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

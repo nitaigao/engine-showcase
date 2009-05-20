@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -29,6 +29,15 @@
 #include <Graphics/Common/Geometry/hkgMaterialFaceSet.h>
 #include <Graphics/Common/Shader/hkgShaderContext.h>
 #include <Graphics/Common/Texture/SkyBox/hkgSkyBox.h>
+
+// [HCL-306] 
+// When you ran the null renderer in the past, it would allocate no 
+// space for buffers (verts, texture, etc). This causes demos such
+// as cloth, that share the graphics buffers and copy into them,
+// problems as there will be too many null access checks and so on.
+// If we just allocate space in the buffers then the null renderer
+// will always work.
+#define HK_GRAPHICS_NULL_RENDERER_ALLOC_ENABLED 1
 
 class hkgWindowNull : public hkgWindow
 {
@@ -261,29 +270,28 @@ class hkgVertexSetNull : public hkgVertexSet
 	protected:
 
 		hkgVertexSetNull(hkgDisplayContext* context)
-			: hkgVertexSet( context)
+			: hkgVertexSet( context), m_localBuffer(HK_NULL)
 		{
 		}
 
-		void setNumVerts(int, HKG_VERTEX_FORMAT vertexFormat, bool dynamic = false) { m_dynamic = dynamic; }
+		virtual ~hkgVertexSetNull();
 
-		unsigned char *lock(HKG_LOCK_FLAG,int,int) { return 0; }
+		void setNumVerts(int, HKG_VERTEX_FORMAT vertexFormat, bool dynamic = false);
 
-		void unlock(int,int) {}
+		unsigned char *lock(HKG_LOCK_FLAG,int,int);
 
-		void setStreams() {}
+		void unlock(int,int);
 
-		void setVertexComponentData(HKG_VERTEX_FORMAT component, int index, const void* data) { }
-
-		const void* getVertexComponentData(HKG_VERTEX_FORMAT component, int index ) const { return HK_NULL; }
-		void* getVertexComponentData(HKG_VERTEX_FORMAT component, int index ) { return HK_NULL; }
-
+		void setStreams();
+		
 	public:
 
 		static hkgVertexSet* HK_CALL createVertexSetNull(hkgDisplayContext* context)
 		{
 			return new hkgVertexSetNull( context);
 		}
+
+		hkUint8* m_localBuffer;
 };
 
 class hkgShaderContextNull : public hkgShaderContext
@@ -337,9 +345,9 @@ class hkgParticleDisplayObjectNull : public hkgParticleDisplayObject
 #endif // HK_GRAPHICS_NULL
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

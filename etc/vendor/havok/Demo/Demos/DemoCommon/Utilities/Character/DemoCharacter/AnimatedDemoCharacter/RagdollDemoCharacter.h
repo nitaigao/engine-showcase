@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -14,30 +14,51 @@
 
 class hkLoader;
 
-struct RagdollDemoCharacterAnimationSet : public AnimatedDemoCharacterAnimationSet
+struct RagdollDemoCharacterAnimationSet
 {
 	class hkaAnimationBinding*	m_die;
 	class hkaAnimationBinding*	m_getUp;
 
 	class hkaAnimationBinding*	m_poseMatchingAnims[3];
+	hkInt16 m_poseMatchingBones[3];
 
 	class hkaRagdollInstance* m_ragdollInstance;
 	class hkaSkeletonMapper* m_highResToRagdollMapper;
 	class hkaSkeletonMapper* m_ragdollToHighResMapper;
+
 };
 
-class RagdollDemoCharacterLoadingUtils
+class RagdollCharacterFactory : public AnimatedCharacterFactory
 {
-public:
+	public:
 
-	static void HK_CALL loadBasicAnimations( hkLoader* loader, struct RagdollDemoCharacterAnimationSet* set, hkVector4& animFwdLocal, hkVector4& animUpLocal, hkInt16 poseMatchingBones[3], CharacterChoice choice = HK_CHARACTER_LEON );
-	//static void HK_CALL loadRagdollRig( hkLoader* loader );
+		RagdollCharacterFactory( CharacterType defaultType = FIREFIGHTER );
+
+		virtual DemoCharacter* createCharacterUsingProxy( CharacterProxy* proxy, const hkVector4& gravity, hkDemoEnvironment* env );
+
+		void loadRagdollAnimations( CharacterType type );
+
+		enum FilterLayers
+		{
+			LAYER_GET_UP = 2,
+			LAYER_RAGDOLL = 3,
+			LAYER_COLLIDE_NONE = 31
+		};
+
+		int m_proxyGettingUpCollisionFilterInfo; // defaults to LAYER_GET_UP
+		int m_ragdollFilterLayer; // defaults to LAYER_RAGDOLL
+		int m_proxyNoCollideCollisionFilterInfo; // defaults to LAYER_COLLIDE_NONE
+
+protected:
+
+		RagdollDemoCharacterAnimationSet m_ragdollAnimSet[MAX_CHARACTER_TYPE];
 };
+
+
 
 struct RagdollDemoCharacterCinfo : public DemoCharacterCinfo
 {
 	RagdollDemoCharacterCinfo():
-		m_world(HK_NULL),
 		m_ragdollFilterLayer(0),
 		m_proxyNormalCollisionFilterInfo(0), 
 		m_proxyNoCollideCollisionFilterInfo(0),
@@ -50,15 +71,15 @@ struct RagdollDemoCharacterCinfo : public DemoCharacterCinfo
 
 
 	hkVector4		m_gravity;
-	hkTransform		m_initialTransform;
 
 	// For animation
 	hkVector4		m_animationForwardLocal;
 	hkVector4		m_animationUpLocal;
 
-	struct RagdollDemoCharacterAnimationSet* m_animationSet;
+	struct AnimatedDemoCharacterAnimationSet* m_animationSet;
+	struct RagdollDemoCharacterAnimationSet* m_ragdollAnimationSet;
+
 	hkBool			m_shouldCloneRagdollInstance;
-	class hkpWorld* m_world; // TODO get this from the character proxy?
 
 	hkUint32 m_ragdollFilterLayer;
 	hkUint32 m_proxyNormalCollisionFilterInfo; // most of the time
@@ -85,7 +106,7 @@ class RagdollDemoCharacter : public DemoCharacter
 		~RagdollDemoCharacter();
 
 		// Update the character position
-		void update( hkReal timestep, const CharacterStepInput& input, const struct CharacterActionInfo& actionInfo );
+		void update( hkReal timestep, hkpWorld* world, const CharacterStepInput& input, struct CharacterActionInfo* actionInfo );
 
 		virtual void display( hkReal timestep, hkDemoEnvironment* env );
 
@@ -112,7 +133,7 @@ class RagdollDemoCharacter : public DemoCharacter
 		const hkaSkeleton* getSkeleton() const;
 
 			
-		void loadSkin( hkLoader* loader, hkDemoEnvironment* env , CharacterChoice choice = HK_CHARACTER_LEON);
+		void loadSkin( hkLoader* loader, hkDemoEnvironment* env , AnimatedCharacterFactory::CharacterType choice );
 
 		void getWorldFromModel(hkQsTransform& tOut) const;
 		void getWorldFromModel(hkTransform& tOut) const;
@@ -122,7 +143,7 @@ class RagdollDemoCharacter : public DemoCharacter
 		// Utility update functions
 		void updatePosition( hkReal timestep, const CharacterStepInput& input, bool& isSupportedOut );
 
-		void addRagdollToWorld(hkReal timestep, hkQsTransform* oldAnimationModelSpace);
+		void addRagdollToWorld(hkReal timestep, hkpWorld* world, hkQsTransform* oldAnimationModelSpace);
 
 		void removeRagdollFromWorld();
 
@@ -130,7 +151,8 @@ class RagdollDemoCharacter : public DemoCharacter
 	protected:
 
 			// Creates animated skeletons and stats machine etc.
-		virtual void initAnimation( const RagdollDemoCharacterAnimationSet* set );
+		void initAnimation( const RagdollDemoCharacterAnimationSet* ragdollSet,  const AnimatedDemoCharacterAnimationSet* set );
+
 
 		virtual void initPoseMatching();
 
@@ -141,7 +163,7 @@ class RagdollDemoCharacter : public DemoCharacter
 		void matchPose( hkReal& error, hkReal timestep );
 
 			
-		void startGetUp(); // Get on up
+		void startGetUp( hkpWorld* world ); // Get on up
 		void stopGetUp();
 
 
@@ -166,7 +188,6 @@ class RagdollDemoCharacter : public DemoCharacter
 		class hkaRagdollInstance*		m_ragdollInstance;
 		class hkaSkeletonMapper* m_highResToRagdollMapper;
 		class hkaSkeletonMapper* m_ragdollToHighResMapper;
-		class hkpWorld* m_world;
 
 			// PoseMatching
 		struct PoseMatchingSystem
@@ -236,9 +257,9 @@ class RagdollDemoCharacter : public DemoCharacter
 #endif // HK_RAGDOLL_DEMO_CHARACTER_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -26,19 +26,11 @@ using namespace luabind;
 
 namespace Script
 {
-	void ScriptComponent::Initialize( AnyValue::AnyValueMap& properties )
+	void ScriptComponent::Initialize( )
 	{
 		Management::GetInstance( )->GetEventManager( )->AddEventListener( ALL_EVENTS, this, &ScriptComponent::OnEvent );
 
-		for ( AnyValue::AnyValueMap::iterator i = properties.begin( ); i != properties.end( ); ++i )
-		{
-			if ( ( *i ).first == "scriptPath" )
-			{
-				std::string scriptPath = ( *i ).second.GetValue< std::string >( );
-				this->LoadScript( scriptPath );
-			}
-		}
-
+		this->LoadScript( m_attributes[ System::Attributes::ScriptPath ].GetValue< std::string >( ) );
 
 		SoundController* soundController = new SoundController( this );
 		luabind::globals( m_state )[ "sfx" ] = soundController;
@@ -49,17 +41,17 @@ namespace Script
 	{
 		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( ALL_EVENTS, this, &ScriptComponent::OnEvent );
 
-		for ( FunctionList::iterator i = m_updateHandlers.begin( ); i != m_updateHandlers.end( ); ++i )	
+		for ( IScriptFunctionHandler::FunctionList::iterator i = m_updateHandlers.begin( ); i != m_updateHandlers.end( ); ++i )	
 		{
 			delete ( *i );
 		}
 
-		for ( FunctionList::iterator i = m_eventHandlers.begin( ); i != m_eventHandlers.end( ); ++i )
+		for ( IScriptFunctionHandler::FunctionList::iterator i = m_eventHandlers.begin( ); i != m_eventHandlers.end( ); ++i )
 		{
 			delete ( *i );
 		}
 
-		for( ScriptControllerList::iterator i = m_controllers.begin( ); i != m_controllers.end( ); ++i )
+		for( IScriptController::ScriptControllerList::iterator i = m_controllers.begin( ); i != m_controllers.end( ); ++i )
 		{
 			delete ( *i );
 		}
@@ -87,7 +79,7 @@ namespace Script
 		}
 	}
 
-	void ScriptComponent::Execute( )
+	void ScriptComponent::RunScript( )
 	{
 		lua_pcall( m_state, 0, 0, 0 );
 	}
@@ -95,7 +87,7 @@ namespace Script
 	void ScriptComponent::IncludeScript( const std::string& scriptPath )
 	{
 		this->LoadScript( scriptPath );
-		this->Execute( );
+		lua_pcall( m_state, 0, 0, 0 );
 	}
 
 
@@ -106,7 +98,7 @@ namespace Script
 
 	void ScriptComponent::UnRegisterEvent( const luabind::object& function )
 	{
-		for ( FunctionList::iterator i = m_eventHandlers.begin( ); i != m_eventHandlers.end( ); ++i )
+		for ( IScriptFunctionHandler::FunctionList::iterator i = m_eventHandlers.begin( ); i != m_eventHandlers.end( ); ++i )
 		{
 			if ( ( *i )->GetFunction( ) == function )
 			{
@@ -122,7 +114,7 @@ namespace Script
 
 	void ScriptComponent::UnRegisterUpdate( const luabind::object& function )
 	{
-		for ( FunctionList::iterator i = m_updateHandlers.begin( ); i != m_updateHandlers.end( ); ++i )
+		for ( IScriptFunctionHandler::FunctionList::iterator i = m_updateHandlers.begin( ); i != m_updateHandlers.end( ); ++i )
 		{
 			if ( ( *i )->GetFunction( ) == function )
 			{
@@ -133,7 +125,7 @@ namespace Script
 
 	void ScriptComponent::OnEvent( const IEvent* event )
 	{
-		for ( FunctionList::iterator i = m_eventHandlers.begin( ); i != m_eventHandlers.end( ); ++i )
+		for ( IScriptFunctionHandler::FunctionList::iterator i = m_eventHandlers.begin( ); i != m_eventHandlers.end( ); ++i )
 		{
 			EventType eventType = event->GetEventType( );
 			
@@ -231,7 +223,7 @@ namespace Script
 	{
 		if ( m_observer != 0 )
 		{
-			m_observer->Observe( this, systemChanges );
+			//m_observer->Observe( this, systemChanges );
 		}	
 	}
 
@@ -247,60 +239,70 @@ namespace Script
 		parameters[ "sortByDistance" ] = sortByDistance;
 		parameters[ "maxResults" ] = maxResults;
 
-		AnyValue::AnyValueMap debugParameters;
+		/*AnyValue::AnyValueMap debugParameters;
 		debugParameters[ "origin" ] = origin;
 		debugParameters[ "destination" ] = destination;
 
 		IService* renderService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::RENDER );
-		renderService->Execute( "drawLine", debugParameters );
+		renderService->Execute( "drawLine", debugParameters );*/
 
 		IService* rayService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::PHYSICS );
 		return rayService->Execute( "rayQuery", parameters ) [ "hits" ].GetValue< std::vector< std::string > >( );
 	}
 
-	void ScriptComponent::Observe( ISubject* subject, const unsigned int& systemChanges )
+	AnyValue ScriptComponent::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
 	{
-		ISystemComponent* component = static_cast< ISystemComponent* >( subject );
-
-		if ( System::Changes::Geometry::Position & systemChanges )
+		if ( messageId & System::Messages::SetPosition  )
 		{
-			m_position = component->GetPosition( );
+			m_attributes[ System::Attributes::Position ] = parameters[ System::Attributes::Position ].GetValue< MathVector3 >( );
 		}
 
-		if ( System::Changes::Geometry::Orientation & systemChanges )
+		if ( messageId &  System::Messages::SetOrientation )
 		{
-			m_orientation = component->GetOrientation( );
+			m_attributes[ System::Attributes::Orientation ] = parameters[ System::Attributes::Orientation ].GetValue< MathQuaternion >( );
 		}
 
-		if ( System::Changes::POI::LookAt & systemChanges )
+		if ( messageId & System::Messages::SetLookAt )
 		{
-			m_lookAt = component->GetAttributes( )[ "lookAt" ].GetValue< MathVector3 >( );
+			m_lookAt = parameters[ System::Attributes::LookAt ].GetValue< MathVector3 >( );
 		}
 
-		if ( System::Changes::Input::Move_Forward & systemChanges )
+		if ( messageId & System::Messages::Move_Forward )
 		{
 			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_MOVE_FORWARD", m_name ) );
 		}
 
-		if ( System::Changes::Input::Move_Backward & systemChanges )
+		if ( messageId & System::Messages::Move_Backward )
 		{
 			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_MOVE_BACKWARD", m_name ) );
 		}
 
-		if ( System::Changes::Input::Strafe_Right & systemChanges )
+		if ( messageId & System::Messages::Strafe_Right )
 		{
 			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_STRAFE_RIGHT", m_name ) );
 		}
 
-		if ( System::Changes::Input::Strafe_Left & systemChanges )
+		if ( messageId & System::Messages::Strafe_Left )
 		{
 			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_STRAFE_LEFT", m_name ) );
 		}
 
-		if( System::Changes::Input::Fire & systemChanges )
+		if( messageId & System::Messages::Fire )
 		{
 			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_FIRED", m_name ) );
 		}
+
+		if( messageId & System::Messages::Move_Idle )
+		{
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_IDLE_MOVEMENT", m_name ) );
+		}
+
+		if( messageId & System::Messages::Attack_Idle )
+		{
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_IDLE_ATTACK", m_name ) );
+		}
+
+		return AnyValue( );
 	}
 
 	void ScriptComponent::PlayAnimation( const std::string& animationName, const bool& loopAnimation )
@@ -318,12 +320,12 @@ namespace Script
 
 	void ScriptComponent::Update( const float& deltaMilliseconds )
 	{
-		for ( FunctionList::iterator i = m_updateHandlers.begin( ); i != m_updateHandlers.end( ); ++i )	
+		for ( IScriptFunctionHandler::FunctionList::iterator i = m_updateHandlers.begin( ); i != m_updateHandlers.end( ); ++i )	
 		{
 			call_function< void >( ( *i )->GetFunction( ), deltaMilliseconds );
 		}
 
-		for ( FunctionList::iterator i = m_updateHandlers.begin( ); i != m_updateHandlers.end( ); )	
+		for ( IScriptFunctionHandler::FunctionList::iterator i = m_updateHandlers.begin( ); i != m_updateHandlers.end( ); )	
 		{
 			if ( ( *i )->IsMarkedForDeletion( ) )
 			{
@@ -336,7 +338,7 @@ namespace Script
 			}
 		}
 
-		for ( FunctionList::iterator i = m_eventHandlers.begin( ); i != m_eventHandlers.end( ); )
+		for ( IScriptFunctionHandler::FunctionList::iterator i = m_eventHandlers.begin( ); i != m_eventHandlers.end( ); )
 		{
 			if ( ( *i )->IsMarkedForDeletion( ) )
 			{
@@ -358,10 +360,5 @@ namespace Script
 	float ScriptComponent::GetTime( ) const
 	{
 		return Management::GetInstance( )->GetPlatformManager( )->GetTime( );
-	}
-
-	AnyValue ScriptComponent::Message( const std::string& message, AnyValue::AnyValueMap parameters )
-	{
-		return AnyValue( );
 	}
 }

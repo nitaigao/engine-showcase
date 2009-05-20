@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -99,7 +99,7 @@ class GameUtils
 		static hkpMoppBvTreeShape* createMoppShape(int side = 5, const hkVector4& position = hkVector4::getZero(), hkReal scale = 1.0f);
 
 		/// Creates a hkpConvexVerticesShape in the form of a box.
-		static hkpConvexVerticesShape* HK_CALL createConvexVerticesShape( const hkVector4& center, const hkVector4& halfExtents );
+		static hkpConvexVerticesShape* HK_CALL createConvexVerticesBoxShape( const hkVector4& center, const hkVector4& halfExtents, hkReal radius = 0.0f);
 
 		/// Creates a rigid body made up from an hkpConvexVerticesShape in the form of a box.
 		static hkpRigidBody* HK_CALL createConvexVerticesBox( const hkVector4& size, const hkReal mass, const hkVector4& position, hkReal radius = 0.0f );
@@ -113,6 +113,9 @@ class GameUtils
 		/// The length will equate to the length of the largest extent minus twice the radius.
 		static hkpRigidBody* HK_CALL createCapsuleFromBox(const hkVector4& size, const hkReal mass, const hkVector4& position);
 
+		/// Creates a rigid body with a hkpCylinderShape.
+		static hkpRigidBody* HK_CALL createCylinder( hkReal radius, hkReal height, hkReal mass, const hkVector4& position );
+
 		/// Creates a rigid body made with random convex hull.
 		/// The vertices making up the hull are randomly create within the space 
 		/// defined by a sphere of the specified radius.
@@ -122,6 +125,10 @@ class GameUtils
 		/// The vertices making up the hull are randomly created within the space 
 		/// defined by a box of the specified size.
 		static hkpRigidBody* HK_CALL createRandomConvexGeometricFromBox(const hkVector4& size, const hkReal mass, const hkVector4& position, const int numVertices, hkPseudoRandomGenerator* generator = HK_NULL);
+
+		/// Creates a rigid body which is an extruded 2D polygon with vertices 
+		// verts[0], verts[1], ... verts[0] + extrusionVector, verts[1] + extrusionVector....
+		static hkpRigidBody* HK_CALL createConvexGeometricPrism(const hkArray<hkVector4>& verts, const hkVector4& extrusionDirection, hkReal radius, const hkReal mass, const hkVector4& position);
 
 		/// Creates a rigid body made with the specified geometry.
 		static hkpRigidBody* HK_CALL createConvexGeometric( hkGeometry* geometry, const hkReal mass, const hkVector4& position );
@@ -172,9 +179,9 @@ class GameUtils
 #endif
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

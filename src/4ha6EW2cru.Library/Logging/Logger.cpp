@@ -5,6 +5,8 @@
 #include "../Exceptions/NullReferenceException.hpp"
 
 #include "../Scripting/ScriptEvent.hpp"
+using namespace Script;
+
 #include "../Management/Management.h"
 
 namespace Logging

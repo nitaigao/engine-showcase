@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -121,8 +121,9 @@ ConstraintKitDemo::ConstraintKitDemo(hkDemoEnvironment* env)
 	// CREATE GENERIC CONSTRAINT
 	// 
 	{
-
+		
 		hkpGenericConstraintData* constraintData = new hkpGenericConstraintData();
+		
 		hkpConstraintConstructionKit kit;
 
 			// Must always start with this command (the constraintData works like a program, every
@@ -140,6 +141,7 @@ ConstraintKitDemo::ConstraintKitDemo(hkDemoEnvironment* env)
 				// Set the axis	in World space. This means we can easily update it
 				// to pass through the pivots of the two bodies in our step code. Initially
 				// we calculate this using the current location of the bodies and their pivots
+			// <programlisting id="setInWorldSpace">
 			const int axisId = 0;
 			hkVector4 axis0;
 			{
@@ -152,12 +154,17 @@ ConstraintKitDemo::ConstraintKitDemo(hkDemoEnvironment* env)
 				// Record the index we get back when we set this axis so we can query the
 				// constraintData later using it as a "parameter ID".
 			m_axisIndex = kit.setLinearDofWorld(axis0, axisId);
+			
 
 				// Set the limits of this axis ([0, 5])
+			
 			kit.setLinearLimit(axisId, 0.0f, 5.0f);
+			
 		}
 			// Must always end with this command.
+		
 		kit.end();
+		
 				
 		hkpConstraintInstance* constraint = new hkpConstraintInstance( moveableBody, fixedBody, constraintData );
 		m_world->addConstraint(constraint);
@@ -234,9 +241,9 @@ static const char helpString[] = \
 HK_DECLARE_DEMO(ConstraintKitDemo, HK_DEMO_TYPE_PRIME, "Using the ConstaintKit to build a 'rope' constraint", helpString);
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

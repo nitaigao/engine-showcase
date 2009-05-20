@@ -43,7 +43,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\include;..\..\Dependencies\include;..\src\nedmalloc;C:\Users\NK\Development\viper\etc\vendor\freetype\include"
+				AdditionalIncludeDirectories="..\include;..\..\Dependencies\include;..\src\nedmalloc"
 				PreprocessorDefinitions="WIN32;_DEBUG;_USRDLL;_MT;OGRE_NONCLIENT_BUILD;FREEIMAGE_LIB"
 				MinimalRebuild="true"
 				ExceptionHandling="2"
@@ -71,7 +71,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib zziplibd.lib zlibd.lib freetype238_D.lib freeimaged.lib"
+				AdditionalDependencies="kernel32.lib user32.lib zziplibd.lib zlibd.lib freetype235_D.lib freeimaged.lib"
 				OutputFile="$(OutDir)/OgreMain_d.dll"
 				Version="0.99"
 				LinkIncremental="2"
@@ -143,7 +143,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="..\include;..\..\Dependencies\include;..\src\nedmalloc;C:\Users\NK\Development\viper\etc\vendor\freetype\include"
+				AdditionalIncludeDirectories="..\include;..\..\Dependencies\include;..\src\nedmalloc"
 				PreprocessorDefinitions="WIN32;NDEBUG;_USRDLL;_MT;OGRE_NONCLIENT_BUILD;FREEIMAGE_LIB"
 				StringPooling="true"
 				MinimalRebuild="true"
@@ -170,7 +170,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib zziplib.lib zlib.lib freetype238.lib freeimage.lib"
+				AdditionalDependencies="kernel32.lib user32.lib zziplib.lib zlib.lib freetype235.lib freeimage.lib"
 				OutputFile="$(OutDir)/OgreMain.dll"
 				Version="0.99"
 				LinkIncremental="1"

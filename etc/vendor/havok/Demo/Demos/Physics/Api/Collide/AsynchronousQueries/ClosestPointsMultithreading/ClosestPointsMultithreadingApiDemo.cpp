@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -10,7 +10,8 @@
 #include <Demos/demos.h>
 
 #include <Physics/Collide/Query/Collector/PointCollector/hkpFixedBufferCdPointCollector.h>
-#include <Physics/Collide/Query/Multithreaded/hkpCollisionJobs.h>
+#include <Physics/Collide/Query/Multithreaded/CollisionQuery/hkpCollisionQueryJobs.h>
+
 
 #include <Common/Visualize/hkDebugDisplay.h>
 
@@ -18,7 +19,7 @@
 
 #include <Demos/Physics/Api/Collide/AsynchronousQueries/ClosestPointsMultithreading/ClosestPointsMultithreadingApiDemo.h>
 
-#include <Physics/Collide/Query/Multithreaded/hkpCollisionJobQueueUtils.h>
+#include <Physics/Collide/Query/Multithreaded/CollisionQuery/hkpCollisionQueryJobQueueUtils.h>
 
 #include <Common/Base/Thread/Job/ThreadPool/Cpu/hkCpuJobThreadPool.h>
 #include <Common/Base/Thread/Job/ThreadPool/Spu/hkSpuJobThreadPool.h>
@@ -26,8 +27,13 @@
 #include <Physics/Collide/Shape/Compound/Collection/List/hkpListShape.h>
 
 
+#if defined(HK_PLATFORM_PS3_PPU)
+//	# of real SPUs
+#	define NUM_SPUS 6
+#else
 //	# of simulated SPUs
 #	define NUM_SPUS 1
+#endif
 
 
 ClosestPointsMultithreadingApiDemo::ClosestPointsMultithreadingApiDemo(hkDemoEnvironment* env)
@@ -85,7 +91,7 @@ ClosestPointsMultithreadingApiDemo::ClosestPointsMultithreadingApiDemo(hkDemoEnv
 	m_allowZeroActiveSpus = false;
 
 	// Register the collision query functions
-	hkpCollisionJobQueueUtils::registerWithJobQueue(m_jobQueue);
+	hkpCollisionQueryJobQueueUtils::registerWithJobQueue(m_jobQueue);
 
 	// register the default addCdPoint() function; you are free to register your own implementation here though
 	hkpFixedBufferCdPointCollector::registerDefaultAddCdPointFunction();
@@ -141,12 +147,6 @@ void ClosestPointsMultithreadingApiDemo::createBodies()
 
 hkDemo::Result ClosestPointsMultithreadingApiDemo::stepDemo()
 {
-	if (m_jobThreadPool->getNumThreads() == 0)
-	{
-		HK_WARN(0x34561f23, "This demo does not run with only one thread");
-		return DEMO_STOP;
-	}
-
 	if ( m_env->m_gamePad->isButtonPressed(HKG_PAD_BUTTON_1) )
 	{
 		return stepDemoWorldGetClosestPoints();
@@ -378,9 +378,9 @@ static const char helpString[] = \
 HK_DECLARE_DEMO( ClosestPointsMultithreadingApiDemo, HK_DEMO_TYPE_OTHER, "Multithreading collision queries.", helpString );
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

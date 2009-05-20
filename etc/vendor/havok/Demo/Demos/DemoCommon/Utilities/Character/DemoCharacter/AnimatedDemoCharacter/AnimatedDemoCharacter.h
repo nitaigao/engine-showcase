@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -13,19 +13,8 @@
 
 class hkLoader;
 
-enum CharacterChoice
-{
-	HK_CHARACTER_ROY,
-	HK_CHARACTER_LEON,
-	HK_CHARACTER_PRIS,
-	HK_CHARACTER_KHORA,
-	HK_CHARACTER_HAVOK_GIRL,
-	HK_CHARACTER_BADDY
-};
-
 struct AnimatedDemoCharacterAnimationSet  
 {
-	CharacterChoice				m_choice;
 	class hkaSkeleton*			m_skeleton;
 	class hkaAnimationBinding*	m_idle;
 	class hkaAnimationBinding*	m_walk;
@@ -37,21 +26,47 @@ struct AnimatedDemoCharacterAnimationSet
 
 	hkReal m_walkRunSyncOffset;	// Sync offset for walk to run 
 
+	hkVector4 m_animFwdLocal;
+	hkVector4 m_animUpLocal;
+
 	// Store a pointer to the rig container, so that other classes can get at ragdolls, mappers, etc.
 	class hkRootLevelContainer* m_rigContainer;
 };
 
-class AnimatedDemoCharacterLoadingUtils
+class AnimatedCharacterFactory : public CharacterFactory
 {
-public:
+	public:
 
-	static void HK_CALL loadBasicAnimations( hkLoader* loader, struct AnimatedDemoCharacterAnimationSet* set, hkVector4& animFwdLocal, hkVector4& animUpLocal, CharacterChoice choice = HK_CHARACTER_BADDY );
+		enum CharacterType
+		{
+			HAVOK_GIRL,
+			FIREFIGHTER,
+			MAX_CHARACTER_TYPE
+		};
+
+	public:
+
+		AnimatedCharacterFactory( CharacterType defaultType = FIREFIGHTER );
+		~AnimatedCharacterFactory();
+
+		virtual DemoCharacter* createCharacterUsingProxy( CharacterProxy* proxy, const hkVector4& gravity, hkDemoEnvironment* env );
+
+		void loadBasicAnimations( CharacterType type );
+
+	protected:
+
+		hkLoader* m_loader;
+
+		CharacterType m_type;
+		AnimatedDemoCharacterAnimationSet m_animSet[MAX_CHARACTER_TYPE];
 };
+
+
+
 
 struct AnimatedDemoCharacterCinfo : public DemoCharacterCinfo
 {
 	hkVector4		m_gravity;
-	hkTransform		m_initialTransform;
 
 	// For animation
 	hkVector4		m_animationForwardLocal;
@@ -70,7 +85,7 @@ class AnimatedDemoCharacter : public DemoCharacter
 		~AnimatedDemoCharacter();
 
 		// Update the character position
-		void update( hkReal timestep, const CharacterStepInput& input, const struct CharacterActionInfo& actionInfo );
+		void update( hkReal timestep, hkpWorld* world, const CharacterStepInput& input, struct CharacterActionInfo* actionInfo );
 
 		virtual void display( hkReal timestep, hkDemoEnvironment* env );
 
@@ -91,7 +106,7 @@ class AnimatedDemoCharacter : public DemoCharacter
 		const hkaSkeleton* getSkeleton() const;
 
 			
-		void loadSkin( hkLoader* loader, hkDemoEnvironment* env, CharacterChoice choice = HK_CHARACTER_BADDY );
+		void loadSkin( hkLoader* loader, hkDemoEnvironment* env, AnimatedCharacterFactory::CharacterType type);
 
 	public:
 
@@ -140,12 +155,14 @@ class AnimatedDemoCharacter : public DemoCharacter
 		hkReal	m_runVelocity;
 };
 
+
+
 #endif // HK_ANIMATED_DEMO_CHARACTER_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

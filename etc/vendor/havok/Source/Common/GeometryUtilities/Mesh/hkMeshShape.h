@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HK_MESH_SHAPE_H
@@ -34,7 +34,9 @@ extern const hkClass hkMeshMaterialClass;
 class hkMeshMaterial: public hkReferencedObject
 {
 	public:
-        HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SCENE_DATA);
+		HK_DECLARE_REFLECTION();
+
+		HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SCENE_DATA);
 
 			/// Returns a vertex buffer format that is compatible with this material
 		virtual hkResult createCompatibleVertexFormat(const hkVertexFormat& format, hkVertexFormat& compatibleFormat) = 0;
@@ -45,6 +47,8 @@ class hkMeshMaterial: public hkReferencedObject
 
 			/// Returns true if this vertex buffer is suitable for this material
 		virtual bool isCompatible(const hkMeshVertexBuffer* buffer) = 0;
+
+		virtual const char* getName() const { return HK_NULL; }
 };
 
 
@@ -64,10 +68,12 @@ class hkMeshMaterial: public hkReferencedObject
 
 struct hkMeshSection
 {
+	HK_DECLARE_REFLECTION();
+
     HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_SCENE_DATA, hkMeshSection );
 
 		/// The different index types
-	enum IndexType
+	enum MeshSectionIndexType
 	{
         INDEX_TYPE_NONE,                    ///
 		INDEX_TYPE_UINT16,					///
@@ -84,7 +90,7 @@ struct hkMeshSection
 		PRIMITIVE_TYPE_TRIANGLE_STRIP 		///
 	};
 
-    PrimitiveType m_primitiveType;          ///
+	hkEnum<PrimitiveType,hkUint8> m_primitiveType;     ///
     int m_numPrimitives;                    ///
     int m_numIndices;                       ///
 
@@ -92,9 +98,10 @@ struct hkMeshSection
 
     int m_transformIndex;                   ///
 
-    IndexType m_indexType;                  ///
-        /// The indices (will be HK_NULL if there are no indices, or if a lockMeshSection didn't request the indices).
-        /// NOTE the indices order and type may be different to that specified in the hkMeshSectionCinfo
+    hkEnum<MeshSectionIndexType,hkUint8> m_indexType;  ///
+
+		/// The indices (will be HK_NULL if there are no indices, or if a lockMeshSection didn't request the indices).
+		/// NOTE the indices order and type may be different to that specified in the hkMeshSectionCinfo
     const void* m_indices;
 
     hkMeshVertexBuffer* m_vertexBuffer;		///
@@ -128,24 +135,24 @@ struct hkMeshSection
 
 struct hkMeshSectionCinfo
 {
+	HK_DECLARE_REFLECTION();
+
     HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_SCENE_DATA, hkMeshSectionCinfo );
 
-    typedef hkMeshSection::IndexType IndexType;
-    typedef hkMeshSection::PrimitiveType PrimitiveType;
+    hkMeshVertexBuffer* m_vertexBuffer;					///
+    hkMeshMaterial* m_material;							///
 
-    hkMeshVertexBuffer* m_vertexBuffer;         ///
-    hkMeshMaterial* m_material;                 ///
+    hkEnum<hkMeshSection::PrimitiveType, hkUint8> m_primitiveType;  ///
 
-    PrimitiveType m_primitiveType;              ///
-    int m_numPrimitives;                        ///
+    int m_numPrimitives;								///
 
-    IndexType m_indexType;                      ///
+    hkEnum<hkMeshSection::MeshSectionIndexType,hkUint8>	m_indexType;	///
 
-    const void* m_indices;                      ///
+    const void* m_indices;								///
 
-    int m_vertexStartIndex;                     ///
+    int m_vertexStartIndex;								///
 
-    int m_transformIndex;                       ///
+    int m_transformIndex;								///
 };
 
 
@@ -178,7 +185,12 @@ extern const hkClass hkMeshShapeClass;
 class hkMeshShape: public hkReferencedObject
 {
 	public:
-        HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SCENE_DATA);
+		HK_DECLARE_REFLECTION();
+
+		HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SCENE_DATA);
+
+		hkMeshShape() {}
+		hkMeshShape( hkFinishLoadedObjectFlag flag ): hkReferencedObject(flag) {}
 
         enum AccessFlags
         {
@@ -201,14 +213,21 @@ class hkMeshShape: public hkReferencedObject
             /// Unlocks a mesh section. Must be given exactly the same structure contents as was returned from a lockSection
             /// otherwise behavior is undefined.
         virtual void unlockSection(const hkMeshSection& section) const = 0;
+
+			/// Returns an optional name of the mesh shape
+		virtual const char* getName() const { return HK_NULL; }
+
+			/// Sets an optional name
+		virtual void setName(const char* n) const { }
+
 };
 
 #endif // HK_MESH_SHAPE_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

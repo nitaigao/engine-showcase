@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -35,7 +35,6 @@ class hkpSimpleShapePhantom : public hkpShapePhantom
 {
 	public:
 
-		//+version(1)
 		HK_DECLARE_REFLECTION();
 
 			/// Constructor takes a shape, a transform, and an optional collision filter info
@@ -51,9 +50,16 @@ class hkpSimpleShapePhantom : public hkpShapePhantom
 			/// ###ACCESS_CHECKS###( [m_world,HK_ACCESS_RW] [this,HK_ACCESS_RW] );
 		virtual void setPositionAndLinearCast( const hkVector4& position, const hkpLinearCastInput& input, hkpCdPointCollector& castCollector, hkpCdPointCollector* startCollector );
 
+			// Implementation of hkpShapePhantom::setTransformAndLinearCast
+			/// ###ACCESS_CHECKS###( [m_world,HK_ACCESS_RW] [this,HK_ACCESS_RW] );
+		virtual void setTransformAndLinearCast( const hkTransform& transform, const hkpLinearCastInput& input, hkpCdPointCollector& castCollector, hkpCdPointCollector* startCollector );
+
 			// Implementation of hkpShapePhantom::getClosestPoints
 			/// ###ACCESS_CHECKS###( [m_world,HK_ACCESS_RO] [this,HK_ACCESS_RO] );
 		void getClosestPoints( hkpCdPointCollector& collector, const hkpCollisionInput* input = HK_NULL );
+
+			// Implementation of hkpPhantom::ensureDeterministicOrder.
+		virtual void ensureDeterministicOrder();
 
 			// Implementation of hkpShapePhantom::getPenetrations
 			/// ###ACCESS_CHECKS###( [m_world,HK_ACCESS_RO] [this,HK_ACCESS_RO] );
@@ -73,7 +79,7 @@ class hkpSimpleShapePhantom : public hkpShapePhantom
 
 			// hkpPhantom interface implementation
 			/// ###ACCESS_CHECKS###( [m_world,HK_ACCESS_IGNORE] [this,HK_ACCESS_RO] );
-		virtual hkBool isOverlappingCollidableAdded( hkpCollidable* collidable );
+		virtual hkBool isOverlappingCollidableAdded( const hkpCollidable* collidable );
 
 			/// ###ACCESS_CHECKS###( [m_world,HK_ACCESS_IGNORE] [this,HK_ACCESS_RW] );
 		virtual void removeOverlappingCollidable( hkpCollidable* collidable );
@@ -85,12 +91,14 @@ class hkpSimpleShapePhantom : public hkpShapePhantom
 
 		struct CollisionDetail
 		{
-			//+version(1)
 			HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_DYNAMICS, hkpSimpleShapePhantom::CollisionDetail );
 			HK_DECLARE_REFLECTION();
 			class hkpCollidable* m_collidable;
 		};
 
+			/// This method does not guarantee that the returned hkpCollisionDetails structure 
+			/// is in deterministic order. To ensure determinism, proceed a call to this method 
+			/// by ensureDeterministicOrder().
 		inline hkArray<struct CollisionDetail>& getCollisionDetails();
 	
 	protected:
@@ -106,6 +114,13 @@ class hkpSimpleShapePhantom : public hkpShapePhantom
 
 			/// ###ACCESS_CHECKS###( [m_world,HK_ACCESS_IGNORE] [this,HK_ACCESS_RW] );
 		virtual void deallocateInternalArrays();
+
+	public:
+			/// False if the array of collisionDetails has changed since we last sorted it.
+		hkBool m_orderDirty; //+nosave
+
+			/// Order relation on m_collisionDetails.
+		class OrderByUid;
 };
 
 
@@ -116,9 +131,9 @@ class hkpSimpleShapePhantom : public hkpShapePhantom
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

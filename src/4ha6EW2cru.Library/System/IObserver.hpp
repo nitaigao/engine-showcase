@@ -9,9 +9,7 @@
 
 #include "AnyValue.hpp"
 
-#include "ISubject.hpp"
-
-#include <vector>
+#include <deque>
 
 /*! 
  *  Observes a change from an ISubject
@@ -21,31 +19,16 @@ class IObserver
 
 public:
 
-	/*! Gets the Changes the Observer is interested in
-	 *
-	 *  @return (unsigned int)
-	 */
-	virtual unsigned int GetRequestedChanges( ) const = 0;
-
-
-	/*! Observes the changes when the ISubject notifies
-	 *
-	 *  @param[in] ISubject * subject
-	 *  @param[in] const unsigned int& systemChanges
-	 *  @return (void)
-	 */
-	virtual void Observe( ISubject* subject, const unsigned int& systemChanges ) = 0;
-
+	typedef std::multimap< unsigned int, IObserver* > ObserverMap;
+	typedef std::deque< IObserver* > ObserverList;
 
 	/*! Messages the Component to influence its internal state
 	*
 	*  @param[in] const std::string & message
 	*  @return (AnyValue)
 	*/
-	virtual AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters ) = 0;
+	virtual AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters ) = 0;
 
 };
-
-typedef std::vector< IObserver* > ObserverList;
 
 #endif

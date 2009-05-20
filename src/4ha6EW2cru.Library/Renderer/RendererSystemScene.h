@@ -20,8 +20,6 @@ namespace Renderer
 	class RendererSystemScene : public IRenderSystemScene
 	{
 
-		typedef std::map< std::string, IRendererSystemComponent* > RendererSystemComponentList;
-
 	public:
 
 
@@ -107,7 +105,7 @@ namespace Renderer
 	private:
 
 		Ogre::SceneManager* m_sceneManager;
-		RendererSystemComponentList m_components;
+		IRendererSystemComponent::RendererSystemComponentList m_components;
 
 		RendererSystemScene( ) { };
 		RendererSystemScene( const RendererSystemScene & copy ) { };

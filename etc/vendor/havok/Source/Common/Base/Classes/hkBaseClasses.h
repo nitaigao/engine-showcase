@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -10,11 +10,13 @@
 
 HK_ABSTRACT_CLASS(hkLocalFrame)
 HK_CLASS(hkBaseObject)
+HK_CLASS(hkLocalFrameGroup)
 HK_CLASS(hkMonitorStreamColorTable)
 HK_CLASS(hkReferencedObject)
 HK_CLASS(hkSimpleLocalFrame)
 HK_STRUCT(hkAabb)
 HK_STRUCT(hkAabbUint32)
+HK_STRUCT(hkArrayTypeAttribute)
 HK_STRUCT(hkBitField)
 HK_STRUCT(hkClass)
 HK_STRUCT(hkClassEnum)
@@ -25,8 +27,13 @@ HK_STRUCT(hkContactPoint)
 HK_STRUCT(hkContactPointMaterial)
 HK_STRUCT(hkCustomAttributes)
 HK_STRUCT(hkCustomAttributesAttribute)
+HK_STRUCT(hkDataObjectTypeAttribute)
 HK_STRUCT(hkDescriptionAttribute)
+HK_STRUCT(hkDocumentationAttribute)
+HK_STRUCT(hkGizmoAttribute)
+HK_STRUCT(hkHalf)
 HK_STRUCT(hkLinkAttribute)
+HK_STRUCT(hkModelerNodeTypeAttribute)
 HK_STRUCT(hkMonitorStreamColorTableColorPair)
 HK_STRUCT(hkMonitorStreamFrameInfo)
 HK_STRUCT(hkMonitorStreamStringMap)
@@ -41,9 +48,9 @@ HK_STRUCT(hkSweptTransform)
 HK_STRUCT(hkUiAttribute)
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

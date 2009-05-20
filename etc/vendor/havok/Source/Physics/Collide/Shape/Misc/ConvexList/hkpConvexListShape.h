@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -35,7 +35,6 @@ class hkpConvexListShape : public hkpConvexShape, public hkpShapeContainer
 {
 	public:
 
-		//+version(2)
 		HK_DECLARE_REFLECTION();
 
 			/// Constructs a list shape with an array of pointers to shapes.
@@ -112,15 +111,14 @@ class hkpConvexListShape : public hkpConvexShape, public hkpShapeContainer
 		// hkpShape interface
 		//
 
-
 			// Implemented method of hkpShape
-		virtual void castRayWithCollector( const hkpShapeRayCastInput& input, const hkpCdBody& cdBody, hkpRayHitCollector& collector ) const;
+		virtual void getAabbImpl( const hkTransform& localToWorld, hkReal tolerance, hkAabb& out ) const;
 
 			// Implemented method of hkpShape
 		virtual hkBool castRayImpl( const hkpShapeRayCastInput& input, hkpShapeRayCastOutput& results ) const;
 
 			// Implemented method of hkpShape
-		void getAabbImpl( const hkTransform& localToWorld, hkReal tolerance, hkAabb& out ) const;
+		virtual void castRayWithCollectorImpl( const hkpShapeRayCastInput& input, const hkpCdBody& cdBody, hkpRayHitCollector& collector ) const;
 
 			// Implemented method of hkpShape
 		virtual const hkpShapeContainer* getContainer() const;
@@ -163,9 +161,9 @@ class hkpConvexListShape : public hkpConvexShape, public hkpShapeContainer
 #endif // HK_COLLIDE2_CONVEX_LIST_SHAPE_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

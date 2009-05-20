@@ -18,7 +18,7 @@ namespace Renderer
 	class RendererSystemCameraComponent : public RendererSystemComponent
 	{
 
-		typedef std::deque< float > History;
+		typedef std::deque< float > InputHistory;
 
 	public:
 
@@ -37,7 +37,6 @@ namespace Renderer
 		 */
 		RendererSystemCameraComponent( const std::string& name, IRenderSystemScene* scene )
 			: RendererSystemComponent( name, scene )
-			, m_observer( 0 )
 			, m_cameraNode( 0 )
 			, m_weightModifier( 0.5f )
 			, m_historySize( 10 )
@@ -54,7 +53,7 @@ namespace Renderer
 		*  @param[in] AnyValue::AnyValueMap properties
 		*  @return (void)
 		*/
-		void Initialize( AnyValue::AnyValueMap& properties );
+		void Initialize( );
 
 
 		/*! Steps the internal data of the Component
@@ -64,35 +63,12 @@ namespace Renderer
 		*/
 		void Update( const float& deltaMilliseconds );
 
-
-		/*! Adds an Observer to the Component
-		*
-		*  @param[in] IObserver * observer
-		*  @return (void)
-		*/
-		void AddObserver( IObserver* observer ) { m_observer = observer; };
-
-
-		/*! Observes a change in the Subject
-		*
-		*  @param[in] ISubject * subject
-		*  @param[in] const unsigned int& systemChanges
-		*  @return (void)
-		*/
-		void Observe( ISubject* subject, const unsigned int& systemChanges );
-
-
-		/*! Pushes any Changes to the Observers
-		*
-		*  @param[in] const unsigned int& systemChanges
-		*  @return (void)
-		*/
-		void PushChanges( const unsigned int& systemChanges );
+		virtual AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
 
 	protected:
 
 		void InitializeSceneNode( Ogre::SceneNode* sceneNode );
-		float AverageInputHistory( const History& inputHistory, const float& weightModifier );
+		float AverageInputHistory( const InputHistory& inputHistory, const float& weightModifier );
 
 	private:
 
@@ -100,11 +76,10 @@ namespace Renderer
 		RendererSystemCameraComponent( const RendererSystemCameraComponent & copy ) { };
 		RendererSystemCameraComponent & operator = ( const RendererSystemCameraComponent & copy ) { return *this; };
 
-		IObserver* m_observer;
 		Ogre::SceneNode* m_cameraNode;
 
-		History m_xHistory;
-		History m_yHistory;
+		InputHistory m_xHistory;
+		InputHistory m_yHistory;
 
 		float m_weightModifier;
 		int m_historySize;

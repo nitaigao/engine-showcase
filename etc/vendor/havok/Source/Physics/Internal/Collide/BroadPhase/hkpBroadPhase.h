@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HK_COLLIDE2_BROAD_PHASE_H
@@ -83,7 +83,7 @@ class hkpBroadPhase: public hkReferencedObject
 		virtual void removeObjectBatch( hkArray<hkpBroadPhaseHandle*>& removeObjectList, hkArray<hkpBroadPhaseHandlePair>& delPairsOut ) = 0;
 
 			/// Queries the total number of objects added to the broadphase.
-		virtual int getNumObjects() = 0;
+		virtual int getNumObjects() const = 0;
 
 			/// Changes the position of an object and reports the changes. New overlaps are reported in addedPairs, removed pairs are reported in removedPairs.
 			/// Note that a pair can be in both lists.
@@ -112,6 +112,9 @@ class hkpBroadPhase: public hkReferencedObject
 			/// Finds all intersection of an existing object and the rest
 		virtual void reQuerySingleObject( const hkpBroadPhaseHandle* object, hkArray<hkpBroadPhaseHandlePair>& pairs_out) const = 0;
 
+			/// check whether 2 given broadphase handle already overlap
+		virtual bool areAabbsOverlapping( const hkpBroadPhaseHandle* bhA, const hkpBroadPhaseHandle* bhB ) const = 0;
+
 			/// If you want to shift all objects in the entire world but without altering the broadphase extents, you need to call this
 			/// function. It will simply correct all internally stored offset information by the shiftDistance.
 			/// Motivation for this method:
@@ -128,14 +131,13 @@ class hkpBroadPhase: public hkReferencedObject
 			/// Important Usage Notes:
 			///     - The broadphase cannot shift by an arbitrary floating point value, it has to round the shiftDistance up or down.
 			///       The actual shift distance is reported using effectiveShiftDistanceOut
-			///     - This function reports all objects which now touch the world extents (but did not touch it before) in the array 
-			///        objectsEnteringBroadphaseBorder. These are objects which 'left' the broadphase during the shift.
+			///     - This function reports all new collision pairs (especially pairs between objects and the broadphase border)
+			///       in the array newCollisionPairs. These are objects which 'left' the broadphase during the shift.
 			///     - Please use the hkutilities/collide/hkpBroadPhaseBorder utility to prevent objects touching the world
 			///       extents before the shift.
-			///     - Objects which hit several borders are reported several times
-			///     - Objects which hit a border must be removed *immediately* to avoid internal broadphase inconsistency
+			///     - An object might appear in more than one pair.
 			///     - This function does not work if markers are enabled
-		virtual void shiftAllObjects( const hkVector4& shiftDistance, hkVector4& effectiveShiftDistanceOut, hkArray<hkpBroadPhaseHandle*>& objectsEnteringBroadphaseBorder ) = 0;
+		virtual void shiftAllObjects( const hkVector4& shiftDistance, hkVector4& effectiveShiftDistanceOut, hkArray<hkpBroadPhaseHandlePair>& newCollisionPairs ) = 0;
 
 			/// If you want to shift the broadphase extents without changing the world position of any objects, you need to call this function.
 			/// It will modify the extents and then update the offset information.
@@ -146,7 +148,7 @@ class hkpBroadPhase: public hkReferencedObject
 			/// origin), you may wish to keep a smaller broadphase active which only encompasses a subset of the full game world,
 			/// probably those objects that are 'near' the current player or area of interaction.
 			/// Thus your broadphase can fit more tightly than one which is large enough to encompass the whole game area.
-		virtual void shiftBroadPhase( const hkVector4& shiftDistance, hkVector4& effectiveShiftDistanceOut, hkArray<hkpBroadPhaseHandle*>& objectsEnteringBroadphaseBorder ) = 0;
+		virtual void shiftBroadPhase( const hkVector4& shiftDistance, hkVector4& effectiveShiftDistanceOut, hkArray<hkpBroadPhaseHandlePair>& newCollisionPairs ) = 0;
 
 			// Returns the 32bit low & high offset values.
 		virtual void getOffsetLowHigh32bit(hkVector4& offsetLow32bit, hkVector4& offsetHigh32bit) const = 0;
@@ -320,9 +322,9 @@ class hkpBroadPhase: public hkReferencedObject
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -8,6 +8,7 @@
 #define IANIMATIONBLENDER_H
 
 #include <string>
+#include <deque>
 
 namespace Renderer
 {
@@ -18,6 +19,8 @@ namespace Renderer
 	{
 
 	public:
+
+		typedef std::deque< IAnimationBlender* > AnimationBlenderList;
 
 		/*! Default Destructor
 		 *

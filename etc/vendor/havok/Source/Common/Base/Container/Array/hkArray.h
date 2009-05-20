@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -55,11 +55,13 @@ class hkArray
 			/// Creates an array of n elements initialized to 'fill'.
 		HK_FORCE_INLINE hkArray(int size, const T& fill);
 
-			/// Noncopying initialization from an existing array.
-			/// Note this does not copy the array but uses it in place.
-			/// Care needs to be taken that the data pointer points to is valid for the scope
-			/// of this array. Pointer will not be deallocated on destruction.
-		HK_FORCE_INLINE hkArray(T* ptr, int size, int capacity);
+			/// Noncopying initialization from an existing external buffer.
+			/// This does not copy the array but uses it in place until its capacity
+			/// is exceeded at which point a reallocation occurs and the array behaves
+			/// like a normal hkArray.
+			/// The caller must ensure that the buffer is valid for the lifetime
+			/// of this array and for deallocation of the buffer.
+		HK_FORCE_INLINE hkArray(T* buffer, int size, int capacity);
 
 	private:
 			/// Not publicly accessible, too easy to call accidentally.
@@ -120,8 +122,11 @@ class hkArray
 			/// Slower than removeAt(), but the order is unchanged.
 		void removeAtAndCopy(int index);
 
+			/// Removes several elements at the specified index, copying elements down as in the STL array.
+		void removeAtAndCopy(int index, int numToRemove);
+
 			/// Returns the index of the first occurrence of t, or -1 if not found.
-		int indexOf(const T& t) const;
+		int indexOf(const T& t, int start=0, int end=-1) const;
 
 			/// Returns index of the last occurrence of t, or -1 if not found.
 		int lastIndexOf(const T& t) const;
@@ -352,9 +357,9 @@ class hkInplaceArrayAligned16 : public hkArray<T>
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

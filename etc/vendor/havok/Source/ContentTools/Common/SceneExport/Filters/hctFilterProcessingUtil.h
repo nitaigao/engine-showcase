@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HK_SCENE_EXPORT_FILTERS_H
@@ -22,6 +22,7 @@ class hctFilterProcessingUtil
 		
 			/// Sets the handle to the owner window.
 		void setOwnerHandle( void* handle ) { m_ownerHwnd = handle; }
+		void* getOwnerHandle() const { return m_ownerHwnd; }
 
 			/// Load the filter manager and the associated filters.
 			/// The havokPath is the absolute path to the Havok directory where the 
@@ -64,8 +65,9 @@ class hctFilterProcessingUtil
 			/// if you are just saving to file and have not added any abstract types to the hkRootLevelContainer 
 			/// already (by default the the classes in hkSceneData are concrete) then supplying an 
 			/// empty class registry is fine.
-		void processBatch ( class hkRootLevelContainer& data, class hctFilterMemoryTracker* tracker /*can be null*/); 
-
+		void processBatch ( class hkRootLevelContainer& data, class hctFilterMemoryTracker* tracker /*can be null*/, int configToRun = -1, bool allowModelessFilters = false); 
+		hkRootLevelContainer* processBatchReturnData( hkRootLevelContainer& data, hctFilterMemoryTracker& tracker, int configToRun, bool allowModelessFilters, hkArray<char>& sceneCopyStorage );
+	
 			//
 			// Access to options
 			//
@@ -92,14 +94,24 @@ class hctFilterProcessingUtil
 			/// Get the path used to load attribute selections
 		const char* getAttributeSelectionPath() const;
 
-		/// Registers a thread callback. Check hctFilterManagerInterface::registerThreadCallback() for details).
+			/// Registers a thread callback. Check hctFilterManagerInterface::registerThreadCallback() for details).
 		void registerThreadCallback( const hctFilterThreadCallback* cb );
+		static hctFilterThreadCallback* getDefaultThreadCallback();
+
+			/// Will be null until load() is called.
+		hctFilterManagerInterface* getFilterManagerInterface();
+	
+		static void mergeAllLocalClassTypes (class hctFilterClassRegistry& classReg);
+
+			// Load all DLLs we may want. This will cause them to cache and be much faster to load
+			// when actually required.
+		static void startBackgroundFilterLoad(const char* havokPath);
+		static void waitOnBackgroundFilterLoad();
 
 	private:
 
 		void registerDefaultThreadCallback ();
-		static void registerSceneTypes (class hctFilterClassRegistry& classReg);
-
+	
 		class hctFilterManagerDll* m_filterManagerDll;
 		class hctFilterManagerInterface* m_filterManager;
 
@@ -113,9 +125,9 @@ class hctFilterProcessingUtil
 #endif // HK_SCENE_EXPORT_FILTERS_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

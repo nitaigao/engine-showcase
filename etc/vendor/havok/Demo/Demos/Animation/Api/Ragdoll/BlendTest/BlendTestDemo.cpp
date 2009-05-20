@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #include <Demos/demos.h>
@@ -362,6 +362,8 @@ BlendTestDemo::BlendTestDemo(hkDemoEnvironment* env)
 			{
 				rigidBodies = physicsSystem->getRigidBodies();
 			}
+
+			m_oldData.setSize( rigidBodies.getSize() );
 
 			m_otherMotor = new hkpPositionConstraintMotor();
 			{
@@ -741,19 +743,19 @@ hkDemo::Result BlendTestDemo::stepDemo()
 			}
 		}
 
-		static hkaKeyFrameHierarchyUtility::WorkElem oldData[100];
-		hkaKeyFrameHierarchyUtility::Output output[100];
+		hkLocalArray< hkaKeyFrameHierarchyUtility::Output > output( m_ragdollInstance->m_rigidBodies.getSize() );
+		output.setSize( m_ragdollInstance->m_rigidBodies.getSize() );
 
 		hkaKeyFrameHierarchyUtility::KeyFrameData keyFrameData;
 		{
 			keyFrameData.m_worldFromRoot.setIdentity();
 			keyFrameData.m_desiredPoseLocalSpace = ragdollPose.getSyncedPoseLocalSpace().begin();
-			keyFrameData.m_internalReferencePose = &oldData[0];
+			keyFrameData.m_internalReferencePose = m_oldData.begin();
 		}
 		
 		hkaKeyFrameHierarchyUtility::BodyData bodyData;
 		{
-			bodyData.m_numRigidBodies = m_ragdollInstance->getNumBones();
+			bodyData.m_numRigidBodies = m_ragdollInstance->m_rigidBodies.getSize();
 			bodyData.m_rigidBodies = m_ragdollInstance->m_rigidBodies.begin();
 			bodyData.m_parentIndices = m_ragdollInstance->getSkeleton()->m_parentIndices;
 			bodyData.m_controlDataIndices = 0;
@@ -761,10 +763,10 @@ hkDemo::Result BlendTestDemo::stepDemo()
 
 		if ( m_frameCounter == 0 )
 		{
-			hkaKeyFrameHierarchyUtility::initialize( bodyData, oldData );
+			hkaKeyFrameHierarchyUtility::initialize( bodyData, m_oldData.begin() );
 		}
 
-		hkaKeyFrameHierarchyUtility::applyKeyFrame( m_timestep, keyFrameData, bodyData, &controlData, output );
+		hkaKeyFrameHierarchyUtility::applyKeyFrame( m_timestep, keyFrameData, bodyData, &controlData, output.begin() );
 
 		// Show stress.
 		{
@@ -822,9 +824,9 @@ static const char helpString2[] = "Press 1 to pause animation.\n" ;
 HK_DECLARE_DEMO_VARIANT_USING_STRUCT( BlendTestDemo, HK_DEMO_TYPE_PRIME | HK_DEMO_TYPE_SERIALIZE, BlendTestVariant, g_variants, helpString2 );
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

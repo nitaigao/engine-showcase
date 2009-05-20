@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -25,11 +25,28 @@ class hkpResponseModifier
 {
 	public:
 
-			/// Scales the inverse mass of each object by the relevant scaling factor.
-			/// Note: setting a factor to 0.0f makes that object "fixed" for the purpose of resolving this contact constraint.
+			/// Scales the inverse mass of both bodies by the relevant scaling factors.
+			/// \param factorA the modification of the inverse mass of body A. The first three components modify the body's
+			/// inertia in its principal axes and the fourth modifies its mass.
+			/// \param factorB the modification of the inverse mass of body B.
+			/// Note: Passing in the zero vector as factor makes the entity "fixed" for the purpose of resolving this contact constraint.
 			/// The constraint owner typically is the island of the involved objects. However if you call this function from a collision
 			/// callback, you need to use event.m_collisionData.m_constraintOwner
-		static void HK_CALL setInvMassScalingForContact( hkpDynamicsContactMgr* manager, hkpRigidBody* bodyA, hkpRigidBody* bodyB, hkpConstraintOwner& constraintOwner, hkReal factorA, hkReal factorB );
+		static void HK_CALL setInvMassScalingForContact( hkpDynamicsContactMgr* manager, hkpRigidBody* bodyA, hkpRigidBody* bodyB, hkpConstraintOwner& constraintOwner, const hkVector4& factorA, const hkVector4& factorB );
+
+			/// Scales the inverse mass of one body by the relevant scaling factor, leaving the scaling factor for the other body untouched.
+			/// \param factor the modification of the inverse mass. The first three components modify the body's inertia in its
+			/// principal axes and the fourth modifies its mass.
+			/// Note: Passing in the zero vector as factor makes the entity "fixed" for the purpose of resolving this contact constraint.
+			/// The constraint owner typically is the island of the involved objects. However if you call this function from a collision
+			/// callback, you need to use event.m_collisionData.m_constraintOwner
+		static void HK_CALL setInvMassScalingForContact( hkpDynamicsContactMgr* manager, hkpRigidBody* body, hkpConstraintOwner& constraintOwner, const hkVector4& factor );
+
+			/// Moves the center of mass of each object by a distance.
+			///
+			/// The constraint owner typically is the island of the involved objects. However if you call this function from a collision
+			/// callback, you need to use event.m_collisionData.m_constraintOwner
+		static void HK_CALL setCenterOfMassDisplacementForContact( hkpDynamicsContactMgr* manager, hkpRigidBody* bodyA, hkpRigidBody* bodyB, hkpConstraintOwner& constraintOwner, const hkVector4& displacementA, const hkVector4& displacementB );
 
 			/// Scales and clips the force applied by a contact. 
 			///
@@ -64,9 +81,9 @@ class hkpResponseModifier
 #endif		// HK_DYNAMICS2_RESPONSE_MODIFIER_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

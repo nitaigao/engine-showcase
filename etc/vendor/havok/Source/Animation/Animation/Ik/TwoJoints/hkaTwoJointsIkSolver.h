@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -53,13 +53,45 @@ class hkaTwoJointsIkSolver : public hkReferencedObject
 				/// Gain of the Ik applied to the second joint (from 0 to 1). You can use this to transition smoothly from/to ik-fixed poses
 			hkReal m_secondJointIkGain;
 
+				/// Gain of the Ik applied to the end joint (from 0 to 1). You can use this to transition smoothly from/to ik-fixed poses
+				/// Only has an effect if m_enforceEndRotation is true
+			hkReal m_endJointIkGain;
+
 				/// The target position for the end bone, in model space
 			hkVector4 m_endTargetMS;
 
+				/// The target rotation for the end bone in model space
+			hkQuaternion m_endTargetRotationMS;
+
+				/// The offset of the end effector in the local space of the end bone
+			hkVector4 m_endBoneOffsetLS;
+			
+				/// The rotation offset of the end effector in the local space of the end bone
+			hkQuaternion m_endBoneRotationOffsetLS;
+			
+				/// Set to true if the position of the end effector is to be solved for
+			hkBool m_enforceEndPosition;
+
+				/// Set to true if the rotation of the end effector is to be solved for
+			hkBool m_enforceEndRotation;
+
 				// Sets defaults
-			Setup() : m_firstJointIdx (-1), m_secondJointIdx(-1), m_endBoneIdx(-1), m_hingeAxisLS(hkVector4::getZero()), m_cosineMaxHingeAngle (-1.0f),
-				m_cosineMinHingeAngle(1.0f), m_firstJointIkGain(1.0f), m_secondJointIkGain(1.0f), m_endTargetMS(hkVector4::getZero())
-				
+			Setup() :
+				m_firstJointIdx (-1),
+				m_secondJointIdx(-1),
+				m_endBoneIdx(-1),
+				m_hingeAxisLS(hkVector4::getZero()),
+				m_cosineMaxHingeAngle (-1.0f),
+				m_cosineMinHingeAngle(1.0f),
+				m_firstJointIkGain(1.0f),
+				m_secondJointIkGain(1.0f),
+				m_endJointIkGain(1.0f),
+				m_endTargetMS(hkVector4::getZero()),
+				m_endTargetRotationMS(hkQuaternion::getIdentity()),
+				m_endBoneOffsetLS(hkVector4::getZero()),
+				m_endBoneRotationOffsetLS(hkQuaternion::getIdentity()),
+				m_enforceEndPosition(true),
+				m_enforceEndRotation(false)
 			{
 			}
 
@@ -75,9 +107,9 @@ class hkaTwoJointsIkSolver : public hkReferencedObject
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

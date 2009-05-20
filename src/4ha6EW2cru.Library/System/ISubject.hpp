@@ -7,6 +7,9 @@
 #ifndef ISUBJECT
 #define ISUBJECT
 
+#include "../System/AnyValue.hpp"
+#include "../System/IObserver.hpp"
+
 /*! 
  *  The Subject of a System Change
  */
@@ -22,12 +25,21 @@ public:
 	virtual ~ISubject( ) { };
 
 
-	/*! Pushes the specified Changes to all Registered Observers
-	 *
-	 *  @param[in] const unsigned int& systemChanges
-	 *  @return (void)
-	 */
-	virtual void PushChanges( const unsigned int& systemChanges ) = 0;
+	/*! Adds an Observer to the Subject
+	*
+	*  @param[in] IObserver * observer
+	*  @return (void)
+	*/
+	virtual void AddObserver( IObserver* observer ) = 0;
+
+
+	/*! Posts a message to observers
+	*
+	*  @param[in] const std::string & message
+	*  @param[in] AnyValue::AnyValueMap parameters
+	*  @return (AnyValue)
+	*/
+	virtual AnyValue PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters ) = 0;
 
 };
 

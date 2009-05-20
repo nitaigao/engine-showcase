@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -12,6 +12,8 @@
 #include <Demos/DemoCommon/DemoFramework/hkDemo.h>
 #include <Common/Base/Monitor/hkMonitorStream.h>
 #include <Demos/DemoCommon/DemoFramework/hkDemoFramework.h>
+#include <Common/Base/System/Io/FileSystem/hkFileSystem.h>
+#include <Demos/DemoCommon/Utilities/Asset/hkAssetManagementUtil.h>
 
 
 #include <Common/Base/Spu/Util/hkSpuUtil.h>
@@ -38,7 +40,7 @@ hkDemoEnvironment::hkDemoEnvironment()	:
 	450
 #elif defined(HK_PLATFORM_XBOX)
 	450
-#elif defined(HK_PLATFORM_PS3)
+#elif defined(HK_PLATFORM_PS3_PPU)
 	1600
 #elif defined(HK_PLATFORM_XBOX360)
 	1600
@@ -149,10 +151,55 @@ void hkDemo::setDemoName(hkString& name )
 	m_name = name;
 }
 
+void HK_CALL hkDemo::scanDirectoryAndCreateDemosForHkxFiles(hkString path, hkDemoEntry& thisEntry, hkArray<hkDemoEntry*>& entriesOut )
+{
+	hkFileSystem& fs =  hkFileSystem::getInstance();
+
+	hkFileSystem::DirectoryListing listing;
+	fs.listDirectory( path.cString(), listing );
+
+	const hkArray<hkFileSystem::Entry>& entries = listing.getEntries();
+
+	hkString ending;
+
+	// enable this if you want to filter for Havok specific layout based filename rules
+	//hkAssetManagementUtil::getFileEnding( ending, hkStructureLayout::HostLayoutRules );
+	ending += ".hkx";
+
+	for (int i =0; i < entries.getSize(); i++ )
+	{
+		const hkFileSystem::Entry& entry = entries[i];
+		if ( entry.isDir() )
+		{
+			hkDemoEntry a;
+			a = thisEntry;
+			a.m_menuPath += "/";
+			a.m_menuPath += entry.name;
+			hkString childPath = path;
+			childPath += entry.name;
+			childPath += "/";
+			scanDirectoryAndCreateDemosForHkxFiles( childPath, a, entriesOut );
+			continue;
+		}
+
+		hkString fileName( entry.name );
+		if ( !fileName.endsWith(ending))
+		{
+			continue;
+		}
+		hkDemoEntry* a = new hkDemoEntry;
+		*a = thisEntry;
+		a->m_menuPath += "/";
+		a->m_menuPath += fileName;
+
+		entriesOut.pushBack(a);
+	}
+}	
+
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

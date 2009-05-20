@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -10,17 +10,22 @@
 #include <Demos/demos.h>
 
 #include <Physics/Collide/Query/Collector/PointCollector/hkpFixedBufferCdPointCollector.h>
-#include <Physics/Collide/Query/Multithreaded/hkpCollisionJobs.h>
+#include <Physics/Collide/Query/Multithreaded/CollisionQuery/hkpCollisionQueryJobs.h>
 
 
 #include <Demos/Physics/Test/Feature/Collide/AsynchronousQueries/ClosestPointsMultithreaded/ClosestPointsMultithreadedDemo.h>
 
-#include <Physics/Collide/Query/Multithreaded/hkpCollisionJobQueueUtils.h>
+#include <Physics/Collide/Query/Multithreaded/CollisionQuery/hkpCollisionQueryJobQueueUtils.h>
 #include <Common/Base/Thread/Job/ThreadPool/Cpu/hkCpuJobThreadPool.h>
 
 
+#if defined(HK_PLATFORM_PS3_PPU)
+//	# of real SPUs
+#	define NUM_SPUS 6
+#else
 //	# of simulated SPUs
 #	define NUM_SPUS 1
+#endif
 
 
 struct ClosestPointsMultithreadedDemoVariant
@@ -78,7 +83,7 @@ ClosestPointsMultithreadedDemo::ClosestPointsMultithreadedDemo(hkDemoEnvironment
 	}
 
 
-	hkpCollisionJobQueueUtils::registerWithJobQueue(m_jobQueue);
+	hkpCollisionQueryJobQueueUtils::registerWithJobQueue(m_jobQueue);
 
 	// Special case for this demo variant: we do not allow the # of active SPUs to drop to zero as this can cause a deadlock.
 	if ( variant.m_demoType == ClosestPointsMultithreadedDemoVariant::MULTITHREADED_ON_SPU ) m_allowZeroActiveSpus = false;
@@ -99,8 +104,8 @@ hkDemo::Result ClosestPointsMultithreadedDemo::stepDemo()
 {
 	if (m_jobThreadPool->getNumThreads() == 0)
 	{
-		HK_WARN(0x34561f23, "This demo does not run with only one thread");
-		return DEMO_STOP;
+		 HK_WARN(0x34561f23, "This demo does not run with only one thread");
+		 return DEMO_STOP;
 	}
 
 	if ( m_env->m_gamePad->isButtonPressed(HKG_PAD_BUTTON_1) )
@@ -374,9 +379,9 @@ hkDemo::Result ClosestPointsMultithreadedDemo::stepDemoWorldGetClosestPoints()
 HK_DECLARE_DEMO_VARIANT_USING_STRUCT( ClosestPointsMultithreadedDemo, HK_DEMO_TYPE_OTHER, ClosestPointsMultithreadedDemoVariant, g_ClosestPointsMultithreadedDemoVariants, HK_NULL );
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

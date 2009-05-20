@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HKDYNAMICS_WORLD_HKWORLDCINFO_XML_H
@@ -21,8 +21,8 @@ extern const class hkClass hkpWorldCinfoClass;
 class hkpWorldCinfo : public hkReferencedObject
 {
 	public:
+		// +version(2)
 
-		//+version(3)
 		HK_DECLARE_REFLECTION();
 
 			/// Used to specify the speed/stiffness balance of the core solver.
@@ -92,22 +92,16 @@ class hkpWorldCinfo : public hkReferencedObject
 				/// at any time when two objects collide (TOI)
 			SIMULATION_TYPE_CONTINUOUS,
 
-				/// Multithreaded simulation.
+				/// Multithreaded continuous simulation.
 				/// You must have read the multi threading user guide.<br>
-                /// To use this you have to call hkpWorld::stepDeltaTime() several times
-				/// (once for each thread).
-				/// Each thread entering the physics using this hkpWorld::stepDeltaTime() call
-				/// will immediately be used by the engine. There is no need for
-				/// all threads to enter the hkpWorld at the same time, in fact the
-				/// first thread entering will do some special single threaded maintenance
-				/// jobs. After all threads have been finished you have to call
-				/// hkpWorld::m_simulation->resetThreadTokens() from a single thread.<br>
+                /// To use this you should call hkpWorld::stepMultithreaded(), see
+				/// the hkDefaultPhysicsDemo::stepDemo for an example.
 				/// Notes:
 				///   - The internal overhead for multi threaded is small and you can expect
 				///     good speedups, except:
-				///   - TOI solving is not multithreaded
-				///   - Solving a single huge island is not multithreaded.
-				///   So multithreading works best if you have a distributed world.
+				///   - solving multiple TOI events can not be done on different threads,
+				///     so TOI are solved on a single thread. However the collision detection
+				///     for each TOI event can be solver multithreaded (see m_processToisMultithreaded) 
 			SIMULATION_TYPE_MULTITHREADED,
 		};
 
@@ -208,6 +202,17 @@ class hkpWorldCinfo : public hkReferencedObject
 			/// area. The default size is a cube of side 1000, centred at the origin.
 		class hkAabb m_broadPhaseWorldAabb;
 
+			/// Enables/disables use of KD-trees. KD-trees speed up raycasting and linear casting 
+			/// queries performed on the world. When this is disabled the hkpWorld uses the standard broadphase.
+		hkBool m_useKdTree; //+default(false)
+
+			/// Enables/disables automatic updating of the world's kd-tree after the world step.
+			/// The kd-tree must be in sync with the world state in order to avoid missed raycasts.
+			/// Thus this should be set to false if you intend to add, move, or remove objects 
+			///	after the world has been stepped but before starting raycasts.
+			/// If this is the case, you must call hkpWorld::updateKdTree() manually;
+		hkBool m_autoUpdateKdTree; //+default(true)
+
 			/// The collision tolerance. This is used to create and keep contact points even for
 			/// non penetrating objects. This dramatically increases the stability of the
 			/// system. The default collision tolerance is 0.1f.
@@ -271,6 +276,10 @@ class hkpWorldCinfo : public hkReferencedObject
 			/// Specifies how aggressively the engine accepts new contact points
 			/// Defaults to CONTACT_POINT_REJECT_MANY
 		hkEnum<ContactPointGeneration, hkInt8> m_contactPointGeneration;
+
+			/// On PLAYSTATION(R)3 contact point confirmed callbacks can be omitted when bodies have zero restitution.
+			/// The default false value ensures all callbacks are triggered properly.
+		hkBool m_allowToSkipConfirmedCallbacks; //+default(false)
 
 
 		//
@@ -347,12 +356,6 @@ class hkpWorldCinfo : public hkReferencedObject
 			/// Defaults to 20.
 		hkInt32 m_iterativeLinearCastMaxIterations; //+default(20)
 
-			/// The high deactivation period (deprecated). By default this is 0.2.
-		hkReal m_highFrequencyDeactivationPeriod; //+default(.2f)
-
-			/// The low deactivation period (deprecated). By default this is 10.
-		hkReal m_lowFrequencyDeactivationPeriod; //+default(10)
-
 			/// Internal deactivation flag, leave at default.
 		hkUint8 m_deactivationNumInactiveFramesSelectFlag0; //+default(0)
 
@@ -411,6 +414,33 @@ class hkpWorldCinfo : public hkReferencedObject
 			/// This value is only used when m_processToisMultithreaded is enabled.
 		int m_maxEntriesPerToiCollideTask; //+default(1)
 
+			/// When checking for the allowed penetration depth, Havok's collision detection will initially allow for a fixed
+			/// percentage of that depth during the first TOI. The remaining penetration depth will then be subdivided into a
+			/// customizable number of TOIs. This allows for tweaking 'competing' collision agents to be resolved in a way the
+			/// user prefers, e.g. if the player is standing beneath a downward bound elevator platform he should preferrably
+			/// tunnel through the platform than through the floor (and by this possibly getting pushed out of the world).
+			/// This value defines the number of TOIs to be triggered for collisions between fast-moving, non critical objects
+			/// and the landscape (COLLISION_QUALITY_SIMPLIFIED_TOI) and has to be > 1.0.
+			/// The default is 3.0.
+		hkReal m_numToisTillAllowedPenetrationSimplifiedToi; //+default(3.0f)
+
+			/// This value defines the number of TOIs to be triggered for collisions between two moving objects (COLLISION_QUALITY_TOI)
+			/// and has to be > 1.0.
+			/// For details see m_numToisTillAllowedPenetrationSimplifiedToi.
+			/// The default is 3.0.
+		hkReal m_numToisTillAllowedPenetrationToi; //+default(3.0f)
+
+			/// This value defines the number of TOIs to be triggered for collisions between a (non-critical) moving object and
+			/// the landscape (COLLISION_QUALITY_TOI_HIGHER) and has to be > 1.0.
+			/// For details see m_numToisTillAllowedPenetrationSimplifiedToi.
+			/// The default is 4.0.
+		hkReal m_numToisTillAllowedPenetrationToiHigher; //+default(4.0f)
+
+			/// This value defines the number of TOIs to be triggered for collisions between a (critical) moving object and the
+			/// landscape (COLLISION_QUALITY_TOI_FORCED) and has to be > 1.0.
+			/// For details see m_numToisTillAllowedPenetrationSimplifiedToi.
+			/// The default is 20.0.
+		hkReal m_numToisTillAllowedPenetrationToiForced; //+default(20.0f)
 
 		//
 		// Debugging flags
@@ -462,9 +492,9 @@ class hkpWorldCinfo : public hkReferencedObject
 #endif // HKDYNAMICS_WORLD_HKWORLDCINFO_XML_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

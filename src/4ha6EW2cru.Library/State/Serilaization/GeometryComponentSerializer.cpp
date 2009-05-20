@@ -9,30 +9,33 @@ namespace Serialization
 {
 	ISystemComponent* GeometryComponentSerializer::DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes )
 	{
-		AnyValue::AnyValueMap properties;
+		SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::GEOMETRY );
+
+		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
 	
 		float x, y, z, w;
 	
 		componentNode[ "position" ][ "x" ] >> x;
 		componentNode[ "position" ][ "y" ] >> y;
 		componentNode[ "position" ][ "z" ] >> z;
-		properties.insert( std::make_pair( "position", MathVector3( x, y, z ) ) );
-	
+
+		systemComponent->SetAttribute( System::Attributes::Position, MathVector3( x, y, z ) );
+
+
 		componentNode[ "scale" ][ "x" ] >> x;
 		componentNode[ "scale" ][ "y" ] >> y;
 		componentNode[ "scale" ][ "z" ] >> z;
-		properties.insert( std::make_pair( "scale", MathVector3( x, y, z ) ) );
-	
+
+		systemComponent->SetAttribute( System::Attributes::Scale, MathVector3( x, y, z ) );
+
+
 		componentNode[ "orientation" ][ "w" ] >> w;
 		componentNode[ "orientation" ][ "x" ] >> x;
 		componentNode[ "orientation" ][ "y" ] >> y;
 		componentNode[ "orientation" ][ "z" ] >> z;
-		properties.insert( std::make_pair( "orientation", MathQuaternion( x, y, z, w ) ) );
-	
-		SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::GEOMETRY );
-	
-		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
-		systemComponent->Initialize( properties );
+		systemComponent->SetAttribute( System::Attributes::Orientation, MathQuaternion( x, y, z, w ) );
+
+		systemComponent->Initialize( );
 	
 		return systemComponent;
 	}

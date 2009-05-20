@@ -14,7 +14,7 @@ namespace State
 	/*!
 	 *  A container for components that make up an Entity 
 	 */
-	class WorldEntity : public IWorldEntity, public IObserver
+	class WorldEntity : public IWorldEntity
 	{
 
 	public:
@@ -31,9 +31,8 @@ namespace State
 		 *  @param[in] const std::string & name
 		 *  @return ()
 		 */
-		WorldEntity( const std::string& name, const unsigned int& id )
+		WorldEntity( const std::string& name )
 			: m_name( name )
-			, m_id( id )
 		{
 
 		}
@@ -46,12 +45,12 @@ namespace State
 		inline const std::string& GetName( ) const { return m_name; };
 
 
-		/*! Returns a numerical Id for the whole Entity
+		/*! Adds an Observer to the Subject
 		*
-		*  @return (unsigned int)
+		*  @param[in] IObserver * observer
+		*  @return (void)
 		*/
-		inline unsigned int GetId( ) const { return m_id; };
-
+		void AddObserver( const unsigned int& messageId, IObserver* observer ) { m_observers.insert( std::make_pair( messageId, observer ) ); };
 
 		/*! Adds a System Component to the Entity
 		*
@@ -60,14 +59,6 @@ namespace State
 		*/
 		void AddComponent( ISystemComponent* component );
 
-
-		/*! Finds a System Component from within the Entity
-		*
-		*  @param[in] System::Types::Type systemType
-		*  @return (ISystemComponent*)
-		*/
-		ISystemComponent* FindComponent( const System::Types::Type& systemType ) const;
-
 		/*! Get a list of all System Components inside the Entity
 		*
 		*  @return (SystemComponentList&)
@@ -75,28 +66,12 @@ namespace State
 		inline SystemComponentList GetComponents( ) const { return m_components; };
 
 
-		/*! Gets the Changes the Observer is interested in
-		*
-		*  @return (unsigned int)
-		*/
-		inline unsigned int GetRequestedChanges( ) const  { return System::Changes::None; };
-
-
-		/*! Observes the changes when the ISubject notifies
-		*
-		*  @param[in] ISubject * subject
-		*  @param[in] const unsigned int& systemChanges
-		*  @return (void)
-		*/
-		void Observe( ISubject* subject, const unsigned int& systemChanges );
-
-
 		/*! Messages the Component to influence its internal state
 		 *
 		 *  @param[in] const std::string & message
 		 *  @return (AnyValue)
 		 */
-		AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters );
+		AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
 
 	private:
 
@@ -104,8 +79,8 @@ namespace State
 		WorldEntity & operator = ( const WorldEntity & copy ) { return *this; };
 
 		std::string m_name;
-		unsigned int m_id;
 		SystemComponentList m_components;
+		ObserverMap m_observers;
 
 	};
 };

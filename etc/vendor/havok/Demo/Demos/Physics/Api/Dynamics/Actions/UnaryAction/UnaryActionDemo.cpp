@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -98,6 +98,7 @@ UnaryActionDemo::UnaryActionDemo(hkDemoEnvironment* env)
 		/// Create the AntiGravityAction.
 		AntiGravityAction* antiGravityAction = new AntiGravityAction( boxRigidBody, gravity );
 
+		
 		// Add antiGravityAction to the world. From now on antiGravityAction will automatically
 		// be applied to its body (boxRigidBody) during integration so long as boxRigidBody is
 		// active. If boxRigidBody becomes inactive, antiGravityAction is not applied. If
@@ -111,6 +112,7 @@ UnaryActionDemo::UnaryActionDemo(hkDemoEnvironment* env)
 		// After addAction() m_world references antiGravityAction so the local reference can
 		// safely be removed.
 		antiGravityAction->removeReference();
+		
 	}
 
 	m_world->unlock();
@@ -129,9 +131,9 @@ static const char helpString[] = \
 HK_DECLARE_DEMO(UnaryActionDemo, HK_DEMO_TYPE_PRIME, "Demonstrates a simple action on a single body", helpString);
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

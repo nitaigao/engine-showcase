@@ -15,6 +15,7 @@
 #	define _CRTDBG_MAP_ALLOC 
 #	define _CRTDBG_MAP_ALLOC_NEW 
 #	define new new ( _NORMAL_BLOCK, __FILE__, __LINE__ )
+#	define _HAS_ITERATOR_DEBUGGING 0
 #endif
 
 /*! Windows main point of Entry

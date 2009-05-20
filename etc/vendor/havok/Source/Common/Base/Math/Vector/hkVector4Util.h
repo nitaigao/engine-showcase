@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HK_MATH_VECTOR3_UTIL_H
@@ -207,7 +207,7 @@ HK_FORCE_INLINE void HK_CALL hkVector4Util::releaseRegisters( hkUint32 registerM
 #		include <Common/Base/Math/Vector/Sse/hkSseVector4Util.inl>
 #	elif defined(HK_ARCH_PS2)
 #		include <Common/Base/Math/Vector/Ps2/hkPs2Vector4Util.inl>
-#	elif defined(HK_PLATFORM_PS3SPU) || defined(HK_PLATFORM_PS3)
+#	elif defined(HK_PLATFORM_PS3_SPU) || defined(HK_PLATFORM_PS3_PPU)
 #		include <Common/Base/Math/Vector/Ps3/hkPs3Vector4Util.inl>
 #	elif defined(HK_PLATFORM_XBOX360)
 #		include <Common/Base/Math/Vector/Xbox360/hkXbox360Vector4Util.inl>
@@ -220,9 +220,9 @@ HK_FORCE_INLINE void HK_CALL hkVector4Util::releaseRegisters( hkUint32 registerM
 #endif // HK_MATH_VECTOR3_UTIL_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

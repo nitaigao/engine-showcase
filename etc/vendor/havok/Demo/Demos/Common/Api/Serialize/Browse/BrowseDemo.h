@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -10,7 +10,7 @@
 #define HK_WORLDSNAPSHOTAPI_H
 
 #include <Demos/DemoCommon/DemoFramework/hkDefaultPhysicsDemo.h>
-#include <Common/Base/System/Io/FileSystem/hkFileSystem.h>
+#include <Demos/DemoCommon/Utilities/FileBrowser/FileBrowser.h>
 
 class hkPackfileData;
 class hkRootLevelContainer;
@@ -25,27 +25,6 @@ class BrowseDemo : public hkDefaultPhysicsDemo
 
 		Result stepDemo();
 
-
-		struct DirectoryData
-		{
-			hkString m_curDir;
-			hkString m_prevDir;
-			int m_curIndex;
-
-			hkFileSystem::DirectoryListing m_listing;
-			hkObjectArray<hkString> m_toScan;
-
-
-			DirectoryData()
-			:	m_curDir("")
-			,	m_prevDir(" ") //anything which does not equal m_curDir
-			,	m_curIndex(0)
-			{
-			}
-
-			hkBool parseAndDisplayDirectoryAndFiles(const hkDemoEnvironment* m_env);
-		};
-
 	protected:
 
 //		hkResult getFolderContents( const char* pathName, hkFileSystem::DirectoryListing& dirsOut );
@@ -58,9 +37,10 @@ class BrowseDemo : public hkDefaultPhysicsDemo
 
 			// A handle to a deallocator which will deallocate the packfile
 		hkPackfileData* m_packfileData;
+
 		hkRootLevelContainer* m_contents;
 
-		DirectoryData m_directoryData;
+		FileBrowser m_fileBrowser;
 		
 		hkBool32 m_running;
 
@@ -69,9 +49,9 @@ class BrowseDemo : public hkDefaultPhysicsDemo
 #endif // HK_WORLDSNAPSHOTAPI_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

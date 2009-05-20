@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #include <Demos/demos.h>
@@ -30,6 +30,7 @@
 #include <Physics/Collide/Shape/Compound/Tree/Mopp/hkpMoppBvTreeShape.h>
 #include <Physics/Collide/Shape/Compound/Collection/SimpleMesh/hkpSimpleMeshShape.h>
 #include <Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
+#include <Physics/Collide/Shape/Convex/Cylinder/hkpCylinderShape.h>
 #include <Physics/Collide/Shape/Convex/ConvexVertices/hkpConvexVerticesShape.h>
 #include <Physics/Collide/Shape/Convex/Box/hkpBoxShape.h>
 #include <Physics/Collide/Shape/Convex/Sphere/hkpSphereShape.h>
@@ -1113,7 +1114,7 @@ hkpRigidBody* HK_CALL GameUtils::createBox(const hkVector4 &size, const hkReal m
 	return boxRigidBody;
 }
 
-hkpConvexVerticesShape* HK_CALL GameUtils::createConvexVerticesShape( const hkVector4& center, const hkVector4& halfExtents )
+hkpConvexVerticesShape* HK_CALL GameUtils::createConvexVerticesBoxShape( const hkVector4& center, const hkVector4& halfExtents, hkReal radius )
 {
 	hkVector4 verts[8];
 	int d = 0;
@@ -1146,7 +1147,7 @@ hkpConvexVerticesShape* HK_CALL GameUtils::createConvexVerticesShape( const hkVe
 		sverts.m_striding = sizeof(verts[0]);
 		sverts.m_vertices = &verts[0](0);
 	}
-	hkpConvexVerticesShape* shape = new hkpConvexVerticesShape( sverts, planeEquations );
+	hkpConvexVerticesShape* shape = new hkpConvexVerticesShape( sverts, planeEquations, radius );
 
 	return shape;
 }
@@ -1154,88 +1155,10 @@ hkpConvexVerticesShape* HK_CALL GameUtils::createConvexVerticesShape( const hkVe
 
 hkpRigidBody* HK_CALL GameUtils::createConvexVerticesBox( const hkVector4& size, const hkReal mass, const hkVector4& position, hkReal radius )
 {
-	// unit cube vertices
-	float vertices[144] =
-	{	-1,  1,  1, 0,
-	-1, -1,  1,	0,		// face 0, tri 0
-	1,  1,  1, 0,
-
-	1,  1,  1, 0,
-	-1, -1,  1,	0,		// face 0, tri 1
-	1, -1,  1, 0,
-
-	-1,  1, -1, 0,
-	-1, -1, -1,	0,		// face 3, tri 0
-	1,  1, -1, 0,
-
-	1,  1, -1, 0,
-	-1, -1, -1,	0,		// face 3, tri 1
-	1, -1, -1, 0,
-
-	1,  1, -1, 0,
-	1, -1, -1,	0,		// face 1, tri 0
-	1,  1,  1, 0,
-
-	1,  1,  1, 0,
-	1, -1, -1,	0,		// face 1, tri 1
-	1, -1,  1, 0,
-
-	-1,  1, -1, 0,
-	-1, -1, -1, 0,		// face 4, tri 0
-	-1,  1,  1, 0,
-
-	-1,  1,  1, 0,
-	-1, -1, -1, 0,		// face 4, tri 1
-	-1, -1,  1, 0,
-
-	1,  1, -1, 0,
-	-1,  1, -1,	0,		// face 2, tri 0
-	1,  1,  1, 0,
-
-	1,  1,  1, 0,
-	-1,  1, -1,	0,		// face 2, tri 1
-	-1,  1,  1, 0,
-
-	1, -1, -1, 0,
-	-1, -1, -1,	0,		// face 5, tri 0
-	1, -1,  1, 0,
-
-	1, -1,  1, 0,
-	-1, -1, -1,	0,		// face 5, tri 1
-	-1, -1,  1, 0
-
-	};
-
-	// create a convex vertices box
-	hkStridedVertices stridedVerts;
-	{
-		stridedVerts.m_numVertices = 36;
-		stridedVerts.m_striding = 16;
-		stridedVerts.m_vertices = vertices;
-	}
-
-	hkGeometry geom;
-	hkArray<hkVector4> planeEquations;
-
 	hkVector4 halfExtents( ( size(0) * 0.5f ), ( size(1) * 0.5f ), ( size(2) * 0.5f ) );
 
-	// scale the vertices
-	for( int si = 0; si < 36; si++ )
-	{
-		vertices[ 0 + ( si * 4 ) ] *= halfExtents(0);
-		vertices[ 1 + ( si * 4 ) ] *= halfExtents(1);
-		vertices[ 2 + ( si * 4 ) ] *= halfExtents(2);
-	}
-
-	hkGeometryUtility::createConvexGeometry( stridedVerts, geom, planeEquations );
-	{
-		stridedVerts.m_numVertices = geom.m_vertices.getSize();
-		stridedVerts.m_striding = sizeof(hkVector4);
-		stridedVerts.m_vertices = &(geom.m_vertices[0](0));
-	}
-
-	hkpConvexVerticesShape* shape = new hkpConvexVerticesShape( stridedVerts, planeEquations, radius );
-
+	hkpConvexVerticesShape* shape = createConvexVerticesBoxShape( hkVector4::getZero(), halfExtents, radius);
+	
 	//
 	// Create a rigid body construction template
 	//
@@ -1355,6 +1278,41 @@ hkpRigidBody* HK_CALL GameUtils::createCapsuleFromBox(const hkVector4& size, con
 	return rb;
 }
 
+hkpRigidBody* HK_CALL GameUtils::createCylinder( hkReal radius, hkReal height, hkReal mass, const hkVector4& position )
+{
+	hkVector4 pointA( 0.0f, -height / 2.0f, 0.0f );
+	hkVector4 pointB( 0.0f, height / 2.0f, 0.0f );
+
+	hkpRigidBodyCinfo info;
+
+
+	hkpCylinderShape* cylinderShape = new hkpCylinderShape( pointA, pointB, radius );
+
+	info.m_shape = cylinderShape;
+	if ( mass != 0.0f )
+	{
+		hkpMassProperties massProperties;
+		hkpInertiaTensorComputer::computeCylinderVolumeMassProperties( pointA, pointB, radius, mass, massProperties );
+		info.m_mass = mass;
+		info.m_centerOfMass = massProperties.m_centerOfMass;
+		info.m_inertiaTensor = massProperties.m_inertiaTensor;
+		info.m_motionType = hkpMotion::MOTION_BOX_INERTIA;
+	}
+	else
+	{
+		info.m_motionType = hkpMotion::MOTION_FIXED;
+	}
+
+	info.m_rotation.setIdentity();
+	info.m_position = position;
+
+	hkpRigidBody* body = new hkpRigidBody(info);
+
+	cylinderShape->removeReference();
+
+	return body;
+}
+
 
 hkpRigidBody* HK_CALL GameUtils::createRandomConvexGeometric(const hkReal radius, const hkReal mass, const hkVector4& position, 	const int numVertices, hkPseudoRandomGenerator* generator)
 {
@@ -1399,7 +1357,6 @@ hkpRigidBody* HK_CALL GameUtils::createRandomConvexGeometric(const hkReal radius
 	convexInfo.m_shape = cvs;
 	if(mass != 0.0f)
 	{
-		// Haven't yet added sphere functionality to hkpInertiaTensorComputer, so here's explicit code.
 		convexInfo.m_mass = mass;
 		hkpInertiaTensorComputer::setShapeVolumeMassProperties(convexInfo.m_shape, convexInfo.m_mass, convexInfo);
 		convexInfo.m_motionType = hkpMotion::MOTION_BOX_INERTIA;
@@ -1419,6 +1376,70 @@ hkpRigidBody* HK_CALL GameUtils::createRandomConvexGeometric(const hkReal radius
 	return convexRigidBody;
 }
 
+hkpRigidBody* HK_CALL GameUtils::createConvexGeometricPrism(const hkArray<hkVector4>& verts, const hkVector4& extrusionDirection, hkReal radius, const hkReal mass, const hkVector4& position)
+{
+	// Add verts and extruded verts
+	hkArray<hkVector4> vertices;
+
+	for(int i = 0; i < verts.getSize(); i++)
+	{
+		vertices.pushBack( verts[i]);
+		hkVector4 v = verts[i];
+		v.add4( extrusionDirection );
+		vertices.pushBack( v );
+	}
+
+	// create a convexVerticesShape from this
+	hkpConvexVerticesShape* cvs;
+	hkArray<hkVector4> planeEquations;
+	hkGeometry geom;
+	{
+		hkStridedVertices stridedVerts;
+		{
+			stridedVerts.m_numVertices = vertices.getSize();
+			stridedVerts.m_striding = sizeof(hkVector4);
+			stridedVerts.m_vertices = &(vertices[0](0));
+		}
+
+		hkGeometryUtility::createConvexGeometry( stridedVerts, geom, planeEquations );
+
+		{
+			stridedVerts.m_numVertices = geom.m_vertices.getSize();
+			stridedVerts.m_striding = sizeof(hkVector4);
+			stridedVerts.m_vertices = &(geom.m_vertices[0](0));
+		}
+
+		cvs = new hkpConvexVerticesShape(stridedVerts, planeEquations);
+	}
+
+
+	cvs->setRadius(radius);	// This helps to avoid the penetration depth algorithm which is costly
+
+	hkpRigidBodyCinfo convexInfo;
+
+	convexInfo.m_shape = cvs;
+	if(mass != 0.0f)
+	{
+		convexInfo.m_mass = mass;
+		hkpInertiaTensorComputer::setShapeVolumeMassProperties(convexInfo.m_shape, convexInfo.m_mass, convexInfo);
+		convexInfo.m_motionType = hkpMotion::MOTION_BOX_INERTIA;
+	}
+	else
+	{
+		convexInfo.m_motionType = hkpMotion::MOTION_FIXED;
+	}
+
+	convexInfo.m_rotation.setIdentity();
+	convexInfo.m_position = position;
+
+	hkpRigidBody* convexRigidBody = new hkpRigidBody(convexInfo);
+
+	cvs->removeReference();
+
+	return convexRigidBody;
+}
+
+
 hkpRigidBody* HK_CALL GameUtils::createRandomConvexGeometricFromBox(const hkVector4& size, const hkReal mass, const hkVector4& position, const int numVertices, hkPseudoRandomGenerator* generator)
 {
 	// generate a random convex geometry
@@ -1432,9 +1453,10 @@ hkpRigidBody* HK_CALL GameUtils::createRandomConvexGeometricFromBox(const hkVect
 
 			if (generator)
 			{
-				xyz.set((generator->getRandReal01() - 0.5f),
-					(generator->getRandReal01() - 0.5f),
-					(generator->getRandReal01() - 0.5f) );
+				xyz(0) = (generator->getRandReal01() - 0.5f);
+				xyz(1) = (generator->getRandReal01() - 0.5f);
+				xyz(2) = (generator->getRandReal01() - 0.5f);
+				xyz(3) = 0.0f;
 			}
 			else
 			{
@@ -1481,7 +1503,6 @@ hkpRigidBody* HK_CALL GameUtils::createRandomConvexGeometricFromBox(const hkVect
 	convexInfo.m_shape = cvs;
 	if(mass != 0.0f)
 	{
-		// Haven't yet added sphere functionality to hkpInertiaTensorComputer, so here's explicit code.
 		convexInfo.m_mass = mass;
 		hkpInertiaTensorComputer::setShapeVolumeMassProperties(convexInfo.m_shape, convexInfo.m_mass, convexInfo);
 		convexInfo.m_motionType = hkpMotion::MOTION_BOX_INERTIA;
@@ -2202,9 +2223,9 @@ new GameUtilesRemapIdListener( world );
 */
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

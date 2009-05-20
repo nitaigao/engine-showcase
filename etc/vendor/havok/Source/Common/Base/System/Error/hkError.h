@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HKBASE_HKERROR_H
@@ -45,12 +45,14 @@ class hkError : public hkReferencedObject, public hkSingleton<hkError>
 		virtual void sectionEnd() {}
 };
 
+#if !defined(HK_PLATFORM_PS3_SPU)
 class hkErrStream : public hkOstream
 {
 	public:
 		hkErrStream( void* buf, int bufSize );
 };
 typedef void (HK_CALL *hkErrorReportFunction)(const char* s, void* errorReportObject);
+#endif
 
 namespace hkCompileError
 {
@@ -70,13 +72,24 @@ namespace hkCompileError
 
 
 // asserts and warnings may be compiled out
+#if !defined (HK_PLATFORM_PS3_SPU)
 
 #	define HK_WARN_ALWAYS(id, TEXT)		HK_MULTILINE_MACRO_BEGIN																						\
-										char assertBuf[512];																							\
-										hkErrStream ostr(assertBuf, sizeof(assertBuf));																	\
-										ostr << TEXT;																									\
-										hkError::getInstance().message(hkError::MESSAGE_WARNING, id, assertBuf, __FILE__, __LINE__);					\
-										HK_MULTILINE_MACRO_END
+	char assertBuf[512];																							\
+	hkErrStream ostr(assertBuf, sizeof(assertBuf));																	\
+	ostr << TEXT;																									\
+	hkError::getInstance().message(hkError::MESSAGE_WARNING, id, assertBuf, __FILE__, __LINE__);					\
+	HK_MULTILINE_MACRO_END
+
+
+// produce an error message which will not break (usefull for the filter pipeline)
+#	define HK_ERROR_NOBREAK(id, TEXT)		HK_MULTILINE_MACRO_BEGIN																						\
+	char assertBuf[512];																							\
+	hkErrStream ostr(assertBuf, sizeof(assertBuf));																	\
+	ostr << TEXT;																									\
+	hkError::getInstance().message(hkError::MESSAGE_ERROR, id, assertBuf, __FILE__, __LINE__);					\
+	HK_MULTILINE_MACRO_END
+
 
 #	define HK_ERROR(id, TEXT)			HK_MULTILINE_MACRO_BEGIN																						\
 										char assertBuf[512];																							\
@@ -143,11 +156,83 @@ namespace hkCompileError
 #		define HK_ASSERT2(id, a, TEXT)		//nothing 
 #	endif	
 
+#else // defined (HK_PLATFORM_PS3_SPU)
+
+#	include <sys/spu_event.h>
+#	define HK_ERROR_FORWARD(what,id,text) sys_spu_thread_send_event( 31+what, hkUlong(0), id )
+
+#	define HK_WARN_ALWAYS(id, TEXT)	HK_ERROR_FORWARD( hkError::MESSAGE_WARNING, id, hkUlong(0) )
+
+#	define HK_ERROR_NOBREAK(id, TEXT)	HK_ERROR_FORWARD( hkError::MESSAGE_WARNING, id, hkUlong(0) )
+
+#	define HK_ERROR(id, TEXT)		HK_MULTILINE_MACRO_BEGIN \
+										HK_ERROR_FORWARD( hkError::MESSAGE_ERROR, id, hkUlong(0) ); \
+										HK_BREAKPOINT(id);				\
+										HK_MULTILINE_MACRO_END
+
+#	define HK_REPORT(TEXT)			HK_ERROR_FORWARD( hkError::MESSAGE_REPORT, 0, hkUlong(TEXT) )
+
+#	if defined (HK_DEBUG) // SPU+DEBUG
+
+#		define HK_ASSERT(id, a)			HK_MULTILINE_MACRO_BEGIN 			\
+										if ( !(a) )							\
+										{									\
+											HK_ERROR_FORWARD( hkError::MESSAGE_ASSERT, id, hkUlong(0) ); \
+											HK_BREAKPOINT(id);				\
+										}									\
+										HK_MULTILINE_MACRO_END
+
+#		define HK_ASSERT2(id, a, TEXT)	HK_ASSERT(id,a)
+
+#		define HK_WARN(id, TEXT)		HK_ERROR_FORWARD( hkError::MESSAGE_WARNING, id, hkUlong(0) )
+
+#		define HK_WARN_ONCE(id, TEXT)	HK_MULTILINE_MACRO_BEGIN			\
+										static hkBool shown = false;		\
+										if ( !shown )						\
+										{									\
+											HK_WARN(id,TEXT);				\
+										}									\
+										HK_MULTILINE_MACRO_END
+
+#	else // SPU+RELEASE
+
+#		define HK_WARN(id, a)				//nothing
+#		define HK_WARN_ONCE(id, a)			//nothing
+#		define HK_ASSERT(id, a)				//nothing 
+#		define HK_ASSERT2(id, a, TEXT)		//nothing 
+#   endif 
+
+#endif
 
 // Critical asserts - these will trigger breakpoints on the SPU. Additionally, they show up as comments in the assembly file.
 //	On non-SPU platforms, they revert to normal asserts.
+#ifdef HK_PLATFORM_PS3_SPU
+
+#  ifdef HK_DEBUG_SPU
+#	define HK_CRITICAL_ASSERT2(id, a, msg)		HK_MULTILINE_MACRO_BEGIN 																				\
+	if ( !(a) )																								\
+												{																										\
+												HK_ASM_SEP("\tHK_CRITICAL_ASSERT2(" #id ", " #a ", " #msg ");" );									\
+												HK_BREAKPOINT(id);																					\
+												}																										\
+												HK_MULTILINE_MACRO_END
+
+#	define HK_CRITICAL_ASSERT(id, a)			HK_MULTILINE_MACRO_BEGIN 																				\
+	if ( !(a) )																								\
+												{																										\
+												HK_ASM_SEP("\tHK_CRITICAL_ASSERT(" #id ", " #a ");" );												\
+												HK_BREAKPOINT(id);																					\
+												}																										\
+												HK_MULTILINE_MACRO_END
+#  else // SPU HK_DEBUG_SPU
+#	define HK_CRITICAL_ASSERT2(id, a, msg)
+#	define HK_CRITICAL_ASSERT(id, a)
+#  endif // SPU HK_DEBUG_SPU
+
+#else
 #	define HK_CRITICAL_ASSERT  HK_ASSERT
 #	define HK_CRITICAL_ASSERT2 HK_ASSERT2
+#endif
 
 #define HK_CHECK_ALIGN16(ADDR) HK_ASSERT(0xff00ff00, (hkUlong(ADDR) & 0xf) == 0 )
 
@@ -158,9 +243,9 @@ namespace hkCompileError
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -20,7 +20,6 @@ class hkpCapsuleShape : public hkpConvexShape
 {
 	public:
 
-		//+version(1)
 		HK_DECLARE_REFLECTION();
 
 			/// For raycasting, the part of the shape hit.
@@ -92,6 +91,9 @@ class hkpCapsuleShape : public hkpConvexShape
 		static void HK_CALL registerCollideQueryFunctions( ShapeFuncs& sf );
 
 			/// Returns a struct of function pointers needed by the SPU
+		static void HK_CALL registerRayCastFunctions( ShapeFuncs& sf );
+
+			/// Returns a struct of function pointers needed by the SPU
 		static void HK_CALL registerGetAabbFunction( ShapeFuncs& sf );
 
 
@@ -117,9 +119,9 @@ class hkpCapsuleShape : public hkpConvexShape
 #endif // HK_COLLIDE2_CAPSULE_SHAPE_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

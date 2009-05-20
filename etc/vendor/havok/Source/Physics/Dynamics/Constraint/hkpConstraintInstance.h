@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -16,6 +16,7 @@ class hkpEntity;
 class hkpRigidBody;
 class hkpConstraintOwner;
 class hkpSimulationIsland;
+class hkpConstraintListener;
 class hkpWorld;
 extern const hkClass hkpConstraintInstanceClass;
 
@@ -29,7 +30,8 @@ class hkpConstraintInstance : public hkReferencedObject
 {
 
 	public:
-		//+version(6)
+		// +version(1)
+
 		HK_DECLARE_REFLECTION();
 
 		HK_DECLARE_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT );
@@ -43,9 +45,11 @@ class hkpConstraintInstance : public hkReferencedObject
 			PRIORITY_INVALID,
 				/// Constraint is only solved at regular physics time steps (==PSIs)
 			PRIORITY_PSI, 
+				/// This is an unused value -- it corresponds to COLLISION_QUALITY_SIMPLIFIED_TOI. It's put here, because the ordering and values of this enum must match those
+				/// of collidable qualities and of collisionQualityInfos in the hkpCollisionDispatcher.
+			PRIORITY_SIMPLIFIED_TOI_UNUSED,
 				/// Constraint is also touched at time of impact events.(TOI).
 			PRIORITY_TOI,
-
 				/// For internal use only! Higher quality. Warning: Use this quality only for contact constraints between moving and fixed objects.
 				/// Info: Higher priority constraints have higher priority in the solver in PSI steps. They are actually processed as normal PRIORITY_TOI
 				///       constraints in TOI events.
@@ -80,6 +84,14 @@ class hkpConstraintInstance : public hkReferencedObject
 			CLONE_DATAS_WITH_MOTORS
 		};
 
+			/// Flags only used for Havok destruction
+		enum OnDestructionRemapInfo
+		{
+			ON_DESTRUCTION_REMAP = 0,			///
+			ON_DESTRUCTION_REMOVE = 1,			///
+			ON_DESTRUCTION_RESET_REMOVE = 2,	///
+		};
+
 			//
 			// Construction, destruction and cloning.
 			//
@@ -93,6 +105,10 @@ class hkpConstraintInstance : public hkReferencedObject
 
 			/// Destructor removes references from entities A and B if set.
 		~hkpConstraintInstance();
+
+			/// The fast construction is used by the serialization to
+			/// init the vtables and do any extra init (but ONLY of non-serialized members).
+		hkpConstraintInstance(hkFinishLoadedObjectFlag f) : hkReferencedObject(f) { }
 
 			/// Clone the constraint, sharing as much as possible (ie: the constraint data
 			/// if it can). In the default CLONE_INSTANCES_ONLY mode, this will NOT allow you to use different 
@@ -131,7 +147,7 @@ class hkpConstraintInstance : public hkReferencedObject
 
 
 			/// Gets either entity A or B which is not entity
-		inline hkpEntity* getOtherEntity( const hkpEntity* entity );
+		inline hkpEntity* getOtherEntity( const hkpEntity* entity ) const;
 
 			/// Gets the non fixed island of either entityA or entityB
 		hkpSimulationIsland* getSimulationIsland();
@@ -143,7 +159,13 @@ class hkpConstraintInstance : public hkReferencedObject
 		inline hkpConstraintData* getDataRw() const;
 
 			/// Get the constrat's pivot point in world space, for the specified entity.
-		void getPivotsInWorld(hkVector4& pivotAinW, hkVector4& pivotBinW);
+		void getPivotsInWorld(hkVector4& pivotAinW, hkVector4& pivotBinW) const;
+
+			/// Adds a constraint listener to this constraint instance
+		void addConstraintListener( hkpConstraintListener* listener );
+
+			/// removes a constraint listener to this constraint instance
+		void removeConstraintListener( hkpConstraintListener* listener );
 
 		//
 		// Runtime cache data for the constraint.
@@ -202,13 +224,13 @@ class hkpConstraintInstance : public hkReferencedObject
 			/// IMPORTANT: This data will not be cleaned up by the hkpConstraintInstance destructor. You are required to track it yourself.
 		inline void setName( const char* name );
 
-			/// Set the relative virtual mass of the two entities.
-			/// This function sets that relative mass for this constraint only, and
+			/// Set inverse mass multipliers of the two entities.
+			/// This function sets that inverse mass multipliers for this constraint only, and
 			/// therefore does not modify the mass of the entities themselves. This function
 			/// gives very fine grained control over constraints.
 			/// This function can only be called once the constraint has been added to the
 			/// world.
-		void setVirtualMassInverse(hkReal invMassA, hkReal invMassB);
+		void setVirtualMassInverse(const hkVector4& invMassA, const hkVector4& invMassB);
 	
 			/// Marks the constraint to not go into the solver. 
 			/// A disabled constraint is still in the world, and still ensures the linked bodies
@@ -267,6 +289,28 @@ class hkpConstraintInstance : public hkReferencedObject
 
 		virtual InstanceType getType() const { return TYPE_NORMAL; }
 
+	public:
+		class SmallArraySerializeOverrideType
+		{
+		public:
+			HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_DYNAMICS, hkpConstraintInstance::SmallArraySerializeOverrideType );
+			HK_DECLARE_REFLECTION();
+
+			void* m_data;
+			hkUint16 m_size;
+			hkUint16 m_capacityAndFlags;
+		};
+
+	private:
+
+		friend class hkpWorldConstraintUtil;
+		friend class hkpSimpleConstraintContactMgr;
+		friend class hkpSaveContactPointsUtil;
+
+		/// Default constructor, you cannot derive from this class, you should derive from hkpConstraintData
+		hkpConstraintInstance(){}
+
+
 		//
 		//	Members
 		//
@@ -289,28 +333,17 @@ class hkpConstraintInstance : public hkReferencedObject
 			/// Set this to true, if you want to get access to RuntimeData later
 		hkBool				m_wantRuntime;
 
-		const char* m_name;
-
 	public:
+		hkEnum<OnDestructionRemapInfo, hkUint8>	m_destructionRemapInfo;
+
+			/// An array of constraint listeners
+		class hkSmallArray<class hkpConstraintListener*> m_listeners;	//+overridetype(class SmallArraySerializeOverrideType) +serialized(false)
+
+		const char* m_name;
 
 		hkUlong m_userData; // +default(0)
 
 		struct hkConstraintInternal* m_internal; //+nosave
-
-	public:
-
-			/// The fast construction is used by the serialization to
-			/// init the vtables and do any extra init (but ONLY of non-serialized members).
-		hkpConstraintInstance(hkFinishLoadedObjectFlag f) : hkReferencedObject(f) { }
-
-	private:
-
-		friend class hkpWorldConstraintUtil;
-		friend class hkpSimpleConstraintContactMgr;
-		friend class hkpSaveContactPointsUtil;
-
-		/// Default constructor, you cannot derive from this class, you should derive from hkpConstraintData
-		hkpConstraintInstance(){}
 };
 
 
@@ -400,9 +433,9 @@ HK_CLASSALIGN16(struct) hkConstraintInternal
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

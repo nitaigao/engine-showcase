@@ -1,0 +1,4 @@
+Win32:
+
+    * Visual Studio 2008 (ver. 9.0) 
+

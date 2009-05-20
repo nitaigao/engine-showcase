@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -49,12 +49,22 @@ class hctFilterManagerInterface
 		virtual void openFilterManager ( HWND owner, const class hkRootLevelContainer& data, hkBool& shouldSaveConfigOut ) = 0;
 
 			/// Process a scene in batch mode. All configurations will be executed.
-			/// It will alter the data in place as much as possible and all allocations into the hkRootLevelContainer
+		    /// It will alter a copy of the data (one per config) in place as much as possible and all allocations into the hkRootLevelContainer
 			/// will be through the memory tracker. As such the contents of the scene post process will be 
 			/// valid until you delete the memory tracker (will deallocate all tracked mem) or you shut down
 			/// this manager instance (it will unload all the filter DLLs and hence all the hkClasses from
 			/// those DLLs will be unloaded too and the pointers in any registry etc ).
-		virtual void processBatch ( HWND owner, const class hkRootLevelContainer& data, class hctFilterMemoryTracker& sceneMemory  ) = 0;
+		virtual void processBatch ( HWND owner, const class hkRootLevelContainer& data, class hctFilterMemoryTracker& sceneMemory, int configToRun = -1, bool allowModlessFilters = false  ) = 0;
+
+			/// Process a scene in batch mode. Only specific configuration will be executed.
+			/// It will alter a copy of the data in place as much as possible and all allocations into the hkRootLevelContainer
+			/// will be through the memory tracker. As such the contents of the scene post process will be 
+			/// valid until you delete the memory tracker (will deallocate all tracked mem) or you shut down
+			/// this manager instance (it will unload all the filter DLLs and hence all the hkClasses from
+			/// those DLLs will be unloaded too and the pointers in any registry etc ).
+			/// It will only return the modified (copied) data if you provide a sceneCopyStorage array to hold the original deep copy
+		virtual hkRootLevelContainer* processBatchReturnData( HWND owner, const class hkRootLevelContainer& data, class hctFilterMemoryTracker& sceneMemory, int configToRun, bool allowModelessFilters, hkArray<char>* sceneCopyStorage ) = 0;
+
 
 			/// Accesses (non-const access) the global registry of classes.
 			/// Allows for registration of classes not added by filter DLLS (added by exporters for example).
@@ -88,6 +98,18 @@ class hctFilterManagerInterface
 
 			/// Returns the HWND of the application (owner) that called the filter manager
 		virtual HWND getOwnerWindowHandle () const = 0;
+
+		enum ProcessMode
+		{
+			PROCESS_NONE = 0, // not in process of any type
+			PROCESS_INTERACTIVE, // full interactive run
+			PROCESS_BATCH, // batch (so no ui) and do full writes etc
+			PROCESS_BATCH_UI, // batch (but with ui / modeless filters) and do full writes etc
+			OPTIONS_BATCH  // batch mode for options to current dialog etc, write any scene mutating data, but do not alter external files 
+		};
+
+		virtual ProcessMode getProcessMode() const = 0;
+
 			/* 
 			* Thread utils
 			*/
@@ -139,9 +161,9 @@ class hctFilterThreadCallback
 #endif // HAVOK_FILTER_MANAGER_INTERFACE__H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

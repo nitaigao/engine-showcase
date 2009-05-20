@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -12,6 +12,7 @@
 #include <Common/Base/Algorithm/PseudoRandom/hkPseudoRandomGenerator.h>
 
 #include <Physics/Internal/Collide/BroadPhase/hkpBroadPhase.h>
+#include <Physics/Internal/Collide/BroadPhase/hkpBroadPhaseHandlePair.h>
 #include <Physics/Dynamics/World/BroadPhaseBorder/hkpBroadPhaseBorder.h>
 
 // hkMath support
@@ -563,7 +564,7 @@ void SlidingWorldDemo::recenterBroadPhaseVariant(const hkVector4& requestedShift
 	// Move broadphase only, i.e. recenter the broadphase around a new location in world space, and do so without
 	// addition/removal of overlaps for those objects remaining inside the new location.
 	// We may however get objects entering the border (leaving the broadphase) if they are not contained in the new location.
-	m_world->shiftBroadPhase( requestedShift, effectiveShift, objectsEnteringBroadphaseBorder );
+	m_world->shiftBroadPhase( requestedShift, effectiveShift, hkpWorld::SHIFT_BROADPHASE_UPDATE_ENTITY_AABBS );
 
 	// If broadphase phantoms are present, they come along for the ride too. Note that this is not done automatically by the 
 	// shiftBroadPhase function above, as the broadphase does not know if it has a border or not!
@@ -587,7 +588,8 @@ void SlidingWorldDemo::shiftCoordinateSystemVariant(const hkVector4& requestedSh
 	// Shift all objects in the world by updating their object data (transforms, contact points) and their broadphase data
 
 	// Shift the broadphase
-	m_world->getBroadPhase()->shiftAllObjects( requestedShift, effectiveShift, objectsEnteringBroadphaseBorder );
+	hkArray<hkpBroadPhaseHandlePair> newCollisionPairs;
+	m_world->getBroadPhase()->shiftAllObjects( requestedShift, effectiveShift, newCollisionPairs );
 
 	// Shift all objects in the scene "silently"
 	shiftAllGameObjectDataSilently( m_world, effectiveShift );
@@ -860,9 +862,9 @@ FAQs:
 */
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

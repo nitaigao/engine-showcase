@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -420,12 +420,20 @@ inline hkSimdReal hkVector4::lengthInverse3() const
 
 	const hkQuadReal half  = _mm_set_ss(0.5f);
 	const hkQuadReal three = _mm_set_ss(3.0f);
+	const hkQuadReal zero  = _mm_set_ss(0.0f);
 
-	hkQuadReal len2 = this->dot3(*this).getQuad();
-	hkQuadReal approx = _mm_rsqrt_ss(len2);
-	return _mm_mul_ss(
+	const hkQuadReal len2 = this->dot3(*this).getQuad();
+
+	const hkQuadReal len2EqualsZero = _mm_cmpeq_ss(len2, zero);
+
+	const hkQuadReal approx = _mm_rsqrt_ss(len2);
+	const hkQuadReal refined = _mm_mul_ss(
 			_mm_mul_ss(half, approx),
 			_mm_sub_ss(three, _mm_mul_ss( _mm_mul_ss(len2, approx), approx ) ) );
+
+
+	// Ensures that we return 0 if the length is 0
+	return _mm_andnot_ps(len2EqualsZero, refined);
 }
 
 inline hkSimdReal hkVector4::length4() const
@@ -442,12 +450,18 @@ inline hkSimdReal hkVector4::lengthInverse4() const
 {
 	const hkQuadReal half  = _mm_set_ss(0.5f);
 	const hkQuadReal three = _mm_set_ss(3.0f);
+	const hkQuadReal zero  = _mm_set_ss(0.0f);
 
-	hkQuadReal len2 = this->dot4(*this).getQuad();
-	hkQuadReal approx = _mm_rsqrt_ss(len2);
-	return _mm_mul_ss(
+	const hkQuadReal len2 = this->dot4(*this).getQuad();
+	const hkQuadReal len2EqualsZero = _mm_cmpeq_ss(len2, zero);
+
+	const hkQuadReal approx = _mm_rsqrt_ss(len2);
+	const hkQuadReal refined = _mm_mul_ss(
 			_mm_mul_ss(half, approx),
 			_mm_sub_ss(three, _mm_mul_ss( _mm_mul_ss(len2, approx), approx ) ) );
+
+	// Ensures that we return 0 if the length is 0
+	return _mm_andnot_ps(len2EqualsZero, refined);
 }
 
 inline void hkVector4::normalize3()
@@ -667,9 +681,9 @@ inline void hkVector4::load4(const hkReal* p)
 }
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

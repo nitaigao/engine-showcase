@@ -26,7 +26,7 @@ namespace Script
 	{
 
 		typedef std::pair< Events::EventType, luabind::object > EventHandler;
-		typedef std::vector< EventHandler > EventHandlerList;
+		typedef std::deque< EventHandler > EventHandlerList;
 		typedef std::map< std::string, IScriptComponent* > ScriptComponentList;
 
 	public:

@@ -1,0 +1,448 @@
+// TKBMS v1.0 -----------------------------------------------------
+//
+// PLATFORM		: WIN32 XENON
+// PRODUCT		: ALL
+// VISIBILITY	: PUBLIC
+//
+// ------------------------------------------------------TKBMS v1.0
+
+
+//
+// Common defines
+//
+
+#ifdef _XBOX
+// as we use a proper depth resolve (with bias) we don't need epsilon in here
+#define SHADOW_EPSILON 0.0
+#else
+#define SHADOW_EPSILON 0.0001
+#endif
+
+#define SHADOW_16F_DISTRIBUTE_FACTOR 32
+
+// Common matrices
+float4x4 g_mWorldInvTranspose			: WorldInverseTranspose;
+float4x4 g_mWorld			: World;
+float4x4 g_mViewProj;
+float4x4 g_mWorldViewProj	: WorldViewProjection;
+float4x4 g_mViewToLightProj; // for shadow maps
+
+// Lights 
+float4 g_cLightColor : Diffuse = {1.0f, 1.0f, 1.0f, 1.0f};
+float4 g_vLightShadowStartPos; 
+float4 g_vLightDir : Direction  = {0.0f, 1.0f, 0.0f, 1.0f}; // world space
+
+// Material
+float4 g_cAmbientColor	: MaterialAmbient = {0.0f, 0.0f, 0.0f, 1.0f};
+float4 g_cDiffuseColor	: MaterialDiffuse = {1.0f, 1.0f, 1.0f, 1.0f};
+float4 g_cSpecularColor	: MaterialSpecular = {1.0f, 1.0f, 1.0f, 1.0f};
+float  g_cSpecularPower	: Power = 30.0; // 1..128
+
+// Common constants
+float  g_iShadowMapSize		= 1024;
+float  g_fShadowMapDistance = 100; // Distance from light / light proj to end of shadow map volume
+float  g_fShadowVsmEpsilon  = 0.0001; 
+float  g_fShadowVsmBias     = 0.0001; 
+
+
+sampler g_sSamplerZero : register(s0);		// Shadow Map, or T0
+
+
+
+//
+// Structures
+//
+
+	struct vertexInputUnlitT1 {
+		float3 position			: POSITION;
+		float2 texCoord0		: TEXCOORD0;
+	};
+
+// Vertex Input 
+	struct vertexInputT0 {
+		float3 position			: POSITION;
+		float3 normal			: NORMAL;
+		float4 diffAmbColor		: COLOR0;
+	};
+	
+// One tex coord
+	struct vertexInputT1 {
+		float3 position			: POSITION;
+		float3 normal			: NORMAL;
+		float2 texCoord0		: TEXCOORD0;
+		float4 diffAmbColor		: COLOR0;
+	};
+
+	struct vertexInputT1B {
+		float4 position  : POSITION; 	
+		float3 normal    : NORMAL; 	
+		float2 texCoord0 : TEXCOORD0; 	
+		float3 tangent   : TEXCOORD3; // well known slot >=3
+		float3 binormal  : TEXCOORD4;	
+	};
+	
+	struct vertexInputT2 {
+		float3 position			: POSITION;
+		float3 normal			: NORMAL;
+		float2 texCoord0		: TEXCOORD0;
+		float2 texCoord1		: TEXCOORD1;
+		float4 diffAmbColor		: COLOR0;
+	};
+
+	struct vertexInputT2B {
+		float4 position  : POSITION; 	
+		float3 normal    : NORMAL; 	
+		float2 texCoord0 : TEXCOORD0; 	
+		float2 texCoord1 : TEXCOORD1; 	
+		float3 tangent   : TEXCOORD3; // well known slot >=3
+		float3 binormal  : TEXCOORD4;	
+	};
+
+	struct vertexOutputUnlitT1 {
+		float4 position			: POSITION;
+		float2 texCoord0		: TEXCOORD0;
+	};
+
+// Vertex Output
+	struct vertexOutputT0 {
+		float4 position			: POSITION;
+		float4 diffAmbColor		: COLOR0;
+		float4 specCol			: COLOR1;
+	};
+	
+// One tex coord
+	struct vertexOutputT1 {
+		float4 position			: POSITION;
+		float2 texCoord0		: TEXCOORD0;
+		float4 diffAmbColor		: COLOR0;
+		float4 specCol			: COLOR1;
+	};
+
+	struct vertexOutputT1B {
+		float4 position    : POSITION;  // clip space
+		float2 texCoord0   : TEXCOORD0;
+		float3 L           : TEXCOORD1; // tangent space
+		float3 H           : TEXCOORD2;
+	};
+	
+	struct vertexOutputT1BR {
+		float4 position    : POSITION;  // clip space
+		float2 texCoord0   : TEXCOORD0;
+		float3 L           : TEXCOORD1; // tangent space
+		float3 H           : TEXCOORD2; // tangent space
+		float4 TangToWorld0 : TEXCOORD3; // e.X in .w
+		float4 TangToWorld1 : TEXCOORD4; // e.Y in .w
+		float4 TangToWorld2 : TEXCOORD5; // e.Z in .w
+	
+	};
+		
+
+// Two tex coords
+	struct vertexOutputT2 {
+		float4 position			: POSITION;
+		float2 texCoord0		: TEXCOORD0;
+		float2 texCoord1		: TEXCOORD1;
+		float4 diffAmbColor		: COLOR0;
+		float4 specCol			: COLOR1;
+	};
+
+	struct vertexOutputT2B {
+		float4 position    : POSITION;  // clip space
+		float2 texCoord0   : TEXCOORD0;
+		float2 texCoord1   : TEXCOORD1;
+		float3 L           : TEXCOORD2; // tangent space
+		float3 H           : TEXCOORD3;
+	};
+
+	struct vertexOutputT2BR {
+		float4 position    : POSITION;  // clip space
+		float2 texCoord0   : TEXCOORD0;
+		float2 texCoord1   : TEXCOORD1;
+		float3 L           : TEXCOORD2; // light vec in tangent space
+		float3 H           : TEXCOORD3; // light vec in tangent space
+		float4 TangToWorld0 : TEXCOORD4; // e.X in .w
+		float4 TangToWorld1 : TEXCOORD5; // e.Y in .w
+		float4 TangToWorld2 : TEXCOORD6; // e.Z in .w
+	};
+
+	struct vertexOutputShadowT0 {
+		float4 position			: POSITION;
+		float4 posLight			: TEXCOORD0;
+		#ifdef HKG_SHADOWS_VSM
+  			float3 posWorld : TEXCOORD1;
+		#endif
+		float4 diffAmbColor		: COLOR0;
+		float4 specCol			: COLOR1; 
+	};
+
+	struct vertexOutputShadowUnlitT1 {
+		float4 position			: POSITION;
+		float2 texCoord0		: TEXCOORD0;
+		float4 posLight			: TEXCOORD1;
+		#ifdef HKG_SHADOWS_VSM
+  			float3 posWorld : TEXCOORD2;
+		#endif
+	};
+
+// One tex coord, with shadow proj
+	struct vertexOutputShadowT1 {
+		float4 position			: POSITION;
+		float2 texCoord0		: TEXCOORD0;
+		float4 posLight			: TEXCOORD1;
+		#ifdef HKG_SHADOWS_VSM
+  			float3 posWorld : TEXCOORD2;
+		#endif
+		float4 diffAmbColor		: COLOR0;
+		float4 specCol			: COLOR1; 
+	};
+
+	struct vertexOutputShadowT1B {
+		float4 position			: POSITION;
+		float2 texCoord0		: TEXCOORD0;
+		float4 posLight			: TEXCOORD1;
+		#ifdef HKG_SHADOWS_VSM
+  			float3 posWorld 		: TEXCOORD2;
+			float3 L				: TEXCOORD3;
+			float3 H				: TEXCOORD4;
+		#else
+			float3 L				: TEXCOORD2;
+			float3 H				: TEXCOORD3;
+		#endif
+	};
+	
+	struct vertexOutputShadowT1BR {
+		float4 position			: POSITION;
+		float2 texCoord0		: TEXCOORD0;
+		float4 posLight			: TEXCOORD1;
+		#ifdef HKG_SHADOWS_VSM
+  			float3 posWorld 		: TEXCOORD2;
+			float3 L				: TEXCOORD3;
+			float3 H				: TEXCOORD4;
+			float4 TangToWorld0		: TEXCOORD5; // e.X in .w
+			float4 TangToWorld1		: TEXCOORD6; // e.Y in .w
+			float4 TangToWorld2		: TEXCOORD7; // e.Z in .w
+		#else
+			float3 L				: TEXCOORD2;
+			float3 H				: TEXCOORD3;
+			float4 TangToWorld0		: TEXCOORD4; // e.X in .w
+			float4 TangToWorld1		: TEXCOORD5; // e.Y in .w
+			float4 TangToWorld2		: TEXCOORD6; // e.Z in .w
+		#endif
+	};
+	
+// Two tex coords, with shadow proj
+	struct vertexOutputShadowT2 {
+		float4 position			: POSITION;
+		float2 texCoord0		: TEXCOORD0;
+		float2 texCoord1		: TEXCOORD1;
+		float4 posLight			: TEXCOORD2;
+		#ifdef HKG_SHADOWS_VSM
+  			float3 posWorld : TEXCOORD3;
+		#endif
+		float4 diffAmbColor		: COLOR0;
+		float4 specCol			: COLOR1; 
+	};
+
+	struct vertexOutputShadowT2B {
+		float4 position			: POSITION;
+		float2 texCoord0		: TEXCOORD0;
+		float2 texCoord1		: TEXCOORD1;
+		float4 posLight			: TEXCOORD2;
+		#ifdef HKG_SHADOWS_VSM
+  			float3 posWorld 		: TEXCOORD3;
+			float3 L				: TEXCOORD4;
+			float3 H				: TEXCOORD5;
+		#else
+			float3 L				: TEXCOORD3;
+			float3 H				: TEXCOORD4;
+		#endif
+	};
+
+	struct vertexOutputShadowT2BR {
+		float4 position			: POSITION;
+		float4 texCoord01		: TEXCOORD0;
+		float4 posLight			: TEXCOORD1;
+		#ifdef HKG_SHADOWS_VSM
+  			float3 posWorld 		: TEXCOORD2;
+			float3 L				: TEXCOORD3;
+			float3 H				: TEXCOORD4;
+			float4 TangToWorld0		: TEXCOORD5; // e.X in .w
+			float4 TangToWorld1		: TEXCOORD6; // e.Y in .w
+			float4 TangToWorld2		: TEXCOORD7; // e.Z in .w
+		#else
+			float3 L				: TEXCOORD2;
+			float3 H				: TEXCOORD3;
+			float4 TangToWorld0		: TEXCOORD4; // e.X in .w
+			float4 TangToWorld1		: TEXCOORD5; // e.Y in .w
+			float4 TangToWorld2		: TEXCOORD6; // e.Z in .w
+		#endif
+	};
+
+//
+// Shadow map create shaders
+//
+	struct vertexInputShadowDepth {
+		float3 position			: POSITION;
+	#ifdef ENABLE_ALPHA_SHADOWS
+		float2 texCoord0		: TEXCOORD0;
+	#endif
+	};
+
+	struct vertexOutputShadowDepth {
+		float4 position			: POSITION;
+		float4 depthZZZW		: TEXCOORD0;
+	#ifdef ENABLE_ALPHA_SHADOWS
+		float2 texCoord0		: TEXCOORD1;
+	#endif
+	};
+
+	struct vertexOutputShadowDepthVSM {
+		float4 position			: POSITION;
+		float3 posWorld		    : TEXCOORD0;
+	#ifdef ENABLE_ALPHA_SHADOWS
+		float2 texCoord0		: TEXCOORD1;
+	#endif
+	};
+
+//
+// Pixel output: Color 
+//
+	struct pixelOutput
+	{
+		float4 color			: COLOR0;  
+	};
+
+
+
+
+
+
+
+
+
+
+//
+// Util Funcs
+//
+
+float3 LightVertexDiffuseOnly( float3 vert, float3 objectNormal )
+{
+	float3 N = mul( objectNormal, (float3x3)g_mWorldInvTranspose ); //normal vector
+    float3 L = g_vLightDir.xyz; //light vector
+    float  diff = max(0, dot(N,L));
+    return float3( diff, diff, diff );
+}
+
+void MaterialContributionDiffuseOnly( float3 lightDiffuse, out float4 diff )
+{
+	float3 ambColor = g_cDiffuseColor.rgb * g_cAmbientColor.rgb;
+    float3 diffColor = g_cDiffuseColor.rgb * lightDiffuse.rgb * g_cLightColor.rgb;
+    diff.rgb = diffColor.rgb + ambColor.rgb;
+    diff.a = g_cDiffuseColor.a;     
+}
+
+
+float4 Phong(float NdotL, float NdotH, float specularPower) 
+{
+	float diffuse = max(NdotL, 0.0);
+	NdotH = max(NdotH, 0.0);
+	float specular = pow(NdotH, specularPower) * dot(g_cSpecularColor.rgb,g_cSpecularColor.rgb);
+	if (NdotL <= 0) specular = 0;
+	return float4(diffuse, diffuse, diffuse, specular);
+}
+
+float4 LightVertex( float3 vert, float3 objectNormal, float3 eye )
+{
+	float3 N = mul( objectNormal, (float3x3)g_mWorldInvTranspose ); //normal vector
+    float3 E = normalize( eye - vert ); //eye vector
+    float3 L = g_vLightDir.xyz; //light vector
+    float3 H = normalize( E + L ); //half angle vector
+	return Phong( dot(N,L), dot(N,H), g_cSpecularPower);
+}
+
+void MaterialContribution( float4 vertexColor, float4 lightDiffuseAndSpec, out float4 diff, out float4 spec )
+{
+	float3 ambColor = vertexColor.rgb * g_cDiffuseColor.rgb * g_cAmbientColor.rgb;
+    float3 diffColor = vertexColor.rgb * g_cDiffuseColor.rgb * lightDiffuseAndSpec.rgb * g_cLightColor.rgb;
+    
+    diff.rgb = diffColor.rgb + ambColor.rgb;
+    diff.a = vertexColor.a * g_cDiffuseColor.a; 
+    
+	spec.rgb = g_cSpecularColor.rgb * g_cLightColor.rgb * lightDiffuseAndSpec.w;
+    spec.a = 0;
+}
+
+///
+/// ATI style shadow map lookup
+///
+float getLightAmountNoHW( float4 posLight )
+{
+	float2 shadowTexCoord = posLight.xy / posLight.w;
+	float  shadowTestDepth = (posLight.z / posLight.w) - SHADOW_EPSILON; //-->make it a bit closer, only use if no way to use _proper_ depth bias etc
+				
+    // transform to texel space
+    float2 texelpos = g_iShadowMapSize * shadowTexCoord;
+        
+    // Determine the lerp amounts           
+    float2 lerps = frac( texelpos );
+
+    //read in bilerp stamp, doing the shadow checks
+    float sourcevals[4];
+    float oneTexel = 1.0/g_iShadowMapSize;
+    
+    sourcevals[0] = (tex2D( g_sSamplerZero, shadowTexCoord ).r < shadowTestDepth)? 0.0f: 1.0f;  
+    sourcevals[1] = (tex2D( g_sSamplerZero, shadowTexCoord + float2(oneTexel, 0) ).r < shadowTestDepth)? 0.0f: 1.0f;  
+    sourcevals[2] = (tex2D( g_sSamplerZero, shadowTexCoord + float2(0, oneTexel) ).r < shadowTestDepth)? 0.0f: 1.0f;  
+    sourcevals[3] = (tex2D( g_sSamplerZero, shadowTexCoord + float2(oneTexel, oneTexel) ).r < shadowTestDepth)? 0.0f: 1.0f;  
+        
+    // lerp between the shadow values to calculate our light amount
+    float lightAmount = lerp( lerp( sourcevals[0], sourcevals[1], lerps.x ),
+                                lerp( sourcevals[2], sourcevals[3], lerps.x ),
+                                lerps.y );
+
+	return lightAmount;                                                       
+}
+
+///
+/// Variance Shadow map lookup
+///
+float getLightAmountVSM( float4 posLight, float3 posWorld )
+{
+	float2 shadowTexCoord = posLight.xy / posLight.w;
+	
+	// TODO: This assumes Bil. filtering supported on the float textures
+	float4 moments = tex2D(g_sSamplerZero, shadowTexCoord);
+
+	#ifdef HKG_SHADOWS_DISTRIBUTE_16F_OUTPUTS 
+		  moments.xy += (moments.zw / SHADOW_16F_DISTRIBUTE_FACTOR);
+	#endif
+		
+	// Rescale light distance and check if we're in shadow
+	
+	float3 lightDir = g_vLightShadowStartPos - posWorld ;
+	float distFromLight = dot(lightDir,g_vLightDir); 
+	float rescaledDistToLight = distFromLight / g_fShadowMapDistance; 
+	rescaledDistToLight -= g_fShadowVsmBias; 
+	float litFactor = (moments.x > 0.99999f) || (moments.x >= rescaledDistToLight); // || (moments.x > 0.95); // if moment.x (depth) > rescaled, then not in shadow. May add check here for detecting 'off the edge of map'(always lit in our demos)
+	
+	// Variance shadow mapping
+	float E_x2 = moments.y;
+	float Ex_2 = moments.x * moments.x;
+	float variance = min(max(E_x2 - Ex_2, 0.0) + g_fShadowVsmEpsilon, 1.0);
+	float m_d = (moments.x - rescaledDistToLight);
+	float p = variance / (variance + (m_d * m_d));
+
+	return max(litFactor, p);
+}
+
+float getLightAmountSM( float4 posLight )
+{
+	#ifdef HKG_SHADOWS_HARDWARE // NV h/w lookup of depth buffer
+		return ( tex2Dproj(g_sSamplerZero, posLight).r ); // white or black, so red is all we need.
+	#else
+		return getLightAmountNoHW( posLight ); 
+	#endif
+}
+
+
+

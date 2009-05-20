@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -54,6 +54,7 @@ static const LimitingMemoryDemoVariant g_variants[] =
 
 static const int wiggleSize = 256*1024;
 
+
 void MySimpleObjectWatchDog::freeMemory( hkpWorld* world )
 {
     int targetAvailable = m_minMemoryAvailable;
@@ -94,6 +95,7 @@ void MySimpleObjectWatchDog::freeMemory( hkpWorld* world )
 		}
 	}
 }
+
 
 
 MySimpleObjectWatchDog::~MySimpleObjectWatchDog()
@@ -211,7 +213,7 @@ void LimitingMemoryDemo::createHollowSphereMopp(hkpMotion::MotionType motionType
 LimitingMemoryDemo::LimitingMemoryDemo(hkDemoEnvironment* env): hkDefaultPhysicsDemo( env )
 {
 	// Disable warnings:									
-	hkError::getInstance().setEnabled(0x423423, false); //'For the default implementation to work the class must be passed in' 
+	hkError::getInstance().setEnabled(0x86bc014d, false); //'For the default implementation to work the class must be passed in' 
 
 	m_geom = HK_NULL;
 	m_timeToSpawnNewRagdoll = 0.5f;
@@ -289,7 +291,7 @@ LimitingMemoryDemo::LimitingMemoryDemo(hkDemoEnvironment* env): hkDefaultPhysics
 LimitingMemoryDemo::~LimitingMemoryDemo()
 {
 	// Re-enable warnings:									
-	hkError::getInstance().setEnabled(0x423423, true); 
+	hkError::getInstance().setEnabled(0x86bc014e, true); 
 
     // Turn off the memory limit
     hkMemory::getInstance().setMemorySoftLimit(0);
@@ -409,9 +411,9 @@ static const char helpString[] = \
 HK_DECLARE_DEMO_VARIANT_USING_STRUCT( LimitingMemoryDemo, HK_DEMO_TYPE_PHYSICS, LimitingMemoryDemoVariant, g_variants, helpString);
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

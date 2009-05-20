@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -10,6 +10,11 @@
 #define HK_UTILS_SHAPE_SHRINKER__H
 
 class hkpShape;
+class hkpBoxShape;
+class hkpCylinderShape;
+class hkpConvexVerticesShape;
+
+
 
 	/// This utility class shrinks convex objects that use convex radius (box, cyl, convexvertices)
 	/// by the convex radius (the padding radius). Triangles and collections of triangles that 
@@ -22,9 +27,9 @@ class hkpShapeShrinker
 	public:
 
 			/// Struct used by hkpShapeShrinker::shrinkByConvexRadius().
-		struct ShapeCache
+		struct ShapePair
 		{
-			HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_UTILITIES, hkpShapeShrinker::ShapeCache );
+			HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_UTILITIES, hkpShapeShrinker::ShapePair );
 
 				/// Old shape.
 			hkpShape* originalShape; 
@@ -42,16 +47,26 @@ class hkpShapeShrinker
 			/// to stop the shapes from being shrunk more than once. If you don't provide a
 			/// cache then one will be used per call internally, so multiple calls will
 			/// result in possible over-shrinking on shared shapes.
-		static hkpShape* HK_CALL shrinkByConvexRadius( hkpShape* s, hkArray<ShapeCache>* doneShapes);
+		static hkpShape* HK_CALL shrinkByConvexRadius( hkpShape* s, hkArray<ShapePair>* doneShapes);
+
+
+			/// Internal helper to shrink box shape 
+		static hkpBoxShape* HK_CALL shrinkBoxShape( hkpBoxShape* boxShape, hkReal relShrinkRadius, hkReal allowedDisplacement );
+
+			/// Internal helper to shrink cylinder shape 
+		static hkpCylinderShape* HK_CALL shrinkCylinderShape( hkpCylinderShape* cylinderShape, hkReal relShrinkRadius, hkReal allowedDisplacement );
+
+			/// Internal helper to shrink convex vertices shape 
+		static hkpConvexVerticesShape* HK_CALL shrinkConvexVerticesShape( hkpConvexVerticesShape* boxShape, hkReal relShrinkRadius, hkReal allowedDisplacement );
 };
 
 
 #endif // HK_UTILS_SHAPE_SHRINKER__H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

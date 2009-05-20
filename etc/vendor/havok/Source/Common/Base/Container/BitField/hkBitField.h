@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -17,12 +17,14 @@ class hkBitField
 {
 	public:
 
-		//+version(2)
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_ARRAY, hkBitField );
 		HK_DECLARE_REFLECTION();
 
+			/// Construct a bit field of size 0.
+		HK_FORCE_INLINE hkBitField();
+
 			/// Construct a bit field of size numBits.
-		HK_FORCE_INLINE hkBitField( int numBits = 0 );
+		HK_FORCE_INLINE hkBitField( int numBits );
 
 			/// Construct a bit field of size numBits, and set all the bits
 			/// to the low bit in the initialValue parameter.
@@ -37,10 +39,7 @@ class hkBitField
 	private:
 
 			/// Private copy constructor.
-		hkBitField(const hkBitField&) { }
-
-			/// Private assignment operator.
-		void operator=(const hkBitField&) { };
+		hkBitField( const hkBitField& ) { }
 
 	public:
 
@@ -74,6 +73,9 @@ class hkBitField
 			/// Get number of words in the bitset
 		HK_FORCE_INLINE int getNumWords() const;
 
+			/// Assignment operator.
+		HK_FORCE_INLINE void operator = ( const hkBitField& bitField );
+
 	private:
 
 			// an array of words which hold the bits
@@ -97,9 +99,9 @@ class hkBitField
 #endif // HKBASE_HKBITFIELD_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

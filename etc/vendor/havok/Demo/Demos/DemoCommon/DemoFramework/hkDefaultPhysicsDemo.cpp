@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -42,9 +42,10 @@
 
 //#include <Physics/Utilities/VisualDebugger/Viewer/Collide/hkpBroadphaseViewer.h>
 //#include <Physics/Utilities/VisualDebugger/Viewer/Collide/hkpConvexRadiusViewer.h>
-//#include <Physics/Utilities/VisualDebugger/Viewer/Collide/hkpActiveContactPointViewer.h>
-//#include <Physics/Utilities/VisualDebugger/Viewer/Collide/hkpInactiveContactPointViewer.h>
+#include <Physics/Utilities/VisualDebugger/Viewer/Collide/hkpActiveContactPointViewer.h>
+#include <Physics/Utilities/VisualDebugger/Viewer/Collide/hkpInactiveContactPointViewer.h>
 //#include <Physics/Utilities/VisualDebugger/Viewer/Collide/hkpToiContactPointViewer.h>
+#include <Physics/Utilities/VisualDebugger/Viewer/Collide/hkpWeldingViewer.h>
 //#include <Physics/Utilities/VisualDebugger/Viewer/Dynamics/hkpConstraintViewer.h>
 //#include <Physics/Utilities/VisualDebugger/Viewer/Dynamics/hkpSweptTransformDisplayViewer.h>
 //#include <Physics/Utilities/VisualDebugger/Viewer/Dynamics/hkpRigidBodyCentreOfMassViewer.h>
@@ -82,6 +83,13 @@
 #include <Common/Base/Thread/Job/ThreadPool/Spu/hkSpuJobThreadPool.h>
 
 
+
+#if defined HK_PLATFORM_PS3_PPU
+#include <Common/Base/Memory/PlattformUtils/Spu/hkSpuMemoryInternal.h>
+#define	SPURS_THREAD_GROUP_PRIORITY 250
+#define SPURS_HANDLER_THREAD_PRIORITY 1
+#endif
+
 #	include <Common/Base/Fwd/hkwindows.h>
 
 #include <Common/Base/Monitor/MonitorStreamAnalyzer/hkMonitorStreamAnalyzer.h>
@@ -103,8 +111,8 @@ hkDefaultPhysicsDemo::hkDefaultPhysicsDemo(hkDemoEnvironment* env, DemoFlags fla
 	hkReferencedObject::lockAll();
 	m_physicsStepCounter = 0;
 
-	HK_ON_DETERMINISM_CHECKS_ENABLED(hkCheckDeterminismUtil::createInstance());
-	HK_ON_DETERMINISM_CHECKS_ENABLED(hkCheckDeterminismUtil::getInstance().start());
+	//HK_ON_DETERMINISM_CHECKS_ENABLED(hkCheckDeterminismUtil::createInstance());
+	//HK_ON_DETERMINISM_CHECKS_ENABLED(hkCheckDeterminismUtil::getInstance().start());
 
 	// Disable warnings that commonly occur in the demos
 	hkError::getInstance().setEnabled(0x6e8d163b, false); // hkpMoppUtility.cpp:18
@@ -117,8 +125,8 @@ hkDefaultPhysicsDemo::hkDefaultPhysicsDemo(hkDemoEnvironment* env, DemoFlags fla
 	m_physicsViewersContext = new hkpPhysicsContext;
 	if ( m_env->m_window )
 	{
-		hkpPhysicsContext::registerAllPhysicsProcesses(); // all physics only ones
-	}
+			hkpPhysicsContext::registerAllPhysicsProcesses(); // all physics only ones
+		}		
 
 	hkMemory::getInstance().m_memoryState = hkMemory::MEMORY_STATE_OK;
 	hkMemory::getInstance().m_criticalMemoryLimit = 0x7fffffff;
@@ -135,7 +143,9 @@ hkDefaultPhysicsDemo::hkDefaultPhysicsDemo(hkDemoEnvironment* env, DemoFlags fla
 
 	hkReferencedObject::unlockAll();
 
+#if defined(HK_PLATFORM_MULTI_THREAD) && (HK_CONFIG_THREAD == HK_CONFIG_MULTI_THREADED)
 	hkpWorld::registerWithJobQueue( m_jobQueue );
+#endif
 
 }
 
@@ -205,6 +215,8 @@ hkDefaultPhysicsDemo::~hkDefaultPhysicsDemo()
 
 	hkMemory::getInstance().freeRuntimeBlocks();
 
+	shutdownVDB();
+
 	if (m_physicsViewersContext)
 	{
 		m_physicsViewersContext->removeReference();
@@ -217,8 +229,8 @@ hkDefaultPhysicsDemo::~hkDefaultPhysicsDemo()
 		m_env->m_options->m_lockFps = m_oldFPSLock;
 	}
 
-	HK_ON_DETERMINISM_CHECKS_ENABLED(hkCheckDeterminismUtil::getInstance().finish());
-	HK_ON_DETERMINISM_CHECKS_ENABLED(hkCheckDeterminismUtil::destroyInstance());
+	//HK_ON_DETERMINISM_CHECKS_ENABLED(hkCheckDeterminismUtil::getInstance().finish());
+	//HK_ON_DETERMINISM_CHECKS_ENABLED(hkCheckDeterminismUtil::destroyInstance());
 
 	hkpWorld::m_forceMultithreadedSimulation = m_oldForceMultithreadedSimulation;
 }
@@ -239,11 +251,11 @@ void hkDefaultPhysicsDemo::calcContentStatistics( hkStatisticsCollector* collect
 		return;
 	}
 	{
-		m_world->markForWrite();
+		m_world->lock();
         
         collector->addReferencedObject( "hkpWorld", m_world );
 		
-		m_world->unmarkForWrite();
+		m_world->unlock();
 
         collector->addNormalChunk("hkpPhysicsContext", m_physicsViewersContext, sizeof(hkpPhysicsContext));
 	}
@@ -265,8 +277,8 @@ void hkDefaultPhysicsDemo::setupContexts(hkArray<hkProcessContext*>& contexts)
 	// Add viewers to the demo display.
 	// Uncomment these to use them.
 	//  m_debugViewerNames.pushBack( hkpBroadphaseViewer::getName()  );
-	//	m_debugViewerNames.pushBack( hkpConstraintViewer::getName()  );
-	//	m_debugViewerNames.pushBack( hkpActiveContactPointViewer::getName()  );
+	 //m_debugViewerNames.pushBack( hkpConstraintViewer::getName()  );
+	//  m_debugViewerNames.pushBack( hkpActiveContactPointViewer::getName()  );
 	//	m_debugViewerNames.pushBack( hkpInactiveContactPointViewer::getName()  );
 	//	m_debugViewerNames.pushBack( hkpRigidBodyCentreOfMassViewer::getName()  );
 	//	m_debugViewerNames.pushBack( hkpRigidBodyInertiaViewer::getName()  );
@@ -339,6 +351,7 @@ hkDemo::Result hkDefaultPhysicsDemo::stepDemo()
 	if(m_world)
 	{
 		m_world->checkUnmarked();
+#if defined(HK_PLATFORM_MULTI_THREAD) && (HK_CONFIG_THREAD == HK_CONFIG_MULTI_THREADED)
 		if ( m_world->m_simulationType == hkpWorldCinfo::SIMULATION_TYPE_MULTITHREADED )
 		{
 			if ( m_env->m_options->m_renderParallelWithSimulation )
@@ -363,6 +376,7 @@ hkDemo::Result hkDefaultPhysicsDemo::stepDemo()
 			}
 		}
 		else
+#endif
 		{
 			m_world->stepDeltaTime(m_timestep);
 		}
@@ -392,6 +406,8 @@ hkpStepResult hkDefaultPhysicsDemo::stepAsynchronously(hkpWorld* world, hkReal f
 				// Interact from game to physics
 			}
 
+			hkCheckDeterminismUtil::workerThreadStartFrame(true);
+
 			m_world->initMtStep( m_jobQueue, m_timestep );
 
 			m_jobThreadPool->processAllJobs( m_jobQueue );
@@ -400,6 +416,8 @@ hkpStepResult hkDefaultPhysicsDemo::stepAsynchronously(hkpWorld* world, hkReal f
 			m_jobThreadPool->waitForCompletion();
 
 			m_world->finishMtStep( m_jobQueue, m_jobThreadPool );
+
+			hkCheckDeterminismUtil::workerThreadFinishFrame();
 		}
 
 		result = HK_STEP_RESULT_SUCCESS;
@@ -865,9 +883,9 @@ hkgDisplayObject* hkDefaultPhysicsDemo::findMeshDisplay( const char* meshName, c
 }
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

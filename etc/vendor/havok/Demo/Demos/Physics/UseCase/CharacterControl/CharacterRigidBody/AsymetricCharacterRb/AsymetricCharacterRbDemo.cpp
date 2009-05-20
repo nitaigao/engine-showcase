@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -392,19 +392,6 @@ hkDemo::Result AsymetricCharacterRbDemo::stepDemo()
 			HK_TIMER_END();
 		}
 
-		// Calculate and set acceleration for mass modifier
-		// Acceleration must be set before setLinearVelocity for the character
-		{
-			// NOTE: In this case, acceleration is simply taken from centre of gravity. For larger asymetric shapes would be better 
-			// to calculate the acceleration from velocities in contact point: 
-			// velContactPoint = velLin + velAng x contacPoint
-			hkVector4 currentAcc; currentAcc.setSub4(output.m_velocity, m_characterRigidBody->getLinearVelocity());
-			currentAcc.mul4(1.0f/m_timestep);
-			
-			m_characterRigidBody->setLinearAccelerationToMassModifier(currentAcc);
-
-		}
-
 		// Apply the player character controller
 		{
 			HK_TIMER_BEGIN( "simulate character", HK_NULL );
@@ -548,9 +535,9 @@ static const char helpString[] = \
 HK_DECLARE_DEMO(AsymetricCharacterRbDemo, HK_DEMO_TYPE_PRIME, "Asymetric Character Rigid Body", helpString);
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

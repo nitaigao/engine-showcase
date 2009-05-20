@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -29,6 +29,7 @@ class hkDisplayGeometry;
 /// categories so that they can be configured and filtered independently.
 /// For example, each Viewer has one or more unique tags.
 ///
+
 
 class hkDebugDisplayHandler
 {
@@ -57,7 +58,10 @@ class hkDebugDisplayHandler
 
 			HK_SEND_MEMSTATS_DUMP,  // Added for 3.0.0
 			HK_ADD_GEOMETRY_INSTANCE, // Added for 4.5.0
-			HK_DISPLAY_TEXT_3D	// Added for 4.6.0
+			HK_DISPLAY_TEXT_3D,	// Added for 4.6.0
+
+			HK_UPDATE_BEHAVIOR,	// Added in 6.5
+			HK_LIST_BEHAVIORS,	// Added in 6.5
 		};
 
 			/// virtual Destructor
@@ -93,6 +97,11 @@ class hkDebugDisplayHandler
 		//
 		virtual hkResult updateCamera(const hkVector4& from, const hkVector4& to, const hkVector4& up, hkReal nearPlane, hkReal farPlane, hkReal fov, const char* name) = 0;
 
+		//
+		// Behavior Temp callbacks
+		//
+		virtual hkResult updateBehavior(hkArray<int>& wordVarIdx, hkArray<int>& wordStack, hkArray<int>& quadVarIdx, hkArray<hkVector4>& quadStack,
+			hkArray<char*>& activeNodes, hkArray<int>& activeStateIds, hkArray<int>& activeTransitions, hkArray<hkQsTransform>& transforms) = 0;
 
 		//
 		// Immediate Mode Functions
@@ -121,6 +130,11 @@ class hkDebugDisplayHandler
 		virtual hkResult displayGeometry(const hkArray<hkDisplayGeometry*>& geometries, int color, int tag) = 0;
 
 
+		// Utility functions (just call displayLine etc above)
+		void displayFrame( const hkQsTransform& worldFromLocal, hkReal size, int tag );
+		void displayFrame( const hkTransform& worldFromLocal, hkReal size, int tag );
+		void displayArrow( const hkVector4& from, const hkVector4& dir, int color, int tag );
+
 		//
 		// Statistics functions (ideally these would be in a separate interface to the display handler)
 		//
@@ -143,9 +157,9 @@ class hkDebugDisplayHandler
 #endif // HK_VISUALIZE_DISPLAY_HANDLER
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -54,7 +54,7 @@ namespace Physics
 		*  @param[in] AnyValue::AnyValueMap properties
 		*  @return (void)
 		*/
-		void Initialize( AnyValue::AnyValueMap& properties );
+		void Initialize( );
 
 
 		/*! Steps the internal data of the Component
@@ -64,14 +64,7 @@ namespace Physics
 		*/
 		void Update( const float& deltaMilliseconds );
 
-
-		/*! Observes a change in the Subject
-		*
-		*  @param[in] ISubject * subject
-		*  @param[in] const unsigned int& systemChanges
-		*  @return (void)
-		*/
-		void Observe( ISubject* subject, const unsigned int& systemChanges );
+		AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
 
 	private:
 

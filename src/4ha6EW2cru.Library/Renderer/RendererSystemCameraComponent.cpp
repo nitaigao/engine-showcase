@@ -10,33 +10,25 @@ using namespace Logging;
 
 namespace Renderer
 {
-	void RendererSystemCameraComponent::Observe( ISubject* subject, const unsigned int& systemChanges )
+	AnyValue RendererSystemCameraComponent::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
 	{
-		RendererSystemComponent::Observe( subject, systemChanges );
+		RendererSystemComponent::Message( messageId, parameters );
 
-		ISystemComponent* component = static_cast< ISystemComponent* >( subject );
-
-		if ( System::Changes::Geometry::Orientation & systemChanges )
+		if( messageId & System::Messages::SetOrientation )
 		{
-			m_sceneNode->setOrientation( component->GetOrientation( ).AsOgreQuaternion( ) );
+			m_sceneNode->setOrientation( parameters[ System::Attributes::Orientation ].GetValue< MathQuaternion >( ).AsOgreQuaternion( ) );
 		}
 
-		if ( System::Changes::Input::Mouse_Moved & systemChanges )
+		if ( messageId & System::Messages::Mouse_Moved )
 		{
 			m_xHistory.pop_back( );
-			m_xHistory.push_front( component->GetAttributes( )[ "xDelta" ].GetValue< int >( ) );
+			m_xHistory.push_front( parameters[ System::Attributes::DeltaX ].GetValue< int >( ) );
 
 			m_yHistory.pop_back( );
-			m_yHistory.push_front( component->GetAttributes( )[ "yDelta" ].GetValue< int >( ) );
+			m_yHistory.push_front( parameters[ System::Attributes::DeltaY ].GetValue< int >( ) );
 		}
-	}
 
-	void RendererSystemCameraComponent::PushChanges( const unsigned int& systemChanges )
-	{
-		if ( m_observer != 0 )
-		{
-			m_observer->Observe( this, systemChanges );
-		}
+		return AnyValue( );
 	}
 
 	void RendererSystemCameraComponent::Update( const float& deltaMilliseconds )
@@ -64,12 +56,20 @@ namespace Renderer
 		forward = forward * pitchmatrix.Inverse( );
 		forward = forward * yawMatrix.Inverse( );
 		
-		m_attributes[ "lookAt" ] = MathVector3( m_sceneNode->getPosition( ) + forward );
+		m_attributes[ System::Attributes::LookAt ] = MathVector3( m_sceneNode->getPosition( ) + forward );
+		this->PushMessage( System::Messages::SetLookAt, m_attributes );
 
-		this->PushChanges( System::Changes::Geometry::Orientation | System::Changes::POI::LookAt );
+		m_attributes[ System::Attributes::Position ] = MathVector3( m_sceneNode->getPosition( ) );
+		this->PushMessage( System::Messages::SetPosition, m_attributes );
+
+		m_attributes[ System::Attributes::Orientation ] = MathQuaternion( m_sceneNode->getOrientation( ) );
+		this->PushMessage( System::Messages::SetOrientation, m_attributes );
+
+		m_attributes[ System::Attributes::PlayerPosition ] = MathVector3( m_sceneNode->getPosition( ) );
+		this->PushMessage( System::Messages::SetPlayerPosition, m_attributes );
 	}
 
-	void RendererSystemCameraComponent::Initialize( AnyValue::AnyValueMap& properties )
+	void RendererSystemCameraComponent::Initialize( )
 	{
 		for( int i = 0; i < m_historySize; i++ )
 		{
@@ -85,7 +85,7 @@ namespace Renderer
 		m_cameraNode = m_scene->GetSceneManager( )->createSceneNode( cameraNodeName.str( ) );
 		m_sceneNode->addChild( m_cameraNode );
 
-		this->LoadModel( m_cameraNode, properties[ "model" ].GetValue< std::string >( ) );
+		this->LoadModel( m_cameraNode, m_attributes[ System::Attributes::Model ].GetValue< std::string >( ) );
 
 		m_scene->GetSceneManager( )->getRootSceneNode( )->addChild( m_sceneNode );
 
@@ -110,12 +110,12 @@ namespace Renderer
 		}
 	}
 
-	float RendererSystemCameraComponent::AverageInputHistory( const History& inputHistory, const float& weightModifier )
+	float RendererSystemCameraComponent::AverageInputHistory( const InputHistory& inputHistory, const float& weightModifier )
 	{
 		int index = 0;
 		float sum = 0.0f;
 
-		for ( History::const_iterator i = inputHistory.begin( ); i != inputHistory.end( ); ++i )
+		for ( InputHistory::const_iterator i = inputHistory.begin( ); i != inputHistory.end( ); ++i )
 		{
 			sum += ( *i ) * pow( weightModifier, index++ );
 		}

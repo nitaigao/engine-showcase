@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -25,6 +25,9 @@
 
 // use STL here so we avoid memory recursion.
 #include <map>
+#if defined(HK_PLATFORM_PS3_PPU) && (_HAS_EXCEPTIONS==0) && HK_CELL_SDK_VERSION < 0x190002
+	void std::exception::_Raise() const { HK_BREAKPOINT(0); }
+#endif
 
 #		define PTR_CLASS _FARQ
 
@@ -71,18 +74,18 @@ class hkStlDebugMemory : public hkDebugMemory
 
 		static void HK_CALL defaultOutputStringFunc(const char* s, void* a);
 
-		virtual void allocateChunkBatch(void** blocksOut, int nblocks, int nbytes )
+		virtual void allocateChunkBatch(void** blocksOut, int nblocks, int nbytes,HK_MEMORY_CLASS cl )
 		{
 			for( int i = 0; i < nblocks; ++i )
 			{
-				blocksOut[i] = allocateChunk(nbytes, HK_MEMORY_CLASS_ROOT);
+				blocksOut[i] = allocateChunk(nbytes, cl);
 			}
 		}
-		virtual void deallocateChunkBatch(void** blocks, int nblocks, int nbytes )
+		virtual void deallocateChunkBatch(void** blocks, int nblocks, int nbytes,HK_MEMORY_CLASS cl )
 		{
 			for( int i = 0; i < nblocks; ++i )
 			{
-				deallocateChunk(blocks[i], nbytes, HK_MEMORY_CLASS_ROOT);
+				deallocateChunk(blocks[i], nbytes, cl);
 			}
 		}
 
@@ -702,9 +705,9 @@ void hkStlDebugMemory::unlockBlock(void* p)
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

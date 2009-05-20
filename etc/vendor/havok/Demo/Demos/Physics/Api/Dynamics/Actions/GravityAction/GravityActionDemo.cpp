@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -89,7 +89,13 @@ GravityActionDemo::GravityActionDemo(hkDemoEnvironment* env)
 	}
 
 	// Limit number of polygons as Havok renderer is not perfect!
+#if defined(HK_PLATFORM_PS2) || defined(HK_PLATFORM_PS3_PPU)
 		const int numBodies = 100;
+#elif defined HK_PLATFORM_GC
+		const int numBodies = 250;
+#else
+		const int numBodies = 100;
+#endif
 
 	//
 	// Create the satellites.
@@ -139,12 +145,14 @@ GravityActionDemo::GravityActionDemo(hkDemoEnvironment* env)
 
 			GravityAction* gravityAction = new GravityAction( satellite, gravityCenter, gravityConstant );
 
+			
 			m_world->addAction( gravityAction );
 
 			// After addAction() m_world references antiGravityAction so the local reference can safely be removed.
 			gravityAction->removeReference();
 
 			satellite->removeReference();
+			
 		}
 	}
 	planet->removeReference();
@@ -167,9 +175,9 @@ static const char helpString[] = \
 HK_DECLARE_DEMO(GravityActionDemo, HK_DEMO_TYPE_PRIME | HK_DEMO_TYPE_CRITICAL, "A unary action forcing rigid bodies toward a point, like gravity", helpString);
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

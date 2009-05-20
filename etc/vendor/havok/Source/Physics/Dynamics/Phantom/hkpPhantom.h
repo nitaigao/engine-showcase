@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -59,7 +59,6 @@ class hkpPhantom : public hkpWorldObject
 {
 	public:
 	
-		//+version(2)
 		HK_DECLARE_REFLECTION();
 
 		HK_DECLARE_CLASS_ALLOCATOR( HK_MEMORY_CLASS_PHANTOM );
@@ -77,13 +76,17 @@ class hkpPhantom : public hkpWorldObject
 		virtual void addOverlappingCollidable( hkpCollidable* collidable ) = 0;
 
 			/// Tests whether a collidable is known in the phantom
-		virtual hkBool isOverlappingCollidableAdded( hkpCollidable* collidable ) = 0;
+		virtual hkBool isOverlappingCollidableAdded( const hkpCollidable* collidable ) = 0;
 
 
 			/// Called by the broadphase for every removed collidable - This may get called even if there was
 			/// no corresponding addOverlappingCollidable() if the bodies are filtered not to collide.
 			/// See the UserGuide for more details.
 		virtual void removeOverlappingCollidable( hkpCollidable* collidable ) = 0;
+
+			/// Ensures that the collidables or penetrations obtained from this phantom
+			/// are in deterministic order.
+		virtual void ensureDeterministicOrder() = 0;
 
 			/// Given a phantom (this), return a new phantom that shares all static data
 			/// such as the shape, but clones any dynamic runtime data.
@@ -153,7 +156,10 @@ class hkpPhantom : public hkpWorldObject
 			// used by hkpWorldOperationUtil
 			/// ###ACCESS_CHECKS###( [m_world,HK_ACCESS_RW] );
 		void updateBroadPhase( const hkAabb& aabb );
-		
+
+			//  Sets cached aabbs in the m_boundingVolumeData member.
+		void setBoundingVolumeData(const hkAabb& aabb);
+
 	protected:
 
 		hkArray<hkpPhantomOverlapListener*> m_overlapListeners; //+nosave
@@ -174,6 +180,7 @@ class hkpPhantom : public hkpWorldObject
 		// After loading are correctly deallocated.
 			/// ###ACCESS_CHECKS###( [m_world,HK_ACCESS_IGNORE] [this,HK_ACCESS_RW] );
 		virtual void deallocateInternalArrays();
+
 };
 
 
@@ -184,9 +191,9 @@ class hkpPhantom : public hkpWorldObject
 #endif	//HK_DYNAMICS2_PHANTOM_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

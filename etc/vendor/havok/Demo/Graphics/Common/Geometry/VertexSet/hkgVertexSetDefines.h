@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -27,20 +27,20 @@ typedef hkUint16 HKG_VERTEX_COMPONENT;
 
 typedef hkUint16 HKG_VERTEX_FORMAT;
 #define HKG_VERTEX_FORMAT_NONE	   	      0    // Error state really
-#define HKG_VERTEX_FORMAT_POS		      1<<(HKG_VERTEX_COMPONENT_POS)						// has pos
-#define HKG_VERTEX_FORMAT_COLOR           1<<(HKG_VERTEX_COMPONENT_COLOR)					// has color
-#define HKG_VERTEX_FORMAT_TEX0            1<<(HKG_VERTEX_COMPONENT_TEX0)					// has tex coords for stage 0
-#define HKG_VERTEX_FORMAT_TEX1            1<<(HKG_VERTEX_COMPONENT_TEX1)					// has tex coords for stage 1
-#define HKG_VERTEX_FORMAT_TEX2            1<<(HKG_VERTEX_COMPONENT_TEX2)					// has tex coords for stage 2
-#define HKG_VERTEX_FORMAT_TEX3            1<<(HKG_VERTEX_COMPONENT_TEX3)					// has tex coords for stage 3
-#define HKG_VERTEX_FORMAT_NORMAL	      1<<(HKG_VERTEX_COMPONENT_NORMAL)					// has normal
-#define HKG_VERTEX_FORMAT_TANGENT		  1<<(HKG_VERTEX_COMPONENT_TANGENT)					// has tangent
-#define HKG_VERTEX_FORMAT_BITANGENT		  1<<(HKG_VERTEX_COMPONENT_BITANGENT)				// has bitangent (aka binormal)
-#define HKG_VERTEX_FORMAT_BLENDWEIGHTS    1<<(HKG_VERTEX_COMPONENT_BLENDWEIGHTS)			// has bone/blend weights
-#define HKG_VERTEX_FORMAT_BLENDINDICES    1<<(HKG_VERTEX_COMPONENT_BLENDINDICES)			// has blend indices (to world blend matrices)
-#define HKG_VERTEX_FORMAT_POINTSPRITESIZE 1<<(HKG_VERTEX_COMPONENT_POINTSPRITESIZE)			// size of point sprite (particle effects)
+#define HKG_VERTEX_FORMAT_POS		      (1<<HKG_VERTEX_COMPONENT_POS)						// has pos
+#define HKG_VERTEX_FORMAT_COLOR           (1<<HKG_VERTEX_COMPONENT_COLOR)					// has color
+#define HKG_VERTEX_FORMAT_TEX0            (1<<HKG_VERTEX_COMPONENT_TEX0)					// has tex coords for stage 0
+#define HKG_VERTEX_FORMAT_TEX1            (1<<HKG_VERTEX_COMPONENT_TEX1)					// has tex coords for stage 1
+#define HKG_VERTEX_FORMAT_TEX2            (1<<HKG_VERTEX_COMPONENT_TEX2)					// has tex coords for stage 2
+#define HKG_VERTEX_FORMAT_TEX3            (1<<HKG_VERTEX_COMPONENT_TEX3)					// has tex coords for stage 3
+#define HKG_VERTEX_FORMAT_NORMAL	      (1<<HKG_VERTEX_COMPONENT_NORMAL)					// has normal
+#define HKG_VERTEX_FORMAT_TANGENT		  (1<<HKG_VERTEX_COMPONENT_TANGENT)					// has tangent
+#define HKG_VERTEX_FORMAT_BITANGENT		  (1<<HKG_VERTEX_COMPONENT_BITANGENT)				// has bitangent (aka binormal)
+#define HKG_VERTEX_FORMAT_BLENDWEIGHTS    (1<<HKG_VERTEX_COMPONENT_BLENDWEIGHTS)			// has bone/blend weights
+#define HKG_VERTEX_FORMAT_BLENDINDICES    (1<<HKG_VERTEX_COMPONENT_BLENDINDICES)			// has blend indices (to world blend matrices)
+#define HKG_VERTEX_FORMAT_POINTSPRITESIZE (1<<HKG_VERTEX_COMPONENT_POINTSPRITESIZE)			// size of point sprite (particle effects)
 
-#define HKG_VERTEX_FORMAT_INSTANCED_USER_DATA 1<<(HKG_VERTEX_COMPONENT_INSTANCED_USER_DATA)	// additional per-instance data
+#define HKG_VERTEX_FORMAT_INSTANCED_USER_DATA (1<<HKG_VERTEX_COMPONENT_INSTANCED_USER_DATA)	// additional per-instance data
 
 typedef hkUint8 HKG_LOCK_FLAG;
 #define HKG_LOCK_NONE  0  
@@ -71,9 +71,9 @@ typedef hkUint8 HKG_VERTEX_STORAGE;
 #endif //HK_GRAPHICS_VERTEX_SET_DEFINES__H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

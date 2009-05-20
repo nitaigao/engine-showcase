@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -13,7 +13,6 @@
 #include <Physics/Dynamics/Constraint/hkpConstraintData.h>
 #include <Physics/ConstraintSolver/Constraint/Atom/hkpConstraintAtom.h>
 
-class hkpBreakableListener;
 class hkpWorld;
 
 extern const hkClass hkpBreakableConstraintDataClass;
@@ -29,7 +28,6 @@ class hkpBreakableConstraintData : public hkpConstraintData
 {
 	public:
 
-		//+version(4)
 		HK_DECLARE_REFLECTION();
 
 			/// Construct the constraint with a pointer to the constraint to be broken
@@ -69,9 +67,6 @@ class hkpBreakableConstraintData : public hkpConstraintData
 			/// other cases.
 		inline void setRevertBackVelocityOnBreak( hkBool b );
 
-			/// Call user defined function when constraint breaks
-        inline void setBreakableListener(hkpBreakableListener* bListener); 
-		
 			/// Returns whether constraint will be removed when it breaks
 		inline hkBool getRemoveWhenBroken() const;
 
@@ -82,7 +77,7 @@ class hkpBreakableConstraintData : public hkpConstraintData
 		inline hkBool getIsBroken( const hkpConstraintInstance* instance );
 
 			/// Set the broken state of the given constraint instance
-		inline void setBroken ( const hkpConstraintInstance* instance, hkBool broken);
+		void setBroken ( hkpConstraintInstance* instance, hkBool broken, hkReal currentForce = 0.0f );
 
 			/// Returns the breaking threshold
 		inline hkReal getThreshold() const;
@@ -143,10 +138,6 @@ class hkpBreakableConstraintData : public hkpConstraintData
 			/// See setRevertBackVelocityOnBreak()
 		hkBool  m_revertBackVelocityOnBreak;
 		
-			/// Pointer to user specified function that is called 
-			/// when the constraint breaks
-		hkpBreakableListener* m_listener; //+nosave
-
 			/// Needed to build an jacobian, which is doing nothing
 		void buildNopJacobian( const hkpConstraintQueryIn &in, hkpConstraintQueryOut &out );
 
@@ -184,9 +175,9 @@ class hkpBreakableConstraintData : public hkpConstraintData
 #endif 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

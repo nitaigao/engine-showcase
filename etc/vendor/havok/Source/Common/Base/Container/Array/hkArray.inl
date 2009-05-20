@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -72,6 +72,7 @@ HK_FORCE_INLINE void hkArray<T>::clear()
 template <typename T>
 HK_FORCE_INLINE void HK_CALL hkArray<T>::copy(T* dst, const T* src, int n)
 {
+	HK_ASSERT(0x4543e433, (	dst <= src) || (src+n <= dst) );
 	for(int i = 0; i < n; ++i)
 	{
 		dst[i] = src[i];
@@ -81,6 +82,7 @@ HK_FORCE_INLINE void HK_CALL hkArray<T>::copy(T* dst, const T* src, int n)
 template <typename T>
 HK_FORCE_INLINE void HK_CALL hkArray<T>::copyBackwards(T* dst, const T* src, int n)
 {
+	HK_ASSERT(0x4543e434, (dst >= src) || (dst+n <= src) );
 	for(int i = n-1; i >= 0; --i)
 	{
 		dst[i] = src[i];
@@ -272,9 +274,26 @@ HK_FORCE_INLINE void hkArray<T>::removeAtAndCopy(int index)
 }
 
 template <typename T>
-HK_FORCE_INLINE int hkArray<T>::indexOf(const T& t) const
+HK_FORCE_INLINE void hkArray<T>::removeAtAndCopy(int index, int numToRemove)
 {
-	for(int i = 0; i < m_size; ++i)
+	HK_ASSERT(0x453a6436,  numToRemove >= 0);
+	HK_ASSERT(0x453a6437,  index >= 0 && ( (index + numToRemove) <= m_size) );
+	
+	m_size -= numToRemove;
+	for(int i = index; i < m_size; ++i)
+	{
+		m_data[i] = m_data[i+numToRemove];
+	}
+}
+
+template <typename T>
+HK_FORCE_INLINE int hkArray<T>::indexOf(const T& t, int startIdx, int endIdx) const
+{
+	if( endIdx < 0 )
+	{
+		endIdx = m_size;
+	}
+	for(int i = startIdx; i < endIdx; ++i)
 	{
 		if( m_data[i] == t )
 		{
@@ -352,6 +371,7 @@ HK_FORCE_INLINE void hkArray<T>::pushBack(const T& t)
 		if ( isLocked() )
 			HK_WARN(0xf3768206, "hkArray::pushBack on locked array. Destructor (memory dealloc) will not be called.");
 #endif
+		HK_ASSERT2( 0x76e453e4, ! ( ( &t >= m_data ) && ( &t < (m_data + m_size) ) ), "hkArray::pushBack can't push back element of same array during resize" );
 		hkArrayUtil::_reserveMore( this, sizeof(T) );
 	}
 	m_data[m_size++] = t;
@@ -437,8 +457,15 @@ void hkArray<T>::spliceInto(int index, int numdel, const T* p, int numtoinsert)
 		// note double copy from [i:end] not a problem in practice
 		reserve(newsize); // will warn if locked.
 	}
-	copyBackwards(m_data + index + numtoinsert, m_data + index + numdel, numtomove);
-	copyBackwards(m_data + index,               p,  numtoinsert);
+	if( numtoinsert >= numdel )
+	{
+		copyBackwards(m_data + index + numtoinsert, m_data + index + numdel, numtomove);
+	}
+	else
+	{
+		copy( m_data + index + numtoinsert, m_data + index + numdel, numtomove );
+	}
+	copyBackwards(m_data + index, p, numtoinsert);
 	m_size = newsize;
 }
 
@@ -597,9 +624,9 @@ void hkArray<T>::setOwnedData(T* ptr, int size, int capacity)
 #undef HK_COMPUTE_OPTIMIZED_CAPACITY
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -80,7 +80,12 @@ class hkpGroupFilter : public hkpCollisionFilter
 	// we make the size of this class 256 bytes, so that the spu simulator always finds a valid allocated memory piece
 	public:
 
-		//+version(1)
+		    /// A collision filter info value which tells the group filter to take the collision filter info from the root collidable.
+		    /// Usually this will be used for the hkpExtendedMeshShape::m_defaultCollisionFilterInfo.
+		enum { USE_COLLIDABLE_FILTER_INFO = 0xffffffff };
+
+	public:
+
 		HK_DECLARE_REFLECTION();
 
 			/// Constructor, by default enables all collisions between all layers
@@ -110,6 +115,9 @@ class hkpGroupFilter : public hkpCollisionFilter
 
 			/// Extract the layer from a given filterInfo
 		static inline int HK_CALL getLayerFromFilterInfo( hkUint32 filterInfo );
+
+			/// Returns the filter info provided with the layer replaced by newLayer
+		static inline int HK_CALL setLayer( hkUint32 filterInfo, int newLayer );
 
 			/// Extract the system group from a given filterInfo
 		static inline int HK_CALL getSystemGroupFromFilterInfo( hkUint32 filterInfo );
@@ -181,9 +189,9 @@ class hkpGroupFilter : public hkpCollisionFilter
 #endif // HK_DYNAMICS2_GROUP_FILTER_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

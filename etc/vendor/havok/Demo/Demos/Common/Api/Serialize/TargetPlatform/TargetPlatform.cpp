@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -48,7 +48,7 @@ TargetPlatformDemo::TargetPlatformDemo( hkDemoEnvironment* env)
 	// For most people, their asset processing machine will be some sort of PC, (4011 or 8011)
 	// so it would make sense to read a binary for that platform. However this demo must
 	// run on all platforms.
-	m_contents = m_loader.load("Common/Api/Serialize/SimpleLoad/Resources/simple.xml");
+	m_contents = m_loader.load("Resources/Common/Api/Serialize/SimpleLoad/simple.xml");
 	HK_ASSERT2(0xa6451543, m_contents != HK_NULL, "Could not load root level obejct" );
 	hkpPhysicsData* physicsData = static_cast<hkpPhysicsData*>( m_contents->findObjectByType( hkpPhysicsDataClass.getName() ) );
 	HK_ASSERT2(0xa6451544, physicsData != HK_NULL, "Could not find physics data in root level object" );
@@ -127,9 +127,9 @@ HK_DECLARE_DEMO(TargetPlatformDemo, HK_DEMO_TYPE_PRIME | HK_DEMO_TYPE_SERIALIZE,
 	"Press \220 to export to in-memory buffers."	);
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

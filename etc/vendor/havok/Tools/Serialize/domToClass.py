@@ -1,7 +1,7 @@
 #
 # Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
 # prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
-# Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+# Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
 #
 
 #! /usr/bin/env python
@@ -277,7 +277,7 @@ def isGlobalType(pc):
     return pc.startswith("::") or pc.startswith("hk") or pc.startswith("hct") or pc.startswith("hcl")
 
 def isForVersioning(klass):
-    return not klass.defineattribute and klass.serializable
+    return klass.serializable
 
 customAttributes = struct(imported={}, dictionary={})
 
@@ -390,6 +390,8 @@ def domToClass(dom, debug=0, collectAll=False, pchfile=""):
         elif mtype in ("hkClassMember::TYPE_ENUM", "hkClassMember::TYPE_FLAGS"):
             etype, esize = [x.strip() for x in member_type.split("<")[1].split(">")[0].split(",")]
             msubtype = _typecode( esize )
+            if etype.startswith("enum "):
+                etype = etype[5:].strip()
             if etype == "void":
                 pass
             elif etype.find("::") != -1: #explicitly scoped
@@ -398,20 +400,20 @@ def domToClass(dom, debug=0, collectAll=False, pchfile=""):
                 menum = None
                 # local scope
                 for e in klass.enum:
-                    if etype.endswith(e.name):
+                    if etype == e.name:
                         menum = "%s%s%sEnum" % (namespace.replace("::",""), klass.name, e.name)
                         break
                 # enclosing class scope
                 if menum==None:
                     for c in [ i for i in dom.file._class if i.name == namespace]:
                         for e in c.enum:
-                            if etype.endswith(e.name):
+                            if etype == e.name:
                                 menum = "%s%sEnum" % (c.name, e.name)
                                 break
                 # file scope
                 if menum==None:
                     for i,e in _enumerate(dom.file.enum):
-                        if etype.endswith(e.name):
+                        if etype == e.name:
                             menum = "%sEnum" % e.name
                             break
                 assert menum != None
@@ -809,9 +811,9 @@ if __name__=="__main__":
 
 
 #
-# Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+# Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 # 
-# Confidential Information of Havok.  (C) Copyright 1999-2008
+# Confidential Information of Havok.  (C) Copyright 1999-2009
 # Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 # Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 # rights, and intellectual property rights in the Havok software remain in

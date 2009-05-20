@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -64,6 +64,9 @@ HK_MEMORY_CLASS_DEFINITION_START
 
 	//these are for the cloth library
 	HK_MEMORY_CLASS(CLOTH,		HK_MEMORY_CLASS_ROOT)
+
+	//these are for the ai library
+	HK_MEMORY_CLASS(AI,			HK_MEMORY_CLASS_ROOT)
 
 	//these are for use by the tools supplied with the havok SDK
 	HK_MEMORY_CLASS(TOOLS,		HK_MEMORY_CLASS_ROOT)
@@ -139,6 +142,12 @@ HK_MEMORY_CLASS_DEFINITION_START
 	// these are sub-classes of cloth
 	HK_MEMORY_CLASS(CLOTH_RUNTIME,		HK_MEMORY_CLASS_CLOTH)
 	HK_MEMORY_CLASS(CLOTH_DATA,			HK_MEMORY_CLASS_CLOTH)
+	HK_MEMORY_CLASS(CLOTH_SETUP,		HK_MEMORY_CLASS_CLOTH)
+
+	// these are sub-classes of ai
+	HK_MEMORY_CLASS(AI_NAVMESH,			HK_MEMORY_CLASS_AI)
+	HK_MEMORY_CLASS(AI_ASTAR,			HK_MEMORY_CLASS_AI)
+	HK_MEMORY_CLASS(AI_STEERING,		HK_MEMORY_CLASS_AI)
 
 	// Sub classes of user memory classes
 	HK_MEMORY_CLASS(USER_1,	HK_MEMORY_CLASS_USER)
@@ -150,9 +159,9 @@ HK_MEMORY_CLASS_DEFINITION_START
 HK_MEMORY_CLASS_DEFINITION_END
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

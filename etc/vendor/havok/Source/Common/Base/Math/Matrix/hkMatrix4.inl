@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -147,7 +147,7 @@ inline void hkMatrix4::multiplyVector (const hkVector4& v, hkVector4& resultOut)
 
 inline void hkMatrix4::transformDirection (const hkVector4& directionIn, hkVector4& directionOut) const
 {
-	HK_WARN_IF(!isAffineTransformation(),0x872bbf1a, "Trying to transform a direction by a 4x4 matrix not representing an affine transformation");
+	HK_WARN_IF(!isAffineTransformation(),0x872bbf1c, "Trying to transform a direction by a 4x4 matrix not representing an affine transformation");
 
 	hkVector4 xb; xb.setBroadcast(directionIn, 0);
 	hkVector4 yb; yb.setBroadcast(directionIn, 1);
@@ -163,8 +163,8 @@ inline void hkMatrix4::transformDirection (const hkVector4& directionIn, hkVecto
 
 inline void hkMatrix4::setMulAffine ( const hkMatrix4& a, const hkMatrix4& b )
 {
-	HK_WARN_IF(!a.isAffineTransformation(),0x872bbf1a, "Matrix A in setMulAffine() is not an affine transformation");
-	HK_WARN_IF(!b.isAffineTransformation(),0x872bbf1a, "Matrix A in setMulAffine() is not an affine transformation");
+	HK_WARN_IF(!a.isAffineTransformation(),0x872bbf1d, "Matrix A in setMulAffine() is not an affine transformation");
+	HK_WARN_IF(!b.isAffineTransformation(),0x872bbf1e, "Matrix B in setMulAffine() is not an affine transformation");
 
 	// We need to make it alias save
 	hkVector4 col0; a.transformDirection(b.m_col0, col0);
@@ -188,9 +188,9 @@ inline const hkMatrix4& HK_CALL hkMatrix4::getIdentity()
 }
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

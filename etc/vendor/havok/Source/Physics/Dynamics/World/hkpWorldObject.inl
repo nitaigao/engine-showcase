@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -21,6 +21,10 @@ hkpWorldObject::~hkpWorldObject()
 	if (m_collidable.getShape())
 	{
 		m_collidable.getShape()->removeReference();
+	}
+	if (m_aiData)
+	{
+		m_aiData->removeReference();
 	}
 }
 
@@ -72,9 +76,9 @@ void hkpWorldObject::setWorld( hkpWorld* world )
 	m_world = world;
 }
 
-inline hkpPropertyValue hkpWorldObject::getProperty( hkUint32 key ) const
+inline hkpPropertyValue hkpWorldObject::getProperty( hkUint32 key, MtChecks mtCheck ) const
 {
-	HK_ON_DEBUG_MULTI_THREADING( checkReadOnly() );
+	HK_ON_DEBUG_MULTI_THREADING( if ( mtCheck == MULTI_THREADING_CHECKS_ENABLE) {checkReadOnly(); } );
 
 	for (int i = 0; i < m_properties.getSize(); ++i)
 	{
@@ -90,9 +94,9 @@ inline hkpPropertyValue hkpWorldObject::getProperty( hkUint32 key ) const
 	return returnValue;
 }
 
-inline hkBool hkpWorldObject::hasProperty( hkUint32 key ) const
+inline bool hkpWorldObject::hasProperty( hkUint32 key, MtChecks mtCheck ) const
 {
-	HK_ON_DEBUG_MULTI_THREADING( checkReadOnly() );
+	HK_ON_DEBUG_MULTI_THREADING( if ( mtCheck == MULTI_THREADING_CHECKS_ENABLE) {checkReadOnly(); } );
 
 	for (int i = 0; i < m_properties.getSize(); ++i)
 	{
@@ -176,9 +180,9 @@ inline void hkpWorldObject::copyProperties( const hkpWorldObject* otherObj )
 }
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -23,7 +23,7 @@ using namespace Logging;
 #define HK_CLASSES_FILE <Common/Serialize/Classlist/hkClasses.h>
 #include <Common/Serialize/Util/hkBuiltinTypeRegistry.cxx>
 #define HK_COMPAT_FILE <Common/Compat/hkCompatVersions.h>
-#include <Common/Compat/hkCompat_None.cxx> 
+#include <Common/Compat/hkCompat_All.cxx> 
 
 namespace Physics
 {
@@ -37,11 +37,9 @@ namespace Physics
 		info.setBroadPhaseWorldSize( 10000.0f );
 		info.setupSolverInfo( hkpWorldCinfo::SOLVER_TYPE_4ITERS_MEDIUM );
 
-		HavokPhysicsSystemScene* scene = new HavokPhysicsSystemScene( info );
+		m_scene = new HavokPhysicsSystemScene( info );
 
-		m_scenes.push_back( scene );
-
-		return scene;
+		return m_scene;
 	}
 
 	void HavokPhysicsSystem::Initialize()
@@ -80,7 +78,7 @@ namespace Physics
 
 		hkpAllRayHitCollector collector;
 
-		m_scenes[ 0 ]->GetWorld( )->castRay( input, collector );
+		m_scene->GetWorld( )->castRay( input, collector );
 
 		if( sortByDistance )
 		{

@@ -1,9 +1,0 @@
-Compiler Versions
------------------
-
-Havok 6.0.0 Release
--------------------
-Win32:
-
-    * Visual Studio 2005 (ver. 8.0 SP1) 
-

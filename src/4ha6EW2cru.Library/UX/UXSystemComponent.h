@@ -4,6 +4,8 @@
 *  @file   UXSystemComponent.h
 *  @date   2009/04/26
 */
+#ifndef UXSYSTEMCOMPONENT_H
+#define UXSYSTEMCOMPONENT_H
 
 #include <vector>
 
@@ -13,8 +15,8 @@
 #include "../Maths/MathVector3.hpp"
 #include "../Maths/MathQuaternion.hpp"
 
-#include "IUXSystemScene.hpp"
 #include "IUXSystemComponent.hpp"
+#include "IUXSystemScene.hpp"
 
 namespace UX
 {
@@ -38,16 +40,31 @@ namespace UX
 		/*! Default Constructor
 		*
 		*  @param[in] const std::string & name
-		*  @param[in] IScriptComponent * scriptComponent
+		*  @param[in] IUXSystemScene * scene
 		*  @return ()
 		*/
-		UXSystemComponent( const std::string& name, IUXSystemScene* uxSystemScene )
+		UXSystemComponent( const std::string& name, IUXSystemScene* scene )
 			: m_name( name )
-			, m_id( 0 )
-			, m_scene( uxSystemScene )
+			, m_scene( scene )
 		{
 
 		}
+
+		/*! Posts a message to observers
+		*
+		*  @param[in] const std::string & message
+		*  @param[in] AnyValue::AnyValueMap parameters
+		*  @return (AnyValue)
+		*/
+		inline AnyValue PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters ) { return AnyValue( ); };
+
+
+		/*! Messages the Component to influence its internal state
+		*
+		*  @param[in] const std::string & message
+		*  @return (AnyValue)
+		*/
+		inline AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters ) { return AnyValue( ); };
 
 		/* Inherited from ISystemComponent */
 
@@ -56,7 +73,7 @@ namespace UX
 		*  @param[in] AnyValue::AnyValueMap properties
 		*  @return (void)
 		*/
-		inline void Initialize( AnyValue::AnyValueMap& properties ) { };
+		inline void Initialize( ) { };
 
 
 		/*! Steps the internal data of the Component
@@ -82,101 +99,19 @@ namespace UX
 		inline void AddObserver( IObserver* observer ) { };
 
 
-		/*! Observes a change in the Subject
-		*
-		*  @param[in] ISubject * subject
-		*  @param[in] const unsigned int& systemChanges
-		*  @return (void)
-		*/
-		inline void Observe( ISubject* subject, const unsigned int& systemChanges ) { };
-
-
-		/*! Pushes any Changes to the Observers
-		*
-		*  @param[in] const unsigned int& systemChanges
-		*  @return (void)
-		*/
-		inline void PushChanges( const unsigned int& systemChanges ) { };
-
-
-		/*! Gets the Name of the Component
-		*
-		*  @return (const std::string&)
-		*/
-		inline const std::string& GetName( ) const { return m_name; };
-
-
-		/*! Sets the Id of the component unique to its containing World Entity
-		*
-		*  @param[in] const unsigned int & id
-		*  @return (void)
-		*/
-		inline void SetId( const unsigned int& id ) { m_id = id; };
-
-
-		/*! Returns a numerical Id for the component unique to its containing World Entity
-		*
-		*  @return (unsigned int)
-		*/
-		inline unsigned int GetId( ) const { return m_id; };
-
-
-		/*! Gets the System::Types::Type of the Component
-		*
-		*  @return (System::Types::Type)
-		*/
-		inline System::Types::Type GetType( ) const { return System::Types::AI; };
-
-
-		/*! Gets the types of Changes this component is interested in
-		*
-		*  @return (unsigned int)
-		*/
-		inline unsigned int GetRequestedChanges( ) const { return System::Changes::None; };
-
-
 		/*! Gets the properties of the Component
 		*
-		*  @return (AnyValueMap)
+		*  @return (AnyValueKeyMap)
 		*/
-		inline AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
+		AnyValue::AnyValueKeyMap GetAttributes( ) const { return m_attributes; };
 
 
-		/*! Sets the Properties of the Component
+		/*! Sets an Attribute on the Component *
 		*
-		*  @param[in] AnyValue::AnyValueMap systemProperties
-		*  @return (void)
+		*  @param[in] const unsigned int attributeId
+		*  @param[in] const AnyValue & value
 		*/
-		inline void SetAttributes( AnyValue::AnyValueMap& properties ) { };
-
-
-		/*! Gets the Position of the Component
-		*
-		*  @return (MathVector3)
-		*/
-		inline Maths::MathVector3 GetPosition( ) const { return m_position; };
-
-
-		/*! Gets the Scale of the Component
-		*
-		*  @return (MathVector3)
-		*/
-		inline Maths::MathVector3 GetScale( ) const { return Maths::MathVector3::Zero( ); };
-
-
-		/*! Gets the Orientation of the Component
-		*
-		*  @return (MathQuaternion)
-		*/
-		inline Maths::MathQuaternion GetOrientation( ) const { return m_orientation; };
-
-
-		/*! Messages the Component to influence its internal state
-		*
-		*  @param[in] const std::string & message
-		*  @return (AnyValue)
-		*/
-		AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters ) { return AnyValue( ); };
+		inline void SetAttribute( const unsigned int& attributeId, const AnyValue& value ) { m_attributes[ attributeId ] = value; };
 
 
 		/*! -- Script Helpers -- */
@@ -299,12 +234,11 @@ namespace UX
 	private:
 
 		std::string m_name;
-		unsigned int m_id;
-		IUXSystemScene* m_scene;
+		AnyValue::AnyValueKeyMap m_attributes;
 
-		Maths::MathVector3 m_position;
-		Maths::MathVector3 m_scale;
-		Maths::MathQuaternion m_orientation;
+		IUXSystemScene* m_scene;
 
 	};
 }
+
+#endif

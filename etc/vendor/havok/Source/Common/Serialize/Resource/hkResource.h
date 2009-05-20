@@ -2,12 +2,13 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HK_SERIALIZE_RESOURCE_H
 #define HK_SERIALIZE_RESOURCE_H
 
+#include <Common/Base/Reflection/hkClass.h>
 #include <Common/Serialize/Util/hkBuiltinTypeRegistry.h>
 
 class hkTypeInfoRegistry;
@@ -69,6 +70,8 @@ class hkResource : public hkReferencedObject
 			/// Some objects will require a finishing step. i.e. to initialize
 			/// members which have not been serialized or to initialize vtables.
 			/// If "typeRegistry" is not HK_NULL, apply these finishing steps.
+			/// If required hkTypeInfo is not found in "typeRegistry" while applying
+			/// the finishing steps then this method will return HK_NULL.
 		virtual void* getContentsPointer(const char* typeName, const hkTypeInfoRegistry* typeRegistry) const = 0;
 
 			/// Return pointer to a top level object of specified type T.
@@ -81,6 +84,9 @@ class hkResource : public hkReferencedObject
 			/// See hkResource::getContentsPointer(const char*, const hkTypeInfoRegistry*) method for details.
 		template<typename T>
 		T* getContents() const;
+
+			/// Return the top level object type name.
+		virtual const char* getContentsTypeName() const = 0;
 };
 
 #include<Common/Serialize/Resource/hkResource.inl>
@@ -88,9 +94,9 @@ class hkResource : public hkReferencedObject
 #endif // HK_SERIALIZE_RESOURCE_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

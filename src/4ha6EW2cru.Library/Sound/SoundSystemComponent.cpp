@@ -1,25 +1,54 @@
 #include "SoundSystemComponent.h"
 
+using namespace Maths;
+
 #include <luabind/luabind.hpp>
 using namespace luabind;
 
 namespace Sound
 {
-	void SoundSystemComponent::Initialize( AnyValue::AnyValueMap& properties )
+	AnyValue SoundSystemComponent::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
 	{
-
-	}
-
-	AnyValue SoundSystemComponent::Message( const std::string& message, AnyValue::AnyValueMap parameters )
-	{
-		if( message == "triggerEvent" )
+		if( messageId & System::Messages::TriggerSoundEvent  )
 		{
-			this->TriggerEvent( parameters[ "eventPath" ].GetValue< std::string >( ) );
+			this->TriggerEvent( parameters[ System::Attributes::SoundEventPath ].GetValue< std::string >( ) );
 		}
 
-		if ( message == "keyOutEvent" )
+		if ( messageId & System::Messages::KeyOutSoundEvent )
 		{
-			this->KeyoutEvent( parameters[ "eventPath" ].GetValue< std::string >( ) );
+			this->KeyoutEvent( parameters[ System::Attributes::SoundEventPath ].GetValue< std::string >( ) );
+		}
+
+		if ( messageId & System::Messages::SetPosition )
+		{
+			m_attributes[ System::Attributes::Position ] = parameters[ System::Attributes::Position ].GetValue< MathVector3 >( );
+
+			for ( SoundEventList::iterator i = m_activeSoundEvents.begin( ); i != m_activeSoundEvents.end( ); ++i )
+			{
+				FMOD_VECTOR position, velocity;
+
+				( *i ).second->get3DAttributes( &position, &velocity );
+				( *i ).second->set3DAttributes( &parameters[ System::Attributes::Position ].GetValue< MathVector3 >( ).AsFMODVector( ), &velocity );
+			}
+		}
+
+		if ( messageId & System::Messages::SetOrientation )
+		{
+			m_attributes[ System::Attributes::Orientation ] = parameters[ System::Attributes::Orientation ].GetValue< MathQuaternion >( );
+		}
+
+		if ( messageId & System::Messages::SetPlayerPosition )
+		{
+			FMOD_VECTOR position, velocity, forward, up;
+
+			m_soundSystemScene->GetSoundSystem( )->GetEventSystem( )->get3DListenerAttributes( 0, &position, &velocity, &forward, &up );
+			m_soundSystemScene->GetSoundSystem( )->GetEventSystem( )->set3DListenerAttributes( 
+				0, 
+				&parameters[ System::Attributes::PlayerPosition ].GetValue< MathVector3 >( ).AsFMODVector( ), 
+				&velocity,
+				&MathVector3::Forward( ).AsFMODVector( ), 
+				&MathVector3::Up( ).AsFMODVector( ) 
+				);
 		}
 
 		return true;

@@ -16,12 +16,15 @@ using namespace luabind;
 
 #include "../Scripting/ScriptSystemScene.h"
 
+#include "../Logging/Logger.h"
+using namespace Logging;
+
 namespace AI
 {
-	void AISystemComponent::Initialize( AnyValue::AnyValueMap& properties )
+	void AISystemComponent::Initialize( )
 	{
 		AnyValue::AnyValueMap parameters;
-		parameters[ "scriptPath" ] = properties[ "scriptPath" ].GetValue< std::string >( );
+		parameters[ "scriptPath" ] = m_attributes[ System::Attributes::ScriptPath ];
 		parameters[ "name" ] = m_name + "_ai";
 
 		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
@@ -40,55 +43,55 @@ namespace AI
 		scriptService->Execute( "unloadComponent", parameters );
 	}
 
-	void AISystemComponent::WalkForward()
+	void AISystemComponent::WalkForward( )
 	{
-		this->PushChanges( System::Changes::Input::Move_Forward );
+		this->PushMessage( System::Messages::Move_Forward, m_attributes );
 	}
 
-	void AISystemComponent::WalkBackward()
+	void AISystemComponent::WalkBackward( )
 	{
-		this->PushChanges( System::Changes::Input::Move_Backward );
+		this->PushMessage( System::Messages::Move_Backward, m_attributes );
 	}
 
-	void AISystemComponent::PushChanges( const unsigned int& systemChanges )
+	AnyValue AISystemComponent::PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
 	{
-		if ( m_observer != 0 )
+		return m_observer->Message( messageId, parameters );
+	}
+
+	AnyValue AISystemComponent::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	{
+ 		if ( messageId & System::Messages::SetPlayerPosition )
 		{
-			m_observer->Observe( this, systemChanges );
+			MathVector3 playerPosition = parameters[ System::Attributes::Position ].GetValue< MathVector3 >( );
+			
+			m_attributes[ System::Attributes::PlayerPosition ] = playerPosition;
+			m_attributes[ System::Attributes::PlayerOrientation ] = parameters[ System::Attributes::Orientation ].GetValue< MathQuaternion >( );
+
+			m_playerDistance = ( ( playerPosition - m_attributes[ System::Attributes::Position ].GetValue< MathVector3 >( ) ) ).Length( );
 		}
-	}
 
-	void AISystemComponent::SetBehavior( const std::string& behavior )
-	{
-		m_behavior = behavior;
-		this->PushChanges( System::Changes::AI::Behavior );
-	}
-
-	void AISystemComponent::Observe( ISubject* subject, const unsigned int& systemChanges )
-	{
-		ISystemComponent* component = static_cast< ISystemComponent* >( subject );
-
-		if ( systemChanges & System::Changes::Geometry::All )
+		if ( messageId & System::Messages::SetPosition )
 		{
-			if ( component->GetId( ) != this->GetId( ) )
-			{
-				m_playerPosition = component->GetPosition( );
-				m_playerOrientation = component->GetOrientation( );
-			}
-			else
-			{
-				m_position = component->GetPosition( );
-				m_orientation = component->GetOrientation( );
-			}
+			m_attributes[ System::Attributes::Position ] = parameters[ System::Attributes::Position ].GetValue< MathVector3 >( );
 		}
+
+		if ( messageId & System::Messages::SetOrientation )
+		{
+			m_attributes[ System::Attributes::Orientation ] = parameters[ System::Attributes::Orientation ].GetValue< MathQuaternion >( );
+		}
+
+		return AnyValue( );
 	}
 
 	void AISystemComponent::FacePlayer( )
 	{
 		// Angle from Origin to Player
 
-		MathVector3 aiToPlayer = ( m_playerPosition - m_position ).Normalize( );
-		MathVector3 aiToOrigin = ( MathVector3::Zero( ) - m_position ).Normalize( );
+		MathVector3 position = m_attributes[ System::Attributes::Position ].GetValue< MathVector3 >( );
+		MathVector3 playerPosition = m_attributes[ System::Attributes::PlayerPosition ].GetValue< MathVector3 >( );
+
+		MathVector3 aiToPlayer = ( playerPosition - position ).Normalize( );
+		MathVector3 aiToOrigin = ( MathVector3::Zero( ) - position ).Normalize( );
 
 		float aiToPlayerDot = aiToOrigin.DotProduct( aiToPlayer );
 		float aiToPlayerAngle = acos( Maths::Clamp( aiToPlayerDot, -1.0f, 1.0f ) );
@@ -103,8 +106,8 @@ namespace AI
 
 		// Angle from Forward to Origin
 
-		MathVector3 aiForward = m_position + MathVector3( 0.0f, 0.0f, -1.0f );
-		MathVector3 aiToForward = ( aiForward - m_position ).Normalize( );
+		MathVector3 aiForward = position + MathVector3( 0.0f, 0.0f, -1.0f );
+		MathVector3 aiToForward = ( aiForward - position ).Normalize( );
 
 		float aiForwardToOrigin = aiToForward.DotProduct( aiToOrigin );
 		float aiForwardToOriginAngle = acos( Maths::Clamp( aiForwardToOrigin, -1.0f, 1.0f ) );
@@ -119,19 +122,8 @@ namespace AI
 
 		// rotate to origin - then rotate to player from origin
 
-		m_orientation = MathQuaternion( MathVector3::Up( ), aiForwardToOriginAngle ) * MathQuaternion( MathVector3::Up( ), aiToPlayerAngle );
-		this->PushChanges( System::Changes::Geometry::Orientation );
-	}
-
-	void AISystemComponent::AddObserver( IObserver* observer )
-	{
-		m_observer = observer;
-
-		// update the new observers with our current behavior
-		if ( !m_behavior.empty( ) )
-		{
-			this->SetBehavior( m_behavior );
-		}
+		m_attributes[ System::Attributes::Orientation ] = MathQuaternion( MathVector3::Up( ), aiForwardToOriginAngle ) * MathQuaternion( MathVector3::Up( ), aiToPlayerAngle );
+		this->PushMessage( System::Messages::SetOrientation, m_attributes );
 	}
 
 	void AISystemComponent::FireWeapon()
@@ -154,17 +146,20 @@ namespace AI
 
 	void AISystemComponent::Update( const float& deltaMilliseconds )
 	{
-		m_playerDistance = ( ( m_playerPosition - m_position ) ).Length( );
-
 		if ( m_playerDistance < 50 )
 		{
 			luabind::call_function< void >( m_scriptState, "update" );
 
-			MathVector3 forward = m_orientation * MathVector3::Forward( );ww
-			MathVector3 aiToOrigin = MathVector3::Zero( ) - m_position;
+			MathVector3 position = m_attributes[ System::Attributes::Position ].GetValue< MathVector3 >( );
+			MathQuaternion orientation = m_attributes[ System::Attributes::Orientation ].GetValue< MathQuaternion >( );
 
-			m_attributes[ "lookAt" ] = m_position + forward;
-			this->PushChanges( System::Changes::POI::LookAt );
+			Ogre::Matrix3 rotation;
+			orientation.AsOgreQuaternion( ).ToRotationMatrix( rotation );
+
+			MathVector3 forward = MathVector3::Forward( ).AsOgreVector3( ) * rotation.Inverse( );
+
+			m_attributes[ System::Attributes::LookAt ] = position + forward;
+			this->PushMessage( System::Messages::SetLookAt, m_attributes );
 		}
 	}
 }

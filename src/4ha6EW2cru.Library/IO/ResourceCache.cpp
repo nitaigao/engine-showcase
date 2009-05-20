@@ -12,14 +12,9 @@ namespace Resources
 {
 	static const int MAX_RESOURCE_CACHE_SIZE = 50;
 
-	ResourceCache::ResourceCache()
-	{
-	
-	}
-
 	ResourceCache::~ResourceCache()
 	{
-		for ( ResourceMap::iterator i = m_resourceCache.begin( ); i != m_resourceCache.end( ); ++i )
+		for ( IResource::ResourceMap::iterator i = m_resourceCache.begin( ); i != m_resourceCache.end( ); ++i )
 		{
 			delete ( *i ).second;
 		}
@@ -27,7 +22,7 @@ namespace Resources
 
 	IResource* ResourceCache::GetResource( const std::string& filePath )
 	{
-		ResourceMap::iterator result = m_resourceCache.find( filePath );
+		IResource::ResourceMap::iterator result = m_resourceCache.find( filePath );
 
 		if ( result != m_resourceCache.end( ) )
 		{

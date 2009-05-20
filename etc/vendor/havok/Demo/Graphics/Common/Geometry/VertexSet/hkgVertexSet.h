@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -106,11 +106,11 @@ class hkgVertexSet : public hkgReferencedObject
 		inline const void* getVertexComponentData( HKG_VERTEX_COMPONENT component, int index, hkUint8* data = HK_NULL ) const;
 
 		// same as getVertexComponentData( comp, 0 ), just allowed on write only buffers as you are not requesting the data itself
-		// You must lock the buffer (in any mode) for this to work. Will return NULL if the data is not contiguous (some comps on PS2 for instance). Safe on PC etc though.
+		// You must lock the buffer (in any mode) for this to work. Will return NULL if the data is not contiguous (some comps on PlayStation(R)2 for instance). Safe on PC etc though.
 		inline void* getVertexComponentStartPointer( HKG_VERTEX_COMPONENT component );
 
 		// same as getVertexComponentData( comp, 0 ), just allowed on write only buffers as you are not requesting the data itself
-		// You must lock the buffer (in any mode) for this to work. Will return NULL if the data is not contiguous (some comps on PS2 for instance). Safe on PC etc though.
+		// You must lock the buffer (in any mode) for this to work. Will return NULL if the data is not contiguous (some comps on PlayStation(R)2 for instance). Safe on PC etc though.
 		inline const void* getVertexComponentStartPointer( HKG_VERTEX_COMPONENT component ) const;
 
         /// Returns true if all of the components making up the vertex set are contiguous (ie getVertexComponentStart would return non null for all components)
@@ -119,7 +119,7 @@ class hkgVertexSet : public hkgReferencedObject
 
 		// same as (&getVertexComponentData( comp, 1 ) - &getVertexComponentData( comp, 0 )).
 		// Allowed on write only buffers. Stride is in bytes, add to  getVertexComponentStartPointer for each component.
-		// If this func returns 0 then that component has no contiguous access, such as weights on the PS2 which are interleaved in spare data (w comps) in the per vertex. Safe on PC etc though.
+		// If this func returns 0 then that component has no contiguous access, such as weights on the PlayStation(R)2 which are interleaved in spare data (w comps) in the per vertex. Safe on PC etc though.
 		// You do not need to lock the buffer for this to work (stride is constant across locks, unlike the start ptrs and possibly alignment)
 		inline int getVertexComponentStride( HKG_VERTEX_COMPONENT component ) const;
 
@@ -188,9 +188,9 @@ class hkgVertexSet : public hkgReferencedObject
 #endif //HK_GRAPHICS_VERTEX_SET
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

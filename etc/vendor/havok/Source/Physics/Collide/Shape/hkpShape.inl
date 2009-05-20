@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -41,11 +41,29 @@ hkBool hkpShape::castRay( const hkpShapeRayCastInput& input, hkpShapeRayCastOutp
 	return castRayImpl( input, output );
 }
 
+void hkpShape::castRayWithCollector( const hkpShapeRayCastInput& input, const hkpCdBody& cdBody, hkpRayHitCollector& collector ) const
+{
+	return castRayWithCollectorImpl( input, cdBody, collector );
+}
+
+hkVector4Comparison hkpShape::castRayBundle( const hkpShapeRayBundleCastInput& input, hkpShapeRayBundleCastOutput& output ) const
+{
+	//HK_WARN(0x0, "castRayBundle called without a mask. This will probably cause more narrowphase checks than you intended.");
+	//HK_ASSERT2(0x0, false, "castRayBundle called without a mask. This will probably cause more narrowphase checks than you intended.");
+	hkVector4Comparison mask; mask.set(hkVector4Comparison::MASK_XYZW);
+	return castRayBundleImpl( input, output, mask );
+}
+
+hkVector4Comparison hkpShape::castRayBundle( const hkpShapeRayBundleCastInput& input, hkpShapeRayBundleCastOutput& output, hkVector4ComparisonParameter mask ) const
+{
+	return castRayBundleImpl( input, output, mask );
+}
+
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

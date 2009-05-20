@@ -19,8 +19,6 @@ namespace Physics
 	class HavokPhysicsSystem : public ISystem, public IService
 	{
 
-		typedef std::vector< HavokPhysicsSystemScene* > SceneList;
-
 	public:
 
 		/*! Default Destructor
@@ -37,6 +35,7 @@ namespace Physics
 		HavokPhysicsSystem( )
 			: m_threadMemory( 0 )
 			, m_stackBuffer( 0 )
+			, m_scene( 0 )
 		{
 
 		}
@@ -116,10 +115,10 @@ namespace Physics
 
 		static void errorReportFunction( const char* str, void* errorOutputObject );
 
+		HavokPhysicsSystemScene* m_scene;
+
 		hkThreadMemory* m_threadMemory;
 		char* m_stackBuffer;
-
-		SceneList m_scenes;
 
 		HavokPhysicsSystem( const HavokPhysicsSystem & copy ) { };
 		HavokPhysicsSystem & operator = ( const HavokPhysicsSystem & copy ) { return *this; };

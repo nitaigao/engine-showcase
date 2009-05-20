@@ -15,11 +15,15 @@ namespace AI
 {
 	ISystemComponent* AISystemScene::CreateComponent( const std::string& name, const std::string& type )
 	{
-		m_lastFrameAssignment = ( m_lastFrameAssignment == 20 ) ? 0 : m_lastFrameAssignment + 1;
+		m_lastFrameAssignment = ( m_lastFrameAssignment == 5 ) ? 0 : m_lastFrameAssignment + 1;
 
 		IAISystemComponent* component = new AISystemComponent( name, m_lastFrameAssignment );
-		m_components.insert( std::make_pair( component->GetFrameAssignment( ), component ) );
 
+		component->SetAttribute( System::Attributes::Name, name );
+		component->SetAttribute( System::Attributes::Type, System::Types::AI );
+		component->SetAttribute( System::Attributes::Parent, this );
+
+		m_components.insert( std::make_pair( component->GetFrameAssignment( ), component ) );
 		return component;
 	}
 
@@ -31,7 +35,7 @@ namespace AI
 
 		while ( i != m_components.end( ) )
 		{
-			if ( ( *i ).second->GetName( ) == component->GetName( ) )
+			if ( ( *i ).second == component )
 			{
 				m_components.erase( i );
 				break;
@@ -52,12 +56,11 @@ namespace AI
 		module( state )
 		[
 			class_< AISystemComponent >( "AISystemComponent" )
+				.def( "getName", &AISystemComponent::GetName )
 				.def( "walkForward", &AISystemComponent::WalkForward )
 				.def( "walkBackward", &AISystemComponent::WalkBackward )
 				.def( "facePlayer", &AISystemComponent::FacePlayer )
-				.def( "setBehavior", &AISystemComponent::SetBehavior )
 				.def( "getName", &AISystemComponent::GetName )
-				.def( "getId", &AISystemComponent::GetId )
 				.def( "getPlayerDistance", &AISystemComponent::GetPlayerDistance )
 				.def( "fireWeapon", &AISystemComponent::FireWeapon )
 				.def( "playAnimation", &AISystemComponent::PlayAnimation )

@@ -22,11 +22,15 @@ namespace Input
 
 	public:
 
+		typedef std::deque< IInputSystemComponent* > InputSystemComponentList;
+
 		/*! Default Destructor
 		 *
 		 *  @return ()
 		 */
 		virtual ~IInputSystemComponent( ) { };
+
+		virtual void MousePressed( const OIS::MouseEvent& arg, OIS::MouseButtonID id ) = 0;
 
 
 		/*! Called by the Scene when a mouse button has been released
@@ -35,7 +39,7 @@ namespace Input
 		 *  @param[in] OIS::MouseButtonID id
 		 *  @return (void)
 		 */
-		virtual void MouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id ) = 0;
+		virtual void MouseReleased( const OIS::MouseEvent& arg, OIS::MouseButtonID id ) = 0;
 
 	};
 };

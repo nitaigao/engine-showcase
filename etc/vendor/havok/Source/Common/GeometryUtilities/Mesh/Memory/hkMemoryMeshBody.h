@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -38,7 +38,7 @@ class hkMemoryMeshBody: public hkMeshBody
         virtual const hkMeshShape* getMeshShape() const { return m_shape; }
 
             // hkMeshBody implementation
-        virtual void getTransform( hkMatrix4& transform ) { transform = m_transform; }
+        virtual void getTransform( hkMatrix4& transform ) const { transform = m_transform; }
 
             // hkMeshBody implementation
         virtual void setTransform(const hkMatrix4& matrix) { m_transform = matrix; }
@@ -67,21 +67,26 @@ class hkMemoryMeshBody: public hkMeshBody
 			// hkReferencedObject Implementation
         virtual void calcContentStatistics( hkStatisticsCollector* collector,const hkClass* cls ) const;
 
-    protected:
+		virtual const char* getName() const { return m_name.cString(); }
+		inline void setName(const char* n) { m_name = n; }
 
-        hkMatrix4 m_transform;								///
+protected:
+
+		hkMatrix4 m_transform;								///
         hkRefPtr<hkIndexedTransformSet> m_transformSet;     ///
         hkRefPtr<const hkMeshShape> m_shape;				///
         hkArray<hkMeshVertexBuffer*> m_vertexBuffers;		///
+		hkString m_name;
+
 };
 
 
 #endif // HK_MEMORY_MESH_BODY_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

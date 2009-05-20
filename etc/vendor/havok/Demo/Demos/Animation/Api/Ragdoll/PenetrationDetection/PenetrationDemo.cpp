@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -311,6 +311,8 @@ PenetrationDemo::PenetrationDemo(hkDemoEnvironment* env)
 
 	// load poses from animation in HighRes and map them to LowRes
 	{
+		// Disable a warning about reposing the ragdoll.  This demo reposes the ragdoll appropriately, though this use case is rare.
+		hkError::getInstance().setEnabled( 0x71C72FE7, false );
 
 		hkString assetFile = hkAssetManagementUtil::getFilePath("Resources/Animation/Penetration/penetration_poses.hkx");
 		hkRootLevelContainer* dataContainerPoses = m_loader->load( assetFile.cString() );
@@ -383,6 +385,7 @@ PenetrationDemo::PenetrationDemo(hkDemoEnvironment* env)
 		// create raycast object
 		m_ragdollRaycastInterface = new PenetrationDemoRagdollRaycastInterface(m_world);
 
+		
 		// setup DetectRagdollPenetration object
 		hkaDetectRagdollPenetration::Setup setup;
 
@@ -391,6 +394,7 @@ PenetrationDemo::PenetrationDemo(hkDemoEnvironment* env)
 		setup.m_ragdollPhantom = m_ragdollPhantom;
 
 		m_detectRagdollPenetration = new hkaDetectRagdollPenetration(setup);
+		
 	}
 
 	// display ragdoll transparent
@@ -558,6 +562,7 @@ hkDemo::Result PenetrationDemo::stepDemo()
 			{
 				HK_TIMER_BEGIN("DetectPenetration", HK_NULL);
 
+				
 				// ModelPose is set directly to WorldPose used for penetration detection
 				hkaPose ragdollPose( m_ragdollInstance->getSkeleton() );
 				m_ragdollInstance->getPoseWorldSpace( ragdollPose.accessUnsyncedPoseModelSpace().begin() );
@@ -652,8 +657,10 @@ void PenetrationDemo::doRagdollFeedback()
 // is applied to them!
 void PenetrationDemo::stopRagdollFeedback()
 {
+	
 	// get boneStatusArray from hkDetectPenetration object
 	const hkArray<hkaDetectRagdollPenetration::BonePenetrationStatus>& boneStatusArray = m_detectRagdollPenetration->getBoneStatusArray();
+	
 
 	for ( int b = 0; b < m_ragdollInstance->getNumBones(); b++)
 	{
@@ -866,9 +873,9 @@ static const char helpString[] = \
 HK_DECLARE_DEMO(PenetrationDemo, HK_DEMO_TYPE_ANIMATION | HK_DEMO_TYPE_SERIALIZE, " Penetration Demo - Detection and correction of penetrated ragdoll ! ", helpString);
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

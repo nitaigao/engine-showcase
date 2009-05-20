@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -61,6 +61,9 @@ class hkgParticleDisplayObjectDX9S : public hkgParticleDisplayObject
 		LPDIRECT3DVERTEXDECLARATION9 m_posTexDecl;
 		LPDIRECT3DVERTEXDECLARATION9 m_posTexVelDecl;
 
+		mutable LPDIRECT3DINDEXBUFFER9 m_pQuadIB;
+		int m_numIndicesInQuadIB;
+
 		mutable hkArray<float> m_pendingPositions;
 		mutable hkArray<float> m_pendingVelocities;
 		mutable hkArray<float> m_pendingUserData;
@@ -83,9 +86,9 @@ class hkgParticleDisplayObjectDX9S : public hkgParticleDisplayObject
 #endif // HK_GRAPHICS_PARTICLE_DISPLAY_OBJECT_DX9S__H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

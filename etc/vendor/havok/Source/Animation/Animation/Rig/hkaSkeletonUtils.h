@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -99,7 +99,12 @@ class hkaSkeletonUtils
 
 			/// Fills bonesOut with the id of all bones descending from the given bone
 			/// This methods possibly allocates space in the array (since its length is unknown by the caller)
-		static void HK_CALL getDescendants(const hkaSkeleton& skeleton, hkInt16 startBone, hkArray<hkInt16>& bonesOut);
+		static void HK_CALL getDescendants(const hkaSkeleton& skeleton, hkInt16 startBone, hkArray<hkInt16>& bonesOut, bool includeStart = false );
+
+
+			/// Given an array of boolean skeleton->m_numBones big, the array will be marked true for all bones which are
+			/// descendants of the start bone and false otherwise.
+		static void HK_CALL markDescendants( const hkaSkeleton* skeleton, int startBone, bool* out, bool includeStart = false );
 
 		/// Fills bonesOut with the id of all bones in the given skeleton with no children
 		static void HK_CALL getLeaves(const hkaSkeleton& skeleton, hkArray<hkInt16>& leavesOut);
@@ -125,9 +130,9 @@ class hkaSkeletonUtils
 #endif // HK_SKELETON_UTILS_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

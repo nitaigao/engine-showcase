@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -36,6 +36,8 @@ class hkpCdBodyPairCollector;
 class hkpBroadPhase;
 class hkpBroadPhaseHandle;
 class hkAabb;
+
+class hkpWorldObject;
 
 class hkpEntity;
 class hkpEntityListener;
@@ -202,7 +204,6 @@ class hkpWorld : public hkReferencedObject
 
 		//+vtable(true)
 		//+serializable(false)
-		//+version(2)
 		HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_WORLD);
         HK_DECLARE_REFLECTION();
 
@@ -371,6 +372,10 @@ class hkpWorld : public hkReferencedObject
 			                                hkpUpdateCollisionFilterOnEntityMode updateMode,
 											hkpUpdateCollectionFilterMode updateShapeCollectionFilter);
 
+
+			/// This method should be called if you have altered the collision filtering information for this pair of entities
+		void reenableCollisionBetweenEntityPair( hkpEntity* entityA, hkpEntity* entityB );
+
 			/// This method should be called if you have altered the collision filtering information for this phantom. Read updateCollisionFilterOnEntity() for details
 			/// ###ACCESS_CHECKS###( [this,HK_ACCESS_RO] [phantom,HK_ACCESS_RW] );
 		void updateCollisionFilterOnPhantom( hkpPhantom* phantom,
@@ -412,6 +417,7 @@ class hkpWorld : public hkReferencedObject
 			///     - When you add an object to the world, it will pick up contact information only at the
 			///       end of the next physics step, so there are no contacts for the next frame. Calling this
 			///       function immediately after adding the object with mode = RR_MODE_RECOLLIDE_NARROWPHASE finds the initial set of contacts
+			/// ###ACCESS_CHECKS###( [this,HK_ACCESS_RW] );
 		void reintegrateAndRecollideEntities( hkpEntity** entityBatch, int numEntities, ReintegrationRecollideMode mode = RR_MODE_ALL );
 
 
@@ -704,9 +710,9 @@ class hkpWorld : public hkReferencedObject
 			/// ###ACCESS_CHECKS###( [this,HK_ACCESS_RO] );
 		inline const hkpProcessCollisionInput* getCollisionInput() const;
 
-			/// Get read/write access to the collision input. This is needed to manually query collision agents.
-			/// ###ACCESS_CHECKS###( [this,HK_ACCESS_RO] );
-		inline hkpProcessCollisionInput* getCollisionInput();
+			/// Get read/write access to the collision input. You should only need this function if you really intent to modify its values persistently, otherwise make a local modifier copy.
+			/// ###ACCESS_CHECKS###( [this,HK_ACCESS_RW] );
+		inline hkpProcessCollisionInput* getCollisionInputRw();
 
 			/// ###ACCESS_CHECKS###( [this,HK_ACCESS_RW] );
 		inline hkpSolverInfo* getSolverInfo();
@@ -791,8 +797,14 @@ class hkpWorld : public hkReferencedObject
 		void setBroadPhaseBorder( hkpBroadPhaseBorder* bpb );
 
 			/// See hkpBroadPhase::shiftBroadPhase() for details.
+		enum CachedAabbUpdate
+		{
+			SHIFT_BROADPHASE_UPDATE_ENTITY_AABBS,
+			SHIFT_BROADPHASE_IGNORE_ENTITY_AABBS
+		};
+
 			/// ###ACCESS_CHECKS###( [this,HK_ACCESS_RW] );
-		void shiftBroadPhase( const hkVector4& shiftDistance, hkVector4& effectiveShiftDistanceOut, hkArray<hkpBroadPhaseHandle*>& objectsEnteringBroadphaseBorder );
+		void shiftBroadPhase( const hkVector4& shiftDistance, hkVector4& effectiveShiftDistanceOut, CachedAabbUpdate updateAabbs );
 
 			//
 			// Simulation Island access
@@ -1074,6 +1086,14 @@ class hkpWorld : public hkReferencedObject
 
 		void addBodyOperation( hkpRigidBody* breakingBody, hkpBodyOperation* operation, int priority, /*hkpBodyOperation::ExecutionState*/int hint );
 
+			// This invalidates the tree containing the object.
+		void markKdTreeDirty();
+
+			/// Rebuilds to the world's kd tree
+			/// If m_autoUpdateKdTree is set to true, this is called at the end of the world step.
+			/// Otherwise it should be called manually.
+		void updateKdTree( hkJobQueue* jobQueue = HK_NULL, hkJobThreadPool* jobThreadPool = HK_NULL );
+
 	private:
 		// Passes execution call to hkpWorldOperationQueue::attemptToExecuteAllPending()
 		/// ###ACCESS_CHECKS###( [this,HK_ACCESS_RW] );
@@ -1118,6 +1138,12 @@ class hkpWorld : public hkReferencedObject
         hkWorldMemoryAvailableWatchDog* m_memoryWatchDog; // +nosave
 
         hkpBroadPhase* m_broadPhase; // +nosave
+
+		class hkpKdTreeWorldManager* m_kdTreeManager; //+nosave
+		
+			/// Enables/disables automatic updating of the world's kd-tree after the world step.
+			/// See comments in hkpWorldCinfo.h
+		hkBool m_autoUpdateKdTree;
 
 			// Broadphase handler - this is a class which links the broadphase to the simulation
         hkpTypedBroadPhaseDispatcher*    m_broadPhaseDispatcher; // +nosave
@@ -1186,6 +1212,10 @@ class hkpWorld : public hkReferencedObject
 		int m_maxSectorsPerCollideTask;
 		int m_maxEntriesPerToiCollideTask;
         hkEnum<hkpWorldCinfo::SimulationType,hkInt32>  m_simulationType; //+nosave
+		hkReal m_numToisTillAllowedPenetrationSimplifiedToi;
+		hkReal m_numToisTillAllowedPenetrationToi;
+		hkReal m_numToisTillAllowedPenetrationToiHigher;
+		hkReal m_numToisTillAllowedPenetrationToiForced;
 
 			// debug only and used by the havok demo framework
 		static hkBool m_forceMultithreadedSimulation;
@@ -1268,9 +1298,9 @@ class hkpWorld : public hkReferencedObject
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -40,7 +40,6 @@ namespace Geometry
 		 */
 		explicit GeometrySystemComponent( const std::string& name )
 			: m_name( name )
-			, m_id( 0 )
 		{
 
 		}
@@ -51,7 +50,7 @@ namespace Geometry
 		*  @param[in] AnyValue::AnyValueMap properties
 		*  @return (void)
 		*/
-		void Initialize( AnyValue::AnyValueMap& properties );
+		inline void Initialize( ) { };
 
 
 		/*! Steps the internal data of the Component
@@ -59,14 +58,14 @@ namespace Geometry
 		*  @param[in] float deltaMilliseconds
 		*  @return (void)
 		*/
-		void Update( const float& deltaMilliseconds ) { };
+		inline void Update( const float& deltaMilliseconds ) { };
 
 
 		/*! Destroys the Component
 		*
 		*  @return (void)
 		*/
-		void Destroy( ) { };
+		inline void Destroy( ) { };
 
 
 		/*! Adds an Observer to the Component
@@ -74,99 +73,31 @@ namespace Geometry
 		*  @param[in] IObserver * observer
 		*  @return (void)
 		*/
-		void AddObserver( IObserver* observer ) { m_observers.push_back( observer ); };
-
-
-		/*! Observes a change in the Subject
-		*
-		*  @param[in] ISubject * subject
-		*  @param[in] const unsigned int& systemChanges
-		*  @return (void)
-		*/
-		void Observe( ISubject* subject, const unsigned int& systemChanges );
-
-
-		/*! Pushes any Changes to the Observers
-		*
-		*  @param[in] const unsigned int& systemChanges
-		*  @return (void)
-		*/
-		void PushChanges( const unsigned int& systemChanges );
-
-
-		/*! Gets the Name of the Component
-		*
-		*  @return (const std::string&)
-		*/
-		inline const std::string& GetName( ) const { return m_name; };
-
-
-		/*! Sets the Id of the component unique to its containing World Entity
-		*
-		*  @param[in] const unsigned int & id
-		*  @return (void)
-		*/
-		inline void SetId( const unsigned int& id ) { m_id = id; };
-
-
-		/*! Returns a numerical Id for the component unique to its containing World Entity
-		*
-		*  @return (unsigned int)
-		*/
-		inline unsigned int GetId( ) const { return m_id; };
-
-
-		/*! Gets the System::Types::Type of the Component
-		*
-		*  @return (System::Types::Type)
-		*/
-		inline System::Types::Type GetType( ) const { return System::Types::GEOMETRY; };
-
-
-		/*! Gets the types of Changes this component is interested in
-		*
-		*  @return (unsigned int)
-		*/
-		inline unsigned int GetRequestedChanges( ) const 
-		{
-			return System::Changes::Geometry::All;
-		};
+		inline void AddObserver( IObserver* observer ) { m_observers.push_back( observer ); };
 
 
 		/*! Gets the properties of the Component
 		*
-		*  @return (AnyValueMap)
+		*  @return (AnyValueKeyMap)
 		*/
-		inline AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
+		inline AnyValue::AnyValueKeyMap GetAttributes( ) const { return m_attributes; };
 
 
-		/*! Sets the Properties of the Component
+		/*! Sets an Attribute on the Component *
 		*
-		*  @param[in] AnyValue::AnyValueMap systemProperties
-		*  @return (void)
+		*  @param[in] const unsigned int attributeId
+		*  @param[in] const AnyValue & value
 		*/
-		inline void SetAttributes( AnyValue::AnyValueMap& properties ) { };
+		inline void SetAttribute( const unsigned int& attributeId, const AnyValue& value ) { m_attributes[ attributeId ] = value; };
 
 
-		/*! Gets the Position of the Component
+		/*! Posts a message to observers
 		*
-		*  @return (MathVector3)
+		*  @param[in] const std::string & message
+		*  @param[in] AnyValue::AnyValueMap parameters
+		*  @return (AnyValue)
 		*/
-		inline Maths::MathVector3 GetPosition( ) const { return m_position; };
-
-
-		/*! Gets the Scale of the Component
-		*
-		*  @return (MathVector3)
-		*/
-		inline Maths::MathVector3 GetScale( ) const { return m_scale; };
-
-
-		/*! Gets the Orientation of the Component
-		*
-		*  @return (MathQuaternion)
-		*/
-		inline Maths::MathQuaternion GetOrientation( ) const { return m_orientation; };
+		AnyValue PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
 
 
 		/*! Messages the Component to influence its internal state
@@ -174,18 +105,15 @@ namespace Geometry
 		*  @param[in] const std::string & message
 		*  @return (AnyValue)
 		*/
-		AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters ) { return AnyValue( ); };
+		AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
 
 	private:
 
 		std::string m_name;
-		unsigned int m_id;
+
+		AnyValue::AnyValueKeyMap m_attributes;
 
 		ObserverList m_observers;
-
-		Maths::MathVector3 m_position;
-		Maths::MathVector3 m_scale;
-		Maths::MathQuaternion m_orientation;
 
 		GeometrySystemComponent( ) { };
 		GeometrySystemComponent( const GeometrySystemComponent & copy ) { };

@@ -866,11 +866,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\luabind\include\detail\open.hpp"
+			RelativePath=".\Utility\luabind\include\open.hpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\luabind\include\open.hpp"
+			RelativePath=".\Utility\luabind\include\detail\open.hpp"
 			>
 		</File>
 		<File

@@ -2,20 +2,23 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
 
 #include <Demos/demos.h>
 
-#include <Physics/Collide/Query/Multithreaded/hkpCollisionJobs.h>
+#include <Physics/Collide/Query/Multithreaded/RayCastQuery/hkpRayCastQueryJobs.h>
 #include <Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
 #include <Physics/Collide/Shape/Convex/ConvexTransform/hkpConvexTransformShape.h>
 #include <Physics/Collide/Shape/Convex/Cylinder/hkpCylinderShape.h>
 #include <Physics/Collide/Shape/Compound/Collection/List/hkpListShape.h>
 #include <Physics/Collide/Shape/Compound/Tree/Mopp/hkpMoppUtility.h>
 #include <Physics/Collide/Shape/Compound/Collection/SimpleMesh/hkpSimpleMeshShape.h>
+
+#include <Physics/Dynamics/Phantom/hkpAabbPhantom.h>
+#include <Physics/Dynamics/Phantom/hkpSimpleShapePhantom.h>
 
 #include <Common/Internal/ConvexHull/hkGeometryUtility.h>
 
@@ -27,11 +30,17 @@
 
 #include <Demos/Physics/Test/Feature/Collide/AsynchronousQueries/ShapeRayCastMultithreaded/ShapeRaycastMultithreadedDemo.h>
 
-#include <Physics/Collide/Query/Multithreaded/hkpCollisionJobQueueUtils.h>
+#include <Physics/Collide/Query/Multithreaded/CollisionQuery/hkpCollisionQueryJobQueueUtils.h>
 #include <Common/Base/Thread/Job/ThreadPool/Cpu/hkCpuJobThreadPool.h>
+#include <Physics/Collide/Query/CastUtil/hkpWorldRayCastOutput.h>
 
+#if defined(HK_PLATFORM_PS3_PPU)
+//	# of real SPUs
+#	define NUM_SPUS 6
+#else
 //	# of simulated SPUs
 #	define NUM_SPUS 1
+#endif
 
 
 struct ShapeRayCastMultithreadedDemoVariant
@@ -90,12 +99,20 @@ ShapeRayCastMultithreadedDemo::ShapeRayCastMultithreadedDemo(hkDemoEnvironment* 
 	}
 
 	createBodies(m_bodies);
+	createPhantoms(m_phantoms);
 
 	int lightGrey = hkColor::rgbFromChars(128,128,128);
 	for ( int i =0; i< m_bodies.getSize(); i++ )
 	{
 		m_world->addEntity( m_bodies[i] );
 		HK_SET_OBJECT_COLOR((hkUlong)m_bodies[i]->getCollidable(), lightGrey);
+		m_objects.pushBack( m_bodies[i] );
+	}
+
+	for (int i=0; i<m_phantoms.getSize(); i++)
+	{
+		m_world->addPhantom( m_phantoms[i] );
+		m_objects.pushBack( m_phantoms[i] );
 	}
 
 	m_world->unlock();
@@ -104,7 +121,7 @@ ShapeRayCastMultithreadedDemo::ShapeRayCastMultithreadedDemo(hkDemoEnvironment* 
 	// Setup multithreading.
 	//
 
-	hkpCollisionJobQueueUtils::registerWithJobQueue(m_jobQueue);
+	hkpCollisionQueryJobQueueUtils::registerWithJobQueue(m_jobQueue);
 
 	// Special case for this demo variant: we do not allow the # of active SPUs to drop to zero as this can cause a deadlock.
 	if ( variant.m_demoType == ShapeRayCastMultithreadedDemoVariant::MULTITHREADED_ON_SPU ) m_allowZeroActiveSpus = false;
@@ -117,14 +134,47 @@ ShapeRayCastMultithreadedDemo::~ShapeRayCastMultithreadedDemo()
 
 	m_world->lock();
 
-	for ( int i =0; i< m_bodies.getSize(); i++ )
+	for ( int i =0; i< m_objects.getSize(); i++ )
 	{
-		m_bodies[i]->removeReference();
+		m_objects[i]->removeReference();
 	}
 
 	m_world->unlock();
 }
 
+void HK_CALL ShapeRayCastMultithreadedDemo::createPhantoms(hkArray<hkpPhantom*>&	phantomsOut)
+{
+	hkVector4 phantomPosition;
+	const hkReal SHIFT_AMOUNT = 6.0f;
+	phantomPosition.set(-(2/2-0.5f)*SHIFT_AMOUNT, 5.0f + SHIFT_AMOUNT, 0.0f);
+	hkVector4 shift; shift.set( SHIFT_AMOUNT, 0.0f, 0.0f );
+
+	// Create an AABB phantom
+	{
+		hkAabb aabb;
+		hkVector4 one; one.setAll(1.0f);
+
+		aabb.m_min.setSub4(phantomPosition, one);
+		aabb.m_max.setAdd4(phantomPosition, one);
+		hkpAabbPhantom* aabbPhantom = new hkpAabbPhantom(aabb);
+		phantomsOut.pushBack( aabbPhantom);
+
+		phantomPosition.add4(shift);
+	}
+
+	// Create a shape phantom
+	{
+		hkpSphereShape* sphere = new hkpSphereShape(1.0f);
+		hkTransform transform(hkQuaternion::getIdentity(), phantomPosition);
+		hkpSimpleShapePhantom* shapePhantom = new hkpSimpleShapePhantom(sphere, transform);
+		phantomsOut.pushBack( shapePhantom );
+
+		sphere->removeReference();
+
+		phantomPosition.add4(shift);
+	}
+
+}
 
 // In this demo the raycast is performed against a variety of shape types; MOPP, Convex Vertices, Box, Sphere and Triangle.
 // The construction of each of these is quite similar and for the purposes of this tutorial we will just outline
@@ -330,19 +380,14 @@ void ShapeRayCastMultithreadedDemo::createBodies( hkArray<hkpRigidBody*>& bodies
 
 hkDemo::Result ShapeRayCastMultithreadedDemo::stepDemo()
 {
-	if (m_jobThreadPool->getNumThreads() == 0)
-	{
-		HK_WARN(0x34561f23, "This demo does not run with only one thread");
-		return DEMO_STOP;
-	}
 //	const ShapeRayCastMultithreadedDemoVariant& variant = g_ShapeRayCastMultithreadedDemoVariants[m_variantId];
 
-	const int numShapes			= m_bodies.getSize();
+	const int numShapes			= m_objects.getSize();
 	const int numRaysPerShape	= 20;
 	const int numRays			= numShapes * numRaysPerShape;
 
 	// Ray outputs (one for each ray).
-	hkArray<hkpShapeRayCastOutput> rayOutputs(numRays);
+	hkArray<hkpWorldRayCastOutput> rayOutputs(numRays);
 
 	//
 	// Create one command for each collidable-raycast pair.
@@ -364,11 +409,11 @@ hkDemo::Result ShapeRayCastMultithreadedDemo::stepDemo()
 					hkpShapeRayCastCommand& command = commands[commandIdx];
 
 					// hkpWorldObject::getCollidable() needs a read-lock on the object
-					m_bodies[shapeIdx]->markForRead();
+					m_objects[shapeIdx]->markForRead();
 
-					const hkpCollidable* collidable = m_bodies[shapeIdx]->getCollidable();
+					const hkpCollidable* collidable = m_objects[shapeIdx]->getCollidable();
 
-					m_bodies[shapeIdx]->unmarkForRead();
+					m_objects[shapeIdx]->unmarkForRead();
 
 					// init shape data
 					{
@@ -385,7 +430,23 @@ hkDemo::Result ShapeRayCastMultithreadedDemo::stepDemo()
 						{
 							// Fire ray roughly at shape's center
 							rand.getRandomVector11( endWorld ); endWorld.mul4( 0.25f );
-							endWorld.add4( collidable->getTransform().getTranslation() );
+							
+							hkVector4 translation; 
+
+							// Can't call getTransform on AABB phantoms
+							if ( collidable->getShape() )
+							{
+								translation = collidable->getTransform().getTranslation();
+							}
+							else
+							{
+								hkAabb aabb;
+								hkpPhantom* phantom = hkGetPhantom( collidable );
+								phantom->calcAabb(aabb);
+								translation.setInterpolate4(aabb.m_max, aabb.m_min, .5f);
+							}
+
+							endWorld.add4( translation );
 							hkVector4 dir; dir.setSub4(endWorld, startWorld);
 							dir.mul4(1.5f);
 							endWorld.add4( dir );
@@ -395,6 +456,9 @@ hkDemo::Result ShapeRayCastMultithreadedDemo::stepDemo()
 						command.m_rayInput.m_to							= endWorld;
 						command.m_rayInput.m_rayShapeCollectionFilter	= HK_NULL;
 						command.m_rayInput.m_filterInfo					= 0;
+						command.m_filterType = hkpCollisionFilter::HK_FILTER_UNKNOWN;
+						command.m_filterSize = 0;
+
 					}
 
 					// init output struct
@@ -411,7 +475,7 @@ hkDemo::Result ShapeRayCastMultithreadedDemo::stepDemo()
 	}
 
 	//
-	// Create the job header. Can't be on the stack due to PS3 spu restrictions
+	// Create the job header. Can't be on the stack due to PLAYSTATION(R)3 spu restrictions
 	//
 	hkpCollisionQueryJobHeader* jobHeader;
 	{
@@ -459,7 +523,7 @@ hkDemo::Result ShapeRayCastMultithreadedDemo::stepDemo()
 			// Display results (just one in this case).
 			if ( command.m_numResultsOut > 0 )
 			{
-				hkpShapeRayCastOutput* output = &command.m_results[0];
+				hkpWorldRayCastOutput* output = &command.m_results[0];
 
 				hkVector4 intersectionPointWorld;
 				intersectionPointWorld.setInterpolate4(command.m_rayInput.m_from, command.m_rayInput.m_to, output->m_hitFraction );
@@ -483,6 +547,10 @@ hkDemo::Result ShapeRayCastMultithreadedDemo::stepDemo()
 
 				// Display hit normal.
 				HK_DISPLAY_ARROW( intersectionPointWorld, output->m_normal, hkColor::CYAN );
+
+				// You can also use the collidable pointer
+				// output->m_rootCollidable
+
 			}
 			else
 			{
@@ -510,9 +578,9 @@ hkDemo::Result ShapeRayCastMultithreadedDemo::stepDemo()
 HK_DECLARE_DEMO_VARIANT_USING_STRUCT( ShapeRayCastMultithreadedDemo, HK_DEMO_TYPE_OTHER, ShapeRayCastMultithreadedDemoVariant, g_ShapeRayCastMultithreadedDemoVariants, HK_NULL );
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

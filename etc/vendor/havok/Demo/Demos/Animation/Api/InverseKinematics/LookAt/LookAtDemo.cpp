@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -211,7 +211,30 @@ hkDemo::Result LookAtDemo::stepDemo()
 	setup.m_eyePositionLS.set(0.1f,0.1f,0);
 	setup.m_limitAxisMS.setRotatedDir(pose.getBoneModelSpace(m_neckIndex).getRotation(), hkVector4(0,1,0));
 	setup.m_limitAngle = HK_REAL_PI / 3.0f;
-	hkaLookAtIkSolver::solve (setup, newTargetPosition, 1.0f, pose.accessBoneModelSpace(m_headIndex, hkaPose::PROPAGATE));
+
+	// Check if the angle-limited variant is in use
+	if ( m_variantId == 0 )
+	{
+		// Solve normally
+		hkaLookAtIkSolver::solve (setup, newTargetPosition, 1.0f, pose.accessBoneModelSpace(m_headIndex, hkaPose::PROPAGATE), HK_NULL );
+	}
+	else
+	{
+		// Define the range of motion
+		hkaLookAtIkSolver::RangeLimits range;
+		range.m_limitAngleLeft = 90.0f * HK_REAL_DEG_TO_RAD;
+		range.m_limitAngleRight = -90.0f * HK_REAL_DEG_TO_RAD;
+		range.m_limitAngleUp = 30.0f * HK_REAL_DEG_TO_RAD;
+		range.m_limitAngleDown = -10.0f * HK_REAL_DEG_TO_RAD;
+
+		hkVector4 upLS;
+		upLS.set(1,0,0);
+		range.m_upAxisMS.setRotatedDir(pose.getBoneModelSpace(m_neckIndex).getRotation(), upLS);
+
+		// Solve using user-defined range of motion
+		hkaLookAtIkSolver::solve (setup, newTargetPosition, 1.0f, pose.accessBoneModelSpace(m_headIndex, hkaPose::PROPAGATE), &range );
+	}
+
 
 	setup.m_fwdLS.set(0,-1,0);
 	setup.m_eyePositionLS.set(0.0f,0.0f,0);
@@ -288,12 +311,13 @@ static const char helpString[] = \
 "A simple IK example that moves a character's head and eyes to look at a given position.\n" \
 "This demo uses the camera position as the target. Move the camera to see it in action.";
 
-HK_DECLARE_DEMO(LookAtDemo, HK_DEMO_TYPE_ANIMATION | HK_DEMO_TYPE_SERIALIZE, "Character looking at the camera", helpString);
+HK_DECLARE_DEMO_VARIANT( LookAtDemo, HK_DEMO_TYPE_ANIMATION | HK_DEMO_TYPE_SERIALIZE, "Character looking at a camera with single limit angle", 0, helpString, "Character's head moves within cone of 60 degrees.");
+HK_DECLARE_DEMO_VARIANT( LookAtDemo, HK_DEMO_TYPE_ANIMATION | HK_DEMO_TYPE_SERIALIZE, "Character looking at a camera with individual limit angles", 1, helpString, "Character's head moves +90/-90 L/R and +30/-10 Up/Dn");
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

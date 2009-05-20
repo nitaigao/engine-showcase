@@ -1,7 +1,7 @@
 #
 # Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
 # prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
-# Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+# Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
 #
 
 #! /usr/bin/env python
@@ -442,9 +442,9 @@ class ManagedClassInfo(hkcToDom.Object):
 
 def genFileHeadlines(content, file=None, filename=None, customLines=None):
     if file:
-        content.append(_tkbms % ((file.product or 'ANIMATION+BEHAVIOR+PHYSICS'), (file.visibility or 'CLIENT')) )
+        content.append(_tkbms % ((file.product or 'BEHAVIOR'), (file.visibility or 'CLIENT')) )
     else:
-        content.append(_tkbms % ('ANIMATION+BEHAVIOR+PHYSICS', 'CLIENT') )
+        content.append(_tkbms % ('BEHAVIOR', 'CLIENT') )
     content.append("\n// WARNING: THIS FILE IS GENERATED. EDITS WILL BE LOST.")
     if filename:
         content.append("// Generated from '%s'\n" % filename )
@@ -967,9 +967,9 @@ if __name__=="__main__":
     
 
 #
-# Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+# Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 # 
-# Confidential Information of Havok.  (C) Copyright 1999-2008
+# Confidential Information of Havok.  (C) Copyright 1999-2009
 # Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 # Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 # rights, and intellectual property rights in the Havok software remain in

@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -23,16 +23,49 @@ class hkResourceContainer;
 
 class hkResourceMap;
 
-	/// A virtual interface to a resource which is owned by the hkResourceContainer
-class hkResourceHandle: public hkReferencedObject
+class hkResourceBase: public hkReferencedObject
 {
 	public:
 
 		HK_DECLARE_REFLECTION();
 		HK_DECLARE_CLASS_ALLOCATOR( HK_MEMORY_CLASS_EXPORT );
 
-			/// A buffer to store temporary names
+			//
+		hkResourceBase(): hkReferencedObject(){;}
+
+			// serializing constructor
+		hkResourceBase(hkFinishLoadedObjectFlag flag): hkReferencedObject(flag) {}
+
+		enum Type
+		{
+			TYPE_RESOURCE,
+			TYPE_CONTAINER
+		};
+
+			/// return the type of this object
+		virtual Type getType() const = 0;
+
+				/// A buffer to store temporary names
 		typedef char NameBuffer[32];
+
+			/// Returns the name of the resource.
+			/// If the name has to be created on the fly the supplied buffer will be used.
+		virtual const char* getName(NameBuffer buffer) const = 0;
+};
+
+
+	/// A virtual interface to a resource which is owned by the hkResourceContainer
+class hkResourceHandle: public hkResourceBase
+{
+	public:
+
+		HK_DECLARE_REFLECTION();
+		HK_DECLARE_CLASS_ALLOCATOR( HK_MEMORY_CLASS_EXPORT );
+
+		virtual Type getType() const { return TYPE_RESOURCE; }
+
+
+
 
 			/// An external link
 		struct Link
@@ -45,9 +78,7 @@ class hkResourceHandle: public hkReferencedObject
 			hkClassMemberAccessor	m_memberAccessor;
 		};
 
-			/// Returns the name of the resource.
-			/// If the name has to be created on the fly the supplied buffer will be used.
-		virtual const char* getName(NameBuffer buffer) const = 0;
+
 
 			/// Set the name of the resource.
 			/// A copy of the name will be stored.
@@ -59,7 +90,7 @@ class hkResourceHandle: public hkReferencedObject
 			/// Returns a pointer to the class.
 		virtual const hkClass* getClass() const = 0;
 
-			/// Set the object and class.
+			/// Set the object and class. If the object is of type hkReferencedObject, a reference will be added.
 		virtual void setObject(void* object, const hkClass* klass) = 0;
 
 			/// Adds a new external link, specified by the 'name' of the referencing object as well as the memberName.
@@ -78,54 +109,95 @@ class hkResourceHandle: public hkReferencedObject
 			/// tryToResolveLinks
 		virtual void tryToResolveLinks(hkResourceMap& map);
 
-			// serializing constructor
-		hkResourceHandle(hkFinishLoadedObjectFlag flag): hkReferencedObject(flag) {}
 
 	protected:
-
+		hkResourceHandle(hkFinishLoadedObjectFlag flag): hkResourceBase(flag) {}
 		hkResourceHandle() {}
 		virtual ~hkResourceHandle() {}
 };
 
 	/// The owner of a resource handle
-class hkResourceContainer: public hkReferencedObject
+class hkResourceContainer: public hkResourceBase
 {
 	public:
 
 		HK_DECLARE_REFLECTION();
 		HK_DECLARE_CLASS_ALLOCATOR( HK_MEMORY_CLASS_EXPORT );
 
-			/// Empty constructor
-		hkResourceContainer(){}
-
-			// Serializing constructor
-		hkResourceContainer(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
+			// hkResourceBase implementation
+		virtual Type getType() const { return TYPE_RESOURCE; }
 
 			/// Create an owned resource 
 		virtual hkResourceHandle* createResource(const char* name, void* object, const hkClass* klass) = 0;
 
 			/// Destroys a resource
-		virtual void destroyResource( hkResourceHandle* handle ) {}
+		virtual void destroyResource( hkResourceHandle* handle ) = 0;
 
 			///	Get number of resources
 		virtual int getNumResources() = 0;
 
-			/// Tries to find a resource with matching name and hkClass
-			/// to the first object after prevObject, with a name corresponding to 'objectName'.
-			///   - If prevObject is null then the search begins from the start of the container.
-			///   - If objectName is null than all objects will match.
-			///   = \a klass is only used for extra debugging checks, it cannot be used for searching for a type!
-		virtual hkResourceHandle* findByName( const char* objectName, const hkClass* klass = HK_NULL, const hkResourceHandle* prevObject = HK_NULL ) const = 0;
+			/// Tries to find a named resource with given hkClass.
+			/// It returns the first object after \a prevObject, with \a resourceName.
+			///   - If \a prevObject is null then the search begins from the start of the container.
+			///   - If \a resourceName is null than all objects will match and the method will return the first match.
+		virtual hkResourceHandle* findResourceByName( const char* resourceName, const hkClass* klass = HK_NULL, const hkResourceHandle* prevObject = HK_NULL ) const = 0;
 
-			/// Remove a resource from the container.
-		virtual void removeResource(hkResourceHandle* resourceHandle) = 0;
+			/// Simple helper function to find a resource which is identified by a path (using '/' to split the path).
+		//hkResourceHandle* findResourceRecursively( const char* resourcePath);
+
+			/// Simple helper function to get all terminal resources
+		void findAllResourceRecursively( hkArray<hkResourceHandle*>& resourcesOut );
+
+
+			/// Simple helper function to get all terminal resources
+		void findAllContainersRecursively( hkArray<hkResourceContainer*>& resourcesOut );
+
+		void getPath( hkString& pathOut );
+
+			/// Get my parent container if any
+		virtual hkResourceContainer* getParent() = 0;
+
+			/// Create child container, if the container already exists, simply return the existing one.
+		virtual hkResourceContainer* createContainer(const char* path) = 0;
+
+			/// Destroys a child container recursively
+		virtual void destroyContainer( hkResourceContainer* container ) = 0;
+
+			///	Get number of child containers
+		virtual int getNumContainers() = 0;
+
+			/// Tries to find a named container.
+			/// It returns the first object after \a prevContainer, with \a containerName.
+			///   - If \a prevContainer is null then the search begins from the start of the child containers.
+			///   - If \a containerName is null then all objects will match and the method will return the first match.
+		virtual hkResourceContainer* findContainerByName( const char* containerName, const hkResourceContainer* prevContainer = HK_NULL ) const = 0;
+
+			/// move this container to a new parent
+		virtual hkResult parentTo( hkResourceContainer* newParent ) = 0;
 
 		//
 		//	Simple helper functions
 		//
-
 			/// helper function which tries to resolve external links
 		virtual void tryToResolveLinks( hkResourceMap& resourceMap );
+
+		template<typename T>
+		T* findResource( const char* name, const hkClass* klass )
+		{
+			hkResourceHandle* handle = findResourceByName( name, klass );
+			if (!handle)
+			{
+				return HK_NULL;
+			}
+			return reinterpret_cast<T*>(handle->getObject());
+		}
+
+	protected: 
+			// Empty constructor
+		hkResourceContainer(){}
+
+			// Serializing constructor
+		hkResourceContainer(hkFinishLoadedObjectFlag flag) : hkResourceBase(flag) {}
 };
 
 
@@ -190,8 +262,6 @@ class hkMemoryResourceHandle: public hkResourceHandle
 				hkBool m_memberNameIsAllocated;
 		};
 
-			/// Returns the name of the resource.
-			/// If the name has to be created on the fly the supplied buffer will be used.
 		const char* getName(NameBuffer buffer) const;
 
 			/// Set the name of the resource.
@@ -221,6 +291,8 @@ class hkMemoryResourceHandle: public hkResourceHandle
 	protected:
 
 		hkVariant   m_variant;
+			// Set m_objectIsRerencedObject default to old behavior 
+		hkBool		m_objectIsRerencedObject; //+default(false) 
 		hkBool      m_nameIsAllocated;
 		const char* m_name;
 
@@ -239,23 +311,43 @@ class hkMemoryResourceContainer : public hkResourceContainer
 
 		HK_DECLARE_REFLECTION();
 
-		hkMemoryResourceContainer();
+		hkMemoryResourceContainer( const char* name = "");
 
 		hkMemoryResourceContainer(hkFinishLoadedObjectFlag flag);
 
 		virtual ~hkMemoryResourceContainer();
 
+		const char* getName(NameBuffer buffer) const;
+
 		hkResourceHandle* createResource(const char* name, void* object, const hkClass* klass);
 
 		int getNumResources() { return m_resourceHandles.getSize(); }
 
-		hkResourceHandle* findByName( const char* objectName, const hkClass* klass = HK_NULL, const hkResourceHandle* prevObject = HK_NULL ) const;
+		hkResourceHandle* findResourceByName( const char* objectName, const hkClass* klass = HK_NULL, const hkResourceHandle* prevObject = HK_NULL ) const;
 
-		void removeResource(hkResourceHandle* resourceHandle);
+		void destroyResource(hkResourceHandle* resourceHandle);
+
+		virtual hkResourceContainer* getParent() {	return m_parent;	}
+
+		virtual hkResourceContainer* createContainer(const char* name);
+
+		virtual void destroyContainer( hkResourceContainer* container );
+
+		virtual int getNumContainers();
+
+		virtual hkResult parentTo( hkResourceContainer* newParent );
+
+		virtual hkResourceContainer* findContainerByName( const char* containerName, const hkResourceContainer* prevContainer = HK_NULL ) const;
 
 	protected:
+		hkBool      m_nameIsAllocated;
+		const char* m_name;
+
+		hkMemoryResourceContainer* m_parent;		//+serialized(false)
 
 		hkArray<hkMemoryResourceHandle*> m_resourceHandles; 
+
+		hkArray<hkMemoryResourceContainer*> m_children; 
 };
 
 
@@ -268,7 +360,7 @@ class hkContainerResourceMap: public hkResourceMap
 
 		virtual void* findObjectByName( const char* objectName, const hkClass** klassOut = HK_NULL ) const;
 
-	protected:
+	public:
 
 		hkStringMap<hkResourceHandle*> m_resources;
 };
@@ -279,9 +371,9 @@ class hkContainerResourceMap: public hkResourceMap
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

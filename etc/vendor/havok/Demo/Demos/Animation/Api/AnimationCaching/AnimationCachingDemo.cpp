@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -63,7 +63,8 @@ static const CacheDemoVariant g_variants[] =
 	{ { 2, 2 }, "Delta Small Cache", "Delta compression using a small cache", hkaAnimation::HK_DELTA_COMPRESSED_ANIMATION },
 	{ { 3, 5 }, "Delta Medium Cache", "Delta compression using a medium cache", hkaAnimation::HK_DELTA_COMPRESSED_ANIMATION },
 	{ { 10,6 }, "Delta Large Cache", "Delta compression using a large cache", hkaAnimation::HK_DELTA_COMPRESSED_ANIMATION },
-	{ { 0, 0 }, "Spline No Cache", "Spline compression without using a cache", hkaAnimation::HK_SPLINE_COMPRESSED_ANIMATION }
+	{ { 0, 0 }, "Spline No Cache", "Spline compression without using a cache", hkaAnimation::HK_SPLINE_COMPRESSED_ANIMATION },
+	{ { 0, 0 }, "Uncompressed No Cache", "Uncompressed without using a cache", hkaAnimation::HK_INTERLEAVED_ANIMATION }
 };
 
 // Put any animations to test in this list
@@ -255,6 +256,11 @@ hkaAnimation* AnimationCachingDemo::createCompressedAnimation( hkaAnimation* raw
 		return new hkaSplineCompressedAnimation( *(hkaInterleavedUncompressedAnimation*)raw, tparams, aparams ); 
 	}
 
+	if ( type == hkaAnimation::HK_INTERLEAVED_ANIMATION )
+	{
+		return new hkaInterleavedUncompressedAnimation( *(hkaInterleavedUncompressedAnimation*)raw );
+	}
+
 	return 0;
 }
 
@@ -367,9 +373,9 @@ static const char helpString[] = \
 HK_DECLARE_DEMO_VARIANT_USING_STRUCT( AnimationCachingDemo, HK_DEMO_TYPE_ANIMATION | HK_DEMO_TYPE_SERIALIZE, CacheDemoVariant, g_variants, helpString );
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

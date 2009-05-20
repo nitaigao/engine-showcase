@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -45,6 +45,7 @@ class BootstrapDemo : public hkDemo
 			TEST_STATISTICS,
 			TEST_STATISTICS_DETAILED,
 			TEST_STATISTICS_SINGLE_THREADED,
+			TEST_STATISTICS_CRITICAL,
 		};
 
 		//// Tweakable parameters
@@ -78,7 +79,6 @@ class BootstrapDemo : public hkDemo
 		void DeterminismStepDemo();
 		void StatsStepDemo();
 
-
 		// Common
 		int m_demoTypeMask;
 		TestType m_testType;
@@ -87,7 +87,7 @@ class BootstrapDemo : public hkDemo
 
 		struct DemoEntry
 		{
-			const hkDemoDatabase::hkDemoEntry* m_entry;
+			const hkDemoEntry* m_entry;
 			//int m_numIterations;
 		};
 
@@ -119,9 +119,9 @@ class BootstrapDemo : public hkDemo
 #endif // DEMOS_UTILITIES_BOOTSTRAPDEMO_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

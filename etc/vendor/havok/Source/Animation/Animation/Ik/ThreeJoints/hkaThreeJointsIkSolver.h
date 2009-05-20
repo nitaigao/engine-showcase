@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HK_THREEJOINTSIKSOLVER_H
@@ -13,10 +13,14 @@
 class hkaPose;
 class hkInternal3JointsIkIterSolver;
 
-/// This plane IK solver operates on the three specified joints in order for a third bone (end point/effector) to reach
-/// a desired position. The first joint is considered to be a ball-socket, while the second and third joints are 
-/// considered to be a hinge joint. 
-/// The joints/bones do not need to be immediate parents of each other (but they must be in the same chain).
+/// This plane IK solver operates on the three specified joints in
+/// order for a third bone (end point/effector) to reach a desired
+/// position. All bones must lie in the plane. All three joints are
+/// considered hinges with an axis normal to this plane.
+/// Additionally the first joint is allowed to rotate about a
+/// specified axis parallel to the plane.  The joints/bones do not
+/// need to be immediate parents of each other (but they must be in
+/// the same chain).
 class hkaThreeJointsIkSolver : public hkReferencedObject
 {
 	public:
@@ -65,9 +69,9 @@ class hkaThreeJointsIkSolver : public hkReferencedObject
 #endif // HK_THREEJOINTSIKSOLVER_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

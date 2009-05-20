@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HKBASE_HKMONITOR_STATISTICS_COLLECTOR_H
@@ -19,8 +19,10 @@ template<typename T> class hkObjectArray;
 ///
 /// All hkReferencedObject in Havok (most user level objects) have the following virtual calls:
 ///
+/// \verbatim
 ///    virtual void calcContentStatistics( hkStatisticsCollector* collector, const hkClass* cls ) const
 ///    virtual const hkClass* getClassType() const
+/// \endverbatim
 ///
 /// The getClassType method provides a way to determine the exact type of a class. The default implementation
 /// of getClassType will return HK_NULL. In this situation if the type is serialized an implementation of hkStatisticsCollector
@@ -30,15 +32,15 @@ template<typename T> class hkObjectArray;
 /// to make sure it also implements the method, else the wrong type could be returned. The setting up of the hkClass
 /// information for a non serialized type can be achieved by placing
 ///
-/// extern const hkClass YourClassNameClass;
+/// \verbatim extern const hkClass YourClassNameClass; \endverbatim
 ///
 /// in the header - before your class. Implementing the getClassTypeMethod to return the type
 ///
-/// virtual const hkClass* getClassType() const { return &YourClassNameClass; }
+/// \verbatim virtual const hkClass* getClassType() const { return &YourClassNameClass; } \endverbatim
 ///
 /// Finally the type needs to be implemented in the .cpp file. Place the following after your header includes
 ///
-/// HK_REFLECTION_DEFINE_STUB_VIRTUAL(YourClassName, hkReferencedObject);
+/// \verbatim HK_REFLECTION_DEFINE_STUB_VIRTUAL(YourClassName, hkReferencedObject); \endverbatim
 ///
 /// The second parameter to the macro - should be the base class that YouClassName derived from.
 ///
@@ -53,7 +55,7 @@ template<typename T> class hkObjectArray;
 /// the appropriate calls with the memory to track can be made on the hkStatisticsCollector. The remainder of the serialized
 /// types members can be tracked by
 ///
-///   hkStatisticsCollectorUtil::addClassContents(const void* obj, const hkClass& cls, hkStatisticsCollector* collector);
+/// \verbatim hkStatisticsCollectorUtil::addClassContents(const void* obj, const hkClass& cls, hkStatisticsCollector* collector); \endverbatim
 ///
 /// Finally a call to the parent classes implementation of calcContentStatistics, should be made, with the parents
 /// class type. Passing the parents class type will ensure if the parents implementation is the hkStatisticsCollectorUtil
@@ -63,6 +65,7 @@ template<typename T> class hkObjectArray;
 /// hkStatisticsCollector of any additional memory cosumed by just this classes implementation, and then call the parents
 /// implementation. For example
 ///
+/// \verbatim
 /// class MyDerived: public: MyBase
 /// {
 ///      ...
@@ -82,6 +85,7 @@ template<typename T> class hkObjectArray;
 ///     // Let the base class inform the collector of its memory consumption
 ///     MyBase::calcContentStatistics(collector, &MyBaseClass);
 /// }
+/// \endverbatim
 ///
 /// Normally the statistics collectors record the memory used the the object
 /// (m_memSizeAndFLags + all used (<= allocated, eg: hkArray:getSize())) and also the total
@@ -147,7 +151,7 @@ class hkStatisticsCollector: public hkReferencedObject
 		hkVtableClassRegistry* getVtblClassRegistry() const { return m_vtblRegistry; }
 
             /// Returns the size of an allocated object
-        static int HK_CALL getReferencedObjectSize(const hkReferencedObject* obj);
+        int getReferencedObjectSize(const hkReferencedObject* obj);
 
 			/// Returns the amount of memory that is allocated for a size of an actual allocation
 			/// (The allocator generally uses more space than the allocation request asks for)
@@ -223,15 +227,18 @@ class hkStatisticsCollector: public hkReferencedObject
 			/// For children of hkpWorld this points to the hkpCollisionInput.
 		const void* m_clientData;
 		hkVtableClassRegistry* m_vtblRegistry;
+
+			/// If this is true, packfile memory will also be counted.
+		bool m_includePackfileMemory;
 };
 
 
 #endif // HKBASE_HKMONITOR_STATISTICS_COLLECTOR_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #include <Demos/demos.h>
@@ -52,6 +52,14 @@
 #include <Demos/DemoCommon/DemoFramework/hkPackedFileSystemSource.inl>
 #include <Demos/DemoCommon/DemoFramework/hkDemoFilesystem.h>
 
+#include <Common/Serialize/Version/hkVersionPatchManager.h>
+
+#if defined (HK_PLATFORM_PS3_PPU)
+//#define ENABLE_SN_TUNER
+//#ifdef ENABLE_SN_TUNER
+//#include <hkdemoframework/libsntuner.h>
+//#endif
+#endif
 
 
 
@@ -136,7 +144,7 @@ hkDemoFrameworkOptions::hkDemoFrameworkOptions()
 	m_enableShadows(false), // disable by default (even on PC as some lower Nvidia cards claim to suppot fully but don't quite)
 	m_forceNoShadows(false), // allow demos to turn them on if they like, even if m_enableShadows if off generally.
 	m_shadowMapRes(0), // 0 == use default platform size
-	m_enableFsaa(false),
+	m_enableFsaa(true),
 	m_forceKeyboardGamepad(false), // if true, on pc, even if gamepad found, use keyboard to fake one.
 	m_width(640),
 	m_height(480),
@@ -187,6 +195,10 @@ hkDemoFrameworkOptions::hkDemoFrameworkOptions()
 	m_numThreads = info.m_numThreads;
 	m_forceMT = m_numThreads > 1;
 
+#if defined(HK_PLATFORM_PS3_PPU)
+	// Only use one PPU thread on the PLAYSTATION(R)3
+	m_numThreads = 1;
+#endif
 	m_numSpus = 5;
 	m_useSpuThreads = false;
 	m_attributes[0] = 0;
@@ -559,7 +571,7 @@ void hkDemoFrameworkOptions::parse(int argc, const char** argv, int firstArg)
 						{
 							m_lockFps = 0; // turn off frame lock for null renderer
 						}
-					}
+					}					
 					break;
 				}
 			case 's': // set the stats output directory or shadows
@@ -945,8 +957,10 @@ static hkgWindow* s_debugWindowHandle = HK_NULL;
 static hkDemoEnvironment* s_debugEnvironmentHandle = HK_NULL;
 
 // A utility function useful for debugging inner loops
-void HK_CALL debugRenderNow()
+int HK_CALL debugRenderNow()
 {
+	int returnCode=0;
+
 	HK_ASSERT(0, s_debugWindowHandle != HK_NULL);
 	HK_ASSERT(0, s_debugEnvironmentHandle != HK_NULL);
 
@@ -959,9 +973,31 @@ void HK_CALL debugRenderNow()
 		const hkgKeyboard& key = s_debugEnvironmentHandle->m_window->getKeyboard();
 		if( key.wasKeyPressed(HKG_VKEY_SPACE) || key.getKeyState(HKG_VKEY_SHIFT) )
 		{
+			returnCode = 1;
 			break;
 		}
 	}
+
+	s_debugEnvironmentHandle->m_textDisplay->m_holdTextForDebug = false;
+	render(s_debugWindowHandle, *s_debugEnvironmentHandle, HK_NULL );
+
+	s_debugWindowHandle->clearBuffers();
+	s_debugEnvironmentHandle->m_displayHandler->clear(); // clear debug display before a potential world step
+
+	return returnCode;
+}
+
+// A utility function useful for debugging inner loops
+void HK_CALL debugRenderNowNoWait()
+{
+	HK_ASSERT(0, s_debugWindowHandle != HK_NULL);
+	HK_ASSERT(0, s_debugEnvironmentHandle != HK_NULL);
+
+	s_debugEnvironmentHandle->m_textDisplay->m_holdTextForDebug = true;
+	s_debugEnvironmentHandle->m_textDisplay->outputText("Debug display", 20, 0);
+
+	render(s_debugWindowHandle, *s_debugEnvironmentHandle, HK_NULL );
+	s_debugWindowHandle->clearBuffers();
 
 	s_debugEnvironmentHandle->m_textDisplay->m_holdTextForDebug = false;
 	render(s_debugWindowHandle, *s_debugEnvironmentHandle, HK_NULL );
@@ -992,6 +1028,9 @@ static int HK_CALL getWindowDeviceFlag( int d )
 
 static const char* new_argv[64];
 
+
+extern void HK_CALL registerPatches(hkVersionPatchManager&);
+
 int HK_CALL hkFrameworkMain (hkDemoFrameworkOptions& options, char* startUpDemo);
 int HK_CALL hkFrameworkMain (hkDemoFrameworkOptions& options, char* startUpDemo)
 {
@@ -1004,16 +1043,20 @@ int HK_CALL hkFrameworkMain (hkDemoFrameworkOptions& options, char* startUpDemo)
 	hkBaseSystem::init( memoryManager, threadMemory, errorReportFunction );
 	memoryManager->removeReference();
 
-
 	// We now initialize the stack area to 2 mega bytes (fast temporary memory to be used by the engine).
 	char* stackBuffer;
 	{
 		int stackSize = 2*1024*1024; // 2MB stack
 
+
 		stackBuffer = hkAllocate<char>( stackSize, HK_MEMORY_CLASS_BASE);
+
+
 		threadMemory->setStackArea( stackBuffer, stackSize);
 	}
 
+	registerPatches(hkVersionPatchManager::getInstance());
+ 
 	// Create a 2 Megabyte buffer for collecting statistics
 
 	{
@@ -1022,7 +1065,7 @@ int HK_CALL hkFrameworkMain (hkDemoFrameworkOptions& options, char* startUpDemo)
 			hkStreamReader * masterFile = hkFileSystem::getInstance().openReader(options.m_masterFile);
 			if (masterFile->isOk())
 			{
-				// For PS2 cdrom
+				// For PlayStation(R)2 cdrom
 				hkBool seekBug = (hkString::strNcasecmp("cdrom" , options.m_masterFile, 5) == 0);
 				// Replace with the masterfile
 				hkPackedFileSystem* msb = new hkPackedFileSystem(masterFile, seekBug);
@@ -1131,7 +1174,7 @@ int HK_CALL hkFrameworkMain (hkDemoFrameworkOptions& options, char* startUpDemo)
 	if (hkgSystem::g_RendererType != hkgSystem::HKG_RENDERER_CONSOLE)
 	{
 #ifdef HK_DEBUG
-		printf("HKG: Renderer using %s.\n", hkgSystem::getRendererString() );
+			printf("HKG: Renderer using %s.\n", hkgSystem::getRendererString() );							
 #endif
 	}
 
@@ -1199,7 +1242,7 @@ int HK_CALL hkFrameworkMain (hkDemoFrameworkOptions& options, char* startUpDemo)
 				visible.left + options.m_xPos, visible.top + options.m_yPos,
 				options.m_width, options.m_height, 0);
 		}
-		//SendMessage( (HWND)(window->getPlatformHandle()), WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+		//SendMessage( (HWND)(window->getPlatformHandle()), 0x0112/*WM_SYSCOMMAND*/, 0xF030/*SC_MAXIMIZE*/, 0);
 
 		// don't allow viewport resizing
 		window->setWantViewportBorders(false);
@@ -1292,9 +1335,9 @@ int HK_CALL hkFrameworkMain (hkDemoFrameworkOptions& options, char* startUpDemo)
 		while ( window->peekMessages() == HKG_WINDOW_MSG_CONTINUE )
 		{
 #ifdef HK_PS2
-			// On PS2 we must restart the performance counters every 7 seconds
+			// On PlayStation(R)2 we must restart the performance counters every 7 seconds
 			// otherwise we will get an exception which cannot be caught by the user!
-			// Please don't move it out, unless you are certain everything works ok on ps2
+			// Please don't move it out, unless you are certain everything works ok on PlayStation(R)2
 			//ticksSoFar.stop();
 			scePcStart( SCE_PC_CTE | SCE_PC_U0 | SCE_PC_U1 | SCE_PC0_ICACHE_MISS | SCE_PC1_CPU_CYCLE, 0 ,0 );
 			//ticksSoFar.start();
@@ -1447,9 +1490,9 @@ int HK_CALL hkFrameworkMain (hkDemoFrameworkOptions& options, char* startUpDemo)
 }
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

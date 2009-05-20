@@ -6,24 +6,19 @@ namespace Serialization
 {
 	ISystemComponent* GraphicsComponentSerializer::DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const SystemSceneMap&  systemScenes )
 	{
-		AnyValue::AnyValueMap properties;
-	
-		for( YAML::Iterator componentProperty = componentNode.begin( ); componentProperty != componentNode.end( ); ++componentProperty ) 
-		{
-			std::string propertyKey, propertyValue;
-	
-			componentProperty.first( ) >> propertyKey;
-			componentProperty.second( ) >> propertyValue;
-	
-			properties.insert( std::make_pair( propertyKey, propertyValue ) );
-		}
-	
-		std::string type = properties[ "type" ].GetValue< std::string >( );
-	
 		SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::RENDER );
-	
-		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, ( type == "camera" ) ? type : "default" );;
-		systemComponent->Initialize( properties );
+
+		std::string type;
+		componentNode[ "type" ] >> type;
+
+		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, ( type == "camera" ) ? type : "default" );
+
+		std::string model;
+		componentNode[ "model" ] >> model;
+
+		systemComponent->SetAttribute( System::Attributes::Model, model );
+		
+		systemComponent->Initialize( );
 	
 		return systemComponent;
 	}

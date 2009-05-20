@@ -359,6 +359,16 @@ class InputComponent < Component
 
 end
 
+class SoundComponent < Component
+
+	def initialize( ogreNode )
+	
+		super( 'sound' )
+		
+	end
+
+end
+
 class SkyBox
 
 	def initialize( xmlNode )
@@ -443,8 +453,6 @@ class Entity
 			@components.push( GraphicsComponent.new( ogreNode ) )
 		
 		end
-	
-        @components.push( GeometryComponent.new( ogreNode ) )
 		
 		attachPhysics = ogreNode.elements[ './/userData/components/attachPhysics' ]
 		
@@ -461,6 +469,15 @@ class Entity
 		
 			inputNode = ogreNode.elements[ './/userData' ]
 			@components.push( InputComponent.new( inputNode ) )
+		
+		end
+		
+		attachSound = ogreNode.elements[ './/userData/components/attachSound' ]
+		
+		if ( attachSound != nil && attachSound.text == 'true' )
+		
+			soundNode = ogreNode.elements[ './/userData' ]
+			@components.push( SoundComponent.new( soundNode ) )
 		
 		end
 		
@@ -483,6 +500,8 @@ class Entity
 			$entityLinks.push( EntityLink.new( 'player', 'geometry', @name, 'ai' ) );
 		
 		end
+		
+		@components.push( GeometryComponent.new( ogreNode ) )
         
     end
     

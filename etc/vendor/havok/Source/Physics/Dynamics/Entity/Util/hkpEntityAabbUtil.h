@@ -2,12 +2,12 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
-#ifndef HK_COLLIDABLE_AABB_UTIL_H
-#define HK_COLLIDABLE_AABB_UTIL_H
+#ifndef HK_ENTITY_AABB_UTIL_H
+#define HK_ENTITY_AABB_UTIL_H
 
 
 #include <Common/Base/Types/Geometry/Aabb/hkAabb.h>
@@ -21,14 +21,14 @@ class hkpEntity;
 class hkValueIndexPair
 {
 public:
-	hkUint32 m_value; // only used by nm machine
-	hkUint32 m_index; // used by 1n & nm machines
+	hkUint32 m_value;
+	hkUint32 m_index;
 
 	HK_FORCE_INLINE bool operator< (const hkValueIndexPair& p1) const { return (m_value < p1.m_value); }
 };
 
 
-class hkEntityAabbUtil
+class hkpEntityAabbUtil
 {
 	public:
 
@@ -40,12 +40,12 @@ class hkEntityAabbUtil
 };
 
 
-#endif // HK_COLLIDABLE_AABB_UTIL_H
+#endif // HK_ENTITY_AABB_UTIL_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

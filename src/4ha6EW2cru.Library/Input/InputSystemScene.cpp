@@ -17,17 +17,22 @@ namespace Input
 {
 	ISystemComponent* InputSystemScene::CreateComponent( const std::string& name, const std::string& type )
 	{
-		IInputSystemComponent* inputComponent = new InputSystemComponent( name, m_mouse, m_keyboard );
-		m_inputComponents.push_back( inputComponent );
+		IInputSystemComponent* component = new InputSystemComponent( name, m_mouse, m_keyboard );
 
-		return inputComponent;
+		component->SetAttribute( System::Attributes::Name, name );
+		component->SetAttribute( System::Attributes::Type, System::Types::INPUT );
+		component->SetAttribute( System::Attributes::Parent, this );
+
+		m_inputComponents.push_back( component );
+
+		return component;
 	}
 
 	void InputSystemScene::DestroyComponent( ISystemComponent* component )
 	{
-		for( InputSystemComponentList::iterator i = m_inputComponents.begin( ); i != m_inputComponents.end( ); ++i  )
+		for( IInputSystemComponent::InputSystemComponentList::iterator i = m_inputComponents.begin( ); i != m_inputComponents.end( ); ++i  )
 		{
-			if ( component->GetName( ) == ( *i )->GetName( ) )
+			if ( component == ( *i ) )
 			{
 				m_inputComponents.erase( i );
 				break;
@@ -42,7 +47,7 @@ namespace Input
 	{
 		if ( m_inputAllowed )
 		{
-			for( InputSystemComponentList::iterator i = m_inputComponents.begin( ); i != m_inputComponents.end( ); ++i  )
+			for( IInputSystemComponent::InputSystemComponentList::iterator i = m_inputComponents.begin( ); i != m_inputComponents.end( ); ++i  )
 			{
 				( *i )->Update( deltaMilliseconds );
 			}
@@ -98,8 +103,13 @@ namespace Input
 	/* Fired when the user presses a button on the mouse */
 	bool InputSystemScene::MousePressed( const MouseEvent &arg, MouseButtonID id )
 	{
-		IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_PRESSED", id );
-		Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
+		if ( m_inputAllowed )
+		{
+			for( IInputSystemComponent::InputSystemComponentList::iterator i = m_inputComponents.begin( ); i != m_inputComponents.end( ); ++i  )
+			{
+				( *i )->MousePressed( arg, id );
+			}
+		}
 
 		Event* event = new Event( INPUT_MOUSE_PRESSED, new MouseEventData( arg.state, id ) );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
@@ -112,7 +122,7 @@ namespace Input
 	{	
 		if ( m_inputAllowed )
 		{
-			for( InputSystemComponentList::iterator i = m_inputComponents.begin( ); i != m_inputComponents.end( ); ++i  )
+			for( IInputSystemComponent::InputSystemComponentList::iterator i = m_inputComponents.begin( ); i != m_inputComponents.end( ); ++i  )
 			{
 				( *i )->MouseReleased( arg, id );
 			}

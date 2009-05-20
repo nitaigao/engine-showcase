@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -268,6 +268,7 @@ MenuDemo::MenuDemo(hkDemoEnvironment* environment)
 	m_newTimersGathered = false;
 
 	int size = 2000000;
+	
 	m_savedStreamBegin = hkAllocate<char>( size, HK_MEMORY_CLASS_DEMO );
 	m_savedStreamCurrent = m_savedStreamBegin;
 	m_savedStreamEnd = m_savedStreamBegin + size;
@@ -283,7 +284,7 @@ MenuDemo::MenuDemo(hkDemoEnvironment* environment)
 		m_menuImage->realize();
 	}
 
-	// 2 meg for timer info - this is needed for on screen stats and detailed stats files
+	// 20 meg for timer info - this is needed for on screen stats and detailed stats files
 	hkMonitorStream& stream = hkMonitorStream::getInstance();
 	stream.resize( 20000000 );
 	stream.reset();
@@ -961,7 +962,7 @@ hkDemo::Result MenuDemo::stepCurrentDemo()
 		int overallindex = hkDemoDatabase::getInstance().findDemo( m_currentPath.cString());
 		if( overallindex >= 0 )
 		{
-			const hkDemoDatabase::hkDemoEntry& demo = hkDemoDatabase::getInstance().getDemos()[overallindex];
+			const hkDemoEntry& demo = hkDemoDatabase::getInstance().getDemos()[overallindex];
 			const int winWidth = m_env->m_window->getWidth();
 			const char* help = demo.m_details;
 			if ( !help ){ help = "Unknown Help"; }
@@ -1232,10 +1233,10 @@ void MenuDemo::writeSimpleMemoryStatistics()
 			}
 		}
 		{
-			hkObjectArray<hkDemoDatabase::hkDemoEntry>& demos = hkDemoDatabase::getInstance().m_demos;
+			hkObjectArray<hkDemoEntry>& demos = hkDemoDatabase::getInstance().m_demos;
 			for (int i =0 ; i < demos.getSize(); i++)
 			{
-				const hkDemoDatabase::hkDemoEntry* de = &demos[i];
+				const hkDemoEntry* de = &demos[i];
 
 				collector.addNormalChunk( "MenuDemo::Demos", de->m_menuPath.cString(), de->m_menuPath.getCapacity(), 0);
 				collector.addNormalChunk( "MenuDemo::Demos", de->m_demoPath.cString(), de->m_demoPath.getCapacity(), 0);
@@ -1258,9 +1259,6 @@ void MenuDemo::writeSimpleMemoryStatistics()
 		collector.addCallStackIgnoreString( hkString("hkDemo::setDemoName"));
 
 		collector.addCallStackIgnoreString( hkString("hkDebugDisplayProcess::hkDebugDisplayProcess"));
-		collector.addCallStackIgnoreString( hkString("hkDefaultDemo::setupGraphics"));
-		collector.addCallStackIgnoreString( hkString("hkDefaultDemo::setupLights"));
-		collector.addCallStackIgnoreString( hkString("hkDemo::setDemoName"));
 
 		collector.addCallStackIgnoreString( hkString("hkpShapeDisplayViewer::"));
 		collector.addCallStackIgnoreString( hkString("hkgDisplayHandler::"));
@@ -1371,7 +1369,7 @@ void MenuDemo::startCurrentDemo()
 		hkReferencedObject::lockAll();
 
 		// Create the demo
-		const hkDemoDatabase::hkDemoEntry& demo = hkDemoDatabase::getInstance().getDemos()[index];
+		const hkDemoEntry& demo = hkDemoDatabase::getInstance().getDemos()[index];
 		m_env->m_demoPath = demo.m_demoPath;
 		m_env->m_menuPath = demo.m_menuPath;
 		m_env->m_variantId  = demo.m_variantId;
@@ -1407,7 +1405,7 @@ void MenuDemo::startCurrentDemo()
 
 hkDemo::Result MenuDemo::stepMenuDemo()
 {
-	const hkObjectArray<hkDemoDatabase::hkDemoEntry>& alldemos = hkDemoDatabase::getInstance().getDemos();
+	const hkObjectArray<hkDemoEntry>& alldemos = hkDemoDatabase::getInstance().getDemos();
 	int startx = 20 + m_env->m_window->getTVDeadZoneH();
 	int starty = m_env->m_window->getTVDeadZoneV();
 	int stepx = 13;
@@ -1445,7 +1443,7 @@ hkDemo::Result MenuDemo::stepMenuDemo()
 		textDisplay->outputText( displayString, startx, starty);
 		starty += stepy;
 
-		hkArray<const hkDemoDatabase::hkDemoEntry*> entries;
+		hkArray<const hkDemoEntry*> entries;
 		entries.reserve( (m_env->m_window->getHeight() - 2*starty) / stepy );
 		for (int i = 0; i < alldemos.getSize() && entries.getSize() < entries.getCapacity(); i++)
 		{
@@ -1789,9 +1787,9 @@ hkString MenuDemo::getStatus()
 HK_DECLARE_DEMO(MenuDemo, HK_DEMO_TYPE_MENU, "Display a menu of available demos", "I'm the menu demo");
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

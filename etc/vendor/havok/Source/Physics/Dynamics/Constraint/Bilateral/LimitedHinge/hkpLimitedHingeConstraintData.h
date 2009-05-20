@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -21,7 +21,6 @@ class hkpLimitedHingeConstraintData : public hkpConstraintData
 {
 	public:
 
-		//+version(4)
 		HK_DECLARE_REFLECTION();
 
 		hkpLimitedHingeConstraintData();
@@ -47,6 +46,19 @@ class hkpLimitedHingeConstraintData : public hkpConstraintData
 		void setInWorldSpace(const hkTransform& bodyATransform, const hkTransform& bodyBTransform, 
 								const hkVector4& pivot, const hkVector4& axis);
 			
+			/// Sets the maximum impulse that can be applied for this atom.
+			/// Set it to HK_REAL_MAX to effectively disable the limit.
+		virtual void setMaxLinearImpulse(hkReal maxImpulse);
+
+			/// Gets the maximUm impulse that can be applied by this constraint.
+		virtual hkReal getMaxLinearImpulse() const;
+
+			/// Choose the body to be notified when the constraint's impulse is breached.
+		virtual void setBodyToNotify(int bodyIdx);
+
+			/// Returns the index of the body that is notified when the constraint's impulse limit is breached.
+		virtual hkUint8 getNotifiedBodyIndex() const;
+
 			/// Check consistency of constraint members
 		virtual hkBool isValid() const;
 	
@@ -158,7 +170,6 @@ class hkpLimitedHingeConstraintData : public hkpConstraintData
 
 		struct Atoms
 		{
-			//+version(3)
 			HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_DYNAMICS, hkpLimitedHingeConstraintData::Atoms );
 			HK_DECLARE_REFLECTION();
 
@@ -209,9 +220,9 @@ class hkpLimitedHingeConstraintData : public hkpConstraintData
 #endif
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

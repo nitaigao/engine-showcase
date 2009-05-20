@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HK_BASE_CLASS_H
@@ -29,7 +29,6 @@ class hkClass
 {
 	public:
 
-		//+version(9)
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_HKCLASS, hkClass );
 		HK_DECLARE_REFLECTION();
 
@@ -104,6 +103,9 @@ class hkClass
 			/// Get the i'th enum defined in this class (not including parent class members).
 		const hkClassEnum& getDeclaredEnum(int i) const;
 
+			/// Get the declared enum named 'name' or HK_NULL if not found.
+		const hkClassEnum* getDeclaredEnumByName(const char* name) const;
+
 			/// Get the number of enums defined in this class (not including parent class members).
 		int getNumDeclaredEnums() const;
 
@@ -113,20 +115,26 @@ class hkClass
 			/// Get the i'th member (including parent class members).
 		hkClassMember& getMember(int i);
 
+			/// Get the member named 'name' or HK_NULL if not found.
+		const hkClassMember* getMemberByName(const char* name) const;
+
+			/// Get the index of member named 'name' or -1 if not found.
+		int getMemberIndexByName(const char* name) const;
+
 			/// Get the number of members in this class (including parent class members).
 		int getNumMembers() const;
 
 			/// Get the i'th member declared in this class (not including parent class members).
 		const hkClassMember& getDeclaredMember(int i) const;
 
+			/// Get the declared member named 'name' or HK_NULL if not found.
+		const hkClassMember* getDeclaredMemberByName(const char* name) const;
+
+			/// Get the index of declared member named 'name' or -1 if not found.
+		int getDeclaredMemberIndexByName(const char* name) const;
+
 			/// Get the number of members declared in this class (not including parent class members).
 		int getNumDeclaredMembers() const;
-
-			/// Get the member named 'name' or HK_NULL if not found.
-		const hkClassMember* getMemberByName(const char* name) const;
-
-			/// Get the index of member named 'name' or -1 if not found.
-		int getMemberIndexByName(const char* name) const;
 
 			/// Get the size required for instances of this class.
 		int getObjectSize() const;
@@ -137,13 +145,25 @@ class hkClass
 			/// Does this class have a vtable?
 		hkBool hasVtable() const;
 
+			/// Does the given member have a default?
+		hkBool32 hasDefault(int memberIndex) const;
+
+			/// Does the given declared member have a default?
+		hkBool32 hasDeclaredDefault(int declaredIndex) const;
+
 			/// Write the default of the given member into w and return HK_SUCCESS.
 			/// If there is no default do not write anything and return HK_FAILURE.
 		hkResult getDefault(int memberIndex, hkStreamWriter* w) const;
+
+			/// Write the default of the given declared member into w and return HK_SUCCESS.
+			/// If there is no default do not write anything and return HK_FAILURE.
+		hkResult getDeclaredDefault(int declaredIndex, hkStreamWriter* w) const;
+
 			/// Put the default of the given member into value and return HK_SUCCESS.
 			/// If there is no default don't do anything and return HK_FAILURE.
 		hkResult getDefault(int memberIndex, hkTypedUnion& value) const;
-			/// Put the default of the given member into value and return HK_SUCCESS.
+
+			/// Put the default of the given declared member into value and return HK_SUCCESS.
 			/// If there is no default don't do anything and return HK_FAILURE.
 		hkResult getDeclaredDefault(int declaredIndex, hkTypedUnion& value) const;
 
@@ -218,9 +238,9 @@ class hkClass
 #endif // HK_BASE_CLASS_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

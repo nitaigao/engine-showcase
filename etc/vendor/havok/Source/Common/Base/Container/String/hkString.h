@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -60,6 +60,9 @@ class hkString
 
 			/// Returns the capacity
 		HK_FORCE_INLINE int getCapacity() const;
+
+			/// Returns the raw data
+		HK_FORCE_INLINE const hkArray<char>& getArray() const;
 
 			/// Overwrite the current value. Arguments are the same as for ::sprintf.
 		void printf(const char* format, ...); // member function, not HK_CALL
@@ -216,7 +219,7 @@ class hkString
 		static const char* HK_CALL strStr(const char* haystack, const char* needle);
 			/// Find all the occurrences of needle in haystack and put their start indices in the array. 
 			/// Return true if at least one was found.
-		static hkBool findAllOccurrences(const char* haystack, const char* needle, hkArray<int>& indices, hkString::ReplaceType rtype);
+		static hkBool HK_CALL findAllOccurrences(const char* haystack, const char* needle, hkArray<int>& indices, hkString::ReplaceType rtype);
 			/// Return the first occurrence of needle in haystack or null if not found.
 		static const char* HK_CALL strChr(const char* haystack, int needle);
 			/// Return the last occurrence of needle in haystack or null if not found.
@@ -262,6 +265,11 @@ class hkString
 			/// Set n*16 bytes to c
 		static HK_FORCE_INLINE void HK_CALL memSet16(void* dst, const void* value, int numQuads);
 
+			/// Set n*16 bytes to c
+			/// Size must be positive and a multiple of 16
+		template<int size>
+		static HK_FORCE_INLINE void HK_CALL memSet16(void* dst, const void* src);
+
 			/// Returns <=1,0,>=1 if n bytes of buf1 is less than, equal to or greater than those of buf2.
 		static int HK_CALL memCmp(const void* buf1, const void* buf2, int n);
 private:
@@ -283,9 +291,9 @@ private:
 #endif // HKBASE_HKSTRING_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

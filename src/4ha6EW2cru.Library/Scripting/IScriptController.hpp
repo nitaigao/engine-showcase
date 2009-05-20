@@ -7,6 +7,8 @@
 #ifndef __ISCRIPTCONTROLLER_HPP
 #define __ISCRIPTCONTROLLER_HPP
 
+#include <deque>
+
 namespace Script
 {
 	/*!
@@ -16,6 +18,8 @@ namespace Script
 	{
 
 	public:
+
+		typedef std::deque< IScriptController* > ScriptControllerList;
 
 		/*! Default Destructor
 		 *

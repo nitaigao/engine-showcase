@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -128,6 +128,13 @@ public:
 		vecOut(3) = getRandReal01();
 	}
 
+	void getRandomVectorRange( hkVector4Parameter min, hkVector4Parameter max, hkVector4& vecOut)
+	{
+		hkVector4 t; getRandomVector01(t);
+		hkVector4 delta; delta.setSub4(max, min);
+		vecOut.setAddMul4(min, delta, t);
+	}
+
 private:
 	hkUint32 m_seed;
 	hkUint32 m_current;
@@ -137,9 +144,9 @@ private:
 #endif // HK_MATH_PSEUDORANDOMGENERATOR_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

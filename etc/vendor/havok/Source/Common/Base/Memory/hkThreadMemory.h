@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -16,6 +16,7 @@
 class hkMemory;
 
 // This allocator forwards to hkSystemMalloc
+#if !defined(HK_PLATFORM_PS3_SPU)
 extern void* (HK_CALL *hkSystemMalloc)(int size, int align);
 extern void (HK_CALL *hkSystemFree) (void* p);
 #define HK_DECLARE_SYSTEM_ALLOCATOR() \
@@ -25,6 +26,10 @@ extern void (HK_CALL *hkSystemFree) (void* p);
 	HK_FORCE_INLINE void  HK_CALL operator delete(void*, void*)		{ }	\
 	class MustEndWithSemiColon
 #	define HK_VIRTUAL virtual
+#else // SPU
+#	define HK_DECLARE_SYSTEM_ALLOCATOR()
+#	define virtual
+#endif
 
 	/// All memory allocations per thread are handled by this class.
 	/// All memory allocations are shared between the threads, that means a block
@@ -104,6 +109,7 @@ class hkThreadMemory
 		static inline hkThreadMemory* HK_CALL getInstancePtr(); // may be null
 		static inline hkThreadMemory& HK_CALL getInstance(); // will assert if null
 
+#if !defined(HK_PLATFORM_PS3_SPU)
 			/// Replace the thread local instance of this memory manager
 		static void HK_CALL replaceInstance(hkThreadMemory* m);
 
@@ -112,6 +118,7 @@ class hkThreadMemory
 
 			/// removes a reference
 		void removeReference();
+#endif
 
 			/// Gives all local memory back to the main memory manager
 		virtual void releaseCachedMemory();
@@ -145,14 +152,19 @@ class hkThreadMemory
 				// the 64 bytes cache line width of playstation
 			PAGE_ALIGN  = 64,
 
+				// All small rows must align with this shift
+			MEMORY_SMALL_BLOCK_RSHIFT_BITS = 4,		
+				/// Added before the shift
+			MEMORY_SMALL_BLOCK_ADD = 0xf,
+
 				// The number of small chunk sizes
 			MEMORY_MAX_SMALL_ROW  = 13,
 
 				// The number of small and large chunk sizes
 			MEMORY_MAX_ALL_ROW = (MEMORY_MAX_SMALL_ROW+4),
 
-				// The largest small block we allocate from this pool
-			MEMORY_MAX_SIZE_SMALL_BLOCK  = 512,
+				// The largest small block we allocate from this pool - this is specially sized to match sizeof(hkpRigidBody)
+			MEMORY_MAX_SIZE_SMALL_BLOCK  = 512 + 32,
 
 				// The largest large block we allocate from this pool
 			MEMORY_MAX_SIZE_LARGE_BLOCK = 8192,
@@ -208,7 +220,7 @@ class hkThreadMemory
 			// Called when an deallocation from a full row is requested. p is a ptr that will be added to that row
 		void onRowFull(int row, void* p, HK_MEMORY_CLASS cl);
 			// Clear all of the pointers on that row. 
-		void clearRow(int rowIndex);
+		void clearRow(int rowIndex, HK_MEMORY_CLASS cl);
 
 		//
 		//	Internal public section
@@ -262,12 +274,15 @@ class hkThreadMemory
 		int m_row_to_size_lut[MEMORY_MAX_ALL_ROW];
 
 			// a lookup table of sizes to small block size
-		char m_small_size_to_row_lut[MEMORY_MAX_SIZE_SMALL_BLOCK+1];
+		char m_small_size_to_row_lut[(MEMORY_MAX_SIZE_SMALL_BLOCK >> MEMORY_SMALL_BLOCK_RSHIFT_BITS)+1];
 
 			// a lookup table of sizes to large block size
 		int m_large_size_to_row_lut[ (MEMORY_MAX_SIZE_LARGE_BLOCK >> MEMORY_LARGE_BLOCK_RSHIFT_BITS) ];
 };
 
+#if defined(HK_PLATFORM_PS3_SPU)
+#	undef virtual
+#endif
 
 hkThreadMemory* HK_CALL hkThreadMemory::getInstancePtr()
 {	
@@ -301,6 +316,20 @@ template <typename TYPE>	HK_FORCE_INLINE void HK_CALL hkDeallocateStack(TYPE* pt
 		HK_FORCE_INLINE void  HK_CALL operator delete[](void*, void*)	{ }
 #endif
 
+#	define HK_MUST_END_WITH_SEMICOLON class MustEndWithSemiColon
+
+#if defined( HK_PLATFORM_PS3_SPU)
+#define HK_DECLARE_CLASS_ALLOCATOR_UNCHECKED(TYPE) \
+	HK_FORCE_INLINE void* HK_CALL operator new(hk_size_t nbytes)	{ static int q; return &q; }	\
+	HK_FORCE_INLINE void  HK_CALL operator delete(void* p)			{ } 	\
+	HK_FORCE_INLINE void* HK_CALL operator new[](hk_size_t nbytes)	{ static int q; return &q; }	\
+	HK_FORCE_INLINE void  HK_CALL operator delete[](void* p)		{  }	\
+	HK_FORCE_INLINE void* HK_CALL operator new(hk_size_t, void* p)	{ return p; }	\
+	HK_FORCE_INLINE void* HK_CALL operator new[](hk_size_t, void* p){ return p; }	\
+	HK_OPERATOR_DELETE \
+	HK_MUST_END_WITH_SEMICOLON
+
+#else
 #define HK_DECLARE_CLASS_ALLOCATOR_UNCHECKED(TYPE) \
 	HK_FORCE_INLINE void* HK_CALL operator new(hk_size_t nbytes)	{ HK_ASSERT_OBJECT_SIZE_OK(nbytes); hkReferencedObject* b = static_cast<hkReferencedObject*>(hkThreadMemory::getInstance().allocateChunk(static_cast<int>(nbytes),TYPE)); b->m_memSizeAndFlags = static_cast<hkUint16>(nbytes); return b; }	\
 	HK_FORCE_INLINE void  HK_CALL operator delete(void* p)			{ hkReferencedObject* b = static_cast<hkReferencedObject*>(p); hkThreadMemory::getInstance().deallocateChunk(p, b->m_memSizeAndFlags,TYPE); }	\
@@ -309,7 +338,8 @@ template <typename TYPE>	HK_FORCE_INLINE void HK_CALL hkDeallocateStack(TYPE* pt
 	HK_FORCE_INLINE void* HK_CALL operator new(hk_size_t, void* p)	{ return p; }	\
 	HK_FORCE_INLINE void* HK_CALL operator new[](hk_size_t, void* p){ HK_BREAKPOINT(0); return p; }	\
 	HK_OPERATOR_DELETE \
-	class MustEndWithSemiColon
+	HK_MUST_END_WITH_SEMICOLON
+#endif
 
 #define HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR_BY_SIZE_UNCHECKED(TYPE,CLASS_SIZE) \
 	HK_FORCE_INLINE void* HK_CALL operator new(hk_size_t nbytes)	{ HK_ASSERT(0x6c787b7f, nbytes == CLASS_SIZE ); return hkThreadMemory::getInstance().allocateChunkConstSize(static_cast<int>(nbytes),TYPE); }	\
@@ -319,7 +349,7 @@ template <typename TYPE>	HK_FORCE_INLINE void HK_CALL hkDeallocateStack(TYPE* pt
 	HK_FORCE_INLINE void* HK_CALL operator new(hk_size_t n, void* p){ HK_ASSERT(0x77bb90a1, n == CLASS_SIZE); return p; } \
 	HK_FORCE_INLINE void* HK_CALL operator new[](hk_size_t, void* p){ return p;	} \
 	HK_OPERATOR_NONVIRTUAL_DELETE \
-	class MustEndWithSemiColon
+	HK_MUST_END_WITH_SEMICOLON
 	
 //
 // In debug, use some compile time trickery to ensure correct allocator is used.
@@ -381,7 +411,7 @@ HK_FORCE_INLINE void HK_CALL hkDeallocateChunk(TYPE* ptr, int numberOfObjects, H
 	hkThreadMemory::getInstance().deallocateChunk(static_cast<void*>(ptr), numberOfObjects*hkSizeOf(TYPE), cl);
 }
 
-#if defined(HK_DEBUG) && !defined(HK_PLATFORM_PS3SPU)
+#if defined(HK_DEBUG) && !defined(HK_PLATFORM_PS3_SPU)
 extern void HK_CALL HK_ASSERT_OBJECT_SIZE_OK_FUNC(hk_size_t nbytes);
 #	define HK_ASSERT_OBJECT_SIZE_OK(A) HK_ASSERT_OBJECT_SIZE_OK_FUNC(A)
 #else
@@ -394,9 +424,9 @@ extern void HK_CALL HK_ASSERT_OBJECT_SIZE_OK_FUNC(hk_size_t nbytes);
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

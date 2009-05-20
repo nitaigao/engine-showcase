@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -103,9 +103,9 @@ extern "C"
 	void HK_CALL hkAgent1nMachine_Destroy( hkpAgent1nTrack& agentTrack, hkpCollisionDispatcher* dispatch, hkpContactMgr* mgr, hkCollisionConstraintOwner& constraintOwner );
 
 		/// destroy all cache information
-	void HK_CALL hkAgent1nMachine_InvalidateTim( hkpAgent1nTrack& track, hkpCollisionInput& input );
+	void HK_CALL hkAgent1nMachine_InvalidateTim( hkpAgent1nTrack& track, const hkpCollisionInput& input );
 		
-	void HK_CALL hkAgent1nMachine_WarpTime( hkpAgent1nTrack& track, hkTime oldTime, hkTime newTime, hkpCollisionInput& input );
+	void HK_CALL hkAgent1nMachine_WarpTime( hkpAgent1nTrack& track, hkTime oldTime, hkTime newTime, const hkpCollisionInput& input );
 	
 	//
 	// internal functions
@@ -124,9 +124,9 @@ extern "C"
 #endif // HK_COLLIDE2_AGENT3_1N_MACHINE_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

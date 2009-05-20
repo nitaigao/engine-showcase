@@ -2,25 +2,31 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
 
 #include <Demos/demos.h>
 
-#include <Physics/Collide/Query/Multithreaded/hkpCollisionJobs.h>
+#include <Physics/Collide/Query/Multithreaded/RayCastQuery/hkpRayCastQueryJobs.h>
 
 #include <Common/Visualize/hkDebugDisplay.h>
 
 #include <Demos/Physics/Api/Collide/RayCasting/ShapeRayCastMultithreading/ShapeRaycastMultithreadingApiDemo.h>
 
-#include <Physics/Collide/Query/Multithreaded/hkpCollisionJobQueueUtils.h>
+#include <Physics/Collide/Query/Multithreaded/RayCastQuery/hkpRayCastQueryJobQueueUtils.h>
+#include <Physics/Collide/Query/CastUtil/hkpWorldRayCastOutput.h>
 #include <Common/Base/Thread/Job/ThreadPool/Cpu/hkCpuJobThreadPool.h>
 
 
+#if defined(HK_PLATFORM_PS3_PPU)
+//	# of real SPUs
+#	define NUM_SPUS 6
+#else
 //	# of simulated SPUs
 #	define NUM_SPUS 1
+#endif
 
 
 struct ShapeRayCastMultithreadingApiDemoVariant
@@ -115,7 +121,7 @@ ShapeRayCastMultithreadingApiDemo::ShapeRayCastMultithreadingApiDemo(hkDemoEnvir
 	//
 	// Setup multithreading.
 	//
-	hkpCollisionJobQueueUtils::registerWithJobQueue(m_jobQueue);
+	hkpRayCastQueryJobQueueUtils::registerWithJobQueue(m_jobQueue);
 
 	// Special case for this demo variant: we do not allow the # of active SPUs to drop to zero as this can cause a deadlock.
 	if ( variant.m_demoType == ShapeRayCastMultithreadingApiDemoVariant::MULTITHREADED_ON_SPU ) m_allowZeroActiveSpus = false;
@@ -126,11 +132,6 @@ ShapeRayCastMultithreadingApiDemo::ShapeRayCastMultithreadingApiDemo(hkDemoEnvir
 
 hkDemo::Result ShapeRayCastMultithreadingApiDemo::stepDemo()
 {
-	if (m_jobThreadPool->getNumThreads() == 0)
-	{
-		HK_WARN(0x34561f23, "This demo does not run with only one thread");
-		return DEMO_STOP;
-	}
 //	const ShapeRayCastMultithreadingApiDemoVariant& variant = g_ShapeRayCastMultithreadingApiDemoVariants[m_variantId];
 
 	//
@@ -157,7 +158,7 @@ hkDemo::Result ShapeRayCastMultithreadingApiDemo::stepDemo()
 	//
 	// Setup the output array where the ray's results (in this case only one) will be returned.
 	//
-	hkpShapeRayCastOutput* rayOutput = hkAllocateChunk<hkpShapeRayCastOutput>(1, HK_MEMORY_CLASS_DEMO);
+	hkpWorldRayCastOutput* rayOutput = hkAllocateChunk<hkpWorldRayCastOutput>(1, HK_MEMORY_CLASS_DEMO);
 
 	//
 	// Setup the raycast command.
@@ -178,6 +179,8 @@ hkDemo::Result ShapeRayCastMultithreadingApiDemo::stepDemo()
 			command->m_rayInput.m_to					   . set(0.0f, 0.0f, 0.0f);
 			command->m_rayInput.m_rayShapeCollectionFilter = HK_NULL;
 			command->m_rayInput.m_filterInfo			   = 0;
+			command->m_filterType = hkpCollisionFilter::HK_FILTER_UNKNOWN;
+			command->m_filterSize = 0;
 		}
 
 		// Init output struct.
@@ -237,7 +240,7 @@ hkDemo::Result ShapeRayCastMultithreadingApiDemo::stepDemo()
 		// Display results (just one in this case).
 		if ( command->m_numResultsOut > 0 )
 		{
-			hkpShapeRayCastOutput* output = &command->m_results[0];
+			hkpWorldRayCastOutput* output = &command->m_results[0];
 
 			hkVector4 intersectionPointWorld;
 			intersectionPointWorld.setInterpolate4(command->m_rayInput.m_from, command->m_rayInput.m_to, output->m_hitFraction );
@@ -291,9 +294,9 @@ hkDemo::Result ShapeRayCastMultithreadingApiDemo::stepDemo()
 HK_DECLARE_DEMO_VARIANT_USING_STRUCT( ShapeRayCastMultithreadingApiDemo, HK_DEMO_TYPE_OTHER, ShapeRayCastMultithreadingApiDemoVariant, g_ShapeRayCastMultithreadingApiDemoVariants, HK_NULL );
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

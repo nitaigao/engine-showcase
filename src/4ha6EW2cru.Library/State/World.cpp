@@ -18,7 +18,7 @@ namespace State
 	
 	IWorldEntity* World::CreateEntity( const std::string& name )
 	{
-		IWorldEntity* entity = new WorldEntity( name, m_lastEntityId++ );
+		IWorldEntity* entity = new WorldEntity( name );
 		m_entities.push_back( entity );
 		return entity;
 	}
@@ -33,7 +33,6 @@ namespace State
 			for( SystemSceneMap::iterator i = m_systemScenes.begin( ); i != m_systemScenes.end( ); ++i )
 			{
 				if ( 
-					( *i ).second->GetType( ) != System::Types::AI && 
 					( *i ).second->GetType( ) != System::Types::RENDER
 					) 
 				{
@@ -47,8 +46,6 @@ namespace State
 		for( SystemSceneMap::iterator i = m_systemScenes.begin( ); i != m_systemScenes.end( ); ++i )
 		{
 			if( 
-				( *i ).second->GetType( ) == System::Types::INPUT ||
-				( *i ).second->GetType( ) == System::Types::AI ||
 				( *i ).second->GetType( ) == System::Types::RENDER
 				)
 			{
@@ -65,7 +62,7 @@ namespace State
 	
 			for( SystemComponentList::iterator c = components.begin( ); c != components.end( ); ++c )
 			{
-				m_systemScenes[ ( *c )->GetType( ) ]->DestroyComponent( ( *c ) );
+				m_systemScenes[ ( *c )->GetAttributes( )[ System::Attributes::Type ].GetValue< System::Types::Type >( ) ]->DestroyComponent( ( *c ) );
 			}
 	
 			delete ( *e );

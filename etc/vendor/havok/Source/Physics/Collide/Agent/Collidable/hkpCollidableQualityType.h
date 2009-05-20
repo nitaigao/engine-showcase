@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -18,17 +18,20 @@ enum hkpCollidableQualityType
 		/// Invalid or unassinged type. If you add a hkpRigidBody to the hkpWorld,
 		/// this type automatically gets converted to either
 		/// HK_COLLIDABLE_QUALITY_FIXED, HK_COLLIDABLE_QUALITY_KEYFRAMED or HK_COLLIDABLE_QUALITY_DEBRIS
-	HK_COLLIDABLE_QUALITY_INVALID,
+	HK_COLLIDABLE_QUALITY_INVALID = -1,
 
 		/// Use this for fixed bodies. 
-	HK_COLLIDABLE_QUALITY_FIXED,
+	HK_COLLIDABLE_QUALITY_FIXED = 0,
 
 		/// Use this for moving objects with infinite mass. 
 	HK_COLLIDABLE_QUALITY_KEYFRAMED,
 
-		/// Use this for all you debris objects
+		/// Use this for all your debris objects
 	HK_COLLIDABLE_QUALITY_DEBRIS,
-		
+
+		/// Use this for debris objects that should have simplified Toi collisions with fixed/landscape objects.
+	HK_COLLIDABLE_QUALITY_DEBRIS_SIMPLE_TOI,
+
 		/// Use this for moving bodies, which should not leave the world, 
 		/// but you rather prefer those objects to tunnel through the world than
 		/// dropping frames because the engine 
@@ -60,9 +63,9 @@ enum hkpCollidableQualityType
 #endif // HK_COLLIDE2_COLLIDABLE_QUALITY_TYPE_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

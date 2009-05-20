@@ -20,12 +20,16 @@ namespace Renderer
 
 		m_components[ name ] = component;
 
+		component->SetAttribute( System::Attributes::Name, name );
+		component->SetAttribute( System::Attributes::Type, System::Types::RENDER );
+		component->SetAttribute( System::Attributes::Parent, this );
+
 		return component;
 	}
 
 	void RendererSystemScene::DestroyComponent( ISystemComponent* component )
 	{
-		m_components.erase( component->GetName( ) );
+		m_components.erase( component->GetAttributes( )[ System::Attributes::Name ].GetValue< std::string >( ) );
 		component->Destroy( );
 		delete component;
 		component = 0;
@@ -33,7 +37,7 @@ namespace Renderer
 
 	void RendererSystemScene::Update( const float& deltaMilliseconds )
 	{
-		for( RendererSystemComponentList::iterator i = m_components.begin( ); i != m_components.end( ); ++i )
+		for( IRendererSystemComponent::RendererSystemComponentList::iterator i = m_components.begin( ); i != m_components.end( ); ++i )
 		{
 			( *i ).second->Update( deltaMilliseconds );
 		}

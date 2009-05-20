@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -12,18 +12,17 @@
 #include <ContentTools/Common/Filters/Common/Filter/hctFilterDescriptor.h>
 #include <Common/Serialize/Util/hkRootLevelContainer.h>
 
-
 	/// A collection of useful utility methods for the filters and exporters
 class hctFilterUtils
 {
-	public:		
+	public:
 			
 			/// Get the position of the cinfo data (i.e. not the local fixups) in the options data block.
 		static void* interpretOptions( void* data );
 
 			/// Write the options data to memory. A pointer to the data is returned.
 		static void* writeOptionsXml( const hkClass& klass, const void* data, hkArray<char>& buffer, const char* filterName );
-
+		
 			/// Read the options data from memory.
 		static hkResult readOptionsXml ( const void* optionData, const int optionDataSize, hkArray<char>& buffer, const hkClass klass );
 
@@ -81,14 +80,17 @@ class hctFilterUtils
 
 			/// Utility function to sort named variants based on their exportability
 		static bool compareExportableLess( const hkRootLevelContainer::NamedVariant& a, const hkRootLevelContainer::NamedVariant& b );
+
+			// Packfile/Tagfile extensions list for open/save file dialogs
+		static const char s_DialogFileExtensions[];
 };
 
 #endif // HAVOK_FILTER_UTILS__H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

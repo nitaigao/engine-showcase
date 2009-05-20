@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -18,40 +18,12 @@
 #include <Common/Serialize/Util/hkStructureLayout.h>
 #include <Common/Serialize/Util/hkRootLevelContainer.h>
 #include <Common/Serialize/Util/hkSerializeUtil.h>
-
-// We can optionally version the packfile contents on load
-// This requires linking with hkcompat
-#define SIMPLE_LOAD_WITH_VERSIONING
-#include <Common/Serialize/Version/hkVersionUtil.h>
-#if defined(SIMPLE_LOAD_WITH_VERSIONING)
-#	include <Common/Serialize/Version/hkVersionRegistry.h>
-	static void maybeVersionContents(hkPackfileReader* reader)
-	{
-		if( hkVersionUtil::updateToCurrentVersion( *reader, hkVersionRegistry::getInstance() ) != HK_SUCCESS )
-		{
-			HK_WARN_ALWAYS(0, "Couldn't update version, skipping.\n");
-		}
-	}
-#else
-	static void maybeVersionContents(hkPackfileReader* reader)
-	{
-		if( hkString::strCmp( reader->getContentsVersion(), hkVersionUtil::getCurrentVersion() ) != 0 )
-		{
-			HK_WARN_ALWAYS(0, "Versioning is disabled, but file is from an older version.\n");
-		}
-	}
-#endif
-
 #include <Physics/Utilities/Serialize/hkpPhysicsData.h>
-
-#include <Physics/Dynamics/Entity/hkpRigidBody.h>
-#include <Physics/Dynamics/Phantom/hkpPhantom.h>
-
 
 // We have a different binary file depending on the compiler and platform
 static inline void SimpleLoadDemo_getBinaryFileName(hkString& e)
 {
-	e.printf("/Resources/simple_L%d%d%d%d.hkx", 
+	e.printf("/simple_L%d%d%d%d.hkx", 
 		hkStructureLayout::HostLayoutRules.m_bytesInPointer,
 		hkStructureLayout::HostLayoutRules.m_littleEndian? 1 : 0,
 		hkStructureLayout::HostLayoutRules.m_reusePaddingOptimization? 1 : 0,
@@ -68,7 +40,7 @@ SimpleLoadDemo::SimpleLoadDemo( hkDemoEnvironment* env)
 	hkError::getInstance().setEnabled(0x9fe65234, false);  // 'Unsupported simulation on type, setting to SIMULATION_TYPE_CONTINUOUS. See documentation on world stepping and time management'
 
 	// Build the path
-	hkString path("Common/Api/Serialize/SimpleLoad");
+	hkString path("Resources/Common/Api/Serialize/SimpleLoad");
 	{
 		hkString fileName;
 
@@ -82,7 +54,7 @@ SimpleLoadDemo::SimpleLoadDemo( hkDemoEnvironment* env)
 		
 			case hkPackfileReader::FORMAT_XML:
 			{
-				fileName = "/Resources/simple.xml";
+				fileName = "/simple.xml";
 				break;
 			}
 
@@ -174,9 +146,9 @@ HK_DECLARE_DEMO_VARIANT(SimpleLoadDemo, HK_DEMO_TYPE_PRIME | HK_DEMO_TYPE_SERIAL
 HK_DECLARE_DEMO_VARIANT(SimpleLoadDemo, HK_DEMO_TYPE_PRIME | HK_DEMO_TYPE_SERIALIZE | HK_DEMO_TYPE_CRITICAL, "XML",		XML,	"Shows how to load a simple xml physics file", helpString);
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

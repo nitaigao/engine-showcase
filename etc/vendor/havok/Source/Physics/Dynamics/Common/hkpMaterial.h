@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HK_DYNAMICS2_MATERIAL_H
@@ -14,11 +14,10 @@ extern const hkClass hkpMaterialClass;
 class hkpMaterial
 {
 	public:
-		//+version(1)
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_DYNAMICS, hkpMaterial );
 		HK_DECLARE_REFLECTION();
 
-			/// Constructor initialises friction to .5 and restitution to .4.
+			/// Constructor initializes friction to .5 and restitution to .4 and rollingFrictionMultiplier to .0.
 		inline hkpMaterial();
 
 		//
@@ -31,12 +30,19 @@ class hkpMaterial
 			/// Returns the default restitution.
 			//  restitution = bounciness (1 should give object all its energy back, 0 means it just sits there, etc.).
 		inline hkReal getRestitution() const;
-			
+
+			/// Returns the rolling friction coefficient multiplier.
+		inline hkReal getRollingFrictionMultiplier() const;
+
 			/// Sets the friction coefficient. Note: Setting this will not update existing contact information.
 		inline void setFriction( hkReal newFriction );
 
 			/// Sets the restitution coefficient. Note: Setting this will not update existing contact information.
 		inline void setRestitution( hkReal newRestitution );
+
+			/// Sets the rolling friction coefficient multiplier. Note: Unlike setFriction, 
+			/// this will have immediate effect on all existing contact information.
+		inline void setRollingFrictionMultiplier( hkReal newRollingFrictionMultiplier );
 
 			/// This returns the default way to combine two friction values.
 			/// We take the geometric mean ( sqrt (frictionA * frictionB) )
@@ -45,6 +51,10 @@ class hkpMaterial
 			/// This returns the default way to combine two restitution values.
 			/// We take the geometric mean ( sqrt (restitutionA * restitutionB) )
 		static inline hkReal HK_CALL getCombinedRestitution( hkReal restitutionA, hkReal restitutionB);
+
+			/// This returns the default way to combine two rolling friction multiplier values.
+			/// We take the geometric mean ( sqrt (multiplierA * multiplierB) )
+		static inline hkReal HK_CALL getCombinedRollingFrictionMultiplier( hkReal multiplierA, hkReal multiplierB );
 
 
 		//
@@ -84,6 +94,9 @@ class hkpMaterial
 		hkEnum<ResponseType,hkInt8> m_responseType;
 		hkReal m_friction;
 		hkReal m_restitution;
+#if defined HK_ENABLE_ROLLING_FRICITON_CODE
+		//hkReal m_rollingFrictionMultiplier; // Multiply this by m_friction to get the rolling friction coefficient
+#endif
 
 	public:
 
@@ -96,9 +109,9 @@ class hkpMaterial
 #endif // HK_DYNAMICS2_MATERIAL_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

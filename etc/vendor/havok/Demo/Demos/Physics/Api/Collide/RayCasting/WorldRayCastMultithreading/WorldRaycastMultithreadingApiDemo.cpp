@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -14,14 +14,19 @@
 #include <Common/Visualize/hkDebugDisplay.h>
 
 #include <Physics/Collide/Query/CastUtil/hkpWorldRayCastOutput.h>
-#include <Physics/Collide/Query/Multithreaded/hkpCollisionJobs.h>
-#include <Physics/Collide/Query/Multithreaded/hkpCollisionJobQueueUtils.h>
+#include <Physics/Collide/Query/Multithreaded/RayCastQuery/hkpRayCastQueryJobs.h>
+#include <Physics/Collide/Query/Multithreaded/RayCastQuery/hkpRayCastQueryJobQueueUtils.h>
 
 #include <Demos/Physics/Api/Collide/RayCasting/WorldRayCastMultithreading/WorldRaycastMultithreadingApiDemo.h>
 
 
+#if defined(HK_PLATFORM_PS3_PPU)
+//	# of real SPUs
+#	define NUM_SPUS 6
+#else
 //	# of simulated SPUs
 #	define NUM_SPUS 1
+#endif
 
 
 struct WorldRayCastMultithreadingApiDemoVariant
@@ -117,7 +122,7 @@ WorldRayCastMultithreadingApiDemo::WorldRayCastMultithreadingApiDemo(hkDemoEnvir
 	//
 	// Setup multithreading.
 	//
-	hkpCollisionJobQueueUtils::registerWithJobQueue(m_jobQueue);
+	hkpRayCastQueryJobQueueUtils::registerWithJobQueue(m_jobQueue);
 
 	// Special case for this demo variant: we do not allow the # of active SPUs to drop to zero as this can cause a deadlock.
 	if ( variant.m_demoType == WorldRayCastMultithreadingApiDemoVariant::MULTITHREADED_ON_SPU ) m_allowZeroActiveSpus = false;
@@ -195,11 +200,6 @@ void WorldRayCastMultithreadingApiDemo::createBodies()
 
 hkDemo::Result WorldRayCastMultithreadingApiDemo::stepDemo()
 {
-	if (m_jobThreadPool->getNumThreads() == 0)
-	{
-		HK_WARN(0x34561f23, "This demo does not run with only one thread");
-		return DEMO_STOP;
-	}
 	//const WorldRayCastMultithreadingApiDemoVariant& variant = g_WorldRayCastMultithreadingApiDemoVariants[m_variantId];
 
 	m_time += m_timestep;
@@ -313,9 +313,9 @@ hkDemo::Result WorldRayCastMultithreadingApiDemo::stepDemo()
 HK_DECLARE_DEMO_VARIANT_USING_STRUCT( WorldRayCastMultithreadingApiDemo, HK_DEMO_TYPE_OTHER, WorldRayCastMultithreadingApiDemoVariant, g_WorldRayCastMultithreadingApiDemoVariants, HK_NULL );
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

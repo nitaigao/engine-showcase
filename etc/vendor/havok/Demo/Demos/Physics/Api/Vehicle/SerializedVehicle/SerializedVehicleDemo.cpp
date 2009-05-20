@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -64,7 +64,7 @@ SerializedVehicle::SerializedVehicle(hkDemoEnvironment* env )
 	// Load in vehicle from XML
 	//
 	{
-		hkString path("Physics/Api/Vehicle/SerializedVehicle/Resources/vehicle.xml");
+		hkString path("Resources/Physics/Api/Vehicle/SerializedVehicle/vehicle.xml");
 
 		loadVehicle( m_world, m_vehicleSystem, path, false );
 		m_world->addPhysicsSystem( m_vehicleSystem );
@@ -209,13 +209,15 @@ hkDemo::Result SerializedVehicle::stepDemo()
 		const hkgPad* pad = m_env->m_gamePad;
 
 		// Save the vehicle
-		hkString rpath("PhysicsApi/VehiclePhysics/SerializedVehicle/Resources/");
+		hkString rpath("Resources/Physics/Api/Vehicle/SerializedVehicle/");
 		if ( pad->wasButtonPressed(HKG_PAD_BUTTON_L1) )
 		{
 			hkString path; 
 			path = rpath + "savedVehicle.xml";
 
+			m_world->lock();
 			saveVehicle( m_vehicleSystem, path, false );
+			m_world->unlock();
 		}
 
 		// Load the vehicle
@@ -224,9 +226,11 @@ hkDemo::Result SerializedVehicle::stepDemo()
 			hkString path;
 			path = rpath + "savedVehicle.xml";
 
+			m_world->lock();
 			m_world->removePhysicsSystem( m_vehicleSystem );
 			loadVehicle( m_world, m_vehicleSystem, path, false );
 			m_world->addPhysicsSystem( m_vehicleSystem );
+			m_world->unlock();
 		}
 	}
 
@@ -285,8 +289,8 @@ void SerializedVehicle::setUpWorld()
 	//
 	// Load the landscape to drive on and add it to m_world.
 	//
-	hkString path("Physics/Api/Vehicle/SerializedVehicle");
-	path += "/Resources/landscape.xml";
+	hkString path("Resources/Physics/Api/Vehicle/SerializedVehicle");
+	path += "/landscape.xml";
 	
 	loadLandscape( m_world, path, false );
 
@@ -307,12 +311,12 @@ static const char helpString[] =	\
 "\226/\227 - steer " \
 "\221 - handbrake";
  
-HK_DECLARE_DEMO(SerializedVehicle, HK_DEMO_TYPE_PHYSICS, "Drive a serialized vehicle on a MOPP landscape", helpString);
+HK_DECLARE_DEMO(SerializedVehicle, HK_DEMO_TYPE_PHYSICS | HK_DEMO_TYPE_SERIALIZE, "Drive a serialized vehicle on a MOPP landscape", helpString);
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

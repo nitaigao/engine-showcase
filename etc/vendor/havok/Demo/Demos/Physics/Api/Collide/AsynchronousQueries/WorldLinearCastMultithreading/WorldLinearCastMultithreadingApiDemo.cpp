@@ -2,15 +2,16 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
 
 #include <Demos/demos.h>
+#include <Demos/Physics/Api/Collide/AsynchronousQueries/WorldLinearCastMultithreading/WorldLinearCastMultithreadingApiDemo.h>
 
 #include <Physics/Collide/Query/Collector/PointCollector/hkpFixedBufferCdPointCollector.h>
-#include <Physics/Collide/Query/Multithreaded/hkpCollisionJobs.h>
+#include <Physics/Collide/Query/Multithreaded/CollisionQuery/hkpCollisionQueryJobs.h>
 
 #include <Graphics/Bridge/DisplayHandler/hkgDisplayHandler.h>
 
@@ -21,15 +22,21 @@
 
 #include <Demos/DemoCommon/Utilities/GameUtils/GameUtils.h>
 
-#include <Demos/Physics/Api/Collide/AsynchronousQueries/WorldLinearCastMultithreading/WorldLinearCastMultithreadingApiDemo.h>
+#include <Physics/Collide/Query/Multithreaded/CollisionQuery/hkpCollisionQueryJobQueueUtils.h>
+
+// kd-tree includes
+#include <Physics/Collide/Query/Multithreaded/RayCastQuery/hkpRayCastQueryJobs.h>
+#include <Physics/Collide/Query/Multithreaded/RayCastQuery/hkpRayCastQueryJobQueueUtils.h>
+#include <Physics/Dynamics/World/Util/KdTree/hkpKdTreeWorldManager.h>
 
 
-#include <Physics/Collide/Query/Multithreaded/hkpCollisionJobQueueUtils.h>
-#include <Common/Base/Thread/Job/ThreadPool/Cpu/hkCpuJobThreadPool.h>
-
-
+#if defined(HK_PLATFORM_PS3_PPU)
+//	# of real SPUs
+#	define NUM_SPUS 6
+#else
 //	# of simulated SPUs
 #	define NUM_SPUS 1
+#endif
 
 #define BOX_CIRCLE_RADIUS 15.0f
 #define CAST_CIRCLE_RADIUS (BOX_CIRCLE_RADIUS + 5.0f)
@@ -54,7 +61,7 @@ static const char helpString[] = \
 	"This demo demonstrates how to emulate the hkpWorld::linearCast() functionality in a multithreaded "	\
 	"environment through the use of a dedicated hkpWorldLinearCastJob. By putting such a job on "		\
 	"the job queue it can be processed by other threads or SPUs (on PS3). "								\
-	"One command of this job will cast exactly one collidable into the world, using the broadphase to "	\
+	"One bpCommand of this job will cast exactly one collidable into the world, using the broadphase to "	\
 	"avoid expensive low-level intersection tests. You can place an arbitrary number of commands into "	\
 	"one job, as the job will automatically split itself into parallel sub-jobs. "						\
 	"For more information on the original hkpWorld::linearCast() functionality, see WorldRayCastDemo. ";
@@ -68,7 +75,6 @@ static const WorldLinearCastMultithreadingApiDemoVariant g_WorldLinearCastMultit
 
 WorldLinearCastMultithreadingApiDemo::WorldLinearCastMultithreadingApiDemo(hkDemoEnvironment* env)
 	: hkDefaultPhysicsDemo(env, DEMO_FLAGS_NO_SERIALIZE),
-	m_semaphore(0,1000),
 	m_time(0.0f)
 {
 	const WorldLinearCastMultithreadingApiDemoVariant& variant = g_WorldLinearCastMultithreadingApiDemoVariants[m_variantId];
@@ -176,7 +182,8 @@ WorldLinearCastMultithreadingApiDemo::WorldLinearCastMultithreadingApiDemo(hkDem
 	if ( variant.m_demoType == WorldLinearCastMultithreadingApiDemoVariant::MULTITHREADED_ON_SPU ) m_allowZeroActiveSpus = false;
 
 	// Register the collision query functions
-	hkpCollisionJobQueueUtils::registerWithJobQueue(m_jobQueue);
+	hkpCollisionQueryJobQueueUtils::registerWithJobQueue(m_jobQueue);
+	hkpRayCastQueryJobQueueUtils::registerWithJobQueue(m_jobQueue);
 
 	// register the default addCdPoint() function; you are free to register your own implementation here though
 	hkpFixedBufferCdPointCollector::registerDefaultAddCdPointFunction();
@@ -192,12 +199,6 @@ WorldLinearCastMultithreadingApiDemo::~WorldLinearCastMultithreadingApiDemo()
 
 hkDemo::Result WorldLinearCastMultithreadingApiDemo::stepDemo()
 {
-	if (m_jobThreadPool->getNumThreads() == 0)
-	{
-		HK_WARN(0x34561f23, "This demo does not run with only one thread");
-		return DEMO_STOP;
-	}
-
 //	const WorldLinearCastMultithreadingApiDemoVariant& variant = g_WorldLinearCastMultithreadingApiDemoVariants[m_variantId];
 
 	//
@@ -208,53 +209,80 @@ hkDemo::Result WorldLinearCastMultithreadingApiDemo::stepDemo()
 	//
 	// Setup the output array where the resulting collision points will be returned.
 	//
-	hkpRootCdPoint* collisionPoints = hkAllocateChunk<hkpRootCdPoint>(1, HK_MEMORY_CLASS_DEMO);
+	hkpRootCdPoint* bpCollisionPoints = hkAllocateChunk<hkpRootCdPoint>(1, HK_MEMORY_CLASS_DEMO);
+	hkpRootCdPoint* kdCollisionPoints = hkAllocateChunk<hkpRootCdPoint>(1, HK_MEMORY_CLASS_DEMO);
 
 	//
-	// Setup the hkpWorldLinearCastCommand command.
+	// Setup the hkpWorldLinearCastCommand bpCommand.
 	//
-	hkpWorldLinearCastCommand* command;
+	hkpWorldLinearCastCommand* bpCommand;
+	hkpWorldLinearCastCommand* kdCommand;
 	{
-		command = hkAllocateChunk<hkpWorldLinearCastCommand>(1, HK_MEMORY_CLASS_DEMO);
+		bpCommand = hkAllocateChunk<hkpWorldLinearCastCommand>(1, HK_MEMORY_CLASS_DEMO);
+		kdCommand = hkAllocateChunk<hkpWorldLinearCastCommand>(1, HK_MEMORY_CLASS_DEMO);
 
 		// Init input data.
 		{
-			command->m_input.m_to.setZero4();
-			command->m_input.m_to(0) = (CAST_CIRCLE_RADIUS * hkMath::sin(m_time * 1.0f));
-			command->m_input.m_to(2) = (CAST_CIRCLE_RADIUS * hkMath::cos(m_time * 1.0f));
+			bpCommand->m_input.m_to.setZero4();
+			bpCommand->m_input.m_to(0) = (CAST_CIRCLE_RADIUS * hkMath::sin(m_time * 1.0f));
+			bpCommand->m_input.m_to(2) = (CAST_CIRCLE_RADIUS * hkMath::cos(m_time * 1.0f));
 
-			command->m_input.m_maxExtraPenetration = HK_REAL_EPSILON;
-			command->m_input.m_startPointTolerance = HK_REAL_EPSILON;
+			bpCommand->m_input.m_maxExtraPenetration = HK_REAL_EPSILON;
+			bpCommand->m_input.m_startPointTolerance = HK_REAL_EPSILON;
 
 			// hkpWorldObject::getCollidable() needs a read-lock on the object
 			m_castBody->markForRead();
-			command->m_collidable = m_castBody->getCollidable();
+			bpCommand->m_collidable = m_castBody->getCollidable();
 			m_castBody->unmarkForRead();
 
 		}
 
 		// Init output data.
 		{
-			command->m_results			= collisionPoints;
-			command->m_resultsCapacity	= 1;
-			command->m_numResultsOut	= 0;
+			bpCommand->m_results			= bpCollisionPoints;
+			bpCommand->m_resultsCapacity	= 1;
+			bpCommand->m_numResultsOut	= 0;
 		}
+		
+		// Copy the data for the kd-tree command
+		*kdCommand = *bpCommand;
+		// Different results ptr and numResultsOut, but everything else is the same;
+		kdCommand->m_results = kdCollisionPoints;
 	}
 
 	//
 	// create the job header
 	//
-	hkpCollisionQueryJobHeader* jobHeader;
+	hkpCollisionQueryJobHeader* bpJobHeader;
+	hkpRayCastQueryJobHeader* kdJobHeader;
 	{
-		jobHeader = hkAllocateChunk<hkpCollisionQueryJobHeader>(1, HK_MEMORY_CLASS_DEMO);
+		bpJobHeader = hkAllocateChunk<hkpCollisionQueryJobHeader>(1, HK_MEMORY_CLASS_DEMO);
+		kdJobHeader = hkAllocateChunk<hkpRayCastQueryJobHeader>(1, HK_MEMORY_CLASS_DEMO);
 	}
 
 	//
-	// Setup hkpWorldLinearCastJob.
+	// Setup the jobs.
 	//
+	hkSemaphoreBusyWait* semaphore = new hkSemaphoreBusyWait(0, 1000); // must be allocated on heap, for SPU to work
+
 	m_world->markForRead();
-	hkpWorldLinearCastJob worldLinearCastJob(m_world->getCollisionInput(), jobHeader, command, 1, m_world->m_broadPhase, &m_semaphore);
+	hkpWorldLinearCastJob worldLinearCastJob( m_world->getCollisionInput(), bpJobHeader, bpCommand, 1, m_world->m_broadPhase, semaphore);
 	m_world->unmarkForRead();
+	
+
+	m_world->markForWrite();
+	m_world->m_kdTreeManager->updateFromWorld(m_jobQueue, m_jobThreadPool);
+	hkpKdTreeLinearCastJob kdTreeLinearCastJob(m_world->getCollisionInput(), kdJobHeader, kdCommand, 1, semaphore);
+	m_world->unmarkForWrite();
+	
+	{
+		// The jobs support multiple trees, but we only have one in the world right now
+		kdTreeLinearCastJob.m_numTrees = 1;
+		kdTreeLinearCastJob.m_trees[0] = m_world->m_kdTreeManager->getTree();
+
+		kdTreeLinearCastJob.setRunsOnSpuOrPpu();
+	}
+	
 
 	//
 	// Put the job on the queue, kick-off the PPU/SPU threads and wait for everything to finish.
@@ -271,25 +299,40 @@ hkDemo::Result WorldLinearCastMultithreadingApiDemo::stepDemo()
 		//
 		// Wait for the one single job we started to finish.
 		//
-		m_semaphore.acquire();
+		semaphore->acquire();
 
 		m_world->unlockReadOnly();
 	}
 
 	//
+	// Now do the same for the kd-tree job
+	//
+	{
+		m_jobQueue->addJob(kdTreeLinearCastJob, hkJobQueue::JOB_HIGH_PRIORITY );
+
+		m_jobThreadPool->processAllJobs( m_jobQueue );
+		m_jobThreadPool->waitForCompletion();
+
+		semaphore->acquire();
+	}
+
+	delete semaphore;
+
+
+	//
 	// Display results.
 	//
 	{
-		hkVector4 from	= command->m_collidable->getTransform().getTranslation();
-		hkVector4 to	= command->m_input.m_to;
+		hkVector4 from	= bpCommand->m_collidable->getTransform().getTranslation();
+		hkVector4 to	= bpCommand->m_input.m_to;
 		hkVector4 path;
 		path.setSub4(to, from);
 
-		if ( command->m_numResultsOut > 0 )
+		if ( bpCommand->m_numResultsOut > 0 )
 		{
-			for ( int r = 0; r < command->m_numResultsOut; r++)
+			for ( int r = 0; r < bpCommand->m_numResultsOut; r++)
 			{
-				const hkContactPoint& contactPoint = command->m_results[r].m_contact;
+				const hkContactPoint& contactPoint = bpCommand->m_results[r].m_contact;
 
 				hkReal fraction = contactPoint.getDistance();
 
@@ -312,7 +355,7 @@ hkDemo::Result WorldLinearCastMultithreadingApiDemo::stepDemo()
 				// Display body's position at 'time of collision'.
 				//
 				{
-					hkTransform castTransform = command->m_collidable->getTransform();
+					hkTransform castTransform = bpCommand->m_collidable->getTransform();
 					castTransform.setTranslation(pointOnPath);
 					m_env->m_displayHandler->updateGeometry(castTransform, 1, 0);
 				}
@@ -325,7 +368,7 @@ hkDemo::Result WorldLinearCastMultithreadingApiDemo::stepDemo()
 
 			// Display the casted collidable at cast's endpoint.
 			{
-				hkTransform castTransform = command->m_collidable->getTransform();
+				hkTransform castTransform = bpCommand->m_collidable->getTransform();
 				m_env->m_displayHandler->updateGeometry(castTransform, 1, 0);
 			}
 		}
@@ -334,9 +377,11 @@ hkDemo::Result WorldLinearCastMultithreadingApiDemo::stepDemo()
 	//
 	// Free temporarily allocated memory.
 	//
-	hkDeallocateChunk(jobHeader,       1, HK_MEMORY_CLASS_DEMO);
-	hkDeallocateChunk(command,         1, HK_MEMORY_CLASS_DEMO);
-	hkDeallocateChunk(collisionPoints, 1, HK_MEMORY_CLASS_DEMO);
+	hkDeallocateChunk(bpJobHeader,       1, HK_MEMORY_CLASS_DEMO);
+	hkDeallocateChunk(bpCommand,         1, HK_MEMORY_CLASS_DEMO);
+	hkDeallocateChunk(kdCommand,         1, HK_MEMORY_CLASS_DEMO);
+	hkDeallocateChunk(bpCollisionPoints, 1, HK_MEMORY_CLASS_DEMO);
+	hkDeallocateChunk(kdCollisionPoints, 1, HK_MEMORY_CLASS_DEMO);
 
 
 	return hkDefaultPhysicsDemo::stepDemo();
@@ -352,9 +397,9 @@ hkDemo::Result WorldLinearCastMultithreadingApiDemo::stepDemo()
 HK_DECLARE_DEMO_VARIANT_USING_STRUCT( WorldLinearCastMultithreadingApiDemo, HK_DEMO_TYPE_OTHER, WorldLinearCastMultithreadingApiDemoVariant, g_WorldLinearCastMultithreadingApiDemoVariants, HK_NULL );
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

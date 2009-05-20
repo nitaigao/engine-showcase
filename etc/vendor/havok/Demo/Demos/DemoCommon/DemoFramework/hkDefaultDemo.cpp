@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #include <Demos/DemoCommon/DemoFramework/hkDemo.h>
@@ -41,8 +41,21 @@
 #include <Common/Base/Thread/Job/ThreadPool/Cpu/hkCpuJobThreadPool.h>
 #include <Common/Base/Thread/Job/ThreadPool/Spu/hkSpuJobThreadPool.h>
 
+#if defined USING_HAVOK_PHYSICS
+	#include <Demos/DemoCommon/Utilities/Character/DemoCharacter/SimpleDemoCharacter/SimpleDemoCharacter.h>
+	#if defined USING_HAVOK_ANIMATION
+	#include <Demos/DemoCommon/Utilities/Character/DemoCharacter/AnimatedDemoCharacter/AnimatedDemoCharacter.h>
+	#endif
+#endif
 
 
+
+#if defined HK_PLATFORM_PS3_PPU
+#include <Common/Base/Memory/PlattformUtils/Spu/hkSpuMemoryInternal.h>
+#define	SPURS_THREAD_GROUP_PRIORITY 250
+#define SPURS_HANDLER_THREAD_PRIORITY 1
+#define MAX_SPU_THREADS 6
+#endif
 
 
 
@@ -84,6 +97,8 @@ hkDefaultDemo::hkDefaultDemo(hkDemoEnvironment* env, bool isMenuDemo )
 
 		// Create multi-threading classes
 		hkJobQueueCinfo jobQueueInfo;
+		jobQueueInfo.m_maxNumJobTypes = HK_JOB_TYPE_MAX; // Allow user jobs
+
 		m_jobQueue = new hkJobQueue( jobQueueInfo );
 
 	#endif
@@ -110,6 +125,53 @@ hkDefaultDemo::hkDefaultDemo(hkDemoEnvironment* env, bool isMenuDemo )
 				env->m_sceneConverter->setAllowTextureAnisotropicFilter(env->m_options->m_anisotropicFiltering);
 			}
 	}
+
+#if defined (HK_USE_CHARACTER_FACTORY)
+	m_characterFactory = HK_NULL;
+#endif
+}
+
+#if defined (HK_USE_CHARACTER_FACTORY)
+CharacterFactory* hkDefaultDemo::getCharacterFactory( )
+{
+	if (!m_characterFactory)
+	{
+#if !defined USING_HAVOK_PHYSICS
+		m_characterFactory = HK_NULL; // No version currently implemented that do not use a character proxy from phsyics
+#else
+#	if defined USING_HAVOK_ANIMATION
+		//#if 0
+		m_characterFactory = new AnimatedCharacterFactory( );
+#	else 
+		m_characterFactory = new SimpleCharacterFactory();
+#	endif
+#endif
+	}
+	return m_characterFactory;
+}
+#endif // defined (HK_USE_CHARACTER_FACTORY)
+
+void hkDefaultDemo::shutdownVDB()
+{
+	for (int dv=0; dv<m_debugProcesses.getSize(); ++dv)
+	{
+		delete m_debugProcesses[dv];
+	}
+	m_debugProcesses.setSize(0);
+	m_debugViewerNames.setSize(0);
+
+	if (m_vdb)
+	{
+		m_vdb->shutdown();
+		m_vdb->removeReference();
+		m_vdb = HK_NULL;
+	}
+
+	if (m_vdbClassReg)
+	{
+		m_vdbClassReg->removeReference();
+		m_vdbClassReg = HK_NULL;
+	}
 }
 
 hkDefaultDemo::~hkDefaultDemo()
@@ -127,6 +189,17 @@ hkDefaultDemo::~hkDefaultDemo()
 	if (m_spuUtil)
 	{
 
+		#if defined (HK_PLATFORM_PS3_PPU)
+			// free resources if necessary
+			int ret = cellSpursFinalize ( hkGetSpursInstance() );
+			if (ret)
+			{
+				HK_ERROR(0x73e432b3, "cellSpursFinalize failed :" << ret);
+			}
+			void* spurs = hkGetSpursInstance();
+
+			hkAlignedDeallocate<char>( (char*)spurs );
+		#endif
 	}
 #endif
 
@@ -143,15 +216,7 @@ hkDefaultDemo::~hkDefaultDemo()
 	{
 		delete m_lastProgress;
 	}
-	if (m_vdb)
-	{
-		m_vdb->shutdown();
-		m_vdb->removeReference();
-	}
-	if (m_vdbClassReg)
-	{
-		m_vdbClassReg->removeReference();
-	}
+
 	cleanupGraphics();
 
 	for( int i = 0; i < m_delayedCleanup.getSize(); ++i )
@@ -167,6 +232,13 @@ hkDefaultDemo::~hkDefaultDemo()
 	{
 		m_env->m_options->m_enableShadows = true;// reset
 	}
+	
+#if defined (HK_USE_CHARACTER_FACTORY)
+ 	if (m_characterFactory)
+ 	{
+ 		delete m_characterFactory;
+ 	}
+#endif
 }
 
 
@@ -187,12 +259,7 @@ hkDemo::Result hkDefaultDemo::stepVisualDebugger()
 
 void hkDefaultDemo::cleanupGraphics()
 {
-	for (int dv=0; dv<m_debugProcesses.getSize(); ++dv)
-	{
-		delete m_debugProcesses[dv];
-	}
-	m_debugProcesses.setSize(0);
-	m_debugViewerNames.setSize(0);
+	shutdownVDB();
 
 	m_env->m_window->getContext()->lock();
 
@@ -252,15 +319,15 @@ void hkDefaultDemo::setupGraphics()
 	{
 		hkProcess* p = hkProcessFactory::getInstance().createProcess( m_debugViewerNames[dvi].cString(), m_contexts );
 		if (p)
-		{
-			p->m_inStream = HK_NULL; // no streams
-			p->m_outStream = HK_NULL;
-			p->m_displayHandler = m_env->m_displayHandler;
-			p->m_processHandler = HK_NULL; // no process handler
-			p->init();
-			m_debugProcesses.pushBack(p); // so we can delete them
+			{
+				p->m_inStream = HK_NULL; // no streams
+				p->m_outStream = HK_NULL;		
+				p->m_displayHandler = m_env->m_displayHandler;
+				p->m_processHandler = HK_NULL; // no process handler
+				p->init();
+				m_debugProcesses.pushBack(p); // so we can delete them
+			}
 		}
-	}
 
 	setupVisualDebugger(m_contexts, m_env->m_options->m_debugger, HK_NULL);
 }
@@ -331,11 +398,30 @@ void hkDefaultDemo::setupDefaultCameras( hkDemoEnvironment* env, const hkVector4
 	m_env->m_window->getContext()->unlock();
 }
 
+void hkDefaultDemo::setupDefaultCameras( hkEnum<CameraAxis,int> upAxis, hkReal fromX, hkReal fromY, hkReal fromZ ) const
+{
+	hkVector4 from; from.set(fromX, fromY, fromZ);
+	hkVector4 to; to.setZero4();
+	hkVector4 up;
+	switch(upAxis)
+	{
+		case CAMERA_AXIS_X: 
+			up = hkQuadReal1000; break;
+		case CAMERA_AXIS_Y: 
+			up = hkQuadReal0100; break;
+		case CAMERA_AXIS_Z:
+		default:
+			up = hkQuadReal0010; break;
+	}
+	setupDefaultCameras( m_env, from, to, up );
+}
+
+
 void HK_CALL hkDefaultDemo::setupSkyBox(hkDemoEnvironment* env, const char* skyBoxFileName)
 {
 	if (!skyBoxFileName)
 {
-		skyBoxFileName = "resources/graphics/defaultskybox";
+		skyBoxFileName = "Resources/Common/Graphics/defaultskybox";
 	}
 
 	hkString rootName (skyBoxFileName);
@@ -384,7 +470,7 @@ void HK_CALL hkDefaultDemo::loadingScreen(hkDemoEnvironment* env, const char* sc
 
 	hkgTexture* t = hkgTexture::create(ctx);
 
-	const char* defaultScreen = "./resources/graphics/loading_screen.png";
+	const char* defaultScreen = "./Resources/Common/Graphics/loading_screen.png";
 	if (screenFile == HK_NULL)
 		screenFile = defaultScreen;
 
@@ -901,7 +987,11 @@ void hkDefaultDemo::setLightAndFixedShadow(float* lightDir, float* shadowAabbMin
 
 int hkDefaultDemo::getNumSpus()
 {
+	#ifdef HK_PLATFORM_PS3_PPU
+		return m_env->m_options->m_numSpus;
+	#else
 		return 1;
+	#endif
 }
 
 void hkDefaultDemo::addStepper( DemoStepper* stepper )
@@ -966,17 +1056,30 @@ void hkDefaultDemo::getTimerStreamInfo( hkArray<hkTimerData>& threadStreams, hkA
 	info.m_streamEnd = hkMonitorStream::getInstance().getEnd();
 	threadStreams.pushBack(info);
 
+#if defined HK_PLATFORM_PS3_PPU
+
+	if ( m_jobThreadPool != HK_NULL )
+	{
+		m_jobThreadPool->appendTimerData( spuStreams );
+	}
+#else
 	if ( m_jobThreadPool != HK_NULL )
 	{
 		m_jobThreadPool->appendTimerData( threadStreams );
 	}
 
+#endif
 }
 
 void hkDefaultDemo::getNumTimerStreams( int& numThreadStreams, int& numSpuStreams, int maxThreads ) const
 {
+#if defined HK_PLATFORM_PS3_PPU
+	numThreadStreams = 1;
+	numSpuStreams = m_jobThreadPool == HK_NULL ? 0 : m_jobThreadPool->getNumThreads();
+#else
 	numThreadStreams = m_jobThreadPool == HK_NULL ? 1 : m_jobThreadPool->getNumThreads() + 1;
 	numSpuStreams = 0;
+#endif
 }
 
 void hkDefaultDemo::resetTimerStreams()
@@ -995,9 +1098,9 @@ void hkDefaultDemo::resetTimerStreams()
 }
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

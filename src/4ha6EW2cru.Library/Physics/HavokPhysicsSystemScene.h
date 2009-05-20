@@ -29,8 +29,6 @@ namespace Physics
 	class HavokPhysicsSystemScene : public ISystemScene
 	{
 
-		typedef std::map< std::string, IPhysicsSystemComponent* > PhysicsSystemComponentList;
-
 	public:
 
 		/*! Default Destructor
@@ -105,17 +103,18 @@ namespace Physics
 		void postSimulationCallback( hkpWorld* world );
 		void inactiveEntityMovedCallback( hkpEntity* entity );
 
-
 		void entityDeactivatedCallback( hkpEntity* entity );
 		void entityActivatedCallback( hkpEntity* entity );
 
 		hkpWorld* m_world;
+#ifdef _DEBUG
 		hkVisualDebugger* m_vdb;
+#endif
 		hkpPhysicsContext* m_context;
 
 		hkpGroupFilter* m_groupFilter;
 
-		PhysicsSystemComponentList m_components;
+		IPhysicsSystemComponent::PhysicsSystemComponentList m_components;
 
 		HavokPhysicsSystemScene( ) { };
 		HavokPhysicsSystemScene( const HavokPhysicsSystemScene & copy ) { };

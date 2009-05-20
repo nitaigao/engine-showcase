@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -48,7 +48,6 @@ class hkpShapePhantom : public hkpPhantom
 {
 	public:
 
-		//+version(2)
 		HK_DECLARE_REFLECTION();
 
 			/// Constructor
@@ -70,14 +69,19 @@ class hkpShapePhantom : public hkpPhantom
 			/// "startCollector".
 		virtual void setPositionAndLinearCast( const hkVector4& position, const hkpLinearCastInput& input, hkpCdPointCollector& castCollector, hkpCdPointCollector* startCollector ) = 0;
 
+			/// This is analogical to setPositionAndLinearCast(), but it allows you to set the full initial transform.
+		virtual void setTransformAndLinearCast( const hkTransform& transform, const hkpLinearCastInput& input, hkpCdPointCollector& castCollector, hkpCdPointCollector* startCollector ) = 0;
+
 			/// You can call this in order to collect the closest points between the collidable and the objects
 			/// at the phantoms current position. For each shape within collision tolerance of the shape in the phantom, the "collector"
 			/// will receive a callback. See hkpCdPointCollector for more details.
 		virtual void getClosestPoints( hkpCdPointCollector& collector, const hkpCollisionInput* input = HK_NULL ) = 0;
 
 			/// This can be called in order to collect all penetrating shapes
-			/// at the phantoms current position. For each shape which overlaps with the phantom's shape, the "collector" receives a calback.
+			/// at the phantoms current position. For each shape which overlaps with the phantom's shape, the "collector" receives a callback.
 			/// See hkpCdBodyPairCollector for more details.
+			/// Although unlikely, it is possible that callbacks are issued in a nondeterministic order. To guarantee that
+			/// the order is deterministic, proceed this call by a call to ensureDeterministicOrder().
 		virtual void getPenetrations( hkpCdBodyPairCollector& collector, const hkpCollisionInput* input = HK_NULL ) = 0;
 
 			/// Read access to the transform
@@ -105,13 +109,11 @@ class hkpShapePhantom : public hkpPhantom
 			/// ###ACCESS_CHECKS###( [m_world,HK_ACCESS_IGNORE] [this,HK_ACCESS_RO] );
 		virtual void calcAabb( hkAabb& aabb );
 
-	protected:
 
 			/// ###ACCESS_CHECKS###( [m_world,HK_ACCESS_IGNORE] [this,HK_ACCESS_RO] );
 		virtual hkMotionState* getMotionState();
 		class hkMotionState m_motionState;
 
-	public:
 
 		hkpShapePhantom( class hkFinishLoadedObjectFlag flag ) : hkpPhantom( flag ) {}
 
@@ -130,9 +132,9 @@ class hkpShapePhantom : public hkpPhantom
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

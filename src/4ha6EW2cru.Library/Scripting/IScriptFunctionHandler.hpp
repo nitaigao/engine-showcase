@@ -8,6 +8,7 @@
 #define ISCRIPTGENERICHANDLER_HPP
 
 #include <luabind/luabind.hpp>
+#include <deque>
 
 namespace Script
 {
@@ -18,6 +19,8 @@ namespace Script
 	{
 
 	public:
+
+		typedef std::deque< IScriptFunctionHandler* > FunctionList;
 
 		/*! Default Destructor
 		 *

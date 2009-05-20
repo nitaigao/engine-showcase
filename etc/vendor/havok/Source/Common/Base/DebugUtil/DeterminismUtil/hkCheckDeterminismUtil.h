@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HKBASE_HKDEBUGUTIL_CHECK_DETERMINISM_UTIL_H
@@ -108,11 +108,11 @@ struct hkCheckDeterminismUtil
 #	if defined (HK_ENABLE_DETERMINISM_CHECKS)
 		/// check an array of objects
 		template<typename TYPE>
-		static HK_FORCE_INLINE void HK_CALL checkMt( TYPE* object, int numObjects = 1 ) { getInstance().checkImpl( object, sizeof(TYPE ) * numObjects ); }
+		static HK_FORCE_INLINE void HK_CALL checkMt( const TYPE* object, int numObjects = 1 ) { getInstance().checkImpl( object, sizeof(TYPE ) * numObjects ); }
 
 		/// check a simple type object
 		template<typename TYPE>
-		static HK_FORCE_INLINE void HK_CALL checkMt( TYPE object ) { getInstance().checkImpl( &object, sizeof(TYPE )); }
+		static HK_FORCE_INLINE void HK_CALL checkMt( const TYPE& object ) { getInstance().checkImpl( &object, sizeof(TYPE )); }
 
 		static void HK_CALL initThread()							{ initThreadImpl(); }
 		static void HK_CALL quitThread()							{ quitThreadImpl(); }
@@ -125,8 +125,8 @@ struct hkCheckDeterminismUtil
 		static void HK_CALL extractRegisteredJobs()					{ getInstance().extractRegisteredJobsImpl(); }
 		static void HK_CALL clearRegisteredJobs()					{ getInstance().clearRegisteredJobsImpl(); }
 #	else
-		template<typename TYPE> static HK_ALWAYS_INLINE void HK_CALL checkMt( TYPE* object, int numObjects = 1 ) { }
-		template<typename TYPE> static HK_ALWAYS_INLINE void HK_CALL checkMt( TYPE object ) { }
+		template<typename TYPE> static HK_ALWAYS_INLINE void HK_CALL checkMt( const TYPE* object, int numObjects = 1 ) { }
+		template<typename TYPE> static HK_ALWAYS_INLINE void HK_CALL checkMt( const TYPE& object ) { }
 
 		static HK_ALWAYS_INLINE void HK_CALL initThread()							{  }
 		static HK_ALWAYS_INLINE void HK_CALL quitThread()							{  }
@@ -203,9 +203,9 @@ struct hkCheckDeterminismUtil
 #endif // HKBASE_HKDEBUGUTIL_CHECK_DETERMINISM_UTIL_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

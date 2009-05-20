@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -1196,10 +1196,81 @@ hkString TweakerUtils::getParentPath(const hkString& memberPath, const void* roo
 	return classPath;
 }
 
+
+hkBool TweakerUtils::getTweakInput(hkDemoEnvironment* env, 
+											const hkString& tweakName, void* tweakee, const class hkClass& klass,
+											class hkTextDisplay& disp,	const int xOffset, const int xWidth, const int yOffset,
+											hkBool mouseInput, 
+											int &downOut, int &upOut, hkBool &leftOut, hkBool &rightOut)
+{
+
+	if( !mouseInput )
+	{
+		// keyboard
+		downOut = env->m_gamePad->wasButtonPressed( HKG_PAD_DPAD_DOWN );
+		upOut = env->m_gamePad->wasButtonPressed( HKG_PAD_DPAD_UP );
+		leftOut = env->m_gamePad->wasButtonPressed( HKG_PAD_DPAD_LEFT );
+		rightOut = env->m_gamePad->wasButtonPressed( HKG_PAD_DPAD_RIGHT );
+		return true;
+	}
+
+	// else mouse
+	if( env->m_window->getMouse().getPosX() < xOffset - 10)
+	{
+		// To the left of (allowable rectangle of) tweak display
+		return false;
+	}
+
+	if( env->m_window->getMouse().getPosX() > xOffset + xWidth)
+	{
+		// To the right of (allowable rectangle of) tweak display
+		return false;
+	}
+
+	int yPos = env->m_window->getHeight()- env->m_window->getMouse().getPosY();
+
+	int	mouseIndex = TweakerUtils::convertDisplayYPosToMemberIndex( (hkReal) yPos, *env->m_textDisplay, (hkReal) yOffset); 
+	if(mouseIndex < 0)
+	{
+		// Above tweak display
+		return false;
+	}
+	int actualIndex = TweakerUtils::getIndexOfMember( tweakName, tweakee, klass, *env->m_textDisplay, 0.0f, (hkReal) yOffset, 0 );
+
+	{
+		// Determine how far we actually can go down before hitting end
+		int toEnd = 0;
+		hkString s = tweakName;
+		while(1)
+		{
+			s = TweakerUtils::getNextSiblingPath( s, tweakee, klass ); 
+			int newIndex = TweakerUtils::getIndexOfMember( s, tweakee, klass, *env->m_textDisplay, 0.0f, (hkReal) yOffset, 0 );
+
+			if(newIndex == 0)
+			{
+				break;
+			}
+			toEnd++;
+		}
+		int end = toEnd + actualIndex;
+		if(mouseIndex > end)
+		{
+			// Below tweak display
+			return false;
+		}
+
+		downOut = mouseIndex - actualIndex;
+		upOut = actualIndex - mouseIndex;
+	}
+	leftOut = env->m_window->getMouse().wasButtonPressed( HKG_MOUSE_LEFT_BUTTON );
+	rightOut = env->m_window->getMouse().wasButtonPressed( HKG_MOUSE_RIGHT_BUTTON );
+	return true;
+}
+
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

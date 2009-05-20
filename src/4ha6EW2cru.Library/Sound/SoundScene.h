@@ -24,8 +24,6 @@ namespace Sound
 	class SoundScene : public ISoundScene
 	{
 
-		typedef std::map< std::string, FMOD::Event* > SoundEventMap;
-
 	public:
 
 		/*! Default Destructor
@@ -96,14 +94,7 @@ namespace Sound
 
 	private:
 
-		void OnEvent( const Events::IEvent* event );
-
-		static FMOD_RESULT F_CALLBACK OnSoundEventStarted(	FMOD_EVENT* event, FMOD_EVENT_CALLBACKTYPE  type, void* param1, void* param2, void* userdata );
-
-		std::string TranslateEventName( const std::string& eventName );
-
 		ISoundSystem* m_soundSystem;
-		SoundEventMap m_eventList;
 	};
 };
 

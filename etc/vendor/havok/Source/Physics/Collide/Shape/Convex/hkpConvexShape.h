@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -23,7 +23,6 @@ class hkpConvexShape : public hkpSphereRepShape
 {
 	public:		
 
-		//+version(1)
 		HK_DECLARE_REFLECTION();
 
 			/// The GJK interface. 
@@ -46,6 +45,8 @@ class hkpConvexShape : public hkpSphereRepShape
 
 			/// Sets the extra radius
 		inline void setRadius(hkReal radius);
+
+		virtual bool isConvex() const { return true; }
 
 
 		enum WeldResult
@@ -73,7 +74,7 @@ class hkpConvexShape : public hkpSphereRepShape
 
 			/// This implementation of the callback driven castRay uses the data driven castRay function
 			/// Implementation notes: For all convex shapes except hkSphere and hkCapsule the radius of the shape will be ignored.
-		virtual void castRayWithCollector( const hkpShapeRayCastInput& input, const hkpCdBody& cdBody, hkpRayHitCollector& collector ) const;
+		HKP_SHAPE_VIRTUAL void castRayWithCollectorImpl( HKP_SHAPE_VIRTUAL_THIS const hkpShapeRayCastInput& input, const hkpCdBody& cdBody, hkpRayHitCollector& collector ) HKP_SHAPE_VIRTUAL_CONST;
 
 	protected:
 			/// The GJK interface. 
@@ -134,9 +135,9 @@ class hkpConvexTransformShapeBase : public hkpConvexShape
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

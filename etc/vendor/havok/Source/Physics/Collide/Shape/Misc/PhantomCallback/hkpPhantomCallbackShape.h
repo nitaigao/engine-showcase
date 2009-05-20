@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -25,7 +25,6 @@ class hkpPhantomCallbackShape : public hkpShape
 {
 	public:
 
-		//+version(1)
 		HK_DECLARE_REFLECTION();
 
 
@@ -40,16 +39,16 @@ class hkpPhantomCallbackShape : public hkpShape
 		// hkpShape interface
 		//
 
-			/// hkpShape interface implementation. Always returns false
-		virtual hkBool castRayImpl( const hkpShapeRayCastInput& input, hkpShapeRayCastOutput& results ) const;
-
-			// hkpShape interface implementation
-		virtual void castRayWithCollector( const hkpShapeRayCastInput& input, const hkpCdBody& cdBody, hkpRayHitCollector& collector ) const;
-
 			/// hkpShape interface implementation. Note that phantom shapes are most usually used in combination with an hkpBvShape,
 			/// so getAabb() never gets called. However, if you are using the phantom shape directly with the broadphase, you need to
 			/// implement this function. The default implementation returns an AABB with no volume.
  		virtual void getAabbImpl( const hkTransform& localToWorld, hkReal tolerance, hkAabb& out ) const;
+
+			/// hkpShape interface implementation. Always returns false
+		virtual hkBool castRayImpl( const hkpShapeRayCastInput& input, hkpShapeRayCastOutput& results ) const;
+
+			// hkpShape interface implementation
+		virtual void castRayWithCollectorImpl( const hkpShapeRayCastInput& input, const hkpCdBody& cdBody, hkpRayHitCollector& collector ) const;
 
         virtual void calcContentStatistics( hkStatisticsCollector* collector, const hkClass* cls) const;
 
@@ -67,9 +66,9 @@ class hkpPhantomCallbackShape : public hkpShape
 #endif // HK_COLLIDE2_PHANTOM_SHAPE_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

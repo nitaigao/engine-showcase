@@ -19,8 +19,6 @@ namespace Resources
 	class ResourceCache : public IResourceCache
 	{
 
-		typedef std::map< std::string, IResource* > ResourceMap;
-
 	public:
 
 		/*! Default Destructor
@@ -34,7 +32,7 @@ namespace Resources
 		 *
 		 *  @return ()
 		 */
-		ResourceCache( );
+		ResourceCache( ) { };
 
 
 		/*! Returns a Resource from the given file path
@@ -54,7 +52,7 @@ namespace Resources
 
 	private:
 
-		ResourceMap m_resourceCache;
+		IResource::ResourceMap m_resourceCache;
 
 	};
 };

@@ -14,7 +14,7 @@ namespace State
 	/*!
 	 *  A World Entity Container 
 	 */
-	class IWorldEntity
+	class IWorldEntity : public IObserver
 	{
 
 	public:
@@ -35,13 +35,6 @@ namespace State
 		virtual const std::string& GetName( ) const = 0;
 
 
-		/*! Returns a numerical Id for the whole Entity
-		 *
-		 *  @return (unsigned int)
-		 */
-		virtual unsigned int GetId( ) const = 0;
-
-
 		/*! Adds a System Component to the Entity
 		 *
 		 *  @param[in] ISystemComponent * component
@@ -50,19 +43,18 @@ namespace State
 		virtual void AddComponent( ISystemComponent* component ) = 0;
 
 
-		/*! Finds a System Component from within the Entity
-		 *
-		 *  @param[in] System::Types::Type systemType
-		 *  @return (ISystemComponent*)
-		 */
-		virtual ISystemComponent* FindComponent( const System::Types::Type& systemType ) const = 0;
-
-
 		/*! Get a list of all System Components inside the Entity
 		 *
 		 *  @return (SystemComponentList&)
 		 */
 		virtual SystemComponentList GetComponents( ) const = 0;
+
+		/*! Adds a Foreign Observer to the Entity
+		*
+		*  @param[in] IObserver * observer
+		*  @return (void)
+		*/
+		virtual void AddObserver( const unsigned int& messageId, IObserver* observer ) = 0;
 
 	};
 };

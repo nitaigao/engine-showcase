@@ -2,13 +2,16 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
 inline hkpMaterial::hkpMaterial() 
 :	m_friction( 0.5f ),	
-	m_restitution( 0.4f )	
+	m_restitution( 0.4f )
+#if defined HK_ENABLE_ROLLING_FRICITON_CODE
+	, m_rollingFrictionMultiplier( 0.0f )
+#endif
 {
 }
 
@@ -20,6 +23,15 @@ inline hkReal hkpMaterial::getFriction() const
 inline hkReal hkpMaterial::getRestitution() const 
 {
 	return m_restitution; 
+}
+
+inline hkReal hkpMaterial::getRollingFrictionMultiplier() const
+{
+#if defined HK_ENABLE_ROLLING_FRICITON_CODE
+	return m_rollingFrictionMultiplier;
+#else
+	return 0.0f;
+#endif
 }
 	
 inline void hkpMaterial::setFriction( hkReal newFriction )
@@ -34,6 +46,13 @@ inline void hkpMaterial::setRestitution( hkReal newRestitution )
 	m_restitution = newRestitution; 
 }
 
+inline void hkpMaterial::setRollingFrictionMultiplier( hkReal newRollingFrictionMultiplier )
+{
+#if defined HK_ENABLE_ROLLING_FRICITON_CODE
+	m_rollingFrictionMultiplier = newRollingFrictionMultiplier;
+#endif
+}
+
 
 inline hkReal HK_CALL hkpMaterial::getCombinedFriction( hkReal frictionA, hkReal frictionB )
 {
@@ -43,6 +62,15 @@ inline hkReal HK_CALL hkpMaterial::getCombinedFriction( hkReal frictionA, hkReal
 inline hkReal HK_CALL hkpMaterial::getCombinedRestitution( hkReal restitutionA, hkReal restitutionB )
 {
 	return hkMath::sqrt( restitutionA * restitutionB );
+}
+
+inline hkReal HK_CALL hkpMaterial::getCombinedRollingFrictionMultiplier( hkReal multiplierA, hkReal multiplierB )
+{
+#if defined HK_ENABLE_ROLLING_FRICITON_CODE
+	return hkMath::sqrt( multiplierA * multiplierB );
+#else
+	return 0;
+#endif
 }
 
 inline void hkpMaterial::setResponseType( enum hkpMaterial::ResponseType t )
@@ -57,9 +85,9 @@ inline enum hkpMaterial::ResponseType hkpMaterial::getResponseType() const
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

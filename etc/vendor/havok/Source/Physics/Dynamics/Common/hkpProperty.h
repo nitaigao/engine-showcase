@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -15,7 +15,6 @@ extern const hkClass hkpPropertyClass;
 /// A union of an int and a hkReal, used for the value field of a property
 struct hkpPropertyValue
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_DYNAMICS, hkpPropertyValue );
 	HK_DECLARE_REFLECTION();
 
@@ -41,7 +40,6 @@ struct hkpPropertyValue
 class hkpProperty
 {
 	public:
-		//+version(2)
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_DYNAMICS, hkpProperty );
 		HK_DECLARE_REFLECTION();
 
@@ -107,12 +105,9 @@ class hkpProperty
 	// of the collidable will used as an id
 #define HK_PROPERTY_DEBUG_DISPLAY_ID 0x1134
 
-	// Pointer to a shape which is used by the graphics engine to create display geometry.
-	// This is used when adding rigid bodies without a physical shape to permanently disable
-	// their collisions with the entire world.
-	//
-	// Initially used for the PLAYSTATION(R)3 exploding ragdolls demo.
-	//
+	// Pointer to a shape which is used by the graphics engine to create a separate display geometry.
+	// If this pointer is HK_NULL, no graphics shape is created for the Havok demo renderer, however
+	// the visual debugger will get the original graphics shape.
 	// This property is cleared and reference to the shape removed upon addition of the body to hkpWorld.
 #define HK_PROPERTY_DISPLAY_SHAPE 0x1135
 
@@ -132,9 +127,9 @@ class hkpProperty
 #endif // HK_DYNAMICS2_PROPERTY_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

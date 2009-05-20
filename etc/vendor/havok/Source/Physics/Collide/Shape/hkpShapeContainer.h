@@ -2,14 +2,14 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
 #ifndef HK_COLLIDE_SHAPE_CONTAINER_H
 #define HK_COLLIDE_SHAPE_CONTAINER_H
 
-#include <Physics/Collide/Shape/hkpShape.h>
+class hkpShape;
 
 /// Interface to shapes which have one or more children, accessible through a shapekey.
 /// See hkpShape::getCollection()
@@ -17,7 +17,6 @@ class hkpShapeContainer
 {		
 	public:
 
-		//+version(1)
 		HK_DECLARE_REFLECTION();
 
 			/// Attributes of the buffer used in getChildShape.
@@ -72,8 +71,6 @@ class hkpShapeContainer
 			/// - The buffer must be 16 byte aligned.
 		virtual const hkpShape* getChildShape( hkpShapeKey key, ShapeBuffer& buffer ) const = 0;
 
-		virtual hkBool32 isChildEnabled( hkpShapeKey key ) const { return true; }
-
 			/// Return whether welding should be enabled for this shape container (default true)
 		virtual bool isWeldingEnabled() const { return true; }
 };
@@ -83,7 +80,6 @@ class hkpSingleShapeContainer : public hkpShapeContainer
 {
 	public:
 
-		//+version(1)
 		HK_DECLARE_REFLECTION();
 
 		void* operator new(hk_size_t, void* p) { return p; }
@@ -135,9 +131,9 @@ class hkpSingleShapeContainer : public hkpShapeContainer
 #endif // HK_COLLIDE_SHAPE_CONTAINER_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

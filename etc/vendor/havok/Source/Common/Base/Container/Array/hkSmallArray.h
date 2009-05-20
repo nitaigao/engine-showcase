@@ -2,12 +2,110 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
 #ifndef HKBASE_HKSMALLARRAY_H
 #define HKBASE_HKSMALLARRAY_H
+
+
+	/// A simple helper class to automatically add and remove references to classes
+template <typename TYPE>
+class hkRefPtr
+{
+public:
+	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_BASE, hkRefPtr<TYPE> );
+
+	HK_FORCE_INLINE hkRefPtr()
+	{
+		m_pntr = HK_NULL;
+	}
+
+	hkRefPtr (hkFinishLoadedObjectFlag ) {}
+
+	HK_FORCE_INLINE hkRefPtr(const hkRefPtr& rp)
+	{
+		if ( rp.m_pntr )
+		{
+			rp.m_pntr->addReference();
+		}
+		m_pntr = rp.m_pntr;
+	}
+
+	HK_FORCE_INLINE hkRefPtr(TYPE* e)
+	{
+		if ( e )
+		{
+			e->addReference();
+		}
+		m_pntr = e;
+	}
+
+	HK_FORCE_INLINE ~hkRefPtr()
+	{
+		if ( m_pntr )
+		{
+			m_pntr->removeReference();
+		}
+		m_pntr = HK_NULL;
+	}
+
+	HK_FORCE_INLINE void operator=(const hkRefPtr& rp)
+	{
+		if ( rp.m_pntr )
+		{
+			rp.m_pntr->addReference(); // add reference first to allow self-assignment
+		}
+		if ( m_pntr )
+		{
+			m_pntr->removeReference();
+		}
+		m_pntr = rp.m_pntr;
+	}
+
+	HK_FORCE_INLINE void operator=(TYPE* e)
+	{
+		if ( e )
+		{
+			e->addReference(); // add reference first to allow self-assignment
+		}
+		if ( m_pntr )
+		{
+			m_pntr->removeReference();
+		}
+		m_pntr = e;
+	}
+
+	HK_FORCE_INLINE TYPE* val() const
+	{
+		return m_pntr;
+	}
+
+	HK_FORCE_INLINE TYPE* operator->() const
+	{
+		return m_pntr;
+	}
+
+	HK_FORCE_INLINE void setAndDontIncrementRefCount( TYPE* e )
+	{
+		if ( m_pntr )
+		{
+			m_pntr->removeReference();
+		}
+		m_pntr = e;
+	}
+
+	HK_FORCE_INLINE operator TYPE*() const
+	{
+		return val();
+	}
+
+private:
+
+	TYPE* m_pntr;
+};
+
 
 
 #ifndef hkArrayAllocator
@@ -181,9 +279,9 @@ class hkSmallArray
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

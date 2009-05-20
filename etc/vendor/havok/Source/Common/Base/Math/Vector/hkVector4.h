@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HK_MATH_VECTOR4_H
@@ -39,8 +39,10 @@ class hkVector4
 			/// Creates a new hkVector4, copying all 4 values from q.
 		HK_FORCE_INLINE hkVector4(const hkQuadReal& q);
 
+#ifndef HK_PLATFORM_PS3_SPU // This constructor causes the compiler NOT to pass const hkVector4's by register.
 			/// Creates a new hkVector4, copying all 4 values from v.
 		HK_FORCE_INLINE hkVector4( const hkVector4& v);
+#endif
 #endif
 			/// Copies all 4 values from v.
 		HK_ALWAYS_INLINE void operator= ( const hkVector4& v );
@@ -426,7 +428,7 @@ class hkVector4
 
 	private:
 
-#if HK_CONFIG_SIMD == HK_CONFIG_SIMD_ENABLED || defined(HK_COMPILER_RADIX)
+#if HK_CONFIG_SIMD == HK_CONFIG_SIMD_ENABLED || defined(HK_PLATFORM_RVL)
 		hkQuadReal m_quad;
 
 	public:
@@ -448,9 +450,9 @@ class hkVector4
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

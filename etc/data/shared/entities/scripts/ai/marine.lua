@@ -34,9 +34,10 @@ end
 
 function Marine.onEvent( eventName, var1, var2 )
 			
-	if ( var1 == ai:getId( ) ) then 
+	if ( var1 == ai:getName( ) ) then 
 
 		if ( eventName == 'ACTOR_HIT' ) then
+		
 		
 		end
 		
@@ -81,7 +82,7 @@ function Marine.onUpdate( deltaMilliseconds )
 	
 		-- Default Actions
 		
-		ai:playAnimation( 'idle', false )
+		--ai:playAnimation( 'idle', false )
 		
 		-- Evaluation
 		
@@ -101,12 +102,11 @@ function Marine.onUpdate( deltaMilliseconds )
 	
 		-- Default Actions
 		
-		ai:playAnimation( 'die_backward', false )
-		
 		-- Evaluation
 		
 		-- Transition
 		
+		script:broadcastEvent( 'ACTOR_DEAD', ai:getName( ) )
 		script:unregisterEventHandler( Marine.onEvent )
 		movementState = States.NONE
 	
@@ -118,8 +118,7 @@ function Marine.onUpdate( deltaMilliseconds )
 	
 		-- Default Actions
 		
-		ai:fireWeapon( )
-		ai:playAnimation( 'hit', false )
+		script:broadcastEvent( 'WEAPON_FIRED', ai:getName( ) )
 		
 		-- Evaluation
 		
@@ -129,6 +128,7 @@ function Marine.onUpdate( deltaMilliseconds )
 		
 		if ( transition ) then
 		
+			script:broadcastEvent( 'WEAPON_STOPPED', ai:getName( ) )
 			attackState = States.IDLE
 		
 		end

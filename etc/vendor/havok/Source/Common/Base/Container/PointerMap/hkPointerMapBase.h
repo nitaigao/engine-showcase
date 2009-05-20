@@ -2,16 +2,41 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
 #ifndef HKBASE_HKPOINTERMAPBASE_H
 #define HKBASE_HKPOINTERMAPBASE_H
 
-// A class to map pointer size integers (hkUlong) to pointer size integers.
-// Note that the key may not be zero.
-template <typename T>
+template <typename KEY, typename VAL>
+struct hkPointerMapOperations
+{
+	inline unsigned hash( KEY key, unsigned mod )
+	{
+		// We ignore the lowest four bits on the address, since most addresses will be 16-byte aligned
+		// knuths multiplicative golden hash
+		return unsigned((hkUlong(key) >> 4) * 2654435761U) & mod;
+	}
+	inline void invalidate( KEY& key )
+	{
+		key = KEY(-1);
+	}
+	inline hkBool32 isValid( KEY key )
+	{
+		return key != KEY(-1);
+	}
+	inline hkBool32 equal( KEY key0, KEY key1 )
+	{
+		return key0 == key1;
+	}
+};
+
+/// A class to map between POD type keys and values.
+/// Note that the key must have an invalid or reserved state which is used to mark
+/// empty slots. For instance by default -1 is disallowed as a integer key. You can override
+/// this behavior by instantiating with a custom operations structure.
+template <typename KEY, typename VAL=KEY, typename OPS=hkPointerMapOperations<KEY,VAL> >
 class hkPointerMapBase
 {
 	public:
@@ -21,6 +46,8 @@ class hkPointerMapBase
 			/// Iterator type.
 			/// All iterators are invalidated after a mutating operation. i.e. insertion,removal
 		typedef class Dummy* Iterator;
+#		define HK_POINTERMAP_INDEX_TO_ITERATOR(i) reinterpret_cast<Iterator>( hkUlong(i) )
+#		define HK_POINTERMAP_ITERATOR_TO_INDEX(it) static_cast<int>( reinterpret_cast<hkUlong>(it) )
 
 			/// Create an empty pointer map.
 		hkPointerMapBase();
@@ -40,13 +67,13 @@ class hkPointerMapBase
 		Iterator getIterator() const;
 
 			/// Get the key at iterator i.
-		T getKey( Iterator i ) const;
+		KEY getKey( Iterator i ) const;
 
 			/// Get the value at iterator i.
-		T getValue( Iterator i ) const;
+		VAL getValue( Iterator i ) const;
 
 			/// Overwrite the value at iterator i.
-		void setValue( Iterator i, T val );
+		void setValue( Iterator i, VAL val );
 
 			/// Get the next iterator after i.
 		Iterator getNext( Iterator i ) const;
@@ -56,25 +83,29 @@ class hkPointerMapBase
 
 			/// Insert key with associated value val. Keys are unique and non zero.
 			/// If key already exists it is overwritten.
-		hkBool32 insert( T key, T val );
+		hkBool32 insert( KEY key, VAL val );
 
 			/// Get an iterator at 'key'. Check if key was found with isValid().
-		Iterator findKey( T key ) const;
+		Iterator findKey( KEY key ) const;
+
+			/// If key is present return its iterator, else insert (key,val) and return the new iterator.
+			/// Thus the returned iterator is always valid.
+		Iterator findOrInsertKey( KEY key, VAL def );
 
 			/// Shortcut for isValid(findKey(key)).
-		hkBool hasKey( T key ) const { return isValid(findKey(key)); }
+		hkBool hasKey( KEY key ) const { return isValid(findKey(key)); }
 
 			/// Return the value associated with key or def if not present.
-		T getWithDefault( T key, T def ) const;
+		VAL getWithDefault( KEY key, VAL def ) const;
 
 			/// If key present, write value into out and return HK_SUCCESS. Otherwise return HK_FAILURE.
-		hkResult get( T key, T* out ) const;
+		hkResult get( KEY key, VAL* out ) const;
 
 			/// Remove pair at iterator.
 		void remove( Iterator it );
 
 			/// If key present, remove it and return HK_SUCCESS. Otherwise return HK_FAILURE.
-		hkResult remove( T key );
+		hkResult remove( KEY key );
 
 			/// Return the number of keys.
 		int getSize() const { return m_numElems & static_cast<int>(NUM_ELEMS_MASK); }
@@ -108,7 +139,6 @@ class hkPointerMapBase
 
 
 	protected:
-		static HK_FORCE_INLINE T HK_CALL pointerHash(T addr, int mod);
 
 		void resizeTable(int capacity);
 
@@ -121,83 +151,82 @@ class hkPointerMapBase
 			DONT_DEALLOCATE_FLAG = int(0x80000000) // Indicates that the storage is not the array's to delete
 		};
 
-		T* m_elem;
+		struct Pair
+		{
+			KEY key;
+			VAL val;
+		};
+
+		Pair* m_elem;
 		int m_numElems; // high bits are flags
 		int m_hashMod; // capacity - 1
 };
 
 #define HK_POINTERMAP_EMPTY_KEY -1
 
-// Iterators are actually integer indices into m_elem
-template < typename T >
-HK_FORCE_INLINE T hkPointerMapBase<T>::pointerHash(T addr, int mod )
-{
-	// We ignore the lowest four bits on the address, since most addresses will be 16-byte aligned
-	// knuths multiplicative golden hash
-	return ((addr >> 4) * 2654435761U) & mod;
-}
-
-template < typename T >
-inline typename hkPointerMapBase<T>::Iterator hkPointerMapBase<T>::getIterator() const
+template < typename KEY, typename VAL, typename OPS >
+inline typename hkPointerMapBase<KEY,VAL,OPS>::Iterator hkPointerMapBase<KEY,VAL,OPS>::getIterator() const
 {
 	int i;
+	OPS ops;
 	for( i = 0; i <= m_hashMod; ++i )
 	{
-		if( m_elem[i] != T(HK_POINTERMAP_EMPTY_KEY) )
+		if( ops.isValid( m_elem[i].key ) )
 		{
 			break;
 		}
 	}
-	return reinterpret_cast<Iterator>( T(i) );
+	
+	return HK_POINTERMAP_INDEX_TO_ITERATOR(i);
 }
 
-template < typename T >
-inline T hkPointerMapBase<T>::getKey(Iterator it) const
+template < typename KEY, typename VAL, typename OPS >
+inline KEY hkPointerMapBase<KEY,VAL,OPS>::getKey(Iterator it) const
 {
-	int i = static_cast<int>( reinterpret_cast<T>(it) );
+	int i = HK_POINTERMAP_ITERATOR_TO_INDEX(it);
 	HK_ASSERT(0x7f305156, i>=0 && i<=m_hashMod);
-	return m_elem[i];
+	return m_elem[i].key;
 }
 
-template < typename T >
-inline T hkPointerMapBase<T>::getValue(Iterator it) const
+template < typename KEY, typename VAL, typename OPS >
+inline VAL hkPointerMapBase<KEY,VAL,OPS>::getValue(Iterator it) const
 {
-	int i = static_cast<int>( reinterpret_cast<T>(it) );
+	int i = HK_POINTERMAP_ITERATOR_TO_INDEX(it);
 	HK_ASSERT(0x7f305156, i>=0 && i<=m_hashMod);
-	return m_elem[i+m_hashMod+1];
+	return m_elem[i].val;
 }
 
-template < typename T >
-inline void hkPointerMapBase<T>::setValue(Iterator it, T val)
+template < typename KEY, typename VAL, typename OPS >
+inline void hkPointerMapBase<KEY,VAL,OPS>::setValue(Iterator it, VAL val)
 {
-	int i = static_cast<int>( reinterpret_cast<T>(it) );
+	int i = HK_POINTERMAP_ITERATOR_TO_INDEX(it);
 	HK_ASSERT(0x7f305156, i>=0 && i<=m_hashMod);
-	m_elem[i+m_hashMod+1] = val;
+	m_elem[i].val = val;
 }
 
-template < typename T >
-inline typename hkPointerMapBase<T>::Iterator hkPointerMapBase<T>::getNext( Iterator it ) const
+template < typename KEY, typename VAL, typename OPS >
+inline typename hkPointerMapBase<KEY,VAL,OPS>::Iterator hkPointerMapBase<KEY,VAL,OPS>::getNext( Iterator it ) const
 {
-	int i = static_cast<int>( reinterpret_cast<T>(it) );
+	int i = HK_POINTERMAP_ITERATOR_TO_INDEX(it);
 	HK_ASSERT(0x7f305156, i>=0 && i<=m_hashMod);
-
+	OPS ops;
 	for( i += 1; i <= m_hashMod; ++i )
 	{
-		if( m_elem[i] != T(HK_POINTERMAP_EMPTY_KEY) )
+		if( ops.isValid( m_elem[i].key ) )
 		{
 			break;
 		}
 	}
-	return reinterpret_cast<Iterator>( T(i) );
+	return HK_POINTERMAP_INDEX_TO_ITERATOR(i);
 }
 
-template < typename T >
-inline hkBool hkPointerMapBase<T>::isValid( Iterator it ) const
+template < typename KEY, typename VAL, typename OPS >
+inline hkBool hkPointerMapBase<KEY,VAL,OPS>::isValid( Iterator it ) const
 {
 	// range [0, hashMod] is valid
 	// hashMod+1 invalid
 	// anything else is bad input
-	int i = static_cast<int>( reinterpret_cast<T>(it) );
+	int i = HK_POINTERMAP_ITERATOR_TO_INDEX(it);
 	HK_ASSERT(0x7f305156, i>=0 && i<=m_hashMod+1);
 	return i <= m_hashMod;
 }
@@ -205,9 +234,9 @@ inline hkBool hkPointerMapBase<T>::isValid( Iterator it ) const
 #endif // HKBASE_HKPOINTERMAPBASE_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

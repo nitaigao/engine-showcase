@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -42,6 +42,8 @@ class DemoStepper : public hkReferencedObject
 		virtual hkDemo::Result stepDemo( hkDefaultDemo* demo ) = 0;
 };
 
+#define HK_USE_CHARACTER_FACTORY
+
 class hkDefaultDemo : public hkDemo
 {
 	public:
@@ -66,6 +68,7 @@ class hkDefaultDemo : public hkDemo
 
 		// This implementation will setup the VDB and the local debug viewers
 		void setupGraphics();
+		void shutdownVDB();
 
 		// Helper to temporarily switch on/off graphics states
 		void setGraphicsState(HKG_ENABLED_STATE state, hkBool on);
@@ -80,6 +83,15 @@ class hkDefaultDemo : public hkDemo
 
 		// set a default camera
 		void setupDefaultCameras( hkDemoEnvironment* env, const hkVector4& from, const hkVector4& to, const hkVector4& up, const hkReal nearPlane = 1.0f, const hkReal farPlane = 500.0f, bool rightHanded = true) const;
+
+		enum CameraAxis
+		{
+			CAMERA_AXIS_X,
+			CAMERA_AXIS_Y,
+			CAMERA_AXIS_Z,
+		};
+		// Set up a camera looking at the origin with up axis.
+		void setupDefaultCameras( hkEnum<CameraAxis,int> upAxis, hkReal fromX, hkReal fromY, hkReal fromZ ) const;
 
 		// Gets the current path of the demo
 		const hkString& getMenuPath() const { return m_menuPath; }
@@ -173,6 +185,15 @@ class hkDefaultDemo : public hkDemo
 		// We remove reference as last step in destructor - handy for storing hkPackfileData
 		hkArray<hkReferencedObject*> m_delayedCleanup;
 
+#if defined (HK_USE_CHARACTER_FACTORY)
+		// A utilitiy class for creating a character in a demo - will do different things depending on what products are present
+		// Don't use directly - call getCharacterFactory()
+		class CharacterFactory* m_characterFactory;
+	
+		// Initializes m_characterFactory if it isn't already
+		class CharacterFactory* getCharacterFactory( );
+#endif
+
 	public:
 
 		// Some debug viewers (debuglines, states, shapes, etc)
@@ -222,9 +243,9 @@ class hkDefaultDemo : public hkDemo
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HK_SERIALIZE2_VERSION_REGISTRY_H
@@ -45,7 +45,9 @@ class hkVersionRegistry : public hkReferencedObject, public hkSingleton<hkVersio
 				/// The object is to be removed and all references to it nullified.
 			VERSION_REMOVED = 1<<4,
 				/// The object contains a variant.
-			VERSION_VARIANT = 1<<5
+			VERSION_VARIANT = 1<<5,
+				/// The object contains a homogeneous array.
+			VERSION_HOMOGENEOUSARRAY = 1<<6
 		};
 
 		struct ClassRename
@@ -132,7 +134,7 @@ class hkVersionRegistry : public hkReferencedObject, public hkSingleton<hkVersio
 		const hkClassNameRegistry* getClassNameRegistry( const char* versionString ) const;
 
 		hkResult registerStaticClassRegistry(const hkStaticClassNameRegistry& staticReg);
-
+	
 		hkResult registerUpdateDescription(UpdateDescription& updateDescription, const char* fromVersion, const char* toVersion);
 
 	public:
@@ -152,8 +154,11 @@ class hkVersionRegistry : public hkReferencedObject, public hkSingleton<hkVersio
 			/// See the demo/demos/*Classes.cpp files for examples, (e.g. demo/demos/PhysicsClasses.cpp for Physics-Only customers).
 		static const hkStaticClassNameRegistry* StaticLinkedClassRegistries[];
 
-	private:
+	public:
+
 		hkDynamicClassNameRegistry* getDynamicClassNameRegistry( const char* versionString ) const;
+
+	private:
 
 		mutable hkStringMap<hkDynamicClassNameRegistry*> m_versionToClassNameRegistryMap;
 };
@@ -183,9 +188,9 @@ private:
 #endif // HK_SERIALIZE2_VERSION_REGISTRY_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

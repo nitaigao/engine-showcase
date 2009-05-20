@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -36,7 +36,6 @@ class hkpAabbPhantom : public hkpPhantom
 {
 	public:
 
-		//+version(3)
 		HK_DECLARE_REFLECTION();
 
 			/// To add a phantom to the world, you use hkpWorld::addEntity( myPhantom ).
@@ -44,11 +43,13 @@ class hkpAabbPhantom : public hkpPhantom
 
 		~hkpAabbPhantom();
 
-
 			/// Gets the hkpPhantom type. For this class the type is HK_PHANTOM_AABB
 		virtual hkpPhantomType getType() const;
 
-			///Gets the list of collidables that are currently overlapping with the phantom.
+			/// Gets the list of collidables that are currently overlapping with the phantom.
+			/// Although unlikely, it is possible that the order of elements in the array is
+			/// nondeterministic. To ensure determinism, proceed the call by a call to 
+			/// ensureDeterministicOrder().
 		inline hkArray<hkpCollidable*>& getOverlappingCollidables();
 
 			/// Casts a ray specified by "input". For each hit found the "collector" object receives
@@ -97,7 +98,7 @@ class hkpAabbPhantom : public hkpPhantom
 
 			// hkpPhantom interface implementation
 			/// ###ACCESS_CHECKS###( [m_world,HK_ACCESS_IGNORE] [this,HK_ACCESS_RO] );
-		virtual hkBool isOverlappingCollidableAdded( hkpCollidable* collidable );
+		virtual hkBool isOverlappingCollidableAdded( const hkpCollidable* collidable );
 
 			// hkpPhantom interface implementation
 			/// ###ACCESS_CHECKS###( [m_world,HK_ACCESS_RO] [this,HK_ACCESS_RW] );
@@ -137,6 +138,18 @@ class hkpAabbPhantom : public hkpPhantom
 	private:
 		inline void ensureSpuAlignment();
 
+
+	public:
+			/// Ensures that collidables returned by getOverlappingCollidables are in deterministic 
+			/// order.
+		virtual void ensureDeterministicOrder();
+
+	public:
+			/// False if the array of collidables has changed since we last sorted it.
+		hkBool m_orderDirty; //+nosave
+
+			/// Order relation on m_overlappingCollidables.
+		class OrderByUid;
 };
 
 #include <Physics/Dynamics/Phantom/hkpAabbPhantom.inl>
@@ -144,9 +157,9 @@ class hkpAabbPhantom : public hkpPhantom
 #endif	// HK_DYNAMICS2_AABB_PHANTOM_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

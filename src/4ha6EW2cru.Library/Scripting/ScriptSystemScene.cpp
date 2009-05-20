@@ -68,13 +68,17 @@ namespace Script
 		luabind::globals( childState )[ "script" ] = component;
 
 		m_components[ name ] = component;
+		
+		component->SetAttribute( System::Attributes::Name, name );
+		component->SetAttribute( System::Attributes::Type, System::Types::SCRIPT );
+		component->SetAttribute( System::Attributes::Parent, this );
 
 		return component;
 	}
 
 	void ScriptSystemScene::DestroyComponent( ISystemComponent* component )
 	{
-		m_components.erase( component->GetName( ) );
+		m_components.erase( component->GetAttributes( )[ System::Attributes::Name ].GetValue< std::string >( ) );
 		component->Destroy( );
 		delete component;
 		component = 0;
@@ -105,7 +109,6 @@ namespace Script
 				.def( "unregisterEventHandler", &ScriptComponent::UnRegisterEvent )
 				.def( "unregisterUpdateHandler", &ScriptComponent::UnRegisterUpdate )
 				.def( "getName", &ScriptComponent::GetName )
-				.def( "getId", &ScriptComponent::GetId )
 				.def( "getLookAt", &ScriptComponent::GetLookAt )
 				.def( "getPosition", &ScriptComponent::GetPosition )
 				.def( "getTime", &ScriptComponent::GetTime )

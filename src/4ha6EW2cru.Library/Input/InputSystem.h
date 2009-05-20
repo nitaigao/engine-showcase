@@ -7,7 +7,7 @@
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
 
-#include <vector>
+#include <deque>
 
 #include "InputSystemScene.h"
 #include "IInputSystem.hpp"
@@ -28,7 +28,7 @@ namespace Input
 	class InputSystem : public IInputSystem, public IService, public OIS::KeyListener, public OIS::MouseListener
 	{
 	
-		typedef std::vector< InputSystemScene* > InputSystemSceneList;
+		typedef std::deque< InputSystemScene* > InputSystemSceneList;
 	
 	public:
 	

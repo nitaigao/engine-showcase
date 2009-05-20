@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -40,6 +40,7 @@ class hctFilterDescriptor
 			HK_CATEGORY_GRAPHICS,
 				/// User Category.
 			HK_CATEGORY_USER
+				
 		};
 
 			/// Describes how the filter operates with the data (does it change it or no).
@@ -65,7 +66,6 @@ class hctFilterDescriptor
 			HK_COMPONENT_PHYSICS = 2,
 			HK_COMPONENT_CLOTH = 4,
 			HK_COMPONENT_DESTRUCTION = 8,
-			// = 16,
 			// = 32, etc
 
 			// Product combinations
@@ -116,9 +116,9 @@ class hctFilterDescriptor
 #endif // HAVOK_FILTER_DESCRIPTOR_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

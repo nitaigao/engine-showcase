@@ -2,13 +2,14 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HKX_SCENE_UTILS_H
 #define HKX_SCENE_UTILS_H
 
 #include <Common/Base/Math/Util/hkMathUtil.h>
+#include <Common/Base/Container/StringMap/hkStringMap.h>
 
 /// Scene utilities
 class hkxSceneUtils
@@ -69,8 +70,15 @@ class hkxSceneUtils
 			/// finds the first mesh in the scene
 		static hkxNode* HK_CALL findFirstMeshNode(hkxScene* scene);
 
-			/// finds all nodes under node, which have a mesh attached. Also returns a list which contains the parent node for each node.
-		static void HK_CALL findAllMeshNodes(hkxScene* scene, hkxNode* node, hkxNode* parentNode, hkArray<hkxNode*>& nodes, hkArray<hkxNode *>& parentNodes);
+		struct GraphicsNode
+		{
+			hkxNode* m_node;
+			const char* m_name;
+		};
+
+			/// finds all nodes under node, which have a mesh attached, which is probably visible in the Havok demos. 
+			/// Also if the mesh name can be found in extraNodesToFind, the node will be returned.
+		static void HK_CALL findAllGraphicsNodes(bool collectShapes, bool ignorePShapes, const hkStringMap<int>& extraNodesToFind, hkxNode* node, hkArray<GraphicsNode>& nodesOut);
 
 			/// finds all nodes under node, which have a mesh attached
 		static void HK_CALL findAllMeshNodes(hkxScene* scene, hkxNode* node, hkArray<hkxNode*>& nodes );
@@ -132,9 +140,9 @@ class hkxSceneUtils
 #endif // HK_SCENE_UTILS_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

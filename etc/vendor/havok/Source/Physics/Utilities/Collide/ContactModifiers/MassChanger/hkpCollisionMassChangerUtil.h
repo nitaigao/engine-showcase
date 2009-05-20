@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -39,6 +39,12 @@ class hkpCollisionMassChangerUtil: public hkReferencedObject, private hkpCollisi
 			/// By default inverseMassA is 0, and inverseMassB is 1, i.e. bodyA will appear to be immovable from bodyB's perspective.
 		hkpCollisionMassChangerUtil( hkpRigidBody* bodyA, hkpRigidBody* bodyB, float inverseMassA = 0, float inverseMassB = 1 );
 
+			/// Adds the hkpCollisionMassChangerUtil as a listener to bodyA.
+			/// If a contact point is added between bodyA and bodyB, the relative mass and inertia of the collision is changed.
+			/// You specify this using the inverseMassesA for the apparent inverse mass and inertia components of body A in the collision, and
+			/// inverseMassB for the apparent inverse mass and inertia components of body B in the collision.
+		hkpCollisionMassChangerUtil( hkpRigidBody* bodyA, hkpRigidBody* bodyB, const hkVector4& inverseMassesA, const hkVector4& inverseMassesB );
+
 		~hkpCollisionMassChangerUtil();
 
 	protected:
@@ -63,16 +69,16 @@ class hkpCollisionMassChangerUtil: public hkReferencedObject, private hkpCollisi
 
 		hkpRigidBody* m_bodyA;
 		hkpRigidBody* m_bodyB;
-		hkReal m_inverseMassA;
-		hkReal m_inverseMassB;
+		hkVector4 m_inverseMassesA;
+		hkVector4 m_inverseMassesB;
 };
 
 #endif		// HK_UTILITIES2_MASS_CHANGER_UTIL
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

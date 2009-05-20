@@ -95,13 +95,9 @@ namespace Serialization
 		{
 			IWorldEntity* subject = _world->FindEntity( subjectName );
 			IWorldEntity* observer = _world->FindEntity( observerName );
-		
-			ISystemComponent* entityComponent = subject->FindComponent( subjectSystemType );
-			ISystemComponent* observerComponent = observer->FindComponent( observerSystemType );
-		
-			entityComponent->AddObserver( observerComponent );
+
+			subject->AddObserver( System::Messages::SetPlayerPosition, observer );
 		}
-	
 	}
 	
 	void WorldSerializer::LoadSkyBox( const YAML::Node& node )
@@ -205,8 +201,6 @@ namespace Serialization
 	
 	void WorldSerializer::LoadEntityComponents( const YAML::Node& node, IWorldEntity* entity )
 	{
-		ISystemComponent* geometryComponent = 0;
-	
 		for( YAML::Iterator component = node.begin( ); component != node.end( ); ++component ) 
 		{
 			const YAML::Node& componentNode = ( *component );
@@ -223,18 +217,8 @@ namespace Serialization
 		
 				entity->AddComponent( entityComponent );
 		
-				if ( entityComponent->GetType( ) == System::Types::GEOMETRY )
-				{
-					geometryComponent = entityComponent;
-				}
-		
 				delete serializer;
 			}
-		}
-	
-		if ( geometryComponent != 0 )
-		{
-			geometryComponent->PushChanges( System::Changes::Geometry::All );
 		}
 	}
 	

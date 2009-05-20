@@ -21,8 +21,6 @@ namespace Renderer
 	class RendererSystemComponent : public IRendererSystemComponent
 	{
 
-		typedef std::vector< IAnimationBlender* > AnimationBlenderList;
-
 	public:
 
 		/*! Default Destructor
@@ -39,9 +37,9 @@ namespace Renderer
 		*/
 		RendererSystemComponent( const std::string& name, IRenderSystemScene* scene )
 			: m_name( name )
-			, m_id( 0 )
 			, m_sceneNode( 0 )
 			, m_scene( scene )
+			, m_observer( 0 )
 		{
 
 		}
@@ -52,7 +50,7 @@ namespace Renderer
 		*  @param[in] AnyValue::AnyValueMap properties
 		*  @return (void)
 		*/
-		void Initialize( AnyValue::AnyValueMap& properties );
+		void Initialize( );
 
 
 		/*! Steps the internal data of the Component
@@ -75,73 +73,22 @@ namespace Renderer
 		*  @param[in] IObserver * observer
 		*  @return (void)
 		*/
-		virtual void AddObserver( IObserver* observer ) { };
-
-
-		/*! Observes a change in the Subject
-		*
-		*  @param[in] ISubject * subject
-		*  @param[in] const unsigned int& systemChanges
-		*  @return (void)
-		*/
-		virtual void Observe( ISubject* subject, const unsigned int& systemChanges );
-
-
-		/*! Pushes any Changes to the Observers
-		*
-		*  @param[in] const unsigned int& systemChanges
-		*  @return (void)
-		*/
-		virtual void PushChanges( const unsigned int& systemChanges ) { };
-
-
-		/*! Gets the types of Changes this component is interested in
-		*
-		*  @return (unsigned int)
-		*/
-		inline unsigned int GetRequestedChanges( ) const  
-		{ 
-			return 
-				System::Changes::Geometry::All |
-				System::Changes::Input::Mouse_Moved |
-				System::Changes::AI::Behavior;
-		};
-
-
-		/*! Gets the Name of the Component
-		*
-		*  @return (const std::string&)
-		*/
-		inline const std::string& GetName( ) const { return m_name; };
-
-
-		/*! Sets the Id of the component unique to its containing World Entity
-		*
-		*  @param[in] const unsigned int & id
-		*  @return (void)
-		*/
-		inline void SetId( const unsigned int& id ) { m_id = id; };
-
-
-		/*! Returns a numerical Id for the component unique to its containing World Entity
-		*
-		*  @return (unsigned int)
-		*/
-		inline unsigned int GetId( ) const { return m_id; };
-
-
-		/*! Gets the System::Types::Type of the Component
-		*
-		*  @return (System::Types::Type)
-		*/
-		inline System::Types::Type GetType( ) const { return System::Types::RENDER; };
+		void AddObserver( IObserver* observer ) { m_observer = observer; };
 
 
 		/*! Gets the properties of the Component
 		*
-		*  @return (AnyValueMap)
+		*  @return (AnyValueKeyMap)
 		*/
-		AnyValue::AnyValueMap GetAttributes( ) const { return m_attributes; };
+		AnyValue::AnyValueKeyMap GetAttributes( ) const { return m_attributes; };
+
+
+		/*! Sets an Attribute on the Component *
+		*
+		*  @param[in] const unsigned int attributeId
+		*  @param[in] const AnyValue & value
+		*/
+		inline void SetAttribute( const unsigned int& attributeId, const AnyValue& value ) { m_attributes[ attributeId ] = value; };
 
 
 		/*! Sets the Properties of the Component
@@ -151,28 +98,16 @@ namespace Renderer
 		*/
 		void SetAttributes( AnyValue::AnyValueMap& properties ) { };
 
-
-		/*! Gets the Position of the Component
-		*
-		*  @return (MathVector3)
-		*/
-		inline Maths::MathVector3 GetPosition( ) const { return Maths::MathVector3( m_sceneNode->getPosition( ) ); };
-
-
-		/*! Gets the Scale of the Component
-		*
-		*  @return (MathVector3)
-		*/
-		inline Maths::MathVector3 GetScale( ) const { return Maths::MathVector3( m_sceneNode->getScale( ) ); };
-
-
-		/*! Gets the Orientation of the Component
-		*
-		*  @return (MathQuaternion)
-		*/
-		inline Maths::MathQuaternion GetOrientation( ) const { return Maths::MathQuaternion( m_sceneNode->getOrientation( ) ); };
-
 		void PlayAnimation( const std::string& animationName, const bool& loopAnimation );
+
+
+		/*! Posts a message to observers
+		*
+		*  @param[in] const std::string & message
+		*  @param[in] AnyValue::AnyValueMap parameters
+		*  @return (AnyValue)
+		*/
+		AnyValue PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
 
 
 		/*! Messages the Component to influence its internal state
@@ -180,7 +115,7 @@ namespace Renderer
 		*  @param[in] const std::string & message
 		*  @return (AnyValue)
 		*/
-		AnyValue Message( const std::string& message, AnyValue::AnyValueMap parameters ) { return AnyValue( ); };
+		virtual AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
 
 	protected:
 
@@ -191,14 +126,14 @@ namespace Renderer
 		void DestroySceneNode( Ogre::SceneNode* sceneNode );
 
 		std::string m_name;
-		unsigned int m_id;
 
-		AnyValue::AnyValueMap m_attributes;
+		AnyValue::AnyValueKeyMap m_attributes;
 
+		IObserver* m_observer;
 		IRenderSystemScene* m_scene;
 		Ogre::SceneNode* m_sceneNode;
 
-		AnimationBlenderList m_animationBlenders;
+		IAnimationBlender::AnimationBlenderList m_animationBlenders;
 
 	private:
 

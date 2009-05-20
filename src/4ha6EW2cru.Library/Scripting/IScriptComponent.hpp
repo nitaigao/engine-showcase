@@ -46,19 +46,11 @@ namespace Script
 		 */
 		virtual lua_State* GetState( ) const = 0;
 
-		/*! Executes the Loaded Script
+		/*! Runs the Loaded Script
 		*
 		*  @return (void)
 		*/
-		virtual void Execute( ) = 0;
-
-		/*! Posts a message to the parent Entity
-		*
-		*  @param[in] const std::string & message
-		*  @param[in] AnyValue::AnyValueMap parameters
-		*  @return (AnyValue)
-		*/
-		virtual AnyValue PostMessage( const std::string& message, AnyValue::AnyValueMap parameters ) = 0;
+		virtual void RunScript( ) = 0;
 
 	};
 };

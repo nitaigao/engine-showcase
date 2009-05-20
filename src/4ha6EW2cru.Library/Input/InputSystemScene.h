@@ -25,8 +25,7 @@ namespace Input
 	*/
 	class InputSystemScene : public ISystemScene
 	{
-		typedef std::vector< IInputSystemComponent* > InputSystemComponentList;
-
+	
 	public:
 
 
@@ -151,7 +150,7 @@ namespace Input
 
 		bool m_inputAllowed;
 
-		InputSystemComponentList m_inputComponents;
+		IInputSystemComponent::InputSystemComponentList m_inputComponents;
 
 		OIS::Mouse* m_mouse;
 		OIS::Keyboard* m_keyboard;

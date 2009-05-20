@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -22,7 +22,6 @@ class hkpUnaryAction : public hkpAction
 {
 	public:
 
-		//+version(1)
 		HK_DECLARE_REFLECTION();
 		
 			/// Constructor creates a hkpUnaryAction that operates on the specified hkpEntity.
@@ -51,10 +50,12 @@ class hkpUnaryAction : public hkpAction
 			/// The applyAction() method does the actual work of the action, and is called at every simulation step.
 		virtual void applyAction( const hkStepInfo& stepInfo ) = 0;
 
+		virtual const hkClass* getClassType( ) { return &hkpUnaryActionClass; }
+
 	protected:
 
 			/// The hkpEntity.
-		hkpEntity* m_entity;
+		hkpEntity* m_entity;	//+hk.Link("PARENT_NAME")
 
 	public:
 
@@ -66,9 +67,9 @@ class hkpUnaryAction : public hkpAction
 #endif // HK_DYNAMICS2_UNARY_ACTION_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

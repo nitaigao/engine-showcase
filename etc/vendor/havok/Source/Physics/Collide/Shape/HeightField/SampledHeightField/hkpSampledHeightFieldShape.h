@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -46,7 +46,6 @@ class hkpSampledHeightFieldShape : public hkpHeightFieldShape
 {
 	public:
 
-		//+version(1)
 		HK_DECLARE_REFLECTION();
 
 		enum HeightFieldType
@@ -102,6 +101,7 @@ class hkpSampledHeightFieldShape : public hkpHeightFieldShape
 			/// Returns a struct of function pointers needed by the SPU for 
 		static void HK_CALL registerSimulationFunctions( ShapeFuncs& sf );			
 		static void HK_CALL registerCollideQueryFunctions( ShapeFuncs& sf );
+		static void HK_CALL registerRayCastFunctions( ShapeFuncs& sf );
 
 			/// Set up the static table for heightfield functions
 		static void HK_CALL registerHeightFieldFunctions();
@@ -118,19 +118,19 @@ class hkpSampledHeightFieldShape : public hkpHeightFieldShape
 			///  -  There are no restrictions on the scale, it can be anything, even negative
 			///  -  If the ray starts or ends outside the heightfield, no problem, it gets clipped correctly
 			///  -  the size of the heightfield is limited to 16k * 16k
-		
-		HKP_SHAPE_VIRTUAL hkBool castRayImpl( HKP_SHAPE_VIRTUAL_THIS const hkpShapeRayCastInput& input, hkpShapeRayCastOutput& output ) HKP_SHAPE_VIRTUAL_CONST;
+		HKP_SHAPE_VIRTUAL hkBool castRayImpl( HKP_SHAPE_VIRTUAL_THIS const hkpShapeRayCastInput& input, hkpShapeRayCastOutput& output ) HKP_SHAPE_VIRTUAL_CONST ;
 
 			/// hkpShape interface implementation
-		void castRayWithCollector( const hkpShapeRayCastInput& input, const hkpCdBody& cdBody, hkpRayHitCollector& collector ) const;
-
-		void getHeightAndNormalAt( int xPos, int zPos, hkReal subX, hkReal subZ, hkVector4& normalOut, hkReal& heightOut, int& triangleIndexOut ) const;
+		HKP_SHAPE_VIRTUAL void castRayWithCollectorImpl( HKP_SHAPE_VIRTUAL_THIS const hkpShapeRayCastInput& input, const hkpCdBody& cdBody, hkpRayHitCollector& collector ) HKP_SHAPE_VIRTUAL_CONST;
 
 	private:
-		
-			// implementation in .cpp - inlined several times
-		HK_FORCE_INLINE void _getHeightAndNormalAt( int xPos, int zPos, hkReal subX, hkReal subZ, hkVector4& normalOut, hkReal& heightOut, int& triangleIndexOut ) const;
 		void castRayInternal( const hkpShapeRayCastInput& input, const hkpCdBody& cdBody, hkBool reportPenetratingStartPosition, hkReal maxExtraPenetration, hkpRayHitCollector& collector ) const;
+
+		// implementation in .cpp - inlined several times
+		HK_FORCE_INLINE void _getHeightAndNormalAt( int xPos, int zPos, hkReal subX, hkReal subZ, hkVector4& normalOut, hkReal& heightOut, int& triangleIndexOut ) const;
+
+	public:
+		void getHeightAndNormalAt( int xPos, int zPos, hkReal subX, hkReal subZ, hkVector4& normalOut, hkReal& heightOut, int& triangleIndexOut ) const;
 
 	public:
 		
@@ -175,9 +175,9 @@ HK_FORCE_INLINE void HK_CALL hkSampledHeightFieldShape_collideSpheres(
 #endif // HK_COLLIDE2_SAMPLED_HEIGHT_FIELD_SHAPE_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

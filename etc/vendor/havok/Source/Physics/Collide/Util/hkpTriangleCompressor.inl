@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -86,6 +86,7 @@ namespace hkTriCompressor
 		default:
 			{
 				HK_BREAKPOINT(0x0);
+				return tIn; // silence compiler warning
 			}
 		}
 	#endif
@@ -119,6 +120,84 @@ void hkpTriangleCompressor::setWeldingInfo(int triangleIndex, void* data, hkUint
 	weldingBase[ triangleIndex ] = hkTriCompressor::ConvertEndian<hkUint16>(weldingInfo);
 }
 
+#ifdef HK_PLATFORM_PS3_SPU
+
+static vec_uchar16 unalignedLoad3FloatShuffle = (vec_uchar16)
+{
+	0x00, 0x01, 0x02, 0x03,
+	0x04, 0x05, 0x06, 0x07,
+	0x08, 0x09, 0x0A, 0x0B,
+	0x80, 0x80, 0x80, 0x80
+};
+
+#ifdef ONE_BYTE_PER_VERT
+static vec_uchar16 unalignedLoad3VertShuffle = (vec_uchar16)
+{
+	0x80, 0x80, 0x80, 0x00,
+	0x80, 0x80, 0x80, 0x01,
+	0x80, 0x80, 0x80, 0x02,
+	0x80, 0x80, 0x80, 0x80
+};
+#else
+static vec_uchar16 unalignedLoad3VertShuffle = (vec_uchar16)
+{
+	0x80, 0x80, 0x00, 0x01,
+	0x80, 0x80, 0x02, 0x03,
+	0x80, 0x80, 0x04, 0x05,
+	0x80, 0x80, 0x80, 0x80
+};
+#endif
+
+void hkpTriangleCompressor::getTriangleShape( hkpTriangleShape& triangleShape, int index, const void* data )
+{
+	CompressedMesh& compressedMesh = *(CompressedMesh*)data;
+
+	HK_ASSERT2( 0x765e4534, (hkUlong(data) & 0x3) == 0, "Data must be at least 4 byte aligned");
+	unsigned int alignment = (unsigned int )data & 0xF;
+	vec_uchar16 shuffle = (vec_uchar16)spu_add((vec_uint4)unalignedLoad3FloatShuffle, (vec_uint4)spu_splats(((unsigned char)(alignment))));
+
+	vec_uint4 * __restrict__ inputBuffer = (vec_uint4 *) data; // rounds down data on spu
+	vec_uint4 offset, incr;
+
+	offset  = spu_shuffle(inputBuffer[0], inputBuffer[1], shuffle);
+	incr	= spu_shuffle(inputBuffer[1], inputBuffer[2], shuffle);
+
+	ByteVec* verts = (ByteVec*)((hkUlong)data + sizeof( CompressedMesh ));
+	TriIndices* triIndicesArray = (TriIndices*)( verts + compressedMesh.m_numVerts );
+	TriIndices* triIndices = triIndicesArray + index;
+
+	ByteVec* __restrict__ byteV0 = verts + triIndices->m_vert[0];
+	unsigned int alignmentV0 = (unsigned int) byteV0 & 0xF;
+	vec_uchar16 shuffleV0 = (vec_uchar16)spu_add((vec_uint4)unalignedLoad3VertShuffle, (vec_uint4)spu_splats(((unsigned char)(alignmentV0))));
+	vector unsigned int * __restrict__ byteV0data = (vector unsigned int *)byteV0;
+	vector float byteV0vector = spu_convtf(spu_shuffle(byteV0data[0],byteV0data[1],shuffleV0),0);
+
+	ByteVec* __restrict__ byteV1 = verts + triIndices->m_vert[1];
+	unsigned int alignmentV1 = (unsigned int) byteV1 & 0xF;
+	vec_uchar16 shuffleV1 = (vec_uchar16)spu_add((vec_uint4)unalignedLoad3VertShuffle, (vec_uint4)spu_splats(((unsigned char)(alignmentV1))));
+	vector unsigned int * __restrict__ byteV1data = (vector unsigned int *)byteV1;
+	vector float byteV1vector = spu_convtf(spu_shuffle(byteV1data[0],byteV1data[1],shuffleV1),0);
+
+	ByteVec* __restrict__ byteV2 = verts + triIndices->m_vert[2];
+	unsigned int alignmentV2 = (unsigned int) byteV2 & 0xF;
+	vec_uchar16 shuffleV2 = (vec_uchar16)spu_add((vec_uint4)unalignedLoad3VertShuffle, (vec_uint4)spu_splats(((unsigned char)(alignmentV2))));
+	vector unsigned int * __restrict__ byteV2data = (vector unsigned int *)byteV2;
+	vector float byteV2vector = spu_convtf(spu_shuffle(byteV2data[0],byteV2data[1],shuffleV2),0);
+
+	hkVector4 v0,v1,v2; 
+	v0 = (hkQuadReal) spu_madd((hkQuadReal)incr, byteV0vector, (hkQuadReal)offset);
+	v1 = (hkQuadReal) spu_madd((hkQuadReal)incr, byteV1vector, (hkQuadReal)offset);
+	v2 = (hkQuadReal) spu_madd((hkQuadReal)incr, byteV2vector, (hkQuadReal)offset);
+
+	triangleShape.setVertex(0, v0);
+	triangleShape.setVertex(1, v1);
+	triangleShape.setVertex(2, v2);
+
+	WeldingInfo* weldingInfoBase = (WeldingInfo*)( triIndicesArray + compressedMesh.m_numTriangles );
+	triangleShape.setWeldingInfo( weldingInfoBase[index] );
+}
+
+#else
 
 void hkpTriangleCompressor::getTriangleShape( hkpTriangleShape& triangleShape, int index, const void* data )
 {
@@ -155,11 +234,12 @@ void hkpTriangleCompressor::getTriangleShape( hkpTriangleShape& triangleShape, i
 	triangleShape.setWeldingInfo( hkTriCompressor::ConvertEndian<WeldingInfo>(weldingInfoBase[index]) );
 }
 
+#endif
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

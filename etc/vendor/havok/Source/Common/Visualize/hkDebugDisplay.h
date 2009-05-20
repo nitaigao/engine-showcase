@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -76,6 +76,10 @@ class hkDebugDisplay : public hkReferencedObject, public hkSingleton<hkDebugDisp
 			/// ignored.)
 		void updateCamera(const hkVector4& from, const hkVector4& to, const hkVector4& up, hkReal nearPlane, hkReal farPlane, hkReal fov, const char* name);
 
+			/// Behavior updates
+		void updateBehavior(hkArray<int>& wordVarIdx, hkArray<int>& wordStack, hkArray<int>& quadVarIdx, hkArray<hkVector4>& quadStack,
+								hkArray<char*>& activeNodes, hkArray<int>& activeStateIds, hkArray<int>& activeTransitions, hkArray<hkQsTransform>& transforms);
+
 			/// Displays a debug point. Please use the HK_DISPLAY_POINT macro instead of calling this function directly.
 		void displayPoint(const hkVector4& position, int color, int tag);
 
@@ -146,6 +150,10 @@ class hkDebugDisplay : public hkReferencedObject, public hkSingleton<hkDebugDisp
 			/// Displays the geometries	without transform for one frame in immediate mode.
 		void displayGeometry(const hkArray<hkDisplayGeometry*>& geometries, int color, int tag);
 
+			/// Display a wireframe AABB.
+			/// Please use the HK_DISPLAY_BOUNDING_BOX macro instead of calling this function directly.
+		void displayAabb(const class hkAabb& aabb, int color, int tag);
+
 	protected:
 
 		hkArray<hkDebugDisplayHandler*> m_debugDisplayHandlers;
@@ -175,6 +183,7 @@ class hkDebugDisplay : public hkReferencedObject, public hkSingleton<hkDebugDisp
 #   define HK_DISPLAY_FRAME(worldFromLocal, size)
 #	define HK_DISPLAY_GEOMETRY(geometries, color)
 #	define HK_DISPLAY_GEOMETRY_WITH_TRANSFORM(geometries, transform, color)
+#	define HK_DISPLAY_BOUNDING_BOX(aabb, color)
 
 #else // HK_DISABLE_DEBUG_DISPLAY
 // The debug display (display points and lines)
@@ -202,6 +211,7 @@ class hkDebugDisplay : public hkReferencedObject, public hkSingleton<hkDebugDisp
 #   define HK_DISPLAY_FRAME(worldFromLocal, size) hkDebugDisplay::getInstance().displayFrame( worldFromLocal, size, 0 )
 #	define HK_DISPLAY_GEOMETRY(geometries, color) hkDebugDisplay::getInstance().displayGeometry(geometries, color, 0)
 #	define HK_DISPLAY_GEOMETRY_WITH_TRANSFORM(geometeries, transform, color) hkDebugDisplay::getInstance().displayGeometry(geometeries, transform, color, 0)
+#	define HK_DISPLAY_BOUNDING_BOX(aabb, color) hkDebugDisplay::getInstance().displayAabb(aabb, color, 0)
 
 #endif // HK_DISABLE_DEBUG_DISPLAY
 
@@ -211,9 +221,9 @@ class hkDebugDisplay : public hkReferencedObject, public hkSingleton<hkDebugDisp
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

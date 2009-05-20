@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -207,9 +207,18 @@ class hkgDisplayObject : public hkgReferencedObject
 			/// Handy debugging
 		inline bool getDrawLocalFrame() const;
 
-		inline void setUserPointer(void* d);
+		enum UserPointerType
+		{
+			USER_POINTER_UNKNOWN = 0,
+			USER_POINTER_RIGID_BODY,
+			USER_POINTER_BREAKABLE_BODY,
+		};
+
+		inline void setUserPointer(int type, void* d);
 
 		inline void* getUserPointer() const;
+
+		inline int getUserPointerType() const;
 
 		inline void setGeometry(int index, hkgGeometry* g);
 
@@ -262,7 +271,8 @@ class hkgDisplayObject : public hkgReferencedObject
 		hkString					m_name;
 		HKG_DISPLAY_OBJECT_STATUS	m_status;
 
-		void*						m_userPtr; // usually the rb in physics etc
+		hkUint32					m_userPtrType; /// the type of the user pointer, needed for picking: 0 means collidable, 1 means breakable body
+		void*						m_userPtr;	   /// Currently only used for breakable bodies
 };
 
 #include <Graphics/Common/DisplayObject/hkgDisplayObject.inl>
@@ -270,9 +280,9 @@ class hkgDisplayObject : public hkgReferencedObject
 #endif // HK_GRAPHICS_DISPLAY_OBJECT_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

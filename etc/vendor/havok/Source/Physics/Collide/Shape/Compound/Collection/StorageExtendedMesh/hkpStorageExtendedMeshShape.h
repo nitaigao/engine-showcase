@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -10,6 +10,7 @@
 #define HK_STORAGEEXTENDEDMESHSHAPE_H
 
 #include <Physics/Collide/Shape/Compound/Collection/ExtendedMeshShape/hkpExtendedMeshShape.h>
+#include <Physics/Collide/Shape/Compound/Collection/Mesh/hkpMeshMaterial.h>
 
 extern const hkClass hkpStorageExtendedMeshShapeClass;
 extern const hkClass hkpStorageExtendedMeshShapeMeshSubpartStorageClass;
@@ -25,7 +26,6 @@ class hkpStorageExtendedMeshShape : public hkpExtendedMeshShape
 {
 	public:
 
-		//+version(1)
 		HK_DECLARE_REFLECTION();
 
 			/// Default constructor.
@@ -50,11 +50,22 @@ class hkpStorageExtendedMeshShape : public hkpExtendedMeshShape
 
 		hkpStorageExtendedMeshShape( hkFinishLoadedObjectFlag flag );
 
+		struct Material : public hkpMeshMaterial
+		{
+			HK_DECLARE_REFLECTION();
+			HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CDINFO, Material);
+
+			class hkHalf m_restitution;
+			class hkHalf m_friction;
+
+			hkUlong m_userData;
+		};
+
 		struct MeshSubpartStorage : public hkReferencedObject
 		{
 			public:
+				// +version(2)
 
-				//+version(2)
 				HK_DECLARE_REFLECTION();
 				HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
 
@@ -62,10 +73,11 @@ class hkpStorageExtendedMeshShape : public hkpExtendedMeshShape
 				virtual ~MeshSubpartStorage() {}
 
 				hkArray<hkVector4> m_vertices;
+				hkArray<hkUint8> m_indices8;
 				hkArray<hkUint16> m_indices16;
 				hkArray<hkUint32> m_indices32;
 				hkArray<hkUint8> m_materialIndices; //materialIndices8
-				hkArray<hkUint32> m_materials;
+				hkArray<struct Material> m_materials;
 				hkArray<hkUint16> m_materialIndices16;
 
 			public:
@@ -76,8 +88,8 @@ class hkpStorageExtendedMeshShape : public hkpExtendedMeshShape
 		struct ShapeSubpartStorage : public hkReferencedObject
 		{
 			public:
+				// +version(1)
 
-				//+version(1)
 				HK_DECLARE_REFLECTION();
 				HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
 
@@ -86,7 +98,7 @@ class hkpStorageExtendedMeshShape : public hkpExtendedMeshShape
 
 				hkArray<const hkpConvexShape*> m_shapes;
 				hkArray<hkUint8> m_materialIndices; //materialIndices8
-				hkArray<hkUint32> m_materials;
+				hkArray<struct Material> m_materials;
 				hkArray<hkUint16> m_materialIndices16;
 
 			public:
@@ -104,9 +116,9 @@ class hkpStorageExtendedMeshShape : public hkpExtendedMeshShape
 #endif //HK_STORAGEEXTENDEDMESHSHAPE_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

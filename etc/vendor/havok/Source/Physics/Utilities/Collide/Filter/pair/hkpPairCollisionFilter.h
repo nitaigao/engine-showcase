@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -24,27 +24,41 @@ class hkpPairCollisionFilter : public hkpCollisionFilter
 {
 	public:
 
-#if HK_POINTER_SIZE == 8
-		struct PairFilterKeyCombined
-		{
-			hkUlong m_a, m_b;
-
-			bool operator==(const PairFilterKeyCombined& other) { return m_a == other.m_a && m_b == other.m_b; }
-			bool operator!=(const PairFilterKeyCombined& other) { return m_a != other.m_a || m_b != other.m_b; }
-			bool operator< (const PairFilterKeyCombined& other) { return m_a < other.m_a || (m_a == other.m_a && m_b < other.m_b); }
-			operator hkUlong() { return m_a; }
-		};
-#endif
-
-		union PairFilterKey
-		{
 #if HK_POINTER_SIZE == 4
-			hkUint64 m_combined;
+		typedef hkUint64 PairFilterKey;
 #else
-			PairFilterKeyCombined m_combined;
-#endif
-			hkUlong m_entityIds[2];
+		struct PairFilterKey
+		{
+			hkUint64 m_a;
+			hkUint64 m_b;
 		};
+
+		struct PairFilterPointerMapOperations
+		{
+			inline unsigned hash( PairFilterKey key, unsigned modulus )
+			{
+				// using Knuth's multiplicative golden hash
+				// the lowest four bits on the address are ignored as most addresses will be 16-byte aligned
+				// finally we truncate the hash value as hkPointerMap can only handle 32 bit 
+				hkUint64 combinedKey = (key.m_a + (key.m_b << 28)) >> 4;
+				return (unsigned)(((combinedKey * 0x9e3779b97f4a7c13LL) & modulus) & 0xffffffff);
+			}
+			inline void invalidate( PairFilterKey& key )
+			{
+				key.m_a = 0xffffffffffffffff;
+				key.m_b = 0xffffffffffffffff;
+			}
+			inline hkBool32 isValid( PairFilterKey key )
+			{
+				return key.m_a != 0xffffffffffffffff && key.m_b != 0xffffffffffffffff;
+			}
+			inline hkBool32 equal( PairFilterKey key0, PairFilterKey key1 )
+			{
+				return key0.m_a == key1.m_a && key0.m_b == key1.m_b;
+			}
+		};
+#endif
+
 
 	public:
 
@@ -88,9 +102,9 @@ class hkpPairCollisionFilter : public hkpCollisionFilter
 	public:
 
 #if HK_POINTER_SIZE == 4
-		class hkPointerMapBase<hkUint64> m_disabledPairs; //+nosave
+		class hkPointerMapBase<PairFilterKey> m_disabledPairs; //+nosave
 #else
-		class hkPointerMap<PairFilterKeyCombined, hkUint64> m_disabledPairs; //+nosave
+		class hkPointerMapBase<PairFilterKey, hkUint64, PairFilterPointerMapOperations> m_disabledPairs; //+nosave
 #endif
 
 		const hkpCollisionFilter* m_childFilter;
@@ -103,9 +117,9 @@ class hkpPairCollisionFilter : public hkpCollisionFilter
 #endif // HK_COLLIDE2_PAIR_COLLISION_FILTER_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

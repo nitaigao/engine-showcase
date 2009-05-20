@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HK_SERIALIZE_STRUCTURELAYOUT_H
@@ -80,47 +80,47 @@ class hkStructureLayout
 			// If no rules match your particular compiler/host combination, you
 			// can create your own by examining HostLayoutRules on the target.
 
-			///
+			/// MSVC Win32
 		static const LayoutRules MsvcWin32LayoutRules;
 			/// The original xbox. See also Xbox360LayoutRules.
 		static const LayoutRules MsvcXboxLayoutRules;
-			///
+			/// MSVC AMD64
 		static const LayoutRules MsvcAmd64LayoutRules;
 
-			///
+			/// CodeWarrior PlayStation(R)2
 		static const LayoutRules CwPs2LayoutRules;
-			///
+			/// CodeWarrior Nintendo GameCube
 		static const LayoutRules CwNgcLayoutRules;
-			///
+			/// CodeWarrior PSP(R) (PlayStation(R)Portable)
 		static const LayoutRules CwPspLayoutRules;
-			///
+			/// CodeWarrior Wii
 		static const LayoutRules CwWiiLayoutRules;
 
-			///
+			/// GCC 3.2 PlayStation(R)2
 		static const LayoutRules Gcc32Ps2LayoutRules;
-			///
+			/// GCC 1.51 PSP(R)
 		static const LayoutRules Gcc151PspLayoutRules;
-			///
+			/// GCC 2.95 Linux
 		static const LayoutRules Gcc295LinuxLayoutRules;
-			///
+			/// GCC 3.3 Linux
 		static const LayoutRules Gcc33LinuxLayoutRules;
 
-			///
+			/// SN 3.1 PlayStation(R)2
 		static const LayoutRules Sn31Ps2LayoutRules;
-			///
+			/// SN 1.0 PSP(R)
 		static const LayoutRules Sn10PspLayoutRules;
-			///
+			/// SN 3.93 Nintendo GameCube
 		static const LayoutRules Sn393NgcLayoutRules;
 
-			///
+			/// Xbox 360
 		static const LayoutRules Xbox360LayoutRules;
 
-			///
+			/// GCC PLAYSTATION(R)3
 		static const LayoutRules GccPs3LayoutRules;
 
-			///
+			/// GCC 4.0 Mac-PPC
 		static const LayoutRules Gcc40MacPpcLayoutRules;
-			///
+			/// GCC 4.0 Mac-Intel
 		static const LayoutRules Gcc40MacIntelLayoutRules;
 
 	protected:
@@ -131,9 +131,9 @@ class hkStructureLayout
 #endif // HK_SERIALIZE_STRUCTURELAYOUT_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

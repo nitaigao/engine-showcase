@@ -22,8 +22,6 @@ namespace UX
 	class UXSystemScene : public IUXSystemScene, public MyGUI::IUnlinkWidget
 	{
 
-		typedef std::vector< IUXSystemComponent* > UXSystemComponentList;
-
 	public:
 
 		/*! Default Destructor
@@ -151,7 +149,7 @@ namespace UX
 		void _unlinkWidget( MyGUI::WidgetPtr widget );
 
 		MyGUI::Gui* m_gui;
-		UXSystemComponentList m_components;
+		IUXSystemComponent::UXSystemComponentList m_components;
 	};
 };
 

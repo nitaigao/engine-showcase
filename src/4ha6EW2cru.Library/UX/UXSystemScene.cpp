@@ -2,7 +2,6 @@
 
 using namespace MyGUI;
 
-#include "UXSystemComponent.h"
 #include "../Service/IService.hpp"
 #include "../Management/Management.h"
 
@@ -12,6 +11,8 @@ using namespace luabind;
 #include "../Events/EventType.hpp"
 #include "../Events/EventData.hpp"
 using namespace Events;
+
+#include "UXSystemComponent.h"
 
 namespace UX
 {
@@ -37,6 +38,7 @@ namespace UX
 		std::string scriptPath = "/data/interface/interface.lua";
 
 		UXSystemComponent* component = new UXSystemComponent( scriptPath, this );
+		component->SetAttribute( System::Attributes::Name, scriptPath );
 		m_components.push_back( component );
 
 		AnyValue::AnyValueMap scriptParameters;
@@ -121,10 +123,10 @@ namespace UX
 	{
 		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
 
-		for ( UXSystemComponentList::iterator i = m_components.begin( ); i != m_components.end( ); ++i )
+		for ( IUXSystemComponent::UXSystemComponentList::iterator i = m_components.begin( ); i != m_components.end( ); ++i )
 		{
 			AnyValue::AnyValueMap parameters;
-			parameters[ "name" ] = ( *i )->GetName( );
+			parameters[ "name" ] = ( *i )->GetAttributes( )[ System::Attributes::Name ].GetValue< std::string >( );
 			scriptService->Execute( "unloadComponent", parameters );
 			delete ( *i );
 		}
@@ -162,6 +164,10 @@ namespace UX
 		m_components.push_back( component );
 
 		m_gui->windowResized( m_gui->getRenderWindow( ) );
+
+		component->SetAttribute( System::Attributes::Name, name );
+		component->SetAttribute( System::Attributes::Type, System::Types::UX );
+		component->SetAttribute( System::Attributes::Parent, this );
 
 		return component;
 	}

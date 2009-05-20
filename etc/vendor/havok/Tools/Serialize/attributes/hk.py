@@ -1,7 +1,7 @@
 #
 # Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
 # prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
-# Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+# Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
 #
 
 ## python
@@ -47,16 +47,34 @@ class RangeInt32Attribute(RangeAttribute):
     default_absmax = "HK_INT32_MAX"
 
 class UiAttribute(Attribute):
-    __keywords = ("visible", "label", "group", "endGroup", "advanced", "isALink", "childedOffRB", "isAChild")
+    __keywords = ("visible", "hideInModeler", "label", "group", "endGroup", "endGroup2", "advanced", "isALink", "childedOffRB", "isAChild")
     def __call__(self, **kw):
         errors = ""
         for k in kw.keys():
             if not k in self.__keywords:
                 errors += "// Unused arg %s\n" % k
         if errors: print errors
-        return '%sstatic const hkUiAttribute %s = { %s, "%s", "%s", %s, %s };' % ( errors, self.symbol, str(kw.get("visible","True")).lower(), str(kw.get("label","")), str(kw.get("group","")), str(kw.get("endGroup","False")).lower(), str(kw.get("advanced","False")).lower() )
+        return '%sstatic const hkUiAttribute %s = { %s, %s::%s, "%s", "%s", %s, %s, %s };' % ( errors, self.symbol, str(kw.get("visible","True")).lower(), self.cppclass(), str(kw.get("hideInModeler","NONE")), str(kw.get("label","")), str(kw.get("group","")), str(kw.get("endGroup","False")).lower(), str(kw.get("endGroup2","False")).lower(), str(kw.get("advanced","False")).lower() )
+
+class GizmoAttribute(Attribute):
+    __keywords = ("visible", "label", "type")
+    def __call__(self, **kw):
+        errors = ""
+        for k in kw.keys():
+            if not k in self.__keywords:
+                errors += "// Unused arg %s\n" % k
+        if errors: print errors
+        return '%sstatic const %s %s = { %s, "%s", %s::%s };' % ( errors, self.cppclass(), self.symbol, str(kw.get("visible","True")).lower(), str(kw.get("label","")), self.cppclass(), str(kw.get("type","POINT")) )
+
+class ModelerNodeTypeAttribute(Attribute):
+    def __call__(self, type):
+        return 'static const %s %s = { %s::%s };' % (self.cppclass(), self.symbol, self.cppclass(), type)
 
 class LinkAttribute(Attribute):
+    def __call__(self, type):
+        return 'static const %s %s = { %s::%s };' % (self.cppclass(), self.symbol, self.cppclass(), type)
+
+class ArrayTypeAttribute(Attribute):
     def __call__(self, type):
         return 'static const %s %s = { %s::%s };' % (self.cppclass(), self.symbol, self.cppclass(), type)
 
@@ -65,20 +83,40 @@ class SemanticsAttribute(Attribute):
         return 'static const %s %s = { %s::%s };' % (self.cppclass(), self.symbol, self.cppclass(), type)
 
 class DescriptionAttribute(Attribute):
-    def __call__(self, description=""):
+   def __call__(self, description=""):
         return self.struct_initialzer( '"%s"'%description )
 
+class DataObjectTypeAttribute(Attribute):
+    def __call__(self, typename=""):
+        return self.struct_initialzer( '"%s"'%typename )
+
+class DocumentationAttribute(Attribute):
+    __keywords = ("docsSectionTag")
+    def __call__(self, **kw):
+        errors = ""
+        for k in kw.keys():
+            if not k in self.__keywords:
+                errors += "// Unused arg %s\n" % k
+        if errors: print errors
+        return '%sstatic const %s %s = { "%s"};' % ( errors, self.cppclass(), self.symbol, str(kw.get("docsSectionTag","")) )
+
 Ui = UiAttribute
+Gizmo = GizmoAttribute
+ModelerNodeType = ModelerNodeTypeAttribute
 Link = LinkAttribute
+ArrayType = ArrayTypeAttribute
 Semantics = SemanticsAttribute
 RangeReal = RangeRealAttribute
 RangeInt32 = RangeInt32Attribute
 Description = DescriptionAttribute
+DataObjectType = DataObjectTypeAttribute
+Documentation = DocumentationAttribute
+
 
 #
-# Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+# Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 # 
-# Confidential Information of Havok.  (C) Copyright 1999-2008
+# Confidential Information of Havok.  (C) Copyright 1999-2009
 # Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 # Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 # rights, and intellectual property rights in the Havok software remain in

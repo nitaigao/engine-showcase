@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -168,15 +168,15 @@ hkDemo::Result BrowseDemo::stepDemo()
 	// we have not loaded a file yet
 	if( m_contents == HK_NULL )
 	{
-		if(m_directoryData.parseAndDisplayDirectoryAndFiles( m_env ))
+		if(m_fileBrowser.parseAndDisplayDirectoryAndFiles( m_env, 20, 20, true ))
 		{
-			hkString fname = m_directoryData.m_curDir + "/" + m_directoryData.m_listing.getEntries()[m_directoryData.m_curIndex].name;
+			hkString fname = m_fileBrowser.m_curDir + "/" + m_fileBrowser.m_listing.getEntries()[m_fileBrowser.m_curIndex].name;
 			if( readAndSetupPackfile( fname.cString() ) == HK_SUCCESS )
 			{
 				// this is necessary because the first time it was called the world was NULL
 				// and setup was not completed
 				postConstruct(); 
-				m_directoryData.m_curDir = fname; // abuse m_curDir and store loaded filename
+				m_fileBrowser.m_curDir = fname; // abuse m_curDir and store loaded filename
 			}
 		}
 		
@@ -187,7 +187,7 @@ hkDemo::Result BrowseDemo::stepDemo()
 		int startV = START_VERTICAL; 
 
 		hkString s; s.printf("%s loaded%s\nPress \220 to %spause\n\222 or 'X' for an XML snapshot\n\223 or 'B' for a binary snapshot",
-			m_directoryData.m_curDir.cString(), m_world ? "" : " (no physics found)", m_running ? "" : "un" );
+			m_fileBrowser.m_curDir.cString(), m_world ? "" : " (no physics found)", m_running ? "" : "un" );
 		m_env->m_textDisplay->outputText(s, startH, startV, 0xffffffff);
 		startV += 4*20;
 		const hkgPad& pad = *m_env->m_gamePad;
@@ -208,7 +208,7 @@ hkDemo::Result BrowseDemo::stepDemo()
 
 		if( useBinary != -1 )
 		{
-			hkString fname = m_directoryData.m_curDir + "_SNAP.hkx";
+			hkString fname = m_fileBrowser.m_curDir + "_SNAP.hkx";
 			hkOstream os( fname.cString() );
 			hkpHavokSnapshot::save( m_contents, hkRootLevelContainerClass, os.getStreamWriter(), useBinary == 1 );
 			s.printf("Wrote to %s", fname.cString() );
@@ -220,166 +220,6 @@ hkDemo::Result BrowseDemo::stepDemo()
 		return hkDefaultPhysicsDemo::stepDemo();
 	}
 	return DEMO_OK;
-}
-
-
-hkBool BrowseDemo::DirectoryData::parseAndDisplayDirectoryAndFiles(const hkDemoEnvironment* m_env)
-{
-	int startH = START_HORIZONTAL; 
-	int startV = START_VERTICAL; 
-
-	//m_env->m_textDisplay->outputText("Browse for file :", startH, startV, 0xffffffff);
-	int textHeight = (5*(int)m_env->m_textDisplay->getFont()->getCharHeight()) / 4;
-	int textWidth = (int)m_env->m_textDisplay->getFont()->getCharWidth();
-
-	// get filtered listing
-	if( m_prevDir != m_curDir )
-	{
-		m_listing.clear();
-		m_toScan.clear();
-		m_toScan.expandOne() = "";
-		hkFileSystem::DirectoryListing unfiltered;
-		hkFileSystem::getInstance().listDirectory( m_curDir.cString(), unfiltered );
-		const hkArray<hkFileSystem::Entry>& ents = unfiltered.getEntries();
-		for( int i = 0; i < ents.getSize(); ++i )
-		{
-			if( ents[i].isDir() && hkString::strCmp(ents[i].name, "CVS") )
-			{
-				m_listing.addEntry( ents[i] );
-			}
-		}
-		m_prevDir = m_curDir;
-	}
-
-	if( m_listing.getEntries().getSize() > 50 )
-	{
-		m_toScan.clear();
-	}
-
-	static int stepTick;
-	const int SLOWDOWN = 1;
-	if( m_toScan.getSize() && (++stepTick % SLOWDOWN) == 0 )
-	{
-		hkFileSystem::DirectoryListing listing;
-		hkString cur = m_curDir + "/" + m_toScan[0];
-		hkFileSystem::getInstance().listDirectory( cur.cString(), listing );
-		const hkArray<hkFileSystem::Entry>& ents = listing.getEntries();
-		for( int i = 0; i < ents.getSize(); ++i )
-		{
-			hkString path = cur + ents[i].name;
-			if( ents[i].isFile() )
-			{
-				if( path.endsWith(".xml") || path.endsWith(".hkx") )
-				{
-					hkIstream is( path.cString() );
-					if( is.isOk() )
-					{
-						hkBool32 addit = false;
-						hkPackfileReader::FormatType format = hkPackfileReader::detectFormat(is.getStreamReader());
-						if( format == hkPackfileReader::FORMAT_XML )
-						{
-							addit = true;
-						}
-						else if( format == hkPackfileReader::FORMAT_BINARY )
-						{
-							hkPackfileHeader pack;
-							if( is.read(&pack, sizeof(pack)) == hkSizeOf(pack) )
-							{
-								addit = hkString::memCmp( pack.m_layoutRules, &hkStructureLayout::HostLayoutRules, sizeof(hkStructureLayout::HostLayoutRules)) == 0;
-							}
-						}
-						if( addit )
-						{
-							m_listing.addFile( (m_toScan[0] + ents[i].name).cString() );
-						}
-					}
-				}
-			}
-			else if( ents[i].isDir() && hkString::strCmp(ents[i].name, "CVS") )
-			{
-				m_toScan.expandOne() = m_toScan[0] + ents[i].name + "/";
-			}
-		}
-		m_toScan.removeAtAndCopy(0);
-	}
-	
-	// current entries
-	const hkArray<hkFileSystem::Entry>& entries = m_listing.getEntries();
-	
-	// show
-	{
-		hkObjectArray<hkString> curDir;
-		m_curDir.split('/', curDir);
-		for( int i = 0; i < curDir.getSize(); ++i )
-		{
-			m_env->m_textDisplay->outputText( (curDir[i]+"/"), startH, startV, 0xdddddddd );
-			startH += 2*textWidth;
-			startV += textHeight;
-		}
-
-		for( int i = 0; i < entries.getSize(); ++i )
-		{
-			const hkFileSystem::Entry& e = entries[i];
-			hkString s; s.printf( e.isDir() ? "[ %s ]": "  %s", e.name);
-			m_env->m_textDisplay->outputText( s, startH-textWidth, startV,  0xffffffff, 1, i!=m_curIndex ? -1 : 0 );
-			startV += textHeight;
-		}
-		startH += textWidth;
-
-		if( m_toScan.getSize() )
-		{
-			startV += textHeight;
-			static int spinner; static const char spins[] = "/-\\|";
-			hkString s; s.printf("%c %s", spins[spinner/SLOWDOWN], m_toScan[0].cString() );
-			m_env->m_textDisplay->outputText( s, startH-textWidth, startV,  0xffffffff );
-			spinner = (spinner+1) % (4*SLOWDOWN);
-			startV += textHeight;
-		}
-	}
-
-	// check pad status
-	const hkgPad& pad = *m_env->m_gamePad;
-	const hkgKeyboard& key = m_env->m_window->getKeyboard();
-	
-	if( pad.wasButtonPressed( HKG_PAD_DPAD_LEFT )  || key.wasKeyPressed(HKG_VKEY_BACK)) // go one level up
-	{
-		int lastSlash = m_curDir.lastIndexOf('/');
-		if( lastSlash != -1 )
-		{
-			m_curDir.setAsSubstr( 0, lastSlash );
-			m_curIndex = 0;
-		}
-		else
-		{
-			m_curDir = "";
-		}
-	}
-	else if( entries.getSize() )
-	{
-		if( pad.wasButtonPressed( HKG_PAD_DPAD_DOWN ) ) // scroll down
-		{
-			m_curIndex = (m_curIndex+1) % entries.getSize();
-		}
-		else if( pad.wasButtonPressed( HKG_PAD_DPAD_UP ) ) // scroll up
-		{
-			m_curIndex = (m_curIndex-1+entries.getSize()) % entries.getSize();
-		}
-		else if( pad.wasButtonPressed( HKG_PAD_DPAD_RIGHT ) || pad.wasButtonPressed( HKG_PAD_BUTTON_0 ) )
-		{
-			if( entries[m_curIndex].isDir() ) // expand current directory
-			{
-				if( m_curDir.getLength() ) m_curDir += "/";
-				m_curDir += entries[m_curIndex].name;
-				m_curIndex = 0;
-			}
-			else if( entries[m_curIndex].isFile() && 	pad.wasButtonPressed( HKG_PAD_BUTTON_0 ) ) // open file
-			{
-				
-				return true;
-			}
-		}
-	}
-	return false;
 }
 
 #if defined(HK_COMPILER_MWERKS)
@@ -394,9 +234,9 @@ static const char helpString[] = \
 HK_DECLARE_DEMO(BrowseDemo, HK_DEMO_TYPE_TEST, helpString, "");
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -8,9 +8,12 @@ using namespace Maths;
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
 #include <Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
 
+#include "../Logging/Logger.h"
+using namespace Logging;
+
 namespace Physics
 {
-	void PhysicsSystemCharacterComponent::Initialize( AnyValue::AnyValueMap& properties )
+	void PhysicsSystemCharacterComponent::Initialize( )
 	{
 		hkpCharacterStateManager* characterManager = new hkpCharacterStateManager( );
 
@@ -45,9 +48,9 @@ namespace Physics
 
 		m_characterBody = new hkpCharacterRigidBody( characterInfo );
 
-		_body = m_characterBody->getRigidBody( );
-		_body->setName( _name.c_str( ) );
-		_scene->GetWorld( )->addEntity( _body );
+		m_body = m_characterBody->getRigidBody( );
+		m_body->setName( _name.c_str( ) );
+		_scene->GetWorld( )->addEntity( m_body );
 
 		m_characterInput.m_wantJump = false;
 		m_characterInput.m_atLadder = false;
@@ -80,7 +83,7 @@ namespace Physics
 			m_characterInput.m_position = m_characterBody->getRigidBody( )->getPosition( );
 
 			m_characterInput.m_forward = MathVector3::Forward( ).AshkVector4( );
-			m_characterInput.m_forward.setRotatedDir( _body->getRotation( ), m_characterInput.m_forward );
+			m_characterInput.m_forward.setRotatedDir( m_body->getRotation( ), m_characterInput.m_forward );
 
 			hkpSurfaceInfo ground;
 			m_characterBody->checkSupport( m_characterInput.m_stepInfo, ground );
@@ -130,10 +133,10 @@ namespace Physics
 			m_characterContext->update( m_characterInput, output );
 			m_characterBody->setLinearVelocity( output.m_velocity, deltaMilliseconds );
 
-			this->PushChanges( 
-				System::Changes::Geometry::Orientation |
-				System::Changes::Geometry::Position
-				);
+			m_attributes[ System::Attributes::Position ] = MathVector3( m_body->getPosition( ) );
+			m_attributes[ System::Attributes::Orientation ] = MathQuaternion( m_body->getRotation( ) );
+
+			this->PushMessage( System::Messages::SetPosition | System::Messages::SetOrientation, m_attributes );
 
 			float stopSpeed = 0.0f;
 
@@ -147,35 +150,33 @@ namespace Physics
 		}
 	}
 
-	void PhysicsSystemCharacterComponent::Observe( ISubject* subject, const unsigned int& systemChanges )
+	AnyValue PhysicsSystemCharacterComponent::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
 	{
-		PhysicsSystemComponent::Observe( subject, systemChanges );
-
-		ISystemComponent* component = static_cast< ISystemComponent* >( subject );
+		AnyValue returnValue = PhysicsSystemComponent::Message( messageId, parameters );
 
 		float walkSpeed = 2.0f;
-			
-		if( System::Changes::Input::Move_Forward & systemChanges )
+
+		if( messageId & System::Messages::Move_Forward )
 		{
 			m_forwardBackward = -walkSpeed;
 		}
 
-		if( System::Changes::Input::Move_Backward & systemChanges )
+		if( messageId & System::Messages::Move_Backward )
 		{
 			m_forwardBackward = walkSpeed;
 		}
 
-		if( System::Changes::Input::Strafe_Right & systemChanges )
+		if( messageId & System::Messages::Strafe_Right )
 		{
 			m_leftRight = -walkSpeed;
 		}
 
-		if( System::Changes::Input::Strafe_Left & systemChanges )
+		if( messageId & System::Messages::Strafe_Left )
 		{
 			m_leftRight = walkSpeed;
 		}
 
-		if( System::Changes::Input::Jump & systemChanges )
+		if( messageId & System::Messages::Jump )
 		{
 			m_characterInput.m_wantJump = true;
 		}
@@ -184,14 +185,16 @@ namespace Physics
 		{
 			hkReal lengthSquared = m_forwardBackward * m_forwardBackward + m_leftRight * m_leftRight;
 
-			if (lengthSquared > HK_REAL_MIN)
+			if ( lengthSquared > HK_REAL_MIN )
 			{
-				lengthSquared = hkMath::sqrt(lengthSquared);
+				lengthSquared = hkMath::sqrt( lengthSquared );
 				m_forwardBackward /= lengthSquared;
 				m_leftRight /= lengthSquared;
 			}
 		}
 
 		m_characterInput.m_userData = true;
+
+		return returnValue;
 	}
 }

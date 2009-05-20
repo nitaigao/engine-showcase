@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -44,6 +44,14 @@ public:
 		inline static char HK_CALL getBlueAsChar(int color) { return char(unsigned(color) & 0xFF); }
 		inline static hkReal HK_CALL getBlueAsFloat(int color) { return getBlueAsChar(color) * (1.0f / 255.0f); }
 
+			/// Halve the alpha 
+		inline static int HK_CALL semiTransparent(int color) { return (color & 0x7FFFFFFF); }
+
+			/// Make the color darker
+		inline static int HK_CALL darken(int col) { return ( (col & 0xff000000) | ((col >> 17 & 0x7f) << 16) | ((col >> 9 & 0x7f) << 8) | (col >> 1 & 0x7f) ); }
+
+			/// Make the color lighter
+		inline static int HK_CALL lighten(int col) { return ( (col & 0xff000000) | ( hkMath::max2((col >> 15) & 0x1ff, 0xff) << 16) | (hkMath::max2((col >> 7) & 0x1ff, 0xff) << 8) | (hkMath::max2((col << 1) & 0x1ff, 0xff) ) ); }
 
 	public:
 
@@ -195,15 +203,16 @@ public:
 			GREY75 = 0xffc0c0c0,
 		};
 
-
+			// A simple color table - arrange in batches of 8 colors light to dark
+		static int s_colorTable[32];
 };
 
 #endif // HK_VISUALIZE_COLOR
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

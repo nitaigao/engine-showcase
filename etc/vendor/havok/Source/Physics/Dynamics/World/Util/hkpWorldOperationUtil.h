@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -71,8 +71,9 @@ class hkpWorldOperationUtil
 			// Island handling
 			//
 
+			/// activate an island. Note this function might merge the island with another island, a valid island is returned
 			/// ###ACCESS_CHECKS###( [world,HK_ACCESS_RW] );
-		static void HK_CALL internalActivateIsland  ( hkpWorld* world, hkpSimulationIsland* island );
+		static hkpSimulationIsland* HK_CALL internalActivateIsland  ( hkpWorld* world, hkpSimulationIsland* island, hkBool allowIslandMerges = false );
 
 			/// ###ACCESS_CHECKS###( [world,HK_ACCESS_RW] );
 		static void HK_CALL internalDeactivateIsland( hkpWorld* world, hkpSimulationIsland* island );
@@ -189,9 +190,9 @@ class hkpWorldOperationUtil
 #endif // HK_DYNAMICS2_WORLD_UTIL_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -10,6 +10,7 @@
 #define HK_DYNAMICS2_BINARY_ACTION_H
 
 #include <Physics/Dynamics/Action/hkpAction.h>
+#include <Common/Base/Reflection/Attributes/hkAttributes.h>
 class hkpRigidBody;
 
 extern const hkClass hkpBinaryActionClass;
@@ -21,8 +22,6 @@ extern const hkClass hkpBinaryActionClass;
 class hkpBinaryAction : public hkpAction
 {
 	public:
-		
-		//+version(1)
 		HK_DECLARE_REFLECTION();
 
 			/// Constructor creates a new hkpBinaryAction that operates on the specified entities.
@@ -53,15 +52,17 @@ class hkpBinaryAction : public hkpAction
 			/// The applyAction() method does the actual work of the action, and is called at every simulation step.
 		virtual void applyAction( const hkStepInfo& stepInfo ) = 0;
 
+		virtual const hkClass* getClassType( ) { return &hkpBinaryActionClass; }
+
 	protected:
 			/// Destructor.
 		virtual ~hkpBinaryAction();
 
 			/// The first entity.
-		hkpEntity* m_entityA;
+		hkpEntity* m_entityA;//+hk.Ui(group="Attach to", visible=false) +hk.Link("PARENT_NAME")
 
 			/// The second entity.
-		hkpEntity* m_entityB;
+		hkpEntity* m_entityB;//+hk.Ui(visible=true, label="Other Body", endGroup=true) +hk.Link("MESH")
 
 		void _referenceBodies(); 
 
@@ -76,9 +77,9 @@ class hkpBinaryAction : public hkpAction
 #endif // HK_DYNAMICS2_BINARY_ACTION_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -39,7 +39,6 @@ class hkpContactPointPropertiesStream;
   ///
 struct hkpConstraintAtom
 {
-		//+version(3)
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpConstraintAtom );
 		HK_DECLARE_REFLECTION();
 
@@ -87,6 +86,7 @@ struct hkpConstraintAtom
 			TYPE_MODIFIER_VISCOUS_SURFACE,	// not supported by the spu
 			TYPE_MODIFIER_MOVING_SURFACE,	// spu supported
 			TYPE_MODIFIER_IGNORE_CONSTRAINT,  // spu supported
+			TYPE_MODIFIER_CENTER_OF_MASS_CHANGER, // not supported by the spu
 
 			TYPE_MAX
 		};
@@ -108,6 +108,9 @@ struct hkpConstraintAtom
 
 	protected:
 		hkpConstraintAtom(enum AtomType type) : m_type(type) {}
+	public:
+		hkpConstraintAtom(hkFinishLoadedObjectFlag f) {}
+	
 
 	private:
 			// Illegal constructor
@@ -115,8 +118,6 @@ struct hkpConstraintAtom
 
 	public:
 		hkEnum<AtomType,hkUint16> m_type;
-
-		hkpConstraintAtom(hkFinishLoadedObjectFlag f) {}
 };
 
 
@@ -125,11 +126,18 @@ typedef void (HK_CALL *hkConstraintAtomBuildJacobianFunc) ( class hkpConstraintD
 	/// This atom is used to allow to call the old hkpConstraintData classes
 struct hkpBridgeConstraintAtom: public hkpConstraintAtom
 {
-	//+version(2)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpBridgeConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpBridgeConstraintAtom(  ): hkpConstraintAtom( TYPE_BRIDGE ){ }
+
+	hkpBridgeConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f)
+	{
+		if( f.m_finishing )
+		{
+			init(m_constraintData);
+		}
+	}
 
 		// call this to do stuff not done in the constructor yet
 	void init (class hkpConstraintData* m_constraintData);
@@ -145,19 +153,10 @@ struct hkpBridgeConstraintAtom: public hkpConstraintAtom
 	hkConstraintAtomBuildJacobianFunc       m_buildJacobianFunc;	//+nosave +overridetype(void*)
 
 	class hkpConstraintData* m_constraintData;
-
-	hkpBridgeConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f)
-	{
-		if( f.m_finishing )
-		{
-			init(m_constraintData);
-		}
-	}
 };
 
 struct hkpBridgeAtoms
 {
-	//+version(4)
 	HK_DECLARE_REFLECTION();
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpBridgeAtoms );
 
@@ -165,13 +164,13 @@ struct hkpBridgeAtoms
 
 	hkpBridgeAtoms(){}
 
+	hkpBridgeAtoms(hkFinishLoadedObjectFlag f) : m_bridgeAtom(f) {}
+
 	// get a pointer to the first atom
 	const hkpConstraintAtom* getAtoms() const { return &m_bridgeAtom; }
 
 	// get the size of all atoms (we can't use sizeof(*this) because of align16 padding)
 	int getSizeOfAllAtoms() const               { return hkGetByteOffsetInt(this, &m_bridgeAtom+1); }
-
-	hkpBridgeAtoms(hkFinishLoadedObjectFlag f) : m_bridgeAtom(f) {}
 };
 
 
@@ -183,7 +182,6 @@ struct hkpBridgeAtoms
 	///  - it is a stand-alone constraint, therefore it derives from hkpConstraintAtom and cannot be followed by any other atom
 struct hkpSimpleContactConstraintAtom : public hkpConstraintAtom
 {
-		//+version(1)
 		HK_DECLARE_REFLECTION();
 
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpSimpleContactConstraintAtom );
@@ -192,6 +190,8 @@ struct hkpSimpleContactConstraintAtom : public hkpConstraintAtom
 		// Size of hkpSimpleContactConstraintAtom is dynamically changed by the engine. It holds up to 256 contact points.
 		// We initialize the size of the atom to what it is when no contact points are present.
 		hkpSimpleContactConstraintAtom() : hkpConstraintAtom(TYPE_CONTACT) {}
+
+		hkpSimpleContactConstraintAtom(hkFinishLoadedObjectFlag f);
 
 		HK_FORCE_INLINE hkContactPoint* getContactPoints() const { return const_cast<hkContactPoint*>( reinterpret_cast<const hkContactPoint*>( this+1 ) ); }
 		HK_FORCE_INLINE int getContactPointPropertiesStriding() const;
@@ -210,15 +210,27 @@ struct hkpSimpleContactConstraintAtom : public hkpConstraintAtom
 										+ (size >> 1) * HK_SIZE_OF_JACOBIAN_PAIR_CONTACT_SCHEMA 
 				                        + (size & 1) * HK_SIZE_OF_JACOBIAN_SINGLE_CONTACT_SCHEMA 
 										+ HK_SIZE_OF_JACOBIAN_2D_FRICTION_SCHEMA;
+
 			infoOut.m_maxSizeOfSchema = infoOut.m_sizeOfSchemas + (HK_SIZE_OF_JACOBIAN_3D_FRICTION_SCHEMA - HK_SIZE_OF_JACOBIAN_2D_FRICTION_SCHEMA);
 			infoOut.m_numSolverResults   += size + 2;
 			infoOut.m_numSolverElemTemps += size + (2 + 1); // extra one for friction
+
 			if ( size >= 2 )
 			{
 				infoOut.m_sizeOfSchemas   += HK_SIZE_OF_JACOBIAN_3D_FRICTION_SCHEMA - HK_SIZE_OF_JACOBIAN_2D_FRICTION_SCHEMA;
-				infoOut.m_numSolverResults   += 1;
+				infoOut.m_numSolverResults   += 1; // is that needed ?? solver results are stroed in the info struct
 				infoOut.m_numSolverElemTemps += 1 + 0; // just one elem for both 2d & 3d friction anyways.
 			}
+
+#if defined HK_ENABLE_ROLLING_FRICITON_CODE
+			if (m_info.m_rollingFrictionMultiplier != 0.0f)
+			{
+				infoOut.m_sizeOfSchemas += HK_SIZE_OF_JACOBIAN_2D_ROLLING_FRICTION_SCHEMA;
+				infoOut.m_maxSizeOfSchema += HK_SIZE_OF_JACOBIAN_2D_ROLLING_FRICTION_SCHEMA;
+				infoOut.m_numSolverResults += 2; 
+				infoOut.m_numSolverElemTemps += 2 * (1 + 1);
+			}
+#endif
 		}
 
 	public:
@@ -243,8 +255,6 @@ struct hkpSimpleContactConstraintAtom : public hkpConstraintAtom
 
 		HK_ALIGN16(class hkpSimpleContactConstraintDataInfo m_info);
 
-	public:
-		hkpSimpleContactConstraintAtom(hkFinishLoadedObjectFlag f);
 };
 
 
@@ -276,34 +286,45 @@ struct hkpBallSocketConstraintAtom : public hkpConstraintAtom
 	HK_DECLARE_REFLECTION();
 
 public:
-	hkpBallSocketConstraintAtom() : hkpConstraintAtom(TYPE_BALL_SOCKET) {}
+
+	hkpBallSocketConstraintAtom() : hkpConstraintAtom(TYPE_BALL_SOCKET), m_bodiesToNotify(0), m_stabilizationFactor(1.0f), m_maxImpulse(HK_REAL_MAX) {}
+
+	hkpBallSocketConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
+
 		/// Return the next atom after this.
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 		/// This tells how many solver-constraints this atom generates and how may solver-results slots it requires.
 	HK_FORCE_INLINE int numSolverResults() const    { return 3; }
 		/// This tells how much memory the system will need to store solver schemas and jacobians for this atom.
 	HK_FORCE_INLINE void addToConstraintInfo(hkpConstraintInfo& infoOut) const { infoOut.add( 3 * HK_SIZE_OF_JACOBIAN_1D_BILATERAL_SCHEMA, 3, 3 ); }
-
-	hkpBallSocketConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
+		/// Marks the body to be notified when the m_maxImpulse is breached.
+	hkUint8 m_bodiesToNotify; //+default(0)
+		/// This sets the multiplier that's used to add bodies' velocities to the solver's jacobians RHS.
+		/// This defaults to 1.0f and results in the constraints positional constraint being slightly violated for the advantage of 
+		/// extra stabilization. At low (low frame rate, few solver iterations) this setting can cause uncontrollable jitter however.
+		/// In such cases disable it setting the factor to lower values or zero.
+	hkUFloat8 m_stabilizationFactor; //+default(1.0f)
+		/// Maximum impulse applied by each of the three resulting 1d bilinear constraints.
+		/// When any of the three limits is breached and the constraint has runtime allocated, a constraint-impulse-limit breached callback is triggered.
+	hkReal m_maxImpulse; //+default(HK_REAL_MAX)
 };
 
 	/// Enforces a constant distance between the pivot points of linked bodies.
 struct hkpStiffSpringConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpStiffSpringConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 public:
 	hkpStiffSpringConstraintAtom() : hkpConstraintAtom(TYPE_STIFF_SPRING) {}
+	hkpStiffSpringConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
+
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 1; }
 	HK_FORCE_INLINE void addToConstraintInfo(hkpConstraintInfo& infoOut) const { infoOut.add( HK_SIZE_OF_JACOBIAN_1D_BILATERAL_SCHEMA, 1, 1 ); }
 
 		/// The rest length / distance between pivot points.
 	hkReal m_length;
-
-	hkpStiffSpringConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 	/// This specifies constraint spaces and pivot points in the local spaces of each body.
@@ -311,11 +332,11 @@ public:
 	/// Pivot points are stored in the translation part of the transforms.
 struct hkpSetLocalTransformsConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpSetLocalTransformsConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpSetLocalTransformsConstraintAtom() : hkpConstraintAtom(TYPE_SET_LOCAL_TRANSFORMS) {}
+	hkpSetLocalTransformsConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 0; }
 	// addToConstraintInfo not needed
@@ -324,8 +345,6 @@ struct hkpSetLocalTransformsConstraintAtom : public hkpConstraintAtom
 	hkTransform m_transformA;
 		/// Constraint orientation and origin/pivot point in bodyB's local space.
 	hkTransform m_transformB;
-
-	hkpSetLocalTransformsConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 	/// This specifies pivot points in the local spaces of each body.
@@ -334,11 +353,11 @@ struct hkpSetLocalTransformsConstraintAtom : public hkpConstraintAtom
 	/// This is used when constraint orientation is irrelevant, e.g. in hkpBallAndSocketConstraintData.
 struct hkpSetLocalTranslationsConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpSetLocalTranslationsConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpSetLocalTranslationsConstraintAtom() : hkpConstraintAtom(TYPE_SET_LOCAL_TRANSLATIONS) {}
+	hkpSetLocalTranslationsConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 0; }
 	// addToConstraintInfo not needed
@@ -347,8 +366,6 @@ struct hkpSetLocalTranslationsConstraintAtom : public hkpConstraintAtom
 	hkVector4 m_translationA;
 		/// Pivot point in bodyB's local space.
 	hkVector4 m_translationB;
-
-	hkpSetLocalTranslationsConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 	/// This specifies constraint spaces in the local spaces of each body.
@@ -357,11 +374,11 @@ struct hkpSetLocalTranslationsConstraintAtom : public hkpConstraintAtom
 	/// This is used when the constraint space must be reoriented for some atoms in more complex hkConstraintDatas, e.g. in the hkpWheelConstraintData.
 struct hkpSetLocalRotationsConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpSetLocalRotationsConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpSetLocalRotationsConstraintAtom() : hkpConstraintAtom(TYPE_SET_LOCAL_ROTATIONS) {}
+	hkpSetLocalRotationsConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 0; }
 	// addToConstraintInfo not needed
@@ -370,23 +387,19 @@ struct hkpSetLocalRotationsConstraintAtom : public hkpConstraintAtom
 	hkRotation m_rotationA;
 		/// Constraint orientation in bodyB's local space.
 	hkRotation m_rotationB;
-
-	hkpSetLocalRotationsConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 struct hkpOverwritePivotConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpOverwritePivotConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpOverwritePivotConstraintAtom() : hkpConstraintAtom(TYPE_OVERWRITE_PIVOT), m_copyToPivotBFromPivotA(true) { }
+	hkpOverwritePivotConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 0; }
 
 	hkUint8 m_copyToPivotBFromPivotA;
-
-	hkpOverwritePivotConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 	/// Eliminates relative linear velocity of bodies' pivot points along one specified axis.
@@ -394,19 +407,17 @@ struct hkpOverwritePivotConstraintAtom : public hkpConstraintAtom
 	/// This is used when relative linear movement is only partly constrained as it is in e.g. prismatic or point-to-plane constraints.
 struct hkpLinConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpLinConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpLinConstraintAtom() : hkpConstraintAtom(TYPE_LIN) {}
+	hkpLinConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 1; }
 	HK_FORCE_INLINE void addToConstraintInfo(hkpConstraintInfo& infoOut) const { infoOut.add( HK_SIZE_OF_JACOBIAN_1D_BILATERAL_SCHEMA, 1, 1 ); }
 
 		/// Specifies the index of the axis of the bodyB's constraint base, that will be constrained.
 	hkUint8 m_axisIndex;
-
-	hkpLinConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 	/// Softens/controls relative linear velocity of bodies' pivot points along one specified axis.
@@ -414,11 +425,11 @@ struct hkpLinConstraintAtom : public hkpConstraintAtom
 	/// This results in a spring-like reaction, it's used in the hkpWheelConstraintData.
 struct hkpLinSoftConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpLinSoftConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpLinSoftConstraintAtom() : hkpConstraintAtom(TYPE_LIN_SOFT) {}
+	hkpLinSoftConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 1; }
 	HK_FORCE_INLINE void addToConstraintInfo(hkpConstraintInfo& infoOut) const { infoOut.add( HK_SIZE_OF_JACOBIAN_1D_BILATERAL_USER_TAU_SCHEMA, 1, 1 ); }
@@ -429,8 +440,6 @@ struct hkpLinSoftConstraintAtom : public hkpConstraintAtom
 	hkReal m_tau;
 		/// Specifies a custom value for the damping parameter used by the solver.
 	hkReal m_damping;
-
-	hkpLinSoftConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 	/// Limits allowed relative distance between bodies' pivot points along one specified axis.
@@ -438,11 +447,11 @@ struct hkpLinSoftConstraintAtom : public hkpConstraintAtom
 	/// This allows unconstrained movement within the specified range, and applies hard limits at its ends.
 struct hkpLinLimitConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpLinLimitConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpLinLimitConstraintAtom() : hkpConstraintAtom(TYPE_LIN_LIMIT) {}
+	hkpLinLimitConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 1; }
 	HK_FORCE_INLINE void addToConstraintInfo(hkpConstraintInfo& infoOut) const { infoOut.add( HK_SIZE_OF_JACOBIAN_1D_LINEAR_LIMIT_SCHEMA, 1, 1 ); }
@@ -453,8 +462,6 @@ struct hkpLinLimitConstraintAtom : public hkpConstraintAtom
 	hkReal m_min;
 		/// Maximum distance along the axis (may be negative).
 	hkReal m_max;
-
-	hkpLinLimitConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 	/// Eliminates two degrees of freedom of angular movement and allows relative rotation along a specified axis only.
@@ -463,19 +470,17 @@ struct hkpLinLimitConstraintAtom : public hkpConstraintAtom
 	/// atom forms a hkpHingeConstraintData.
 struct hkp2dAngConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkp2dAngConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkp2dAngConstraintAtom() : hkpConstraintAtom(TYPE_2D_ANG) {}
+	hkp2dAngConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 2; }
 	HK_FORCE_INLINE void addToConstraintInfo(hkpConstraintInfo& infoOut) const { infoOut.add( 2 * HK_SIZE_OF_JACOBIAN_1D_BILATERAL_SCHEMA, 2, 2 ); }
 
 		/// Specifies the index of the unconstrained axis of relative rotation in bodyB's constraint base.
 	hkUint8 m_freeRotationAxis;
-
-	hkp2dAngConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 
@@ -484,11 +489,11 @@ struct hkp2dAngConstraintAtom : public hkpConstraintAtom
 	/// Note: this is only tested for eliminating three degrees of freedom.
 struct hkpAngConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpAngConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpAngConstraintAtom() : hkpConstraintAtom(TYPE_ANG) {}
+	hkpAngConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return m_numConstrainedAxes; }
 	HK_FORCE_INLINE void addToConstraintInfo(hkpConstraintInfo& infoOut) const { infoOut.add( m_numConstrainedAxes * HK_SIZE_OF_JACOBIAN_1D_BILATERAL_SCHEMA, m_numConstrainedAxes, m_numConstrainedAxes ); }
@@ -498,8 +503,6 @@ struct hkpAngConstraintAtom : public hkpConstraintAtom
 
 		/// Number of subsequent base axes to constrain.
 	hkUint8 m_numConstrainedAxes;
-
-	hkpAngConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 
@@ -508,11 +511,11 @@ struct hkpAngConstraintAtom : public hkpConstraintAtom
 	/// This allows unconstrained movement within the specified range, and applies hard limits at its ends.
 struct hkpAngLimitConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpAngLimitConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpAngLimitConstraintAtom() : hkpConstraintAtom(TYPE_ANG_LIMIT), m_isEnabled(true) {}
+	hkpAngLimitConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 1; }
 	HK_FORCE_INLINE void addToConstraintInfo(hkpConstraintInfo& infoOut) const { infoOut.add( HK_SIZE_OF_JACOBIAN_1D_ANGULAR_LIMITS_SCHEMA, 1, 1 ); }
@@ -533,8 +536,6 @@ struct hkpAngLimitConstraintAtom : public hkpConstraintAtom
 
 		/// A stiffness factor [0..1] used by the solver; defaults to 1.0.
 	hkReal m_angularLimitsTauFactor; //+default(1.0) +absmin(0) +absmax(1)
-
-	hkpAngLimitConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 
@@ -543,11 +544,11 @@ struct hkpAngLimitConstraintAtom : public hkpConstraintAtom
 	/// This constraint allows unconstrained movement within the specified range, and applies hard limits at its ends.
 struct hkpTwistLimitConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpTwistLimitConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpTwistLimitConstraintAtom() : hkpConstraintAtom(TYPE_TWIST_LIMIT), m_isEnabled(true) {}
+	hkpTwistLimitConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 1; }
 	HK_FORCE_INLINE void addToConstraintInfo(hkpConstraintInfo& infoOut) const { infoOut.add( HK_SIZE_OF_JACOBIAN_1D_ANGULAR_LIMITS_SCHEMA, 1, 1 ); }
@@ -571,8 +572,6 @@ struct hkpTwistLimitConstraintAtom : public hkpConstraintAtom
 
 		/// A stiffness factor [0..1] used by the solver; defaults to 1.0.
 	hkReal m_angularLimitsTauFactor; //+default(1.0) +absmin(0) +absmax(1)
-
-	hkpTwistLimitConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 	/// Limits allowed relative angle between bodies' rotations as measured between two chosen axes.
@@ -580,11 +579,11 @@ struct hkpTwistLimitConstraintAtom : public hkpConstraintAtom
 	/// This allows unconstrained movement within the specified range, and applies hard limits at its ends.
 struct hkpConeLimitConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpConeLimitConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpConeLimitConstraintAtom() : hkpConstraintAtom(TYPE_CONE_LIMIT), m_isEnabled(true), m_memOffsetToAngleOffset(0) {}
+	hkpConeLimitConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 1; }
 	HK_FORCE_INLINE void addToConstraintInfo(hkpConstraintInfo& infoOut) const { infoOut.add( HK_SIZE_OF_JACOBIAN_1D_ANGULAR_LIMITS_SCHEMA, 1, 1 ); }
@@ -627,18 +626,16 @@ struct hkpConeLimitConstraintAtom : public hkpConstraintAtom
 
 		/// A stiffness factor [0..1] used by the solver; defaults to 1.0.
 	hkReal m_angularLimitsTauFactor; //+default(1.0) +absmin(0) +absmax(1)
-
-	hkpConeLimitConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 	/// Applies friction torque along one, two, or three specified rotation axes.
 struct hkpAngFrictionConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpAngFrictionConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpAngFrictionConstraintAtom() : hkpConstraintAtom(TYPE_ANG_FRICTION), m_isEnabled(true), m_numFrictionAxes(1) {}
+	hkpAngFrictionConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return m_numFrictionAxes; }
 	HK_FORCE_INLINE void addToConstraintInfo(hkpConstraintInfo& infoOut) const { infoOut.add( m_numFrictionAxes * HK_SIZE_OF_JACOBIAN_1D_ANGULAR_FRICTION_SCHEMA, m_numFrictionAxes, (1+1) * m_numFrictionAxes ); }
@@ -656,8 +653,6 @@ struct hkpAngFrictionConstraintAtom : public hkpConstraintAtom
 
 		/// Maximum allowed torque to be applied due to friction.
 	hkReal m_maxFrictionTorque;
-
-	hkpAngFrictionConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 	/// Controls relative rotation angle between bodies around a specified rotation axes.
@@ -668,11 +663,11 @@ struct hkpAngFrictionConstraintAtom : public hkpConstraintAtom
 	/// onto solver results of a corresponding hkpAngLimitConstraintAtom to retrieve the proper angle value.
 struct hkpAngMotorConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpAngMotorConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpAngMotorConstraintAtom() : hkpConstraintAtom(TYPE_ANG_MOTOR) { m_isEnabled = true; m_initializedOffset = 0; m_previousTargetAngleOffset = 0; }
+	hkpAngMotorConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 1; }
 	HK_FORCE_INLINE void addToConstraintInfo(hkpConstraintInfo& infoOut) const { infoOut.add( HK_SIZE_OF_JACOBIAN_1D_ANGULAR_MOTOR_SCHEMA, 1, (1+2) ); }
@@ -702,8 +697,6 @@ struct hkpAngMotorConstraintAtom : public hkpConstraintAtom
 
 		/// Motor; note that it is reference counted and should be handled by the owning constraint's get/set methods.
 	HK_CPU_PTR(class hkpConstraintMotor*) m_motor;
-
-	hkpAngMotorConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 	/// Controls relative rotation angle between bodies in three dimensiond; used by the hkpRagdollConstraintData.
@@ -712,11 +705,11 @@ struct hkpAngMotorConstraintAtom : public hkpConstraintAtom
 	/// The atom accesses those variables using memory offsets (stored in the atom's members).
 struct hkpRagdollMotorConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpRagdollMotorConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpRagdollMotorConstraintAtom() : hkpConstraintAtom(TYPE_RAGDOLL_MOTOR) { m_isEnabled = true; m_initializedOffset = 0; m_previousTargetAnglesOffset = 0; }
+	hkpRagdollMotorConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 3; }
 	HK_FORCE_INLINE void addToConstraintInfo(hkpConstraintInfo& infoOut) const { infoOut.add( 3 * HK_SIZE_OF_JACOBIAN_1D_ANGULAR_MOTOR_SCHEMA, 3, (1+2) * 3 ); }
@@ -738,18 +731,16 @@ struct hkpRagdollMotorConstraintAtom : public hkpConstraintAtom
 
 		/// Three motors; note that they are reference counted and should be handled by the owning constraint's get/set methods.
 	HK_CPU_PTR(class hkpConstraintMotor*) m_motors[3];
-
-	hkpRagdollMotorConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 	/// Applies friction force along a specified axes.
 struct hkpLinFrictionConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpLinFrictionConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpLinFrictionConstraintAtom() : hkpConstraintAtom(TYPE_LIN_FRICTION), m_isEnabled(true) {}
+	hkpLinFrictionConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 1; }
 	HK_FORCE_INLINE void addToConstraintInfo(hkpConstraintInfo& infoOut) const { infoOut.add( HK_SIZE_OF_JACOBIAN_1D_FRICTION_SCHEMA, 1, (1+1) ); }
@@ -764,8 +755,6 @@ struct hkpLinFrictionConstraintAtom : public hkpConstraintAtom
 
 		/// Maximum allowed force to be applied due to friction.
 	hkReal m_maxFrictionForce;
-
-	hkpLinFrictionConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 	/// Controls relative velocity of bodies along a specified axis.
@@ -774,11 +763,11 @@ struct hkpLinFrictionConstraintAtom : public hkpConstraintAtom
 	/// The atom accesses those variables using memory offsets (stored in the atom's members).
 struct hkpLinMotorConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpLinMotorConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpLinMotorConstraintAtom() : hkpConstraintAtom(TYPE_LIN_MOTOR) { m_isEnabled = true; m_initializedOffset = 0; m_previousTargetPositionOffset = 0; }
+	hkpLinMotorConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 1; }
 	HK_FORCE_INLINE void addToConstraintInfo(hkpConstraintInfo& infoOut) const { infoOut.add( HK_SIZE_OF_JACOBIAN_1D_LINEAR_MOTOR_SCHEMA, 1, (1+2) ); }
@@ -800,18 +789,16 @@ struct hkpLinMotorConstraintAtom : public hkpConstraintAtom
 
 		/// Motor; note that it is reference counted and should be handled by the owning constraint's get/set methods.
 	HK_CPU_PTR(class hkpConstraintMotor*) m_motor;
-
-	hkpLinMotorConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 	/// This implements a functionality of a pulley, where bodies are attached to a rope, and the rope is lead through two pulley wheels at fixed world positions.
 struct hkpPulleyConstraintAtom : public hkpConstraintAtom
 {
-	//+version(1)
 	HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT, hkpPulleyConstraintAtom );
 	HK_DECLARE_REFLECTION();
 
 	hkpPulleyConstraintAtom() : hkpConstraintAtom(TYPE_PULLEY) { }
+	hkpPulleyConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 	HK_FORCE_INLINE hkpConstraintAtom* next() const { return const_cast<hkpConstraintAtom*>( static_cast<const hkpConstraintAtom*>(this+1) ); }
 	HK_FORCE_INLINE int numSolverResults() const    { return 1; }
 	HK_FORCE_INLINE void addToConstraintInfo(hkpConstraintInfo& infoOut) const { infoOut.add( HK_SIZE_OF_JACOBIAN_1D_PULLEY_SCHEMA, 1, 1 ); }
@@ -827,8 +814,6 @@ struct hkpPulleyConstraintAtom : public hkpConstraintAtom
 		/// Leverage ratio: e.g. value of 2 means that bodyA's rope length changes by twice as much as bodyB's,
 		/// and the constraint exerts twice as big forces upon bodyB.
 	hkReal m_leverageOnBodyB;
-
-	hkpPulleyConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 
@@ -839,7 +824,6 @@ struct hkpPulleyConstraintAtom : public hkpConstraintAtom
 	//
 struct hkpModifierConstraintAtom : public hkpConstraintAtom
 {
-		//+version(1)
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT, hkpModifierConstraintAtom );
 		HK_DECLARE_REFLECTION();
 
@@ -856,12 +840,15 @@ struct hkpModifierConstraintAtom : public hkpConstraintAtom
 
 	public:
 
+		hkpModifierConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
+
+
+	public:
+
 		HK_ALIGN16( hkUint16		  m_modifierAtomSize );
 		hkUint16                      m_childSize;
 		HK_CPU_PTR(hkpConstraintAtom*) m_child;
 		hkUint32 m_pad[2];
-
-		hkpModifierConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f) {}
 };
 
 	//	************************ Soft Contact **************************
@@ -870,13 +857,13 @@ struct hkpModifierConstraintAtom : public hkpConstraintAtom
 
 struct hkpSoftContactModifierConstraintAtom : public hkpModifierConstraintAtom
 {
-		//+version(1)
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT, hkpSoftContactModifierConstraintAtom );
 		HK_DECLARE_REFLECTION();
 
 	public:
 
 		hkpSoftContactModifierConstraintAtom() : hkpModifierConstraintAtom(TYPE_MODIFIER_SOFT_CONTACT, sizeof(hkpSoftContactModifierConstraintAtom)),  m_tau(0.1f), m_maxAcceleration( 20.0f) { }
+		hkpSoftContactModifierConstraintAtom(hkFinishLoadedObjectFlag f) : hkpModifierConstraintAtom(f) {}
 
 		void collisionResponseBeginCallback( const hkContactPoint& cp, struct hkpSimpleConstraintInfoInitInput& inA, struct hkpBodyVelocity& velA, hkpSimpleConstraintInfoInitInput& inB, hkpBodyVelocity& velB);
 		void collisionResponseEndCallback(   const hkContactPoint& cp, hkReal impulseApplied, struct hkpSimpleConstraintInfoInitInput& inA, struct hkpBodyVelocity& velA, hkpSimpleConstraintInfoInitInput& inB, hkpBodyVelocity& velB);
@@ -890,8 +877,6 @@ struct hkpSoftContactModifierConstraintAtom : public hkpModifierConstraintAtom
 
 			/// The maximum acceleration, the solver will apply
 		hkReal m_maxAcceleration;
-
-		hkpSoftContactModifierConstraintAtom(hkFinishLoadedObjectFlag f) : hkpModifierConstraintAtom(f) {}
 };
 
 	//	************************ Mass Changer **************************
@@ -900,13 +885,14 @@ struct hkpSoftContactModifierConstraintAtom : public hkpModifierConstraintAtom
 
 struct hkpMassChangerModifierConstraintAtom : public hkpModifierConstraintAtom
 {
-		//+version(2)
+	//+version(1)
 		HK_DECLARE_REFLECTION();
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT, hkpMassChangerModifierConstraintAtom );
 
 	public:
 
 		hkpMassChangerModifierConstraintAtom() : hkpModifierConstraintAtom(TYPE_MODIFIER_MASS_CHANGER, sizeof(hkpMassChangerModifierConstraintAtom)) {}
+		hkpMassChangerModifierConstraintAtom(hkFinishLoadedObjectFlag f) : hkpModifierConstraintAtom(f) {}
 
 		HK_FORCE_INLINE int numSolverResults() const { return 0; }
 
@@ -916,16 +902,46 @@ struct hkpMassChangerModifierConstraintAtom : public hkpModifierConstraintAtom
 		int getConstraintInfo( hkpConstraintInfo& info ) const
 		{
 			info.m_sizeOfSchemas   += 2 * HK_SIZE_OF_JACOBIAN_SET_MASS_SCHEMA  + HK_SIZE_OF_JACOBIAN_HEADER_SCHEMA;
+			return hkpConstraintAtom::CALLBACK_REQUEST_SETUP_PPU_ONLY;
+		}
+
+	public:
+
+		hkVector4 m_factorA;
+		hkVector4 m_factorB;
+};
+
+
+//	************************ Center of Mass Modifier **************************
+//	************************ Center of Mass Modifier **************************
+//	************************ Center of Mass Modifier **************************
+
+struct hkpCenterOfMassChangerModifierConstraintAtom : public hkpModifierConstraintAtom
+{
+		HK_DECLARE_REFLECTION();
+		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT, hkpMassChangerModifierConstraintAtom );
+
+	public:
+
+		hkpCenterOfMassChangerModifierConstraintAtom() : hkpModifierConstraintAtom(TYPE_MODIFIER_CENTER_OF_MASS_CHANGER, sizeof(hkpCenterOfMassChangerModifierConstraintAtom)) {}
+		hkpCenterOfMassChangerModifierConstraintAtom(hkFinishLoadedObjectFlag f) : hkpModifierConstraintAtom(f) {}
+
+		HK_FORCE_INLINE int numSolverResults() const { return 0; }
+
+		void collisionResponseBeginCallback( const hkContactPoint& cp, struct hkpSimpleConstraintInfoInitInput& inA, struct hkpBodyVelocity& velA, hkpSimpleConstraintInfoInitInput& inB, hkpBodyVelocity& velB);
+		void collisionResponseEndCallback(   const hkContactPoint& cp, hkReal impulseApplied, struct hkpSimpleConstraintInfoInitInput& inA, struct hkpBodyVelocity& velA, hkpSimpleConstraintInfoInitInput& inB, hkpBodyVelocity& velB);
+
+		int getConstraintInfo( hkpConstraintInfo& info ) const
+		{
+			info.m_sizeOfSchemas   += 2 * HK_SIZE_OF_JACOBIAN_ADD_ANGULAR_VELOCITY_SCHEMA  + HK_SIZE_OF_JACOBIAN_HEADER_SCHEMA;
 			return hkpConstraintAtom::CALLBACK_REQUEST_NONE;
 		}
 
 	public:
 
-		hkReal m_factorA;
-		hkReal m_factorB;
-		hkReal m_pad16[2]; //+nosave
-
-		hkpMassChangerModifierConstraintAtom(hkFinishLoadedObjectFlag f) : hkpModifierConstraintAtom(f) {}
+			// Two displacements in local space of each of the bodies
+		hkVector4 m_displacementA;
+		hkVector4 m_displacementB;
 };
 
 
@@ -937,7 +953,6 @@ struct hkpMassChangerModifierConstraintAtom : public hkpModifierConstraintAtom
 
 struct hkpViscousSurfaceModifierConstraintAtom : public hkpModifierConstraintAtom
 {
-		//+version(1)
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT, hkpViscousSurfaceModifierConstraintAtom );
 		HK_DECLARE_REFLECTION();
 
@@ -945,13 +960,11 @@ struct hkpViscousSurfaceModifierConstraintAtom : public hkpModifierConstraintAto
 
 		hkpViscousSurfaceModifierConstraintAtom() : hkpModifierConstraintAtom(TYPE_MODIFIER_VISCOUS_SURFACE, sizeof(hkpViscousSurfaceModifierConstraintAtom)) { }
 
+		hkpViscousSurfaceModifierConstraintAtom(hkFinishLoadedObjectFlag f) : hkpModifierConstraintAtom(f) {}
+
 		int getConstraintInfo( hkpConstraintInfo& info ) const	{		return hkpConstraintAtom::CALLBACK_REQUEST_SETUP_PPU_ONLY;		}
 
 		HK_FORCE_INLINE int numSolverResults() const { return 0; }
-
-	public:
-
-		hkpViscousSurfaceModifierConstraintAtom(hkFinishLoadedObjectFlag f) : hkpModifierConstraintAtom(f) {}
 };
 
 
@@ -963,13 +976,13 @@ struct hkpViscousSurfaceModifierConstraintAtom : public hkpModifierConstraintAto
 
 struct hkpMovingSurfaceModifierConstraintAtom : public hkpModifierConstraintAtom
 {
-		//+version(1)
 		HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT, hkpMovingSurfaceModifierConstraintAtom );
 		HK_DECLARE_REFLECTION();
 
 	public:
 
 		hkpMovingSurfaceModifierConstraintAtom() : hkpModifierConstraintAtom(TYPE_MODIFIER_MOVING_SURFACE, sizeof(hkpMovingSurfaceModifierConstraintAtom)) { }
+		hkpMovingSurfaceModifierConstraintAtom(hkFinishLoadedObjectFlag f) : hkpModifierConstraintAtom(f) {}
 
 		HK_FORCE_INLINE int numSolverResults() const { return 0; }
 
@@ -988,8 +1001,6 @@ struct hkpMovingSurfaceModifierConstraintAtom : public hkpModifierConstraintAtom
 	public:
 
  		hkVector4 m_velocity;
-
-		hkpMovingSurfaceModifierConstraintAtom(hkFinishLoadedObjectFlag f) : hkpModifierConstraintAtom(f) {}
 };
 
 
@@ -1005,13 +1016,11 @@ struct hkpIgnoreModifierConstraintAtom : public hkpModifierConstraintAtom
 public:
 
 	hkpIgnoreModifierConstraintAtom() : hkpModifierConstraintAtom(TYPE_MODIFIER_IGNORE_CONSTRAINT, sizeof(hkpIgnoreModifierConstraintAtom)) { }
+	hkpIgnoreModifierConstraintAtom(hkFinishLoadedObjectFlag f) : hkpModifierConstraintAtom(f) {}
 
 	HK_FORCE_INLINE int numSolverResults() const { return 0; }
 
 	int getConstraintInfo( hkpConstraintInfo& info ) const;
-
-	hkpIgnoreModifierConstraintAtom(hkFinishLoadedObjectFlag f) : hkpModifierConstraintAtom(f) {}
-
 };
 
 
@@ -1021,9 +1030,9 @@ public:
 #endif // HK_DYNAMICS2_CONSTRAINT_ATOM_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

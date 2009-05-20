@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -111,6 +111,16 @@ typedef HRESULT (WINAPI * __D3DXCreateVolumeTextureFromFileInMemoryExFUNC)(
 				PALETTEENTRY * pPalette,
 				LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture);
 
+typedef HRESULT (WINAPI * __D3DXLoadSurfaceFromSurfaceFUNC)(
+				LPDIRECT3DSURFACE9 pDestSurface,
+				CONST PALETTEENTRY * pDestPalette,
+				CONST RECT * pDestRect,
+				LPDIRECT3DSURFACE9 pSrcSurface,
+				CONST PALETTEENTRY * pSrcPalette,
+				CONST RECT * pSrcRect,
+				DWORD Filter,
+				D3DCOLOR ColorKey);
+
 extern __D3DXCompileShaderFUNC			__D3DXCompileShader;
 extern __D3DXCompileShaderFromFileAFUNC	__D3DXCompileShaderFromFile;
 extern __D3DXCreateEffectFUNC			__D3DXCreateEffect;
@@ -119,6 +129,7 @@ extern __D3DXCreateTextureFromFileInMemoryExFUNC	__D3DXCreateTextureFromFileInMe
 extern __D3DXCreateVolumeTextureFromFileInMemoryExFUNC	__D3DXCreateVolumeTextureFromFileInMemoryEx; 
 extern __D3DXGetPixelShaderProfileFUNC  __D3DXGetPixelShaderProfile;
 extern __D3DXGetVertexShaderProfileFUNC __D3DXGetVertexShaderProfile;
+extern __D3DXLoadSurfaceFromSurfaceFUNC __D3DXLoadSurfaceFromSurface;
 
 class hkgWindowDX9SResetEventHandler
 {
@@ -172,6 +183,7 @@ public:
 	virtual int getMaxTextureBlendStages() { return 2; } // usually 8 ort so, but our texture based shaders only use one to two textures so far
 
 	virtual bool saveFrontFrameBufferToBMP(const char* filename);
+	virtual bool saveFrontFrameBufferToStream(unsigned char * str, int stridebytes, int pixelsize);
 
 	// debug utils
 	void displayShadowMap();
@@ -252,9 +264,9 @@ protected:
 	
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

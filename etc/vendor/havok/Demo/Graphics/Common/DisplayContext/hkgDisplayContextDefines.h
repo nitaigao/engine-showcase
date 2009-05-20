@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -40,9 +40,11 @@ typedef unsigned short HKG_CULLFACE_MODE;
 #define HKG_CULLFACE_CCW        (1<<1) // Counter-Clockwise in a RHS, default
 
 typedef unsigned int HKG_COLOR_MODE;
-#define HKG_COLOR_MATERIAL		  (1<<0) // Get the color from the material + texture and/or vertex color
-#define HKG_COLOR_GLOBAL		  (1<<1) // The color is a global, manual, setting (set by explict material binds)
-#define HKG_COLOR_GLOBAL_SHADER	  (1<<2) // The current shaders etc are all global, material may or may not be
+#define HKG_COLOR_MATERIAL		      (1<<0) // Get the color from the material + texture and/or vertex color
+#define HKG_COLOR_GLOBAL		      (1<<1) // The color is a global, manual, setting (set by explict material binds)
+#define HKG_COLOR_GLOBAL_SHADER	      (1<<2) // The current shaders etc are all global, material may or may not be
+#define HKG_COLOR_GLOBAL_SHADER_COLLECTION	 (1<<3) // The current shader collection is all global, material may or may not be
+
 
 typedef unsigned int HKG_TEXTURE_STAGE_LOCK_MODE;
 #define HKG_TEXTURE_STAGE_ALL_UNLOCKED    0
@@ -82,9 +84,9 @@ typedef unsigned short HKG_RENDER_PASS_INFO; // allows platforms to know the cur
 #endif //HK_GRAPHICS_DISPLAY_CONTEXT_DEFINES__H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

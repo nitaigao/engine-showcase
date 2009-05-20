@@ -28,8 +28,11 @@ namespace Physics
 
 		hkpAgentRegisterUtil::registerAllAgents( m_world->getCollisionDispatcher( ) );
 
+#ifdef _DEBUG
 		m_vdb = new hkVisualDebugger( contexts );
 		m_vdb->serve( );
+#endif
+		
 	}
 
 	HavokPhysicsSystemScene::~HavokPhysicsSystemScene()
@@ -37,7 +40,10 @@ namespace Physics
 		m_world->markForWrite( );
 		m_world->removeReference( );
 
+#ifdef _DEBUG
 		m_vdb->removeReference( ); 
+#endif
+		
 		m_context->removeReference( );
 	}
 
@@ -54,6 +60,10 @@ namespace Physics
 			component = new PhysicsSystemComponent( name, this );
 		}
 
+		component->SetAttribute( System::Attributes::Name, name );
+		component->SetAttribute( System::Attributes::Type, System::Types::PHYSICS );
+		component->SetAttribute( System::Attributes::Parent, this );
+
 		m_components[ name ] = component;
 
 		return component;
@@ -62,9 +72,12 @@ namespace Physics
 	void HavokPhysicsSystemScene::Update( const float& deltaMilliseconds )
 	{
 		m_world->stepDeltaTime( deltaMilliseconds );
-		m_vdb->step( deltaMilliseconds );
 
-		for( PhysicsSystemComponentList::iterator i = m_components.begin( ); i != m_components.end( ); ++i )
+#ifdef _DEBUG
+		m_vdb->step( deltaMilliseconds );
+#endif
+
+		for( IPhysicsSystemComponent::PhysicsSystemComponentList::iterator i = m_components.begin( ); i != m_components.end( ); ++i )
 		{
 			( *i ).second->Update( deltaMilliseconds );
 		}
@@ -72,7 +85,7 @@ namespace Physics
 
 	void HavokPhysicsSystemScene::DestroyComponent( ISystemComponent* component )
 	{
-		m_components.erase( component->GetName( ) );
+		m_components.erase( component->GetAttributes( )[ System::Attributes::Name ].GetValue< std::string >( ) );
 		delete component;
 	}
 }

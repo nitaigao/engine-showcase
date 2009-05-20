@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -31,7 +31,6 @@ class hkpMeshShape: public hkpShapeCollection
 {
 	public:
 
-		//+version(2)
 		HK_DECLARE_REFLECTION();
 
 		HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CDINFO);
@@ -63,6 +62,7 @@ class hkpMeshShape: public hkpShapeCollection
 		struct Subpart;
 
 			/// Adds a subpart. To modify this subpart later on, call getSubpartAt(int ).xxxx = xxxx.
+			/// If the \a part added has no material stored, an empty (all zero) material is created and stored with the part.
 		virtual void addSubpart( const Subpart& part );
 
 			/// Returns the number of subparts.
@@ -122,7 +122,8 @@ class hkpMeshShape: public hkpShapeCollection
 			/// Gets the mesh material by shape key or -1 if there is no material indices.
 		inline int getMaterialIndex( hkpShapeKey key ) const;
 
-			/// Gets the mesh material by shape key, or returns HK_NULL if m_materialIndexBase isn't defined
+			/// Gets the mesh material by shape key, or returns HK_NULL if m_materialIndexBase isn't defined.
+			/// Note that addSubpart() might have created an empty (all zero) material.
 		inline const hkpMeshMaterial* getMeshMaterial( hkpShapeKey key ) const;
 
 			/// Returns getMeshMaterial(key)->m_filterInfo or zero if there is no material for the key.
@@ -150,7 +151,7 @@ class hkpMeshShape: public hkpShapeCollection
 	public:
 
 			/// The striding of mesh indices
-		enum IndexStridingType
+		enum MeshShapeIndexStridingType
 		{
 			INDICES_INVALID, // default, will raise assert.
 				/// 16 bit "short" striding
@@ -160,7 +161,7 @@ class hkpMeshShape: public hkpShapeCollection
 			INDICES_MAX_ID
 		};
 
-		enum MaterialIndexStridingType
+		enum MeshShapeMaterialIndexStridingType
 		{
 			MATERIAL_INDICES_INVALID,
 			MATERIAL_INDICES_INT8,
@@ -171,7 +172,6 @@ class hkpMeshShape: public hkpShapeCollection
 			/// A subpart defines a triangle, a triangle list or a triangle strip.
 		struct Subpart
 		{
-			//+version(2)
 			HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_COLLIDE, hkpMeshShape::Subpart );
 			HK_DECLARE_REFLECTION();
 
@@ -202,10 +202,10 @@ class hkpMeshShape: public hkpShapeCollection
 			const void*	m_indexBase; //+nosave
 				
 				/// A type defining whether 16 or 32 bits are used to index vertices.
-			hkEnum<IndexStridingType,hkInt8> m_stridingType;
+			hkEnum<MeshShapeIndexStridingType,hkInt8> m_stridingType;
 
 				/// A type defining whether 8 or 16 bits are used to index material.
-			hkEnum<MaterialIndexStridingType,hkInt8> m_materialIndexStridingType;
+			hkEnum<MeshShapeMaterialIndexStridingType,hkInt8> m_materialIndexStridingType;
 
 				/// The byteoffset between two indices triples.
 				///  - Eg. (Usually sizeof(hkUint16) if you use triangle strips
@@ -292,9 +292,9 @@ class hkpMeshShape: public hkpShapeCollection
 #endif // HK_COLLIDE2_MESH_SHAPE_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

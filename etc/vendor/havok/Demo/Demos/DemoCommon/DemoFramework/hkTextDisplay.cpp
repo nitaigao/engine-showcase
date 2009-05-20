@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #include <Demos/demos.h>
@@ -494,7 +494,7 @@ hkTextDisplay::hkTextDisplay(hkgWindow* window)
 			HK_ASSERT2(0x1f6dd5a0,  t->getBPP() == ft->getBPP(), "special font bpp does not match");
 			HK_ASSERT2(0x22fbc480,  t->getWidth() == ft->getWidth(), "special font width does not match");
 			// builtin font has 8 rows
-			// specials have 5 rows (ps2, ngc, xbox, pc, wii)
+			// specials have 5 rows (PlayStation(R)2, ngc, xbox, pc, wii)
 			HK_ASSERT2(0x5f0c3701,  t->getHeight() / ROWS_IN_EXTRA <= ft->getHeight() / ROWS_IN_FONT, "special font height does not fit");
 			
 			// now overwrite the font data with the specials
@@ -503,7 +503,17 @@ hkTextDisplay::hkTextDisplay(hkgWindow* window)
 			int extralen = (t->getWidth() * t->getHeight() * t->getBPP()) / (8 * ROWS_IN_EXTRA);
 			const unsigned char* src = t->getDataPointer();
 
+#if defined(HK_PLATFORM_PS2) || defined( HK_PLATFORM_PSP ) || defined(HK_PLATFORM_PS3_PPU)
+			src += 3 * extralen;
+#elif defined(HK_PLATFORM_XBOX) || defined(HK_PLATFORM_XBOX360)
+			src += 2 * extralen;
+#elif defined(HK_PLATFORM_GC)
+			
+			src += extralen;
+
+#else // PC
 			//no offset needed
+#endif
 			hkString::memCpy( pfont + fontlen - 2 * extralen, src, extralen);
 		}				
 
@@ -556,9 +566,9 @@ void hkTextLog::displayLog( hkTextDisplay& display )
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

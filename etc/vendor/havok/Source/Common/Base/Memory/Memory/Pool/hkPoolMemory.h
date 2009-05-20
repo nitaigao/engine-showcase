@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -38,9 +38,9 @@ public:
 
 	~hkPoolMemory();
 
-	virtual void allocateChunkBatch(void** blocksOut, int nblocks, int nbytes );
+	virtual void allocateChunkBatch(void** blocksOut, int nblocks, int nbytes, HK_MEMORY_CLASS cl );
 
-	virtual void deallocateChunkBatch(void** blocks, int nblocks, int nbytes );
+	virtual void deallocateChunkBatch(void** blocks, int nblocks, int nbytes, HK_MEMORY_CLASS cl );
 
 	virtual void* allocateChunk(int nbytes, HK_MEMORY_CLASS cl);
 
@@ -87,6 +87,11 @@ public:
     virtual hkBool hasMemoryAvailable(hk_size_t size);
 
 	virtual void optimize();
+
+	inline int getMemoryUsed() const
+	{
+		return m_pageMemoryUsed + m_sysAllocsSize;
+	}
 
 protected:
 
@@ -156,10 +161,7 @@ protected:
         /// Returns the size which is allocated within the memory manager.
         /// Note: If you allocate a block of size 3, it will be padded to 4 bytes
         /// and 4 will be added to m_pageMemoryUsed
-    inline int getMemoryUsed() const
-    {
-        return m_pageMemoryUsed + m_sysAllocsSize;
-   }
+    
 
         /// Works out the size in bytes of all the memory in use for page memory
     hk_size_t _calculatePageSizeInUse();
@@ -226,9 +228,9 @@ protected:
 #endif // HK_POOL_MEMORY
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -34,17 +34,22 @@ class hkpContactImpulseLimitBreachedListenerInfo
 
 		hkpRigidBody* getBodyA() const { return m_data.m_single.m_constraintInstance->getRigidBodyA(); }
 		hkpRigidBody* getBodyB() const { return m_data.m_single.m_constraintInstance->getRigidBodyB(); }
+
+		const hkpConstraintInstance* getConstraintInstance() const { return m_data.m_solver.m_constraintInstance; }
 		
 		HK_FORCE_INLINE void set( hkpConstraintInstance* constraintInstance, hkpContactPointProperties* properties, hkContactPoint* cp, bool isToi );
 
 		HK_FORCE_INLINE hkBool isToi() const { return m_data.m_single.m_type == 2; }
+
+		HK_FORCE_INLINE hkBool isContact() const { return m_data.m_solver.m_isContact == 1; }
 
 	protected:
 		struct SingleImpulseElem
 		{
 			HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_DYNAMICS, hkpContactImpulseLimitBreachedListenerInfo::SingleImpulseElem );
 
-			HK_ALIGN16(hkUint32				m_type);				// 1
+			HK_ALIGN16(hkUint16				m_type);				// 1
+			hkUint16 m_isContact;
 			hkpConstraintInstance*			m_constraintInstance;	
 			hkpContactPointProperties*		m_properties;
 			hkContactPoint*			m_contactPoint;
@@ -99,6 +104,7 @@ hkContactPoint *hkpContactImpulseLimitBreachedListenerInfo::getContactPoint() co
 void hkpContactImpulseLimitBreachedListenerInfo::set(hkpConstraintInstance* constraintInstance, hkpContactPointProperties* properties, hkContactPoint* cp, bool toi)
 {
 	m_data.m_single.m_type = 1 + toi;
+	m_data.m_single.m_isContact = true;
 	m_data.m_single.m_constraintInstance = constraintInstance;
 	m_data.m_single.m_contactPoint = cp;
 	m_data.m_single.m_properties = properties;
@@ -107,9 +113,9 @@ void hkpContactImpulseLimitBreachedListenerInfo::set(hkpConstraintInstance* cons
 #endif // HK_DYNAMICS2_CONTACT_IMPULSE_LIMIT_BREACHED_LISTENER_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

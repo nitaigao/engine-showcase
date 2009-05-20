@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 // Build configuration settings
@@ -23,7 +23,7 @@
 #define HK_BASE_CONFIGVERSION_H
 
 #define HAVOK_SDK_VERSION_MAJOR 6
-#define HAVOK_SDK_VERSION_MINOR 0
+#define HAVOK_SDK_VERSION_MINOR 5
 #define HAVOK_SDK_VERSION_POINT 0
 // release id must be less than 3 chars to fit in binary packfile header.
 // Use the following ids:
@@ -49,14 +49,14 @@
 // define HAVOK version string
 #define HAVOK_SDK_VERSION_STRING HAVOK_SDK_VERSION_STRING_SPEC(HAVOK_SDK_VERSION_MAJOR,HAVOK_SDK_VERSION_MINOR,HAVOK_SDK_VERSION_POINT,HAVOK_SDK_VERSION_RELEASE)
 
-#define HAVOK_BUILD_NUMBER 20080925
+#define HAVOK_BUILD_NUMBER 20090216
 
 #endif // HK_BASE_CONFIGVERSION_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

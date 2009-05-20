@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -600,7 +600,7 @@ void SampleAndBlendMultithreadingDemo::doMultithreadedSamplingSynchronously()
 	m_jobThreadPool->processAllJobs( m_jobQueue );
 
 	// On platforms with multiple CPUs (e.g. Windows, Xbox360), have the main thread take jobs too.
-	// This could be done on the Playstation(R) 3 too, which would force the PPU to take jobs, but probably isn't worth it.
+	// This could be done on the PLAYSTATION(R)3 too, which would force the PPU to take jobs, but probably isn't worth it.
 	m_jobQueue->processAllJobs();
 
 	// Wait for all threads to finish
@@ -696,7 +696,7 @@ void SampleAndBlendMultithreadingDemo::doMultithreadedSamplingAsynchronously()
 	m_jobThreadPool->processAllJobs( m_jobQueue );
 
 	// On platforms with multiple CPUs (e.g. Windows, Xbox360), have the main thread take jobs too
-	// This could be done on the Playstation(R) 3 too, which would force the PPU to take jobs, but probably isn't worth it.
+	// This could be done on the PLAYSTATION(R)3 too, which would force the PPU to take jobs, but probably isn't worth it.
 	m_jobQueue->processAllJobs();
 
 	hkArray<hkJobQueue::JobQueueEntry*> jobQueueEntriesForBatch;
@@ -864,9 +864,9 @@ HK_DECLARE_DEMO_VARIANT(SampleAndBlendMultithreadingDemo, demoType, ST_STRING " 
 HK_DECLARE_DEMO_VARIANT(SampleAndBlendMultithreadingDemo, demoType, ST_STRING " - Spline,           " TO_STRING2( NUM_SKELETONS ) " Skeletons of " TO_STRING2( NUM_BONES ) " Bones, " TO_STRING2( NUM_ANIMATIONS ) " Blended Animations, No Cache", 9, "Spline compression on " ST_STRING, "Spline compression on " ST_STRING);
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

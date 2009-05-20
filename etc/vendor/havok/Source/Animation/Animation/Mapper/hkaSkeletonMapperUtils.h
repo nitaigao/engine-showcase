@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -12,6 +12,7 @@
 class hkaSkeleton;
 
 #include <Animation/Animation/Rig/hkaSkeletonUtils.h>
+#include <Animation/Animation/Mapper/hkaSkeletonMapper.h>
 #include <Animation/Animation/Mapper/hkaSkeletonMapperData.h>
 #include <Common/Base/Container/Array/hkObjectArray.h>
 
@@ -115,6 +116,10 @@ class hkaSkeletonMapperUtils
 			/// Given mapping data between two skeletons, it automatically locks translations on the appropiate bones of both skeletons.
 			/// The bones at the top-most simple mapping (and their ancestors) are left unlocked - the rest of bones are locked.  
 		static hkResult HK_CALL lockTranslationsAutomatically (const hkaSkeletonMapperData& mapperData);
+
+			/// Given a skeleton mapping, scales the translations of all transforms.
+			/// Useful when scaling ragdolls or animations
+		static void HK_CALL scaleMapping( hkaSkeletonMapper& mapper, hkReal scale );
 };
 
 
@@ -122,9 +127,9 @@ class hkaSkeletonMapperUtils
 #endif // HK_SKELETON_MAPPER_UTILS_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

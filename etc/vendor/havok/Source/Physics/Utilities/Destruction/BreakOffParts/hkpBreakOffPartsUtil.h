@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -16,6 +16,7 @@
 #include <Physics/Dynamics/Constraint/Contact/hkpContactImpulseLimitBreachedListener.h>
 #include <Physics/Dynamics/Entity/hkpEntityListener.h>
 #include <Physics/Dynamics/Collide/hkpCollisionListener.h>
+#include <Physics/Dynamics/Constraint/hkpConstraintListener.h>
 
 class hkpPhysicsSystem;
 class hkpRigidBody;
@@ -37,13 +38,14 @@ public:
 		{
 			hkpRigidBody* m_collidingBody;
 			hkpShapeKey   m_brokenShapeKey;
+			hkBool        m_isContact;
 			hkReal		  m_contactPointDirection; // either +1 or -1
 			const hkContactPoint* m_contactPoint;
 			const hkpContactPointProperties* m_properties;
+			const hkpSimpleConstraintContactMgr* m_internalContactMgr;
 		};
 
 		hkpRigidBody*						 m_breakingBody;
-		const hkpSimpleConstraintContactMgr* m_internalContactMgr; 
 		hkInplaceArray<PointInfo,4> m_points;
 	};
 
@@ -65,7 +67,8 @@ public:
 	///   - This only works if you can identify a sub piece using a single hkpShapeKey, that means
 	///     only one hkMoppShape is allowed per rigid body (e.g. hkpExtendedMeshShape)
 	///   - If you use this class on the PLAYSTATION(R)3 SPU, the default implementation on the SPU will put the shape key into the materials userData
-class hkpBreakOffPartsUtil: public hkReferencedObject, public hkpContactImpulseLimitBreachedListener, hkpEntityListener, hkpWorldDeletionListener
+class hkpBreakOffPartsUtil: public hkReferencedObject, public hkpContactImpulseLimitBreachedListener, hkpEntityListener, 
+								hkpWorldDeletionListener, hkpConstraintListener
 {
 	public:
 		HK_DECLARE_CLASS_ALLOCATOR( HK_MEMORY_CLASS_WORLD );
@@ -82,6 +85,11 @@ class hkpBreakOffPartsUtil: public hkReferencedObject, public hkpContactImpulseL
 
 			/// Flag a whole entity to be breakable
 		void markEntityBreakable( hkpEntity* entity, hkReal maxImpulse );
+
+			/// Set factor used to multiply maximum impulse for attached constraints.
+			/// This function must be used when setting max impulses for individual hkpShapeKeys, 
+			/// and not for the entire entity with markEntityBreakable().
+		void setMaxConstraintImpulse( hkpEntity* entity, hkReal maxConstraintImpulse );
 
 			/// Safely removes a piece from a listshape, or a listshape wrapped in a moppshape
 			/// Both the mopp and listshapes are updated
@@ -105,10 +113,15 @@ class hkpBreakOffPartsUtil: public hkReferencedObject, public hkpContactImpulseL
 			// hkEntityListenerImplementation
 		virtual void entityRemovedCallback( hkpEntity* entity );
 
+			// hkpConstraintListener interface implementation
+		virtual void constraintAddedCallback( hkpConstraintInstance* constraint );
+		virtual void constraintRemovedCallback( hkpConstraintInstance* constraint ) {}
+
+
 	public:
 
 			/// A small helper class, which gets attached to an hkpEntity 
-		class LimitContactImpulseUtil: public hkReferencedObject,  public hkpCollisionListener
+		class LimitContactImpulseUtil: public hkReferencedObject, public hkpCollisionListener
 		{
 			public:
 				LimitContactImpulseUtil( hkpBreakOffPartsUtil* breakUtil, hkpEntity* entity );
@@ -126,15 +139,23 @@ class hkpBreakOffPartsUtil: public hkReferencedObject, public hkpContactImpulseL
 
 				/// Get the max impulse associated with the given key.
 				/// If no impulse has been associated with this key, zero is returned.
-				inline hkUint8 getMaxImpulseForKey ( const hkpShapeKey key ) const;
+				inline hkUint8 getMaxImpulseForKey ( const hkpShapeKey key ) const; 
 
 				/// Stop storing the associated impulse value for this key.
 				inline void removeKey ( const hkpShapeKey key );
 
+				/// Checks if there are any hkpShapeKey-specific max impulse values defined.
+				inline hkBool32 hasShapeKeySpecificMaxImpulses() { return m_shapeKeyToMaxImpulse.getSize(); }
+
+				/// Return the weakest point on the object. 
+				void findWeakestPoint( hkpShapeKey& keyOut, hkReal& weakestImpulseOut );
+
 			public:
 				HK_ALIGN16(hkpEntity*       m_entity);
 
-				hkUFloat8                  m_maxImpulse;		// set to 255 if not breakable
+				hkUFloat8                  m_maxImpulse;		// set to 255 = (hkUFloat8::MAX_VALUE-1) if not breakable
+
+				hkReal						m_maxConstraintImpulse;
 
 			private:
 
@@ -165,9 +186,9 @@ class hkpBreakOffPartsUtil: public hkReferencedObject, public hkpContactImpulseL
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

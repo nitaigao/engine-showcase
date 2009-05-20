@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -61,6 +61,8 @@
 #define NUM_ANIMATIONS 50
 #define NUM_BONES 50
 
+// Uncomment to test individual track sampling (currently Spline and Interleaved only)
+//#define USE_INDIVIDUAL_TRACK_SAMPLING
 
 static const char* RIG_FILE_NAME = "Resources/Animation/HavokGirl/hkRig.hkx";
 static const char* ANIMATION_FILE_NAME = "Resources/Animation/HavokGirl/hkRunTurnLLoop.hkx";
@@ -185,6 +187,10 @@ SampleOnlyMultithreadingDemo::SampleOnlyMultithreadingDemo( hkDemoEnvironment* e
 			{
 				hkaSplineCompressedAnimation::TrackCompressionParams p;
 				hkaSplineCompressedAnimation::AnimationCompressionParams a;
+
+#ifdef USE_INDIVIDUAL_TRACK_SAMPLING
+				a.m_enableSampleSingleTracks = true;
+#endif
 
 				m_animation = new hkaSplineCompressedAnimation( *uncompressedAnimation, p, a );
 				m_binding->m_animation = m_animation;
@@ -401,7 +407,14 @@ hkDemo::Result SampleOnlyMultithreadingDemo::stepDemo()
 				// N.B. We are putting track data directly into a pose, which necessarily assumes that the binding is the identity.
 				// In general of course this will not be true, but for the purpose of this demo it is simplest to do this rather
 				// than sample into a temporary array and track data and copy over into the bone (pose) data.
+
+#ifdef USE_INDIVIDUAL_TRACK_SAMPLING
+				const int numTracks = m_controls[i]->getAnimationBinding()->m_animation->m_numberOfTransformTracks;
+				const hkInt16* const tracks = m_controls[i]->getAnimationBinding()->m_transformTrackToBoneIndices;
+				m_animation->sampleIndividualTransformTracks( m_controls[i]->getLocalTime(), tracks, numTracks, pose[i]->accessUnsyncedPoseLocalSpace().begin() );
+#else
 				m_animation->sampleTracks( m_controls[i]->getLocalTime(), pose[i]->accessUnsyncedPoseLocalSpace().begin(), HK_NULL, m_useCache ? m_cache : HK_NULL  );
+#endif
 			}
 		}
 
@@ -537,7 +550,7 @@ void SampleOnlyMultithreadingDemo::doMultithreadedSamplingSynchronously(hkLocalA
 	m_jobThreadPool->processAllJobs( m_jobQueue );
 
 	// On platforms with multiple CPUs (e.g. Windows, Xbox360), have the main thread take jobs too.
-	// This could be done on the Playstation(R) 3 too, which would force the PPU to take jobs, but probably isn't worth it.
+	// This could be done on the PLAYSTATION(R)3 too, which would force the PPU to take jobs, but probably isn't worth it.
 	m_jobQueue->processAllJobs();
 
 	// Wait for all threads to finish
@@ -628,7 +641,7 @@ void SampleOnlyMultithreadingDemo::doMultithreadedSamplingAsynchronously(hkLocal
 	m_jobThreadPool->processAllJobs( m_jobQueue );
 
 	// On platforms with multiple CPUs (e.g. Windows, Xbox360), have the main thread take jobs too
-	// This could be done on the Playstation(R) 3 too, which would force the PPU to take jobs, but probably isn't worth it.
+	// This could be done on the PLAYSTATION(R)3 too, which would force the PPU to take jobs, but probably isn't worth it.
 	m_jobQueue->processAllJobs();
 
 	// Next block on the PPU until all jobs are marked as done
@@ -770,9 +783,9 @@ HK_DECLARE_DEMO_VARIANT(SampleOnlyMultithreadingDemo, demoType, ST_STRING " - Mi
 HK_DECLARE_DEMO_VARIANT(SampleOnlyMultithreadingDemo, demoType, ST_STRING " - Spline" TO_STRING2( NUM_ANIMATIONS ) " Animations of " TO_STRING2( NUM_BONES ) " Bones " , 9, "Spline compression on " ST_STRING, "Spline compression on " ST_STRING);
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

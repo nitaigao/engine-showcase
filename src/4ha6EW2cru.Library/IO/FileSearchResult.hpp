@@ -1,7 +1,7 @@
 #ifndef FILESEARCHRESULT_H
 #define FILESEARCHRESULT_H
 
-#include <vector>
+#include <deque>
 
 namespace IO
 {
@@ -10,7 +10,7 @@ namespace IO
 
 	public:
 
-		typedef std::vector< FileSearchResult > FileSearchResultList;
+		typedef std::deque< FileSearchResult > FileSearchResultList;
 
 		std::string FileName;
 		std::string FilePath;

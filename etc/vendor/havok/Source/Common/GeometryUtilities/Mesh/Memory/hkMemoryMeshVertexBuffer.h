@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -19,6 +19,8 @@ class hkMemoryMeshVertexBuffer: public hkMeshVertexBuffer
     public:
         HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SCENE_DATA);
 
+            /// Default Ctor
+        hkMemoryMeshVertexBuffer();
             /// Ctor
         hkMemoryMeshVertexBuffer(const hkVertexFormat& format, int numVertices);
             /// Dtor
@@ -66,10 +68,17 @@ class hkMemoryMeshVertexBuffer: public hkMeshVertexBuffer
             /// Get the buffer (avoids having to do a lock)
         void getLockedVerticesBuffer(int elementIndex, LockedVertices::Buffer& buffer);
 
+            /// Get a locked vertex buffer structure for a range of vertices. (avoids doing a lock)
+        void getLockedVertices( int startVertex, int numVertices, LockedVertices& lockedVerticesOut );
+
             /// Set a different vertex format - will set up as having zero vertices
         void setVertexFormat(const hkVertexFormat& format);
             /// Set up the amount of vertices - will zero the memory
         void setNumVerticesAndZero(int numVertices);
+
+            /// Use an external buffer for data storage. bufferSize must be equal to the vertex stride * numVertices
+            /// The buffer must stay in scope as long as the hkMemoryVertexBuffer exists
+        void useExternalBuffer(void* data, int numVertices, int bufferSize);
 
             /// Get the vertex data
         hkUint8* getVertexData() { return m_memory.begin(); }
@@ -99,9 +108,9 @@ class hkMemoryMeshVertexBuffer: public hkMeshVertexBuffer
 #endif // HK_MEMORY_MESH_VERTEX_BUFFER_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

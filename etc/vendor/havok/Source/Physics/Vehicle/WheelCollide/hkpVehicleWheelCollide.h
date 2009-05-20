@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HKVEHICLE_COLLISIONDETECTION_hkVehicleCOLLISIONDETECTION_XML_H
@@ -19,7 +19,6 @@ class hkpVehicleWheelCollide : public hkReferencedObject
 {
 	public:
 
-		//+version(1)
 		HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_VEHICLE);
 		HK_DECLARE_REFLECTION();
 	
@@ -27,6 +26,9 @@ class hkpVehicleWheelCollide : public hkReferencedObject
 		struct CollisionDetectionWheelOutput
 		{
 			public:
+					/// The maximum number of shape keys which is reported (see also hkpShapeRayCastOutput::MAX_HIERARCHY_DEPTH)
+				enum { MAX_NUM_SHAPE_KEYS = 8  };	
+
 				HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR( HK_MEMORY_CLASS_VEHICLE, hkpVehicleWheelCollide::CollisionDetectionWheelOutput );
 				/// The point of contact of the wheel with the ground.
 			class hkContactPoint m_contactPoint;
@@ -39,7 +41,7 @@ class hkpVehicleWheelCollide : public hkReferencedObject
 			hkpRigidBody* m_contactBody;
 
 				/// The shapeKey of the object at the point of contact.
-			hkpShapeKey m_contactShapeKey;
+			hkpShapeKey m_contactShapeKey[MAX_NUM_SHAPE_KEYS];
 
 				/// The length of the suspension due to the wheel being in contact at
 				/// the given point.
@@ -70,25 +72,24 @@ class hkpVehicleWheelCollide : public hkReferencedObject
 			/// As all other parts of the vehicle can usually be shared, except for the wheel collide.
 		virtual hkpVehicleWheelCollide* clone( const hkArray<hkpPhantom*>& newPhantoms ) const = 0;
 
-	public:
-		/// This component cannot be shared between vehicle instances - this variable
-		/// indicates if a vehicle already owns it.
-		hkBool m_alreadyUsed;
-
 		hkpVehicleWheelCollide(hkFinishLoadedObjectFlag f) : hkReferencedObject(f) {}
 
 	protected:
 
 		hkpVehicleWheelCollide() : m_alreadyUsed(false) {}
 
+	public:
+		    /// This component cannot be shared between vehicle instances - this variable
+		    /// indicates if a vehicle already owns it.
+		hkBool m_alreadyUsed;
 };
 
 #endif // HKVEHICLE_COLLISIONDETECTION_hkVehicleCOLLISIONDETECTION_XML_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

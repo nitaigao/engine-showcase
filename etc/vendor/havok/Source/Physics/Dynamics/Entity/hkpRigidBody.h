@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -31,7 +31,6 @@ class hkpRigidBody : public hkpEntity
 {
 	public:
 
-		//+version(1)
 		HK_DECLARE_REFLECTION();
 
 			/// The constructor takes the information from the passed info parameter.
@@ -267,6 +266,12 @@ class hkpRigidBody : public hkpEntity
 			/// Naive momentum damping.
 		inline void setAngularDamping( hkReal d );		
 
+			/// Gravity scaling accessor
+		inline hkReal getGravityFactor( void ) const;
+
+			/// Gravity scaling mutator
+		inline void setGravityFactor( hkReal f );
+
 
 		//
 		//	Clipping Velocities
@@ -416,13 +421,18 @@ class hkpRigidBody : public hkpEntity
 			/// Returns the friction coefficient (dynamic and static) from the material.
 		inline hkReal getFriction() const;
 
+#if defined HK_ENABLE_ROLLING_FRICITON_CODE
+			/// Returns the rolling friction coefficient (dynamic and static) from the material.
+		inline hkReal getRollingFriction() const;
+#endif
+
 			/// Returns the default restitution from the material.
 			//  restitution = bounciness (1 should give object all its energy back, 0 means it just sits there, etc.).
 		inline hkReal getRestitution() const;
 
 			/// Sets the friction coefficient of the material. Note: Setting this will not update existing contact information.
 			/// ###ACCESS_CHECKS###( [getWorld(),HK_ACCESS_IGNORE] [this,HK_ACCESS_RW] );
-		void setFriction( hkReal newFriction );
+		void setFriction( hkReal newFriction, hkReal newRollingFriction = -1.0f );
 
 			/// Sets the restitution coefficient of the material. Note: Setting this will not update existing contact information.
 			/// ###ACCESS_CHECKS###( [getWorld(),HK_ACCESS_IGNORE] [this,HK_ACCESS_RW] );
@@ -500,9 +510,9 @@ class hkpRigidBody : public hkpEntity
 #endif // HK_DYNAMICS2_RIGID_BODY_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

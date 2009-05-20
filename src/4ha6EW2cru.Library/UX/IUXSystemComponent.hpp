@@ -17,6 +17,12 @@ namespace UX
 	class IUXSystemComponent : public ISystemComponent
 	{
 
+	public:
+
+		typedef std::deque< IUXSystemComponent* > UXSystemComponentList;
+
+		virtual ~IUXSystemComponent( ) { };
+
 	};
 };
 

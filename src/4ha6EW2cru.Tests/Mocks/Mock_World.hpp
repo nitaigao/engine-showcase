@@ -26,7 +26,7 @@ public:
 
 			for( SystemComponentList::iterator c = components.begin( ); c != components.end( ); ++c )
 			{
-				_systemScenes[ ( *c )->GetType( ) ]->DestroyComponent( ( *c ) );
+				_systemScenes[ ( *c )->GetAttributes( )[ System::Attributes::Type ].GetValue< System::Types::Type >( ) ]->DestroyComponent( ( *c ) );
 			}
 
 			delete ( *e );

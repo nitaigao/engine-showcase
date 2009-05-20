@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -60,10 +60,16 @@ class hkUnionFind
 			/// reindex, so that the biggest group is now on index 0. returns the old index of the biggest group
 		int moveBiggestGroupToIndexZero( hkArray<int>& elementsPerGroup );
 
+			// Find the root node of node i
+		int findRootOfNode(int i);
+
+			// Merge two sets
+		void unionRoots(int r1, int r2);
+
 	private:
 
-		HK_FORCE_INLINE int findRootOfNode(int i);
-		HK_FORCE_INLINE void unionRoots(int r1, int r2);
+		HK_FORCE_INLINE int _findRootOfNode(int i);
+		HK_FORCE_INLINE void _unionRoots(int r1, int r2);
 
 		/// this flattens the tree.
 		void collapseTree();
@@ -79,9 +85,9 @@ class hkUnionFind
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -12,6 +12,7 @@
 #include <Demos/DemoCommon/Utilities/Character/DemoCharacter/AnimatedDemoCharacter/AnimatedDemoCharacter.h>
 #include <Demos/DemoCommon/Utilities/Character/CharacterStepInput.h>
 #include <Demos/DemoCommon/Utilities/Character/CharacterProxy/CharacterProxy.h>
+#include <Demos/DemoCommon/Utilities/Character/CharacterUtils.h>
 
 #include <Common/Visualize/hkDebugDisplay.h>
 #include <Graphics/Bridge/SceneData/hkgSceneDataConverter.h>
@@ -57,11 +58,146 @@
 #include <Graphics/Common/Shader/hkgShaderCollection.h>
 #include <Graphics/Common/DisplayObject/hkgDisplayObject.h>
 
+
+#include <Demos/DemoCommon/Utilities/Character/CharacterProxy/RigidBodyCharacterProxy/RigidBodyCharacterProxy.h>
+#include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
+
+AnimatedCharacterFactory::AnimatedCharacterFactory( CharacterType defaultType )
+{
+	m_type = defaultType;
+	m_loader = new hkLoader();
+
+	for (int i = 0; i < MAX_CHARACTER_TYPE; ++i)
+	{
+		m_animSet[i].m_skeleton = HK_NULL;
+	}
+
+	loadBasicAnimations( m_type );
+}
+
+AnimatedCharacterFactory::~AnimatedCharacterFactory()
+{
+	m_loader->removeReference();
+}
+
+DemoCharacter* AnimatedCharacterFactory::createCharacterUsingProxy( CharacterProxy* proxy, const hkVector4& gravity, hkDemoEnvironment* env )
+{
+	proxy->getWorldObject()->removeProperty(HK_PROPERTY_DEBUG_DISPLAY_COLOR);
+	proxy->getWorldObject()->addProperty(HK_PROPERTY_DEBUG_DISPLAY_COLOR, 0x00FFFFFF);
+
+	// Animated Character
+	AnimatedDemoCharacterCinfo info;
+	info.m_characterProxy = proxy;
+	info.m_gravity = gravity;
+	info.m_animationForwardLocal = m_animSet[m_type].m_animFwdLocal;
+	info.m_animationUpLocal = m_animSet[m_type].m_animUpLocal;
+	info.m_animationSet = &m_animSet[m_type];
+
+	AnimatedDemoCharacter* animCharacter = new AnimatedDemoCharacter( info );
+	animCharacter->loadSkin( m_loader, env, m_type );
+	return animCharacter;	
+}
+
+
+
+void AnimatedCharacterFactory::loadBasicAnimations( CharacterType type )
+{
+	hkString rigFile;
+	char* refBone = HK_NULL;
+	char* rootBone = HK_NULL;
+
+	AnimatedDemoCharacterAnimationSet* set = &m_animSet[type];
+
+	set->m_walkRunSyncOffset = 0.0f;
+
+
+	switch (type)
+	{
+		case HAVOK_GIRL:
+			{
+				rigFile = hkAssetManagementUtil::getFilePath("Resources/Animation/HavokGirl/hkRig.hkx");
+				refBone = "reference";
+				rootBone = "root";
+
+				// Load the animations
+				{
+					set->m_idle	 = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/HavokGirl/hkIdle.hkx" );
+					set->m_jump	 = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/HavokGirl/hkJumpLandLoop.hkx" );
+					set->m_inAir = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/HavokGirl/hkProtect.hkx" );
+					set->m_land	 = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/HavokGirl/hkProtect.hkx" );
+					set->m_walk	 = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/HavokGirl/hkWalkLoop.hkx");
+					set->m_run	 = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/HavokGirl/hkRunLoop.hkx");
+					set->m_dive	 = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/HavokGirl/hkScale.hkx" );
+				}
+
+				set->m_animFwdLocal.set(1,0,0);
+				set->m_animUpLocal.set(0,0,1);
+			}
+			break;
+		case FIREFIGHTER:
+			{
+				rigFile = hkAssetManagementUtil::getFilePath("Resources/Animation/ShowCase/Gdc2005/Model/Firefighter_Rig.hkx");
+				refBone = "reference";
+				rootBone = "root";
+				set->m_walkRunSyncOffset = 17.0f;
+
+				// Load the animations
+				{
+					set->m_idle	 = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/ShowCase/Gdc2005/Animations/hkIdle1.hkx" );
+					set->m_jump	 = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/ShowCase/Gdc2005/Animations/hkRunJump.hkx" );
+					set->m_inAir = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/ShowCase/Gdc2005/Animations/hkInAir.hkx" );
+					set->m_land	 = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/ShowCase/Gdc2005/Animations/hkHardLand.hkx" );
+					set->m_walk	 = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/ShowCase/Gdc2005/Animations/hkWalk.hkx");
+					set->m_run	 = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/ShowCase/Gdc2005/Animations/hkRun.hkx");
+					set->m_dive	 = AnimationUtils::loadAnimation( *m_loader, "Resources/Animation/ShowCase/Gdc2005/Animations/hkDive.hkx" );
+				}
+
+				set->m_animFwdLocal.set(0,0,1);
+				set->m_animUpLocal.set(0,1,0);
+			}
+			break;
+		default:
+			{
+				HK_ASSERT2(0x0, 0, "Invalid character type");
+			}
+	}
+
+	// Get the rig
+	{
+		hkError::getInstance().setEnabled(0x9fe65234, false); // "Unsupported simulation type..."
+		set->m_rigContainer = m_loader->load( rigFile.cString() );
+		HK_ASSERT2(0x27343437, set->m_rigContainer != HK_NULL , "Could not load asset");
+		hkaAnimationContainer* ac = reinterpret_cast<hkaAnimationContainer*>( set->m_rigContainer->findObjectByType( hkaAnimationContainerClass.getName() ));
+		HK_ASSERT2(0x27343435, ac && (ac->m_numSkeletons > 0), "No skeleton loaded");
+		set->m_skeleton = ac->m_skeletons[0];
+		hkError::getInstance().setEnabled(0x9fe65234, true);
+	}
+
+
+	// Add constraints to skeleton
+	{
+		const hkaSkeleton* skeleton = set->m_skeleton;
+
+		// Lock translations (except root, named "position")
+		hkaSkeletonUtils::lockTranslations(*skeleton);
+
+		// and except also the children "reference" and "root"
+		const hkInt16 referenceBoneIdx = hkaSkeletonUtils::findBoneWithName(*skeleton, refBone );
+		const hkInt16 rootBoneIdx = hkaSkeletonUtils::findBoneWithName(*skeleton, rootBone);
+		if (referenceBoneIdx != -1)
+			skeleton->m_bones[referenceBoneIdx]->m_lockTranslation = false;
+		if (rootBoneIdx != -1)
+			skeleton->m_bones[rootBoneIdx]->m_lockTranslation = false;
+	}
+
+
+}
+
+
 AnimatedDemoCharacter::AnimatedDemoCharacter( AnimatedDemoCharacterCinfo& info )
 : DemoCharacter(info)
 {
 	m_gravity = info.m_gravity;
-	m_characterProxy->setTransform( info.m_initialTransform );
 
 	//
 	// Setup the proxyFromAnimation transform
@@ -155,51 +291,32 @@ void AnimatedDemoCharacter_setSkinningShader( hkgShaderCollection* shader, hkgDi
 	}
 }
 
-void AnimatedDemoCharacter::loadSkin( hkLoader* loader, hkDemoEnvironment* env, CharacterChoice choice )
+void AnimatedDemoCharacter::loadSkin( hkLoader* m_loader, hkDemoEnvironment* env, AnimatedCharacterFactory::CharacterType type )
 {
 	m_hardwareSkinning = AnimatedDemoCharacter_supportsHardwareSkinning(env);
 
 	hkString assetFile;
 
-	switch ( choice )
+	switch ( type )
 	{
-	case HK_CHARACTER_ROY:
-		{
-			assetFile = hkAssetManagementUtil::getFilePath("Resources/Cloth/male/male_roy_cloth_setup.hkx");
-			m_hardwareSkinning = false;
-		}
-		break;
-	case HK_CHARACTER_LEON:
-		{
-			assetFile = hkAssetManagementUtil::getFilePath("Resources/Cloth/male/male_leon_cloth_setup.hkx");
-			m_hardwareSkinning = false;
-		}
-		break;
-	case HK_CHARACTER_PRIS:
-		{
-			assetFile = hkAssetManagementUtil::getFilePath("Resources/Cloth/female/female_ponytail.hkx");
-			m_hardwareSkinning = false;
-		}
-		break;
-	case HK_CHARACTER_KHORA:
-		{
-			assetFile = hkAssetManagementUtil::getFilePath("Resources/Cloth/female/female_dress.hkx");
-			m_hardwareSkinning = false;
-		}
-		break;
-	case HK_CHARACTER_HAVOK_GIRL:
+	case AnimatedCharacterFactory::HAVOK_GIRL:
 			assetFile = hkAssetManagementUtil::getFilePath("Resources/Animation/HavokGirl/hkLowResSkinWithEyes.hkx");
 			m_hardwareSkinning = false;
 		break;
-	case HK_CHARACTER_BADDY:
+	case AnimatedCharacterFactory::FIREFIGHTER:
 		{
-			assetFile = hkAssetManagementUtil::getFilePath("Resources/ShowCase/Gdc2005/Model/hkBaddieSkin.hkx"); 
+			assetFile = hkAssetManagementUtil::getFilePath("Resources/Animation/Showcase/Gdc2005/Model/Firefighter_Skin.hkx"); 
+		}
+		break;
+	default:
+		{
+			HK_ASSERT2(0x0, 0, "Invalid character type");
 		}
 		break;
 	}
 
 
-	hkRootLevelContainer* rootContainer = loader->load( assetFile.cString() );
+	hkRootLevelContainer* rootContainer = m_loader->load( assetFile.cString() );
 	HK_ASSERT2(0x27343437, rootContainer != HK_NULL , "Could not load asset");
 	hkaAnimationContainer* ac = reinterpret_cast<hkaAnimationContainer*>( rootContainer->findObjectByType( hkaAnimationContainerClass.getName() ));
 
@@ -248,134 +365,6 @@ void AnimatedDemoCharacter::loadSkin( hkLoader* loader, hkDemoEnvironment* env, 
 }
 
 
-void AnimatedDemoCharacterLoadingUtils::loadBasicAnimations( hkLoader* loader, struct AnimatedDemoCharacterAnimationSet* set, hkVector4& animFwdLocal, hkVector4& animUpLocal, CharacterChoice choice )
-{
-	hkString rigFile;
-	char* refBone = HK_NULL;
-	char* rootBone = HK_NULL;
-
-	set->m_choice = choice;
-	set->m_walkRunSyncOffset = 0.0f;
-
-	switch (choice)
-	{
-		case HK_CHARACTER_ROY:
-		case HK_CHARACTER_LEON:
-			{
-				rigFile = hkAssetManagementUtil::getFilePath("Resources/Cloth/male/male_rig.hkx");
-				refBone = "Character_Root";
-				rootBone = "Bip01";
-
-				// Load the animations
-				{
-					set->m_idle	 = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/male/Animations/male_idle.hkx" );
-					set->m_jump	 = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/male/Animations/male_runjump.hkx" );
-					set->m_inAir = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/male/Animations/male_idle.hkx" ); // No InAir
-					set->m_land	 = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/male/Animations/male_idle.hkx" ); 
-					set->m_walk	 = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/male/Animations/male_walk.hkx");
-					set->m_run	 = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/male/Animations/male_run.hkx");
-					set->m_dive	 = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/male/Animations/male_diveroll.hkx" );
-				}
-
-				animFwdLocal.set(1,0,0);
-				animUpLocal.set(0,0,1);
-			}
-			break;
-		case HK_CHARACTER_PRIS:
-		case HK_CHARACTER_KHORA:
-			{
-				rigFile = hkAssetManagementUtil::getFilePath("Resources/Cloth/female/female_rig.hkx");
-				refBone = "Character_Root";
-				rootBone = "Bip01";
-
-				// Load the animations
-				{
-					set->m_idle	 = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/female/Animations/female_idle.hkx" );
-					set->m_jump	 = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/female/Animations/female_runjump.hkx" );
-					set->m_inAir = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/female/Animations/female_idle.hkx" ); // No InAir
-					set->m_land	 = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/female/Animations/female_idle.hkx" ); 
-					set->m_walk	 = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/female/Animations/female_walk.hkx");
-					set->m_run	 = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/female/Animations/female_run.hkx");
-					set->m_dive	 = AnimationUtils::loadAnimation( *loader, "Resources/Cloth/female/Animations/female_diveroll.hkx" );
-				}
-
-				animFwdLocal.set(1,0,0);
-				animUpLocal.set(0,0,1);
-			}
-			break;
-		case HK_CHARACTER_HAVOK_GIRL:
-			{
-				rigFile = hkAssetManagementUtil::getFilePath("Resources/Animation/HavokGirl/hkRig.hkx");
-				refBone = "reference";
-				rootBone = "root";
-
-				// Load the animations
-				{
-					set->m_idle	 = AnimationUtils::loadAnimation( *loader, "Resources/Animation/HavokGirl/hkIdle.hkx" );
-					set->m_jump	 = AnimationUtils::loadAnimation( *loader, "Resources/Animation/HavokGirl/hkJumpLandLoop.hkx" );
-					set->m_inAir = AnimationUtils::loadAnimation( *loader, "Resources/Animation/HavokGirl/hkProtect.hkx" );
-					set->m_land	 = AnimationUtils::loadAnimation( *loader, "Resources/Animation/HavokGirl/hkProtect.hkx" );
-					set->m_walk	 = AnimationUtils::loadAnimation( *loader, "Resources/Animation/HavokGirl/hkWalkLoop.hkx");
-					set->m_run	 = AnimationUtils::loadAnimation( *loader, "Resources/Animation/HavokGirl/hkRunLoop.hkx");
-					set->m_dive	 = AnimationUtils::loadAnimation( *loader, "Resources/Animation/HavokGirl/hkScale.hkx" );
-				}
-
-				animFwdLocal.set(1,0,0);
-				animUpLocal.set(0,0,1);
-			}
-			break;
-		case HK_CHARACTER_BADDY:
-			{
-				rigFile = hkAssetManagementUtil::getFilePath("Resources/ShowCase/Gdc2005/Model/hkBaddie.hkx");
-				refBone = "reference";
-				rootBone = "root";
-				set->m_walkRunSyncOffset = 17.0f;
-
-				// Load the animations
-				{
-					set->m_idle	 = AnimationUtils::loadAnimation( *loader, "Resources/ShowCase/Gdc2005/Animations/hkIdle1.hkx" );
-					set->m_jump	 = AnimationUtils::loadAnimation( *loader, "Resources/ShowCase/Gdc2005/Animations/hkRunJump.hkx" );
-					set->m_inAir = AnimationUtils::loadAnimation( *loader, "Resources/ShowCase/Gdc2005/Animations/hkInAir.hkx" );
-					set->m_land	 = AnimationUtils::loadAnimation( *loader, "Resources/ShowCase/Gdc2005/Animations/hkHardLand.hkx" );
-					set->m_walk	 = AnimationUtils::loadAnimation( *loader, "Resources/ShowCase/Gdc2005/Animations/hkWalk.hkx");
-					set->m_run	 = AnimationUtils::loadAnimation( *loader, "Resources/ShowCase/Gdc2005/Animations/hkRun.hkx");
-					set->m_dive	 = AnimationUtils::loadAnimation( *loader, "Resources/ShowCase/Gdc2005/Animations/hkDive.hkx" );
-				}
-
-				animFwdLocal.set(0,0,1);
-				animUpLocal.set(0,1,0);
-			}
-			break;
-	}
-
-	// Get the rig
-	{
-		set->m_rigContainer = loader->load( rigFile.cString() );
-		HK_ASSERT2(0x27343437, set->m_rigContainer != HK_NULL , "Could not load asset");
-		hkaAnimationContainer* ac = reinterpret_cast<hkaAnimationContainer*>( set->m_rigContainer->findObjectByType( hkaAnimationContainerClass.getName() ));
-		HK_ASSERT2(0x27343435, ac && (ac->m_numSkeletons > 0), "No skeleton loaded");
-		set->m_skeleton = ac->m_skeletons[0];
-	}
-
-
-	// Add constraints to skeleton
-	{
-		const hkaSkeleton* skeleton = set->m_skeleton;
-
-		// Lock translations (except root, named "position")
-		hkaSkeletonUtils::lockTranslations(*skeleton);
-
-		// and except also the children "reference" and "root"
-		const hkInt16 referenceBoneIdx = hkaSkeletonUtils::findBoneWithName(*skeleton, refBone );
-		const hkInt16 rootBoneIdx = hkaSkeletonUtils::findBoneWithName(*skeleton, rootBone);
-		if (referenceBoneIdx != -1)
-			skeleton->m_bones[referenceBoneIdx]->m_lockTranslation = false;
-		if (rootBoneIdx != -1)
-			skeleton->m_bones[rootBoneIdx]->m_lockTranslation = false;
-	}
-
-
-}
 
 void AnimatedDemoCharacter::initAnimation( const AnimatedDemoCharacterAnimationSet* set )
 {
@@ -494,56 +483,6 @@ void AnimatedDemoCharacter::initAnimation( const AnimatedDemoCharacterAnimationS
 	m_runVelocity = hkReal(runMotion.m_translation.length3()) / runAnimation->m_duration;
 }
 
-// Compute the blend params that will produce the desired velocity
-void computeBlendParams( hkReal desiredVel, hkReal walkVel, hkReal runVel, hkReal walkDur, hkReal runDur, hkReal& blend, hkReal& walkSpeed, hkReal& runSpeed )
-{
-	/*
-	const hkReal runWalkRatio = runDur / walkDur;
-
-	// Initial guess
-	hkReal min = 0.0f; hkReal max = 1.0f;
-
-	// Do 6 refinements for resolution of 1/128 (probably more refinments needed)
-	for (int i=0; i < 7; i++)
-	{
-		blend = (max + min) / 2.0f;
-		const hkReal runP = blend;
-		const hkReal walkP = 1.0f - blend;
-		runSpeed  = (1-runP) * runWalkRatio + runP;
-		walkSpeed = (1-walkP) * (1.0f / runWalkRatio) + walkP;
-		hkReal actualVelocity = (1.0f - blend) * walkSpeed * walkVel + blend * runSpeed * runVel;
-		hkReal diff = desiredVel - actualVelocity;
-
-		if (diff < 0)
-		{
-			max = blend;
-		}
-		else
-		{
-			min = blend;
-		}
-	}
-	*/
-
-	
-	// Analytical solution of blending aproximation
-	// Solution is second root of quadratic equation 
-
-	const hkReal runWalkRatio = runDur / walkDur;
-
-	const hkReal wVratio = walkVel*runWalkRatio;
-	const hkReal rVratio = runVel*runWalkRatio;
-	const hkReal rVratio2 = rVratio*runWalkRatio;
-	const hkReal dVratio = desiredVel*runWalkRatio;
-
-	blend = (-2.0f*wVratio+walkVel+rVratio2-sqrt(walkVel*walkVel-2.0f*walkVel*rVratio2+runVel*rVratio2*runWalkRatio*runWalkRatio+4.0f*(-walkVel*dVratio+wVratio*dVratio+rVratio2*desiredVel-rVratio2*dVratio)))/(2.0f*(walkVel-wVratio-rVratio+rVratio2));
-
-	blend = hkMath::clamp(blend, 0.f, 1.f);
-	runSpeed  = (1.0f-blend) * runWalkRatio + blend;
-	walkSpeed = blend * (1.0f / runWalkRatio) + (1.0f - blend);	
-	
-
-}
 void AnimatedDemoCharacter::updatePosition( hkReal timestep, const CharacterStepInput& input, bool& isSupportedOut )
 {
 
@@ -553,7 +492,7 @@ void AnimatedDemoCharacter::updatePosition( hkReal timestep, const CharacterStep
 		hkaDefaultAnimationControl* runControl = (hkaDefaultAnimationControl*)m_animatedSkeleton->getAnimationControl( RUN_CONTROL );
 
 		hkReal forwardWalkRunBlend, walkSpeed, runSpeed;
-		computeBlendParams( input.m_forwardVelocity, m_walkVelocity, m_runVelocity, 
+		CharacterUtils::computeBlendParams( input.m_forwardVelocity, m_walkVelocity, m_runVelocity, 
 			walkControl->getAnimationBinding()->m_animation->m_duration, 
 			runControl->getAnimationBinding()->m_animation->m_duration,
 			forwardWalkRunBlend,
@@ -589,6 +528,18 @@ void AnimatedDemoCharacter::updatePosition( hkReal timestep, const CharacterStep
 		extractedMotionCS.setRotatedDir( m_characterFromAnimation, desiredMotionAS.getTranslation() );
 	}
 
+	hkReal turnAngle = input.m_turnVelocity * timestep;
+	{
+		hkQuaternion newRotation; newRotation.setAxisAngle( m_characterProxy->getUpLocal(), turnAngle );
+
+		hkTransform wFc;
+		m_characterProxy->getTransform( wFc );
+		hkRotation r; r.set( newRotation );
+		wFc.getRotation().mul( r );
+		m_characterProxy->setTransform( wFc );
+	}
+
+
 	// Calculate the velocity we need stateInput order to achieve the desired motion
 	hkVector4 desiredVelocityWS;
 	{
@@ -601,17 +552,6 @@ void AnimatedDemoCharacter::updatePosition( hkReal timestep, const CharacterStep
 
 		// Divide motion by time
 		desiredVelocityWS.setMul4 ( 1.0f / timestep, desiredMotionWorld );
-	}
-
-	hkReal turnAngle = input.m_turnVelocity * timestep;
-	{
-		hkQuaternion newRotation; newRotation.setAxisAngle( m_characterProxy->getUpLocal(), turnAngle );
-
-		hkTransform wFc;
-		m_characterProxy->getTransform( wFc );
-		hkRotation r; r.set( newRotation );
-		wFc.getRotation().mul( r );
-		m_characterProxy->setTransform( wFc );
 	}
 
 	// Adjust velocity
@@ -657,6 +597,9 @@ void AnimatedDemoCharacter::updatePosition( hkReal timestep, const CharacterStep
 	// Apply velocity to character
 	m_characterProxy->setLinearVelocity( desiredVelocityWS );
 
+	// Store turn velocity
+	m_characterProxy->setTurnVelocity( input.m_turnVelocity );
+
 }
 
 
@@ -693,7 +636,7 @@ void AnimatedDemoCharacter::updateAnimation( hkReal timestep, hkQsTransform* pos
 }
 
 
-void AnimatedDemoCharacter::update( hkReal timestep, const CharacterStepInput& input, const struct CharacterActionInfo& actionInfo )
+void AnimatedDemoCharacter::update( hkReal timestep, hkpWorld* world, const CharacterStepInput& input, struct CharacterActionInfo* actionInfo )
 {
 	bool isSupported;
 	updatePosition( timestep, input, isSupported );
@@ -702,7 +645,7 @@ void AnimatedDemoCharacter::update( hkReal timestep, const CharacterStepInput& i
 	stateInput.m_shouldWalk = input.m_forwardVelocity > 0.01f;
 	stateInput.m_isSupported = isSupported;
 	stateInput.m_shouldJump = input.m_jumpVelocity > 0;
-	stateInput.m_shouldDive = actionInfo.m_wasDivePressed;
+	stateInput.m_shouldDive = actionInfo != HK_NULL ? actionInfo->m_wasDivePressed : (hkBool) false;
 	stateInput.m_animMachine = m_animationMachine;
 	stateInput.m_context = m_animationStateMachine;
 
@@ -756,9 +699,9 @@ hkReal AnimatedDemoCharacter::getMaxVelocity() const
 
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -33,7 +33,6 @@ class hkpConstraintData : public hkReferencedObject
 {
 	public:
 
-		//+version(5)
 		HK_DECLARE_CLASS_ALLOCATOR( HK_MEMORY_CLASS_CONSTRAINT);
 		HK_DECLARE_REFLECTION();
 
@@ -84,6 +83,29 @@ class hkpConstraintData : public hkReferencedObject
 
 			/// Set the user data of the constraint.
 		inline void setUserData( hkUlong data );
+
+			/// Sets the maximum impulse that can be applied for this atom.
+			/// Set it to HK_REAL_MAX to effectively disable the limit.
+		virtual void setMaxLinearImpulse(hkReal maxImpulse) { HK_WARN_ONCE(0xad809031, "setMaxLinearImpulse() called on a constraint that doesn't support it."); }
+
+			/// Gets the maximUm impulse that can be applied by this constraint.
+		virtual hkReal getMaxLinearImpulse() const { return HK_REAL_MAX; }
+
+			/// Choose the body to be notified when the constraint's impulse is breached.
+			/// Only one of the bodies can be notified (as it is in the case of breached contact impulse).
+			/// Typically you will want to notify the body with the lesser strength.
+			/// 
+			/// The callbacks are passed by the world to any attached hkpContactImpulseLimitBreachedListeners.
+			/// The suggested way to handle those those callbacks is to use a hkpBreakOffPartsUtil.
+			/// hkpBreafOffPartsUtil converts breached constraints into the "breached constact point" representation
+			/// so that they can be treated uniformly by the hkpBreafOffPartsListener. To handle the callbacks you should
+			/// implement your own hkpBreakOffPartsListener & attach it to the hkpBreakOffPartsUtil.
+			/// See this demo for reference: Demos/Physics/Api/Dynamics/RigidBodies/BreakOffParts/BreakOffPartsDemo
+		virtual void setBodyToNotify(int bodyIdx) {}
+
+			/// Returns the index of the body that is notified when the constraint's impulse limit is breached.
+		virtual hkUint8 getNotifiedBodyIndex() const { HK_ASSERT2(0xad809033, false, "getNotifiedBodyIndex() called on a constaint that doesn't support max impulse."); return 0xff; }
+
 
 			/// Checks member variables of constraint for consistency
 			/// this method will be empty for some constraints
@@ -167,9 +189,9 @@ class hkpConstraintData : public hkReferencedObject
 #endif // HK_DYNAMICS2_CONSTRAINT_DATA_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

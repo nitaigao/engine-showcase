@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -48,7 +48,7 @@ class hkSkinningUtil
 		static hkMeshVertexBuffer* HK_CALL ensureSkinnedVertexBuffer(hkMeshSystem* meshSystem, hkMeshVertexBuffer* srcVertexBuffer, int numWeights);
 
             /// Creates a shape with skinned vertex buffers. If they are already skinned does nothing to that buffer. If all are skinned, will return shape, ref counted.
-        static hkMeshShape* HK_CALL createEmptySkinnedShape(hkMeshSystem* meshSystem, hkMeshShape* shape,  int numWeights);
+        static hkMeshShape* HK_CALL createEmptySkinnedShape(hkMeshSystem* meshSystem, const hkMeshShape* shape,  int numWeights);
 
             /// Create a skinned shape
         static hkResult HK_CALL setSkinningValues(hkMeshShape* shape, const hkArray<hkVector4>& boneCenters, hkReal maxDistances);
@@ -59,8 +59,6 @@ class hkSkinningUtil
 			/// Returns true if the format is a skinning format - ie has bones indices and weights of sub usage 0
 		static hkBool HK_CALL isSkinnedVertexFormat(const hkVertexFormat& vertexFormat);
 
-			/// Replace all of the vertex buffers in meshShape with those specified in the buffer map. If not found will just keep the original.
-		static hkMeshShape* HK_CALL replaceShapeVertexBuffers(hkMeshSystem* meshSystem, hkMeshShape* meshShape, hkPointerMap<hkMeshVertexBuffer*, hkMeshVertexBuffer*>& bufferMap);
 
 			/// Returns true if all of the vertex buffers associated with the shape have skinning information
 		static hkBool HK_CALL isSkinnedShape(hkMeshShape* meshShape);
@@ -69,9 +67,9 @@ class hkSkinningUtil
 #endif // HK_SKINNING_UTIL_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

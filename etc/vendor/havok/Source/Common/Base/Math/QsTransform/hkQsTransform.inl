@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -138,8 +138,16 @@ void hkQsTransform::blendAddMul(const hkQsTransform& other, hkSimdRealParameter 
 	m_scale.addMul4(weight, other.m_scale);
 
 	// Check quaternion polarity
+#if defined(HK_PLATFORM_XBOX360) || ( defined(HK_PLATFORM_PS3_PPU) && !defined(HK_PLATFORM_SPU) )
+	hkVector4 negRotation; negRotation.setNeg4(other.m_rotation.m_vec);
+	hkVector4 dotVec; dotVec.getQuad() = m_rotation.m_vec.dot4(other.m_rotation.m_vec).getQuad();
+	hkVector4Comparison mask = dotVec.compareLessThanZero4();
+	hkVector4 polarityRotation; polarityRotation.select32( other.m_rotation.m_vec, negRotation, mask );
+	m_rotation.m_vec.addMul4(weight, polarityRotation);
+#else
 	const hkSimdReal signedWeight = ( m_rotation.m_vec.dot4(other.m_rotation.m_vec) < 0.0f )? -weight : weight;
 	m_rotation.m_vec.addMul4( signedWeight, other.m_rotation.m_vec );
+#endif
 }
 
 
@@ -246,9 +254,9 @@ void hkQsTransform::setMulEq( const hkQsTransform& b )
 }
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

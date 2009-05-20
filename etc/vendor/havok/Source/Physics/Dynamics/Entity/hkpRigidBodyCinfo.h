@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 #ifndef HKDYNAMICS_ENTITY_HKRIGIDBODYCINFO_XML_H
@@ -63,7 +63,7 @@ class hkpRigidBodyCinfo
 		const hkpShape* m_shape;
 
 			/// The local frame hierarchy that is attached to the rigid body.
-		const hkLocalFrame* m_localFrame;
+		hkLocalFrame* m_localFrame;
 
 			/// The collision response. See hkpMaterial::hkResponseType for hkpWorld default
 			/// implementations.
@@ -111,6 +111,9 @@ class hkpRigidBodyCinfo
 			/// The initial angular damping of the body.
 			/// This defaults to 0.05.
 		hkReal m_angularDamping;
+
+			/// Gravity factor used to control gravity on a per body basis. Defaults to 1.0
+		hkReal m_gravityFactor;
 		
 			/// The initial friction of the body.
 			/// This defaults to 0.5.
@@ -176,9 +179,9 @@ class hkpRigidBodyCinfo
 #endif // HKDYNAMICS_ENTITY_HKRIGIDBODYCINFO_XML_H
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in

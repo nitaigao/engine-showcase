@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="-Zm200"
 				Optimization="0"
-				AdditionalIncludeDirectories="include;..\Dependencies\include;../../freetype/include;../../ogre/ogremain/include;../../ois/includes"
+				AdditionalIncludeDirectories="include;..\Dependencies\include;../../ogre/ogremain/include;../../ois/includes;../../ogre/dependencies/include"
 				PreprocessorDefinitions="WIN32; _DEBUG; _WINDOWS; _USRDLL; MYGUI_BUILD;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,11 +64,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain_d.lib freetype238_D.lib"
+				AdditionalDependencies="OgreMain_d.lib freetype235_D.lib"
 				ShowProgress="0"
 				OutputFile="$(OutDir)\MyGUI_d.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\Dependencies\lib\Debug;../../ogre/lib;../../freetype/lib"
+				AdditionalLibraryDirectories="..\Dependencies\lib\Debug;../../ogre/lib;../../ogre/dependencies/lib/debug"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				SubSystem="0"
@@ -126,7 +126,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="-Zm200"
-				AdditionalIncludeDirectories="include;..\Dependencies\include;../../freetype/include;../../ogre/ogremain/include;../../ois/includes"
+				AdditionalIncludeDirectories="include;..\Dependencies\include;../../ogre/ogremain/include;../../ois/includes;../../ogre/dependencies/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;MYGUI_BUILD"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -145,10 +145,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib freetype238.lib"
+				AdditionalDependencies="OgreMain.lib freetype235.lib"
 				OutputFile="$(OutDir)\MyGUI.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\Dependencies\lib\Release;../../ogre/lib;../../freetype/lib"
+				AdditionalLibraryDirectories="..\Dependencies\lib\Release;../../ogre/lib;../../ogre/dependencies/lib/release"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"

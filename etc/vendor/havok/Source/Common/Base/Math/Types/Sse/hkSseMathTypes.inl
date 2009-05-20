@@ -2,7 +2,7 @@
  * 
  * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
  * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2008 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
+ * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
  * 
  */
 
@@ -76,6 +76,22 @@ class hkSimdReal
 
 typedef const hkSimdReal& hkSimdRealParameter;
 
+HK_FORCE_INLINE void hkSimdReal_setMax(  hkSimdRealParameter a, hkSimdRealParameter b, hkSimdReal& result ) 
+{
+	result = hkSimdReal(_mm_max_ps( a.getQuad(), b.getQuad() ));
+}
+
+HK_FORCE_INLINE void hkSimdReal_setMin(  hkSimdRealParameter a, hkSimdRealParameter b, hkSimdReal& result ) 
+{
+	result = hkSimdReal(_mm_min_ps( a.getQuad(), b.getQuad() ));
+}
+
+
+HK_FORCE_INLINE void hkSimdReal_store(  hkSimdRealParameter a, float *f) 
+{
+	_mm_store_ss( f, a.getQuad() );
+}
+
 inline hkSimdReal HK_CALL operator* (hkSimdRealParameter r, hkSimdRealParameter s)
 {
 	return _mm_mul_ss(r.getQuad(),s.getQuad());
@@ -102,6 +118,8 @@ inline hkSimdReal HK_CALL operator- (hkSimdRealParameter r)
 	return _mm_sub_ss(hkQuadReal0000,r.getQuad());
 }
 
+class hkVector4Comparison;
+typedef const hkVector4Comparison& hkVector4ComparisonParameter;
 
 	/// Result of a hkVector4 comparison.
 class hkVector4Comparison;
@@ -134,8 +152,24 @@ class hkVector4Comparison
 			MASK_XYZW	= 15
 		};
 
+		static const Mask s_components[4];
+
 		HK_FORCE_INLINE void setAnd( hkVector4ComparisonParameter a, hkVector4ComparisonParameter b ) { m_mask = _mm_and_ps( a.m_mask,b.m_mask ); }
+		HK_FORCE_INLINE void setOr( hkVector4ComparisonParameter a, hkVector4ComparisonParameter b ) { m_mask = _mm_or_ps( a.m_mask,b.m_mask ); }
+		HK_FORCE_INLINE void setNot( hkVector4ComparisonParameter a )
+		{ 
+			static HK_ALIGN16( const hkUint32 allBits[4] ) = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };		
+			m_mask = _mm_andnot_ps( a.m_mask, *(const hkQuadReal*)&allBits); 
+		}
+
+		HK_FORCE_INLINE void setSelect( hkVector4ComparisonParameter a, hkVector4ComparisonParameter b, hkVector4ComparisonParameter comp) 
+		{
+			m_mask = _mm_or_ps( _mm_and_ps(comp.m_mask, b.m_mask), _mm_andnot_ps(comp.m_mask, a.m_mask) );
+		}
+
 		static const hkQuadReal s_maskFromBits[MASK_XYZW+1];
+		static const hkQuadReal s_invMaskFromBits[MASK_XYZW+1];
+
 		HK_FORCE_INLINE void set( Mask m) { m_mask = s_maskFromBits[m]; }
 
 		HK_FORCE_INLINE hkBool32 allAreSet( Mask m ) const { return (_mm_movemask_ps(m_mask) & m) == m; }
@@ -215,9 +249,9 @@ namespace hkMath
 }
 
 /*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20080925)
+* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090216)
 * 
-* Confidential Information of Havok.  (C) Copyright 1999-2008
+* Confidential Information of Havok.  (C) Copyright 1999-2009
 * Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
 * Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
 * rights, and intellectual property rights in the Havok software remain in
