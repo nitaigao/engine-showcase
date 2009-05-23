@@ -1691,7 +1691,9 @@
     <Child type="Button" skin="HScrollRightPart" offset = "21 0 6 15" align = "Right VStretch" name = "SecondPart"/>
     <Child type="Button" skin="HScrollLeftPart" offset = "15 0 6 15" align = "Stretch" name = "FirstPart"/>
 
-    <Child type="Button" skin="HScrollTrackSlider" offset = "18 1 7 14" align = "Left VStretch" name = "Track"/>
+    <Child type="Button" skin="HScrollTrackSlider" offset = "18 1 7 14" align = "Left VStretch" name = "Track">
+		<Property key="Pointer" value = "size_horz" />
+	</Child>
 
     <BasisSkin type="SubSkin" offset = "0 0 6 15" align = "Left VStretch">
       <State name="normal" offset = "301 2 6 15"/>

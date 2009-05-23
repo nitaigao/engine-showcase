@@ -5,6 +5,11 @@
 
 #include "../Management/Management.h"
 
+#include <luabind/luabind.hpp>
+#include <luabind/table_policy.hpp>
+#include <luabind/operator.hpp>
+using namespace luabind;
+
 namespace Script
 {
 	ScriptSystem::~ScriptSystem()
@@ -31,22 +36,22 @@ namespace Script
 		return scene;
 	}
 
-	AnyValue::AnyValueMap ScriptSystem::Execute( const std::string& actionName, AnyValue::AnyValueMap& parameters )
+	AnyType::AnyTypeMap ScriptSystem::Execute( const std::string& actionName, AnyType::AnyTypeMap& parameters )
 	{
-		AnyValue::AnyValueMap results;
+		AnyType::AnyTypeMap results;
 
 		if( actionName == "loadScript" )
 		{
-			ISystemComponent* systemComponent = m_auxScene->CreateComponent( parameters[ "name" ].GetValue< std::string >( ), "default" );
+			ISystemComponent* systemComponent = m_auxScene->CreateComponent( parameters[ "name" ].As< std::string >( ), "default" );
 			IScriptComponent* scriptComponent = static_cast< IScriptComponent* >( systemComponent );
-			scriptComponent->SetAttribute( System::Attributes::ScriptPath, parameters[ "scriptPath" ].GetValue< std::string >( ) );
+			scriptComponent->SetAttribute( System::Attributes::ScriptPath, parameters[ "scriptPath" ].As< std::string >( ) );
 			scriptComponent->Initialize( );
 			results[ "state" ] = scriptComponent->GetState( );
 		}
 
 		if ( actionName == "unloadComponent" )
 		{
-			ISystemComponent* component = m_auxScene->FindComponent( parameters[ "name" ].GetValue< std::string >( ) );
+			ISystemComponent* component = m_auxScene->FindComponent( parameters[ "name" ].As< std::string >( ) );
 			m_auxScene->DestroyComponent( component );
 		}
 
@@ -55,18 +60,66 @@ namespace Script
 			results[ "masterState" ] = m_auxScene->GetState( );
 		}
 
+		if ( actionName == System::Messages::RegisterScriptFunctions )
+		{
+			module( parameters[ System::Attributes::ScriptState ].As< lua_State* >( ) )
+			[
+				def( "print", &ScriptSystemScene::Print ),
+				def( "quit", &ScriptSystemScene::Quit ),
+				def( "loadLevel", &ScriptSystemScene::LoadLevel ),
+				def( "endGame", &ScriptSystemScene::EndGame ),
+
+				class_< ScriptConfiguration >( "Config" )
+					.property( "isFullScreen", &ScriptConfiguration::IsFullScreen, &ScriptConfiguration::SetFullScreen )
+					.property( "displayWidth", &ScriptConfiguration::GetDisplayWidth, &ScriptConfiguration::SetDisplayWidth )
+					.property( "displayHeight", &ScriptConfiguration::GetDisplayHeight, &ScriptConfiguration::SetDisplayHeight )
+					.property( "isConsole", &ScriptConfiguration::IsConsole, &ScriptConfiguration::SetConsole ),
+
+				class_< ScriptComponent >( "ScriptComponent" )
+					.def( "include", &ScriptComponent::IncludeScript )
+					.def( "registerEventHandler", &ScriptComponent::RegisterEvent )
+					.def( "registerUpdateHandler", &ScriptComponent::RegisterUpdate )
+					.def( "unregisterEventHandler", &ScriptComponent::UnRegisterEvent )
+					.def( "unregisterUpdateHandler", &ScriptComponent::UnRegisterUpdate )
+					.def( "getName", &ScriptComponent::GetName )
+					.def( "getLookAt", &ScriptComponent::GetLookAt )
+					.def( "getPosition", &ScriptComponent::GetPosition )
+					.def( "getTime", &ScriptComponent::GetTime )
+					.def( "executeString", &ScriptComponent::ExecuteString )
+					.def( "rayQuery", &ScriptComponent::RayQuery, copy_table( result ) )
+					.def( "playAnimation", &ScriptComponent::PlayAnimation )
+					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string& ) ) &ScriptComponent::BroadcastEvent )
+					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string& ) ) &ScriptComponent::BroadcastEvent )
+					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int& ) ) &ScriptComponent::BroadcastEvent )
+					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string&, const std::string& ) ) &ScriptComponent::BroadcastEvent )
+					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string&, const int& ) ) &ScriptComponent::BroadcastEvent )
+					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const int& ) ) &ScriptComponent::BroadcastEvent )
+					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const std::string& ) ) &ScriptComponent::BroadcastEvent ),
+
+				class_< SoundController >( "SoundController" )
+					.def( "triggerEvent", &SoundController::TriggerEvent )
+					.def( "keyOutEvent", &SoundController::KeyOutEvent )
+			];
+		}
+
 		return results;
 	}
 
 	void ScriptSystem::Initialize()
 	{
-		Management::GetInstance( )->GetServiceManager( )->RegisterService( this );
-
 		m_auxScene = static_cast< IScriptSystemScene* >( this->CreateScene( ) );  
 	}
 
 	void ScriptSystem::Update( const float& deltaMilliseconds )
 	{
 		m_auxScene->Update( deltaMilliseconds );
+	}
+
+	void ScriptSystem::Message( const std::string& message, AnyType::AnyTypeMap parameters )
+	{
+		if ( message == System::Messages::RegisterService )
+		{
+			Management::GetInstance( )->GetServiceManager( )->RegisterService( this );
+		}
 	}
 }

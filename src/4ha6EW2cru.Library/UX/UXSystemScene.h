@@ -88,13 +88,8 @@ namespace UX
 		void DestroyComponent( ISystemComponent* component ) { };
 
 
-		/* UX System Specific */
-		
 		inline MyGUI::Gui* GetGui( ) const { return m_gui; };
 
-		/* -- Widget Script Helpers -- */
-
-		/*! Sets the focus to the given Widget */
 		static inline void SetFocus( MyGUI::WidgetPtr widget, bool focus )
 		{
 			if ( focus )
@@ -107,46 +102,30 @@ namespace UX
 			}
 		}
 
-		/*! Sets a Widget Caption */
 		static inline void SetText( MyGUI::WidgetPtr widget, const std::string& text ) { widget->setCaption( text ); };
-
-		/*! Gets a WidgetCaption */
 		static inline std::string GetText( MyGUI::WidgetPtr widget ) { return widget->getCaption( ).asUTF8( ); };
-
 		static inline void AddText( MyGUI::EditPtr editWidget, const std::string& text ) { editWidget->addText( text ); };
+		static inline void MultiList_AddColumn( MyGUI::MultiListPtr widget, const std::string& name, int width ) { widget->addColumn( name, width ); };
+		static inline void MultiList_AddItem( MyGUI::MultiListPtr widget, const std::string& name ) { widget->addItem( name ); };
+		static inline std::string MultiList_GetItemName( MyGUI::MultiListPtr widget, const int& index ) { return widget->getItemNameAt( index ); };
+		static inline std::string MultiList_GetSubItemName( MyGUI::MultiListPtr widget, const int& column, const int& index ) { return widget->getSubItemNameAt( column, index ); };
+		static inline void MultiList_SetSubItemName( MyGUI::MultiListPtr widget, int column, int index, const std::string& name ) { widget->setSubItemNameAt( column,index, name ); };
 
-		/*! Casts a widget to a Button */
 		static inline MyGUI::ButtonPtr AsButton( MyGUI::WidgetPtr widget ) { return static_cast< MyGUI::ButtonPtr >( widget ); };
-
-		/*! Casts a widget to a ComboBox */
 		static inline MyGUI::ComboBoxPtr AsComboBox( MyGUI::WidgetPtr widget ) { return static_cast< MyGUI::ComboBoxPtr >( widget ); };
-
-		/*! Casts a widget to an EditBox */
 		static inline MyGUI::EditPtr AsEditBox( MyGUI::WidgetPtr widget ) { return static_cast< MyGUI::EditPtr >( widget ); };
-
-		/*! Casts a widget to a ProgressBar */
 		static inline MyGUI::ProgressPtr AsProgressBar( MyGUI::WidgetPtr widget ) { return static_cast< MyGUI::ProgressPtr >( widget ); };
+		static inline MyGUI::MultiListPtr AsMultiList( MyGUI::WidgetPtr widget ) { return static_cast< MyGUI::MultiListPtr >( widget ); };
 
-		/* -- Internal Event Handlers --*/
-
-		/*! Handler to intercept OnMouseMoved Events */
 		void OnMouseMoved( const Events::IEvent* event );
-
-		/*! Handler to intercept OnMouseMoved Events */
 		void OnMousePressed( const Events::IEvent* event );
-
-		/*! Handler to intercept OnMouseMoved Events */
 		void OnMouseReleased( const Events::IEvent* event );
-
-		/*! Handler to intercept OnKeyUp Events */
 		void OnKeyUp( const Events::IEvent* event );
-
-		/*! Handler to intercept OnKeyDown Events */
 		void OnKeyDown( const Events::IEvent* event );
 
-	private:
-
 		void _unlinkWidget( MyGUI::WidgetPtr widget );
+
+	private:
 
 		MyGUI::Gui* m_gui;
 		IUXSystemComponent::UXSystemComponentList m_components;

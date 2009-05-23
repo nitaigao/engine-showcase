@@ -12,7 +12,7 @@
 #include <map>
 
 #include "SystemType.hpp"
-#include "AnyValue.hpp"
+#include "AnyType.hpp"
 #include "ISystemScene.hpp"
 
 /*! 
@@ -53,6 +53,15 @@ public:
 	virtual void Release( ) = 0;
 
 
+	/*! Messages the system with a command
+	*
+	* @param[in] const std::string & message
+	* @param[in] AnyType::AnyTypeMap parameters
+	* @return ( void )
+	*/
+	virtual void Message( const std::string& message, AnyType::AnyTypeMap parameters ) = 0;
+
+
 	/*! Returns the type of the System
 	*
 	*  @return (System::Types::Type)
@@ -69,18 +78,18 @@ public:
 
 	/*! Gets the System's Properties
 	*
-	*  @return (AnyValueMap)
+	*  @return (AnyTypeMap)
 	*/
-	virtual AnyValue::AnyValueMap GetAttributes( ) const = 0;
+	virtual AnyType::AnyTypeMap GetAttributes( ) const = 0;
 
 
 	/*! Sets a System Property
 	*
 	*  @param[in] const std::string & name
-	*  @param[in] AnyValue value
+	*  @param[in] AnyType value
 	*  @return (void)
 	*/
-	virtual void SetAttribute( const std::string& name, AnyValue value ) = 0;
+	virtual void SetAttribute( const std::string& name, AnyType value ) = 0;
 
 };
 

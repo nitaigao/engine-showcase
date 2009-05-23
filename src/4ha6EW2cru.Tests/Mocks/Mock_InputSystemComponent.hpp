@@ -37,7 +37,7 @@ public:
 		keyUp_count.inc( );
 	}
 
-	void Initialize( AnyValue::AnyValueMap& properties ) { };
+	void Initialize( AnyType::AnyTypeMap& properties ) { };
 	void Destroy( ) { };
 
 	void AddObserver( IObserver* observer ) { } ;

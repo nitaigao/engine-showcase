@@ -5,6 +5,7 @@ using namespace State;
 void SystemManager::RegisterSystem( ISystem* system )
 {
 	_systems[ system->GetType( ) ] = system;
+	system->Message( System::Messages::RegisterService, AnyType::AnyTypeMap( ) );
 }
 
 ISystem* SystemManager::GetSystem( const System::Types::Type& systemType ) const

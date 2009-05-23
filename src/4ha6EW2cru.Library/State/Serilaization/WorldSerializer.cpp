@@ -85,8 +85,8 @@ namespace Serialization
 		node[ "observerName" ] >> observerName;
 		node[ "observerSystem" ] >> observerSystem;
 	
-		System::Types::Type subjectSystemType = System::TypeMapper::StringToType( subjectSystem );
-		System::Types::Type observerSystemType = System::TypeMapper::StringToType( observerSystem );
+		System::Types::Type subjectSystemType = System::SystemTypeMapper::StringToType( subjectSystem );
+		System::Types::Type observerSystemType = System::SystemTypeMapper::StringToType( observerSystem );
 
 		if ( 
 			Management::GetInstance( )->GetSystemManager( )->HasSystem( subjectSystemType ) && 
@@ -110,7 +110,7 @@ namespace Serialization
 			float distance;
 			node[ "distance" ] >> distance;
 
-			AnyValue::AnyValueMap parameters;
+			AnyType::AnyTypeMap parameters;
 			parameters[ "material" ] = materialName;
 			parameters[ "distance" ] = distance;
 		
@@ -132,7 +132,7 @@ namespace Serialization
 			node[ "g" ] >> g;
 			node[ "b" ] >> b;
 
-			AnyValue::AnyValueMap parameters;
+			AnyType::AnyTypeMap parameters;
 			parameters[ "linearEnd" ] = linearEnd;
 			parameters[ "linearStart" ] = linearStart;
 			parameters[ "color" ] = Renderer::Color( r, g, b );
@@ -149,7 +149,7 @@ namespace Serialization
 			std::string name;
 			environmentNode[ "name" ] >> name;
 		
-			AnyValue::AnyValueMap properties;
+			AnyType::AnyTypeMap properties;
 		
 			float red = 0;
 			float green = 0;
@@ -208,7 +208,7 @@ namespace Serialization
 			std::string system;
 			componentNode[ "system" ] >> system;
 	
-			System::Types::Type systemType = System::TypeMapper::StringToType( system );
+			System::Types::Type systemType = System::SystemTypeMapper::StringToType( system );
 
 			if ( Management::GetInstance( )->GetSystemManager( )->HasSystem( systemType ) )
 			{

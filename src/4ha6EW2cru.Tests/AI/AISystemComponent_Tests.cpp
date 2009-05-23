@@ -27,7 +27,7 @@ void AISystemComponent_Tests::Should_Return_Name_On_GetName()
 	std::string name = "test";
 	ISystemComponent* component = new AISystemComponent( name, 0 );
 
-	CPPUNIT_ASSERT( component->GetAttributes( )[ System::Attributes::Name ].GetValue< std::string >( ) == name );
+	CPPUNIT_ASSERT( component->GetAttributes( )[ System::Attributes::Name ].As< std::string >( ) == name );
 
 	delete component;
 }
@@ -36,7 +36,7 @@ void AISystemComponent_Tests::Should_Set_BehaviorName_On_SetBehavior()
 {
 	AISystemComponent* component = new AISystemComponent( "test", 0 );
 	
-	AnyValue::AnyValueMap properties;
+	AnyType::AnyTypeMap properties;
 	//component->Initialize( properties );
 
 	//component->SetBehavior( "walking" );

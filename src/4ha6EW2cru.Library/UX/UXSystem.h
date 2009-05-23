@@ -10,12 +10,14 @@
 #include "IUXSystem.hpp"
 #include "IUXSystemScene.hpp"
 
+#include "../Service/IService.hpp"
+
 namespace UX
 {
 	/*! 
 	 *  The System that controls the User Experience ( ie. GUI Elements )
 	 */
-	class UXSystem : public IUXSystem
+	class UXSystem : public IUXSystem, public IService
 	{
 
 	public:
@@ -42,7 +44,7 @@ namespace UX
 		*
 		*  @return (void)
 		*/
-		inline void Initialize( ) { };
+		void Initialize( ) { };
 
 
 		/*! Steps the System's internal data
@@ -58,6 +60,15 @@ namespace UX
 		*  @return (void)
 		*/
 		inline void Release( ) { };
+
+
+		/*! Messages the system with a command
+		*
+		* @param[in] const std::string & message
+		* @param[in] AnyType::AnyTypeMap parameters
+		* @return ( void )
+		*/
+		void Message( const std::string& message, AnyType::AnyTypeMap parameters );
 
 
 		/*! Returns the type of the System
@@ -76,22 +87,31 @@ namespace UX
 
 		/*! Gets the System's Properties
 		*
-		*  @return (AnyValueMap)
+		*  @return (AnyTypeMap)
 		*/
-		inline AnyValue::AnyValueMap GetAttributes( ) const { return m_attributes; };
+		inline AnyType::AnyTypeMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets a System Property
 		*
 		*  @param[in] const std::string & name
-		*  @param[in] AnyValue value
+		*  @param[in] AnyType value
 		*  @return (void)
 		*/
-		inline void SetAttribute( const std::string& name, AnyValue value ) { };
+		inline void SetAttribute( const std::string& name, AnyType value ) { };
+
+
+		/*! Executes a command on the Service
+		*
+		*  @param[in] const std::string & actionName
+		*  @param[in] AnyType::AnyTypeMap & parameters
+		*  @return (AnyType::AnyTypeMap)
+		*/
+		AnyType::AnyTypeMap Execute( const std::string& actionName, AnyType::AnyTypeMap& parameters );
 
 	private:
 
-		AnyValue::AnyValueMap m_attributes;
+		AnyType::AnyTypeMap m_attributes;
 
 		IUXSystemScene* m_scene;
 

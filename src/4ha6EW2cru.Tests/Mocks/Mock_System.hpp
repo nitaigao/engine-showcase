@@ -53,8 +53,10 @@ public:
 
 	System::Types::Type GetType( ) const { return _systemType; };
 
-	AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
-	inline void SetAttribute( const std::string& name, AnyValue value ) { };
+	inline void Message( const std::string& message, AnyType::AnyTypeMap parameters ) { };
+
+	AnyType::AnyTypeMap GetAttributes( ) const { return AnyType::AnyTypeMap( ); };
+	inline void SetAttribute( const std::string& name, AnyType value ) { };
 
 private:
 

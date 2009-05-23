@@ -94,9 +94,9 @@ namespace Platform
 
 		/*! Returns a map of the command line options used when launching the game
 		*
-		*  @return (AnyValue::AnyValueMap)
+		*  @return (AnyType::AnyTypeMap)
 		*/
-		AnyValue::AnyValueMap GetProgramOptions( ) const;
+		AnyType::AnyTypeMap GetProgramOptions( ) const;
 
 	private:
 

@@ -9,44 +9,15 @@ using namespace Script;
 #include "../Service/IService.hpp"
 #include "../Management/Management.h"
 
+using namespace Input;
+
 namespace UX
 {
-	std::vector< std::string > UXSystemComponent::GetSupportedResolutions( )
-	{
-		typedef std::vector< std::string > StringVector;
-
-		IService* renderService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::RENDER );
-		StringVector resolutions = renderService->Execute( "getAvailableVideoModes", AnyValue::AnyValueMap( ) )[ "availableVideoModes" ].GetValue< StringVector >( );
-
-		std::multimap< int, std::string > resolutionWidths;
-
-		for( StringVector::iterator i = resolutions.begin( ); i != resolutions.end( ); ++i )
-		{
-			std::string resolution = ( *i );
-
-			std::stringstream resolutionStream;
-			resolutionStream << resolution.substr( 0, resolution.find( " x " ) );
-
-			int resolutionWidth = 0;
-			resolutionStream >> resolutionWidth;
-			resolutionWidths.insert( std::make_pair( resolutionWidth, resolution ) );
-		}
-
-		resolutions.clear( );
-
-		for( std::multimap< int, std::string >::iterator i = resolutionWidths.begin( ); i != resolutionWidths.end( ); ++i )
-		{
-			resolutions.push_back( ( *i ).second );
-		}
-
-		return resolutions;
-	}
-
 	void UXSystemComponent::ChangeResolution( int width, int height, bool isFullScreen )
 	{
 		IService* renderService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::RENDER );
 
-		AnyValue::AnyValueMap parameters;
+		AnyType::AnyTypeMap parameters;
 		parameters[ "width" ] = width;
 		parameters[ "height" ] = height;
 		parameters[ "fullScreen" ] = isFullScreen;
@@ -62,7 +33,7 @@ namespace UX
 	{
 		IService* inputService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::INPUT );
 		
-		AnyValue::AnyValueMap parameters;
+		AnyType::AnyTypeMap parameters;
 		parameters[ "inputAllowed" ] = inputAllowed;
 		
 		inputService->Execute( "setInputAllowed", parameters );
@@ -89,9 +60,19 @@ namespace UX
 			widget->eventMouseButtonReleased = newDelegate( &UXSystemComponent::OnMouseReleased );
 		}
 
+		if ( eventName == "onClick" )
+		{
+			widget->eventMouseButtonPressed = newDelegate( &UXSystemComponent::OnMousePressed );
+		}
+
 		if ( eventName == "onKeyUp" )
 		{
 			widget->eventKeyButtonReleased = newDelegate( &UXSystemComponent::OnKeyUp );
+		}
+
+		if ( eventName == "onListSelectAccept" )
+		{
+			static_cast< MultiList* >( widget )->eventListSelectAccept = newDelegate( &UXSystemComponent::OnListSelectAccept );
 		}
 	}
 
@@ -115,7 +96,22 @@ namespace UX
 			if ( ( *i ).first == "onRelease" )
 			{
 				object eventHandler = *( *i ).second;
-				eventHandler( left, top );
+				eventHandler( static_cast< int >( id.value ), left, top );
+			}
+		}
+	}
+
+	void UXSystemComponent::OnMousePressed( MyGUI::WidgetPtr widget, int left, int top, MyGUI::MouseButton id )
+	{
+		void* userData = widget->getUserData( );
+		WidgetUserData* widgetUserData = static_cast< WidgetUserData* >( userData );
+
+		for ( WidgetUserData::iterator i = widgetUserData->begin( ); i != widgetUserData->end( ); ++i )
+		{
+			if ( ( *i ).first == "onClick" )
+			{
+				object eventHandler = *( *i ).second;
+				eventHandler( static_cast< int >( id.value ), left, top );
 			}
 		}
 	}
@@ -136,5 +132,68 @@ namespace UX
 				eventHandler( keyCode, std::string( keyText ) );
 			}
 		}
+	}
+
+	void UXSystemComponent::OnListSelectAccept( MultiListPtr widget, size_t index )
+	{
+		void* userData = widget->getUserData( );
+		WidgetUserData* widgetUserData = static_cast< WidgetUserData* >( userData );
+
+		for ( WidgetUserData::iterator i = widgetUserData->begin( ); i != widgetUserData->end( ); ++i )
+		{
+			if ( ( *i ).first == "onListSelectAccept" )
+			{
+				object eventHandler = *( *i ).second;
+				eventHandler( index );
+			}
+		}
+	}
+
+	std::vector< std::string > UXSystemComponent::GetSupportedResolutions( )
+	{
+		typedef std::vector< std::string > StringVector;
+
+		IService* renderService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::RENDER );
+		StringVector resolutions = renderService->Execute( "getAvailableVideoModes", AnyType::AnyTypeMap( ) )[ "availableVideoModes" ].As< StringVector >( );
+
+		std::multimap< int, std::string > resolutionWidths;
+
+		for( StringVector::iterator i = resolutions.begin( ); i != resolutions.end( ); ++i )
+		{
+			std::string resolution = ( *i );
+
+			std::stringstream resolutionStream;
+			resolutionStream << resolution.substr( 0, resolution.find( " x " ) );
+
+			int resolutionWidth = 0;
+			resolutionStream >> resolutionWidth;
+			resolutionWidths.insert( std::make_pair( resolutionWidth, resolution ) );
+		}
+
+		resolutions.clear( );
+
+		for( std::multimap< int, std::string >::iterator i = resolutionWidths.begin( ); i != resolutionWidths.end( ); ++i )
+		{
+			resolutions.push_back( ( *i ).second );
+		}
+
+		return resolutions;
+	}
+
+	InputMessageBinding::InputMessageBindingList UXSystemComponent::GetMessageBindings( )
+	{
+		IService* inputService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::INPUT );
+		AnyType::AnyTypeMap results = inputService->Execute( "getMessageBindings", AnyType::AnyTypeMap( ) );
+		return results[ "result" ].As< InputMessageBinding::InputMessageBindingList >( );
+	}
+
+	InputMessageBinding UXSystemComponent::GetBindingForMessage( const std::string& message )
+	{
+		IService* inputService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::INPUT );
+
+		AnyType::AnyTypeMap parameters;
+		parameters[ System::Attributes::Message ] = message;
+
+		return inputService->Execute( System::Messages::GetBindingForMessage, parameters )[ "result" ].As< InputMessageBinding >( );
 	}
 }

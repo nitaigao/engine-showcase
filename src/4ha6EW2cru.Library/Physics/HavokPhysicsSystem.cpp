@@ -108,17 +108,17 @@ namespace Physics
 		return results;
 	}
 
-	AnyValue::AnyValueMap HavokPhysicsSystem::Execute( const std::string& actionName, AnyValue::AnyValueMap& parameters )
+	AnyType::AnyTypeMap HavokPhysicsSystem::Execute( const std::string& actionName, AnyType::AnyTypeMap& parameters )
 	{
-		AnyValue::AnyValueMap results;
+		AnyType::AnyTypeMap results;
 
 		if ( actionName == "rayQuery" )
 		{
 			results[ "hits" ] = this->RayQuery( 
-				parameters[ "origin" ].GetValue< MathVector3 >( ),
-				parameters[ "destination" ].GetValue< MathVector3 >( ),
-				parameters[ "sortByDistance" ].GetValue< bool >( ),
-				parameters[ "maxResults" ].GetValue< unsigned int >( )
+				parameters[ "origin" ].As< MathVector3 >( ),
+				parameters[ "destination" ].As< MathVector3 >( ),
+				parameters[ "sortByDistance" ].As< bool >( ),
+				parameters[ "maxResults" ].As< unsigned int >( )
 				);
 		}
 

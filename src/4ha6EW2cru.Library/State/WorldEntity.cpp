@@ -7,24 +7,24 @@ namespace State
 		m_components.push_back( component );
 
 		component->AddObserver( this );
-		component->Message( System::Messages::AddedToComponent, AnyValue::AnyValueKeyMap( ) );
+		component->Message( System::Messages::AddedToComponent, AnyType::AnyTypeKeyMap( ) );
 	}
 
-	AnyValue WorldEntity::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	AnyType WorldEntity::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
 	{
-		std::vector< AnyValue > results;
+		std::vector< AnyType > results;
 
 		for( SystemComponentList::const_iterator i = m_components.begin( ); i != m_components.end( ); ++i )
 		{
-			AnyValue result = ( *i )->Message( messageId, parameters );
+			AnyType result = ( *i )->Message( message, parameters );
 			results.push_back( result );
 		}
 
-		ObserverMap::iterator observers = m_observers.find( messageId );
+		ObserverMap::iterator observers = m_observers.find( message );
 
 		while( observers != m_observers.end( ) )
 		{
-			AnyValue result = ( *observers ).second->Message( messageId, parameters );
+			AnyType result = ( *observers ).second->Message( message, parameters );
 			results.push_back( result );
 			++observers;
 		}

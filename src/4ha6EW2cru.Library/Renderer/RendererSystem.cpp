@@ -80,20 +80,20 @@ namespace Renderer
 		m_root->setRenderSystem( *renderSystemIterator );
 
 		std::stringstream videoModeDesc;
-		videoModeDesc << m_configuration->Find( m_configSectionName, "width" ).GetValue< int >( ) << " x " << m_configuration->Find( m_configSectionName, "height" ).GetValue< int >( ) << " @ " << defaultDepth << "-bit colour";
+		videoModeDesc << m_configuration->Find( m_configSectionName, "width" ).As< int >( ) << " x " << m_configuration->Find( m_configSectionName, "height" ).As< int >( ) << " @ " << defaultDepth << "-bit colour";
 		( *renderSystemIterator )->setConfigOption( "Video Mode", videoModeDesc.str( ) );
-		( *renderSystemIterator )->setConfigOption( "Full Screen", m_configuration->Find( m_configSectionName, "fullscreen" ).GetValue< bool >( ) ? "Yes" : "No" );
-		( *renderSystemIterator )->setConfigOption( "VSync", m_configuration->Find( m_configSectionName, "vsync" ).GetValue< bool >( ) ? "Yes" : "No" );
+		( *renderSystemIterator )->setConfigOption( "Full Screen", m_configuration->Find( m_configSectionName, "fullscreen" ).As< bool >( ) ? "Yes" : "No" );
+		( *renderSystemIterator )->setConfigOption( "VSync", m_configuration->Find( m_configSectionName, "vsync" ).As< bool >( ) ? "Yes" : "No" );
 
 		m_root->initialise( false );
 
 		try
 		{
 			this->CreateRenderWindow(
-				m_configuration->Find( m_configSectionName, "window_title" ).GetValue< std::string >( ), 
-				m_configuration->Find( m_configSectionName, "width" ).GetValue< int >( ), 
-				m_configuration->Find( m_configSectionName, "height" ).GetValue< int >( ),
-				m_configuration->Find( m_configSectionName, "fullscreen" ).GetValue< bool >( )
+				m_configuration->Find( m_configSectionName, "window_title" ).As< std::string >( ), 
+				m_configuration->Find( m_configSectionName, "width" ).As< int >( ), 
+				m_configuration->Find( m_configSectionName, "height" ).As< int >( ),
+				m_configuration->Find( m_configSectionName, "fullscreen" ).As< bool >( )
 				);
 		}
 		catch( Exception e )
@@ -142,20 +142,20 @@ namespace Renderer
 		m_root->renderOneFrame( );
 	}
 
-	void RendererSystem::SetAttribute( const std::string& name, AnyValue value )
+	void RendererSystem::SetAttribute( const std::string& name, AnyType value )
 	{
 		m_attributes[ name ] = value;
 
 		if ( name == "activeCamera" )
 		{
-			std::string cameraName = value.GetValue< std::string >( );
+			std::string cameraName = value.As< std::string >( );
 			Camera* camera = m_sceneManager->getCamera( cameraName );
 			m_sceneManager->getCurrentViewport( )->setCamera( camera );
 		}
 
 		if ( name == "ambientColor" )
 		{
-			Color color = value.GetValue< Renderer::Color >( );
+			Color color = value.As< Renderer::Color >( );
 			ColourValue colorValue( color.Red, color.Green, color.Blue );
 
 			m_sceneManager->setAmbientLight( colorValue );
@@ -163,7 +163,7 @@ namespace Renderer
 
 		if ( name == "backgroundColor" )
 		{
-			Color color = value.GetValue< Renderer::Color >( );
+			Color color = value.As< Renderer::Color >( );
 			ColourValue colorValue( color.Red, color.Green, color.Blue );
 
 			m_sceneManager->getCurrentViewport( )->setBackgroundColour( colorValue );
@@ -171,7 +171,7 @@ namespace Renderer
 
 		if ( name == "farClip" )
 		{
-			float farClip = value.GetValue< float >( );
+			float farClip = value.As< float >( );
 
 			if ( m_sceneManager->isSkyBoxEnabled( ) )
 			{
@@ -184,15 +184,15 @@ namespace Renderer
 
 		if( name == "fog" )
 		{
-			AnyValue::AnyValueMap parameters = value.GetValue< AnyValue::AnyValueMap >( );
-			Color color = parameters[ "color" ].GetValue< Renderer::Color >( );
+			AnyType::AnyTypeMap parameters = value.As< AnyType::AnyTypeMap >( );
+			Color color = parameters[ "color" ].As< Renderer::Color >( );
 
 			m_sceneManager->setFog( 
 				FOG_LINEAR, 
 				ColourValue( color.Red, color.Green, color.Blue ),
 				0.001000, 
-				parameters[ "linearStart" ].GetValue< float >( ), 
-				parameters[ "linearEnd" ].GetValue< float >( ) 
+				parameters[ "linearStart" ].As< float >( ), 
+				parameters[ "linearEnd" ].As< float >( ) 
 				);				
 
 			/*Ogre::Plane skyPlane;
@@ -204,9 +204,9 @@ namespace Renderer
 
 		if ( name == "skyBox" )
 		{
-			AnyValue::AnyValueMap parameters = value.GetValue< AnyValue::AnyValueMap >( );
+			AnyType::AnyTypeMap parameters = value.As< AnyType::AnyTypeMap >( );
 
-			std::string material = parameters[ "material" ].GetValue< std::string >( );
+			std::string material = parameters[ "material" ].As< std::string >( );
 
 			if ( material.empty( ) )
 			{
@@ -219,7 +219,7 @@ namespace Renderer
 				m_sceneManager->setSkyBox( 
 					true, 
 					m_skyBoxMaterial, 
-					parameters[ "distance" ].GetValue< float >( ) );
+					parameters[ "distance" ].As< float >( ) );
 			}
 		}
 	}
@@ -273,50 +273,50 @@ namespace Renderer
 		
 		NameValuePairList params;
 		params[ "externalWindowHandle" ] = StringConverter::toString( ( int ) Management::GetInstance( )->GetPlatformManager( )->GetWindowId( ) );
-		params[ "vsync" ] = m_configuration->Find( m_configSectionName, "vsync" ).GetValue< bool >( ) ? "true" : "false";
+		params[ "vsync" ] = m_configuration->Find( m_configSectionName, "vsync" ).As< bool >( ) ? "true" : "false";
 
 		m_window = m_root->createRenderWindow( windowTitle, width, height, fullScreen, &params ); 
 	}
 
-	AnyValue::AnyValueMap RendererSystem::Execute( const std::string& actionName, AnyValue::AnyValueMap& parameters )
+	AnyType::AnyTypeMap RendererSystem::Execute( const std::string& message, AnyType::AnyTypeMap& parameters )
 	{
-		AnyValue::AnyValueMap results;
+		AnyType::AnyTypeMap results;
 
-		if ( actionName == "playAnimation" )
+		if ( message == System::Messages::PlayAnimation )
 		{
-			IRendererSystemComponent* component = m_scene->GetComponent( parameters[ "entityName" ].GetValue< std::string >( ) );
+			IRendererSystemComponent* component = m_scene->GetComponent( parameters[ "entityName" ].As< std::string >( ) );
 			
 			component->PlayAnimation( 
-				parameters[ "animationName" ].GetValue< std::string >( ),
-				parameters[ "loopAnimation" ].GetValue< bool >( )
+				parameters[ "animationName" ].As< std::string >( ),
+				parameters[ "loopAnimation" ].As< bool >( )
 				);
 		}
 
-		if ( actionName == "getRenderWindow" )
+		if ( message == "getRenderWindow" )
 		{
 			results[ "renderWindow" ] = m_window;
 		}
 
-		if( actionName == "getAvailableVideoModes" )
+		if( message == "getAvailableVideoModes" )
 		{
 			results[ "availableVideoModes" ] = this->GetVideoModes( );
 		}
 
-		if ( actionName == "changeResolution" )
+		if ( message == "changeResolution" )
 		{
 			m_window->setFullscreen(  
-				parameters[ "fullScreen" ].GetValue< bool >( ),
-				parameters[ "width" ].GetValue< int >( ),
-				parameters[ "height" ].GetValue< int >( )
+				parameters[ "fullScreen" ].As< bool >( ),
+				parameters[ "width" ].As< int >( ),
+				parameters[ "height" ].As< int >( )
 				);
 		}
 
-		if ( actionName == "drawLine" )
+		if ( message == "drawLine" )
 		{
 			Line3D* line = new Line3D( );
 			line->drawLine( 
-				parameters[ "origin" ].GetValue< MathVector3 >( ).AsOgreVector3( ), 
-				parameters[ "destination" ].GetValue< MathVector3 >( ).AsOgreVector3( ) 
+				parameters[ "origin" ].As< MathVector3 >( ).AsOgreVector3( ), 
+				parameters[ "destination" ].As< MathVector3 >( ).AsOgreVector3( ) 
 				);
 
 			SceneNode* lineNode = m_sceneManager->createSceneNode( );
@@ -325,7 +325,7 @@ namespace Renderer
 
 		}
 
-		if ( actionName == "screenShot" )
+		if ( message == "screenShot" )
 		{
 			m_window->writeContentsToFile( "C:\\Users\\NK\\Desktop\\output.png" );
 		}

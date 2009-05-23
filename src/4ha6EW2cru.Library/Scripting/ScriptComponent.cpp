@@ -30,7 +30,7 @@ namespace Script
 	{
 		Management::GetInstance( )->GetEventManager( )->AddEventListener( ALL_EVENTS, this, &ScriptComponent::OnEvent );
 
-		this->LoadScript( m_attributes[ System::Attributes::ScriptPath ].GetValue< std::string >( ) );
+		this->LoadScript( m_attributes[ System::Attributes::ScriptPath ].As< std::string >( ) );
 
 		SoundController* soundController = new SoundController( this );
 		luabind::globals( m_state )[ "sfx" ] = soundController;
@@ -219,17 +219,9 @@ namespace Script
 		Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( eventName ) ); 
 	}
 
-	void ScriptComponent::PushChanges( const unsigned int& systemChanges )
-	{
-		if ( m_observer != 0 )
-		{
-			//m_observer->Observe( this, systemChanges );
-		}	
-	}
-
 	std::vector< std::string > ScriptComponent::RayQuery( MathVector3 origin, MathVector3 direction, const float& length, const bool& sortByDistance, const unsigned int& maxResults )
 	{	
-		AnyValue::AnyValueMap parameters;
+		AnyType::AnyTypeMap parameters;
 
 		MathVector3 originToDestination = direction - origin;
 		MathVector3 destination = origin + originToDestination * length;
@@ -239,7 +231,7 @@ namespace Script
 		parameters[ "sortByDistance" ] = sortByDistance;
 		parameters[ "maxResults" ] = maxResults;
 
-		/*AnyValue::AnyValueMap debugParameters;
+		/*AnyType::AnyTypeMap debugParameters;
 		debugParameters[ "origin" ] = origin;
 		debugParameters[ "destination" ] = destination;
 
@@ -247,75 +239,75 @@ namespace Script
 		renderService->Execute( "drawLine", debugParameters );*/
 
 		IService* rayService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::PHYSICS );
-		return rayService->Execute( "rayQuery", parameters ) [ "hits" ].GetValue< std::vector< std::string > >( );
+		return rayService->Execute( "rayQuery", parameters ) [ "hits" ].As< std::vector< std::string > >( );
 	}
 
-	AnyValue ScriptComponent::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	AnyType ScriptComponent::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
 	{
-		if ( messageId & System::Messages::SetPosition  )
+		if ( message == System::Messages::SetPosition  )
 		{
-			m_attributes[ System::Attributes::Position ] = parameters[ System::Attributes::Position ].GetValue< MathVector3 >( );
+			m_attributes[ System::Attributes::Position ] = parameters[ System::Attributes::Position ].As< MathVector3 >( );
 		}
 
-		if ( messageId &  System::Messages::SetOrientation )
+		if ( message ==  System::Messages::SetOrientation )
 		{
-			m_attributes[ System::Attributes::Orientation ] = parameters[ System::Attributes::Orientation ].GetValue< MathQuaternion >( );
+			m_attributes[ System::Attributes::Orientation ] = parameters[ System::Attributes::Orientation ].As< MathQuaternion >( );
 		}
 
-		if ( messageId & System::Messages::SetLookAt )
+		if ( message == System::Messages::SetLookAt )
 		{
-			m_lookAt = parameters[ System::Attributes::LookAt ].GetValue< MathVector3 >( );
+			m_lookAt = parameters[ System::Attributes::LookAt ].As< MathVector3 >( );
 		}
 
-		if ( messageId & System::Messages::Move_Forward )
+		if ( message == System::Messages::Move_Forward )
 		{
-			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_MOVE_FORWARD", m_name ) );
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_MOVE_FORWARD", parameters[ System::Attributes::Name ].As< std::string >( ) ) );
 		}
 
-		if ( messageId & System::Messages::Move_Backward )
+		if ( message == System::Messages::Move_Backward )
 		{
-			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_MOVE_BACKWARD", m_name ) );
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_MOVE_BACKWARD", parameters[ System::Attributes::Name ].As< std::string >( ) ) );
 		}
 
-		if ( messageId & System::Messages::Strafe_Right )
+		if ( message == System::Messages::Strafe_Right )
 		{
-			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_STRAFE_RIGHT", m_name ) );
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_STRAFE_RIGHT", parameters[ System::Attributes::Name ].As< std::string >( ) ) );
 		}
 
-		if ( messageId & System::Messages::Strafe_Left )
+		if ( message == System::Messages::Strafe_Left )
 		{
-			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_STRAFE_LEFT", m_name ) );
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_STRAFE_LEFT", parameters[ System::Attributes::Name ].As< std::string >( ) ) );
 		}
 
-		if( messageId & System::Messages::Fire )
+		if( message == System::Messages::Fire )
 		{
-			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_FIRED", m_name ) );
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_FIRED", parameters[ System::Attributes::Name ].As< std::string >( ) ) );
 		}
 
-		if( messageId & System::Messages::Move_Idle )
+		if( message == System::Messages::Move_Idle )
 		{
-			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_IDLE_MOVEMENT", m_name ) );
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_IDLE_MOVEMENT", parameters[ System::Attributes::Name ].As< std::string >( ) ) );
 		}
 
-		if( messageId & System::Messages::Attack_Idle )
+		if( message == System::Messages::Attack_Idle )
 		{
-			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_IDLE_ATTACK", m_name ) );
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "ACTOR_IDLE_ATTACK", parameters[ System::Attributes::Name ].As< std::string >( ) ) );
 		}
 
-		return AnyValue( );
+		return AnyType( );
 	}
 
 	void ScriptComponent::PlayAnimation( const std::string& animationName, const bool& loopAnimation )
 	{
 		IService* service = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::RENDER );
 
-		AnyValue::AnyValueMap parameters;
+		AnyType::AnyTypeMap parameters;
 
-		parameters[ "entityName" ] = m_name;
+		parameters[ "entityName" ] = m_attributes[ System::Attributes::Name ].As< std::string >( );
 		parameters[ "animationName" ] = animationName;
 		parameters[ "loopAnimation" ] = loopAnimation;
 
-		service->Execute( "playAnimation", parameters );
+		service->Execute( System::Messages::PlayAnimation, parameters );
 	}
 
 	void ScriptComponent::Update( const float& deltaMilliseconds )

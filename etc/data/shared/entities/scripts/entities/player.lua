@@ -26,6 +26,12 @@ function Player:initialize( )
 end
 
 function Player.onEvent( eventName, var1, var2 )
+
+	if ( eventName == 'WORLD_LOADING_FINISHED' ) then
+	
+		sfx:triggerEvent( 'game/environment/ambience' )
+	
+	end
 	
 	if ( var1 == script:getName( ) ) then
 	
@@ -38,6 +44,7 @@ function Player.onEvent( eventName, var1, var2 )
 		if ( eventName == 'ACTOR_HIT' ) then
 			
 			player:onHit( var2 )
+			script:broadcastEvent( 'PLAYER_HIT', player.health )
 		
 		end
 		

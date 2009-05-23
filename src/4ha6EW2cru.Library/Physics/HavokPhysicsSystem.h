@@ -63,6 +63,15 @@ namespace Physics
 		void Release( );
 
 
+		/*! Messages the system with a command
+		*
+		* @param[in] const std::string & message
+		* @param[in] AnyType::AnyTypeMap parameters
+		* @return ( void )
+		*/
+		inline void Message( const std::string& message, AnyType::AnyTypeMap parameters ) { };
+
+
 		/*! Returns the type of the System
 		*
 		*  @return (System::Types::Type)
@@ -79,27 +88,27 @@ namespace Physics
 
 		/*! Gets the System's Properties
 		*
-		*  @return (AnyValueMap)
+		*  @return (AnyTypeMap)
 		*/
-		inline AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
+		inline AnyType::AnyTypeMap GetAttributes( ) const { return AnyType::AnyTypeMap( ); };
 		
 
 		/*! Sets a System Property
 		*
 		*  @param[in] const std::string & name
-		*  @param[in] AnyValue value
+		*  @param[in] AnyType value
 		*  @return (void)
 		*/
-		inline void SetAttribute( const std::string& name, AnyValue value ) { };
+		inline void SetAttribute( const std::string& name, AnyType value ) { };
 
 
 		/*! Executes a command on the Exposed Physics Service
 		*
 		*  @param[in] const std::string & actionName
-		*  @param[in] AnyValue::AnyValueMap & parameters
-		*  @return (AnyValue::AnyValueMap)
+		*  @param[in] AnyType::AnyTypeMap & parameters
+		*  @return (AnyType::AnyTypeMap)
 		*/
-		AnyValue::AnyValueMap Execute( const std::string& actionName, AnyValue::AnyValueMap& parameters );
+		AnyType::AnyTypeMap Execute( const std::string& actionName, AnyType::AnyTypeMap& parameters );
 		
 		
 		/*! Performs a Ray Query on the Scene, destination is not direction, its the end point of the Ray

@@ -70,6 +70,15 @@ namespace Renderer
 		void Release( ) { };
 
 
+		/*! Messages the system with a command
+		*
+		* @param[in] const std::string & message
+		* @param[in] AnyType::AnyTypeMap parameters
+		* @return ( void )
+		*/
+		inline void Message( const std::string& message, AnyType::AnyTypeMap parameters ) { };
+
+
 		/*! Returns the type of the System
 		*
 		*  @return (System::Types::Type)
@@ -86,27 +95,27 @@ namespace Renderer
 
 		/*! Gets the System's Properties
 		*
-		*  @return (AnyValueMap)
+		*  @return (AnyTypeMap)
 		*/
-		inline AnyValue::AnyValueMap GetAttributes( ) const { return m_attributes; };
+		inline AnyType::AnyTypeMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets a System Property
 		*
 		*  @param[in] const std::string & name
-		*  @param[in] AnyValue value
+		*  @param[in] AnyType value
 		*  @return (void)
 		*/
-		inline void SetAttribute( const std::string& name, AnyValue value );
+		inline void SetAttribute( const std::string& name, AnyType value );
 
 
 		/*! Renderer Service Interface
 		 *
 		 *  @param[in] const std::string & actionName
-		 *  @param[in] AnyValue::AnyValueMap & parameters
-		 *  @return (AnyValue::AnyValueMap)
+		 *  @param[in] AnyType::AnyTypeMap & parameters
+		 *  @return (AnyType::AnyTypeMap)
 		 */
-		AnyValue::AnyValueMap Execute( const std::string& actionName, AnyValue::AnyValueMap& parameters );
+		AnyType::AnyTypeMap Execute( const std::string& actionName, AnyType::AnyTypeMap& parameters );
 		
 
 	private:
@@ -119,7 +128,7 @@ namespace Renderer
 		void CreateRenderWindow( const std::string& windowTitle, int width, int height, bool fullScreen );
 		std::vector< std::string > GetVideoModes( ) const;
 
-		AnyValue::AnyValueMap m_attributes;
+		AnyType::AnyTypeMap m_attributes;
 		Configuration::IConfiguration* m_configuration;
 		IRenderSystemScene* m_scene;
 

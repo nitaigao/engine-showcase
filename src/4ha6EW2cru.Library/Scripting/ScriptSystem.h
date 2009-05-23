@@ -65,6 +65,15 @@ namespace Script
 		void Release( );
 
 
+		/*! Messages the system with a command
+		*
+		* @param[in] const std::string & message
+		* @param[in] AnyType::AnyTypeMap parameters
+		* @return ( void )
+		*/
+		void Message( const std::string& message, AnyType::AnyTypeMap parameters );
+
+
 		/*! Returns the type of the System
 		*
 		*  @return (System::Types::Type)
@@ -81,34 +90,34 @@ namespace Script
 
 		/*! Gets the System's Properties
 		*
-		*  @return (AnyValueMap)
+		*  @return (AnyTypeMap)
 		*/
-		inline AnyValue::AnyValueMap GetAttributes( ) const { return m_attributes; };
+		inline AnyType::AnyTypeMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets a System Property
 		*
 		*  @param[in] const std::string & name
-		*  @param[in] AnyValue value
+		*  @param[in] AnyType value
 		*  @return (void)
 		*/
-		inline void SetAttribute( const std::string& name, AnyValue value ) { };
+		inline void SetAttribute( const std::string& name, AnyType value ) { };
 
 
 		/*! Scripting Service Interface
 		*
 		*  @param[in] const std::string & actionName
-		*  @param[in] AnyValue::AnyValueMap & parameters
-		*  @return (AnyValue::AnyValueMap)
+		*  @param[in] AnyType::AnyTypeMap & parameters
+		*  @return (AnyType::AnyTypeMap)
 		*/
-		AnyValue::AnyValueMap Execute( const std::string& actionName, AnyValue::AnyValueMap& parameters );
+		AnyType::AnyTypeMap Execute( const std::string& actionName, AnyType::AnyTypeMap& parameters );
 
 	private:
 
 		ScriptSystem( const ScriptSystem & copy ) { };
 		ScriptSystem & operator = ( const ScriptSystem & copy ) { return *this; };
 
-		AnyValue::AnyValueMap m_attributes;
+		AnyType::AnyTypeMap m_attributes;
 		Configuration::IConfiguration* m_configuration;
 
 		IScriptSystemScene* m_scene;

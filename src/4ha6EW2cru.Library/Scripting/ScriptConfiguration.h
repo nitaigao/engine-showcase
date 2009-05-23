@@ -46,7 +46,7 @@ namespace Script
 		*
 		*  @return (bool)
 		*/
-		inline bool IsFullScreen( ) const { return m_configuration->Find( "Graphics", "fullscreen" ).GetValue< bool >( ); };
+		inline bool IsFullScreen( ) const { return m_configuration->Find( "Graphics", "fullscreen" ).As< bool >( ); };
 		
 		
 		/*! Sets whether the game is in Full Screen
@@ -61,7 +61,7 @@ namespace Script
 		*
 		*  @return (int)
 		*/
-		inline int GetDisplayWidth ( ) const { return m_configuration->Find( "Graphics", "width" ).GetValue< int >( ); };
+		inline int GetDisplayWidth ( ) const { return m_configuration->Find( "Graphics", "width" ).As< int >( ); };
 		
 		
 		/*! Sets the Game window Width
@@ -76,7 +76,7 @@ namespace Script
 		*
 		*  @return (int)
 		*/
-		inline int GetDisplayHeight ( ) const { return  m_configuration->Find( "Graphics", "height" ).GetValue< int >( ); };
+		inline int GetDisplayHeight ( ) const { return  m_configuration->Find( "Graphics", "height" ).As< int >( ); };
 		
 		
 		/*! Sets the Game window Height
@@ -91,14 +91,14 @@ namespace Script
 		*
 		*  @return (int)
 		*/
-		inline int GetColorDepth( ) const { return m_configuration->Find( "Graphics", "depth" ).GetValue< int >( ); };
+		inline int GetColorDepth( ) const { return m_configuration->Find( "Graphics", "depth" ).As< int >( ); };
 
 
 		/*! Returns whether the Developer Console is Enabled
 		*
 		*  @return (bool)
 		*/
-		inline bool IsConsole( ) const { return m_configuration->Find( "Developer", "console" ).GetValue< bool >( ); };
+		inline bool IsConsole( ) const { return m_configuration->Find( "Developer", "console" ).As< bool >( ); };
 		
 		
 		/*! Sets whether the Developer Console is Enabled

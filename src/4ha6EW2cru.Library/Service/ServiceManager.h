@@ -38,6 +38,16 @@ public:
 	*/
 	inline void RegisterService( IService* service ) { m_services.push_back( service ); };
 
+
+	/*! Messages all Registered Services
+	*
+	* @param[in] const std::string & message
+	* @param[in] AnyType::AnyTypeMap parameters
+	* @return ( void )
+	*/
+	void MessageAll( const std::string& message, AnyType::AnyTypeMap parameters );
+
+
 	/*! Finds a Registered Service by System::Types::Type
 	*
 	*  @param[in] System::Types::Type systemType

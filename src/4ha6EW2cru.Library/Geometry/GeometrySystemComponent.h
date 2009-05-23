@@ -10,7 +10,7 @@
 #include "../System/IObserver.hpp"
 #include "../System/ISystemComponent.hpp"
 
-#include "../System/AnyValue.hpp"
+#include "../System/AnyType.hpp"
 #include "../System/SystemType.hpp"
 
 #include "../Maths/MathVector3.hpp"
@@ -47,7 +47,7 @@ namespace Geometry
 
 		/*! Initializes the Component
 		*
-		*  @param[in] AnyValue::AnyValueMap properties
+		*  @param[in] AnyType::AnyValueMap properties
 		*  @return (void)
 		*/
 		inline void Initialize( ) { };
@@ -78,40 +78,40 @@ namespace Geometry
 
 		/*! Gets the properties of the Component
 		*
-		*  @return (AnyValueKeyMap)
+		*  @return (AnyTypeKeyMap)
 		*/
-		inline AnyValue::AnyValueKeyMap GetAttributes( ) const { return m_attributes; };
+		inline AnyType::AnyTypeKeyMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets an Attribute on the Component *
 		*
 		*  @param[in] const unsigned int attributeId
-		*  @param[in] const AnyValue & value
+		*  @param[in] const AnyType & value
 		*/
-		inline void SetAttribute( const unsigned int& attributeId, const AnyValue& value ) { m_attributes[ attributeId ] = value; };
+		inline void SetAttribute( const unsigned int& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
 
 
 		/*! Posts a message to observers
 		*
 		*  @param[in] const std::string & message
-		*  @param[in] AnyValue::AnyValueMap parameters
-		*  @return (AnyValue)
+		*  @param[in] AnyType::AnyValueMap parameters
+		*  @return (AnyType)
 		*/
-		AnyValue PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
+		AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
 
 
 		/*! Messages the Component to influence its internal state
 		*
 		*  @param[in] const std::string & message
-		*  @return (AnyValue)
+		*  @return (AnyType)
 		*/
-		AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
+		AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
 
 	private:
 
 		std::string m_name;
 
-		AnyValue::AnyValueKeyMap m_attributes;
+		AnyType::AnyTypeKeyMap m_attributes;
 
 		ObserverList m_observers;
 

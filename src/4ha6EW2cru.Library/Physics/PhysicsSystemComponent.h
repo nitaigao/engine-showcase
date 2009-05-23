@@ -53,7 +53,7 @@ namespace Physics
 
 		/*! Initializes the Component
 		*
-		*  @param[in] AnyValue::AnyValueMap properties
+		*  @param[in] AnyType::AnyValueMap properties
 		*  @return (void)
 		*/
 		virtual void Initialize( );
@@ -84,34 +84,34 @@ namespace Physics
 
 		/*! Gets the properties of the Component
 		*
-		*  @return (AnyValueKeyMap)
+		*  @return (AnyTypeKeyMap)
 		*/
-		AnyValue::AnyValueKeyMap GetAttributes( ) const { return m_attributes; };
+		AnyType::AnyTypeKeyMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets an Attribute on the Component *
 		*
 		*  @param[in] const unsigned int attributeId
-		*  @param[in] const AnyValue & value
+		*  @param[in] const AnyType & value
 		*/
-		inline void SetAttribute( const unsigned int& attributeId, const AnyValue& value ) { m_attributes[ attributeId ] = value; };
+		inline void SetAttribute( const unsigned int& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
 
 
 		/*! Posts a message to observers
 		*
 		*  @param[in] const std::string & message
-		*  @param[in] AnyValue::AnyValueMap parameters
-		*  @return (AnyValue)
+		*  @param[in] AnyType::AnyValueMap parameters
+		*  @return (AnyType)
 		*/
-		AnyValue PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
+		AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
 
 
 		/*! Messages the Component to influence its internal state
 		*
 		*  @param[in] const std::string & message
-		*  @return (AnyValue)
+		*  @return (AnyType)
 		*/
-		virtual AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
+		virtual AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
 
 
 		/*! Returns the RigidBody of the Component
@@ -123,7 +123,7 @@ namespace Physics
 	protected:
 
 		std::string _name;
-		AnyValue::AnyValueKeyMap m_attributes;
+		AnyType::AnyTypeKeyMap m_attributes;
 
 		IObserver* m_observer;
 		HavokPhysicsSystemScene* _scene;

@@ -7,44 +7,44 @@ using namespace luabind;
 
 namespace Sound
 {
-	AnyValue SoundSystemComponent::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	AnyType SoundSystemComponent::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
 	{
-		if( messageId & System::Messages::TriggerSoundEvent  )
+		if( message == System::Messages::TriggerSoundEvent  )
 		{
-			this->TriggerEvent( parameters[ System::Attributes::SoundEventPath ].GetValue< std::string >( ) );
+			this->TriggerEvent( parameters[ System::Attributes::SoundEventPath ].As< std::string >( ) );
 		}
 
-		if ( messageId & System::Messages::KeyOutSoundEvent )
+		if ( message == System::Messages::KeyOutSoundEvent )
 		{
-			this->KeyoutEvent( parameters[ System::Attributes::SoundEventPath ].GetValue< std::string >( ) );
+			this->KeyoutEvent( parameters[ System::Attributes::SoundEventPath ].As< std::string >( ) );
 		}
 
-		if ( messageId & System::Messages::SetPosition )
+		if ( message == System::Messages::SetPosition )
 		{
-			m_attributes[ System::Attributes::Position ] = parameters[ System::Attributes::Position ].GetValue< MathVector3 >( );
+			m_attributes[ System::Attributes::Position ] = parameters[ System::Attributes::Position ].As< MathVector3 >( );
 
 			for ( SoundEventList::iterator i = m_activeSoundEvents.begin( ); i != m_activeSoundEvents.end( ); ++i )
 			{
 				FMOD_VECTOR position, velocity;
 
 				( *i ).second->get3DAttributes( &position, &velocity );
-				( *i ).second->set3DAttributes( &parameters[ System::Attributes::Position ].GetValue< MathVector3 >( ).AsFMODVector( ), &velocity );
+				( *i ).second->set3DAttributes( &parameters[ System::Attributes::Position ].As< MathVector3 >( ).AsFMODVector( ), &velocity );
 			}
 		}
 
-		if ( messageId & System::Messages::SetOrientation )
+		if ( message == System::Messages::SetOrientation )
 		{
-			m_attributes[ System::Attributes::Orientation ] = parameters[ System::Attributes::Orientation ].GetValue< MathQuaternion >( );
+			m_attributes[ System::Attributes::Orientation ] = parameters[ System::Attributes::Orientation ].As< MathQuaternion >( );
 		}
 
-		if ( messageId & System::Messages::SetPlayerPosition )
+		if ( message == System::Messages::SetPlayerPosition )
 		{
 			FMOD_VECTOR position, velocity, forward, up;
 
 			m_soundSystemScene->GetSoundSystem( )->GetEventSystem( )->get3DListenerAttributes( 0, &position, &velocity, &forward, &up );
 			m_soundSystemScene->GetSoundSystem( )->GetEventSystem( )->set3DListenerAttributes( 
 				0, 
-				&parameters[ System::Attributes::PlayerPosition ].GetValue< MathVector3 >( ).AsFMODVector( ), 
+				&parameters[ System::Attributes::PlayerPosition ].As< MathVector3 >( ).AsFMODVector( ), 
 				&velocity,
 				&MathVector3::Forward( ).AsFMODVector( ), 
 				&MathVector3::Up( ).AsFMODVector( ) 

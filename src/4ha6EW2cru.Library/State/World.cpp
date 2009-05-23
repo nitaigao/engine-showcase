@@ -62,7 +62,7 @@ namespace State
 	
 			for( SystemComponentList::iterator c = components.begin( ); c != components.end( ); ++c )
 			{
-				m_systemScenes[ ( *c )->GetAttributes( )[ System::Attributes::Type ].GetValue< System::Types::Type >( ) ]->DestroyComponent( ( *c ) );
+				m_systemScenes[ ( *c )->GetAttributes( )[ System::Attributes::Type ].As< System::Types::Type >( ) ]->DestroyComponent( ( *c ) );
 			}
 	
 			delete ( *e );

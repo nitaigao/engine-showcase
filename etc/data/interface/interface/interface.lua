@@ -2,7 +2,7 @@
 -- Global Variables
 ----------------------------------------------------------------
 
-Interface = {}
+Interface = { }
 
 ----------------------------------------------------------------
 -- Local Variables
@@ -27,6 +27,8 @@ function Interface.initialize( )
 	ux:loadComponent( 'loading' )
 	ux:loadComponent( 'hud' )
 	ux:loadComponent( 'statistics' )
+	ux:loadComponent( 'actor_hit' )
+	ux:loadComponent( 'key_binder' )
 	
 end
 

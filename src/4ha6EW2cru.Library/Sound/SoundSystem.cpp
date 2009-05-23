@@ -151,30 +151,32 @@ namespace Sound
 		m_fmodSystem->update( );
 	}
 
-	AnyValue::AnyValueMap SoundSystem::Execute( const std::string& actionName, AnyValue::AnyValueMap& parameters )
+	AnyType::AnyTypeMap SoundSystem::Execute( const std::string& actionName, AnyType::AnyTypeMap& parameters )
 	{
-		AnyValue::AnyValueMap results;
+		AnyType::AnyTypeMap results;
 		FMOD_RESULT result;
 
 		if( actionName == "load" )
 		{
-			std::string filePath = parameters[ "filePath" ].GetValue< std::string >( );
+			std::string filePath = parameters[ "filePath" ].As< std::string >( );
 			result = m_eventSystem->load( filePath.c_str( ), 0, 0 );
+			results[ "result" ] = ( result == FMOD_OK );
 		}
 		
 		if ( actionName == "playMusic" )
 		{
 			FMOD::Event* event = 0;
-			std::string eventPath = parameters[ "eventPath" ].GetValue< std::string >( );
+			std::string eventPath = parameters[ "eventPath" ].As< std::string >( );
 			result = m_eventSystem->getEvent( eventPath.c_str( ), FMOD_EVENT_DEFAULT, &event );
 			
 			if ( result == FMOD_OK )
 			{
 				result = event->start( );
+				results[ "result" ] = ( result == FMOD_OK );
 			}
 		}
 
-		results[ "result" ] = ( result == FMOD_OK );
+		
 
 		return results;
 	}

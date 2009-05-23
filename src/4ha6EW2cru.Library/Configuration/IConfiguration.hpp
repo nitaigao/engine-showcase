@@ -7,7 +7,7 @@
 #ifndef ICONFIGURATION_H
 #define ICONFIGURATION_H
 
-#include "../System/AnyValue.hpp"
+#include "../System/AnyType.hpp"
 
 namespace Configuration
 {
@@ -32,7 +32,15 @@ namespace Configuration
 		 *  @param[in] const std::string & key
 		 *  @return (void)
 		 */
-		virtual AnyValue Find( const std::string& section, const std::string& key ) = 0;
+		virtual AnyType Find( const std::string& section, const std::string& key ) = 0;
+
+
+		/*! Finds an entire section
+		*
+		* @param[in] const std::string & section
+		* @return ( AnyType::AnyTypeMap )
+		*/
+		virtual AnyType::AnyTypeMap FindSection( const std::string& section ) = 0;
 
 
 		/*! Sets the Default value of an Item
@@ -42,7 +50,7 @@ namespace Configuration
 		 *  @param[in] const boost::any & value
 		 *  @return (void)
 		 */
-		virtual void SetDefault( const std::string& section, const std::string& key, const AnyValue& value ) = 0;
+		virtual void SetDefault( const std::string& section, const std::string& key, const AnyType& value ) = 0;
 
 
 		/*! Sets the value of an already defaulted item
@@ -52,7 +60,7 @@ namespace Configuration
 		 *  @param[in] const std::string & value
 		 *  @return (void)
 		 */
-		virtual void Set( const std::string& section, const std::string& key, const AnyValue& value ) = 0;
+		virtual void Set( const std::string& section, const std::string& key, const AnyType& value ) = 0;
 
 	};
 };

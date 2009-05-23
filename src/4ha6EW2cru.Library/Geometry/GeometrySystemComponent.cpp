@@ -4,33 +4,34 @@ using namespace Maths;
 
 namespace Geometry
 {
-	AnyValue GeometrySystemComponent::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	AnyType GeometrySystemComponent::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
 	{
-		if ( messageId & System::Messages::SetPosition )
+		if ( message == System::Messages::SetPosition )
 		{
-			m_attributes[ System::Attributes::Position ] = parameters[ System::Attributes::Position ].GetValue< MathVector3 >( );
+			m_attributes[ System::Attributes::Position ] = parameters[ System::Attributes::Position ].As< MathVector3 >( );
 		}
 
-		if ( messageId & System::Messages::SetOrientation )
+		if ( message == System::Messages::SetOrientation )
 		{
-			m_attributes[ System::Attributes::Orientation ] = parameters[ System::Attributes::Orientation ].GetValue< MathQuaternion >( );
+			m_attributes[ System::Attributes::Orientation ] = parameters[ System::Attributes::Orientation ].As< MathQuaternion >( );
 		}
 
-		if ( messageId & System::Messages::AddedToComponent )
+		if ( message == System::Messages::AddedToComponent )
 		{
-			this->PushMessage( System::Messages::SetPosition | System::Messages::SetOrientation, m_attributes );
+			this->PushMessage( System::Messages::SetPosition, m_attributes );
+			this->PushMessage( System::Messages::SetOrientation, m_attributes );
 		}
 
 		return MathVector3( );
 	}
 
-	AnyValue GeometrySystemComponent::PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	AnyType GeometrySystemComponent::PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
 	{
 		for( ObserverList::iterator i = m_observers.begin( ); i != m_observers.end( ); ++i )
 		{
 			( *i )->Message( System::Messages::SetPosition, m_attributes );
 		}
 
-		return AnyValue( );
+		return AnyType( );
 	}
 };

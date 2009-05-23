@@ -37,10 +37,8 @@ namespace Script
 		*  @param[in] const std::string & name
 		*  @return ()
 		*/
-		ScriptComponent( const std::string& name, lua_State* state )
-			: m_name( name )
-			, m_id( 0 )
-			, m_state( state )
+		ScriptComponent( lua_State* state )
+			: m_state( state )
 			, m_observer( 0 )
 			, m_eventHandlers( 0 )
 		{
@@ -50,7 +48,7 @@ namespace Script
 
 		/*! Initializes the Component
 		*
-		*  @param[in] AnyValue::AnyValueMap properties
+		*  @param[in] AnyType::AnyValueMap properties
 		*  @return (void)
 		*/
 		void Initialize( );
@@ -89,34 +87,34 @@ namespace Script
 
 		/*! Gets the properties of the Component
 		*
-		*  @return (AnyValueKeyMap)
+		*  @return (AnyTypeKeyMap)
 		*/
-		AnyValue::AnyValueKeyMap GetAttributes( ) const { return m_attributes; };
+		AnyType::AnyTypeKeyMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets an Attribute on the Component *
 		*
 		*  @param[in] const unsigned int attributeId
-		*  @param[in] const AnyValue & value
+		*  @param[in] const AnyType & value
 		*/
-		inline void SetAttribute( const unsigned int& attributeId, const AnyValue& value ) { m_attributes[ attributeId ] = value; };
+		inline void SetAttribute( const unsigned int& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
 
 
 		/*! Messages the Component to influence its internal state
 		*
 		*  @param[in] const std::string & message
-		*  @return (AnyValue)
+		*  @return (AnyType)
 		*/
-		AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
+		AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
 
 
 		/*! Posts a message to the parent Entity
 		 *
 		 *  @param[in] const std::string & message
-		 *  @param[in] AnyValue::AnyValueMap parameters
-		 *  @return (AnyValue)
+		 *  @param[in] AnyType::AnyValueMap parameters
+		 *  @return (AnyType)
 		 */
-		AnyValue PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters ) { return m_observer->Message( messageId, parameters ); };
+		AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) { return m_observer->Message( message, parameters ); };
 
 
 		/*! Returns the LUA state of the Component
@@ -202,7 +200,7 @@ namespace Script
 		*
 		*  @return (const std::string&)
 		*/
-		inline std::string GetName( ) { return m_attributes[ System::Attributes::Name ].GetValue< std::string >( ); };
+		inline std::string GetName( ) { return m_attributes[ System::Attributes::Name ].As< std::string >( ); };
 
 		/*! Broadcasts an Event to the LUA State with no parameters
 		 *
@@ -299,7 +297,7 @@ namespace Script
 
 		inline Maths::MathVector3 GetLookAt( ) const { return m_lookAt; };
 
-		inline Maths::MathVector3 GetPosition( ) { return m_attributes[ System::Attributes::Position ].GetValue< Maths::MathVector3 >( ); };
+		inline Maths::MathVector3 GetPosition( ) { return m_attributes[ System::Attributes::Position ].As< Maths::MathVector3 >( ); };
 
 	private:
 
@@ -307,8 +305,6 @@ namespace Script
 		ScriptComponent & operator = ( const ScriptComponent & copy ) { return *this; };
 
 		lua_State* m_state;
-		std::string m_name;
-		unsigned int m_id;
 
 		IScriptFunctionHandler::FunctionList m_eventHandlers;
 		IScriptFunctionHandler::FunctionList m_updateHandlers;
@@ -317,7 +313,7 @@ namespace Script
 
 		IObserver* m_observer;
 
-		AnyValue::AnyValueKeyMap m_attributes;
+		AnyType::AnyTypeKeyMap m_attributes;
 
 		Maths::MathVector3 m_lookAt;
 

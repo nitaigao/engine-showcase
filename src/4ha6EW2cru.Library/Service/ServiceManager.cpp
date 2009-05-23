@@ -12,3 +12,11 @@ IService* ServiceManager::FindService( System::Types::Type systemType ) const
 
 	return 0;
 }
+
+void ServiceManager::MessageAll( const std::string& message, AnyType::AnyTypeMap parameters )
+{
+	for( IService::ServiceList::const_iterator i = m_services.begin( ); i != m_services.end( ); ++i )
+	{
+		( *i )->Execute( message, parameters );
+	}
+}

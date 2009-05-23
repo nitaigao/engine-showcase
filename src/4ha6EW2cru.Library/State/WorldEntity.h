@@ -50,7 +50,7 @@ namespace State
 		*  @param[in] IObserver * observer
 		*  @return (void)
 		*/
-		void AddObserver( const unsigned int& messageId, IObserver* observer ) { m_observers.insert( std::make_pair( messageId, observer ) ); };
+		void AddObserver( const System::Message& message, IObserver* observer ) { m_observers.insert( std::make_pair( message, observer ) ); };
 
 		/*! Adds a System Component to the Entity
 		*
@@ -69,9 +69,9 @@ namespace State
 		/*! Messages the Component to influence its internal state
 		 *
 		 *  @param[in] const std::string & message
-		 *  @return (AnyValue)
+		 *  @return (AnyType)
 		 */
-		AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
+		AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
 
 	private:
 

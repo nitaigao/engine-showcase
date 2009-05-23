@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout">
+    <Widget type="StaticImage" skin="StaticImage" position_real="0 0 1 1" align="Stretch" layer="Main" name="actor_hit">
+        <Widget type="StaticImage" skin="StaticImage" position_real="0 0 1 1" align="Stretch">
+            <Property key="Image_Texture" value="/data/interface/assets/actor_hit.png"/>
+            <!--<Property key="Widget_Alpha" value="0.5"/>-->
+        </Widget>
+    </Widget>
+</MyGUI>

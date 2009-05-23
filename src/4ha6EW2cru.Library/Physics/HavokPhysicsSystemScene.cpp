@@ -85,7 +85,7 @@ namespace Physics
 
 	void HavokPhysicsSystemScene::DestroyComponent( ISystemComponent* component )
 	{
-		m_components.erase( component->GetAttributes( )[ System::Attributes::Name ].GetValue< std::string >( ) );
+		m_components.erase( component->GetAttributes( )[ System::Attributes::Name ].As< std::string >( ) );
 		delete component;
 	}
 }

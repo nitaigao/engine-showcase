@@ -50,7 +50,7 @@ namespace Renderer
 
 		/*! Initializes the Component
 		*
-		*  @param[in] AnyValue::AnyValueMap properties
+		*  @param[in] AnyType::AnyValueMap properties
 		*  @return (void)
 		*/
 		void Initialize( );
@@ -63,7 +63,7 @@ namespace Renderer
 		*/
 		void Update( const float& deltaMilliseconds );
 
-		virtual AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
+		virtual AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
 
 	protected:
 

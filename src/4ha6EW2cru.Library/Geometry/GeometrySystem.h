@@ -11,12 +11,14 @@
 #include "../System/ISystem.hpp"
 #include "../System/ISystemScene.hpp"
 
+#include "../Service/IService.hpp"
+
 namespace Geometry
 {
 	/*! 
 	 *  The Geometry System
 	 */
-	class GeometrySystem : public ISystem
+	class GeometrySystem : public ISystem, public IService
 	{
 
 	public:
@@ -57,6 +59,24 @@ namespace Geometry
 		inline void Release( ) { };
 
 
+		/*! Messages the system with a command
+		*
+		* @param[in] const std::string & message
+		* @param[in] AnyType::AnyTypeMap parameters
+		* @return ( void )
+		*/
+		void Message( const std::string& message, AnyType::AnyTypeMap parameters );
+
+
+		/*! Executes a command on the Service
+		*
+		*  @param[in] const std::string & actionName
+		*  @param[in] AnyType::AnyTypeMap & parameters
+		*  @return (AnyType::AnyTypeMap)
+		*/
+		AnyType::AnyTypeMap Execute( const std::string& actionName, AnyType::AnyTypeMap& parameters );
+
+
 		/*! Returns the type of the System
 		*
 		*  @return (System::Types::Type)
@@ -73,18 +93,18 @@ namespace Geometry
 
 		/*! Gets the System's Properties
 		*
-		*  @return (AnyValueMap)
+		*  @return (AnyTypeMap)
 		*/
-		inline AnyValue::AnyValueMap GetAttributes( ) const { return AnyValue::AnyValueMap( ); };
+		inline AnyType::AnyTypeMap GetAttributes( ) const { return AnyType::AnyTypeMap( ); };
 
 
 		/*! Sets a System Property
 		*
 		*  @param[in] const std::string & name
-		*  @param[in] AnyValue value
+		*  @param[in] AnyType value
 		*  @return (void)
 		*/
-		inline void SetAttribute( const std::string& name, AnyValue value ) { };
+		inline void SetAttribute( const std::string& name, AnyType value ) { };
 
 	private:
 

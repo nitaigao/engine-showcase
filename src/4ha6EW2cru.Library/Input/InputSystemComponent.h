@@ -33,20 +33,14 @@ namespace Input
 	
 		/*! Default Constructor
 		*
-		*  @param[in] const std::string & name
 		*  @return ()
 		*/
-		InputSystemComponent( const std::string& name, OIS::Mouse* mouse, OIS::Keyboard* keyboard )
-			: m_name( name )
-			, m_mouse( mouse )
-			, m_keyboard( keyboard )
-		{
-		}
+		InputSystemComponent( ) { };
 	
 	
 		/*! Initializes the Component
 		*
-		*  @param[in] AnyValue::AnyValueMap properties
+		*  @param[in] AnyType::AnyValueMap properties
 		*  @return (void)
 		*/
 		void Initialize( ) { };
@@ -69,17 +63,17 @@ namespace Input
 
 		/*! Gets the properties of the Component
 		*
-		*  @return (AnyValueKeyMap)
+		*  @return (AnyTypeKeyMap)
 		*/
-		AnyValue::AnyValueKeyMap GetAttributes( ) const { return m_attributes; };
+		AnyType::AnyTypeKeyMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets an Attribute on the Component *
 		*
 		*  @param[in] const unsigned int attributeId
-		*  @param[in] const AnyValue & value
+		*  @param[in] const AnyType & value
 		*/
-		inline void SetAttribute( const unsigned int& attributeId, const AnyValue& value ) { m_attributes[ attributeId ] = value; };
+		inline void SetAttribute( const unsigned int& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
 
 
 		/*! Adds an Observer to the Component
@@ -97,38 +91,47 @@ namespace Input
 		inline System::Types::Type GetType( ) const { return System::Types::INPUT; };
 
 
-		void MousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
-		void MouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
-
 		/*! Posts a message to observers
 		*
 		*  @param[in] const std::string & message
-		*  @param[in] AnyValue::AnyValueMap parameters
-		*  @return (AnyValue)
+		*  @param[in] AnyType::AnyValueMap parameters
+		*  @return (AnyType)
 		*/
-		AnyValue PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
+		AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
 
 
 		/*! Messages the Component to influence its internal state
 		*
 		*  @param[in] const std::string & message
-		*  @return (AnyValue)
+		*  @return (AnyType)
 		*/
-		AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
+		AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
+
+
+		/*! Called by the Scene when the user presses a mouse button
+		*
+		* @param[in] const OIS::MouseEvent & arg
+		* @param[in] OIS::MouseButtonID id
+		* @return ( void )
+		*/
+		void MousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+
+
+		/*! Called by the Scene when the user releases a mouse button
+		*
+		* @param[in] const OIS::MouseEvent & arg
+		* @param[in] OIS::MouseButtonID id
+		* @return ( void )
+		*/
+		void MouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 	
 	private:
 	
-		InputSystemComponent( ) { };
 		InputSystemComponent( const InputSystemComponent & copy ) { };
 		InputSystemComponent & operator = ( const InputSystemComponent & copy ) { return *this; };
 
-		OIS::Keyboard* m_keyboard;
-		OIS::Mouse* m_mouse;
-
-		std::string m_name;
-
 		ObserverList m_observers;
-		AnyValue::AnyValueKeyMap m_attributes;
+		AnyType::AnyTypeKeyMap m_attributes;
 	
 	};
 };

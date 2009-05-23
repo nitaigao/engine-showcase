@@ -17,7 +17,7 @@ namespace Configuration
 	 */
 	class ClientConfiguration : public IConfiguration
 	{
-		typedef std::map< std::string, AnyValue > DefaultPropertyList;
+		typedef std::map< std::string, AnyType > DefaultPropertyList;
 
 	public:
 
@@ -40,29 +40,37 @@ namespace Configuration
 		 *
 		 *  @param[in] const std::string & section
 		 *  @param[in] const std::string & key
-		 *  @return (AnyValue)
+		 *  @return (AnyType)
 		 */
-		AnyValue Find( const std::string& section, const std::string& key );
+		AnyType Find( const std::string& section, const std::string& key );
+
+
+		/*! Finds an entire section
+		*
+		* @param[in] const std::string & section
+		* @return ( AnyType::AnyTypeMap )
+		*/
+		AnyType::AnyTypeMap FindSection( const std::string& section );
 
 
 		/*! Sets the default value for a configuration item
 		 *
 		 *  @param[in] const std::string & section
 		 *  @param[in] const std::string & key
-		 *  @param[in] const AnyValue & value
+		 *  @param[in] const AnyType & value
 		 *  @return (void)
 		 */
-		void SetDefault( const std::string& section, const std::string& key, const AnyValue& value );
+		void SetDefault( const std::string& section, const std::string& key, const AnyType& value );
 
 
 		/*! Sets the value for a configuration item
 		 *
 		 *  @param[in] const std::string & section
 		 *  @param[in] const std::string & key
-		 *  @param[in] const AnyValue & value
+		 *  @param[in] const AnyType & value
 		 *  @return (void)
 		 */
-		void Set( const std::string& section, const std::string& key, const AnyValue& value );
+		void Set( const std::string& section, const std::string& key, const AnyType& value );
 
 	private:
 

@@ -9,10 +9,10 @@
 
 #include <vector>
 
+#include "IInputSystemScene.hpp"
 #include "IInputSystemComponent.hpp"
 
 #include "../System/ISystem.hpp"
-#include "../System/ISystemScene.hpp"
 
 #include <OIS/OISInputManager.h>
 #include <OIS/OISKeyboard.h>
@@ -23,7 +23,7 @@ namespace Input
 	/*! 
 	*  An Input Specific Scene
 	*/
-	class InputSystemScene : public ISystemScene
+	class InputSystemScene : public IInputSystemScene
 	{
 	
 	public:
@@ -42,10 +42,9 @@ namespace Input
 		*  @param[in] OIS::Keyboard * keyboard
 		*  @return ()
 		*/
-		InputSystemScene( OIS::Mouse* mouse, OIS::Keyboard* keyboard )
-			: m_inputAllowed( false )
-			, m_mouse( mouse )
-			, m_keyboard( keyboard )
+		explicit InputSystemScene( IInputSystem* system )
+			: m_system( system )
+			, m_inputAllowed( false )
 		{
 
 		}
@@ -146,14 +145,20 @@ namespace Input
 		*/
 		bool MouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
+
+		/*! Returns the System controlling the Scene
+		*
+		* @return ( IInputSystem* )
+		*/
+		IInputSystem* GetSystem( ) { return m_system; };
+
 	private:
 
 		bool m_inputAllowed;
 
 		IInputSystemComponent::InputSystemComponentList m_inputComponents;
 
-		OIS::Mouse* m_mouse;
-		OIS::Keyboard* m_keyboard;
+		IInputSystem* m_system;
 
 		InputSystemScene( ) { };
 		InputSystemScene( const InputSystemScene & copy ) { };

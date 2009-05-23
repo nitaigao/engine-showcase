@@ -32,7 +32,7 @@ namespace Physics
 
 	void PhysicsSystemComponent::Initialize( )
 	{
-		std::string bodyPath = m_attributes[ System::Attributes::Body ].GetValue< std::string >( );
+		std::string bodyPath = m_attributes[ System::Attributes::Body ].As< std::string >( );
 
 		IResource* resource = Management::GetInstance( )->GetResourceManager( )->GetResource( bodyPath );
 
@@ -54,23 +54,23 @@ namespace Physics
 		_scene->GetWorld( )->addEntity( m_body );
 	}
 
-	AnyValue PhysicsSystemComponent::PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	AnyType PhysicsSystemComponent::PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
 	{
-		return m_observer->Message( messageId, parameters );
+		return m_observer->Message( message, parameters );
 	}
 
-	AnyValue PhysicsSystemComponent::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	AnyType PhysicsSystemComponent::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
 	{
-		if ( messageId & System::Messages::SetPosition )
+		if ( message == System::Messages::SetPosition )
 		{
-			m_body->setPosition( parameters[ System::Attributes::Position ].GetValue< MathVector3 >( ).AshkVector4( ) );
+			m_body->setPosition( parameters[ System::Attributes::Position ].As< MathVector3 >( ).AshkVector4( ) );
 		}
 
-		if ( messageId & System::Messages::SetOrientation )
+		if ( message == System::Messages::SetOrientation )
 		{
-			m_body->setRotation( parameters[ System::Attributes::Orientation ].GetValue< MathQuaternion >( ).AshkQuaternion( ) );
+			m_body->setRotation( parameters[ System::Attributes::Orientation ].As< MathQuaternion >( ).AshkQuaternion( ) );
 		}
 
-		return AnyValue( );
+		return AnyType( );
 	}
 }

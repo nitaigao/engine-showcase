@@ -53,6 +53,15 @@ namespace AI
 		 *  @return (void)
 		 */
 		inline void Release( ) { };
+
+
+		/*! Messages the system with a command
+		*
+		* @param[in] const std::string & message
+		* @param[in] AnyType::AnyTypeMap parameters
+		* @return ( void )
+		*/
+		inline void Message( const std::string& message, AnyType::AnyTypeMap parameters ) { };
 		
 
 		/*! Returns the type of the System
@@ -71,22 +80,22 @@ namespace AI
 
 		/*! Gets the System's Properties
 		 *
-		 *  @return (AnyValueMap)
+		 *  @return (AnyTypeMap)
 		 */
-		inline AnyValue::AnyValueMap GetAttributes( ) const { return m_attributes; };
+		inline AnyType::AnyTypeMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets a System Property
 		 *
 		 *  @param[in] const std::string & name
-		 *  @param[in] AnyValue value
+		 *  @param[in] AnyType value
 		 *  @return (void)
 		 */
-		inline void SetAttribute( const std::string& name, AnyValue value ) { };
+		inline void SetAttribute( const std::string& name, AnyType value ) { };
 
 	private:
 
-		AnyValue::AnyValueMap m_attributes;
+		AnyType::AnyTypeMap m_attributes;
 	};
 };
 

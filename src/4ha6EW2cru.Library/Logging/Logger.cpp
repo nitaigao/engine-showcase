@@ -26,7 +26,7 @@ namespace Logging
 
 		if( level != "DEBUG" )
 		{
-			//Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "MESSAGE_LOGGED", outputMessage.str( ) ) );
+			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "MESSAGE_LOGGED", outputMessage.str( ) ) );
 		}
 
 	#ifdef _DEBUG

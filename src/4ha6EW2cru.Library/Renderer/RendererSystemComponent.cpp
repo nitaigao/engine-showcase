@@ -35,7 +35,7 @@ namespace Renderer
 	{
 		m_sceneNode = m_scene->GetSceneManager( )->createSceneNode( m_name );
 
-		this->LoadModel( m_sceneNode, m_attributes[ System::Attributes::Model ].GetValue< std::string >( ) );
+		this->LoadModel( m_sceneNode, m_attributes[ System::Attributes::Model ].As< std::string >( ) );
 
 		m_scene->GetSceneManager( )->getRootSceneNode( )->addChild( m_sceneNode );
 
@@ -68,36 +68,24 @@ namespace Renderer
 		this->DestroySceneNode( m_sceneNode );
 	}
 
-	AnyValue RendererSystemComponent::PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	AnyType RendererSystemComponent::PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
 	{
-		return m_observer->Message( messageId, parameters );
+		return m_observer->Message( message, parameters );
 	}
 
-	AnyValue RendererSystemComponent::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	AnyType RendererSystemComponent::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
 	{
-		if ( messageId & System::Messages::SetPosition )
+		if ( message == System::Messages::SetPosition )
 		{
-			m_sceneNode->setPosition( parameters[ System::Attributes::Position ].GetValue< MathVector3 >( ).AsOgreVector3( ) );
+			m_sceneNode->setPosition( parameters[ System::Attributes::Position ].As< MathVector3 >( ).AsOgreVector3( ) );
 		}
 
-		if ( messageId & System::Messages::SetOrientation )
+		if ( message == System::Messages::SetOrientation )
 		{
-			m_sceneNode->setOrientation( parameters[ System::Attributes::Orientation ].GetValue< MathQuaternion >( ).AsOgreQuaternion( ) );
+			m_sceneNode->setOrientation( parameters[ System::Attributes::Orientation ].As< MathQuaternion >( ).AsOgreQuaternion( ) );
 		}
 
-		/*
-		if ( System::Changes::AI::Behavior & systemChanges )
-		{
-		AISystemComponent* aiComponent = static_cast< AISystemComponent* >( subject );
-
-		for( AnimationBlenderList::iterator i = m_animationBlenders.begin( ); i != m_animationBlenders.end( ); ++i )
-		{
-		this->PlayAnimation( aiComponent->GetBehavior( ), true );
-		}
-		}
-		*/
-
-		return AnyValue( );
+		return AnyType( );
 	}
 
 	void RendererSystemComponent::Update( const float& deltaMilliseconds )

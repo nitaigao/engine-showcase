@@ -23,12 +23,12 @@ namespace AI
 {
 	void AISystemComponent::Initialize( )
 	{
-		AnyValue::AnyValueMap parameters;
+		AnyType::AnyTypeMap parameters;
 		parameters[ "scriptPath" ] = m_attributes[ System::Attributes::ScriptPath ];
 		parameters[ "name" ] = m_name + "_ai";
 
 		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
-		m_scriptState = scriptService->Execute( "loadScript", parameters )[ "state" ].GetValue< lua_State* >( );
+		m_scriptState = scriptService->Execute( "loadScript", parameters )[ "state" ].As< lua_State* >( );
 
 		luabind::globals( m_scriptState )[ "ai" ] = this;
 		lua_resume( m_scriptState, 0 );
@@ -38,7 +38,7 @@ namespace AI
 	{
 		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
 
-		AnyValue::AnyValueMap parameters;
+		AnyType::AnyTypeMap parameters;
 		parameters[ "name" ] = m_name + "_ai";
 		scriptService->Execute( "unloadComponent", parameters );
 	}
@@ -53,42 +53,42 @@ namespace AI
 		this->PushMessage( System::Messages::Move_Backward, m_attributes );
 	}
 
-	AnyValue AISystemComponent::PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	AnyType AISystemComponent::PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
 	{
-		return m_observer->Message( messageId, parameters );
+		return m_observer->Message( message, parameters );
 	}
 
-	AnyValue AISystemComponent::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	AnyType AISystemComponent::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
 	{
- 		if ( messageId & System::Messages::SetPlayerPosition )
+ 		if ( message == System::Messages::SetPlayerPosition )
 		{
-			MathVector3 playerPosition = parameters[ System::Attributes::Position ].GetValue< MathVector3 >( );
+			MathVector3 playerPosition = parameters[ System::Attributes::Position ].As< MathVector3 >( );
 			
 			m_attributes[ System::Attributes::PlayerPosition ] = playerPosition;
-			m_attributes[ System::Attributes::PlayerOrientation ] = parameters[ System::Attributes::Orientation ].GetValue< MathQuaternion >( );
+			m_attributes[ System::Attributes::PlayerOrientation ] = parameters[ System::Attributes::Orientation ].As< MathQuaternion >( );
 
-			m_playerDistance = ( ( playerPosition - m_attributes[ System::Attributes::Position ].GetValue< MathVector3 >( ) ) ).Length( );
+			m_playerDistance = ( ( playerPosition - m_attributes[ System::Attributes::Position ].As< MathVector3 >( ) ) ).Length( );
 		}
 
-		if ( messageId & System::Messages::SetPosition )
+		if ( message == System::Messages::SetPosition )
 		{
-			m_attributes[ System::Attributes::Position ] = parameters[ System::Attributes::Position ].GetValue< MathVector3 >( );
+			m_attributes[ System::Attributes::Position ] = parameters[ System::Attributes::Position ].As< MathVector3 >( );
 		}
 
-		if ( messageId & System::Messages::SetOrientation )
+		if ( message == System::Messages::SetOrientation )
 		{
-			m_attributes[ System::Attributes::Orientation ] = parameters[ System::Attributes::Orientation ].GetValue< MathQuaternion >( );
+			m_attributes[ System::Attributes::Orientation ] = parameters[ System::Attributes::Orientation ].As< MathQuaternion >( );
 		}
 
-		return AnyValue( );
+		return AnyType( );
 	}
 
 	void AISystemComponent::FacePlayer( )
 	{
 		// Angle from Origin to Player
 
-		MathVector3 position = m_attributes[ System::Attributes::Position ].GetValue< MathVector3 >( );
-		MathVector3 playerPosition = m_attributes[ System::Attributes::PlayerPosition ].GetValue< MathVector3 >( );
+		MathVector3 position = m_attributes[ System::Attributes::Position ].As< MathVector3 >( );
+		MathVector3 playerPosition = m_attributes[ System::Attributes::PlayerPosition ].As< MathVector3 >( );
 
 		MathVector3 aiToPlayer = ( playerPosition - position ).Normalize( );
 		MathVector3 aiToOrigin = ( MathVector3::Zero( ) - position ).Normalize( );
@@ -135,7 +135,7 @@ namespace AI
 	{
 		IService* service = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::RENDER );
 
-		AnyValue::AnyValueMap parameters;
+		AnyType::AnyTypeMap parameters;
 
 		parameters[ "entityName" ] = m_name;
 		parameters[ "animationName" ] = animationName;
@@ -150,8 +150,8 @@ namespace AI
 		{
 			luabind::call_function< void >( m_scriptState, "update" );
 
-			MathVector3 position = m_attributes[ System::Attributes::Position ].GetValue< MathVector3 >( );
-			MathQuaternion orientation = m_attributes[ System::Attributes::Orientation ].GetValue< MathQuaternion >( );
+			MathVector3 position = m_attributes[ System::Attributes::Position ].As< MathVector3 >( );
+			MathQuaternion orientation = m_attributes[ System::Attributes::Orientation ].As< MathQuaternion >( );
 
 			Ogre::Matrix3 rotation;
 			orientation.AsOgreQuaternion( ).ToRotationMatrix( rotation );

@@ -7,7 +7,7 @@
 #ifndef ICONFIGURATIONFILE_H
 #define ICONFIGURATIONFILE_H
 
-#include "../System/AnyValue.hpp"
+#include "../System/AnyType.hpp"
 
 namespace Configuration
 {
@@ -30,20 +30,28 @@ namespace Configuration
 		*
 		*  @param[in] const std::string & section
 		*  @param[in] const std::string & key
-		*  @param[in] const AnyValue & defaultValue
-		*  @return (AnyValue)
+		*  @param[in] const AnyType & defaultValue
+		*  @return (AnyType)
 		*/
-		virtual AnyValue FindConfigItem( const std::string& section, const std::string& key, const AnyValue& defaultValue ) = 0;
+		virtual AnyType FindConfigItem( const std::string& section, const std::string& key, const AnyType& defaultValue ) = 0;
+
+
+		/*! Returns an Entire Config Section
+		*
+		* @param[in] const std::string & section
+		* @return ( AnyType::AnyTypeMap )
+		*/
+		virtual AnyType::AnyTypeMap FindConfigSection( const std::string& section ) = 0;
 
 
 		/*! Updates a configuration item based on the given section and key
 		*
 		*  @param[in] const std::string & section
 		*  @param[in] const std::string & key
-		*  @param[in] const AnyValue & value
+		*  @param[in] const AnyType & value
 		*  @return (void)
 		*/
-		virtual void Update( const std::string& section, const std::string& key, const AnyValue& value ) = 0;
+		virtual void Update( const std::string& section, const std::string& key, const AnyType& value ) = 0;
 
 
 		/*! Saves the configuration file to the File System

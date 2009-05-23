@@ -22,15 +22,15 @@ public:
 	}
 
 
-	void AddObserver( const unsigned int& messageId, IObserver* observer ) {};
-	AnyValue PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters ) { return AnyValue( ); };
+	void AddObserver( const System::Message& message, IObserver* observer ) {};
+	AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) { return AnyType( ); };
 
 	const std::string& GetName( ) const { return "test_entity"; };
 	void AddComponent( ISystemComponent* component ) { _components.push_back( component ); }
 	ISystemComponent* FindComponent( const System::Types::Type& systemType ) const { return 0; };
 	SystemComponentList GetComponents( ) const { return _components; };
 
-	AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters ) { };
+	AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) { };
 
 private:
 

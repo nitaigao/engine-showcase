@@ -13,106 +13,104 @@ using namespace Script;
 
 #include "../Management/Management.h"
 
+#include "IInputSystemScene.hpp"
+#include "IInputSystem.hpp"
+
+#include <OIS/OISKeyboard.h>
+
 namespace Input
 {	
-	AnyValue InputSystemComponent::PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	AnyType InputSystemComponent::PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
 	{
 		for( ObserverList::iterator i = m_observers.begin( ); i != m_observers.end( ); ++i )
 		{
-			( *i )->Message( messageId, parameters );
+			( *i )->Message( message, parameters );
 		}
 
-		return AnyValue( );
+		return AnyType( );
 	}
 
-	AnyValue InputSystemComponent::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	AnyType InputSystemComponent::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
 	{
-		if ( messageId & System::Messages::SetPosition )
+		if ( message == System::Messages::SetPosition )
 		{
-			m_attributes[ System::Attributes::Position ] = parameters[ System::Attributes::Position ].GetValue< MathVector3 >( );
+			m_attributes[ System::Attributes::Position ] = parameters[ System::Attributes::Position ].As< MathVector3 >( );
 		}
 
-		if ( messageId & System::Messages::SetOrientation )
+		if ( message == System::Messages::SetOrientation )
 		{
-			m_attributes[ System::Attributes::Orientation ] = parameters[ System::Attributes::Orientation ].GetValue< MathQuaternion >( );
+			m_attributes[ System::Attributes::Orientation ] = parameters[ System::Attributes::Orientation ].As< MathQuaternion >( );
 		}
 
-		return AnyValue( );
+		return AnyType( );
 	}
 
 	void InputSystemComponent::Update( const float& deltaMilliseconds )
 	{
-		unsigned int moveMessage = 0;
+		OIS::Keyboard* keyboard = m_attributes[ System::Attributes::Parent ].As< IInputSystemScene* >( )->GetSystem( )->GetKeyboard( );
+		OIS::Mouse* mouse = m_attributes[ System::Attributes::Parent ].As< IInputSystemScene* >( )->GetSystem( )->GetMouse( );
 
-		// Keyboard
+		System::Message moveMessage;
+		System::Message attackMessage;
 
-		if ( m_keyboard->isKeyDown( OIS::KC_W ) )
+		IInputSystem* inputSystem = m_attributes[ System::Attributes::Parent ].As< IInputSystemScene* >( )->GetSystem( );
+		InputMessageBinding::InputMessageBindingList messageBindings = inputSystem->GetBindings( );
+
+		for( InputMessageBinding::InputMessageBindingList::iterator i = messageBindings.begin( ); i != messageBindings.end( ); ++i )
 		{
-			moveMessage |= System::Messages::Move_Forward;
+			switch( ( *i ).GetType( ) )
+			{
+
+			case BINDING_KEYBOARD: 
+
+				if ( keyboard->isKeyDown( static_cast< OIS::KeyCode >( ( *i ).GetCode( ) ) ) )
+				{
+					moveMessage = ( *i ).GetMessage( );
+					this->PushMessage( ( *i ).GetMessage( ), m_attributes );
+				}
+
+				break;
+
+			case BINDING_MOUSE:
+
+				if ( mouse->getMouseState( ).buttonDown( static_cast< OIS::MouseButtonID >( ( *i ).GetCode( ) ) ) )
+				{
+					attackMessage = ( *i ).GetMessage( );
+					this->PushMessage( ( *i ).GetMessage( ), m_attributes );
+				}
+
+				break;
+			}
 		}
 
-		if ( m_keyboard->isKeyDown( OIS::KC_S ) )
+		if ( moveMessage.empty( ) )
 		{
-			moveMessage |= System::Messages::Move_Backward;
+			this->PushMessage( System::Messages::Move_Idle, m_attributes );
 		}
 
-		if ( m_keyboard->isKeyDown( OIS::KC_A ) )
+		if ( attackMessage.empty( ) )
 		{
-			moveMessage |= System::Messages::Strafe_Left;
+			this->PushMessage( System::Messages::Attack_Idle, m_attributes );
 		}
 
-		if ( m_keyboard->isKeyDown( OIS::KC_D ) )
-		{
-			moveMessage |= System::Messages::Strafe_Right;
-		}
-
-		if ( m_keyboard->isKeyDown( OIS::KC_ESCAPE ) )
-		{
-			moveMessage |= System::Messages::Pause_Game;
-		}
-
-		if ( m_keyboard->isKeyDown( OIS::KC_SPACE ) )
-		{
-			moveMessage |= System::Messages::Jump;
-		}
-
-		if ( moveMessage == 0 )
-		{
-			moveMessage |= System::Messages::Move_Idle;
-		}
-
-		// Mouse
-
-		MouseState mouseState = m_mouse->getMouseState( );
+		MouseState mouseState = mouse->getMouseState( );
 
 		m_attributes[ System::Attributes::DeltaX ] = mouseState.X.rel;
 		m_attributes[ System::Attributes::DeltaY ] = mouseState.Y.rel;
 
-		moveMessage |= System::Messages::Mouse_Moved;
-
-		unsigned int attackMessage = 0;
-
-		if ( m_mouse->getMouseState( ).buttonDown( MB_Left ) )
-		{
-			attackMessage |= System::Messages::Fire;
-		}
-		else
-		{
-			attackMessage |= System::Messages::Attack_Idle;
-		}
-
-		this->PushMessage( moveMessage |= attackMessage, m_attributes );
+		this->PushMessage( System::Messages::Mouse_Moved, m_attributes );
+		
 	}
 
 	void InputSystemComponent::MouseReleased( const MouseEvent &arg, MouseButtonID id )
 	{
-		IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_RELEASED", m_name, id );
+		IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_RELEASED", m_attributes[ System::Attributes::Name ].As< std::string >( ), id );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
 	}
 
 	void InputSystemComponent::MousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 	{
-		IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_PRESSED", m_name, id );
+		IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_PRESSED", m_attributes[ System::Attributes::Name ].As< std::string >( ), id );
 		Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
 	}
 }

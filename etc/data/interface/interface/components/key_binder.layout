@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout">
+    <Widget type="Widget" skin="Default" position_real="0 0 1 1" align="Stretch" layer="Popup" name="key_binder">
+        <Widget type="Window" skin="WindowC" position="768 496 448 120" align="HCenter VCenter">
+            <Property key="Widget_Caption" value="Bind Game Action"/>
+            <Property key="Widget_InheritsPick" value="false"/>
+            <Property key="Widget_NeedMouse" value="false"/>
+            <Property key="Widget_NeedKey" value="false"/>
+            <Widget type="StaticText" skin="StaticText" position="19 34 400 15">
+                <Property key="Widget_Caption" value="Hit a Key / Mouse Button or Esc to cancel"/>
+                <Property key="Text_TextAlign" value="Center"/>
+            </Widget>
+        </Widget>
+    </Widget>
+</MyGUI>

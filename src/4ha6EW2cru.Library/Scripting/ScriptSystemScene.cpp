@@ -55,7 +55,11 @@ namespace Script
 
 		lua_State *childState = lua_newthread( m_state ); // top + 2 
 
-		ScriptComponent* component = new ScriptComponent( name, childState );
+		ScriptComponent* component = new ScriptComponent( childState );
+
+		component->SetAttribute( System::Attributes::Name, name );
+		component->SetAttribute( System::Attributes::Type, System::Types::SCRIPT );
+		component->SetAttribute( System::Attributes::Parent, this );
 		
 		lua_newtable( m_state );  // a global table for this script 
 		lua_newtable( m_state );  // meta table 
@@ -68,17 +72,13 @@ namespace Script
 		luabind::globals( childState )[ "script" ] = component;
 
 		m_components[ name ] = component;
-		
-		component->SetAttribute( System::Attributes::Name, name );
-		component->SetAttribute( System::Attributes::Type, System::Types::SCRIPT );
-		component->SetAttribute( System::Attributes::Parent, this );
 
 		return component;
 	}
 
 	void ScriptSystemScene::DestroyComponent( ISystemComponent* component )
 	{
-		m_components.erase( component->GetAttributes( )[ System::Attributes::Name ].GetValue< std::string >( ) );
+		m_components.erase( component->GetAttributes( )[ System::Attributes::Name ].As< std::string >( ) );
 		component->Destroy( );
 		delete component;
 		component = 0;
@@ -89,52 +89,9 @@ namespace Script
 		luaL_openlibs( m_state );
 		luabind::open( m_state );
 
-		module( m_state )
-		[
-			def( "print", &ScriptSystemScene::Print ),
-			def( "quit", &ScriptSystemScene::Quit ),
-			def( "loadLevel", &ScriptSystemScene::LoadLevel ),
-			def( "endGame", &ScriptSystemScene::EndGame ),
-
-			class_< ScriptConfiguration >( "Config" )
-				.property( "isFullScreen", &ScriptConfiguration::IsFullScreen, &ScriptConfiguration::SetFullScreen )
-				.property( "displayWidth", &ScriptConfiguration::GetDisplayWidth, &ScriptConfiguration::SetDisplayWidth )
-				.property( "displayHeight", &ScriptConfiguration::GetDisplayHeight, &ScriptConfiguration::SetDisplayHeight )
-				.property( "isConsole", &ScriptConfiguration::IsConsole, &ScriptConfiguration::SetConsole ),
-
-			class_< ScriptComponent >( "ScriptComponent" )
-				.def( "include", &ScriptComponent::IncludeScript )
-				.def( "registerEventHandler", &ScriptComponent::RegisterEvent )
-				.def( "registerUpdateHandler", &ScriptComponent::RegisterUpdate )
-				.def( "unregisterEventHandler", &ScriptComponent::UnRegisterEvent )
-				.def( "unregisterUpdateHandler", &ScriptComponent::UnRegisterUpdate )
-				.def( "getName", &ScriptComponent::GetName )
-				.def( "getLookAt", &ScriptComponent::GetLookAt )
-				.def( "getPosition", &ScriptComponent::GetPosition )
-				.def( "getTime", &ScriptComponent::GetTime )
-				.def( "executeString", &ScriptComponent::ExecuteString )
-				.def( "rayQuery", &ScriptComponent::RayQuery, copy_table( result ) )
-				.def( "playAnimation", &ScriptComponent::PlayAnimation )
-				.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string& ) ) &ScriptComponent::BroadcastEvent )
-				.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string& ) ) &ScriptComponent::BroadcastEvent )
-				.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int& ) ) &ScriptComponent::BroadcastEvent )
-				.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string&, const std::string& ) ) &ScriptComponent::BroadcastEvent )
-				.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string&, const int& ) ) &ScriptComponent::BroadcastEvent )
-				.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const int& ) ) &ScriptComponent::BroadcastEvent )
-				.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const std::string& ) ) &ScriptComponent::BroadcastEvent ),
-
-				class_< SoundController >( "SoundController" )
-					.def( "triggerEvent", &SoundController::TriggerEvent )
-					.def( "keyOutEvent", &SoundController::KeyOutEvent ),
-
-			class_< MathVector3 >( "Vector" )
-				.def( constructor< const float&, const float&, const float& >( ) )
-				.def( self + MathVector3( ) ),
-
-			class_< MathQuaternion >( "Quaternion" )
-				.def( constructor< const float&, const float&, const float&, const float& >( ) )
-
-		];
+		AnyType::AnyTypeMap serviceParameters;
+		serviceParameters[ System::Attributes::ScriptState ] = m_state;
+		Management::GetInstance( )->GetServiceManager( )->MessageAll( System::Messages::RegisterScriptFunctions, serviceParameters );
 
 		luabind::globals( m_state )[ "Configuration" ] = m_scriptConfiguration;
 

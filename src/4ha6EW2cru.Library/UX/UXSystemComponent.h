@@ -18,6 +18,8 @@
 #include "IUXSystemComponent.hpp"
 #include "IUXSystemScene.hpp"
 
+#include "../Input/InputMessageBinding.hpp"
+
 namespace UX
 {
 	/*! 
@@ -53,24 +55,24 @@ namespace UX
 		/*! Posts a message to observers
 		*
 		*  @param[in] const std::string & message
-		*  @param[in] AnyValue::AnyValueMap parameters
-		*  @return (AnyValue)
+		*  @param[in] AnyType::AnyValueMap parameters
+		*  @return (AnyType)
 		*/
-		inline AnyValue PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters ) { return AnyValue( ); };
+		inline AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) { return AnyType( ); };
 
 
 		/*! Messages the Component to influence its internal state
 		*
 		*  @param[in] const std::string & message
-		*  @return (AnyValue)
+		*  @return (AnyType)
 		*/
-		inline AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters ) { return AnyValue( ); };
+		inline AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) { return AnyType( ); };
 
 		/* Inherited from ISystemComponent */
 
 		/*! Initializes the Component
 		*
-		*  @param[in] AnyValue::AnyValueMap properties
+		*  @param[in] AnyType::AnyValueMap properties
 		*  @return (void)
 		*/
 		inline void Initialize( ) { };
@@ -101,17 +103,17 @@ namespace UX
 
 		/*! Gets the properties of the Component
 		*
-		*  @return (AnyValueKeyMap)
+		*  @return (AnyTypeKeyMap)
 		*/
-		AnyValue::AnyValueKeyMap GetAttributes( ) const { return m_attributes; };
+		AnyType::AnyTypeKeyMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets an Attribute on the Component *
 		*
 		*  @param[in] const unsigned int attributeId
-		*  @param[in] const AnyValue & value
+		*  @param[in] const AnyType & value
 		*/
-		inline void SetAttribute( const unsigned int& attributeId, const AnyValue& value ) { m_attributes[ attributeId ] = value; };
+		inline void SetAttribute( const unsigned int& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
 
 
 		/*! -- Script Helpers -- */
@@ -215,6 +217,9 @@ namespace UX
 		 */
 		static void OnMouseReleased( MyGUI::WidgetPtr widget, int left, int top, MyGUI::MouseButton id );
 
+
+		static void OnMousePressed( MyGUI::WidgetPtr widget, int left, int top, MyGUI::MouseButton id );
+
 		
 		/*! Forwards Key Up Events to the subscribing Widgets in Script
 		 *
@@ -224,6 +229,9 @@ namespace UX
 		 */
 		static void OnKeyUp( MyGUI::WidgetPtr widget, MyGUI::KeyCode key );
 
+
+		static void OnListSelectAccept( MyGUI::MultiListPtr widget, size_t index );
+
 		
 		/*! Returns a list of supported Video Resolutions
 		 *
@@ -231,10 +239,14 @@ namespace UX
 		 */
 		std::vector< std::string > GetSupportedResolutions( );
 
+		Input::InputMessageBinding GetBindingForMessage( const std::string& message );
+		
+		Input::InputMessageBinding::InputMessageBindingList GetMessageBindings( );
+
 	private:
 
 		std::string m_name;
-		AnyValue::AnyValueKeyMap m_attributes;
+		AnyType::AnyTypeKeyMap m_attributes;
 
 		IUXSystemScene* m_scene;
 

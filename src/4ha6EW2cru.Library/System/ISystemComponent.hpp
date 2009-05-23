@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "SystemType.hpp"
-#include "AnyValue.hpp"
+#include "AnyType.hpp"
 
 #include "IObserver.hpp"
 #include "ISubject.hpp"
@@ -34,7 +34,7 @@ public:
 
 	/*! Initializes the Component
 	*
-	*  @param[in] AnyValue::AnyValueMap properties
+	*  @param[in] AnyType::AnyValueMap properties
 	*  @return (void)
 	*/
 	virtual void Initialize( ) = 0;
@@ -59,13 +59,13 @@ public:
 	*
 	*  @return (AnyValueMap)
 	*/
-	virtual AnyValue::AnyValueKeyMap GetAttributes( ) const = 0;
+	virtual AnyType::AnyTypeKeyMap GetAttributes( ) const = 0;
 
 	/*! Sets an Attribute on the Component *
 	 *  @param[in] const unsigned int attributeId
-	 *  @param[in] const AnyValue & value
+	 *  @param[in] const AnyType & value
 	 */
-	virtual void SetAttribute( const unsigned int& attributeId, const AnyValue& value ) = 0;
+	virtual void SetAttribute( const unsigned int& attributeId, const AnyType& value ) = 0;
 
 };
 

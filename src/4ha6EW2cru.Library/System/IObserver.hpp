@@ -7,7 +7,9 @@
 #ifndef IOBSERVER_H
 #define IOBSERVER_H
 
-#include "AnyValue.hpp"
+#include "AnyType.hpp"
+
+#include "../System/SystemType.hpp"
 
 #include <deque>
 
@@ -19,15 +21,15 @@ class IObserver
 
 public:
 
-	typedef std::multimap< unsigned int, IObserver* > ObserverMap;
+	typedef std::multimap< System::Message, IObserver* > ObserverMap;
 	typedef std::deque< IObserver* > ObserverList;
 
 	/*! Messages the Component to influence its internal state
 	*
 	*  @param[in] const std::string & message
-	*  @return (AnyValue)
+	*  @return (AnyType)
 	*/
-	virtual AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters ) = 0;
+	virtual AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) = 0;
 
 };
 

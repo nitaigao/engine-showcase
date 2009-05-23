@@ -8,7 +8,7 @@
 #define IPLATFORMMANAGER_H
 
 #include <string>
-#include "../System/AnyValue.hpp"
+#include "../System/AnyType.hpp"
 
 namespace Platform
 {
@@ -83,9 +83,9 @@ namespace Platform
 
 		/*! Returns a map of the command line options used when launching the game
 		 *
-		 *  @return (AnyValue::AnyValueMap)
+		 *  @return (AnyType::AnyTypeMap)
 		 */
-		virtual AnyValue::AnyValueMap GetProgramOptions( ) const = 0;
+		virtual AnyType::AnyTypeMap GetProgramOptions( ) const = 0;
 	};
 };
 

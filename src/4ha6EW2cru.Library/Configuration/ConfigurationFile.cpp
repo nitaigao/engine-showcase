@@ -26,46 +26,48 @@ namespace Configuration
 		return new ConfigurationFile( resource->GetFileBuffer( ) );
 	}
 
-	AnyValue ConfigurationFile::FindConfigItem( const std::string& section, const std::string& key, const AnyValue& defaultValue )
+	AnyType ConfigurationFile::FindConfigItem( const std::string& section, const std::string& key, const AnyType& defaultValue )
 	{
-		AnyValue result;
-		AnyValue& unConstDefaultValue = const_cast< AnyValue& >( defaultValue );
+		AnyType result;
+		AnyType& unConstDefaultValue = const_cast< AnyType& >( defaultValue );
 
 		if ( unConstDefaultValue.GetType( ) == typeid( bool ) )
 		{
-			result = m_ini->GetBoolValue( section.c_str( ), key.c_str( ), unConstDefaultValue.GetValue< bool >( ) );
+			result = m_ini->GetBoolValue( section.c_str( ), key.c_str( ), unConstDefaultValue.As< bool >( ) );
 		}
 
 		if ( unConstDefaultValue.GetType( ) == typeid( int ) )
 		{
-			result = static_cast< int >( m_ini->GetLongValue( section.c_str( ), key.c_str( ), unConstDefaultValue.GetValue< int >( ) ) );
+			result = static_cast< int >( m_ini->GetLongValue( section.c_str( ), key.c_str( ), unConstDefaultValue.As< int >( ) ) );
 		}
 
 		if ( unConstDefaultValue.GetType( ) == typeid( std::string ) )
 		{
-			result = m_ini->GetValue( section.c_str( ), key.c_str( ), unConstDefaultValue.GetValue< std::string >( ).c_str( ) );
+			result = m_ini->GetValue( section.c_str( ), key.c_str( ), unConstDefaultValue.As< std::string >( ).c_str( ) );
 		}
 
 		return result;
 	}
 
-	void ConfigurationFile::Update( const std::string& section, const std::string& key, const AnyValue& value )
+
+
+	void ConfigurationFile::Update( const std::string& section, const std::string& key, const AnyType& value )
 	{
-		AnyValue& unConstValue = const_cast< AnyValue& >( value );
+		AnyType& unConstValue = const_cast< AnyType& >( value );
 
 		if ( unConstValue.GetType( ) == typeid( bool ) )
 		{
-			m_ini->SetBoolValue( section.c_str( ), key.c_str( ), unConstValue.GetValue< bool >( ) );
+			m_ini->SetBoolValue( section.c_str( ), key.c_str( ), unConstValue.As< bool >( ) );
 		}
 
 		if ( unConstValue.GetType( ) == typeid( int ) )
 		{
-			m_ini->SetLongValue( section.c_str( ), key.c_str( ), unConstValue.GetValue< int >( ) );
+			m_ini->SetLongValue( section.c_str( ), key.c_str( ), unConstValue.As< int >( ) );
 		}
 
 		if ( unConstValue.GetType( ) == typeid( std::string ) )
 		{
-			m_ini->SetValue( section.c_str( ), key.c_str( ), unConstValue.GetValue< std::string >( ).c_str( ) );
+			m_ini->SetValue( section.c_str( ), key.c_str( ), unConstValue.As< std::string >( ).c_str( ) );
 		}
 	}
 
@@ -80,5 +82,22 @@ namespace Configuration
 
 		FileBuffer fileBuffer( outputBuffer, output.length( ), filePath );
 		Management::GetInstance( )->GetFileManager( )->SaveFile( fileBuffer );
+	}
+
+	AnyType::AnyTypeMap ConfigurationFile::FindConfigSection( const std::string& section )
+	{
+		AnyType::AnyTypeMap items;
+
+		const CSimpleIni::TKeyVal* results =  m_ini->GetSection( section.c_str( ) );
+
+		if ( results )
+		{
+			for ( CSimpleIni::TKeyVal::const_iterator i = results->begin( ); i != results->end( ); ++i )
+			{
+				items[ ( *i ).first.pItem ] = ( *i ).second;
+			}
+		}
+
+		return items;
 	}
 }

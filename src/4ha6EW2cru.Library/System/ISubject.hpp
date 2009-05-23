@@ -7,7 +7,7 @@
 #ifndef ISUBJECT
 #define ISUBJECT
 
-#include "../System/AnyValue.hpp"
+#include "../System/AnyType.hpp"
 #include "../System/IObserver.hpp"
 
 /*! 
@@ -36,10 +36,10 @@ public:
 	/*! Posts a message to observers
 	*
 	*  @param[in] const std::string & message
-	*  @param[in] AnyValue::AnyValueMap parameters
-	*  @return (AnyValue)
+	*  @param[in] AnyType::AnyValueMap parameters
+	*  @return (AnyType)
 	*/
-	virtual AnyValue PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters ) = 0;
+	virtual AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) = 0;
 
 };
 

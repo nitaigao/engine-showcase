@@ -79,7 +79,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( when_the_sound_system_is_initialized );
 class when_the_service_interface_is_called_with_a_command_of_playMusic : public SoundSystem_Specs_BaseContext
 {
 
-	AnyValue::AnyValueMap _results;
+	AnyType::AnyTypeMap _results;
 
 public:
 
@@ -87,7 +87,7 @@ public:
 	{
 		_subject->Initialize( );
 
-		AnyValue::AnyValueMap parameters;
+		AnyType::AnyTypeMap parameters;
 		parameters[ "filePath" ] = "/data/sound/music/ux.fev";
 		_subject->Execute( "load", parameters );
 
@@ -111,7 +111,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( when_the_service_interface_is_called_with_a_com
 class when_the_service_interface_is_called_with_a_command_of_load : public SoundSystem_Specs_BaseContext
 {
 
-	AnyValue::AnyValueMap _results;
+	AnyType::AnyTypeMap _results;
 
 public:
 
@@ -119,7 +119,7 @@ public:
 	{
 		_subject->Initialize( );
 
-		AnyValue::AnyValueMap parameters;
+		AnyType::AnyTypeMap parameters;
 		parameters[ "filePath" ] = "/data/sound/music/ux.fev";
 
 		_results = _subject->Execute( "load", parameters );

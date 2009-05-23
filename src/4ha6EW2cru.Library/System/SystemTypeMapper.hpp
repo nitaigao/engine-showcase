@@ -15,7 +15,7 @@ namespace System
 	/*! 
 	 *  Maps Strings to System::Types::Type's
 	 */
-	class TypeMapper
+	class SystemTypeMapper
 	{
 
 	public:

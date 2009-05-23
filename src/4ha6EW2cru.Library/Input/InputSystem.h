@@ -15,11 +15,6 @@
 #include "../Service/IService.hpp"
 #include "../Configuration/IConfiguration.hpp"
 
-#include <OIS/OISInputManager.h>
-#include <OIS/OISKeyboard.h>
-#include <OIS/OISMouse.h>
-
-
 namespace Input
 {
 	/*! 
@@ -69,13 +64,6 @@ namespace Input
 		*/
 		inline void Update( const float& deltaMilliseconds );
 
-
-		/*! Destroys the System Scene
-		*
-		*  @return (void)
-		*/
-		inline void Destroy( ) { };
-
 	
 		/*! Releases internal data of the System
 		*
@@ -83,6 +71,15 @@ namespace Input
 		*/
 		void Release( ) { };
 	
+
+		/*! Messages the system with a command
+		*
+		* @param[in] const std::string & message
+		* @param[in] AnyType::AnyTypeMap parameters
+		* @return ( void )
+		*/
+		void Message( const std::string& message, AnyType::AnyTypeMap parameters );
+
 	
 		/*! Returns the type of the System
 		*
@@ -100,18 +97,18 @@ namespace Input
 	
 		/*! Gets the System's Properties
 		*
-		*  @return (AnyValueMap)
+		*  @return (AnyTypeMap)
 		*/
-		inline AnyValue::AnyValueMap GetAttributes( ) const { return m_attributes; };
+		inline AnyType::AnyTypeMap GetAttributes( ) const { return m_attributes; };
 	
 	
 		/*! Sets a System Property
 		*
 		*  @param[in] const std::string & name
-		*  @param[in] AnyValue value
+		*  @param[in] AnyType value
 		*  @return (void)
 		*/
-		void SetAttribute( const std::string& name, AnyValue value );
+		void SetAttribute( const std::string& name, AnyType value );
 	
 
 		/*! Creates a SystemComponent specific to the SystemScene
@@ -163,21 +160,46 @@ namespace Input
 		 *  @return (bool)
 		 */
 		bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+
+
+		/*! Returns the Bindings setup in the config file
+		*
+		* @return ( AnyType::AnyTypeMap )
+		*/
+		inline InputMessageBinding::InputMessageBindingList GetBindings( ) { return m_messageBindings; };
+
+
+		/*! Returns the Keyboard controller
+		*
+		* @return ( OIS::Keyboard* )
+		*/
+		inline OIS::Keyboard* GetKeyboard( ) { return m_keyboard; };
+
+
+		/*! Returns the Mouse controller
+		*
+		* @return ( OIS::Mouse* )
+		*/
+		inline OIS::Mouse* GetMouse( ) { return m_mouse; };
 	
 	
 		/*! Service interface for Input Tasks
 		 *
 		 *  @param[in] const std::string & actionName
-		 *  @param[in] AnyValue::AnyValueMap & parameters
-		 *  @return (AnyValue::AnyValueMap)
+		 *  @param[in] AnyType::AnyTypeMap & parameters
+		 *  @return (AnyType::AnyTypeMap)
 		 */
-		AnyValue::AnyValueMap Execute( const std::string& actionName, AnyValue::AnyValueMap& parameters );
+		AnyType::AnyTypeMap Execute( const std::string& actionName, AnyType::AnyTypeMap& parameters );
 	
 	private:
+
+		void LoadMessageBindings( );
 	
 		bool _inputAllowed;
 	
-		AnyValue::AnyValueMap m_attributes;
+		AnyType::AnyTypeMap m_attributes;
+		InputMessageBinding::InputMessageBindingList m_messageBindings;
+
 		Configuration::IConfiguration* m_configuration;
 		InputSystemSceneList m_inputScenes;
 	

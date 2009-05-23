@@ -7,7 +7,7 @@ script:include( '/data/entities/scripts/entities/weapon.lua' )
 
 Character = { 
 	health = 100,
-	weapon = Weapon:create( 'fsg400', 10, 5 ),
+	weapon = Weapon:create( 'fsg400', 5, 2 ),
 	isdead = false,
 	eyeLevel = Vector( 0, 1.73, 0 )
 }

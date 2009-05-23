@@ -134,7 +134,7 @@ namespace Platform
 		OutputDebugString( message.c_str( ) );
 	}
 
-	AnyValue::AnyValueMap Win32PlatformManager::GetProgramOptions( ) const
+	AnyType::AnyTypeMap Win32PlatformManager::GetProgramOptions( ) const
 	{
 		int argc = 0;
 		LPWSTR* argv = CommandLineToArgvW( GetCommandLineW( ), &argc );
@@ -159,7 +159,7 @@ namespace Platform
 			);
 			
 
-		AnyValue::AnyValueMap programOptions;
+		AnyType::AnyTypeMap programOptions;
 
 		for ( variables_map::iterator i = variablesMap.begin( ); i != variablesMap.end( ); ++i )
 		{

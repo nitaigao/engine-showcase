@@ -136,7 +136,8 @@ namespace Physics
 			m_attributes[ System::Attributes::Position ] = MathVector3( m_body->getPosition( ) );
 			m_attributes[ System::Attributes::Orientation ] = MathQuaternion( m_body->getRotation( ) );
 
-			this->PushMessage( System::Messages::SetPosition | System::Messages::SetOrientation, m_attributes );
+			this->PushMessage( System::Messages::SetPosition, m_attributes );
+			this->PushMessage( System::Messages::SetOrientation, m_attributes );
 
 			float stopSpeed = 0.0f;
 
@@ -150,33 +151,33 @@ namespace Physics
 		}
 	}
 
-	AnyValue PhysicsSystemCharacterComponent::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	AnyType PhysicsSystemCharacterComponent::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
 	{
-		AnyValue returnValue = PhysicsSystemComponent::Message( messageId, parameters );
+		AnyType returnValue = PhysicsSystemComponent::Message( message, parameters );
 
 		float walkSpeed = 2.0f;
 
-		if( messageId & System::Messages::Move_Forward )
+		if( message == System::Messages::Move_Forward )
 		{
 			m_forwardBackward = -walkSpeed;
 		}
 
-		if( messageId & System::Messages::Move_Backward )
+		if( message == System::Messages::Move_Backward )
 		{
 			m_forwardBackward = walkSpeed;
 		}
 
-		if( messageId & System::Messages::Strafe_Right )
+		if( message == System::Messages::Strafe_Right )
 		{
 			m_leftRight = -walkSpeed;
 		}
 
-		if( messageId & System::Messages::Strafe_Left )
+		if( message == System::Messages::Strafe_Left )
 		{
 			m_leftRight = walkSpeed;
 		}
 
-		if( messageId & System::Messages::Jump )
+		if( message == System::Messages::Jump )
 		{
 			m_characterInput.m_wantJump = true;
 		}

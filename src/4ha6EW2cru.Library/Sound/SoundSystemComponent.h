@@ -43,7 +43,7 @@ namespace Sound
 
 		/*! Initializes the Component
 		*
-		*  @param[in] AnyValue::AnyValueMap properties
+		*  @param[in] AnyType::AnyValueMap properties
 		*  @return (void)
 		*/
 		inline void Initialize( ) { };
@@ -74,34 +74,34 @@ namespace Sound
 
 		/*! Gets the properties of the Component
 		*
-		*  @return (AnyValueKeyMap)
+		*  @return (AnyTypeKeyMap)
 		*/
-		AnyValue::AnyValueKeyMap GetAttributes( ) const { return m_attributes; };
+		AnyType::AnyTypeKeyMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets an Attribute on the Component *
 		*
 		*  @param[in] const unsigned int attributeId
-		*  @param[in] const AnyValue & value
+		*  @param[in] const AnyType & value
 		*/
-		inline void SetAttribute( const unsigned int& attributeId, const AnyValue& value ) { m_attributes[ attributeId ] = value; };
+		inline void SetAttribute( const unsigned int& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
 
 
 		/*! Posts a message to observers
 		*
 		*  @param[in] const std::string & message
-		*  @param[in] AnyValue::AnyValueMap parameters
-		*  @return (AnyValue)
+		*  @param[in] AnyType::AnyValueMap parameters
+		*  @return (AnyType)
 		*/
-		inline AnyValue PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters ) { return AnyValue( ); };
+		inline AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) { return AnyType( ); };
 
 
 		/*! Messages the Component to influence its internal state
 		*
 		*  @param[in] const std::string & message
-		*  @return (AnyValue)
+		*  @return (AnyType)
 		*/
-		AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
+		AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
 
 		void TriggerEvent( const std::string& eventPath );
 		void KeyoutEvent( const std::string& eventPath );
@@ -116,7 +116,7 @@ namespace Sound
 		ISoundScene* m_soundSystemScene;
 
 		std::string m_name;
-		AnyValue::AnyValueKeyMap m_attributes;
+		AnyType::AnyTypeKeyMap m_attributes;
 
 		SoundEventList m_activeSoundEvents;
 

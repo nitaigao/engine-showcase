@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "../System/SystemType.hpp"
-#include "../System/AnyValue.hpp"
+#include "../System/AnyType.hpp"
 
 /*! 
  *  An Anonymous Service Interface
@@ -33,10 +33,10 @@ public:
 	/*! Executes a command on the Service
 	 *
 	 *  @param[in] const std::string & actionName
-	 *  @param[in] AnyValue::AnyValueMap & parameters
-	 *  @return (AnyValue::AnyValueMap)
+	 *  @param[in] AnyType::AnyTypeMap & parameters
+	 *  @return (AnyType::AnyTypeMap)
 	 */
-	virtual AnyValue::AnyValueMap Execute( const std::string& actionName, AnyValue::AnyValueMap& parameters ) = 0;
+	virtual AnyType::AnyTypeMap Execute( const std::string& actionName, AnyType::AnyTypeMap& parameters ) = 0;
 
 };
 

@@ -15,9 +15,9 @@ namespace Configuration
 		return new ClientConfiguration( configFile );
 	}
 
-	AnyValue ClientConfiguration::Find( const std::string& section, const std::string& key )
+	AnyType ClientConfiguration::Find( const std::string& section, const std::string& key )
 	{
-		AnyValue result;
+		AnyType result;
 
 		for( DefaultPropertyList::iterator i = m_defaultPropertyList.begin( ); i != m_defaultPropertyList.end( ); ++i )
 		{
@@ -30,14 +30,19 @@ namespace Configuration
 		return result;
 	}
 
-	void ClientConfiguration::Set( const std::string& section, const std::string& key, const AnyValue& value )
+	void ClientConfiguration::Set( const std::string& section, const std::string& key, const AnyType& value )
 	{
 		m_configFile->Update( section, key, value );
 		m_configFile->Save( "config/game.cfg" );
 	}
 
-	void ClientConfiguration::SetDefault( const std::string& section, const std::string& key, const AnyValue& value )
+	void ClientConfiguration::SetDefault( const std::string& section, const std::string& key, const AnyType& value )
 	{
 		m_defaultPropertyList[ key ] = value;
+	}
+
+	AnyType::AnyTypeMap ClientConfiguration::FindSection( const std::string& section )
+	{
+		return m_configFile->FindConfigSection( section );
 	}
 }

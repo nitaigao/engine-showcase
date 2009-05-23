@@ -10,25 +10,25 @@ using namespace Logging;
 
 namespace Renderer
 {
-	AnyValue RendererSystemCameraComponent::Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters )
+	AnyType RendererSystemCameraComponent::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
 	{
-		RendererSystemComponent::Message( messageId, parameters );
+		RendererSystemComponent::Message( message, parameters );
 
-		if( messageId & System::Messages::SetOrientation )
+		if( message == System::Messages::SetOrientation )
 		{
-			m_sceneNode->setOrientation( parameters[ System::Attributes::Orientation ].GetValue< MathQuaternion >( ).AsOgreQuaternion( ) );
+			m_sceneNode->setOrientation( parameters[ System::Attributes::Orientation ].As< MathQuaternion >( ).AsOgreQuaternion( ) );
 		}
 
-		if ( messageId & System::Messages::Mouse_Moved )
+		if ( message == System::Messages::Mouse_Moved )
 		{
 			m_xHistory.pop_back( );
-			m_xHistory.push_front( parameters[ System::Attributes::DeltaX ].GetValue< int >( ) );
+			m_xHistory.push_front( parameters[ System::Attributes::DeltaX ].As< int >( ) );
 
 			m_yHistory.pop_back( );
-			m_yHistory.push_front( parameters[ System::Attributes::DeltaY ].GetValue< int >( ) );
+			m_yHistory.push_front( parameters[ System::Attributes::DeltaY ].As< int >( ) );
 		}
 
-		return AnyValue( );
+		return AnyType( );
 	}
 
 	void RendererSystemCameraComponent::Update( const float& deltaMilliseconds )
@@ -85,7 +85,7 @@ namespace Renderer
 		m_cameraNode = m_scene->GetSceneManager( )->createSceneNode( cameraNodeName.str( ) );
 		m_sceneNode->addChild( m_cameraNode );
 
-		this->LoadModel( m_cameraNode, m_attributes[ System::Attributes::Model ].GetValue< std::string >( ) );
+		this->LoadModel( m_cameraNode, m_attributes[ System::Attributes::Model ].As< std::string >( ) );
 
 		m_scene->GetSceneManager( )->getRootSceneNode( )->addChild( m_sceneNode );
 

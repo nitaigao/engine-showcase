@@ -9,6 +9,7 @@
     <Layer name="Main" overlapped="false" pick="true"/>
 	<Layer name="Modal" overlapped="true" pick="true"/>
     <Layer name="Popup" overlapped="true" pick="true"/>
+	<Layer name="Sole" overlapped="true" pick="false"/>
     <Layer name="FadeMiddle" overlapped="false" pick="false"/>
     <Layer name="Info" overlapped="true" pick="true"/>
     <Layer name="ToolTip" overlapped="false" pick="false"/>

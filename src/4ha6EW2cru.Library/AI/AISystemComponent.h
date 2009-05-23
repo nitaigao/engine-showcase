@@ -53,7 +53,7 @@ namespace AI
 
 		/*! Initializes the Component
 		 *
-		 *  @param[in] AnyValue::AnyValueMap attributes
+		 *  @param[in] AnyType::AnyValueMap attributes
 		 *  @return (void)
 		 */
 		void Initialize( );
@@ -85,33 +85,33 @@ namespace AI
 		/*! Posts a message to observers
 		*
 		*  @param[in] const std::string & message
-		*  @param[in] AnyValue::AnyValueMap parameters
-		*  @return (AnyValue)
+		*  @param[in] AnyType::AnyValueMap parameters
+		*  @return (AnyType)
 		*/
-		AnyValue PushMessage( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
+		AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
 
 
 		/*! Messages the Component to influence its internal state
 		*
 		*  @param[in] const std::string & message
-		*  @return (AnyValue)
+		*  @return (AnyType)
 		*/
-		AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
+		AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
 
 
 		/*! Gets the attributes of the Component
 		 *
 		 *  @return (AnyValueMap)
 		 */
-		inline AnyValue::AnyValueKeyMap GetAttributes( ) const { return m_attributes; };
+		inline AnyType::AnyTypeKeyMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets an Attribute on the Component *
 		*
 		*  @param[in] const unsigned int attributeId
-		*  @param[in] const AnyValue & value
+		*  @param[in] const AnyType & value
 		*/
-		inline void SetAttribute( const unsigned int& attributeId, const AnyValue& value ) { m_attributes[ attributeId ] = value; };
+		inline void SetAttribute( const unsigned int& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
 
 
 		/* AI Specific */
@@ -172,7 +172,7 @@ namespace AI
 		*
 		*  @return (const std::string&)
 		*/
-		inline std::string GetName( ) { return m_attributes[ System::Attributes::Name ].GetValue< std::string >( ); };
+		inline std::string GetName( ) { return m_attributes[ System::Attributes::Name ].As< std::string >( ); };
 
 	private:
 
@@ -185,7 +185,7 @@ namespace AI
 
 		float m_playerDistance;
 
-		AnyValue::AnyValueKeyMap m_attributes;
+		AnyType::AnyTypeKeyMap m_attributes;
 
 	};
 };

@@ -51,7 +51,7 @@ namespace Physics
 
 		/*! Initializes the Component
 		*
-		*  @param[in] AnyValue::AnyValueMap properties
+		*  @param[in] AnyType::AnyValueMap properties
 		*  @return (void)
 		*/
 		void Initialize( );
@@ -64,7 +64,7 @@ namespace Physics
 		*/
 		void Update( const float& deltaMilliseconds );
 
-		AnyValue Message( const unsigned int& messageId, AnyValue::AnyValueKeyMap parameters );
+		AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
 
 	private:
 

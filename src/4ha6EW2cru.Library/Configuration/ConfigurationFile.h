@@ -41,20 +41,28 @@ namespace Configuration
 		 *
 		 *  @param[in] const std::string & section
 		 *  @param[in] const std::string & key
-		 *  @param[in] const AnyValue & defaultValue
-		 *  @return (AnyValue)
+		 *  @param[in] const AnyType & defaultValue
+		 *  @return (AnyType)
 		 */
-		AnyValue FindConfigItem( const std::string& section, const std::string& key, const AnyValue& defaultValue );
+		AnyType FindConfigItem( const std::string& section, const std::string& key, const AnyType& defaultValue );
+
+
+		/*! Returns an Entire Config Section
+		*
+		* @param[in] const std::string & section
+		* @return ( AnyType::AnyTypeMap )
+		*/
+		AnyType::AnyTypeMap FindConfigSection( const std::string& section );
 
 
 		/*! Updates a configuration item based on the given section and key
 		 *
 		 *  @param[in] const std::string & section
 		 *  @param[in] const std::string & key
-		 *  @param[in] const AnyValue & value
+		 *  @param[in] const AnyType & value
 		 *  @return (void)
 		 */
-		void Update( const std::string& section, const std::string& key, const AnyValue& value );
+		void Update( const std::string& section, const std::string& key, const AnyType& value );
 
 
 		/*! Saves the configuration file to the File System

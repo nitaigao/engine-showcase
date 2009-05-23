@@ -17,11 +17,11 @@ namespace Input
 {
 	ISystemComponent* InputSystemScene::CreateComponent( const std::string& name, const std::string& type )
 	{
-		IInputSystemComponent* component = new InputSystemComponent( name, m_mouse, m_keyboard );
+		IInputSystemComponent* component = new InputSystemComponent( );
 
 		component->SetAttribute( System::Attributes::Name, name );
 		component->SetAttribute( System::Attributes::Type, System::Types::INPUT );
-		component->SetAttribute( System::Attributes::Parent, this );
+		component->SetAttribute( System::Attributes::Parent, static_cast< IInputSystemScene* >( this ) );
 
 		m_inputComponents.push_back( component );
 
@@ -52,8 +52,8 @@ namespace Input
 				( *i )->Update( deltaMilliseconds );
 			}
 
-			const_cast< MouseState& >( m_mouse->getMouseState( ) ).X.abs = m_mouse->getMouseState( ).width / 2;
-			const_cast< MouseState& >( m_mouse->getMouseState( ) ).Y.abs = m_mouse->getMouseState( ).height / 2;
+			const_cast< MouseState& >( m_system->GetMouse( )->getMouseState( ) ).X.abs = m_system->GetMouse( )->getMouseState( ).width / 2;
+			const_cast< MouseState& >( m_system->GetMouse( )->getMouseState( ) ).Y.abs = m_system->GetMouse( )->getMouseState( ).height / 2;
 		}
 	}
 
@@ -61,7 +61,7 @@ namespace Input
 	{
 		if ( arg.key != OIS::KC_GRAVE )
 		{
-			Event* event = new Event( INPUT_KEY_DOWN, new KeyEventData( arg.key, m_keyboard->getAsString( arg.key ) ) );
+			Event* event = new Event( INPUT_KEY_DOWN, new KeyEventData( arg.key, m_system->GetKeyboard( )->getAsString( arg.key ) ) );
 			Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 		}
 
@@ -77,21 +77,20 @@ namespace Input
 		else if ( arg.key == OIS::KC_F12 )
 		{
 			IService* renderService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::RENDER );
-			renderService->Execute( "screenShot", AnyValue::AnyValueMap( ) );
+			renderService->Execute( "screenShot", AnyType::AnyTypeMap( ) );
 		}
 		else
 		{
-			IEvent* scriptEvent = new ScriptEvent( "INPUT_KEY_UP", arg.key, m_keyboard->getAsString( arg.key ) );
+			IEvent* scriptEvent = new ScriptEvent( "INPUT_KEY_UP", arg.key, m_system->GetKeyboard( )->getAsString( arg.key ) );
 			Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
 
-			IEvent* event = new Event( INPUT_KEY_UP, new KeyEventData( arg.key, m_keyboard->getAsString( arg.key ) ) );
+			IEvent* event = new Event( INPUT_KEY_UP, new KeyEventData( arg.key, m_system->GetKeyboard( )->getAsString( arg.key ) ) );
 			Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
 		}
 
 		return true;
 	}
 
-	/* Fired when the user moves the mouse */
 	bool InputSystemScene::MouseMoved( const MouseEvent &arg )
 	{
 		Event* event = new Event( INPUT_MOUSE_MOVED, new MouseEventData( arg.state, OIS::MB_Left ) );
@@ -100,7 +99,6 @@ namespace Input
 		return true;
 	}
 
-	/* Fired when the user presses a button on the mouse */
 	bool InputSystemScene::MousePressed( const MouseEvent &arg, MouseButtonID id )
 	{
 		if ( m_inputAllowed )
@@ -117,7 +115,6 @@ namespace Input
 		return true;
 	}
 
-	/* Fired when the user releases a button on the mouse */
 	bool InputSystemScene::MouseReleased( const MouseEvent &arg, MouseButtonID id )
 	{	
 		if ( m_inputAllowed )

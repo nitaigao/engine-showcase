@@ -57,7 +57,7 @@ void Game::Initialize( )
 	m_configuration->SetDefault( "Developer", "console", false );
 	m_configuration->SetDefault( "Logging", "level", static_cast< int >( LEVEL_FATAL ) );
 
-	LogLevel logLevel = static_cast< LogLevel >( m_configuration->Find( "Logging", "level" ).GetValue< int >( ) );
+	LogLevel logLevel = static_cast< LogLevel >( m_configuration->Find( "Logging", "level" ).As< int >( ) );
 	Logger::SetLogLevel( logLevel );
 
 	// -- Initialize All Systems
@@ -85,11 +85,11 @@ void Game::Initialize( )
 	Management::GetInstance( )->GetEventManager( )->AddEventListener( GAME_ENDED, this, &Game::OnGameEnded );
 	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_INITIALIZED" ) );
 
-	AnyValue::AnyValueMap programOptions = Management::GetInstance( )->GetPlatformManager( )->GetProgramOptions( );
+	AnyType::AnyTypeMap programOptions = Management::GetInstance( )->GetPlatformManager( )->GetProgramOptions( );
 	
 	if ( programOptions.find( System::Options::LevelName ) != programOptions.end( ) )
 	{
-		std::string levelName = programOptions[ System::Options::LevelName ].GetValue< std::string >( );
+		std::string levelName = programOptions[ System::Options::LevelName ].As< std::string >( );
 		LevelChangedEventData* eventData = new LevelChangedEventData( levelName );
 		Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
 	}
