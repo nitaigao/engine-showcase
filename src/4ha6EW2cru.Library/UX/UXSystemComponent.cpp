@@ -39,6 +39,45 @@ namespace UX
 		inputService->Execute( "setInputAllowed", parameters );
 	}
 
+	void UXSystemComponent::UnScriptWidget( MyGUI::Widget* widget, const std::string& eventName, luabind::object function )
+	{
+		void* userData = widget->getUserData( );
+		UXSystemComponent::WidgetUserData* widgetUserData = static_cast< UXSystemComponent::WidgetUserData* >( userData );
+
+		if ( 0 != widgetUserData )
+		{
+			for ( UXSystemComponent::WidgetUserData::iterator i = widgetUserData->begin( ); i != widgetUserData->end( ); ++i )
+			{
+				if ( ( *i ).first == eventName )
+				{
+					if ( eventName == "onRelease" )
+					{
+						widget->eventMouseButtonReleased = 0;
+					}
+
+					if ( eventName == "onClick" )
+					{
+						widget->eventMouseButtonPressed = 0;
+					}
+
+					if ( eventName == "onKeyUp" )
+					{
+						widget->eventKeyButtonReleased = 0;
+					}
+
+					if ( eventName == "onListSelectAccept" )
+					{
+						static_cast< MultiList* >( widget )->eventListSelectAccept = 0;
+					}
+
+					widgetUserData->erase( i );
+
+					return;
+				}
+			}
+		}
+	}
+
 	void UXSystemComponent::ScriptWidget( MyGUI::Widget* widget, const std::string eventName, luabind::object function )
 	{
 		void* userData = widget->getUserData( );
@@ -129,7 +168,7 @@ namespace UX
 				char* keyText = ( char* ) &keyCode;
 
 				object eventHandler = *( *i ).second;
-				eventHandler( keyCode, std::string( keyText ) );
+				eventHandler( static_cast< int >( key.value ), std::string( keyText ) );
 			}
 		}
 	}
@@ -180,14 +219,7 @@ namespace UX
 		return resolutions;
 	}
 
-	InputMessageBinding::InputMessageBindingList UXSystemComponent::GetMessageBindings( )
-	{
-		IService* inputService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::INPUT );
-		AnyType::AnyTypeMap results = inputService->Execute( "getMessageBindings", AnyType::AnyTypeMap( ) );
-		return results[ "result" ].As< InputMessageBinding::InputMessageBindingList >( );
-	}
-
-	InputMessageBinding UXSystemComponent::GetBindingForMessage( const std::string& message )
+	InputMessageBinding UXSystemComponent::GetMessageBinding( const std::string& message )
 	{
 		IService* inputService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::INPUT );
 
@@ -195,5 +227,15 @@ namespace UX
 		parameters[ System::Attributes::Message ] = message;
 
 		return inputService->Execute( System::Messages::GetBindingForMessage, parameters )[ "result" ].As< InputMessageBinding >( );
+	}
+
+	void UXSystemComponent::SetMessageBinding( const std::string& message, const std::string& binding )
+	{
+		IService* inputService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::INPUT );
+
+		AnyType::AnyTypeMap parameters;
+		parameters[ System::Attributes::Message ] = message;
+		parameters[ System::Attributes::Binding ] = binding;
+		inputService->Execute( System::Messages::SetBindingForMessage, parameters );
 	}
 }

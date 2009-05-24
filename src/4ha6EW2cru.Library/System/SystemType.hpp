@@ -62,6 +62,7 @@ namespace System
 		static const unsigned int Keyboard					=	( 1 << 17 );
 		static const std::string ScriptState				=	"scriptState";
 		static const std::string Message					=	"message";
+		static const std::string Binding					=	"binding";
 	};
 
 	typedef std::string Message;
@@ -90,6 +91,7 @@ namespace System
 		static const std::string RegisterScriptFunctions	=	"registerScriptFunctions";
 		static const std::string RegisterService			=	"registerService";
 		static const std::string GetBindingForMessage		=	"getBindingForMessage";
+		static const std::string SetBindingForMessage		=	"setBindingForMessage";
 		static const std::string PlayAnimation				=	"playAnimation";
 	}
 };

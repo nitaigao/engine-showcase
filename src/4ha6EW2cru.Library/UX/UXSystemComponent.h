@@ -143,6 +143,16 @@ namespace UX
 		 */
 		void ScriptWidget( MyGUI::Widget* widget, const std::string eventName, luabind::object function );
 
+
+		/*! Removes an LUA function from a Widget Event
+		*
+		*  @param[in] MyGUI::Widget * widget
+		*  @param[in] const std::string eventName
+		*  @param[in] luabind::object function
+		*  @return (void)
+		*/
+		void UnScriptWidget( MyGUI::Widget* widget, const std::string& eventName, luabind::object function );
+
 		
 		/*! Shows the mouse
 		 *
@@ -239,9 +249,9 @@ namespace UX
 		 */
 		std::vector< std::string > GetSupportedResolutions( );
 
-		Input::InputMessageBinding GetBindingForMessage( const std::string& message );
-		
-		Input::InputMessageBinding::InputMessageBindingList GetMessageBindings( );
+		Input::InputMessageBinding GetMessageBinding( const std::string& message );
+
+		void SetMessageBinding( const std::string& message, const std::string& binding );
 
 	private:
 

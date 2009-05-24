@@ -13,8 +13,6 @@ using namespace Logging;
 #include "../Exceptions/UnInitializedException.hpp"
 #include "../Exceptions/AlreadyInitializedException.hpp"
 
-#include "../System/SystemMessageMapper.hpp"
-
 using namespace OIS;
 
 namespace Input
@@ -58,15 +56,14 @@ namespace Input
 			}
 		}
 	}
-	
-	
+
 	void InputSystem::Update( const float& deltaMilliseconds )
 	{
 		m_mouse->capture( );
 		m_keyboard->capture( );
 
-		m_mouse->getMouseState( ).width = m_configuration->Find( "Graphics", "width" ).As< int >( );
-		m_mouse->getMouseState( ).height = m_configuration->Find( "Graphics", "height" ).As< int >( );
+		m_mouse->getMouseState( ).width = m_configuration->Find( System::ConfigSections::Graphics, "width" ).As< int >( );
+		m_mouse->getMouseState( ).height = m_configuration->Find( System::ConfigSections::Graphics, "height" ).As< int >( );
 	}
 	
 	bool InputSystem::keyPressed( const KeyEvent &arg )
@@ -144,8 +141,31 @@ namespace Input
 				}
 			}
 
-			results[ "result" ] = InputMessageBinding( BINDING_KEYBOARD, 0, "", "" ); 
+			results[ "result" ] = InputMessageBinding( parameters[ System::Attributes::Message ].As< std::string >( ), "" );
 			return results;
+		}
+
+		if ( message == System::Messages::SetBindingForMessage )
+		{
+			// if the binding is already set, unset the old binding
+			for ( InputMessageBinding::InputMessageBindingList::iterator i = m_messageBindings.begin( ); i != m_messageBindings.end( ); ++i )
+			{
+				if( 
+					( *i ).GetFullCode( ) == parameters[ System::Attributes::Binding ].As< std::string >( ) &&
+					( *i ).GetMessage( ) != parameters[ System::Attributes::Message ].As< std::string >( )
+					)
+				{
+					m_configuration->Set( System::ConfigSections::Bindings, ( *i ).GetMessage( ), "" );
+				}
+			}
+
+			m_configuration->Set( 
+				System::ConfigSections::Bindings, 
+				parameters[ System::Attributes::Message ].As< std::string >( ), 
+				parameters[ System::Attributes::Binding ].As< std::string >( ) 
+				);
+
+			this->LoadMessageBindings( );
 		}
 	
 		if ( message == "setInputAllowed" )
@@ -166,55 +186,20 @@ namespace Input
 
 	void InputSystem::LoadMessageBindings( )
 	{
+		m_messageBindings.clear( );
+
 		AnyType::AnyTypeMap bindings = m_configuration->FindSection( System::ConfigSections::Bindings );
 
 		for ( AnyType::AnyTypeMap::iterator i = bindings.begin( ); i != bindings.end( ); ++i )
 		{
-			std::string bindText = ( *i ).second.As< std::string >( );
+			InputMessageBinding binding( ( *i ).first, ( *i ).second.As< std::string >( ) );
 
-			std::string keyIdentifier = "k_";
-			if( bindText.find( keyIdentifier ) != std::string::npos )
+			if ( binding.GetType( ) == BINDING_KEYBOARD && !binding.GetFullCode( ).empty( ) ) 
 			{
-				std::string codeText = ( *i ).second.As< std::string >( ).substr( bindText.find( keyIdentifier ) + keyIdentifier.size( ) );
-				std::stringstream codeStream( codeText );
-
-				int code;
-				codeStream >> code;
-
-				std::string text = m_keyboard->getAsString( static_cast< KeyCode >( code ) );
-
-				InputMessageBinding binding( BINDING_KEYBOARD, code, text, ( *i ).first );
-
-				m_messageBindings.push_back( binding );
+				binding.SetText( m_keyboard->getAsString( static_cast< OIS::KeyCode >( binding.GetCode( ) ) ) );
 			}
 
-			std::string mouseIdentifier = "m_";
-			if ( bindText.find( mouseIdentifier ) != std::string::npos )
-			{
-				std::string codeText = ( *i ).second.As< std::string >( ).substr( bindText.find( mouseIdentifier ) + mouseIdentifier.size( ) );
-				std::stringstream codeStream( codeText );
-
-				int code;
-				codeStream >> code;
-
-				std::string text;
-
-				switch( static_cast< MouseButtonID >( code ) )
-				{
-
-				case MB_Left: text = "MOUSE1"; break;
-				case MB_Right: text = "MOUSE2";	break;
-				case MB_Middle: text = "MOUSE3"; break;
-				case MB_Button3: text = "MOUSE3"; break;
-				case MB_Button4: text = "MOUSE4"; break;
-				case MB_Button5: text = "MOUSE5"; break;
-				case MB_Button6: text = "MOUSE6"; break;
-				case MB_Button7: text = "MOUSE7"; break;
-
-				}
-
-				m_messageBindings.push_back( InputMessageBinding( BINDING_MOUSE, code, text, ( *i ).first ) );
-			}
+			m_messageBindings.push_back( binding );
 		}
 	}
 

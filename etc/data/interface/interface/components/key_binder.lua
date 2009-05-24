@@ -3,6 +3,7 @@
 ----------------------------------------------------------------
 
 KeyBinder = { }
+message = ''
 
 ----------------------------------------------------------------
 -- Local Variables
@@ -15,21 +16,22 @@ function KeyBinder.initialize( )
 
 	script:registerEventHandler( KeyBinder.onEvent )
 	
-	local widget = ux:findWidget( 'key_binder' )
+	widget = ux:findWidget( 'key_binder' )
+	widget:setVisible( false )
+	
 	ux:scriptWidget( widget, 'onKeyUp', KeyBinder.onKeyUp )
 	ux:scriptWidget( widget, 'onClick', KeyBinder.onClick )
 	
-	widget:setVisible( false )
-	
 end
 
-function KeyBinder.onEvent( eventName )
+function KeyBinder.onEvent( eventName, var1 )
 	
 	if ( eventName == 'UI_KEYBINDER' ) then
 	
-		local widget = ux:findWidget( 'key_binder' )
 		widget:setVisible( true )
 		widget:setFocus( true )
+		
+		message = var1
 	
 	end
 
@@ -37,28 +39,39 @@ end
 
 function KeyBinder.onHide( )
 
-	local widget = ux:findWidget( 'key_binder' )
 	widget:setVisible( false )
 
 end
 
 function KeyBinder.onKeyUp( keyCode )
 
-	if ( keyCode ~= 27 ) then -- Cancel on the Escape Key
-	
-		script:broadcastEvent( 'UI_MAPPINGBOUND' )
+	if ( widget:isVisible( ) ) then
+
+		if ( keyCode ~= 27 ) then -- Cancel on the Escape Key
+		
+			ux:setMessageBinding( message, 'k_' .. keyCode )
+		
+			script:broadcastEvent( 'UI_MAPPINGBOUND' )
+		
+		end
+		
+		KeyBinder.onHide( )
 	
 	end
-	
-	KeyBinder.onHide( )
 
 end
 
 function KeyBinder.onClick( mouseId )
-	
-	script:broadcastEvent( 'UI_MAPPINGBOUND' )
-	
-	KeyBinder.onHide( )
+
+	if ( widget:isVisible( ) ) then
+		
+		ux:setMessageBinding( message, 'm_' .. mouseId )
+		
+		script:broadcastEvent( 'UI_MAPPINGBOUND' )
+		
+		KeyBinder.onHide( )
+		
+	end
 
 end
 
