@@ -22,15 +22,9 @@ function Options.initialize( )
 	local saveButton = ux:findWidget( 'options_button_save' )
 	ux:scriptWidget( saveButton, 'onRelease', Options.onSave )
 	
-	local keymapList = ux:findWidget( 'options_keylist' ):asMultiList( )
-	ux:scriptWidget( keymapList, 'onListSelectAccept', Options.onKeyListDoubleClick )
-	
-	keymapList:addColumn( '', 0 ) -- stops the list from auto sorting
-	keymapList:addColumn( 'Action', 280 )
-	keymapList:addColumn( 'Key Mapping', 200 )
-	keymapList:addColumn( 'Message', 0 ) -- stores the message
-	
-	Options.setupMessageBindings( )
+	Options.initializeKeyboard( )
+	Options.initializeGraphics( )
+	Options.initializeAdvanced( )
 	
 end
 
@@ -58,10 +52,130 @@ function Options.onShowOptions( )
 end
 
 function Options.onSave( )
+
+	Options.saveAdvanced( )
+	Options.saveGraphics( )
 	
 	local options = ux:findWidget( 'options' )
 	options:setVisible( false )
 
+end
+
+-- Advanced --
+
+function Options.initializeAdvanced( )
+
+	local consoleButton = ux:findWidget( 'options_console_checkbox' )
+	ux:scriptWidget( consoleButton, 'onRelease', Options.onConsole )
+	
+	consoleButton = consoleButton:asButton( )
+	consoleButton:setChecked( Configuration.isConsole )
+
+end
+
+function Options.saveAdvanced( )
+
+	local consoleButton = ux:findWidget( 'options_console_checkbox' ):asButton( )
+	
+	if not ( consoleButton:getChecked( ) and Configuration.isConsole ) then
+	
+		Configuration.isConsole = consoleButton:getChecked( )
+	
+	end
+
+end
+
+function Options.onConsole( )
+
+	local consoleButton = ux:findWidget( 'options_console_checkbox' ):asButton( )
+	consoleButton:setChecked( not consoleButton:getChecked( ) )
+
+end
+
+-- Graphics --
+
+function Options.initializeGraphics( )
+
+	local fullScreenButton = ux:findWidget( 'options_fullscreen_checkbox' )
+	ux:scriptWidget( fullScreenButton, 'onRelease', Options.onFullScreen )
+	
+	fullScreenButton = fullScreenButton:asButton( )
+	fullScreenButton:setChecked( Configuration.isFullScreen ) 
+	
+	local resolutions = ux:findWidget( 'options_resolution_combo' ):asComboBox( )
+    
+	local index = 0    
+    local selectedIndex = 0
+	
+	local supportedResolutions = ux:getSupportedResolutions( )
+	
+	for key, value in pairs( supportedResolutions ) do
+	
+		resolutions:addItem( value, value )
+
+		local currentResolution = Configuration.displayWidth .. ' x ' .. Configuration.displayHeight
+		
+		if currentResolution == value then
+		
+           selectedIndex = index
+			
+		end 
+		
+		index = index + 1
+        
+	end
+    
+    resolutions:setSelectedIndex( selectedIndex )
+
+end
+
+function Options.saveGraphics( )
+
+	local resolutionCombo = ux:findWidget( 'options_resolution_combo' ):asComboBox( )
+	local selectedIndex = resolutionCombo:getSelectedIndex( )
+	local selectedResolution = resolutionCombo:getValueAt( selectedIndex )
+	
+	local displayWidth = string.sub( selectedResolution, 0, string.find( selectedResolution, 'x' ) - 2 )
+	local displayHeight = string.sub( selectedResolution, string.find( selectedResolution, 'x' ) + 2 )
+	
+	Configuration.displayWidth = tonumber( displayWidth )
+	Configuration.displayHeight = tonumber( displayHeight )
+	
+	-- Full Screen --
+	
+	local fullScreenButton = ux:findWidget( 'options_fullscreen_checkbox' ):asButton( )
+	
+	if not ( fullScreenButton:getChecked( ) and Configuration.isFullScreen ) then
+		
+		Configuration.isFullScreen = fullScreenButton:getChecked( )
+		
+	end
+	
+	ux:changeResolution( tonumber( displayWidth ), tonumber( displayHeight ), fullScreenButton:getChecked( ) )
+
+end
+
+function Options.onFullScreen( )
+
+	local fullScreenButton = ux:findWidget( 'options_fullscreen_checkbox' ):asButton( )
+	fullScreenButton:setChecked( not fullScreenButton:getChecked( ) )
+
+end
+
+-- Keyboard --
+
+function Options.initializeKeyboard( )
+
+	local keymapList = ux:findWidget( 'options_keylist' ):asMultiList( )
+	ux:scriptWidget( keymapList, 'onListSelectAccept', Options.onKeyListDoubleClick )
+	
+	keymapList:addColumn( '', 0 ) -- stops the list from auto sorting
+	keymapList:addColumn( 'Action', 280 )
+	keymapList:addColumn( 'Key Mapping', 200 )
+	keymapList:addColumn( 'Message', 0 ) -- stores the message
+	
+	Options.setupMessageBindings( )
+	
 end
 
 function Options.setupMessageBindings( )
