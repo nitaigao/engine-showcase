@@ -242,6 +242,8 @@ namespace UX
 
 		static void OnListSelectAccept( MyGUI::MultiListPtr widget, size_t index );
 
+		static void OnEventScrollChangePosition( MyGUI::VScrollPtr sender, size_t position );
+
 		
 		/*! Returns a list of supported Video Resolutions
 		 *
@@ -252,6 +254,8 @@ namespace UX
 		Input::InputMessageBinding GetMessageBinding( const std::string& message );
 
 		void SetMessageBinding( const std::string& message, const std::string& binding );
+
+		void SetInvertYAxis( const bool& invert );
 
 	private:
 

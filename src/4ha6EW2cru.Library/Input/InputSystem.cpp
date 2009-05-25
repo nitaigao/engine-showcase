@@ -25,6 +25,10 @@ namespace Input
 	void InputSystem::Initialize( ) 
 	{ 	
 		Logger::Info( "Initializing Input System" );
+
+		m_configuration->SetDefault( System::ConfigSections::Input, "inverty", false );
+		m_configuration->SetDefault( System::ConfigSections::Input, "smoothmouse", true );
+		m_configuration->SetDefault( System::ConfigSections::Input, "mousesmooth_amount", 10 );
 	
 		m_inputManager = OIS::InputManager::createInputSystem( Management::GetInstance( )->GetPlatformManager( )->GetWindowId( ) );
 	
@@ -166,6 +170,15 @@ namespace Input
 				);
 
 			this->LoadMessageBindings( );
+		}
+
+		if ( message == System::Messages::SetInvertYAxis )
+		{
+			m_configuration->Set( 
+				System::ConfigSections::Input,
+				parameters[ System::Attributes::Message ].As< std::string >( ),
+				parameters[ System::Attributes::InvertYAxis ].As< bool >( )
+				);
 		}
 	
 		if ( message == "setInputAllowed" )

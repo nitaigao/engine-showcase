@@ -24,7 +24,7 @@ public:
 		Management::GetInstance( )->GetFileManager( )->Mount( "../../../etc", "/" ); 
 
 		_scene = 0;
-		_subject = new SoundSystem( );
+		_subject = new SoundSystem( 0 );
 	}
 
 	void TearDownTest( )

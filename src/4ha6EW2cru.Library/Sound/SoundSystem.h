@@ -8,6 +8,7 @@
 #define SOUNDSYSTEM_H
 
 #include "../Service/IService.hpp"
+#include "../Configuration/IConfiguration.hpp"
 
 #include "ISoundSystem.hpp"
 
@@ -32,9 +33,10 @@ namespace Sound
 		 *
 		 *  @return ()
 		 */
-		SoundSystem( )
+		SoundSystem( Configuration::IConfiguration* configuration )
 			: m_fmodSystem( 0 )
 			, m_eventSystem( 0 )
+			, m_configuration( configuration )
 		{
 
 		}
@@ -123,6 +125,7 @@ namespace Sound
 
 		FMOD::System* m_fmodSystem;
 		FMOD::EventSystem* m_eventSystem;
+		Configuration::IConfiguration* m_configuration;
 
 		static FMOD_RESULT F_CALLBACK FileOpen( const char* name, int unicode, unsigned int* filesize, void** handle, void** userdata );
 		static FMOD_RESULT F_CALLBACK FileClose( void* handle, void*  userdata );

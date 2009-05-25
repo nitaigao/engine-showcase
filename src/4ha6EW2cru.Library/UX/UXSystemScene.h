@@ -116,6 +116,7 @@ namespace UX
 		static inline MyGUI::EditPtr AsEditBox( MyGUI::WidgetPtr widget ) { return static_cast< MyGUI::EditPtr >( widget ); };
 		static inline MyGUI::ProgressPtr AsProgressBar( MyGUI::WidgetPtr widget ) { return static_cast< MyGUI::ProgressPtr >( widget ); };
 		static inline MyGUI::MultiListPtr AsMultiList( MyGUI::WidgetPtr widget ) { return static_cast< MyGUI::MultiListPtr >( widget ); };
+		static inline MyGUI::VScrollPtr AsScrollBar( MyGUI::WidgetPtr widget ) { return static_cast< MyGUI::VScrollPtr> ( widget ); };
 
 		void OnMouseMoved( const Events::IEvent* event );
 		void OnMousePressed( const Events::IEvent* event );

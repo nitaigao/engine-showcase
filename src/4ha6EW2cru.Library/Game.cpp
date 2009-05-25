@@ -69,7 +69,7 @@ void Game::Initialize( )
 	systemManager->RegisterSystem( new Input::InputSystem( m_configuration ) );
 	systemManager->RegisterSystem( new Script::ScriptSystem( m_configuration ) );
 	systemManager->RegisterSystem( new UX::UXSystem( ) );
-	systemManager->RegisterSystem( new Sound::SoundSystem( ) );
+	systemManager->RegisterSystem( new Sound::SoundSystem( m_configuration ) );
 	systemManager->RegisterSystem( new AI::AISystem( ) );
 	systemManager->InitializeAllSystems( );
 

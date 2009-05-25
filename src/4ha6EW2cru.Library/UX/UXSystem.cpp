@@ -60,6 +60,7 @@ namespace UX
 					.def( "asEditBox", &UXSystemScene::AsEditBox )
 					.def( "asProgressBar", &UXSystemScene::AsProgressBar )
 					.def( "asMultiList", &UXSystemScene::AsMultiList )
+					.def( "asScrollbar", &UXSystemScene::AsScrollBar )
 					.def( "setFocus", &UXSystemScene::SetFocus ),
 
 				class_< Button >( "Button" )
@@ -86,6 +87,10 @@ namespace UX
 					.def( "getItemName", &UXSystemScene::MultiList_GetItemName )
 					.def( "getSubItemName", &UXSystemScene::MultiList_GetSubItemName )
 					.def( "setSubItemName", &UXSystemScene::MultiList_SetSubItemName  ),
+
+				class_< VScroll, Widget >( "Scrollbar" )
+					.def( "getScrollPosition", &VScroll::getScrollPosition )
+					.def( "setScrollPosition", &VScroll::setScrollPosition ),
 
 				class_< IntCoord >( "IntCoord" )
 					.def_readonly( "x" , &IntCoord::left )

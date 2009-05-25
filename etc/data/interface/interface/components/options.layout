@@ -13,16 +13,15 @@
             </Widget>
             <Widget type="TabItem" skin="Default" position="4 26 503 351" layer="Back">
                 <Property key="Widget_Caption" value="Mouse"/>
-                <Widget type="Button" skin="CheckBox" position="92 30 156 24" layer="Back">
+                <Widget type="Button" skin="CheckBox" position="92 30 156 24" layer="Back" name="options_mouse_inverty">
                     <Property key="Widget_Caption" value=" Invert Y-Axis"/>
                 </Widget>
-                <Widget type="Button" skin="CheckBox" position="260 30 188 24" layer="Back">
+                <Widget type="Button" skin="CheckBox" position="260 30 188 24" layer="Back" name="options_mouse_smooth">
                     <Property key="Widget_Caption" value=" Smooth Mouse"/>
                 </Widget>
-                <Widget type="HScroll" skin="HSlider" position="268 72 156 16" layer="Back">
+                <Widget type="HScroll" skin="HSlider" position="268 72 156 16" layer="Back" name="options_mouse_smoothamount">
                     <Property key="Scroll_Range" value="10"/>
                     <Property key="Scroll_Position" value="3"/>
-                    <Property key="Widget_Caption" value="Captiono"/>
                 </Widget>
                 <Widget type="StaticText" skin="StaticText" position="92 73 180 16" layer="Back">
                     <Property key="Widget_Caption" value="Mouse Sensitivity"/>
@@ -43,11 +42,11 @@
             </Widget>
             <Widget type="TabItem" skin="Default" position="4 26 503 351" layer="Back">
                 <Property key="Widget_Caption" value="Sound"/>
-                <Widget type="HScroll" skin="HSlider" position="244 38 176 16" layer="Back">
+                <Widget type="HScroll" skin="HSlider" position="244 38 176 16" layer="Back" name="options_sound_sfx" >
                     <Property key="Scroll_Range" value="100"/>
                     <Property key="Scroll_Position" value="99"/>
                 </Widget>
-                <Widget type="HScroll" skin="HSlider" position="244 78 176 16" layer="Back">
+                <Widget type="HScroll" skin="HSlider" position="244 78 176 16" layer="Back" name="options_sound_music" >
                     <Property key="Scroll_Range" value="100"/>
                     <Property key="Scroll_Position" value="99"/>
                 </Widget>

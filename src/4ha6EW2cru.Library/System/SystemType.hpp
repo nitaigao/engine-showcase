@@ -34,6 +34,8 @@ namespace System
 		static const std::string Developer					=	"Developer";
 		static const std::string Logging					=	"Logging";
 		static const std::string Bindings					=	"Bindings";
+		static const std::string Input						=	"Input";
+		static const std::string Sound						=	"Sound";
 	};
 
 	namespace Options
@@ -63,6 +65,7 @@ namespace System
 		static const std::string ScriptState				=	"scriptState";
 		static const std::string Message					=	"message";
 		static const std::string Binding					=	"binding";
+		static const std::string InvertYAxis				=	"invertYAxis";
 	};
 
 	typedef std::string Message;
@@ -93,6 +96,7 @@ namespace System
 		static const std::string GetBindingForMessage		=	"getBindingForMessage";
 		static const std::string SetBindingForMessage		=	"setBindingForMessage";
 		static const std::string PlayAnimation				=	"playAnimation";
+		static const std::string SetInvertYAxis				=	"setInvertYAxis";
 	}
 };
 

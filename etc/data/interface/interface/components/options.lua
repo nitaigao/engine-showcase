@@ -23,7 +23,9 @@ function Options.initialize( )
 	ux:scriptWidget( saveButton, 'onRelease', Options.onSave )
 	
 	Options.initializeKeyboard( )
+	Options.initializeMouse( )
 	Options.initializeGraphics( )
+	Options.initializeSound( )
 	Options.initializeAdvanced( )
 	
 end
@@ -53,11 +55,93 @@ end
 
 function Options.onSave( )
 
+	Options.saveInput( )
 	Options.saveAdvanced( )
 	Options.saveGraphics( )
+	Options.saveSound( )
 	
 	local options = ux:findWidget( 'options' )
 	options:setVisible( false )
+
+end
+
+-- Sound --
+
+function Options.initializeSound( )
+
+	local sfxVolume = ux:findWidget( 'options_sound_sfx' ):asScrollbar( )
+	sfxVolume:setScrollPosition( Configuration.sfxVolume )
+	
+	local musicVolume = ux:findWidget( 'options_sound_music' ):asScrollbar( )
+	musicVolume:setScrollPosition( Configuration.musicVolume )
+
+end
+
+function Options.saveSound( )
+
+	local sfxVolume = ux:findWidget( 'options_sound_sfx' ):asScrollbar( )
+	Configuration.sfxVolume = sfxVolume:getScrollPosition( )
+	
+	local musicVolume = ux:findWidget( 'options_sound_music' ):asScrollbar( )
+	Configuration.musicVolume = musicVolume:getScrollPosition( )
+
+end
+
+-- Mouse --
+
+function Options.initializeMouse( )
+
+	local invertYButton = ux:findWidget( 'options_mouse_inverty' )
+	ux:scriptWidget( invertYButton, 'onRelease', Options.onInvertY )
+	
+	invertYButton = invertYButton:asButton( )
+	invertYButton:setChecked( Configuration.isInvertY )
+	
+	local smoothButton = ux:findWidget( 'options_mouse_smooth' )
+	ux:scriptWidget( smoothButton, 'onRelease', Options.onSmoothMouse )
+	
+	smoothButton = smoothButton:asButton( )
+	smoothButton:setChecked( Configuration.isSmoothMouse )
+	
+	local smoothAmount = ux:findWidget( 'options_mouse_smoothamount' ):asScrollbar( )
+	smoothAmount:setScrollPosition( Configuration.mouseSmoothAmount )
+
+end
+
+function Options.saveInput( )
+
+	local invertYButton = ux:findWidget( 'options_mouse_inverty' ):asButton( )
+	
+	if not ( invertYButton:getChecked( ) and Configuration.isInvertY ) then
+	
+		Configuration.isInvertY = invertYButton:getChecked( )
+	
+	end
+	
+	local smoothButton = ux:findWidget( 'options_mouse_smooth' ):asButton( )
+	
+	if not ( smoothButton:getChecked( ) and Configuration.isSmoothMouse ) then
+	
+		Configuration.isSmoothMouse = smoothButton:getChecked( )
+	
+	end
+	
+	local smoothAmount = ux:findWidget( 'options_mouse_smoothamount' ):asScrollbar( )
+	Configuration.mouseSmoothAmount = smoothAmount:getScrollPosition( )
+
+end
+
+function Options.onInvertY( )
+
+	local invertYButton = ux:findWidget( 'options_mouse_inverty' ):asButton( )
+	invertYButton:setChecked( not invertYButton:getChecked( ) )
+
+end
+
+function Options.onSmoothMouse( )
+
+	local smoothButton = ux:findWidget( 'options_mouse_smooth' ):asButton( )
+	smoothButton:setChecked( not smoothButton:getChecked( ) )
 
 end
 
@@ -179,8 +263,6 @@ function Options.initializeKeyboard( )
 end
 
 function Options.setupMessageBindings( )
-
-	print( 'setupMessageBindings' )
 
 	local keymapList = ux:findWidget( 'options_keylist' ):asMultiList( )
 	keymapList:removeAllItems( )

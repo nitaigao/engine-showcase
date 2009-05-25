@@ -21,6 +21,9 @@ namespace Sound
 
 	void SoundSystem::Initialize()
 	{
+		m_configuration->SetDefault( System::ConfigSections::Sound, "sfx_volume", 100 );
+		m_configuration->SetDefault( System::ConfigSections::Sound, "music_volume", 100 );
+
 		FMOD_RESULT result;
 		m_fmodSystem = 0;
 

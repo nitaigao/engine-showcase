@@ -70,6 +70,11 @@ namespace UX
 						static_cast< MultiList* >( widget )->eventListSelectAccept = 0;
 					}
 
+					if( eventName == "onScrollChangePosition" )
+					{
+						static_cast< VScroll* >( widget )->eventScrollChangePosition = 0;
+					}
+
 					widgetUserData->erase( i );
 
 					return;
@@ -112,6 +117,11 @@ namespace UX
 		if ( eventName == "onListSelectAccept" )
 		{
 			static_cast< MultiList* >( widget )->eventListSelectAccept = newDelegate( &UXSystemComponent::OnListSelectAccept );
+		}
+
+		if( eventName == "onScrollChangePosition" )
+		{
+			static_cast< VScroll* >( widget )->eventScrollChangePosition = newDelegate( &UXSystemComponent::OnEventScrollChangePosition );
 		}
 	}
 
@@ -188,6 +198,21 @@ namespace UX
 		}
 	}
 
+	void UXSystemComponent::OnEventScrollChangePosition( MyGUI::VScrollPtr widget, size_t position )
+	{
+		void* userData = widget->getUserData( );
+		WidgetUserData* widgetUserData = static_cast< WidgetUserData* >( userData );
+
+		for ( WidgetUserData::iterator i = widgetUserData->begin( ); i != widgetUserData->end( ); ++i )
+		{
+			if ( ( *i ).first == "onScrollChangePosition" )
+			{
+				object eventHandler = *( *i ).second;
+				eventHandler( static_cast< int >( position ) );
+			}
+		}
+	}
+
 	std::vector< std::string > UXSystemComponent::GetSupportedResolutions( )
 	{
 		typedef std::vector< std::string > StringVector;
@@ -237,5 +262,14 @@ namespace UX
 		parameters[ System::Attributes::Message ] = message;
 		parameters[ System::Attributes::Binding ] = binding;
 		inputService->Execute( System::Messages::SetBindingForMessage, parameters );
+	}
+
+	void UXSystemComponent::SetInvertYAxis( const bool& invert )
+	{
+		IService* inputService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::INPUT );
+
+		AnyType::AnyTypeMap parameters;
+		parameters[ System::Attributes::InvertYAxis ] = invert;
+		inputService->Execute( System::Messages::SetInvertYAxis, parameters );
 	}
 }
