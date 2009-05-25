@@ -58,7 +58,7 @@ namespace UX
 		*  @param[in] AnyType::AnyValueMap parameters
 		*  @return (AnyType)
 		*/
-		inline AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) { return AnyType( ); };
+		inline AnyType PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters ) { return AnyType( ); };
 
 
 		/*! Messages the Component to influence its internal state
@@ -66,7 +66,7 @@ namespace UX
 		*  @param[in] const std::string & message
 		*  @return (AnyType)
 		*/
-		inline AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) { return AnyType( ); };
+		inline AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters ) { return AnyType( ); };
 
 		/* Inherited from ISystemComponent */
 
@@ -105,7 +105,7 @@ namespace UX
 		*
 		*  @return (AnyTypeKeyMap)
 		*/
-		AnyType::AnyTypeKeyMap GetAttributes( ) const { return m_attributes; };
+		AnyType::AnyTypeMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets an Attribute on the Component *
@@ -113,7 +113,7 @@ namespace UX
 		*  @param[in] const unsigned int attributeId
 		*  @param[in] const AnyType & value
 		*/
-		inline void SetAttribute( const unsigned int& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
+		inline void SetAttribute( const System::Attribute& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
 
 
 		/*! -- Script Helpers -- */
@@ -260,7 +260,7 @@ namespace UX
 	private:
 
 		std::string m_name;
-		AnyType::AnyTypeKeyMap m_attributes;
+		AnyType::AnyTypeMap m_attributes;
 
 		IUXSystemScene* m_scene;
 

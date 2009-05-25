@@ -86,7 +86,7 @@ namespace Physics
 		}
 
 		std::vector< std::string > results;
-		int resultCount = 0;
+		unsigned int resultCount = 0;
 		for( int i = 0; i < collector.getHits( ).getSize( ); i++ )
 		{
 			if ( collector.getHits( )[ i ].hasHit( ) )

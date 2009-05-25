@@ -10,7 +10,7 @@ using namespace Logging;
 
 namespace Renderer
 {
-	AnyType RendererSystemCameraComponent::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
+	AnyType RendererSystemCameraComponent::Message( const System::Message& message, AnyType::AnyTypeMap parameters )
 	{
 		RendererSystemComponent::Message( message, parameters );
 
@@ -21,11 +21,8 @@ namespace Renderer
 
 		if ( message == System::Messages::Mouse_Moved )
 		{
-			m_xHistory.pop_back( );
-			m_xHistory.push_front( parameters[ System::Attributes::DeltaX ].As< int >( ) );
-
-			m_yHistory.pop_back( );
-			m_yHistory.push_front( parameters[ System::Attributes::DeltaY ].As< int >( ) );
+			m_attributes[ System::Attributes::DeltaX ] = parameters[ System::Attributes::DeltaX ].As< float >( );
+			m_attributes[ System::Attributes::DeltaY ] = parameters[ System::Attributes::DeltaY ].As< float >( );
 		}
 
 		return AnyType( );
@@ -34,16 +31,16 @@ namespace Renderer
 	void RendererSystemCameraComponent::Update( const float& deltaMilliseconds )
 	{
 		RendererSystemComponent::Update( deltaMilliseconds );
-		
-		float pitchDelta = this->AverageInputHistory( m_yHistory, m_weightModifier );
+
+		float pitchDelta = m_attributes[ System::Attributes::DeltaY ].As< float >( );
 		float pitch = m_cameraNode->getOrientation( ).getPitch( ).valueDegrees( );
 
 		if ( pitch + pitchDelta < 90.0f && pitch + pitchDelta > -90.0f )
 		{
-			m_cameraNode->pitch( Degree( pitchDelta ) );
+			m_cameraNode->pitch( Degree( -pitchDelta ) );
 		}
 
-		float yawDelta = this->AverageInputHistory( m_xHistory, m_weightModifier );
+		float yawDelta = m_attributes[ System::Attributes::DeltaX ].As< float >( );
 		m_sceneNode->yaw( Degree( -yawDelta ) );
 
 		Matrix3 yawMatrix;
@@ -71,13 +68,10 @@ namespace Renderer
 
 	void RendererSystemCameraComponent::Initialize( )
 	{
-		for( int i = 0; i < m_historySize; i++ )
-		{
-			m_xHistory.push_front( 0.0f );
-			m_yHistory.push_front( 0.0f );
-		}
-
 		m_sceneNode = m_scene->GetSceneManager( )->createSceneNode( m_name );
+
+		m_attributes[ System::Attributes::DeltaY ] = 0.0f;
+		m_attributes[ System::Attributes::DeltaX ] = 0.0f;
 
 		std::stringstream cameraNodeName;
 		cameraNodeName << m_name << "_camera";
@@ -108,18 +102,5 @@ namespace Renderer
 				m_scene->GetSceneManager( )->getCurrentViewport( )->setCamera( camera );
 			}
 		}
-	}
-
-	float RendererSystemCameraComponent::AverageInputHistory( const InputHistory& inputHistory, const float& weightModifier )
-	{
-		int index = 0;
-		float sum = 0.0f;
-
-		for ( InputHistory::const_iterator i = inputHistory.begin( ); i != inputHistory.end( ); ++i )
-		{
-			sum += ( *i ) * pow( weightModifier, index++ );
-		}
-
-		return sum / m_historySize;
 	}
 }

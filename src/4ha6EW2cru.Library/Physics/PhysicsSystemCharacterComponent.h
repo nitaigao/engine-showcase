@@ -64,7 +64,7 @@ namespace Physics
 		*/
 		void Update( const float& deltaMilliseconds );
 
-		AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
+		AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters );
 
 	private:
 

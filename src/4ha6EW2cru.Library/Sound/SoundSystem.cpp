@@ -179,8 +179,6 @@ namespace Sound
 			}
 		}
 
-		
-
 		return results;
 	}
 

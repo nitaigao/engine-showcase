@@ -88,7 +88,7 @@ namespace AI
 		*  @param[in] AnyType::AnyValueMap parameters
 		*  @return (AnyType)
 		*/
-		AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
+		AnyType PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters );
 
 
 		/*! Messages the Component to influence its internal state
@@ -96,14 +96,14 @@ namespace AI
 		*  @param[in] const std::string & message
 		*  @return (AnyType)
 		*/
-		AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
+		AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters );
 
 
 		/*! Gets the attributes of the Component
 		 *
 		 *  @return (AnyValueMap)
 		 */
-		inline AnyType::AnyTypeKeyMap GetAttributes( ) const { return m_attributes; };
+		inline AnyType::AnyTypeMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets an Attribute on the Component *
@@ -111,7 +111,7 @@ namespace AI
 		*  @param[in] const unsigned int attributeId
 		*  @param[in] const AnyType & value
 		*/
-		inline void SetAttribute( const unsigned int& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
+		inline void SetAttribute( const System::Attribute& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
 
 
 		/* AI Specific */
@@ -185,7 +185,7 @@ namespace AI
 
 		float m_playerDistance;
 
-		AnyType::AnyTypeKeyMap m_attributes;
+		AnyType::AnyTypeMap m_attributes;
 
 	};
 };

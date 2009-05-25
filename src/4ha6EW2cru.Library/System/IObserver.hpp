@@ -29,7 +29,7 @@ public:
 	*  @param[in] const std::string & message
 	*  @return (AnyType)
 	*/
-	virtual AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) = 0;
+	virtual AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters ) = 0;
 
 };
 

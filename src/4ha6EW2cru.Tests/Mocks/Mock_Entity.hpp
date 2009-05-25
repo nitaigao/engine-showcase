@@ -23,14 +23,14 @@ public:
 
 
 	void AddObserver( const System::Message& message, IObserver* observer ) {};
-	AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) { return AnyType( ); };
+	AnyType PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters ) { return AnyType( ); };
 
 	const std::string& GetName( ) const { return "test_entity"; };
 	void AddComponent( ISystemComponent* component ) { _components.push_back( component ); }
 	ISystemComponent* FindComponent( const System::Types::Type& systemType ) const { return 0; };
 	SystemComponentList GetComponents( ) const { return _components; };
 
-	AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) { };
+	AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters ) { };
 
 private:
 

@@ -76,7 +76,7 @@ namespace Sound
 		*
 		*  @return (AnyTypeKeyMap)
 		*/
-		AnyType::AnyTypeKeyMap GetAttributes( ) const { return m_attributes; };
+		AnyType::AnyTypeMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets an Attribute on the Component *
@@ -84,7 +84,7 @@ namespace Sound
 		*  @param[in] const unsigned int attributeId
 		*  @param[in] const AnyType & value
 		*/
-		inline void SetAttribute( const unsigned int& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
+		inline void SetAttribute( const System::Attribute& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
 
 
 		/*! Posts a message to observers
@@ -93,7 +93,7 @@ namespace Sound
 		*  @param[in] AnyType::AnyValueMap parameters
 		*  @return (AnyType)
 		*/
-		inline AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) { return AnyType( ); };
+		inline AnyType PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters ) { return AnyType( ); };
 
 
 		/*! Messages the Component to influence its internal state
@@ -101,7 +101,7 @@ namespace Sound
 		*  @param[in] const std::string & message
 		*  @return (AnyType)
 		*/
-		AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
+		AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters );
 
 		void TriggerEvent( const std::string& eventPath );
 		void KeyoutEvent( const std::string& eventPath );
@@ -116,7 +116,7 @@ namespace Sound
 		ISoundScene* m_soundSystemScene;
 
 		std::string m_name;
-		AnyType::AnyTypeKeyMap m_attributes;
+		AnyType::AnyTypeMap m_attributes;
 
 		SoundEventList m_activeSoundEvents;
 

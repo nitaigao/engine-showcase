@@ -4,7 +4,7 @@ using namespace Maths;
 
 namespace Geometry
 {
-	AnyType GeometrySystemComponent::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
+	AnyType GeometrySystemComponent::Message( const System::Message& message, AnyType::AnyTypeMap parameters )
 	{
 		if ( message == System::Messages::SetPosition )
 		{
@@ -25,7 +25,7 @@ namespace Geometry
 		return MathVector3( );
 	}
 
-	AnyType GeometrySystemComponent::PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
+	AnyType GeometrySystemComponent::PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters )
 	{
 		for( ObserverList::iterator i = m_observers.begin( ); i != m_observers.end( ); ++i )
 		{

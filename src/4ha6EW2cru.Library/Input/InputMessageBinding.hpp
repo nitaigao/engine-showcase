@@ -40,7 +40,6 @@ namespace Input
 				std::string codeText = fullCode.substr( fullCode.find( keyIdentifier ) + keyIdentifier.size( ) );
 				std::stringstream codeStream( codeText );
 
-				int code;
 				codeStream >> m_code;
 
 				m_type = BINDING_KEYBOARD;

@@ -53,12 +53,12 @@ namespace AI
 		this->PushMessage( System::Messages::Move_Backward, m_attributes );
 	}
 
-	AnyType AISystemComponent::PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
+	AnyType AISystemComponent::PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters )
 	{
 		return m_observer->Message( message, parameters );
 	}
 
-	AnyType AISystemComponent::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
+	AnyType AISystemComponent::Message( const System::Message& message, AnyType::AnyTypeMap parameters )
 	{
  		if ( message == System::Messages::SetPlayerPosition )
 		{

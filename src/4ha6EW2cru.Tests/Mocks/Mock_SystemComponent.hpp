@@ -37,16 +37,16 @@ public:
 	inline unsigned int GetId( ) const { return 0; };
 	inline System::Types::Type GetType( ) const { return _systemType; };
 
-	AnyType::AnyTypeKeyMap GetAttributes( ) const { return AnyType::AnyTypeKeyMap( ); };
+	AnyType::AnyTypeMap GetAttributes( ) const { return AnyType::AnyTypeMap( ); };
 
-	inline void SetAttribute( const unsigned int& attributeId, const AnyType& value ) {  };
+	inline void SetAttribute( const System::Attribute& attributeId, const AnyType& value ) {  };
 
 	inline MathVector3 GetPosition( ) const { return MathVector3::Zero( ); };
 	inline MathVector3 GetScale( ) const { return MathVector3::Zero( ); };
 	inline MathQuaternion GetOrientation( ) const { return MathQuaternion::Identity( ); };
 
-	inline AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) { return AnyType( ); };
-	AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) { return AnyType( 0 ); };
+	inline AnyType PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters ) { return AnyType( ); };
+	AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters ) { return AnyType( 0 ); };
 
 private:
 

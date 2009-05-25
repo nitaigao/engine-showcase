@@ -18,6 +18,8 @@
 #include <OIS/OISKeyboard.h>
 #include <OIS/OISMouse.h>
 
+#include "../Configuration/IConfiguration.hpp"
+
 namespace Input
 {
 	/*! 
@@ -42,8 +44,9 @@ namespace Input
 		*  @param[in] OIS::Keyboard * keyboard
 		*  @return ()
 		*/
-		explicit InputSystemScene( IInputSystem* system )
-			: m_system( system )
+		explicit InputSystemScene( Configuration::IConfiguration* configuration, IInputSystem* system )
+			: m_configuration( configuration ) 
+			, m_system( system )
 			, m_inputAllowed( false )
 		{
 
@@ -159,6 +162,7 @@ namespace Input
 		IInputSystemComponent::InputSystemComponentList m_inputComponents;
 
 		IInputSystem* m_system;
+		Configuration::IConfiguration* m_configuration;
 
 		InputSystemScene( ) { };
 		InputSystemScene( const InputSystemScene & copy ) { };

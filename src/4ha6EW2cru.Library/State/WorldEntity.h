@@ -71,7 +71,7 @@ namespace State
 		 *  @param[in] const std::string & message
 		 *  @return (AnyType)
 		 */
-		AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
+		AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters );
 
 	private:
 

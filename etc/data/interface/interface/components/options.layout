@@ -20,8 +20,8 @@
                     <Property key="Widget_Caption" value=" Smooth Mouse"/>
                 </Widget>
                 <Widget type="HScroll" skin="HSlider" position="268 72 156 16" layer="Back" name="options_mouse_smoothamount">
-                    <Property key="Scroll_Range" value="10"/>
-                    <Property key="Scroll_Position" value="3"/>
+                    <Property key="Scroll_Range" value="100"/>
+                    <Property key="Scroll_Position" value="50"/>
                 </Widget>
                 <Widget type="StaticText" skin="StaticText" position="92 73 180 16" layer="Back">
                     <Property key="Widget_Caption" value="Mouse Sensitivity"/>

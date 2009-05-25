@@ -49,6 +49,9 @@ namespace Input
 		{
 			for( IInputSystemComponent::InputSystemComponentList::iterator i = m_inputComponents.begin( ); i != m_inputComponents.end( ); ++i  )
 			{
+				( *i )->SetAttribute( System::Attributes::InvertYAxis, m_configuration->Find( System::ConfigSections::Input, "inverty" ).As< bool >( ) );
+				( *i )->SetAttribute( System::Attributes::SmoothMouse, m_configuration->Find( System::ConfigSections::Input, "smoothmouse" ).As< bool >( ) );
+				( *i )->SetAttribute( System::Attributes::MouseSensitivity, m_configuration->Find( System::ConfigSections::Input, "mousesmooth_amount" ).As< int >( ) );
 				( *i )->Update( deltaMilliseconds );
 			}
 

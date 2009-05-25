@@ -59,13 +59,13 @@ public:
 	*
 	*  @return (AnyValueMap)
 	*/
-	virtual AnyType::AnyTypeKeyMap GetAttributes( ) const = 0;
+	virtual AnyType::AnyTypeMap GetAttributes( ) const = 0;
 
 	/*! Sets an Attribute on the Component *
 	 *  @param[in] const unsigned int attributeId
 	 *  @param[in] const AnyType & value
 	 */
-	virtual void SetAttribute( const unsigned int& attributeId, const AnyType& value ) = 0;
+	virtual void SetAttribute( const System::Attribute& attributeId, const AnyType& value ) = 0;
 
 };
 

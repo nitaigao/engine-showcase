@@ -242,7 +242,7 @@ namespace Script
 		return rayService->Execute( "rayQuery", parameters ) [ "hits" ].As< std::vector< std::string > >( );
 	}
 
-	AnyType ScriptComponent::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
+	AnyType ScriptComponent::Message( const System::Message& message, AnyType::AnyTypeMap parameters )
 	{
 		if ( message == System::Messages::SetPosition  )
 		{

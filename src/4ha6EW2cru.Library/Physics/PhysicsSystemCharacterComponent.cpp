@@ -151,7 +151,7 @@ namespace Physics
 		}
 	}
 
-	AnyType PhysicsSystemCharacterComponent::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
+	AnyType PhysicsSystemCharacterComponent::Message( const System::Message& message, AnyType::AnyTypeMap parameters )
 	{
 		AnyType returnValue = PhysicsSystemComponent::Message( message, parameters );
 

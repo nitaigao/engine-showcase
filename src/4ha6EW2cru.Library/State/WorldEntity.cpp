@@ -7,10 +7,10 @@ namespace State
 		m_components.push_back( component );
 
 		component->AddObserver( this );
-		component->Message( System::Messages::AddedToComponent, AnyType::AnyTypeKeyMap( ) );
+		component->Message( System::Messages::AddedToComponent, AnyType::AnyTypeMap( ) );
 	}
 
-	AnyType WorldEntity::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
+	AnyType WorldEntity::Message( const System::Message& message, AnyType::AnyTypeMap parameters )
 	{
 		std::vector< AnyType > results;
 

@@ -89,7 +89,7 @@ namespace Script
 		*
 		*  @return (AnyTypeKeyMap)
 		*/
-		AnyType::AnyTypeKeyMap GetAttributes( ) const { return m_attributes; };
+		AnyType::AnyTypeMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets an Attribute on the Component *
@@ -97,7 +97,7 @@ namespace Script
 		*  @param[in] const unsigned int attributeId
 		*  @param[in] const AnyType & value
 		*/
-		inline void SetAttribute( const unsigned int& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
+		inline void SetAttribute( const System::Attribute& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
 
 
 		/*! Messages the Component to influence its internal state
@@ -105,7 +105,7 @@ namespace Script
 		*  @param[in] const std::string & message
 		*  @return (AnyType)
 		*/
-		AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
+		AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters );
 
 
 		/*! Posts a message to the parent Entity
@@ -114,7 +114,7 @@ namespace Script
 		 *  @param[in] AnyType::AnyValueMap parameters
 		 *  @return (AnyType)
 		 */
-		AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters ) { return m_observer->Message( message, parameters ); };
+		AnyType PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters ) { return m_observer->Message( message, parameters ); };
 
 
 		/*! Returns the LUA state of the Component
@@ -313,7 +313,7 @@ namespace Script
 
 		IObserver* m_observer;
 
-		AnyType::AnyTypeKeyMap m_attributes;
+		AnyType::AnyTypeMap m_attributes;
 
 		Maths::MathVector3 m_lookAt;
 

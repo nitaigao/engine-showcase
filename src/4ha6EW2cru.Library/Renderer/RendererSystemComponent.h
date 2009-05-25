@@ -80,7 +80,7 @@ namespace Renderer
 		*
 		*  @return (AnyTypeKeyMap)
 		*/
-		AnyType::AnyTypeKeyMap GetAttributes( ) const { return m_attributes; };
+		AnyType::AnyTypeMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets an Attribute on the Component *
@@ -88,7 +88,7 @@ namespace Renderer
 		*  @param[in] const unsigned int attributeId
 		*  @param[in] const AnyType & value
 		*/
-		inline void SetAttribute( const unsigned int& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
+		inline void SetAttribute( const System::Attribute& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
 
 
 		/*! Sets the Properties of the Component
@@ -107,7 +107,7 @@ namespace Renderer
 		*  @param[in] AnyType::AnyTypeMap parameters
 		*  @return (AnyType)
 		*/
-		AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
+		AnyType PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters );
 
 
 		/*! Messages the Component to influence its internal state
@@ -115,7 +115,7 @@ namespace Renderer
 		*  @param[in] const std::string & message
 		*  @return (AnyType)
 		*/
-		virtual AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
+		virtual AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters );
 
 	protected:
 
@@ -127,7 +127,7 @@ namespace Renderer
 
 		std::string m_name;
 
-		AnyType::AnyTypeKeyMap m_attributes;
+		AnyType::AnyTypeMap m_attributes;
 
 		IObserver* m_observer;
 		IRenderSystemScene* m_scene;

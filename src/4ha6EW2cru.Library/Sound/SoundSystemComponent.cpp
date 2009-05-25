@@ -7,7 +7,7 @@ using namespace luabind;
 
 namespace Sound
 {
-	AnyType SoundSystemComponent::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
+	AnyType SoundSystemComponent::Message( const System::Message& message, AnyType::AnyTypeMap parameters )
 	{
 		if( message == System::Messages::TriggerSoundEvent  )
 		{

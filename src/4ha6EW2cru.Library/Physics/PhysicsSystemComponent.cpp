@@ -54,12 +54,12 @@ namespace Physics
 		_scene->GetWorld( )->addEntity( m_body );
 	}
 
-	AnyType PhysicsSystemComponent::PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
+	AnyType PhysicsSystemComponent::PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters )
 	{
 		return m_observer->Message( message, parameters );
 	}
 
-	AnyType PhysicsSystemComponent::Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters )
+	AnyType PhysicsSystemComponent::Message( const System::Message& message, AnyType::AnyTypeMap parameters )
 	{
 		if ( message == System::Messages::SetPosition )
 		{

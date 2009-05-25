@@ -43,29 +43,33 @@ namespace System
 		static const std::string LevelName					=	"levelName";
 	}
 
+	typedef std::string Attribute;
+
 	namespace Attributes
 	{
-		static const unsigned int Name						=	( 1 << 1 );
-		static const unsigned int LookAt					=	( 1 << 2 );
-		static const unsigned int DeltaX					=	( 1 << 3 );
-		static const unsigned int DeltaY					=	( 1 << 4 );
-		static const unsigned int ScriptPath				=	( 1 << 5 );
-		static const unsigned int Position					=	( 1 << 6 );
-		static const unsigned int Orientation				=	( 1 << 7 );
-		static const unsigned int Scale						=	( 1 << 8 );
-		static const unsigned int Model						=	( 1 << 9 );
-		static const unsigned int Body						=	( 1 << 10 );
-		static const unsigned int Type						=	( 1 << 11 );
-		static const unsigned int Parent					=	( 1 << 12 );
-		static const unsigned int PlayerPosition			=	( 1 << 13 );
-		static const unsigned int PlayerOrientation			=	( 1 << 14 );
-		static const unsigned int SoundEventPath			=	( 1 << 15 );
-		static const unsigned int Mouse						=	( 1 << 16 );
-		static const unsigned int Keyboard					=	( 1 << 17 );
+		static const std::string Name						=	"name";
+		static const std::string LookAt						=	"lookAt";
+		static const std::string DeltaX						=	"deltaX";
+		static const std::string DeltaY						=	"deltaY";
+		static const std::string ScriptPath					=	"scriptPath";
+		static const std::string Position					=	"position";
+		static const std::string Orientation				=	"orientation";
+		static const std::string Scale						=	"scale";
+		static const std::string Model						=	"model";
+		static const std::string Body						=	"body";
+		static const std::string Type						=	"type";
+		static const std::string Parent						=	"parent";
+		static const std::string PlayerPosition				=	"playerPosition";
+		static const std::string PlayerOrientation			=	"playerOrientation";
+		static const std::string SoundEventPath				=	"soundEventPath";
+		static const std::string Mouse						=	"mouse";
+		static const std::string Keyboard					=	"keyboard";
 		static const std::string ScriptState				=	"scriptState";
 		static const std::string Message					=	"message";
 		static const std::string Binding					=	"binding";
 		static const std::string InvertYAxis				=	"invertYAxis";
+		static const std::string SmoothMouse				=	"smoothMouse";
+		static const std::string MouseSensitivity			=	"mouseSensitivity";
 	};
 
 	typedef std::string Message;

@@ -80,7 +80,7 @@ namespace Geometry
 		*
 		*  @return (AnyTypeKeyMap)
 		*/
-		inline AnyType::AnyTypeKeyMap GetAttributes( ) const { return m_attributes; };
+		inline AnyType::AnyTypeMap GetAttributes( ) const { return m_attributes; };
 
 
 		/*! Sets an Attribute on the Component *
@@ -88,7 +88,7 @@ namespace Geometry
 		*  @param[in] const unsigned int attributeId
 		*  @param[in] const AnyType & value
 		*/
-		inline void SetAttribute( const unsigned int& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
+		inline void SetAttribute( const System::Attribute& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
 
 
 		/*! Posts a message to observers
@@ -97,7 +97,7 @@ namespace Geometry
 		*  @param[in] AnyType::AnyValueMap parameters
 		*  @return (AnyType)
 		*/
-		AnyType PushMessage( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
+		AnyType PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters );
 
 
 		/*! Messages the Component to influence its internal state
@@ -105,13 +105,13 @@ namespace Geometry
 		*  @param[in] const std::string & message
 		*  @return (AnyType)
 		*/
-		AnyType Message( const System::Message& message, AnyType::AnyTypeKeyMap parameters );
+		AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters );
 
 	private:
 
 		std::string m_name;
 
-		AnyType::AnyTypeKeyMap m_attributes;
+		AnyType::AnyTypeMap m_attributes;
 
 		ObserverList m_observers;
 

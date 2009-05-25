@@ -28,7 +28,7 @@ namespace Input
 
 		m_configuration->SetDefault( System::ConfigSections::Input, "inverty", false );
 		m_configuration->SetDefault( System::ConfigSections::Input, "smoothmouse", true );
-		m_configuration->SetDefault( System::ConfigSections::Input, "mousesmooth_amount", 10 );
+		m_configuration->SetDefault( System::ConfigSections::Input, "mousesmooth_amount", 50 );
 	
 		m_inputManager = OIS::InputManager::createInputSystem( Management::GetInstance( )->GetPlatformManager( )->GetWindowId( ) );
 	
@@ -43,7 +43,7 @@ namespace Input
 	
 	ISystemScene* InputSystem::CreateScene( )
 	{
-		InputSystemScene* inputScene = new InputSystemScene( this );
+		InputSystemScene* inputScene = new InputSystemScene( m_configuration, this );
 	
 		m_inputScenes.push_back( inputScene );
 	
