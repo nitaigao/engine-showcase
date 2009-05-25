@@ -111,8 +111,6 @@ namespace Sound
 		SoundSystemComponent( const SoundSystemComponent & copy ) { };
 		SoundSystemComponent & operator = ( const SoundSystemComponent & copy ) { return *this; };
 
-		static FMOD_RESULT F_CALLBACK OnSoundEventStarted(	FMOD_EVENT* event, FMOD_EVENT_CALLBACKTYPE  type, void* param1, void* param2, void* userdata );
-
 		ISoundScene* m_soundSystemScene;
 
 		std::string m_name;

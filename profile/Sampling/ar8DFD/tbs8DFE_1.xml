@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<SamplingViewerPreferences>
+
+  <SamplingGeneralSettings ColumnLayoutCalled="0" DefaultPresentation="0" IdleTimePaneSize="220" LegendSize="100" OverTime="0" OverTimePaneSize="700" PerCPU="0" PerThread="0" ShowLegend="1" ShowSummary="1" SummaryCol1="176" SummaryCol2="100" SummarySize="220" SynchOVHSize="50"/>
+
+  <SamplingProcessSettings Columns="Process:1;CPU_CLK_UNHALTED.CORE samples:1;INST_RETIRED.ANY samples:1;Clocks per Instructions Retired - CPI:1;CPU_CLK_UNHALTED.CORE %:1;INST_RETIRED.ANY %:1;CPU_CLK_UNHALTED.CORE events:1;INST_RETIRED.ANY events:1;Process Path:1;Process ID:1" ColumnsWidth="152;50;50;50;51;51;85;85;81;64;381;69;66;64" DefaultPresentation="0" PerCPU="0"/>
+
+  <SamplingThreadSettings Columns="Thread:1;Process:1;CPU_CLK_UNHALTED.CORE samples:1;INST_RETIRED.ANY samples:1;Clocks per Instructions Retired - CPI:1;CPU_CLK_UNHALTED.CORE %:1;INST_RETIRED.ANY %:1;CPU_CLK_UNHALTED.CORE events:1;INST_RETIRED.ANY events:1;ThreadID:1;Process Path:1;Process ID:1" ColumnsWidth="58;152;50;50;50;51;51;85;85;81;77;64;110;62;52;381;69;66;64" DefaultPresentation="0" PerCPU="0"/>
+
+</SamplingViewerPreferences>

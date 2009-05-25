@@ -61,7 +61,6 @@ namespace Sound
 
 		if ( result == FMOD_OK )
 		{
-			event->setCallback( &SoundSystemComponent::OnSoundEventStarted, this );
 			result = event->start( );
 			m_activeSoundEvents.insert( std::make_pair( eventPath, event ) );
 		}
@@ -86,25 +85,4 @@ namespace Sound
 			m_activeSoundEvents.erase( eventPath );
 		}
 	}
-
-	FMOD_RESULT F_CALLBACK SoundSystemComponent::OnSoundEventStarted( FMOD_EVENT* event, FMOD_EVENT_CALLBACKTYPE type, void* param1, void* param2, void* userdata )
-	{
-		FMOD::Event* soundEvent = reinterpret_cast< FMOD::Event* >( event );
-		SoundSystemComponent* component = reinterpret_cast< SoundSystemComponent* >( userdata ); 
-
-		switch( type )
-		{
-
-		case FMOD_EVENT_CALLBACKTYPE_EVENTSTARTED:
-
-			break;
-
-		case FMOD_EVENT_CALLBACKTYPE_EVENTFINISHED:
-
-			break;
-		}
-
-		return FMOD_OK;
-	}
-
 }

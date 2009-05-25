@@ -58,7 +58,6 @@ function Options.onSave( )
 	Options.saveInput( )
 	Options.saveAdvanced( )
 	Options.saveGraphics( )
-	Options.saveSound( )
 	
 	local options = ux:findWidget( 'options' )
 	options:setVisible( false )
@@ -70,18 +69,24 @@ end
 function Options.initializeSound( )
 
 	local sfxVolume = ux:findWidget( 'options_sound_sfx' ):asScrollbar( )
+	ux:scriptWidget( sfxVolume, 'onScrollChangePosition', Options.onSFXVolumeScroll )
 	sfxVolume:setScrollPosition( Configuration.sfxVolume )
 	
 	local musicVolume = ux:findWidget( 'options_sound_music' ):asScrollbar( )
+	ux:scriptWidget( musicVolume, 'onScrollChangePosition', Options.onMusicVolumeScroll )
 	musicVolume:setScrollPosition( Configuration.musicVolume )
 
 end
 
-function Options.saveSound( )
+function Options.onSFXVolumeScroll( position )
 
 	local sfxVolume = ux:findWidget( 'options_sound_sfx' ):asScrollbar( )
 	Configuration.sfxVolume = sfxVolume:getScrollPosition( )
 	
+end
+
+function Options.onMusicVolumeScroll( position )
+
 	local musicVolume = ux:findWidget( 'options_sound_music' ):asScrollbar( )
 	Configuration.musicVolume = musicVolume:getScrollPosition( )
 
