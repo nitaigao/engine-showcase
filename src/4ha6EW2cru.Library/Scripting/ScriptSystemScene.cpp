@@ -58,7 +58,7 @@ namespace Script
 		ScriptComponent* component = new ScriptComponent( childState );
 
 		component->SetAttribute( System::Attributes::Name, name );
-		component->SetAttribute( System::Attributes::Type, System::Types::SCRIPT );
+		component->SetAttribute( System::Attributes::SystemType, System::Types::SCRIPT );
 		component->SetAttribute( System::Attributes::Parent, this );
 		
 		lua_newtable( m_state );  // a global table for this script 

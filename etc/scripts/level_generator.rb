@@ -286,9 +286,21 @@ class AIComponent < Component
 	
 		super( 'ai' )
 		
-		scriptName = ogreNode.elements[ './/aiScriptName' ]
+		filePath = ogreNode.elements[ './/aifilePath' ]
 		
-		@scriptPath = $scriptsGamePath + '/' + scriptName.text
+		if ( filePath.text != nil )
+		
+			@filePath = $baseGamePath + '/' + filePath.text
+		
+		end
+		
+		aiType = ogreNode.elements[ './/aiType' ]
+		
+		if ( aiType.text != nil ) then
+		
+			@type = aiType.text
+		
+		end
 	
 	end
 
@@ -501,6 +513,7 @@ class Entity
 		
 		end
 		
+		#Must come last so the game can send the geometry information to all previously registered components
 		@components.push( GeometryComponent.new( ogreNode ) )
         
     end

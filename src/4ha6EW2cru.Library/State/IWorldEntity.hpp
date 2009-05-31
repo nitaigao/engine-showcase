@@ -45,9 +45,9 @@ namespace State
 
 		/*! Get a list of all System Components inside the Entity
 		 *
-		 *  @return (SystemComponentList&)
+		 *  @return (ISystemComponent::SystemComponentList&)
 		 */
-		virtual SystemComponentList GetComponents( ) const = 0;
+		virtual ISystemComponent::SystemComponentList GetComponents( ) const = 0;
 
 		/*! Adds a Foreign Observer to the Entity
 		*

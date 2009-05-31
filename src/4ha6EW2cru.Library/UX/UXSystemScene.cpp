@@ -100,7 +100,7 @@ namespace UX
 		m_gui->windowResized( m_gui->getRenderWindow( ) );
 
 		component->SetAttribute( System::Attributes::Name, name );
-		component->SetAttribute( System::Attributes::Type, System::Types::UX );
+		component->SetAttribute( System::Attributes::SystemType, System::Types::UX );
 		component->SetAttribute( System::Attributes::Parent, this );
 
 		return component;

@@ -5,10 +5,12 @@ using namespace std;
 
 namespace Renderer
 {
-	Line3D::Line3D(void)
+	Line3D::Line3D( const std::string& name )
 	{
 		mRenderOp.vertexData = new VertexData();
 		mDrawn = false;
+
+		mName = name;
 
 		this->setMaterial("BaseWhiteNoLighting");
 	}
@@ -127,15 +129,8 @@ namespace Renderer
 	Real Line3D::getBoundingRadius(void) const
 	{
 		return Math::Sqrt(max(mBox.getMaximum().squaredLength(), mBox.getMinimum().squaredLength()));
-		//return mRadius;
 	}
-	/*
-	void Line3D::getWorldTransforms(Matrix4 *xform) const
-	{
-	// return identity matrix to prevent parent transforms
-	*xform = Matrix4::IDENTITY;
-	}
-	*/
+
 	const Quaternion &Line3D::getWorldOrientation(void) const
 	{
 		return Quaternion::IDENTITY;

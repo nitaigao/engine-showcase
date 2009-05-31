@@ -11,6 +11,7 @@
 #include <Common/Base/hkBase.h>
 #include <fmod.hpp>
 
+#include "MathUnits.hpp"
 #include "MathMatrix.h"
 
 namespace Maths
@@ -22,6 +23,8 @@ namespace Maths
 	{
 
 	public:
+
+		typedef std::deque< MathVector3 > MathVector3List;
 
 		float X, Y, Z;
 
@@ -152,6 +155,20 @@ namespace Maths
 		}
 
 
+		/*! Rounds the Vector Values to the nearest whole number
+		*
+		* @return ( Maths::MathVector3 )
+		*/
+		inline MathVector3 Round( ) const
+		{
+			return MathVector3(
+				Maths::Round( X ),
+				Maths::Round( Y ),
+				Maths::Round( Z )
+				);
+		}
+
+
 		/*! Divides the Vector by the specified input
 		 *
 		 *  @param[in] const float & input
@@ -198,7 +215,7 @@ namespace Maths
 		 *  @param[in] const MathVector3 & input
 		 *  @return (Maths::MathVector3)
 		 */
-		inline MathVector3 operator - ( const MathVector3& input )
+		inline MathVector3 operator - ( const MathVector3& input ) const
 		{
 			return MathVector3(
 				X - input.X,
@@ -236,6 +253,34 @@ namespace Maths
 				Z * input.Z
 				);
 		};
+
+
+		/*! Returns whether the vector values match the input vector values
+		*
+		* @param[in] const MathVector3 & input
+		* @return ( bool )
+		*/
+		inline bool operator == ( const MathVector3& input ) const
+		{
+			return (
+				X == input.X && 
+				Y == input.Y &&
+				Z == input.Z );
+		}
+
+
+		/*! Returns whether the vector values do not match the input vector values
+		*
+		* @param[in] const MathVector3 & input
+		* @return ( bool )
+		*/
+		inline bool operator != ( const MathVector3& input )
+		{
+			return (
+				X != input.X && 
+				Y != input.Y &&
+				Z != input.Z );
+		}
 
 
 		/*! Returns a version of the Vector that has been multiplied by the input Matrix

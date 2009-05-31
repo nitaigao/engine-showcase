@@ -41,6 +41,8 @@ void Management::Initialize( )
 	g_ManagementInstance = new Management( );
 
 	g_ManagementInstance->m_fileSystem->Initialize( );
+
+	srand( time( 0 ) );
 }
 
 Management* Management::GetInstance( )

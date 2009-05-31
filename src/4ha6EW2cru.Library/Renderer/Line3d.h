@@ -14,7 +14,7 @@ namespace Renderer
 
 	public:
 
-		Line3D(void);
+		Line3D( const std::string& name );
 
 		~Line3D(void);
 
@@ -27,6 +27,8 @@ namespace Renderer
 
 		Ogre::Real getSquaredViewDepth(const Ogre::Camera *cam) const;
 		Ogre::Real getBoundingRadius(void) const;
+
+		static std::string TypeName( ) { return "Line"; };
 
 	protected:
 

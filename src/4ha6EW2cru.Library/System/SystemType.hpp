@@ -49,26 +49,30 @@ namespace System
 	{
 		static const std::string Name						=	"name";
 		static const std::string LookAt						=	"lookAt";
-		static const std::string DeltaX						=	"deltaX";
-		static const std::string DeltaY						=	"deltaY";
-		static const std::string ScriptPath					=	"scriptPath";
 		static const std::string Position					=	"position";
 		static const std::string Orientation				=	"orientation";
 		static const std::string Scale						=	"scale";
+		static const std::string FilePath					=	"filePath";
+		static const std::string SystemType					=	"systemType";
+		static const std::string Parent						=	"parent";
+		static const std::string Message					=	"message";
+
+		static const std::string DeltaX						=	"deltaX";
+		static const std::string DeltaY						=	"deltaY";
+		static const std::string ScriptPath					=	"scriptPath";
 		static const std::string Model						=	"model";
 		static const std::string Body						=	"body";
-		static const std::string Type						=	"type";
-		static const std::string Parent						=	"parent";
 		static const std::string PlayerPosition				=	"playerPosition";
 		static const std::string PlayerOrientation			=	"playerOrientation";
 		static const std::string SoundEventPath				=	"soundEventPath";
 		static const std::string Mouse						=	"mouse";
 		static const std::string Keyboard					=	"keyboard";
 		static const std::string ScriptState				=	"scriptState";
-		static const std::string Message					=	"message";
 		static const std::string Binding					=	"binding";
 		static const std::string InvertYAxis				=	"invertYAxis";
 		static const std::string SmoothMouse				=	"smoothMouse";
+		static const std::string NavMeshPath				=	"navMeshPath";
+		static const std::string NavigationMesh				=	"navigationMesh";
 		static const std::string MouseSensitivity			=	"mouseSensitivity";
 	};
 
@@ -101,6 +105,7 @@ namespace System
 		static const std::string SetBindingForMessage		=	"setBindingForMessage";
 		static const std::string PlayAnimation				=	"playAnimation";
 		static const std::string SetInvertYAxis				=	"setInvertYAxis";
+		static const std::string LoadMesh				=	"loadNavMesh";
 	}
 };
 

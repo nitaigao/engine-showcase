@@ -21,8 +21,6 @@ namespace AI
 	class AISystemScene : public IAISystemScene
 	{
 
-		typedef stdext::hash_multimap< int, IAISystemComponent* > AISystemComponentMap;
-
 	public:
 
 		/*! Default Destructor
@@ -37,8 +35,6 @@ namespace AI
 		 *  @return ()
 		 */
 		AISystemScene( )
-			: m_frameNumber( 0 )
-			, m_lastFrameAssignment( 0 )
 		{
 
 		}
@@ -85,21 +81,25 @@ namespace AI
 		*/
 		void DestroyComponent( ISystemComponent* component );
 
-		//TODO: This should be re factored into the scripting system
-		/*! Returns the ScriptScene managing the AI Components
-		 *
-		 *  @return (ISystemScene*)
-		 */
-	//	inline ISystemScene* GetScriptScene( ) { return 0; };
+
+		/*! Returns all way points in the Scene
+		*
+		* @return ( ISystemComponent::SystemComponentList )
+		*/
+		ISystemComponent::SystemComponentList& GetWaypoints( ) { return m_waypoints; };
+
+
+		/*! Returns the Navigation Mesh for the Scene
+		*
+		* @return ( INavigationMesh* )
+		*/
+		ISystemComponent* GetNavigationMesh( ) { return m_navigationMesh; };
 
 	private:
 
-		AISystemComponentMap m_components;
-
-		int m_lastFrameAssignment;
-		int m_frameNumber;
-
-		//Script::IScriptSystemScene* _scriptScene;
+		ISystemComponent::SystemComponentMap m_components;
+		ISystemComponent::SystemComponentList m_waypoints;
+		ISystemComponent* m_navigationMesh;
 
 	};
 };

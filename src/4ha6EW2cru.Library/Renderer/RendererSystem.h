@@ -23,6 +23,8 @@ namespace Renderer
 	class RendererSystem : public IRendererSystem, public IService, public Ogre::WindowEventListener
 	{
 
+		typedef std::deque< Ogre::MovableObjectFactory* > FactoryList;
+
 	public:
 
 		/*! Default Destructor
@@ -67,7 +69,7 @@ namespace Renderer
 		*
 		*  @return (System::Types::Type)
 		*/
-		void Release( ) { };
+		void Release( );
 
 
 		/*! Messages the system with a command
@@ -116,6 +118,12 @@ namespace Renderer
 		 *  @return (AnyType::AnyTypeMap)
 		 */
 		AnyType::AnyTypeMap Execute( const std::string& actionName, AnyType::AnyTypeMap& parameters );
+
+		void GetMeshInformation( const Ogre::Mesh* const mesh, size_t &vertex_count, Ogre::Vector3* &vertices, size_t &index_count, unsigned long* &indices, 
+			const Ogre::Vector3 &position = Ogre::Vector3::ZERO,
+			const Ogre::Quaternion &orient = Ogre::Quaternion::IDENTITY,
+			const Ogre::Vector3 &scale = Ogre::Vector3::UNIT_SCALE 
+			);
 		
 
 	private:
@@ -138,6 +146,8 @@ namespace Renderer
 		Ogre::Root* m_root;
 		Ogre::SceneManager* m_sceneManager;
 		Ogre::RenderWindow* m_window;
+
+		FactoryList m_factories;
 
 	};
 };

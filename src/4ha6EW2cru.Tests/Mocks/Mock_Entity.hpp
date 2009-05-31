@@ -28,7 +28,7 @@ public:
 	const std::string& GetName( ) const { return "test_entity"; };
 	void AddComponent( ISystemComponent* component ) { _components.push_back( component ); }
 	ISystemComponent* FindComponent( const System::Types::Type& systemType ) const { return 0; };
-	SystemComponentList GetComponents( ) const { return _components; };
+	ISystemComponent::SystemComponentList GetComponents( ) const { return _components; };
 
 	AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters ) { };
 
@@ -36,7 +36,7 @@ private:
 
 	Mock_Entity & operator = ( const Mock_Entity & copy ) { return *this; };
 
-	SystemComponentList _components;
+	ISystemComponent::SystemComponentList _components;
 };
 
 #endif

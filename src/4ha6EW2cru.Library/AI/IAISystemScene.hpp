@@ -10,6 +10,8 @@
 
 #include "../System/ISystemScene.hpp"
 
+#include "INavigationMesh.hpp"
+
 namespace AI
 {
 	/*! 
@@ -25,6 +27,19 @@ namespace AI
 		 *  @return ()
 		 */
 		virtual ~IAISystemScene( ) { };
+
+
+		/*! Returns all way points in the Scene
+		*
+		* @return ( ISystemComponent::SystemComponentList )
+		*/
+		virtual ISystemComponent::SystemComponentList& GetWaypoints( ) = 0;
+
+		/*! Returns the Navigation Mesh for the Scene
+		*
+		* @return ( INavigationMesh* )
+		*/
+		virtual ISystemComponent* GetNavigationMesh( ) = 0;
 
 	};
 };

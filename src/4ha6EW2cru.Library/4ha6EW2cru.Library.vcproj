@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG;LUABIND_NO_EXCEPTIONS;NDEBUG;NOMINMAX;WIN32"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG;LUABIND_NO_EXCEPTIONS;NOMINMAX;WIN32"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -162,6 +162,22 @@
 			>
 		</File>
 		<File
+			RelativePath=".\AI\AINavigationMeshComponent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\AI\AINavigationMeshComponent.h"
+			>
+		</File>
+		<File
+			RelativePath=".\AI\AIScriptComponent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\AI\AIScriptComponent.h"
+			>
+		</File>
+		<File
 			RelativePath=".\AI\AISystem.cpp"
 			>
 		</File>
@@ -183,6 +199,10 @@
 		</File>
 		<File
 			RelativePath=".\AI\AISystemScene.h"
+			>
+		</File>
+		<File
+			RelativePath=".\AI\AIWaypointComponent.h"
 			>
 		</File>
 		<File
@@ -590,6 +610,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\AI\INavigationMesh.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\State\Serilaization\InputComponentSerializer.cpp"
 			>
 		</File>
@@ -774,6 +798,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Renderer\LineFactory.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Renderer\LineFactory.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Utility\luabind\include\detail\link_compatibility.hpp"
 			>
 		</File>
@@ -831,6 +863,22 @@
 		</File>
 		<File
 			RelativePath=".\Utility\luabind\include\detail\most_derived.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\AI\NavigationMesh.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\AI\NavigationMesh.h"
+			>
+		</File>
+		<File
+			RelativePath=".\AI\NavigationPolygon.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\AI\NavigationPolygon.h"
 			>
 		</File>
 		<File

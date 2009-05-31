@@ -21,7 +21,7 @@ namespace Renderer
 		m_components[ name ] = component;
 
 		component->SetAttribute( System::Attributes::Name, name );
-		component->SetAttribute( System::Attributes::Type, System::Types::RENDER );
+		component->SetAttribute( System::Attributes::SystemType, System::Types::RENDER );
 		component->SetAttribute( System::Attributes::Parent, this );
 
 		return component;

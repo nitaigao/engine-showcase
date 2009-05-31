@@ -26,6 +26,9 @@ class ISystemComponent : public IObserver, public ISubject
 
 public:
 
+	typedef std::deque< ISystemComponent* > SystemComponentList;
+	typedef std::map< std::string, ISystemComponent* > SystemComponentMap;
+
 	/*! Default Destructor
 	 *
 	 *  @return ()
@@ -68,8 +71,5 @@ public:
 	virtual void SetAttribute( const System::Attribute& attributeId, const AnyType& value ) = 0;
 
 };
-
-typedef std::vector< ISystemComponent* > SystemComponentList;
-
 
 #endif

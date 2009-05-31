@@ -39,9 +39,8 @@ namespace AI
 		 *  @param[in] IScriptComponent * scriptComponent
 		 *  @return ()
 		 */
-		AISystemComponent( const std::string& name, const int& frameAssignment )
+		AISystemComponent( const std::string& name )
 			: m_name( name )
-			, m_frameAssignment( frameAssignment )
 			, m_scriptState( 0 )
 			, m_observer( 0 )
 			, m_playerDistance( 0 )
@@ -56,7 +55,7 @@ namespace AI
 		 *  @param[in] AnyType::AnyValueMap attributes
 		 *  @return (void)
 		 */
-		void Initialize( );
+		virtual void Initialize( ) { };
 
 
 		/*! Steps the internal data of the Component
@@ -64,14 +63,14 @@ namespace AI
 		 *  @param[in] float deltaMilliseconds
 		 *  @return (void)
 		 */
-		void Update( const float& deltaMilliseconds );
+		virtual void Update( const float& deltaMilliseconds ) { };
 
 
 		/*! Destroys the Component
 		 *
 		 *  @return (void)
 		 */
-		void Destroy( );
+		virtual void Destroy( ) { };
 
 
 		/*! Adds an Observer to the Component
@@ -79,7 +78,7 @@ namespace AI
 		 *  @param[in] IObserver * observer
 		 *  @return (void)
 		 */
-		inline void AddObserver( IObserver* observer ) { m_observer = observer; };
+		virtual void AddObserver( IObserver* observer ) { m_observer = observer; };
 
 
 		/*! Posts a message to observers
@@ -88,7 +87,7 @@ namespace AI
 		*  @param[in] AnyType::AnyValueMap parameters
 		*  @return (AnyType)
 		*/
-		AnyType PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters );
+		virtual AnyType PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters );
 
 
 		/*! Messages the Component to influence its internal state
@@ -96,7 +95,7 @@ namespace AI
 		*  @param[in] const std::string & message
 		*  @return (AnyType)
 		*/
-		AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters );
+		virtual AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters );
 
 
 		/*! Gets the attributes of the Component
@@ -113,79 +112,19 @@ namespace AI
 		*/
 		inline void SetAttribute( const System::Attribute& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
 
-
-		/* AI Specific */
-
-		/*! Returns the frame number that this ai will perform its logic update
-		*
-		*  @return (int)
-		*/
-		inline int GetFrameAssignment( ) const { return m_frameAssignment; };
-
-
-		/* Script Callbacks */
-
-		/*! Walks the Parent Entity Forward
-		 *
-		 *  @return (void)
-		 */
-		void WalkForward( );
-
-
-		/*! Walks the Parent Entity Backwards
-		 *
-		 *  @return (void)
-		 */
-		void WalkBackward( );
-
-
-		/*! Rotates the Parent Entity towards the Player
-		 *
-		 *  @return (void)
-		 */
-		void FacePlayer( );
-
-
-		/*! Fires the AI Weapon
-		 *
-		 *  @return (void)
-		 */
-		void FireWeapon( );
-
-
-		/*! Gets the Distance to the Player
-		 *
-		 *  @return (float)
-		 */
-		inline float GetPlayerDistance( ) { return m_playerDistance; };
-
-
-		/*! Plays an Animation
-		 *
-		 *  @param[in] const std::string & animationName
-		 *  @param[in] const bool & loopAnimation
-		 *  @return (void)
-		 */
-		void PlayAnimation( const std::string& animationName, const bool& loopAnimation );
-
-		/*! Gets the Name of the Component
-		*
-		*  @return (const std::string&)
-		*/
-		inline std::string GetName( ) { return m_attributes[ System::Attributes::Name ].As< std::string >( ); };
-
-	private:
+	protected:
 
 		std::string m_name;
 
 		lua_State* m_scriptState;
-		int m_frameAssignment;
 
 		IObserver* m_observer;
 
 		float m_playerDistance;
 
 		AnyType::AnyTypeMap m_attributes;
+
+		Maths::MathVector3::MathVector3List m_activeWaypoints;
 
 	};
 };

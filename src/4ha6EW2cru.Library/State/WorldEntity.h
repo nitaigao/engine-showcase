@@ -61,9 +61,9 @@ namespace State
 
 		/*! Get a list of all System Components inside the Entity
 		*
-		*  @return (SystemComponentList&)
+		*  @return (ISystemComponent::SystemComponentList&)
 		*/
-		inline SystemComponentList GetComponents( ) const { return m_components; };
+		inline ISystemComponent::SystemComponentList GetComponents( ) const { return m_components; };
 
 
 		/*! Messages the Component to influence its internal state
@@ -79,7 +79,7 @@ namespace State
 		WorldEntity & operator = ( const WorldEntity & copy ) { return *this; };
 
 		std::string m_name;
-		SystemComponentList m_components;
+		ISystemComponent::SystemComponentList m_components;
 		ObserverMap m_observers;
 
 	};

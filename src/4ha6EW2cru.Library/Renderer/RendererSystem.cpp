@@ -1,6 +1,8 @@
 #include "RendererSystem.h"
 
 #include "RendererSystemScene.h"
+#include "LineFactory.h"
+
 #include "Color.hpp"
 using namespace Ogre;
 
@@ -19,18 +21,31 @@ using namespace IO;
 #include "../Maths/MathVector3.hpp"
 using namespace Maths;
 
+
 namespace Renderer
 {
 
 	RendererSystem::~RendererSystem( )
 	{	
+		if ( m_root != 0 )
+		{
+			delete m_root;
+			m_root = 0;
+		}
+	}
+
+	void RendererSystem::Release()
+	{
 		Ogre::WindowEventUtilities::removeWindowEventListener( m_window, this );
 
 		if ( m_root != 0 )
 		{
 			m_root->shutdown( );
-			delete m_root;
-			m_root = 0;
+		}
+
+		for( FactoryList::iterator i = m_factories.begin( ); i != m_factories.end( ); ++i )
+		{
+			delete ( *i );
 		}
 	}
 
@@ -132,6 +147,10 @@ namespace Renderer
 		m_root->renderOneFrame( );
 
 		Management::GetInstance( )->GetServiceManager( )->RegisterService( this );
+
+		LineFactory* lineFactory = new LineFactory( );
+		m_factories.push_back( lineFactory );
+		m_root->addMovableObjectFactory( lineFactory );
 
 		//CompositorManager::getSingletonPtr( )->addCompositor( m_sceneManager->getCurrentViewport( ), "HDR" );
 		//CompositorManager::getSingletonPtr( )->setCompositorEnabled( m_sceneManager->getCurrentViewport( ), "HDR", true );
@@ -313,7 +332,11 @@ namespace Renderer
 
 		if ( message == "drawLine" )
 		{
-			Line3D* line = new Line3D( );
+			std::stringstream lineName;
+			lineName << "line-" << Maths::GenUUID( );
+
+			Line3D* line = static_cast< Line3D* >( m_sceneManager->createMovableObject( lineName.str( ), Line3D::TypeName( ) ) );
+
 			line->drawLine( 
 				parameters[ "origin" ].As< MathVector3 >( ).AsOgreVector3( ), 
 				parameters[ "destination" ].As< MathVector3 >( ).AsOgreVector3( ) 
@@ -322,7 +345,6 @@ namespace Renderer
 			SceneNode* lineNode = m_sceneManager->createSceneNode( );
 			lineNode->attachObject( line );
 			m_sceneManager->getRootSceneNode( )->addChild( lineNode );
-
 		}
 
 		if ( message == "screenShot" )
@@ -330,6 +352,138 @@ namespace Renderer
 			m_window->writeContentsToFile( "C:\\Users\\NK\\Desktop\\output.png" );
 		}
 
+		if ( message == System::Messages::LoadMesh )
+		{
+			Ogre::MeshPtr mesh = m_root->getMeshManager( )->load( parameters[ System::Attributes::FilePath ].As< std::string >( ), Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME );
+
+			size_t vertexCount, indexCount;
+			Vector3* vertices;
+			unsigned long* indices;
+
+			this->GetMeshInformation( mesh.getPointer( ), vertexCount, vertices, indexCount, indices );
+
+			MathVector3::MathVector3List verts;
+
+			for( size_t i = 0; i < indexCount; i++ )
+			{
+				verts.push_back( vertices[ indices[ i ] ] );
+			}
+
+			delete[ ] vertices;
+			delete[ ] indices;
+
+			results[ "vertices" ] = verts;
+		}
+
 		return results;
+	}
+
+	void RendererSystem::GetMeshInformation( const Ogre::Mesh* const mesh, size_t &vertexCount, Ogre::Vector3* &vertices, size_t &indexCount, unsigned long* &indices, const Vector3 &position /*= Vector3::ZERO*/, const Quaternion &orient /*= Quaternion::IDENTITY*/, const Vector3 &scale /*= Vector3::UNIT_SCALE */ )
+	{
+		bool added_shared = false;
+		size_t current_offset = 0;
+		size_t shared_offset = 0;
+		size_t next_offset = 0;
+		size_t index_offset = 0;
+
+
+		vertexCount = indexCount = 0;
+
+		// Calculate how many vertices and indices we're going to need
+		for ( unsigned short i = 0; i < mesh->getNumSubMeshes(); ++i)
+		{
+			Ogre::SubMesh* submesh = mesh->getSubMesh(i);
+			// We only need to add the shared vertices once
+			if(submesh->useSharedVertices)
+			{
+				if( !added_shared )
+				{
+					vertexCount += mesh->sharedVertexData->vertexCount;
+					added_shared = true;
+				}
+			}
+			else
+			{
+				vertexCount += submesh->vertexData->vertexCount;
+			}
+			// Add the indices
+			indexCount += submesh->indexData->indexCount;
+		}
+
+
+		// Allocate space for the vertices and indices
+		vertices = new Ogre::Vector3[vertexCount];
+		indices = new unsigned long[indexCount];
+
+		added_shared = false;
+
+		// Run through the submeshes again, adding the data into the arrays
+		for (unsigned short i = 0; i < mesh->getNumSubMeshes(); ++i)
+		{
+			Ogre::SubMesh* submesh = mesh->getSubMesh(i);
+
+			Ogre::VertexData* vertex_data = submesh->useSharedVertices ? mesh->sharedVertexData : submesh->vertexData;
+
+			if ((!submesh->useSharedVertices) || (submesh->useSharedVertices && !added_shared))
+			{
+				if(submesh->useSharedVertices)
+				{
+					added_shared = true;
+					shared_offset = current_offset;
+				}
+
+				const Ogre::VertexElement* posElem = vertex_data->vertexDeclaration->findElementBySemantic(Ogre::VES_POSITION);
+
+				Ogre::HardwareVertexBufferSharedPtr vbuf = vertex_data->vertexBufferBinding->getBuffer(posElem->getSource());
+
+				unsigned char* vertex =	static_cast<unsigned char*>(vbuf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
+
+				// There is _no_ baseVertexPointerToElement() which takes an Ogre::Real or a double
+				//  as second argument. So make it float, to avoid trouble when Ogre::Real will
+				//  be compiled/typedef'ed as double:
+				//Ogre::Real* pReal;
+				float* pReal;
+
+				for( size_t j = 0; j < vertex_data->vertexCount; ++j, vertex += vbuf->getVertexSize())
+				{
+					posElem->baseVertexPointerToElement(vertex, &pReal);
+					Ogre::Vector3 pt(pReal[0], pReal[1], pReal[2]);
+					vertices[current_offset + j] = (orient * (pt * scale)) + position;
+				}
+
+				vbuf->unlock();
+				next_offset += vertex_data->vertexCount;
+			}
+
+
+			Ogre::IndexData* index_data = submesh->indexData;
+			size_t numTris = index_data->indexCount / 3;
+			Ogre::HardwareIndexBufferSharedPtr ibuf = index_data->indexBuffer;
+
+			bool use32bitindexes = (ibuf->getType() == Ogre::HardwareIndexBuffer::IT_32BIT);
+
+			unsigned long* pLong = static_cast<unsigned long*>(ibuf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
+			unsigned short* pShort = reinterpret_cast<unsigned short*>(pLong);
+
+			size_t offset = (submesh->useSharedVertices)? shared_offset : current_offset;
+
+			if ( use32bitindexes )
+			{
+				for ( size_t k = 0; k < numTris*3; ++k)
+				{
+					indices[index_offset++] = pLong[k] + static_cast<unsigned long>(offset);
+				}
+			}
+			else
+			{
+				for ( size_t k = 0; k < numTris*3; ++k)
+				{
+					indices[index_offset++] = static_cast<unsigned long>(pShort[k]) + static_cast<unsigned long>(offset);
+				}
+			}
+
+			ibuf->unlock();
+			current_offset = next_offset;
+		}
 	}
 }

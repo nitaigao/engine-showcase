@@ -7,6 +7,11 @@
 		<enumItem name="default" value="default" />
 		<enumItem name="camera" value="camera" />
 	</enum>	
+	<enum name="aiTypeOptions" type="string">
+		<enumItem name="default" value="default" />
+		<enumItem name="waypoint" value="waypoint" />
+		<enumItem name="navmesh" value="navmesh" />
+	</enum>
 	<class name="components" usage="object">
 		<data displayName="Attach Graphics" name="attachGraphics" groupName="Graphics" type="bool" default="false" />
 		<data displayName="Override Model" name="overrideGraphicsModel" groupName="Graphics" type="string" />
@@ -18,7 +23,8 @@
 		<data displayName="Attach Physics" name="attachPhysics" groupName="Physics" type="bool" default="false" />	
 		<data displayName="Physics Type" name="physicsType" groupName="Physics" type="physicsTypeOptions" />
 		<data displayName="Attach AI" name="attachAI" groupName="AI" type="bool" default="false" />
-		<data displayName="Script Name" name="aiScriptName" groupName="AI" type="string" />
+		<data displayName="File Path" name="aifilePath" groupName="AI" type="string" />
+		<data displayName="AI Type" name="aiType" groupName="AI" type="aiTypeOptions" />
 	</class>	
 </userDataTypes>	
 		<!--<data displayName="Attach Animation" name="attachAnimation" groupName="Animation" type="bool" default="false" />	-->

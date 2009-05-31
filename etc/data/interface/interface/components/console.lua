@@ -90,7 +90,7 @@ end
 
 function Console.onKeyUp( keyCode, keyText )
 
-	if ( keyCode == 13 ) then
+	if ( keyCode == 28 ) then
 	
 		local input = input:asEditBox( )
 	

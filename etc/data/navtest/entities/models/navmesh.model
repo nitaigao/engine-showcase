@@ -1,0 +1,10 @@
+<node name='navmesh'>
+  <scale x='1' y='1' z='1'/>
+  <position x='21.4339' y='0' z='28.1738'/>
+  <rotation qw='1' qx='0' qy='0' qz='0'/>
+  <entity name='navmesh' id='507' receiveShadows='true' meshFile='/data/entities/meshes/navmesh.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='NoMaterial' index='0'/>
+    </subentities>
+  </entity>
+</node>

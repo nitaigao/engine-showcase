@@ -20,7 +20,7 @@ namespace Input
 		IInputSystemComponent* component = new InputSystemComponent( );
 
 		component->SetAttribute( System::Attributes::Name, name );
-		component->SetAttribute( System::Attributes::Type, System::Types::INPUT );
+		component->SetAttribute( System::Attributes::SystemType, System::Types::INPUT );
 		component->SetAttribute( System::Attributes::Parent, static_cast< IInputSystemScene* >( this ) );
 
 		m_inputComponents.push_back( component );

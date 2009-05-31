@@ -20,18 +20,13 @@ namespace AI
 
 	public:
 
+		typedef std::deque< IAISystemComponent* > AISystemComponentList;
+
 		/*! Default Destructor
 		 *
 		 *  @return ()
 		 */
 		virtual ~IAISystemComponent( ) { };
-
-
-		/*! Returns the frame number that this ai will perform its logic update
-		 *
-		 *  @return (int)
-		 */
-		virtual int GetFrameAssignment( ) const = 0;
 
 	};
 };

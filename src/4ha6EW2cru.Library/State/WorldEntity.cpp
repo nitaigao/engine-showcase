@@ -14,7 +14,7 @@ namespace State
 	{
 		std::vector< AnyType > results;
 
-		for( SystemComponentList::const_iterator i = m_components.begin( ); i != m_components.end( ); ++i )
+		for( ISystemComponent::SystemComponentList::const_iterator i = m_components.begin( ); i != m_components.end( ); ++i )
 		{
 			AnyType result = ( *i )->Message( message, parameters );
 			results.push_back( result );

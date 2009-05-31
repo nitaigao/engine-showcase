@@ -22,11 +22,11 @@ public:
 	{
 		for ( IWorldEntity::WorldEntityList::iterator e = _entities.begin( ); e != _entities.end( ); ++e )
 		{
-			SystemComponentList components = ( *e )->GetComponents( );
+			ISystemComponent::SystemComponentList components = ( *e )->GetComponents( );
 
-			for( SystemComponentList::iterator c = components.begin( ); c != components.end( ); ++c )
+			for( ISystemComponent::SystemComponentList::iterator c = components.begin( ); c != components.end( ); ++c )
 			{
-				_systemScenes[ ( *c )->GetAttributes( )[ System::Attributes::Type ].As< System::Types::Type >( ) ]->DestroyComponent( ( *c ) );
+				_systemScenes[ ( *c )->GetAttributes( )[ System::Attributes::SystemType ].As< System::Types::Type >( ) ]->DestroyComponent( ( *c ) );
 			}
 
 			delete ( *e );

@@ -58,11 +58,11 @@ namespace State
 	{
 		for ( IWorldEntity::WorldEntityList::iterator e = m_entities.begin( ); e != m_entities.end( ); ++e )
 		{
-			SystemComponentList components = ( *e )->GetComponents( );
+			ISystemComponent::SystemComponentList components = ( *e )->GetComponents( );
 	
-			for( SystemComponentList::iterator c = components.begin( ); c != components.end( ); ++c )
+			for( ISystemComponent::SystemComponentList::iterator c = components.begin( ); c != components.end( ); ++c )
 			{
-				m_systemScenes[ ( *c )->GetAttributes( )[ System::Attributes::Type ].As< System::Types::Type >( ) ]->DestroyComponent( ( *c ) );
+				m_systemScenes[ ( *c )->GetAttributes( )[ System::Attributes::SystemType ].As< System::Types::Type >( ) ]->DestroyComponent( ( *c ) );
 			}
 	
 			delete ( *e );

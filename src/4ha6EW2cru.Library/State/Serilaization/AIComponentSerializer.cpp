@@ -1,19 +1,33 @@
 #include "AIComponentSerializer.h"
 
 #include <yaml.h>
+#include "../../System/SystemTypeMapper.hpp"
+using namespace System;
 
 namespace Serialization
 {
 	ISystemComponent* AIComponentSerializer::DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes )
 	{ 
-		SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::AI );
+		std::string system;
+		componentNode[ "system" ] >> system;
 
-		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
+		SystemSceneMap::const_iterator systemScene = systemScenes.find( SystemTypeMapper::StringToType( system ) );
 
-		std::string scriptPath;
-		componentNode[ "scriptPath" ] >> scriptPath;
+		std::string type;
+		componentNode[ "type" ] >> type;
 
-		systemComponent->SetAttribute( System::Attributes::ScriptPath, scriptPath );
+		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, type );
+
+		for( YAML::Iterator componentProperty = componentNode.begin( ); componentProperty != componentNode.end( ); ++componentProperty ) 
+		{
+			std::string propertyKey, propertyValue;
+
+			componentProperty.first( ) >> propertyKey;
+			componentProperty.second( ) >> propertyValue;
+
+			systemComponent->SetAttribute( propertyKey, propertyValue );
+		}
+
 		systemComponent->Initialize( );
 
 		return systemComponent;

@@ -8,7 +8,7 @@ namespace Sound
 	{
 		ISoundSystemComponent* component = new SoundSystemComponent( name, this );
 		component->SetAttribute( System::Attributes::Name, name );
-		component->SetAttribute( System::Attributes::Type, System::Types::SOUND );
+		component->SetAttribute( System::Attributes::SystemType, System::Types::SOUND );
 		component->SetAttribute( System::Attributes::Parent, this );
 		return component;
 	}

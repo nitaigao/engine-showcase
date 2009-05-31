@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib mockpp_44d.lib cppunitd.lib OgreMain_d.lib OIS_static_d.lib luad.lib luabindd.lib MyGUI_d.lib yamlcppd.lib hkBase.lib hkSerialize.lib hkSceneData.lib hkInternal.lib hkGeometryUtilities.lib hkVisualize.lib hkCompat.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib fmodex_vc.lib fmod_event.lib"
+				AdditionalDependencies="Rpcrt4.lib  winmm.lib mockpp_44d.lib cppunitd.lib OgreMain_d.lib OIS_static_d.lib luad.lib luabindd.lib MyGUI_d.lib yamlcppd.lib hkBase.lib hkSerialize.lib hkSceneData.lib hkInternal.lib hkGeometryUtilities.lib hkVisualize.lib hkCompat.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib fmodex_vc.lib fmod_event.lib"
 				LinkIncremental="0"
 				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/myguiengine/lib/debug;../../etc/vendor/mockpp/lib;../../etc/vendor/ogre/lib;../../etc/vendor/cppspec/lib;../../etc/vendor/yaml/lib;&quot;../../etc/vendor/havok/lib/win32_net_9-0/debug_multithreaded_dll&quot;;../../etc/vendor/fmod/lib"
 				GenerateDebugInformation="true"
@@ -137,7 +137,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib cppunit.lib mockpp_44.lib OgreMain.lib OIS_static.lib lua.lib luabind.lib MyGUI.lib yamlcpp.lib hkBase.lib hkSerialize.lib hkSceneData.lib hkInternal.lib hkGeometryUtilities.lib hkVisualize.lib hkCompat.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib fmodex_vc.lib fmod_event.lib"
+				AdditionalDependencies="Rpcrt4.lib winmm.lib cppunit.lib mockpp_44.lib OgreMain.lib OIS_static.lib lua.lib luabind.lib MyGUI.lib yamlcpp.lib hkBase.lib hkSerialize.lib hkSceneData.lib hkInternal.lib hkGeometryUtilities.lib hkVisualize.lib hkCompat.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib fmodex_vc.lib fmod_event.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="../../etc/vendor/cppunit/lib;../../etc/vendor/ois/lib;../../etc/vendor/mockpp/lib;../../etc/vendor/lua;../../etc/vendor/luabind/lib;../../etc/vendor/mygui/myguiengine/lib/release;../../etc/vendor/ogre/lib;../../etc/vendor/yaml/lib;&quot;../../etc/vendor/havok/lib/win32_net_9-0/release_multithreaded_dll&quot;;../../etc/vendor/fmod/lib;../../etc/vendor/boost/lib"
 				GenerateDebugInformation="true"

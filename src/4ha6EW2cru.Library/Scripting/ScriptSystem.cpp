@@ -42,9 +42,9 @@ namespace Script
 
 		if( actionName == "loadScript" )
 		{
-			ISystemComponent* systemComponent = m_auxScene->CreateComponent( parameters[ "name" ].As< std::string >( ), "default" );
+			ISystemComponent* systemComponent = m_auxScene->CreateComponent( parameters[ System::Attributes::Name ].As< std::string >( ), "default" );
 			IScriptComponent* scriptComponent = static_cast< IScriptComponent* >( systemComponent );
-			scriptComponent->SetAttribute( System::Attributes::ScriptPath, parameters[ "scriptPath" ].As< std::string >( ) );
+			scriptComponent->SetAttribute( System::Attributes::ScriptPath, parameters[ System::Attributes::ScriptPath ].As< std::string >( ) );
 			scriptComponent->Initialize( );
 			results[ "state" ] = scriptComponent->GetState( );
 		}

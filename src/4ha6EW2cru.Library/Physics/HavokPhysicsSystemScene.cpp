@@ -61,7 +61,7 @@ namespace Physics
 		}
 
 		component->SetAttribute( System::Attributes::Name, name );
-		component->SetAttribute( System::Attributes::Type, System::Types::PHYSICS );
+		component->SetAttribute( System::Attributes::SystemType, System::Types::PHYSICS );
 		component->SetAttribute( System::Attributes::Parent, this );
 
 		m_components[ name ] = component;
