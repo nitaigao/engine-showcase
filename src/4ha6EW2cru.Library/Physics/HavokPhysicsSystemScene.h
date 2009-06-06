@@ -21,6 +21,8 @@
 
 #include "IPhysicsSystemComponent.hpp"
 
+#include "IPhysicsSystem.hpp"
+
 namespace Physics
 {
 	/*! 
@@ -35,7 +37,7 @@ namespace Physics
 		 *
 		 *  @return ()
 		 */
-		~HavokPhysicsSystemScene( );
+		~HavokPhysicsSystemScene( ) { };
 
 
 		/*! Default Constructor
@@ -43,7 +45,11 @@ namespace Physics
 		 *  @param[in] const hkpWorldCinfo & worldInfo
 		 *  @return ()
 		 */
-		HavokPhysicsSystemScene( const hkpWorldCinfo& worldInfo );
+		HavokPhysicsSystemScene( IPhysicsSystem* system )
+			: m_system( system )
+		{
+
+		}
 
 
 		/*! Initializes the System Scene
@@ -92,11 +98,8 @@ namespace Physics
 		void DestroyComponent( ISystemComponent* component );
 
 
-		/*! Returns the Physics World from within Havok
-		 *
-		 *  @return (hkpWorld*)
-		 */
-		hkpWorld* GetWorld( ) const { return m_world; };
+		IPhysicsSystem* GetSystem( ) { return m_system; };
+
 
 	private:
 
@@ -106,17 +109,10 @@ namespace Physics
 		void entityDeactivatedCallback( hkpEntity* entity );
 		void entityActivatedCallback( hkpEntity* entity );
 
-		hkpWorld* m_world;
-#ifdef _DEBUG
-		hkVisualDebugger* m_vdb;
-#endif
-		hkpPhysicsContext* m_context;
-
-		hkpGroupFilter* m_groupFilter;
+		IPhysicsSystem* m_system;
 
 		IPhysicsSystemComponent::PhysicsSystemComponentList m_components;
 
-		HavokPhysicsSystemScene( ) { };
 		HavokPhysicsSystemScene( const HavokPhysicsSystemScene & copy ) { };
 		HavokPhysicsSystemScene & operator = ( const HavokPhysicsSystemScene & copy ) { return *this; };
 

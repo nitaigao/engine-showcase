@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG;LUABIND_NO_EXCEPTIONS;NOMINMAX;WIN32"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG;NOMINMAX;WIN32"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -109,7 +109,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;LUABIND_NO_EXCEPTIONS;NOMINMAX;WIN32"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;NOMINMAX;WIN32"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -215,6 +215,62 @@
 		</File>
 		<File
 			RelativePath=".\Renderer\AnimationBlender.h"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Serilaization\AnimationComponentSerializer.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Serilaization\AnimationComponentSerializer.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Renderer\AnimationController.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Renderer\AnimationController.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\AnimationFacade.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\AnimationFacade.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Animation\AnimationNode.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Animation\AnimationNode.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Animation\AnimationSystem.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Animation\AnimationSystem.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Animation\AnimationSystemComponent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Animation\AnimationSystemComponent.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Animation\AnimationSystemScene.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Animation\AnimationSystemScene.h"
 			>
 		</File>
 		<File
@@ -546,7 +602,35 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Renderer\IAnimationController.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\IAnimationFacade.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Animation\IAnimationNode.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Animation\IAnimationSystem.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Animation\IAnimationSystemComponent.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Animation\IAnimationSystemScene.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\AI\IBehavior.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Platform\IClock.hpp"
 			>
 		</File>
 		<File
@@ -606,11 +690,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\luabind\include\detail\implicit_cast.hpp"
+			RelativePath=".\System\IInstrumentation.hpp"
 			>
 		</File>
 		<File
-			RelativePath=".\AI\INavigationMesh.hpp"
+			RelativePath=".\Utility\luabind\include\detail\implicit_cast.hpp"
 			>
 		</File>
 		<File
@@ -654,11 +738,27 @@
 			>
 		</File>
 		<File
+			RelativePath=".\System\Instrumentation.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\InstrumentationFacade.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\InstrumentationFacade.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Exceptions\IntializeFailedException.hpp"
 			>
 		</File>
 		<File
 			RelativePath=".\System\IObserver.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Physics\IPhysicsSystem.hpp"
 			>
 		</File>
 		<File
@@ -702,7 +802,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Scripting\IScriptController.hpp"
+			RelativePath=".\Scripting\IScriptFacade.hpp"
 			>
 		</File>
 		<File
@@ -726,7 +826,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Scripting\ISoundController.hpp"
+			RelativePath=".\Scripting\ISoundFacade.hpp"
 			>
 		</File>
 		<File
@@ -866,14 +966,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\AI\NavigationMesh.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\NavigationMesh.h"
-			>
-		</File>
-		<File
 			RelativePath=".\AI\NavigationPolygon.cpp"
 			>
 		</File>
@@ -926,11 +1018,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\luabind\include\open.hpp"
+			RelativePath=".\Utility\luabind\include\detail\open.hpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\luabind\include\detail\open.hpp"
+			RelativePath=".\Utility\luabind\include\open.hpp"
 			>
 		</File>
 		<File
@@ -1162,11 +1254,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Scripting\SoundController.cpp"
+			RelativePath=".\Scripting\SoundFacade.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Scripting\SoundController.h"
+			RelativePath=".\Scripting\SoundFacade.h"
 			>
 		</File>
 		<File
@@ -1295,6 +1387,14 @@
 		</File>
 		<File
 			RelativePath=".\Utility\luabind\include\weak_ref.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Platform\Win32Clock.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Platform\Win32Clock.h"
 			>
 		</File>
 		<File

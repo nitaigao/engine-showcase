@@ -23,34 +23,37 @@ namespace AI
 {
 	void AIScriptComponent::Initialize( )
 	{
+		IService* scriptService = Management::GetServiceManager( )->FindService( System::Types::SCRIPT );
+
 		AnyType::AnyTypeMap parameters;
-		parameters[ "scriptPath" ] = m_attributes[ System::Attributes::FilePath ];
-		parameters[ "name" ] = m_name + "_ai";
+		parameters[ System::Attributes::Name ] = m_name + "_ai";
+		parameters[ System::Parameters::ScriptPath ] = m_attributes[ System::Attributes::FilePath ];
 
-		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
-		m_scriptState = scriptService->Execute( "loadScript", parameters )[ "state" ].As< lua_State* >( );
+		ISystemComponent* scriptComponent = scriptService->Execute( System::Messages::LoadScript, parameters )[ "component" ].As< ISystemComponent* >( );
 
-		luabind::globals( m_scriptState )[ "ai" ] = this;
-		lua_resume( m_scriptState, 0 );
+		lua_State* scriptState = scriptComponent->Message( System::Messages::GetState, AnyType::AnyTypeMap( ) ).As< lua_State* >( );
+		globals( scriptState )[ "ai" ] = this;
+
+		scriptComponent->Message( System::Messages::RunScript, AnyType::AnyTypeMap( ) );
 	}
 
 	void AIScriptComponent::Destroy()
 	{
-		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
+		IService* scriptService = Management::GetServiceManager( )->FindService( System::Types::SCRIPT );
 
 		AnyType::AnyTypeMap parameters;
-		parameters[ "name" ] = m_name + "_ai";
+		parameters[ System::Attributes::Name ] = m_name + "_ai";
 		scriptService->Execute( "unloadComponent", parameters );
 	}
 
 	void AIScriptComponent::WalkForward( )
 	{
-		this->PushMessage( System::Messages::Move_Forward, m_attributes );
+		this->PushMessage( System::Messages::Move_Forward_Pressed, m_attributes );
 	}
 
 	void AIScriptComponent::WalkBackward( )
 	{
-		this->PushMessage( System::Messages::Move_Backward, m_attributes );
+		this->PushMessage( System::Messages::Move_Backward_Pressed, m_attributes );
 	}
 
 	void AIScriptComponent::FacePosition( const Maths::MathVector3& target )
@@ -92,16 +95,19 @@ namespace AI
 
 		m_attributes[ System::Attributes::Orientation ] = MathQuaternion( MathVector3::Up( ), aiForwardToOriginAngle ) * MathQuaternion( MathVector3::Up( ), aiToTargetAngle );
 		this->PushMessage( System::Messages::SetOrientation, m_attributes );
+
+		//m_attributes[ System::Attributes::LookAt ] = m_activeWaypoints.front( );
+		//this->PushMessage( System::Messages::SetLookAt, m_attributes );
 	}
 
 	void AIScriptComponent::FireWeapon( )
 	{
-		Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "AI_WEAPON_FIRED", m_name ) );
+		Management::GetEventManager( )->QueueEvent( new ScriptEvent( "WEAPON_FIRED", m_name ) );
 	}
 
 	void AIScriptComponent::PlayAnimation( const std::string& animationName, const bool& loopAnimation )
 	{
-		IService* service = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::RENDER );
+		IService* service = Management::GetServiceManager( )->FindService( System::Types::RENDER );
 
 		AnyType::AnyTypeMap parameters;
 
@@ -126,46 +132,51 @@ namespace AI
 			{
 				this->FacePosition( m_activeWaypoints.front( ) );
 
-				//m_attributes[ System::Attributes::LookAt ] = m_activeWaypoints.front( );
-				//this->PushMessage( System::Messages::SetLookAt, m_attributes );
-
 				this->WalkForward( );
 			}
+		}
+		else
+		{
+			assert( 0 && "" );
+			//this->PushMessage( System::Messages::Move_Idle, AnyType::AnyTypeMap( ) );
 		}
 	}
 
 	Maths::MathVector3 AIScriptComponent::FindRandomWaypoint( )
 	{
 		IAISystemScene* scene = m_attributes[ System::Attributes::Parent ].As< IAISystemScene* >( );
-
 		ISystemComponent::SystemComponentList waypoints = scene->GetWaypoints( );
-
-		/*Logging::Logger::Debug( "available waypoints" );
-
-		for( ISystemComponent::SystemComponentList::iterator i = waypoints.begin( ); i != waypoints.end( ); ++i )
-		{
-			MathVector3 position = ( *i )->GetAttributes( )[ System::Attributes::Position ].As< MathVector3 >( );
-
-			std::stringstream message;
-			message << position.X << " " << position.Y << " " << position.Z;
-			Logging::Logger::Debug( message.str( ) );
-		}*/
-
-		MathVector3 waypoint = waypoints[ rand( ) % waypoints.size( ) ]->GetAttributes( )[ System::Attributes::Position ].As< MathVector3 >( );
-
-		/*Logging::Logger::Debug( "found waypoint" );
-
-		std::stringstream message;
-		message << waypoint.X << " " << waypoint.Y << " " << waypoint.Z;
-		Logging::Logger::Debug( message.str( ) );*/
-
-		return waypoint;
+		return waypoints[ rand( ) % waypoints.size( ) ]->GetAttributes( )[ System::Attributes::Position ].As< MathVector3 >( );
 	}
 
 	void AIScriptComponent::NavigateTo( const Maths::MathVector3& destination )
 	{
+		m_activeWaypoints.push_back( destination );
+	}
+
+	bool AIScriptComponent::InLineOfSight( const Maths::MathVector3& position )
+	{
+		IService* physicsService = Management::GetServiceManager( )->FindService( System::Types::PHYSICS );
+
+		AnyType::AnyTypeMap parameters;
+		parameters[ System::Parameters::Origin ] = m_attributes[ System::Attributes::Position ].As< MathVector3 >( ) + MathVector3( 0.0f, 1.0f, 0.0f );
+		parameters[ System::Parameters::Destination ] = position + MathVector3( 0.0f, 1.0f, 0.0f );
+		parameters[ System::Parameters::SortByyDistance ] = true;
+		parameters[ System::Parameters::MaxResults ] = 1;
+
+		std::vector< std::string > results = physicsService->Execute( System::Messages::CastRay, parameters )[ "hits" ].As< std::vector< std::string > >( );
+
+		return results.size( ) > 0;
+	}
+
+	MathVector3::MathVector3List AIScriptComponent::GetPathTo( const MathVector3& position )
+	{
 		IAISystemScene* scene = m_attributes[ System::Attributes::Parent ].As< IAISystemScene* >( );
-		INavigationMesh* navMesh = scene->GetNavigationMesh( )->GetAttributes( )[ System::Attributes::NavigationMesh ].As< INavigationMesh* >( );
-		m_activeWaypoints = navMesh->FindPath( m_attributes[ System::Attributes::Position ].As< MathVector3 >( ), destination );
+
+		AnyType::AnyTypeMap parameters;
+		parameters[ System::Parameters::Origin ] = m_attributes[ System::Attributes::Position ].As< MathVector3 >( );
+		parameters[ System::Parameters::Destination ] = position;
+
+		return scene->GetNavigationMesh( )->Message( System::Messages::FindPath, parameters ).As< MathVector3::MathVector3List >( );
 	}
 }

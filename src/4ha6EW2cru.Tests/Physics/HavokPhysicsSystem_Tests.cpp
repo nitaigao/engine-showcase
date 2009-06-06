@@ -18,7 +18,7 @@ void HavokPhysicsSystem_Tests::setUp()
 
 void HavokPhysicsSystem_Tests::tearDown()
 {
-	Management::GetInstance( )->Release( );
+	Management::Release( );
 }
 
 void HavokPhysicsSystem_Tests::Should_Initialize_Correctly()

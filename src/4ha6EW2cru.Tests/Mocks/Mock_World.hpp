@@ -32,7 +32,7 @@ public:
 			delete ( *e );
 		}
 
-		for ( SystemSceneMap::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
+		for ( ISystemScene::SystemSceneMap::iterator i = _systemScenes.begin( ); i != _systemScenes.end( ); ++i )
 		{
 			delete ( *i ).second;
 		}
@@ -64,13 +64,13 @@ public:
 		_systemScenes[ systemScene->GetType( ) ] = systemScene;
 	}
 
-	const SystemSceneMap& GetSystemScenes( ) const { return _systemScenes; };
+	const ISystemScene::SystemSceneMap& GetSystemScenes( ) const { return _systemScenes; };
 
 	void Update( const float& deltaMilliseconds ) { };
 
 private:
 
-	SystemSceneMap _systemScenes;
+	ISystemScene::SystemSceneMap _systemScenes;
 	IWorldEntity::WorldEntityList _entities;
 
 private:

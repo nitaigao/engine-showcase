@@ -25,6 +25,7 @@ using namespace Serialization;
 #include "AI/AISystem.h"
 #include "UX/UXSystem.h"
 #include "Sound/SoundSystem.h"
+#include "Animation/AnimationSystem.h"
 
 #include "Events/Event.h"
 #include "Events/EventData.hpp"
@@ -62,15 +63,16 @@ void Game::Initialize( )
 
 	// -- Initialize All Systems
 
-	ISystemManager* systemManager = Management::GetInstance( )->GetSystemManager( );
-	systemManager->RegisterSystem( new Geometry::GeometrySystem( ) );
-	systemManager->RegisterSystem( new Renderer::RendererSystem( m_configuration ) );
-	systemManager->RegisterSystem( new Physics::HavokPhysicsSystem( ) );
-	systemManager->RegisterSystem( new Input::InputSystem( m_configuration ) );
-	systemManager->RegisterSystem( new Script::ScriptSystem( m_configuration ) );
-	systemManager->RegisterSystem( new UX::UXSystem( ) );
-	systemManager->RegisterSystem( new Sound::SoundSystem( m_configuration ) );
-	systemManager->RegisterSystem( new AI::AISystem( ) );
+	ISystemManager* systemManager = Management::GetSystemManager( );
+	systemManager->RegisterSystem( System::Queues::LOGIC, new Geometry::GeometrySystem( ) );
+	systemManager->RegisterSystem( System::Queues::RENDER, new Renderer::RendererSystem( m_configuration ) );
+	systemManager->RegisterSystem( System::Queues::HOUSE, new Animation::AnimationSystem( ) );
+	systemManager->RegisterSystem( System::Queues::LOGIC, new Physics::HavokPhysicsSystem( ) );
+	systemManager->RegisterSystem( System::Queues::HOUSE, new Input::InputSystem( m_configuration ) );
+	systemManager->RegisterSystem( System::Queues::HOUSE, new Script::ScriptSystem( m_configuration ) );
+	systemManager->RegisterSystem( System::Queues::HOUSE, new UX::UXSystem( ) );
+	systemManager->RegisterSystem( System::Queues::HOUSE, new Sound::SoundSystem( m_configuration ) );
+	//systemManager->RegisterSystem( System::Queues::HOUSE, new AI::AISystem( ) );
 	systemManager->InitializeAllSystems( );
 
 	// -- Setup the World and World Loader
@@ -80,18 +82,18 @@ void Game::Initialize( )
 
 	// -- Register Events
 
-	Management::GetInstance( )->GetEventManager( )->AddEventListener( GAME_QUIT, this, &Game::OnGameQuit );
-	Management::GetInstance( )->GetEventManager( )->AddEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
-	Management::GetInstance( )->GetEventManager( )->AddEventListener( GAME_ENDED, this, &Game::OnGameEnded );
-	Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_INITIALIZED" ) );
+	Management::GetEventManager( )->AddEventListener( GAME_QUIT, this, &Game::OnGameQuit );
+	Management::GetEventManager( )->AddEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
+	Management::GetEventManager( )->AddEventListener( GAME_ENDED, this, &Game::OnGameEnded );
+	Management::GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_INITIALIZED" ) );
 
-	AnyType::AnyTypeMap programOptions = Management::GetInstance( )->GetPlatformManager( )->GetProgramOptions( );
+	AnyType::AnyTypeMap programOptions = Management::GetPlatformManager( )->GetProgramOptions( );
 	
 	if ( programOptions.find( System::Options::LevelName ) != programOptions.end( ) )
 	{
 		std::string levelName = programOptions[ System::Options::LevelName ].As< std::string >( );
 		LevelChangedEventData* eventData = new LevelChangedEventData( levelName );
-		Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
+		Management::GetEventManager( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
 	}
 
 	m_isInitialized = true;
@@ -102,23 +104,20 @@ Game::~Game( )
 	delete m_configuration;
 }
 
-void Game::Update( const float& deltaMilliseconds )
+void Game::Update( )
 {
-	if ( !m_isInitialized )
-	{
-		UnInitializedException e( "Game::StartLoop - Cannot Start the Loop when not Initialized" );
-		Logger::Fatal( e.what( ) );
-		throw e;
-	}
+	assert( m_isInitialized && "Game::StartLoop - Cannot Start the Loop when not Initialized" );
+
+	float deltaMilliseconds = Management::GetPlatformManager( )->GetClock( ).GetDeltaMilliseconds( );
 
 	m_worldLoader->Update( deltaMilliseconds );
 
 	if ( m_worldLoader->IsFinishedLoading( ) )
 	{
-		m_world->Update( deltaMilliseconds );
+		//m_world->Update( deltaMilliseconds );
 	}
 
-	Management::GetInstance( )->Update( deltaMilliseconds );
+	Management::Update( deltaMilliseconds );
 }
 
 void Game::Release( )
@@ -130,15 +129,15 @@ void Game::Release( )
 		throw e;
 	}
 
-	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GAME_QUIT, this, &Game::OnGameQuit );
-	Management::GetInstance( )->GetEventManager( )->RemoveEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
+	Management::GetEventManager( )->RemoveEventListener( GAME_QUIT, this, &Game::OnGameQuit );
+	Management::GetEventManager( )->RemoveEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
 
 	m_world->Clear( );
 
 	delete m_worldLoader;
 	delete m_world;
 
-	Management::GetInstance( )->Release( );
+	Management::Release( );
 }
 
 void Game::OnGameQuit( const IEvent* event )
@@ -162,7 +161,7 @@ void Game::OnGameEnded( const IEvent* event )
 {
 	m_world->Clear( );
 
-	ISystem* renderSystem = Management::GetInstance( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
+	ISystem* renderSystem = Management::GetSystemManager( )->GetSystem( System::Types::RENDER );
 
 	renderSystem->SetAttribute( "activeCamera", "default" );
 	renderSystem->SetAttribute( "backgroundColor", Renderer::Color( 0.0f, 0.0f, 0.0f ) );

@@ -26,7 +26,7 @@ void BadArchiveFactoryFixture::tearDown( )
 {
 	delete _bfactory;
 
-	Management::GetInstance( )->Release( );
+	Management::Release( );
 }
 
 void BadArchiveFactoryFixture::Should_Create_BadArchive( )

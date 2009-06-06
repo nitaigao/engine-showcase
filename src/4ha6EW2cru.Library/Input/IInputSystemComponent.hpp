@@ -41,6 +41,22 @@ namespace Input
 		 */
 		virtual void MouseReleased( const OIS::MouseEvent& arg, OIS::MouseButtonID id ) = 0;
 
+
+		/*! Called by the Scene when a key is released
+		*
+		* @param[in] const KeyEvent & arg
+		* @return ( bool )
+		*/
+		virtual void KeyReleased( const OIS::KeyEvent &arg ) = 0;
+
+
+		/*! Called by the Scene when a key is pressed
+		*
+		* @param[in] const OIS::KeyEvent & arg
+		* @return ( void )
+		*/
+		virtual void KeyPressed( const OIS::KeyEvent &arg ) = 0;
+
 	};
 };
 

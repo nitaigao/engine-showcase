@@ -1,0 +1,42 @@
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   $FILE_BASE$.$FILE_EXT$
+*  @date   $DATE$
+*/
+#pragma once
+#ifndef $FILE_BASE_UPPER$_$FILE_EXT_UPPER$
+#define $FILE_BASE_UPPER$_$FILE_EXT_UPPER$
+
+namespace $Namespace$
+{
+	/*! 
+	 *  $Description$
+	 */
+	class $Class$ : public $Interface$
+	{
+
+	public:
+
+		/*! Default Destructor
+		 *
+		 *  @return ()
+		 */
+		~$Class$( ) { };
+
+
+		/*! Default Constructor
+		*
+		* @return (  )
+		*/
+		$Class$( ) { };
+
+	private:
+
+		$Class$( const $Class$ & copy ) { };
+		$Class$ & operator = ( const $Class$ & copy ) { return *this; };
+		
+	};
+};
+
+#endif

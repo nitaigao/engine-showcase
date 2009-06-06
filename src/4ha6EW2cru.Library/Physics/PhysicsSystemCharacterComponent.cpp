@@ -50,7 +50,7 @@ namespace Physics
 
 		m_body = m_characterBody->getRigidBody( );
 		m_body->setName( _name.c_str( ) );
-		_scene->GetWorld( )->addEntity( m_body );
+		_scene->GetSystem( )->GetWorld( )->addEntity( m_body );
 
 		m_characterInput.m_wantJump = false;
 		m_characterInput.m_atLadder = false;
@@ -141,10 +141,10 @@ namespace Physics
 
 			float stopSpeed = 0.0f;
 
-			m_forwardBackward = stopSpeed;
+			/*m_forwardBackward = stopSpeed;
 			m_leftRight = stopSpeed;
 			m_characterInput.m_inputLR = stopSpeed;
-			m_characterInput.m_inputUD = stopSpeed;
+			m_characterInput.m_inputUD = stopSpeed;*/
 			m_characterInput.m_wantJump = false;
 
 			m_characterInput.m_userData = ( m_characterBody->getLinearVelocity( ).compareEqual4( hkVector4::getZero( ) ).anyIsSet( ) );
@@ -156,25 +156,36 @@ namespace Physics
 		AnyType returnValue = PhysicsSystemComponent::Message( message, parameters );
 
 		float walkSpeed = 2.0f;
+		float stopSpeed = 0.0f;
 
-		if( message == System::Messages::Move_Forward )
+		if( message == System::Messages::Move_Forward_Pressed )
 		{
 			m_forwardBackward = -walkSpeed;
 		}
 
-		if( message == System::Messages::Move_Backward )
+		if( message == System::Messages::Move_Backward_Pressed )
 		{
 			m_forwardBackward = walkSpeed;
 		}
 
-		if( message == System::Messages::Strafe_Right )
+		if ( message == System::Messages::Move_Forward_Released || message == System::Messages::Move_Backward_Released )
+		{
+			m_forwardBackward = stopSpeed;
+		}
+
+		if( message == System::Messages::Strafe_Right_Pressed )
 		{
 			m_leftRight = -walkSpeed;
 		}
 
-		if( message == System::Messages::Strafe_Left )
+		if( message == System::Messages::Strafe_Left_Pressed )
 		{
 			m_leftRight = walkSpeed;
+		}
+
+		if( message == System::Messages::Strafe_Right_Released || message == System::Messages::Strafe_Left_Released )
+		{
+			m_leftRight = stopSpeed;
 		}
 
 		if( message == System::Messages::Jump )
@@ -194,7 +205,7 @@ namespace Physics
 			}
 		}
 
-		m_characterInput.m_userData = true;
+		//m_characterInput.m_userData = true;
 
 		return returnValue;
 	}

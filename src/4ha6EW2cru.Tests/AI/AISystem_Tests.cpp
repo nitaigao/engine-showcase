@@ -21,7 +21,7 @@ void AISystem_Tests::setUp()
 
 void AISystem_Tests::tearDown()
 {
-	Management::GetInstance( )->Release( );
+	Management::Release( );
 }
 
 void AISystem_Tests::Should_Initialize_Correctly()
@@ -32,8 +32,8 @@ void AISystem_Tests::Should_Initialize_Correctly()
 
 void AISystem_Tests::Should_Return_Scene_On_CreateScene()
 {
-	Management::GetInstance( )->GetSystemManager( )->RegisterSystem( new ScriptSystem( 0 ) );
-	Management::GetInstance( )->GetSystemManager( )->InitializeAllSystems( );
+	Management::GetSystemManager( )->RegisterSystem( System::Queues::HOUSE, new ScriptSystem( 0 ) );
+	Management::GetSystemManager( )->InitializeAllSystems( );
 
 	AISystem system;
 

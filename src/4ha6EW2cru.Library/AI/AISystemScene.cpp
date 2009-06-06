@@ -14,9 +14,8 @@ using namespace Script;
 using namespace Maths;
 
 #include <luabind/luabind.hpp>
+#include <luabind/table_policy.hpp>
 using namespace luabind;
-
-#include "NavigationMesh.h"
 
 #include "../Logging/Logger.h"
 using namespace Logging;
@@ -30,12 +29,10 @@ namespace AI
 		if ( type == "waypoint" )
 		{
 			component = new AIWaypointComponent( name );
-			m_waypoints.push_back( component );
 		}
 		else if ( type == "navmesh" )
 		{
 			component = new AINavigationMeshComponent( name );
-			m_navigationMesh = component;
 		}
 		else
 		{
@@ -44,37 +41,41 @@ namespace AI
 
 		component->SetAttribute( System::Attributes::Name, name );
 		component->SetAttribute( System::Attributes::SystemType, System::Types::AI );
+		component->SetAttribute( System::Attributes::ComponentType, type );
 		component->SetAttribute( System::Attributes::Parent, static_cast< IAISystemScene* >( this ) );
 
-		m_components[ name ] = component;
+		m_componentsByName.insert( std::make_pair( name, component ) );
+		m_componentsByType.insert( std::make_pair( type, component ) );
 
 		return component;
 	}
 
 	void AISystemScene::DestroyComponent( ISystemComponent* component )
 	{
-		IAISystemComponent* aiComponent = static_cast< IAISystemComponent* >( component );
+		std::string componentName = component->GetAttributes( ) [ System::Attributes::Name ].As< std::string >( );
+		m_componentsByName.erase( componentName );
 
-		ISystemComponent::SystemComponentMap::iterator i = m_components.find( aiComponent->GetAttributes( )[ System::Attributes::Name ].As< std::string >( ) );
+		std::string componentType = component->GetAttributes( )[ System::Attributes::ComponentType ].As< std::string >( );
+		ISystemComponent::SystemComponentMultiMap::iterator waypoints = m_componentsByType.find( componentType );
 
-		while ( i != m_components.end( ) )
+		while( waypoints != m_componentsByType.end( ) )
 		{
-			if ( ( *i ).second == component )
+			if ( ( *waypoints ).second->GetAttributes( )[ System::Attributes::Name ].As< std::string >( ) == componentName )
 			{
-				m_components.erase( i );
+				m_componentsByType.erase( waypoints );
 				break;
 			}
 
-			++i;
+			++waypoints;
 		}
 
-		aiComponent->Destroy( );
-		delete aiComponent;
+		component->Destroy( );
+		delete component;
 	}
 
 	void AISystemScene::Initialize()
 	{
-		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
+		IService* scriptService = Management::GetServiceManager( )->FindService( System::Types::SCRIPT );
 		lua_State* state = scriptService->Execute( "getMasterState", AnyType::AnyTypeMap( ) )[ "masterState" ].As< lua_State* >( );
 
 		module( state )
@@ -86,17 +87,34 @@ namespace AI
 				.def( "facePlayer", &AIScriptComponent::FacePosition )
 				.def( "getName", &AIScriptComponent::GetName )
 				.def( "getPlayerDistance", &AIScriptComponent::GetPlayerDistance )
+				.def( "getPlayerPosition", &AIScriptComponent::GetPlayerPosition )
 				.def( "fireWeapon", &AIScriptComponent::FireWeapon )
 				.def( "playAnimation", &AIScriptComponent::PlayAnimation )
 				.def( "findRandomWaypoint", &AIScriptComponent::FindRandomWaypoint )
 				.def( "getWaypointCount", &AIScriptComponent::GetWaypointCount )
 				.def( "navigateTo", &AIScriptComponent::NavigateTo )
+				.def( "getPathTo", &AIScriptComponent::GetPathTo, copy_table( result ) )
+				.def( "inLineOfSight", &AIScriptComponent::InLineOfSight )
 		];
+	}
+
+	ISystemComponent::SystemComponentList AISystemScene::GetWaypoints( )
+	{
+		ISystemComponent::SystemComponentMultiMap::iterator waypoints = m_componentsByType.find( "waypoint" );
+		ISystemComponent::SystemComponentList results;
+		
+		while( waypoints != m_componentsByType.end( ) )
+		{
+			results.push_back( ( *waypoints ).second );
+			++waypoints;
+		}
+
+		return results;
 	}
 
 	void AISystemScene::Update( const float& deltaMilliseconds )
 	{
-		for ( ISystemComponent::SystemComponentMap::iterator i = m_components.begin( ); i != m_components.end( ); ++i )
+		for( ISystemComponent::SystemComponentMap::iterator i = m_componentsByName.begin( ); i != m_componentsByName.end( ); ++i )
 		{
 			( *i ).second->Update( deltaMilliseconds );
 		}

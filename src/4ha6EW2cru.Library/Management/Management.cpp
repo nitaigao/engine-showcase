@@ -4,6 +4,7 @@
 
 #include "../Service/ServiceManager.h"
 #include "../System/SystemManager.h"
+#include "../System/Instrumentation.hpp"
 
 #include "../Platform/Win32PlatformManager.h"
 using namespace Platform;
@@ -14,46 +15,19 @@ using namespace IO;
 #include "../IO/ResourceCache.h"
 using namespace Resources;
 
-static Management* g_ManagementInstance = 0;
-
-Management::Management( )
-{
-	m_serviceManager = new ServiceManager( );
-	m_platformManager = new Win32PlatformManager( );
-	m_eventManager = new Events::EventManager( );
-	m_systemManager = new SystemManager( );
-	m_fileSystem = new FileSystem( );
-	m_resourceCache = new ResourceCache( );
-}
-
-Management::~Management( )
-{
-	delete m_serviceManager;
-	delete m_systemManager;
-	delete m_eventManager;
-	delete m_platformManager;
-	delete m_fileSystem;
-	delete m_resourceCache;
-}
+IServiceManager* Management::m_serviceManager = new ServiceManager( );
+Platform::IPlatformManager* Management::m_platformManager = new Win32PlatformManager( );
+Events::EventManager* Management::m_eventManager = new Events::EventManager( );
+ISystemManager* Management::m_systemManager = new SystemManager( );
+IInstrumentation* Management::m_instrumentation = new Instrumentation( );
+IO::IFileSystem* Management::m_fileSystem = new FileSystem( );
+Resources::IResourceCache* Management::m_resourceCache = new ResourceCache( );
 
 void Management::Initialize( )
 {
-	g_ManagementInstance = new Management( );
-
-	g_ManagementInstance->m_fileSystem->Initialize( );
+	m_fileSystem->Initialize( );
 
 	srand( time( 0 ) );
-}
-
-Management* Management::GetInstance( )
-{
-	if ( 0 == g_ManagementInstance )
-	{
-		UnInitializedException e( "Management::GetInstance - Management has not been Initialized" );
-		throw e;
-	}
-
-	return g_ManagementInstance;
 }
 
 void Management::Release( )
@@ -66,8 +40,13 @@ void Management::Release( )
 
 	//m_eventManager->Release( );
 
-	delete g_ManagementInstance;
-	g_ManagementInstance = 0;
+	delete m_systemManager;
+	delete m_serviceManager;
+	delete m_resourceCache;
+	delete m_fileSystem;
+	delete m_instrumentation;
+	delete m_eventManager;
+	delete m_platformManager;
 }
 
 void Management::Update( const float& deltaMilliseconds )

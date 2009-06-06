@@ -11,6 +11,7 @@
 #include <ois/OIS.h>
 
 #include "IInputSystemComponent.hpp"
+#include "InputMessageBinding.hpp"
 
 #include "../System/SystemType.hpp"
 
@@ -129,6 +130,22 @@ namespace Input
 		* @return ( void )
 		*/
 		void MouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+
+
+		/*! Called by the Scene when a key is pressed
+		*
+		* @param[in] const OIS::KeyEvent & arg
+		* @return ( void )
+		*/
+		void KeyPressed( const OIS::KeyEvent &arg );
+
+
+		/*! Called by the Scene when a key is released
+		*
+		* @param[in] const KeyEvent & arg
+		* @return ( void )
+		*/
+		void KeyReleased( const OIS::KeyEvent &arg );
 	
 	private:
 	
@@ -136,6 +153,9 @@ namespace Input
 		InputSystemComponent & operator = ( const InputSystemComponent & copy ) { return *this; };
 
 		float AverageInputHistory( const InputHistory& inputHistory );
+
+		InputMessageBinding::InputMessageBindingList m_keyUpMessages;
+		InputMessageBinding::InputMessageBindingList m_mouseUpMessages;
 
 		ObserverList m_observers;
 		AnyType::AnyTypeMap m_attributes;

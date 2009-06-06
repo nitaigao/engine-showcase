@@ -86,20 +86,19 @@ namespace AI
 		*
 		* @return ( ISystemComponent::SystemComponentList )
 		*/
-		ISystemComponent::SystemComponentList& GetWaypoints( ) { return m_waypoints; };
+		ISystemComponent::SystemComponentList GetWaypoints( );
 
 
 		/*! Returns the Navigation Mesh for the Scene
 		*
 		* @return ( INavigationMesh* )
 		*/
-		ISystemComponent* GetNavigationMesh( ) { return m_navigationMesh; };
+		ISystemComponent* GetNavigationMesh( ) { return ( *m_componentsByType.find( "navmesh" ) ).second; };
 
 	private:
 
-		ISystemComponent::SystemComponentMap m_components;
-		ISystemComponent::SystemComponentList m_waypoints;
-		ISystemComponent* m_navigationMesh;
+		ISystemComponent::SystemComponentMap m_componentsByName;
+		ISystemComponent::SystemComponentMultiMap m_componentsByType;
 
 	};
 };

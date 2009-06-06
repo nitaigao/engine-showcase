@@ -10,6 +10,8 @@
 #include "IPlatformManager.h"
 #include "../Events/IEvent.hpp"
 
+#include "Win32Clock.h"
+
 namespace Platform
 {
 	/*! 
@@ -78,11 +80,11 @@ namespace Platform
 		size_t GetWindowId( ) const;
 
 
-		/*! Returns the time in milliseconds
-		 *
-		 *  @return (float)
-		 */
-		float GetTime( ) const;
+		/*! Returns the Clock from the Win32 Platform
+		*
+		* @return ( IClock& )
+		*/
+		inline IClock& GetClock( ) { return m_clock; };
 
 
 		/*! Outputs a message to the Debug Console
@@ -101,6 +103,7 @@ namespace Platform
 	private:
 
 		size_t m_hWnd;
+		Win32Clock m_clock;
 
 		Win32PlatformManager( const Win32PlatformManager & copy ) { };
 		Win32PlatformManager & operator = ( const Win32PlatformManager & copy ) { return *this; };

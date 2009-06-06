@@ -11,12 +11,14 @@
 #include "../System/ISystem.hpp"
 #include "HavokPhysicsSystemScene.h"
 
+#include "IPhysicsSystem.hpp"
+
 namespace Physics
 {
 	/*! 
 	 *  The Physics System
 	 */
-	class HavokPhysicsSystem : public ISystem, public IService
+	class HavokPhysicsSystem : public IPhysicsSystem, public IService
 	{
 
 	public:
@@ -33,7 +35,8 @@ namespace Physics
 		 *  @return ()
 		 */
 		HavokPhysicsSystem( )
-			: m_threadMemory( 0 )
+			: m_stepAccumulator( 0 )
+			, m_threadMemory( 0 )
 			, m_stackBuffer( 0 )
 			, m_scene( 0 )
 		{
@@ -53,7 +56,7 @@ namespace Physics
 		*  @param[in] float deltaMilliseconds
 		*  @return (void)
 		*/
-		inline void Update( const float& deltaMilliseconds ) { };
+		void Update( const float& deltaMilliseconds );
 
 
 		/*! Releases internal data of the System
@@ -120,14 +123,31 @@ namespace Physics
 		 */
 		std::vector< std::string > RayQuery( const Maths::MathVector3& origin, const Maths::MathVector3& destination, const bool& sortByDistance, const unsigned int& maxResults );
 
+
+		/*! Returns the Physics World from within Havok
+		*
+		*  @return (hkpWorld*)
+		*/
+		hkpWorld* GetWorld( ) const { return m_world; };
+
 	private:
 
 		static void errorReportFunction( const char* str, void* errorOutputObject );
+
+		float m_stepAccumulator;
 
 		HavokPhysicsSystemScene* m_scene;
 
 		hkThreadMemory* m_threadMemory;
 		char* m_stackBuffer;
+
+		hkpPhysicsContext* m_context;
+		hkpGroupFilter* m_groupFilter;
+
+		hkpWorld* m_world;
+#ifdef _DEBUG
+		hkVisualDebugger* m_vdb;
+#endif
 
 		HavokPhysicsSystem( const HavokPhysicsSystem & copy ) { };
 		HavokPhysicsSystem & operator = ( const HavokPhysicsSystem & copy ) { return *this; };

@@ -18,7 +18,7 @@ void ScriptSystemScene_Tests::setUp()
 
 void ScriptSystemScene_Tests::tearDown()
 {
-	Management::GetInstance( )->Release( );
+	Management::Release( );
 }
 
 void ScriptSystemScene_Tests::Should_Initialize_Correctly()

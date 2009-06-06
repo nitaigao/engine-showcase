@@ -21,7 +21,7 @@ public:
 	void SetupTest( )
 	{
 		Management::Initialize( );
-		Management::GetInstance( )->GetFileManager( )->Mount( "../../../etc", "/" ); 
+		Management::GetFileManager( )->Mount( "../../../etc", "/" ); 
 
 		_scene = 0;
 		_subject = new SoundSystem( 0 );
@@ -34,7 +34,7 @@ public:
 			delete _scene;
 		}
 
-		Management::GetInstance( )->Release( );
+		Management::Release( );
 	}
 };
 

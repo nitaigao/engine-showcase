@@ -18,12 +18,12 @@ void AISystemScene_Tests::setUp()
 {
 	Management::Initialize( );
 
-	Management::GetInstance( )->GetSystemManager( )->RegisterSystem( new ScriptSystem( 0 ) );
+	Management::GetSystemManager( )->RegisterSystem( System::Queues::HOUSE, new ScriptSystem( 0 ) );
 }
 
 void AISystemScene_Tests::tearDown()
 {
-	Management::GetInstance( )->Release( );
+	Management::Release( );
 }
 
 void AISystemScene_Tests::Should_Return_Component_On_CreateComponent()

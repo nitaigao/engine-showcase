@@ -34,7 +34,7 @@ void EventListenerFixture::tearDown( )
 	delete _eventTarget;
 	_eventTarget = 0;
 
-	Management::GetInstance( )->Release( );
+	Management::Release( );
 }
 
 void EventListenerFixture::EventListener_Should_Return_Correct_Event_Type( )

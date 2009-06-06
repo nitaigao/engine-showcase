@@ -87,8 +87,17 @@ namespace UX
 		*/
 		void DestroyComponent( ISystemComponent* component ) { };
 
+	protected:
+
+		IUXSystemComponent* InitializeComponent( const std::string& name, const std::string& scriptPath );
+
+
+	// this needs to be re factored out
+	public:
+
 
 		inline MyGUI::Gui* GetGui( ) const { return m_gui; };
+
 
 		static inline void SetFocus( MyGUI::WidgetPtr widget, bool focus )
 		{

@@ -14,6 +14,7 @@
 #include "../Platform/IPlatformManager.h"
 #include "../System/ISystemManager.hpp"
 #include "../IO/IFileSystem.hpp"
+#include "../System/IInstrumentation.hpp"
 
 /*! 
  *  An Interface to the Game Managers
@@ -27,28 +28,21 @@ public:
 	 *
 	 *  @return ()
 	 */
-	~Management( );
+	~Management( ) { };
 
 
 	/*! Default Constructor
 	 *
 	 *  @return ()
 	 */
-	Management( );
-
-
-	/*! Returns the Singleton Instance of Management
-	 *
-	 *  @return (Management*)
-	 */
-	static Management* GetInstance( );
+	Management( ) { };
 
 
 	/*! Releases the Singleton Instance of Management
 	 *
 	 *  @return (void)
 	 */
-	void Release( );
+	static void Release( );
 
 
 	/*! Creates the Singleton Instance of Management
@@ -63,61 +57,69 @@ public:
 	 *  @param[in] float deltaMilliseconds
 	 *  @return (void)
 	 */
-	void Update( const float& deltaMilliseconds );
+	static void Update( const float& deltaMilliseconds );
 
 
 	/*! Returns the System Manager
 	 *
 	 *  @return (ISystemManager*)
 	 */
-	inline ISystemManager* GetSystemManager( ) const { return m_systemManager; };
+	static inline ISystemManager* GetSystemManager( ) { return m_systemManager; };
 
 
 	/*! Returns the Event Manager
 	 *
 	 *  @return (EventManager*)
 	 */
-	inline Events::EventManager* GetEventManager( ) const { return m_eventManager; };
+	static inline Events::EventManager* GetEventManager( ) { return m_eventManager; };
 
 
 	/*! Returns the Platform Manager
 	 *
 	 *  @return (IPlatformManager*)
 	 */
-	inline Platform::IPlatformManager* GetPlatformManager( ) const { return m_platformManager; };
+	static inline Platform::IPlatformManager* GetPlatformManager( ) { return m_platformManager; };
 
 
 	/*! Returns the File Manager
 	 *
 	 *  @return (IFileSystem*)
 	 */
-	inline IO::IFileSystem* GetFileManager( ) const { return m_fileSystem; };
+	static inline IO::IFileSystem* GetFileManager( ) { return m_fileSystem; };
 
 
 	/*! Returns the Service Manager
 	 *
 	 *  @return (IServiceManager*)
 	 */
-	inline IServiceManager* GetServiceManager( ) const { return m_serviceManager; };
+	static inline IServiceManager* GetServiceManager( ) { return m_serviceManager; };
 
 
 	/*! Returns the Resources Manager
 	 *
 	 *  @return (Resources::IResourceCache*)
 	 */
-	inline Resources::IResourceCache* GetResourceManager( ) const { return m_resourceCache; };
+	static inline Resources::IResourceCache* GetResourceManager( ) { return m_resourceCache; };
+
+
+	/*! Returns the Instrumentation Provider
+	*
+	* @return ( IInstrumentation* )
+	*/
+	static inline IInstrumentation* GetInstrumentation( ) { return m_instrumentation; };
 
 private:
 
-	IServiceManager* m_serviceManager;
-	ISystemManager* m_systemManager;
-	Platform::IPlatformManager* m_platformManager;
-	IO::IFileSystem* m_fileSystem;
-	Resources::IResourceCache* m_resourceCache;
-	Events::EventManager* m_eventManager;
-
 	Management( const Management & copy ) { };
 	Management & operator = ( const Management & copy ) { return *this; };
+
+	static IServiceManager* m_serviceManager;
+	static ISystemManager* m_systemManager;
+	static Platform::IPlatformManager* m_platformManager;
+	static IO::IFileSystem* m_fileSystem;
+	static Resources::IResourceCache* m_resourceCache;
+	static Events::EventManager* m_eventManager;
+	static IInstrumentation* m_instrumentation;
 
 };
 

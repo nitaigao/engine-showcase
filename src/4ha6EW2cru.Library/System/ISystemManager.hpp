@@ -30,7 +30,7 @@ public:
 	 *  @param[in] ISystem * system
 	 *  @return (void)
 	 */
-	virtual void RegisterSystem( ISystem* system ) = 0;
+	virtual void RegisterSystem( const System::Queues::Queue& systemQueue, ISystem* system ) = 0;
 
 
 	/*! Gets a Registered System

@@ -15,6 +15,7 @@ namespace Sound
 
 	void SoundScene::DestroyComponent( ISystemComponent* component )
 	{
+		component->Destroy( ); 
 		delete component;
 	};
 }

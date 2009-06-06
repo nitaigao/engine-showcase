@@ -26,11 +26,11 @@ namespace Logging
 
 		if( level != "DEBUG" )
 		{
-			Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "MESSAGE_LOGGED", outputMessage.str( ) ) );
+			Management::GetEventManager( )->QueueEvent( new ScriptEvent( "MESSAGE_LOGGED", outputMessage.str( ) ) );
 		}
 
 	#ifdef _DEBUG
-		Management::GetInstance( )->GetPlatformManager( )->OutputDebugMessage( outputMessage.str( ) );
+		Management::GetPlatformManager( )->OutputDebugMessage( outputMessage.str( ) );
 	#endif // _DEBUG
 
 	}

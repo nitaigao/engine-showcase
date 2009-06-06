@@ -61,7 +61,7 @@ namespace Sound
 		*
 		*  @return (void)
 		*/
-		void Destroy( ) { };
+		void Destroy( );
 
 
 		/*! Adds an Observer to the Component

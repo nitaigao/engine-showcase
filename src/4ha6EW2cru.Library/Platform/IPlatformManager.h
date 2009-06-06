@@ -8,6 +8,7 @@
 #define IPLATFORMMANAGER_H
 
 #include <string>
+#include "IClock.hpp"
 #include "../System/AnyType.hpp"
 
 namespace Platform
@@ -67,11 +68,11 @@ namespace Platform
 		virtual size_t GetWindowId( ) const = 0;
 
 		
-		/*! Returns the current time in milliseconds
-		 *
-		 *  @return (float)
-		 */
-		virtual float GetTime( ) const = 0;
+		/*! Returns the Clock from the given Platform
+		*
+		* @return ( IClock& )
+		*/
+		virtual IClock& GetClock( ) = 0;
 
 
 		/*! Outputs a message to the Debug Console

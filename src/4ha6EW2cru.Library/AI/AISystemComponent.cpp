@@ -15,8 +15,8 @@ namespace AI
 		{
 			MathVector3 playerPosition = parameters[ System::Attributes::Position ].As< MathVector3 >( );
 			
-			m_attributes[ System::Attributes::PlayerPosition ] = playerPosition;
-			m_attributes[ System::Attributes::PlayerOrientation ] = parameters[ System::Attributes::Orientation ].As< MathQuaternion >( );
+			m_attributes[ System::Parameters::PlayerPosition ] = playerPosition;
+			m_attributes[ System::Parameters::PlayerOrientation ] = parameters[ System::Attributes::Orientation ].As< MathQuaternion >( );
 
 			m_playerDistance = ( ( playerPosition - m_attributes[ System::Attributes::Position ].As< MathVector3 >( ) ) ).Length( );
 		}

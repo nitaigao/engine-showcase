@@ -22,7 +22,7 @@ void EventManagerFixture::setUp( )
 
 void EventManagerFixture::tearDown( )
 {
-	Management::GetInstance( )->Release( ); 
+	Management::Release( ); 
 }
 
 void EventManagerFixture:: Should_Queue_Event_Successfully_Given_Intiailized( )

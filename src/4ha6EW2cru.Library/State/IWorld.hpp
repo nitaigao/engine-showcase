@@ -58,7 +58,7 @@ namespace State
 		 *
 		 *  @return (const SystemSceneMap&)
 		 */
-		virtual const SystemSceneMap& GetSystemScenes( ) const = 0;
+		virtual const ISystemScene::SystemSceneMap& GetSystemScenes( ) const = 0;
 
 
 		/*! Steps the world internal data

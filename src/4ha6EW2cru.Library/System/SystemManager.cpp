@@ -2,20 +2,24 @@
 
 using namespace State;
 
-void SystemManager::RegisterSystem( ISystem* system )
+#include "../Management/Management.h"
+
+void SystemManager::RegisterSystem( const System::Queues::Queue& systemQueue, ISystem* system )
 {
-	_systems[ system->GetType( ) ] = system;
+	_systemsByQueue.insert( std::make_pair( systemQueue, system ) );
+	_systemsByType.insert( std::make_pair( system->GetType( ), system ) );
+
 	system->Message( System::Messages::RegisterService, AnyType::AnyTypeMap( ) );
 }
 
 ISystem* SystemManager::GetSystem( const System::Types::Type& systemType ) const
 {
-	return ( *( _systems.find( systemType ) ) ).second;
+	return ( *( _systemsByType.find( systemType ) ) ).second;
 }
 
-void SystemManager::InitializeAllSystems()
+void SystemManager::InitializeAllSystems( )
 {
-	for( ISystem::SystemMap::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
+	for( ISystem::SystemTypeMap::iterator i = _systemsByType.begin( ); i != _systemsByType.end( ); ++i )
 	{
 		( *i ).second->Initialize( );
 	}
@@ -23,26 +27,80 @@ void SystemManager::InitializeAllSystems()
 
 void SystemManager::Update( const float& deltaMilliseconds )
 {
-	for( ISystem::SystemMap::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
+	Management::GetInstrumentation( )->SetFPS( 1.0f / deltaMilliseconds );
+
+	int loopCount = 0;
+	int maxLoops = 10;
+
+	float step = 1.0f / 100.0f;
+	float accumulator = step + deltaMilliseconds;
+
+	float logicStart = Management::GetPlatformManager( )->GetClock( ).GetTime( );
+
+	while( accumulator > step && loopCount < maxLoops )
 	{
-		( *i ).second->Update( deltaMilliseconds );
+		for( ISystem::SystemQueueMap::iterator i = _systemsByQueue.begin( ); i != _systemsByQueue.end( ); ++i )
+		{
+			if ( ( *i ).first == System::Queues::LOGIC )
+			{
+				( *i ).second->Update( step );
+			}
+		}
+
+		accumulator -= step;
+		loopCount++;
 	}
+
+	float logicEnd = Management::GetPlatformManager( )->GetClock( ).GetTime( );
+
+	Management::GetInstrumentation( )->SetRoundTime( System::Queues::LOGIC, logicEnd - logicStart );
+
+	float houseKeepingStart = Management::GetPlatformManager( )->GetClock( ).GetTime( );
+
+	for( ISystem::SystemQueueMap::iterator i = _systemsByQueue.begin( ); i != _systemsByQueue.end( ); ++i )
+	{
+		if ( ( *i ).first == System::Queues::HOUSE )
+		{
+			( *i ).second->Update( deltaMilliseconds );
+		}
+	}
+
+	float houseKeepingEnd = Management::GetPlatformManager( )->GetClock( ).GetTime( );
+
+	Management::GetInstrumentation( )->SetRoundTime( System::Queues::HOUSE, houseKeepingEnd - houseKeepingStart );
+
+	float presentationStart = Management::GetPlatformManager( )->GetClock( ).GetTime( );
+
+	for( ISystem::SystemQueueMap::iterator i = _systemsByQueue.begin( ); i != _systemsByQueue.end( ); ++i )
+	{
+		if ( ( *i ).first == System::Queues::RENDER )
+		{
+			( *i ).second->Update( deltaMilliseconds );
+		}
+	}
+
+	float presentationEnd = Management::GetPlatformManager( )->GetClock( ).GetTime( );
+
+	Management::GetInstrumentation( )->SetRoundTime( System::Queues::RENDER, presentationEnd - presentationStart );
 }
 
-void SystemManager::Release()
+void SystemManager::Release( )
 {
-	for( ISystem::SystemMap::reverse_iterator i = _systems.rbegin( ); i != _systems.rend( ); ++i )
+	for( ISystem::SystemTypeMap::const_reverse_iterator i = _systemsByType.rbegin( ); i != _systemsByType.rend( ); ++i )
 	{
 		( *i ).second->Release( );
 		delete ( *i ).second;
 	}
+
+	_systemsByType.clear( );
+	_systemsByQueue.clear( );
 }
 
 IWorld* SystemManager::CreateWorld()
 {
 	IWorld* world = new World( );
 
-	for( ISystem::SystemMap::iterator i = _systems.begin( ); i != _systems.end( ); ++i )
+	for( ISystem::SystemTypeMap::iterator i = _systemsByType.begin( ); i != _systemsByType.end( ); ++i )
 	{
 		world->AddSystemScene( ( *i ).second->CreateScene( ) );
 	}
@@ -52,5 +110,5 @@ IWorld* SystemManager::CreateWorld()
 
 bool SystemManager::HasSystem( const System::Types::Type& systemType ) const
 {
-	return ( _systems.find( systemType ) != _systems.end( ) );
+	return ( _systemsByType.find( systemType ) != _systemsByType.end( ) );
 }

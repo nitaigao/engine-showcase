@@ -30,7 +30,11 @@ namespace AI
 		 *
 		 *  @return ()
 		 */
-		AISystem( ) { };
+		AISystem( )
+			: m_scene( 0 )
+		{
+
+		}
 
 
 		/*! Initializes the System
@@ -45,7 +49,7 @@ namespace AI
 		 *  @param[in] float deltaMilliseconds
 		 *  @return (void)
 		 */
-		inline void Update( const float& deltaMilliseconds ) { };
+		void Update( const float& deltaMilliseconds );
 
 
 		/*! Releases the System
@@ -96,6 +100,7 @@ namespace AI
 	private:
 
 		AnyType::AnyTypeMap m_attributes;
+		ISystemScene* m_scene;
 	};
 };
 

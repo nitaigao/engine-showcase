@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Demos", "Demos_win32_9-0.vcproj", "{513B8576-D665-4459-9199-7FB2EE314044}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Multithreaded DLL|Win32 = Debug Multithreaded DLL|Win32
+		Debug Multithreaded|Win32 = Debug Multithreaded|Win32
+		FullDebug Multithreaded DLL|Win32 = FullDebug Multithreaded DLL|Win32
+		FullDebug Multithreaded|Win32 = FullDebug Multithreaded|Win32
+		Hybrid Multithreaded DLL|Win32 = Hybrid Multithreaded DLL|Win32
+		Release Multithreaded DLL|Win32 = Release Multithreaded DLL|Win32
+		Release Multithreaded|Win32 = Release Multithreaded|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{513B8576-D665-4459-9199-7FB2EE314044}.Debug Multithreaded DLL|Win32.ActiveCfg = Debug Multithreaded DLL|Win32
+		{513B8576-D665-4459-9199-7FB2EE314044}.Debug Multithreaded DLL|Win32.Build.0 = Debug Multithreaded DLL|Win32
+		{513B8576-D665-4459-9199-7FB2EE314044}.Debug Multithreaded|Win32.ActiveCfg = Debug Multithreaded|Win32
+		{513B8576-D665-4459-9199-7FB2EE314044}.Debug Multithreaded|Win32.Build.0 = Debug Multithreaded|Win32
+		{513B8576-D665-4459-9199-7FB2EE314044}.FullDebug Multithreaded DLL|Win32.ActiveCfg = FullDebug Multithreaded DLL|Win32
+		{513B8576-D665-4459-9199-7FB2EE314044}.FullDebug Multithreaded DLL|Win32.Build.0 = FullDebug Multithreaded DLL|Win32
+		{513B8576-D665-4459-9199-7FB2EE314044}.FullDebug Multithreaded|Win32.ActiveCfg = FullDebug Multithreaded|Win32
+		{513B8576-D665-4459-9199-7FB2EE314044}.FullDebug Multithreaded|Win32.Build.0 = FullDebug Multithreaded|Win32
+		{513B8576-D665-4459-9199-7FB2EE314044}.Hybrid Multithreaded DLL|Win32.ActiveCfg = Hybrid Multithreaded DLL|Win32
+		{513B8576-D665-4459-9199-7FB2EE314044}.Hybrid Multithreaded DLL|Win32.Build.0 = Hybrid Multithreaded DLL|Win32
+		{513B8576-D665-4459-9199-7FB2EE314044}.Release Multithreaded DLL|Win32.ActiveCfg = Release Multithreaded DLL|Win32
+		{513B8576-D665-4459-9199-7FB2EE314044}.Release Multithreaded DLL|Win32.Build.0 = Release Multithreaded DLL|Win32
+		{513B8576-D665-4459-9199-7FB2EE314044}.Release Multithreaded|Win32.ActiveCfg = Release Multithreaded|Win32
+		{513B8576-D665-4459-9199-7FB2EE314044}.Release Multithreaded|Win32.Build.0 = Release Multithreaded|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

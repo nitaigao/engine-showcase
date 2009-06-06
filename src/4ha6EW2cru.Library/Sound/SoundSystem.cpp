@@ -139,7 +139,7 @@ namespace Sound
 			Logging::Logger::Warn( "SoundSystem::Initialize - Couldn't load the game sound archive" );
 		}
 
-		Management::GetInstance( )->GetServiceManager( )->RegisterService( this );
+		Management::GetServiceManager( )->RegisterService( this );
 	}
 
 	void SoundSystem::Release()
@@ -189,7 +189,7 @@ namespace Sound
 
 	FMOD_RESULT F_CALLBACK SoundSystem::FileOpen( const char* name, int unicode, unsigned int* filesize, void** handle, void** userdata )
 	{
-		IResource* resource = Management::GetInstance( )->GetResourceManager( )->GetResource( name );
+		IResource* resource = Management::GetResourceManager( )->GetResource( name );
 		resource->AddReference( );
 
 		*handle = resource;

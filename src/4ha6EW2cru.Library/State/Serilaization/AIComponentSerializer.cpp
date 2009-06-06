@@ -11,7 +11,7 @@ namespace Serialization
 		std::string system;
 		componentNode[ "system" ] >> system;
 
-		SystemSceneMap::const_iterator systemScene = systemScenes.find( SystemTypeMapper::StringToType( system ) );
+		ISystemScene::SystemSceneMap::const_iterator systemScene = systemScenes.find( SystemTypeMapper::StringToType( system ) );
 
 		std::string type;
 		componentNode[ "type" ] >> type;

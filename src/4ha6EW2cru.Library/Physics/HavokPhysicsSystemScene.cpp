@@ -1,6 +1,4 @@
-#include "HavokPhysicsSystemScene.h"
-			
-#include <Physics/Collide/Dispatch/hkpAgentRegisterUtil.h>							
+#include "HavokPhysicsSystemScene.h"						
 
 #include <Physics/Dynamics/World/hkpSimulationIsland.h>
 
@@ -12,40 +10,6 @@ using namespace Logging;
 
 namespace Physics
 {
-	HavokPhysicsSystemScene::HavokPhysicsSystemScene( const hkpWorldCinfo& worldInfo )
-	{
-		m_world = new hkpWorld( worldInfo );
-		m_groupFilter = new hkpGroupFilter( );
-		m_world->setCollisionFilter( m_groupFilter );
-		m_groupFilter->removeReference( );
-
-		hkArray<hkProcessContext*> contexts;
-
-		m_context = new hkpPhysicsContext( );
-		hkpPhysicsContext::registerAllPhysicsProcesses( );
-		m_context->addWorld( m_world );
-		contexts.pushBack( m_context );
-
-		hkpAgentRegisterUtil::registerAllAgents( m_world->getCollisionDispatcher( ) );
-
-#ifdef _DEBUG
-		m_vdb = new hkVisualDebugger( contexts );
-		m_vdb->serve( );
-#endif
-		
-	}
-
-	HavokPhysicsSystemScene::~HavokPhysicsSystemScene()
-	{
-		m_world->markForWrite( );
-		m_world->removeReference( );
-
-#ifdef _DEBUG
-		m_vdb->removeReference( ); 
-#endif
-		
-		m_context->removeReference( );
-	}
 
 	ISystemComponent* HavokPhysicsSystemScene::CreateComponent( const std::string& name, const std::string& type )
 	{
@@ -71,12 +35,6 @@ namespace Physics
 
 	void HavokPhysicsSystemScene::Update( const float& deltaMilliseconds )
 	{
-		m_world->stepDeltaTime( deltaMilliseconds );
-
-#ifdef _DEBUG
-		m_vdb->step( deltaMilliseconds );
-#endif
-
 		for( IPhysicsSystemComponent::PhysicsSystemComponentList::iterator i = m_components.begin( ); i != m_components.end( ); ++i )
 		{
 			( *i ).second->Update( deltaMilliseconds );

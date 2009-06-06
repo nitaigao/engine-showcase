@@ -41,7 +41,6 @@ namespace AI
 		 */
 		AISystemComponent( const std::string& name )
 			: m_name( name )
-			, m_scriptState( 0 )
 			, m_observer( 0 )
 			, m_playerDistance( 0 )
 		{
@@ -115,8 +114,6 @@ namespace AI
 	protected:
 
 		std::string m_name;
-
-		lua_State* m_scriptState;
 
 		IObserver* m_observer;
 

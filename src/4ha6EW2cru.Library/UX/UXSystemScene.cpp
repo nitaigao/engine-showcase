@@ -23,39 +23,25 @@ namespace UX
 
 	void UXSystemScene::Initialize( )
 	{
-		IService* renderService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::RENDER );
+		IService* renderService = Management::GetServiceManager( )->FindService( System::Types::RENDER );
 		Ogre::RenderWindow* renderWindow = renderService->Execute( "getRenderWindow", AnyType::AnyTypeMap( ) )[ "renderWindow" ].As< Ogre::RenderWindow* >( );
 		m_gui->initialise( renderWindow, "/data/interface/core/core.xml" );
 		m_gui->hidePointer( );
 
 		WidgetManager::getInstancePtr( )->registerUnlinker( this );
 
-		Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_PRESSED, this, &UXSystemScene::OnMousePressed );
-		Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_MOVED, this, &UXSystemScene::OnMouseMoved );
-		Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_RELEASED, this, &UXSystemScene::OnMouseReleased );
-		Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_KEY_DOWN, this, &UXSystemScene::OnKeyDown );
-		Management::GetInstance( )->GetEventManager( )->AddEventListener( INPUT_KEY_UP, this, &UXSystemScene::OnKeyUp );
+		Management::GetEventManager( )->AddEventListener( INPUT_MOUSE_PRESSED, this, &UXSystemScene::OnMousePressed );
+		Management::GetEventManager( )->AddEventListener( INPUT_MOUSE_MOVED, this, &UXSystemScene::OnMouseMoved );
+		Management::GetEventManager( )->AddEventListener( INPUT_MOUSE_RELEASED, this, &UXSystemScene::OnMouseReleased );
+		Management::GetEventManager( )->AddEventListener( INPUT_KEY_DOWN, this, &UXSystemScene::OnKeyDown );
+		Management::GetEventManager( )->AddEventListener( INPUT_KEY_UP, this, &UXSystemScene::OnKeyUp );
 
-		std::string scriptPath = "/data/interface/interface.lua";
-
-		UXSystemComponent* component = new UXSystemComponent( scriptPath, this );
-		component->SetAttribute( System::Attributes::Name, scriptPath );
-		m_components.push_back( component );
-
-		AnyType::AnyTypeMap scriptParameters;
-		scriptParameters[ "scriptPath" ] = scriptPath;
-		scriptParameters[ "name" ] = scriptPath;
-
-		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
-		lua_State* state = scriptService->Execute( "loadScript", scriptParameters )[ "state" ].As< lua_State* >( );
-
-		luabind::globals( state )[ "ux" ] = component;
-		lua_resume( state, 0 );
+		this->InitializeComponent( "interface-root", "/data/interface/interface.lua" );
 	}
 
 	void UXSystemScene::Destroy()
 	{
-		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
+		IService* scriptService = Management::GetServiceManager( )->FindService( System::Types::SCRIPT );
 
 		for ( IUXSystemComponent::UXSystemComponentList::iterator i = m_components.begin( ); i != m_components.end( ); ++i )
 		{
@@ -65,13 +51,37 @@ namespace UX
 			delete ( *i );
 		}
 
-		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_MOUSE_PRESSED, this, &UXSystemScene::OnMousePressed );
-		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_MOUSE_MOVED, this, &UXSystemScene::OnMouseMoved );
-		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_MOUSE_RELEASED, this, &UXSystemScene::OnMouseReleased );
-		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_KEY_DOWN, this, &UXSystemScene::OnKeyDown );
-		Management::GetInstance( )->GetEventManager( )->RemoveEventListener( INPUT_KEY_UP, this, &UXSystemScene::OnKeyUp );
+		Management::GetEventManager( )->RemoveEventListener( INPUT_MOUSE_PRESSED, this, &UXSystemScene::OnMousePressed );
+		Management::GetEventManager( )->RemoveEventListener( INPUT_MOUSE_MOVED, this, &UXSystemScene::OnMouseMoved );
+		Management::GetEventManager( )->RemoveEventListener( INPUT_MOUSE_RELEASED, this, &UXSystemScene::OnMouseReleased );
+		Management::GetEventManager( )->RemoveEventListener( INPUT_KEY_DOWN, this, &UXSystemScene::OnKeyDown );
+		Management::GetEventManager( )->RemoveEventListener( INPUT_KEY_UP, this, &UXSystemScene::OnKeyUp );
 
 		m_gui->shutdown( );
+	}
+
+	IUXSystemComponent* UXSystemScene::InitializeComponent( const std::string& name, const std::string& scriptPath )
+	{
+		UXSystemComponent* component = new UXSystemComponent( name, this );
+		component->SetAttribute( System::Attributes::Name, name );
+		component->SetAttribute( System::Attributes::SystemType, System::Types::UX );
+		component->SetAttribute( System::Attributes::Parent, this );
+
+		AnyType::AnyTypeMap scriptParameters;
+		scriptParameters[ System::Parameters::ScriptPath ] = scriptPath;
+		scriptParameters[ System::Attributes::Name ] = name;
+
+		IService* scriptService = Management::GetServiceManager( )->FindService( System::Types::SCRIPT );
+		ISystemComponent* scriptComponent = scriptService->Execute( System::Messages::LoadScript, scriptParameters )[ "component" ].As< ISystemComponent* >( );
+
+		lua_State* scriptState = scriptComponent->Message( System::Messages::GetState, AnyType::AnyTypeMap( ) ).As< lua_State* >( );
+		globals( scriptState )[ "ux" ] = component;
+
+		scriptComponent->Message( System::Messages::RunScript, AnyType::AnyTypeMap( ) );
+
+		m_components.push_back( component );
+
+		return component;
 	}
 
 	ISystemComponent* UXSystemScene::CreateComponent( const std::string& name, const std::string& type )
@@ -83,25 +93,9 @@ namespace UX
 		std::stringstream scriptPath;
 		scriptPath << "/data/interface/components/" << name << ".lua";
 
-		AnyType::AnyTypeMap parameters;
-		parameters[ "scriptPath" ] = scriptPath.str( );
-		parameters[ "name" ] = name;
-
-		IService* scriptService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
-		lua_State* state = scriptService->Execute( "loadScript", parameters )[ "state" ].As< lua_State* >( );
-
-		UXSystemComponent* component = new UXSystemComponent( name, this );
-
-		luabind::globals( state )[ "ux" ] = component;
-		lua_resume( state, 0 );
-
-		m_components.push_back( component );
+		IUXSystemComponent* component = this->InitializeComponent( name, scriptPath.str( ) );
 
 		m_gui->windowResized( m_gui->getRenderWindow( ) );
-
-		component->SetAttribute( System::Attributes::Name, name );
-		component->SetAttribute( System::Attributes::SystemType, System::Types::UX );
-		component->SetAttribute( System::Attributes::Parent, this );
 
 		return component;
 	}

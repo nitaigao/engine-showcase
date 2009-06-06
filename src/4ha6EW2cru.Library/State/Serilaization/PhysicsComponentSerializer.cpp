@@ -6,7 +6,7 @@ namespace Serialization
 {
 	ISystemComponent* PhysicsComponentSerializer::DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes )
 	{
-		SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::PHYSICS );
+		ISystemScene::SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::PHYSICS );
 
 		std::string type;
 		componentNode[ "type" ] >> type;
@@ -16,7 +16,7 @@ namespace Serialization
 		std::string body;
 		componentNode[ "body" ] >> body;
 
-		systemComponent->SetAttribute( System::Attributes::Body, body );
+		systemComponent->SetAttribute( System::Parameters::Body, body );
 
 		systemComponent->Initialize( );
 	

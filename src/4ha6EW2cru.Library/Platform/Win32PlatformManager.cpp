@@ -4,7 +4,6 @@
 #include "../Management/Management.h"
 
 #include <windows.h>
-#include <mmsystem.h>
 
 #include <stdio.h>
 #include <fcntl.h>
@@ -101,7 +100,7 @@ namespace Platform
 		{
 			if ( msg.message == WM_QUIT )
 			{
-				Management::GetInstance( )->GetEventManager( )->QueueEvent( new Events::Event( Events::GAME_QUIT ) );
+				Management::GetEventManager( )->QueueEvent( new Events::Event( Events::GAME_QUIT ) );
 			}
 
 			TranslateMessage( &msg );
@@ -122,11 +121,6 @@ namespace Platform
 		}
 
 		return m_hWnd; 
-	}
-
-	float Win32PlatformManager::GetTime( ) const
-	{
-		return timeGetTime( );
 	}
 
 	void Win32PlatformManager::OutputDebugMessage( const std::string& message )

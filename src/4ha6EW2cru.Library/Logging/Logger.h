@@ -4,6 +4,7 @@
 *  @file   Logger.h
 *  @date   2009/04/26
 */
+#pragma once
 #ifndef LOGGER_H
 #define LOGGER_H
 

@@ -11,12 +11,12 @@ namespace Sound
 	{
 		if( message == System::Messages::TriggerSoundEvent  )
 		{
-			this->TriggerEvent( parameters[ System::Attributes::SoundEventPath ].As< std::string >( ) );
+			this->TriggerEvent( parameters[ System::Parameters::SoundEventPath ].As< std::string >( ) );
 		}
 
 		if ( message == System::Messages::KeyOutSoundEvent )
 		{
-			this->KeyoutEvent( parameters[ System::Attributes::SoundEventPath ].As< std::string >( ) );
+			this->KeyoutEvent( parameters[ System::Parameters::SoundEventPath ].As< std::string >( ) );
 		}
 
 		if ( message == System::Messages::SetPosition )
@@ -44,7 +44,7 @@ namespace Sound
 			m_soundSystemScene->GetSoundSystem( )->GetEventSystem( )->get3DListenerAttributes( 0, &position, &velocity, &forward, &up );
 			m_soundSystemScene->GetSoundSystem( )->GetEventSystem( )->set3DListenerAttributes( 
 				0, 
-				&parameters[ System::Attributes::PlayerPosition ].As< MathVector3 >( ).AsFMODVector( ), 
+				&parameters[ System::Parameters::PlayerPosition ].As< MathVector3 >( ).AsFMODVector( ), 
 				&velocity,
 				&MathVector3::Forward( ).AsFMODVector( ), 
 				&MathVector3::Up( ).AsFMODVector( ) 
@@ -68,6 +68,7 @@ namespace Sound
 
 	void SoundSystemComponent::KeyoutEvent( const std::string& eventPath )
 	{
+
 		if ( m_activeSoundEvents.find( eventPath ) != m_activeSoundEvents.end( ) )
 		{
 			FMOD::Event* event = m_activeSoundEvents[ eventPath ];
@@ -83,6 +84,15 @@ namespace Sound
 			}
 
 			m_activeSoundEvents.erase( eventPath );
+		}
+	}
+
+	void SoundSystemComponent::Destroy( )
+	{
+		for( SoundEventList::iterator i = m_activeSoundEvents.begin( ); i != m_activeSoundEvents.end( ); )
+		{
+			( *i ).second->stop( );
+			i = m_activeSoundEvents.erase( i );
 		}
 	}
 }

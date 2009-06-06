@@ -12,6 +12,7 @@
 #include "IRendererSystemComponent.hpp"
 #include "IAnimationBlender.hpp"
 #include "IRenderSystemScene.h"
+#include "IAnimationController.hpp"
 
 namespace Renderer
 {
@@ -58,7 +59,7 @@ namespace Renderer
 		*  @param[in] float deltaMilliseconds
 		*  @return (void)
 		*/
-		virtual void Update( const float& deltaMilliseconds );
+		virtual void Update( const float& deltaMilliseconds ) { };
 
 
 		/*! Destroys the Component
@@ -98,8 +99,6 @@ namespace Renderer
 		*/
 		void SetAttributes( AnyType::AnyTypeMap& properties ) { };
 
-		void PlayAnimation( const std::string& animationName, const bool& loopAnimation );
-
 
 		/*! Posts a message to observers
 		*
@@ -124,6 +123,7 @@ namespace Renderer
 		virtual void InitializeSceneNode( Ogre::SceneNode* sceneNode );
 		void LoadModel( Ogre::SceneNode* sceneNode, const std::string& modelPath );
 		void DestroySceneNode( Ogre::SceneNode* sceneNode );
+		Ogre::Entity* FindSkeletonEntity( Ogre::SceneNode* sceneNode );
 
 		std::string m_name;
 
@@ -133,7 +133,7 @@ namespace Renderer
 		IRenderSystemScene* m_scene;
 		Ogre::SceneNode* m_sceneNode;
 
-		IAnimationBlender::AnimationBlenderList m_animationBlenders;
+		IAnimationController::AnimationControllerMap m_animationControllers;
 
 	private:
 

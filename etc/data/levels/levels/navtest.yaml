@@ -380,41 +380,6 @@
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/player-fps.model
-    system: graphics
-    type: camera
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/player.hkx
-    system: physics
-    type: character
-  - !ruby/object:InputComponent 
-    system: input
-    type: default
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/player.lua
-    system: script
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "27.8256"
-      y: "1.0285"
-      z: "54.1767"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  name: player
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
     model: /data/entities/models/marine.model
     system: graphics
     type: default
@@ -521,6 +486,263 @@
     type: default
   name: navmesh
   type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/player-fps.model
+    system: graphics
+    type: camera
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/player.hkx
+    system: physics
+    type: character
+  - !ruby/object:AnimationComponent 
+    system: animation
+    type: default
+  - !ruby/object:InputComponent 
+    system: input
+    type: default
+  - !ruby/object:SoundComponent 
+    system: sound
+    type: default
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/player.lua
+    system: script
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "28.7411"
+      y: "4.98888"
+      z: "50.882"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  name: player
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:AIComponent 
+    system: ai
+    type: waypoint
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "4.93785"
+      y: "0"
+      z: "-7.67057"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  name: AI_Waypoint02
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:AIComponent 
+    system: ai
+    type: waypoint
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-38.8463"
+      y: "0"
+      z: "10.0516"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  name: AI_Waypoint03
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:AIComponent 
+    system: ai
+    type: waypoint
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-12.6105"
+      y: "0"
+      z: "28.1212"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  name: AI_Waypoint04
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:AIComponent 
+    system: ai
+    type: waypoint
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "42.1196"
+      y: "0"
+      z: "-31.3001"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  name: AI_Waypoint05
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:AIComponent 
+    system: ai
+    type: waypoint
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "2.67915"
+      y: "0"
+      z: "-37.9025"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  name: AI_Waypoint06
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:AIComponent 
+    system: ai
+    type: waypoint
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-16.2592"
+      y: "0"
+      z: "-9.06054"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  name: AI_Waypoint07
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/marine.model
+    system: graphics
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/enemy_marine02.hkx
+    system: physics
+    type: character
+  - !ruby/object:SoundComponent 
+    system: sound
+    type: default
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: default
+  - !ruby/object:AIComponent 
+    filePath: /data/entities/scripts/ai/marine.lua
+    system: ai
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-42.0828"
+      y: "1.00185"
+      z: "17.4611"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  name: enemy_marine02
+  type: entity
+- !ruby/object:REXML::Entity 
+  components: 
+  - !ruby/object:GraphicsComponent 
+    model: /data/entities/models/marine.model
+    system: graphics
+    type: default
+  - !ruby/object:PhysicsComponent 
+    body: /data/entities/bodies/enemy_marine03.hkx
+    system: physics
+    type: character
+  - !ruby/object:SoundComponent 
+    system: sound
+    type: default
+  - !ruby/object:ScriptComponent 
+    scriptPath: /data/entities/scripts/entities/marine.lua
+    system: script
+    type: default
+  - !ruby/object:AIComponent 
+    filePath: /data/entities/scripts/ai/marine.lua
+    system: ai
+    type: default
+  - !ruby/object:GeometryComponent 
+    orientation: !ruby/object:Quaternion 
+      w: "1"
+      x: "0"
+      y: "0"
+      z: "0"
+    position: !ruby/object:Vector 
+      x: "-7.40283"
+      y: "1.00185"
+      z: "-8.05157"
+    scale: !ruby/object:Vector 
+      x: "1"
+      y: "1"
+      z: "1"
+    system: geometry
+    type: default
+  name: enemy_marine03
+  type: entity
 ...
 --- 
 - !ruby/object:EntityLink 
@@ -530,19 +752,13 @@
   subjectSystem: geometry
   type: entityLink
 - !ruby/object:EntityLink 
-  observerName: AI_Waypoint01
+  observerName: enemy_marine02
   observerSystem: ai
   subjectName: player
   subjectSystem: geometry
   type: entityLink
 - !ruby/object:EntityLink 
-  observerName: AI_Waypoint15
-  observerSystem: ai
-  subjectName: player
-  subjectSystem: geometry
-  type: entityLink
-- !ruby/object:EntityLink 
-  observerName: navmesh
+  observerName: enemy_marine03
   observerSystem: ai
   subjectName: player
   subjectSystem: geometry

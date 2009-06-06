@@ -14,12 +14,12 @@ using namespace AI;
 void AISystemComponent_Tests::setUp()
 {
 	Management::Initialize( );
-	Management::GetInstance( )->GetFileManager( )->Mount( "../../../etc/data", "/" );
+	Management::GetFileManager( )->Mount( "../../../etc/data", "/" );
 }
 
 void AISystemComponent_Tests::tearDown()
 {
-	Management::GetInstance( )->Release( );
+	Management::Release( );
 }
 
 void AISystemComponent_Tests::Should_Return_Name_On_GetName()

@@ -30,7 +30,7 @@ namespace Input
 		m_configuration->SetDefault( System::ConfigSections::Input, "smoothmouse", true );
 		m_configuration->SetDefault( System::ConfigSections::Input, "mousesmooth_amount", 50 );
 	
-		m_inputManager = OIS::InputManager::createInputSystem( Management::GetInstance( )->GetPlatformManager( )->GetWindowId( ) );
+		m_inputManager = OIS::InputManager::createInputSystem( Management::GetPlatformManager( )->GetWindowId( ) );
 	
 		m_keyboard = static_cast< OIS::Keyboard* >( m_inputManager->createInputObject( OIS::OISKeyboard, true ) );
 		m_keyboard->setEventCallback( this );
@@ -68,6 +68,11 @@ namespace Input
 
 		m_mouse->getMouseState( ).width = m_configuration->Find( System::ConfigSections::Graphics, "width" ).As< int >( );
 		m_mouse->getMouseState( ).height = m_configuration->Find( System::ConfigSections::Graphics, "height" ).As< int >( );
+
+		for( InputSystemSceneList::iterator i = m_inputScenes.begin( ); i != m_inputScenes.end( ); ++i )
+		{
+			( *i )->Update( deltaMilliseconds );
+		}
 	}
 	
 	bool InputSystem::keyPressed( const KeyEvent &arg )
@@ -126,7 +131,7 @@ namespace Input
 
 		if ( message == System::Messages::RegisterScriptFunctions )
 		{
-			module( parameters[ System::Attributes::ScriptState ].As< lua_State* >( ) )
+			module( parameters[ System::Parameters::ScriptState ].As< lua_State* >( ) )
 			[
 				class_< InputMessageBinding >( InputMessageBinding::TypeName( ).c_str( ) )
 					.def( "getText", &InputMessageBinding::GetText )
@@ -155,7 +160,7 @@ namespace Input
 			for ( InputMessageBinding::InputMessageBindingList::iterator i = m_messageBindings.begin( ); i != m_messageBindings.end( ); ++i )
 			{
 				if( 
-					( *i ).GetFullCode( ) == parameters[ System::Attributes::Binding ].As< std::string >( ) &&
+					( *i ).GetFullCode( ) == parameters[ System::Parameters::Binding ].As< std::string >( ) &&
 					( *i ).GetMessage( ) != parameters[ System::Attributes::Message ].As< std::string >( )
 					)
 				{
@@ -166,7 +171,7 @@ namespace Input
 			m_configuration->Set( 
 				System::ConfigSections::Bindings, 
 				parameters[ System::Attributes::Message ].As< std::string >( ), 
-				parameters[ System::Attributes::Binding ].As< std::string >( ) 
+				parameters[ System::Parameters::Binding ].As< std::string >( ) 
 				);
 
 			this->LoadMessageBindings( );
@@ -177,7 +182,7 @@ namespace Input
 			m_configuration->Set( 
 				System::ConfigSections::Input,
 				parameters[ System::Attributes::Message ].As< std::string >( ),
-				parameters[ System::Attributes::InvertYAxis ].As< bool >( )
+				parameters[ System::Parameters::InvertYAxis ].As< bool >( )
 				);
 		}
 	
@@ -220,7 +225,7 @@ namespace Input
 	{
 		if ( message == System::Messages::RegisterService )
 		{
-			Management::GetInstance( )->GetServiceManager( )->RegisterService( this );
+			Management::GetServiceManager( )->RegisterService( this );
 		}
 	}
 }

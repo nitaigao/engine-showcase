@@ -22,7 +22,7 @@ void ConfigurationFileFixture::setUp( )
 
 void ConfigurationFileFixture::tearDown( )
 {
-	Management::GetInstance( )->Release( );
+	Management::Release( );
 }
 
 void ConfigurationFileFixture::Should_Throw_On_Load_Given_Invalid_FilePath( )

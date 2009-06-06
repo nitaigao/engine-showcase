@@ -9,7 +9,7 @@ namespace State
 {
 	World::~World()
 	{
-		for ( SystemSceneMap::reverse_iterator i = m_systemScenes.rbegin( ); i != m_systemScenes.rend( ); ++i )
+		for ( ISystemScene::SystemSceneMap::reverse_iterator i = m_systemScenes.rbegin( ); i != m_systemScenes.rend( ); ++i )
 		{
 			( *i ).second->Destroy( );
 			delete ( *i ).second;
@@ -25,32 +25,9 @@ namespace State
 	
 	void World::Update( const float& deltaMilliseconds )
 	{
-		float logicStep = 1.0f / 100.0f;
-		m_stepAccumulator += deltaMilliseconds;
-	
-		while( m_stepAccumulator >= logicStep )
+		for( ISystemScene::SystemSceneMap::iterator i = m_systemScenes.begin( ); i != m_systemScenes.end( ); ++i )
 		{
-			for( SystemSceneMap::iterator i = m_systemScenes.begin( ); i != m_systemScenes.end( ); ++i )
-			{
-				if ( 
-					( *i ).second->GetType( ) != System::Types::RENDER
-					) 
-				{
-					( *i ).second->Update( logicStep );
-				}
-			}
-	
-			m_stepAccumulator -= logicStep;
-		}
-	
-		for( SystemSceneMap::iterator i = m_systemScenes.begin( ); i != m_systemScenes.end( ); ++i )
-		{
-			if( 
-				( *i ).second->GetType( ) == System::Types::RENDER
-				)
-			{
-				( *i ).second->Update( deltaMilliseconds );
-			}
+			( *i ).second->Update( deltaMilliseconds );
 		}
 	}
 	

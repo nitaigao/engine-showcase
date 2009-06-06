@@ -12,20 +12,20 @@ namespace State
 
 	AnyType WorldEntity::Message( const System::Message& message, AnyType::AnyTypeMap parameters )
 	{
-		std::vector< AnyType > results;
+		AnyType::AnyTypeKeyMap results;
 
 		for( ISystemComponent::SystemComponentList::const_iterator i = m_components.begin( ); i != m_components.end( ); ++i )
 		{
 			AnyType result = ( *i )->Message( message, parameters );
-			results.push_back( result );
+			System::Types::Type systemType = ( *i )->GetAttributes( )[ System::Attributes::SystemType ].As< System::Types::Type >( );
+			results.insert( std::make_pair( systemType, result ) );
 		}
 
 		ObserverMap::iterator observers = m_observers.find( message );
 
 		while( observers != m_observers.end( ) )
 		{
-			AnyType result = ( *observers ).second->Message( message, parameters );
-			results.push_back( result );
+			( *observers ).second->Message( message, parameters );
 			++observers;
 		}
 

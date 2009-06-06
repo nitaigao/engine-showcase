@@ -87,6 +87,7 @@ namespace Renderer
 		ArchiveManager::getSingletonPtr( )->addArchiveFactory( new BadArchiveFactory( ) );
 
 		ResourceGroupManager::getSingleton( ).addResourceLocation( "/", "BAD" );
+		ResourceGroupManager::getSingleton( ).addResourceLocation( "/data/bootstrap", "BAD", ResourceGroupManager::BOOTSTRAP_RESOURCE_GROUP_NAME );
 		ResourceGroupManager::getSingleton( ).initialiseAllResourceGroups( );
 
 		RenderSystemList *renderSystems = m_root->getAvailableRenderers( );
@@ -121,7 +122,7 @@ namespace Renderer
 				m_configuration->Set( m_configSectionName, "depth", defaultDepth );
 				m_configuration->Set( m_configSectionName, "window_title", defaultWindowTitle );
 
-				Management::GetInstance( )->GetPlatformManager( )->CloseWindow( );
+				Management::GetPlatformManager( )->CloseWindow( );
 			}
 		}
 
@@ -146,7 +147,7 @@ namespace Renderer
 
 		m_root->renderOneFrame( );
 
-		Management::GetInstance( )->GetServiceManager( )->RegisterService( this );
+		Management::GetServiceManager( )->RegisterService( this );
 
 		LineFactory* lineFactory = new LineFactory( );
 		m_factories.push_back( lineFactory );
@@ -159,6 +160,8 @@ namespace Renderer
 	void RendererSystem::Update( const float& deltaMilliseconds )
 	{
 		m_root->renderOneFrame( );
+
+		m_scene->Update( deltaMilliseconds );
 	}
 
 	void RendererSystem::SetAttribute( const std::string& name, AnyType value )
@@ -251,7 +254,7 @@ namespace Renderer
 
 	void RendererSystem::windowClosed( RenderWindow* rw )
 	{
-		Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
+		Management::GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
 	}
 
 	std::vector< std::string > RendererSystem::GetVideoModes( ) const
@@ -284,14 +287,12 @@ namespace Renderer
 		return availableDisplayModes;
 	}
 
-		
-
 	void RendererSystem::CreateRenderWindow( const std::string& windowTitle, int width, int height, bool fullScreen )
 	{
-		Management::GetInstance( )->GetPlatformManager( )->CreateInteractiveWindow( windowTitle, width, height, fullScreen );
+		Management::GetPlatformManager( )->CreateInteractiveWindow( windowTitle, width, height, fullScreen );
 		
 		NameValuePairList params;
-		params[ "externalWindowHandle" ] = StringConverter::toString( ( int ) Management::GetInstance( )->GetPlatformManager( )->GetWindowId( ) );
+		params[ "externalWindowHandle" ] = StringConverter::toString( ( int ) Management::GetPlatformManager( )->GetWindowId( ) );
 		params[ "vsync" ] = m_configuration->Find( m_configSectionName, "vsync" ).As< bool >( ) ? "true" : "false";
 
 		m_window = m_root->createRenderWindow( windowTitle, width, height, fullScreen, &params ); 
@@ -300,16 +301,6 @@ namespace Renderer
 	AnyType::AnyTypeMap RendererSystem::Execute( const std::string& message, AnyType::AnyTypeMap& parameters )
 	{
 		AnyType::AnyTypeMap results;
-
-		if ( message == System::Messages::PlayAnimation )
-		{
-			IRendererSystemComponent* component = m_scene->GetComponent( parameters[ "entityName" ].As< std::string >( ) );
-			
-			component->PlayAnimation( 
-				parameters[ "animationName" ].As< std::string >( ),
-				parameters[ "loopAnimation" ].As< bool >( )
-				);
-		}
 
 		if ( message == "getRenderWindow" )
 		{
@@ -373,6 +364,40 @@ namespace Renderer
 			delete[ ] indices;
 
 			results[ "vertices" ] = verts;
+		}
+
+		if ( message == System::Messages::RenderMesh )
+		{
+			std::string name = parameters[ System::Attributes::Name ].As< std::string >( );
+
+			if ( m_sceneManager->hasManualObject( name ) )
+			{
+				m_sceneManager->destroySceneNode( m_sceneManager->getSceneNode( name ) );
+				m_sceneManager->destroyManualObject( name );
+			}
+
+			Ogre::ManualObject* mesh = m_sceneManager->createManualObject( name );
+			mesh->begin( "Yellow", Ogre::RenderOperation::OT_LINE_STRIP );
+
+			MathVector3::MathVector3List vertices = parameters[ System::Parameters::Vertices ].As< MathVector3::MathVector3List >( );
+
+			for( MathVector3::MathVector3List::iterator i = vertices.begin( ); i != vertices.end( ); ++i )
+			{
+				mesh->position( ( *i ).X, ( *i ).Y + 0.1f, ( *i ).Z );
+			}
+
+			mesh->end( );
+
+			Ogre::SceneNode* sceneNode = m_sceneManager->createSceneNode( parameters[ System::Attributes::Name ].As< std::string >( ) );
+			sceneNode->attachObject( mesh );
+			m_sceneManager->getRootSceneNode( )->addChild( sceneNode );
+		}
+
+		if ( message == System::Messages::DestroyMesh )
+		{
+			std::string name = parameters[ System::Attributes::Name ].As< std::string >( );
+			m_sceneManager->destroySceneNode( name );
+			m_sceneManager->destroyManualObject( name );
 		}
 
 		return results;

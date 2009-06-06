@@ -19,15 +19,17 @@ using namespace AI;
 #include "../Logging/Logger.h"
 using namespace Logging;
 
+#include "AnimationController.h"
+
 namespace Renderer
 {
 	RendererSystemComponent::~RendererSystemComponent( )
 	{
 		m_scene->GetSceneManager( )->getRootSceneNode( )->removeAndDestroyChild( m_name );
 
-		for( IAnimationBlender::AnimationBlenderList::iterator i = m_animationBlenders.begin( ); i != m_animationBlenders.end( ); ++i )
+		for( IAnimationController::AnimationControllerMap::iterator i = m_animationControllers.begin( ); i != m_animationControllers.end( ); ++i )
 		{
-			delete ( *i );
+			delete ( *i ).second;
 		}
 	}
 
@@ -35,7 +37,7 @@ namespace Renderer
 	{
 		m_sceneNode = m_scene->GetSceneManager( )->createSceneNode( m_name );
 
-		this->LoadModel( m_sceneNode, m_attributes[ System::Attributes::Model ].As< std::string >( ) );
+		this->LoadModel( m_sceneNode, m_attributes[ System::Parameters::Model ].As< std::string >( ) );
 
 		m_scene->GetSceneManager( )->getRootSceneNode( )->addChild( m_sceneNode );
 
@@ -52,8 +54,10 @@ namespace Renderer
 			prefix << m_name << "_";
 
 			model->Load( modelPath );
-			model->CreateInstance( m_scene->GetSceneManager( ), prefix.str( ), 0, 
-				OgreMaxModel::NO_OPTIONS, 0, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, sceneNode );
+			model->CreateInstance( 
+				m_scene->GetSceneManager( ), prefix.str( ), 0, OgreMaxModel::NO_ANIMATION_STATES, 
+				0, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, sceneNode 
+				);
 		}
 		catch( Ogre::FileNotFoundException e )
 		{
@@ -85,15 +89,26 @@ namespace Renderer
 			m_sceneNode->setOrientation( parameters[ System::Attributes::Orientation ].As< MathQuaternion >( ).AsOgreQuaternion( ) );
 		}
 
-		return AnyType( );
-	}
-
-	void RendererSystemComponent::Update( const float& deltaMilliseconds )
-	{
-		for( IAnimationBlender::AnimationBlenderList::iterator i = m_animationBlenders.begin( ); i != m_animationBlenders.end( ); ++i )
+		if ( message == System::Messages::GetAnimationState )
 		{
-			( *i )->Update( deltaMilliseconds );
+			Entity* entity = this->FindSkeletonEntity( m_sceneNode );
+
+			Ogre::Skeleton::BoneIterator boneIterator = entity->getSkeleton( )->getBoneIterator( );
+
+			while( boneIterator.hasMoreElements( ) )
+			{
+				Ogre::Bone* oBone = boneIterator.getNext( );
+				oBone->setManuallyControlled( true );
+
+				Entity *cubeEntity = Root::getSingletonPtr( )->getSceneManager( "default" )->createEntity( oBone->getName( ) + "_cube_entity", "/data/entities/meshes/axes.mesh" );
+				TagPoint* tagPoint = entity->attachObjectToBone( oBone->getName( ), cubeEntity );
+				tagPoint->setScale( 0.01f, 0.01f, 0.01f );
+			}
+			
+			return entity->getSkeleton( );
 		}
+
+		return AnyType( );
 	}
 
 	void RendererSystemComponent::InitializeSceneNode( Ogre::SceneNode* sceneNode )
@@ -112,8 +127,19 @@ namespace Renderer
 
 				if ( animationStates != 0 )
 				{
-					IAnimationBlender* animationBlender = new AnimationBlender( entity );
-					m_animationBlenders.push_back( animationBlender );
+					AnimationStateIterator animationStateIterator = animationStates->getAnimationStateIterator( );
+
+					while ( animationStateIterator.hasMoreElements( ) )
+					{
+						AnimationState* animationState = animationStateIterator.getNext( );
+
+						if ( m_animationControllers.find( animationState->getAnimationName( ) ) == m_animationControllers.end( ) )
+						{
+							m_animationControllers[ animationState->getAnimationName( ) ] = new AnimationController( animationState->getAnimationName( ) );
+						}
+						
+						m_animationControllers[ animationState->getAnimationName( ) ]->AddAnimationState( animationState );
+					}
 				}
 			}
 		}
@@ -161,30 +187,38 @@ namespace Renderer
 		sceneNode->removeAndDestroyAllChildren( );
 	}
 
-	void RendererSystemComponent::PlayAnimation( const std::string& animationName, const bool& loopAnimation )
+	Ogre::Entity* RendererSystemComponent::FindSkeletonEntity( Ogre::SceneNode* sceneNode )
 	{
-		if ( animationName == "hit" )
+		SceneNode::ObjectIterator objects = sceneNode->getAttachedObjectIterator( );
+
+		while( objects.hasMoreElements( ) )
 		{
-			std::stringstream gunfireName;
-			gunfireName << m_name << "_gunfire";
+			MovableObject* object = objects.getNext( );
 
-			Entity* gunfire = static_cast< Entity* >( m_scene->GetSceneManager( )->getMovableObject( gunfireName.str( ), "Entity" ) );
-			gunfire->setVisible( true );
-
-			if ( rand( ) % 2 == 1 )
+			if( object->getMovableType( ) == "Entity" )
 			{
-				gunfire->getParentNode()->roll( Degree( 91 ) );
+				Entity* entity = m_scene->GetSceneManager( )->getEntity( object->getName( ) );
+
+				if ( entity->getSkeleton( ) != 0 )
+				{
+					return entity;
+				}
 			}
 		}
-		else
+
+		Node::ChildNodeIterator children = sceneNode->getChildIterator( );
+
+		while( children.hasMoreElements( ) )
 		{
-			MovableObject* gunfire = m_scene->GetSceneManager( )->getMovableObject( "player_gunfire", "Entity" );
-			gunfire->setVisible( false );
+			SceneNode* child = static_cast< SceneNode* >( children.getNext( ) );
+			Entity* entity = this->FindSkeletonEntity( child );
+
+			if ( entity )
+			{
+				return entity;
+			}
 		}
 
-		for( IAnimationBlender::AnimationBlenderList::iterator i = m_animationBlenders.begin( ); i != m_animationBlenders.end( ); ++i )
-		{
-			( *i )->Blend( animationName, 0.2f, loopAnimation );
-		}
+		return 0;
 	}
 }

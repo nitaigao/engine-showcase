@@ -23,7 +23,7 @@ void BadArchiveFixture::setUp( )
 
 void BadArchiveFixture::tearDown( )
 {
-	Management::GetInstance( )->Release( );
+	Management::Release( );
 }
 
 void BadArchiveFixture::Should_Return_True_On_Case_Sensitive( )

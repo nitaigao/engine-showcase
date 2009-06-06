@@ -23,7 +23,7 @@ namespace Geometry
 	{
 		if ( message == System::Messages::RegisterService )
 		{
-			Management::GetInstance( )->GetServiceManager( )->RegisterService( this );
+			Management::GetServiceManager( )->RegisterService( this );
 		}
 	}
 
@@ -31,7 +31,7 @@ namespace Geometry
 	{
 		if ( message == System::Messages::RegisterScriptFunctions )
 		{
-			module( parameters[ System::Attributes::ScriptState ].As< lua_State* >( ) )
+			module( parameters[ System::Parameters::ScriptState ].As< lua_State* >( ) )
 			[
 				class_< MathVector3 >( "Vector" )
 					.def( constructor< const float&, const float&, const float& >( ) )

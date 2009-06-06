@@ -30,9 +30,21 @@ end
 
 function Statistics.updateStatistics( )
 
-	local fps = ux:getFps( )
-	local stats = ux:findWidget( 'statistics' )
-	stats:setText( 'fps: ' .. fps )
+	local fps = instrumentation:getFps( )
+	local fpsStats = ux:findWidget( 'statistics_fps' )
+	fpsStats:setText( 'FPS: ' .. fps )
+	
+	local logic = instrumentation:getRoundTime( Queues.LOGIC )
+	local logicStats = ux:findWidget( 'statistics_logic' )
+	logicStats:setText( 'Logic: ' .. logic .. 'ms' )
+	
+	local house = instrumentation:getRoundTime( Queues.HOUSE )
+	local houseStats = ux:findWidget( 'statistics_house' )
+	houseStats:setText( 'House: ' .. house .. 'ms' )
+	
+	local render = instrumentation:getRoundTime( Queues.RENDER )
+	local renderStats = ux:findWidget( 'statistics_render' )
+	renderStats:setText( 'Render: ' .. render .. 'ms')
 
 end
 

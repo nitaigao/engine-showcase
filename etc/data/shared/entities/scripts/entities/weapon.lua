@@ -42,6 +42,8 @@ function Weapon:fireAt( source, direction )
 		sfx:triggerEvent( 'game/weapons/' .. self.name .. '/fire' )
 		weapon.isFiring = true
 		
+		print( 'triggered game/weapons/' .. self.name .. '/fire for ' .. script:getName( ) )
+		
 	end
 
 	local timeNow = script:getTime( )
@@ -66,6 +68,7 @@ function Weapon:stopFiring( )
 
 	weapon.isFiring = false
 	sfx:keyOutEvent( 'game/weapons/' .. self.name .. '/fire' )
+	print( 'keyed out game/weapons/' .. self.name .. '/fire for ' .. script:getName( ) )
 
 end
 

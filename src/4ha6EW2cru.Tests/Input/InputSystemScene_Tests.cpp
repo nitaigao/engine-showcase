@@ -14,12 +14,12 @@ using namespace Logging;
 void InputSystemScene_Tests::setUp()
 {
 	Management::Initialize( );
-	Management::GetInstance( )->GetPlatformManager( )->CreateInteractiveWindow( "Test Window", 1, 1, false );
+	Management::GetPlatformManager( )->CreateInteractiveWindow( "Test Window", 1, 1, false );
 }
 
 void InputSystemScene_Tests::tearDown()
 {
-	Management::GetInstance( )->Release( );
+	Management::Release( );
 }
 
 /* Need to figure out a way to test these without requiring a window */

@@ -55,7 +55,7 @@ public:
 	 *  @param[in] float deltaMilliseconds
 	 *  @return (void)
 	 */
-	void Update( const float& deltaMilliseconds );
+	void Update( );
 
 	
 	/*! Releases the Game

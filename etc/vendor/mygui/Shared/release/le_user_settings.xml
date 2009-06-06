@@ -13,7 +13,7 @@
         <Property key="ShowName" value="true"/>
         <Property key="ShowType" value="true"/>
         <Property key="ShowSkin" value="true"/>
-        <Property key="EdgeHide" value="false"/>
+        <Property key="EdgeHide" value="true"/>
     </SettingsWindow>
     <WidgetsWindow>
         <Property key="widgetsButtonWidth" value="135"/>
@@ -21,7 +21,6 @@
         <Property key="widgetsButtonsInOneLine" value="3"/>
         <Property key="lastSkinGroup" value="Default"/>
     </WidgetsWindow>
-    <RecentFile name="C:\Users\NK\Development\viper\etc\vendor\mygui\Media\Demos\Demo_PanelView\PanelView.layout"/>
     <RecentFile name="C:\Users\NK\Development\viper\etc\vendor\mygui\Media\Demos\Demo_Controllers\Menu1.layout"/>
     <RecentFile name="C:\Users\NK\Development\viper\etc\data\interface\interface\components\options.new.layout"/>
     <RecentFile name="C:\Users\NK\desktop\options.layout"/>
@@ -29,4 +28,5 @@
     <RecentFile name="C:\Users\NK\Development\viper\etc\data\interface\interface\components\options2.layout"/>
     <RecentFile name="C:\Users\NK\Development\viper\etc\data\interface\interface\components\key_binder.layout"/>
     <RecentFile name="C:\Users\NK\Development\viper\etc\data\interface\interface\components\options.layout"/>
+    <RecentFile name="C:\Users\NK\Development\viper\etc\data\interface\interface\components\statistics.layout"/>
 </MyGUI>

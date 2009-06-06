@@ -1,14 +1,13 @@
 script:include( '/data/entities/scripts/base/object.lua' )
-script:include( '/data/entities/scripts/ai/treenode.lua' )
-script:include( '/data/entities/scripts/ai/action_randomwaypoint.lua' )
 
+script:include( '/data/entities/scripts/ai/behaviorselector.lua' )
 
 ----------------------------------------------------------------
 -- Global Variables
 ----------------------------------------------------------------
 
 Marine = { 
-	behaviorTree = TreeNode:new( )
+	behaviorTree = BehaviorSelector:new( )
 }
 
 extend( Marine, Object )
@@ -34,22 +33,18 @@ function Marine.onEvent( eventName, var1, var2 )
 			
 	if ( eventName == 'WORLD_LOADING_FINISHED' ) then
 	
-		local actionRandomWaypoint = RandomWaypointAction:new( )
+		marine.behaviorTree:initialize( )
 	
-		local patrolSubBehavior = TreeNode:new( )
-		patrolSubBehavior.nodes = { }
-		patrolSubBehavior:addNode( actionRandomWaypoint )
+	end
+	
+	if ( var1 == ai:getName( ) ) then
 		
-		local idleBehavior = TreeNode:new( )
-		idleBehavior.nodes = { }
-		idleBehavior:addNode( patrolSubBehavior )
+		if ( eventName == 'ACTOR_DEAD' ) then
 		
-		local relaxedState = TreeNode:new( )
-		relaxedState.nodes = { }
-		relaxedState:addNode( idleBehavior )
-		
-		marine.behaviorTree.nodes = { }
-		marine.behaviorTree:addNode( relaxedState )
+			script:unregisterEventHandler( Marine.onEvent )
+			script:unregisterUpdateHandler( Marine.onUpdate )
+			
+		end
 	
 	end
 

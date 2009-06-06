@@ -44,6 +44,7 @@ function Marine.onEvent( eventName, var1, var2 )
 		
 		if ( eventName == 'ACTOR_DEAD' ) then
 		
+			marine:stopFiringWeapon( )
 			script:playAnimation( 'die_backward', false )
 			script:unregisterEventHandler( Marine.onEvent )
 		

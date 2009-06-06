@@ -57,6 +57,10 @@ namespace System
 			{
 				return System::Types::SOUND;
 			}
+			else if ( systemType == "animation" )
+			{
+				return System::Types::ANIMATION;
+			}
 
 			if ( returnType == System::Types::NONE )
 			{

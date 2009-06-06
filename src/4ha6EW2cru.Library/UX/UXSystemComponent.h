@@ -215,6 +215,8 @@ namespace UX
 		inline int GetFps( ) { return static_cast< int >( m_scene->GetGui( )->getRenderWindow( )->getAverageFPS( ) ); };
 
 
+
+
 		/*! -- Widget Event Handlers -- */
 
 		/*! Forwards Mouse Button Released Events to the subscribing Widgets in Script

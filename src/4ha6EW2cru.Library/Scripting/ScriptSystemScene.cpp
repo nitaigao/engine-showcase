@@ -2,6 +2,7 @@
 
 #include <luabind/table_policy.hpp>
 #include <luabind/operator.hpp>
+#include <luabind/error.hpp>
 using namespace luabind;
 
 #include "../Events/Event.h"
@@ -90,17 +91,17 @@ namespace Script
 		luabind::open( m_state );
 
 		AnyType::AnyTypeMap serviceParameters;
-		serviceParameters[ System::Attributes::ScriptState ] = m_state;
-		Management::GetInstance( )->GetServiceManager( )->MessageAll( System::Messages::RegisterScriptFunctions, serviceParameters );
+		serviceParameters[ System::Parameters::ScriptState ] = m_state;
+		Management::GetServiceManager( )->MessageAll( System::Messages::RegisterScriptFunctions, serviceParameters );
 
 		luabind::globals( m_state )[ "Configuration" ] = m_scriptConfiguration;
 
-		luabind::set_pcall_callback( &ScriptSystemScene::Script_PError );
-		luabind::set_error_callback( &ScriptSystemScene::Script_Error );
-		luabind::set_cast_failed_callback( &ScriptSystemScene::Script_CastError );
+		//luabind::set_pcall_callback( &ScriptSystemScene::Script_PError );
+		//luabind::set_error_callback( &ScriptSystemScene::Script_Error );
+		//luabind::set_cast_failed_callback( &ScriptSystemScene::Script_CastError );
 	}
 
-	void ScriptSystemScene::Destroy()
+	void ScriptSystemScene::Destroy( )
 	{
 		lua_close( m_state );
 		m_state = 0;
@@ -139,7 +140,7 @@ namespace Script
 		lua_pushstring( luaState, errorMessage.str( ).c_str( ) );
 		Logger::Warn( errorMessage.str( ) );
 
-		return 1;	
+		return 0;	
 	}
 
 	void ScriptSystemScene::Script_CastError( lua_State* luaState, LUABIND_TYPE_INFO typeInfo )
@@ -159,19 +160,19 @@ namespace Script
 
 	void ScriptSystemScene::Quit( )
 	{
-		Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
+		Management::GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
 	}
 
 	void ScriptSystemScene::LoadLevel( const std::string& levelName )
 	{
 		IEventData* eventData = new LevelChangedEventData( levelName );
-		Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
+		Management::GetEventManager( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
 	}
 
 	void ScriptSystemScene::EndGame()
 	{
-		Management::GetInstance( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_ENDED" ) );
-		Management::GetInstance( )->GetEventManager( )->QueueEvent( new Event( GAME_ENDED ) );
+		Management::GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_ENDED" ) );
+		Management::GetEventManager( )->QueueEvent( new Event( GAME_ENDED ) );
 	}
 
 	void ScriptSystemScene::Update( const float& deltaMilliseconds )

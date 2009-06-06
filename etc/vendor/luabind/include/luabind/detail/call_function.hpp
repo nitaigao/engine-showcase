@@ -261,7 +261,7 @@ namespace luabind
 					push_args_from_tuple<1>::apply(L, m_args);
 					if (m_fun(L, boost::tuples::length<Tuple>::value, 0))
 					{
-						assert(lua_gettop(L) == top - m_params + 1);
+						//assert(lua_gettop(L) == top - m_params + 1);
 #ifndef LUABIND_NO_EXCEPTIONS
 						throw luabind::error(L);
 #else

@@ -56,51 +56,7 @@ namespace Input
 
 	void InputSystemComponent::Update( const float& deltaMilliseconds )
 	{
-		OIS::Keyboard* keyboard = m_attributes[ System::Attributes::Parent ].As< IInputSystemScene* >( )->GetSystem( )->GetKeyboard( );
 		OIS::Mouse* mouse = m_attributes[ System::Attributes::Parent ].As< IInputSystemScene* >( )->GetSystem( )->GetMouse( );
-
-		System::Message moveMessage;
-		System::Message attackMessage;
-
-		IInputSystem* inputSystem = m_attributes[ System::Attributes::Parent ].As< IInputSystemScene* >( )->GetSystem( );
-		InputMessageBinding::InputMessageBindingList messageBindings = inputSystem->GetBindings( );
-
-		for( InputMessageBinding::InputMessageBindingList::iterator i = messageBindings.begin( ); i != messageBindings.end( ); ++i )
-		{
-			switch( ( *i ).GetType( ) )
-			{
-
-			case BINDING_KEYBOARD: 
-
-				if ( keyboard->isKeyDown( static_cast< OIS::KeyCode >( ( *i ).GetCode( ) ) ) )
-				{
-					moveMessage = ( *i ).GetMessage( );
-					this->PushMessage( ( *i ).GetMessage( ), m_attributes );
-				}
-
-				break;
-
-			case BINDING_MOUSE:
-
-				if ( mouse->getMouseState( ).buttonDown( static_cast< OIS::MouseButtonID >( ( *i ).GetCode( ) ) ) )
-				{
-					attackMessage = ( *i ).GetMessage( );
-					this->PushMessage( ( *i ).GetMessage( ), m_attributes );
-				}
-
-				break;
-			}
-		}
-
-		if ( moveMessage.empty( ) )
-		{
-			this->PushMessage( System::Messages::Move_Idle, m_attributes );
-		}
-
-		if ( attackMessage.empty( ) )
-		{
-			this->PushMessage( System::Messages::Attack_Idle, m_attributes );
-		}
 
 		// Mouse Movement
 
@@ -108,7 +64,7 @@ namespace Input
 
 		float mouseY = 0;
 
-		if ( m_attributes[ System::Attributes::InvertYAxis ].As< bool >( ) )
+		if ( m_attributes[ System::Parameters::InvertYAxis ].As< bool >( ) )
 		{
 			mouseY = -mouseState.Y.rel;
 		}
@@ -123,8 +79,8 @@ namespace Input
 		m_yHistory.pop_back( );
 		m_yHistory.push_front( mouseY );
 
-		m_attributes[ System::Attributes::DeltaX ] = this->AverageInputHistory( m_xHistory );
-		m_attributes[ System::Attributes::DeltaY ] = this->AverageInputHistory( m_yHistory );
+		m_attributes[ System::Parameters::DeltaX ] = this->AverageInputHistory( m_xHistory );
+		m_attributes[ System::Parameters::DeltaY ] = this->AverageInputHistory( m_yHistory );
 
 		this->PushMessage( System::Messages::Mouse_Moved, m_attributes );
 	}
@@ -132,13 +88,46 @@ namespace Input
 	void InputSystemComponent::MouseReleased( const MouseEvent &arg, MouseButtonID id )
 	{
 		IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_RELEASED", m_attributes[ System::Attributes::Name ].As< std::string >( ), id );
-		Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
+		Management::GetEventManager( )->TriggerEvent( scriptEvent );
+
+		for( InputMessageBinding::InputMessageBindingList::iterator i = m_mouseUpMessages.begin( ); i != m_mouseUpMessages.end( ); )
+		{
+			if ( ( *i ).GetType( ) == BINDING_MOUSE && id == static_cast< OIS::MouseButtonID >( ( *i ).GetCode( ) ) )
+			{
+				std::string newMessage = ( *i ).GetMessage( ).replace( ( *i ).GetMessage( ).find_first_of( "+" ), 1, "-" );
+				this->PushMessage( newMessage, m_attributes );
+				i = m_mouseUpMessages.erase( i );
+			}
+			else
+			{
+				++i;
+			}
+		}
 	}
 
 	void InputSystemComponent::MousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 	{
 		IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_PRESSED", m_attributes[ System::Attributes::Name ].As< std::string >( ), id );
-		Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
+		Management::GetEventManager( )->TriggerEvent( scriptEvent );
+
+		IInputSystem* inputSystem = m_attributes[ System::Attributes::Parent ].As< IInputSystemScene* >( )->GetSystem( );
+		InputMessageBinding::InputMessageBindingList messageBindings = inputSystem->GetBindings( );
+
+		for( InputMessageBinding::InputMessageBindingList::iterator i = messageBindings.begin( ); i != messageBindings.end( ); ++i )
+		{
+			if ( ( *i ).GetType( ) == BINDING_MOUSE )
+			{
+				if ( id == static_cast< OIS::MouseButtonID >( ( *i ).GetCode( ) ) )
+				{
+					if ( ( *i ).GetMessage( ).find( "+" ) != std::string::npos )
+					{
+						m_mouseUpMessages.push_back( ( *i ) );
+					}
+
+					this->PushMessage( ( *i ).GetMessage( ), m_attributes );
+				}
+			}
+		}
 	}
 
 	float InputSystemComponent::AverageInputHistory( const InputHistory& inputHistory )
@@ -146,18 +135,59 @@ namespace Input
 		int index = 0;
 		float sum = 0.0f;
 
-		float modifier = static_cast< float >( m_attributes[ System::Attributes::MouseSensitivity ].As< int >( ) ) / 100.0f;
+		float modifier = static_cast< float >( m_attributes[ System::Parameters::MouseSensitivity ].As< int >( ) ) / 100.0f;
 
 		for ( InputHistory::const_iterator i = inputHistory.begin( ); i != inputHistory.end( ); ++i )
 		{
 			sum += ( *i ) * pow( modifier, index++ );
 
-			if ( m_attributes[ System::Attributes::SmoothMouse ].As< bool >( ) )
+			if ( m_attributes[ System::Parameters::SmoothMouse ].As< bool >( ) )
 			{
 				break;
 			}
 		}
 
 		return sum / m_historySize;
+	}
+
+	void InputSystemComponent::KeyReleased( const KeyEvent &arg )
+	{
+		for( InputMessageBinding::InputMessageBindingList::iterator i = m_keyUpMessages.begin( ); i != m_keyUpMessages.end( ); )
+		{
+			if ( ( *i ).GetType( ) == BINDING_KEYBOARD )
+			{
+				if ( arg.key == static_cast< OIS::KeyCode >( ( *i ).GetCode( ) ) )
+				{
+					std::string newMessage = ( *i ).GetMessage( ).replace( ( *i ).GetMessage( ).find_first_of( "+" ), 1, "-" );
+					this->PushMessage( newMessage, m_attributes );
+					i = m_keyUpMessages.erase( i );
+					return;
+				}
+			}
+
+			++i;
+		}
+	}
+
+	void InputSystemComponent::KeyPressed( const OIS::KeyEvent &arg )
+	{
+		IInputSystem* inputSystem = m_attributes[ System::Attributes::Parent ].As< IInputSystemScene* >( )->GetSystem( );
+		InputMessageBinding::InputMessageBindingList messageBindings = inputSystem->GetBindings( );
+
+		for( InputMessageBinding::InputMessageBindingList::iterator i = messageBindings.begin( ); i != messageBindings.end( ); ++i )
+		{
+			if ( ( *i ).GetType( ) == BINDING_KEYBOARD )
+			{
+				if ( arg.key == static_cast< OIS::KeyCode >( ( *i ).GetCode( ) ) )
+				{
+					if ( ( *i ).GetMessage( ).find( "+" ) != std::string::npos )
+					{
+						m_keyUpMessages.push_back( ( *i ) );
+					}
+
+					this->PushMessage( ( *i ).GetMessage( ), m_attributes );
+				}
+			}
+		}
 	}
 }

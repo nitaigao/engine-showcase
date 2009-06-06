@@ -26,19 +26,19 @@ void LoggerFixture::Should_Log_On_Debug_Given_Valid_Message( )
 {
 	Management::Initialize( );
 	Logger::Debug( "Debug Message" );
-	Management::GetInstance( )->Release( );
+	Management::Release( );
 }
 
 void LoggerFixture::Should_Log_On_Info_Given_Valid_Message( )
 {
 	Management::Initialize( );
 	Logger::Info( "Info Message" );
-	Management::GetInstance( )->Release( );
+	Management::Release( );
 }
 
 void LoggerFixture::Should_Log_On_Fatal_Given_Valid_Message( )
 {
 	Management::Initialize( );
 	Logger::Fatal( "Fatal Message" );
-	Management::GetInstance( )->Release( );
+	Management::Release( );
 }

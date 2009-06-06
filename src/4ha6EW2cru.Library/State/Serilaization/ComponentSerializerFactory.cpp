@@ -10,6 +10,7 @@
 #include "AIComponentSerializer.h"
 #include "ScriptComponentSerializer.h"
 #include "SoundComponentSerializer.h"
+#include "AnimationComponentSerializer.h"
 
 namespace Serialization
 {
@@ -45,6 +46,10 @@ namespace Serialization
 		else if ( systemType == System::Types::SOUND )
 		{
 			strategy = new SoundComponentSerializer( );
+		}
+		else if ( systemType == System::Types::ANIMATION )
+		{
+			strategy = new AnimationComponentSerializer( );
 		}
 
 		return strategy;

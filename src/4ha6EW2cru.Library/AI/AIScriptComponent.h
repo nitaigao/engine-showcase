@@ -86,6 +86,12 @@ namespace AI
 		inline float GetPlayerDistance( ) { return m_playerDistance; };
 
 
+		/*! Returns the position of the Player
+		*
+		* @return ( Maths::MathVector3 )
+		*/
+		inline Maths::MathVector3 GetPlayerPosition( ) { return m_attributes[ System::Parameters::PlayerPosition ].As< Maths::MathVector3 >( ); };
+
 
 		/*! Returns the number of waypoints left to process
 		*
@@ -94,11 +100,28 @@ namespace AI
 		unsigned int GetWaypointCount( ) { return m_activeWaypoints.size( ); };
 
 
+
+		/*! Tests to see if the given position is in Line of Sight
+		*
+		* @param[in] const Maths::MathVector3 & position
+		* @return ( bool )
+		*/
+		bool InLineOfSight( const Maths::MathVector3& position );
+
+
 		/*! Finds a Random waypoint on the Map
 		*
 		* @return ( Maths::MathVector3 )
 		*/
 		Maths::MathVector3 FindRandomWaypoint( );
+
+
+		/*! Returns the waypoint paths to the given position
+		*
+		* @param[in] const MathVector3 & position
+		* @return ( MathVector3::MathVector3List )
+		*/
+		Maths::MathVector3::MathVector3List GetPathTo( const Maths::MathVector3& position );
 
 
 		/*! Navigate to a position in the World

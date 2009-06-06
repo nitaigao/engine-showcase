@@ -6,8 +6,13 @@ namespace AI
 {
 	ISystemScene* AISystem::CreateScene( )
 	{
-		AISystemScene* scene = new AISystemScene( );
-		scene->Initialize( );
-		return scene;
+		m_scene = new AISystemScene( );
+		m_scene->Initialize( );
+		return m_scene;
+	}
+
+	void AISystem::Update( const float& deltaMilliseconds )
+	{
+		m_scene->Update( deltaMilliseconds );
 	}
 }

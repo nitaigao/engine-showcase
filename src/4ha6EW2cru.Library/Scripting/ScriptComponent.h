@@ -10,7 +10,7 @@
 #include "IScriptComponent.hpp"
 #include "../Events/IEvent.hpp"
 
-#include "IScriptController.hpp"
+#include "IScriptFacade.hpp"
 #include "IScriptFunctionHandler.hpp"
 
 #include <luabind/luabind.hpp>
@@ -276,7 +276,7 @@ namespace Script
 		 *  @param[in] int maxResults
 		 *  @return (std::vector< std::string >)
 		 */
-		std::vector< std::string > RayQuery( Maths::MathVector3 origin, Maths::MathVector3 direction, const float& length, const bool& sortByDistance, const unsigned int& maxResults );
+		std::vector< std::string > RayQuery( Maths::MathVector3 origin, Maths::MathVector3 direction, const float& length, const bool& sortByDistance, const int& maxResults );
 
 
 		/*! If a Render Component is attached to this component's parent, 
@@ -309,7 +309,7 @@ namespace Script
 		IScriptFunctionHandler::FunctionList m_eventHandlers;
 		IScriptFunctionHandler::FunctionList m_updateHandlers;
 
-		IScriptController::ScriptControllerList m_controllers;
+		IScriptFacade::ScriptControllerList m_facades;
 
 		IObserver* m_observer;
 

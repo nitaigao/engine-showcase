@@ -27,15 +27,6 @@ namespace Renderer
 		 */
 		virtual ~IRendererSystemComponent( ) { };
 
-
-		/*! Plays the specified animation
-		 *
-		 *  @param[in] const std::string & animationName
-		 *  @param[in] const bool & loopAnimation
-		 *  @return (void)
-		 */
-		virtual void PlayAnimation( const std::string& animationName, const bool& loopAnimation ) = 0;
-
 	};
 };
 

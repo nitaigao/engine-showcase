@@ -31,8 +31,7 @@ namespace State
 		 *  @return ()
 		 */
 		World( )
-			: m_stepAccumulator( 0 )
-			, m_lastEntityId( 0 )
+			: m_lastEntityId( 0 )
 		{
 
 		}
@@ -59,14 +58,14 @@ namespace State
 		*  @param[in] ISystemScene * systemScene
 		*  @return (void)
 		*/
-		inline void AddSystemScene( ISystemScene* systemScene ) { m_systemScenes[ systemScene->GetType( ) ] = systemScene; }
+		inline void AddSystemScene( ISystemScene* systemScene ) { m_systemScenes.insert( std::make_pair( systemScene->GetType( ), systemScene ) ); }
 		
 		
 		/*! Gets a list of internal system scenes
 		*
 		*  @return (const SystemSceneMap&)
 		*/
-		inline const SystemSceneMap& GetSystemScenes( ) const { return m_systemScenes; };
+		inline const ISystemScene::SystemSceneMap& GetSystemScenes( ) const { return m_systemScenes; };
 
 
 		/*! Steps the world internal data
@@ -90,10 +89,9 @@ namespace State
 
 		std::string m_name;
 		IWorldEntity::WorldEntityList m_entities;
-		SystemSceneMap m_systemScenes;
+		ISystemScene::SystemSceneMap m_systemScenes;
 
 		unsigned int m_lastEntityId;
-		float m_stepAccumulator;
 	};
 };
 

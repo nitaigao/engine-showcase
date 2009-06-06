@@ -13,7 +13,6 @@
 #include "../Events/IEvent.hpp"
 
 #include "ScriptConfiguration.h"
-#include "SoundController.h"
 #include "IScriptSystemScene.hpp"
 #include "IScriptComponent.hpp"
 

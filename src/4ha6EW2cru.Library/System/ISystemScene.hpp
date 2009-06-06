@@ -21,7 +21,8 @@ class ISystemScene
 
 public:
 
-	typedef std::map< System::Types::Type, ISystemScene* > SystemSceneMap;
+	typedef std::vector< ISystemScene* > SystemSceneList;
+	typedef std::map< int, ISystemScene* > SystemSceneMap;
 
 	/*! Default Destructor
 	 *
@@ -75,9 +76,5 @@ public:
 	 */
 	virtual void DestroyComponent( ISystemComponent* component ) = 0;
 };
-
-typedef std::map< System::Types::Type, ISystemScene* > SystemSceneMap;
-typedef std::vector< ISystemScene* > SystemSceneList;
-
 
 #endif

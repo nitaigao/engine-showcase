@@ -21,7 +21,7 @@ namespace Physics
 		std::string name = _name;
 		if ( m_body != 0 )
 		{
-			_scene->GetWorld( )->removeEntity( m_body );
+			_scene->GetSystem( )->GetWorld( )->removeEntity( m_body );
 		}
 
 		if ( m_loadedData != 0 )
@@ -32,9 +32,9 @@ namespace Physics
 
 	void PhysicsSystemComponent::Initialize( )
 	{
-		std::string bodyPath = m_attributes[ System::Attributes::Body ].As< std::string >( );
+		std::string bodyPath = m_attributes[ System::Parameters::Body ].As< std::string >( );
 
-		IResource* resource = Management::GetInstance( )->GetResourceManager( )->GetResource( bodyPath );
+		IResource* resource = Management::GetResourceManager( )->GetResource( bodyPath );
 
 		hkIstream istreamFromMemory( resource->GetFileBuffer( )->fileBytes, resource->GetFileBuffer( )->fileLength );
 		hkStreamReader* streamReader = istreamFromMemory.getStreamReader( );
@@ -51,7 +51,7 @@ namespace Physics
 		hkpPhysicsData* physicsData = static_cast< hkpPhysicsData* >( container->findObjectByType( "hkpPhysicsData" ) );
 
 		m_body = physicsData->findRigidBodyByName( _name.c_str( ) );
-		_scene->GetWorld( )->addEntity( m_body );
+		_scene->GetSystem( )->GetWorld( )->addEntity( m_body );
 	}
 
 	AnyType PhysicsSystemComponent::PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters )

@@ -25,7 +25,7 @@ void InputSystemFixture::setUp( )
 
 void InputSystemFixture::tearDown( )
 {
-	Management::GetInstance( )->Release( );
+	Management::Release( );
 }
 
 void InputSystemFixture::Should_Initialize_Properly( )

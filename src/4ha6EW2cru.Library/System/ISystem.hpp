@@ -23,7 +23,8 @@ class ISystem
 
 public:
 
-	typedef std::map< System::Types::Type, ISystem* > SystemMap;
+	typedef std::map< System::Types::Type, ISystem* > SystemTypeMap;
+	typedef std::multimap< System::Queues::Queue, ISystem* > SystemQueueMap;
 
 	/*! Default Destructor
 	*

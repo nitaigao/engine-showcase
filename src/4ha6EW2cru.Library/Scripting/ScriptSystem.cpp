@@ -10,6 +10,10 @@
 #include <luabind/operator.hpp>
 using namespace luabind;
 
+#include "SoundFacade.h"
+#include "InstrumentationFacade.h"
+#include "AnimationFacade.h"
+
 namespace Script
 {
 	ScriptSystem::~ScriptSystem()
@@ -42,11 +46,10 @@ namespace Script
 
 		if( actionName == "loadScript" )
 		{
-			ISystemComponent* systemComponent = m_auxScene->CreateComponent( parameters[ System::Attributes::Name ].As< std::string >( ), "default" );
-			IScriptComponent* scriptComponent = static_cast< IScriptComponent* >( systemComponent );
-			scriptComponent->SetAttribute( System::Attributes::ScriptPath, parameters[ System::Attributes::ScriptPath ].As< std::string >( ) );
-			scriptComponent->Initialize( );
-			results[ "state" ] = scriptComponent->GetState( );
+			ISystemComponent* component = m_auxScene->CreateComponent( parameters[ System::Attributes::Name ].As< std::string >( ), "default" );
+			component->SetAttribute( System::Parameters::ScriptPath, parameters[ System::Parameters::ScriptPath ].As< std::string >( ) );
+			component->Initialize( );
+			results[ "component" ] = component;
 		}
 
 		if ( actionName == "unloadComponent" )
@@ -62,7 +65,9 @@ namespace Script
 
 		if ( actionName == System::Messages::RegisterScriptFunctions )
 		{
-			module( parameters[ System::Attributes::ScriptState ].As< lua_State* >( ) )
+			lua_State* luaState = parameters[ System::Parameters::ScriptState ].As< lua_State* >( );
+			
+			module( luaState )
 			[
 				def( "print", &ScriptSystemScene::Print ),
 				def( "quit", &ScriptSystemScene::Quit ),
@@ -99,12 +104,13 @@ namespace Script
 					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string&, const std::string& ) ) &ScriptComponent::BroadcastEvent )
 					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string&, const int& ) ) &ScriptComponent::BroadcastEvent )
 					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const int& ) ) &ScriptComponent::BroadcastEvent )
-					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const std::string& ) ) &ScriptComponent::BroadcastEvent ),
-
-				class_< SoundController >( "SoundController" )
-					.def( "triggerEvent", &SoundController::TriggerEvent )
-					.def( "keyOutEvent", &SoundController::KeyOutEvent )
+					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const std::string& ) ) &ScriptComponent::BroadcastEvent )
+					
 			];
+
+			SoundFacade::RegisterFunctions( luaState );
+			InstrumentationFacade::RegisterFunctions( luaState );
+			AnimationFacade::RegisterFunctions( luaState );
 		}
 
 		return results;
@@ -124,7 +130,7 @@ namespace Script
 	{
 		if ( message == System::Messages::RegisterService )
 		{
-			Management::GetInstance( )->GetServiceManager( )->RegisterService( this );
+			Management::GetServiceManager( )->RegisterService( this );
 		}
 	}
 }

@@ -49,9 +49,9 @@ namespace Input
 		{
 			for( IInputSystemComponent::InputSystemComponentList::iterator i = m_inputComponents.begin( ); i != m_inputComponents.end( ); ++i  )
 			{
-				( *i )->SetAttribute( System::Attributes::InvertYAxis, m_configuration->Find( System::ConfigSections::Input, "inverty" ).As< bool >( ) );
-				( *i )->SetAttribute( System::Attributes::SmoothMouse, m_configuration->Find( System::ConfigSections::Input, "smoothmouse" ).As< bool >( ) );
-				( *i )->SetAttribute( System::Attributes::MouseSensitivity, m_configuration->Find( System::ConfigSections::Input, "mousesmooth_amount" ).As< int >( ) );
+				( *i )->SetAttribute( System::Parameters::InvertYAxis, m_configuration->Find( System::ConfigSections::Input, "inverty" ).As< bool >( ) );
+				( *i )->SetAttribute( System::Parameters::SmoothMouse, m_configuration->Find( System::ConfigSections::Input, "smoothmouse" ).As< bool >( ) );
+				( *i )->SetAttribute( System::Parameters::MouseSensitivity, m_configuration->Find( System::ConfigSections::Input, "mousesmooth_amount" ).As< int >( ) );
 				( *i )->Update( deltaMilliseconds );
 			}
 
@@ -65,7 +65,15 @@ namespace Input
 		if ( arg.key != OIS::KC_GRAVE )
 		{
 			Event* event = new Event( INPUT_KEY_DOWN, new KeyEventData( arg.key, m_system->GetKeyboard( )->getAsString( arg.key ) ) );
-			Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
+			Management::GetEventManager( )->TriggerEvent( event );
+
+			if ( m_inputAllowed )
+			{
+				for( IInputSystemComponent::InputSystemComponentList::iterator i = m_inputComponents.begin( ); i != m_inputComponents.end( ); ++i  )
+				{
+					( *i )->KeyPressed( arg );
+				}
+			}
 		}
 
 		return true;
@@ -75,20 +83,28 @@ namespace Input
 	{
 		if ( arg.key == OIS::KC_GRAVE )
 		{
-			Management::GetInstance( )->GetEventManager( )->TriggerEvent( new ScriptEvent( "UI_CONSOLE" ) );
+			Management::GetEventManager( )->TriggerEvent( new ScriptEvent( "UI_CONSOLE" ) );
 		}
 		else if ( arg.key == OIS::KC_F12 )
 		{
-			IService* renderService = Management::GetInstance( )->GetServiceManager( )->FindService( System::Types::RENDER );
+			IService* renderService = Management::GetServiceManager( )->FindService( System::Types::RENDER );
 			renderService->Execute( "screenShot", AnyType::AnyTypeMap( ) );
 		}
 		else
 		{
 			IEvent* scriptEvent = new ScriptEvent( "INPUT_KEY_UP", arg.key, m_system->GetKeyboard( )->getAsString( arg.key ) );
-			Management::GetInstance( )->GetEventManager( )->TriggerEvent( scriptEvent );
+			Management::GetEventManager( )->TriggerEvent( scriptEvent );
 
 			IEvent* event = new Event( INPUT_KEY_UP, new KeyEventData( arg.key, m_system->GetKeyboard( )->getAsString( arg.key ) ) );
-			Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
+			Management::GetEventManager( )->TriggerEvent( event );
+
+			if ( m_inputAllowed )
+			{
+				for( IInputSystemComponent::InputSystemComponentList::iterator i = m_inputComponents.begin( ); i != m_inputComponents.end( ); ++i  )
+				{
+					( *i )->KeyReleased( arg );
+				}
+			}
 		}
 
 		return true;
@@ -97,7 +113,15 @@ namespace Input
 	bool InputSystemScene::MouseMoved( const MouseEvent &arg )
 	{
 		Event* event = new Event( INPUT_MOUSE_MOVED, new MouseEventData( arg.state, OIS::MB_Left ) );
-		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
+		Management::GetEventManager( )->TriggerEvent( event );
+
+		if ( m_inputAllowed )
+		{
+			for( IInputSystemComponent::InputSystemComponentList::iterator i = m_inputComponents.begin( ); i != m_inputComponents.end( ); ++i  )
+			{
+				//( *i )->MouseMoved( arg );
+			}
+		}
 
 		return true;
 	}
@@ -113,7 +137,7 @@ namespace Input
 		}
 
 		Event* event = new Event( INPUT_MOUSE_PRESSED, new MouseEventData( arg.state, id ) );
-		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
+		Management::GetEventManager( )->TriggerEvent( event );
 
 		return true;
 	}
@@ -129,7 +153,7 @@ namespace Input
 		}
 
 		Event* event = new Event( INPUT_MOUSE_RELEASED, new MouseEventData( arg.state, id ) );
-		Management::GetInstance( )->GetEventManager( )->TriggerEvent( event );
+		Management::GetEventManager( )->TriggerEvent( event );
 
 		return true;
 	}

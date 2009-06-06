@@ -9,7 +9,7 @@ namespace Serialization
 {
 	ISystemComponent* GeometryComponentSerializer::DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes )
 	{
-		SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::GEOMETRY );
+		ISystemScene::SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::GEOMETRY );
 
 		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
 	

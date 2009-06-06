@@ -18,7 +18,7 @@ void ScriptSystem_Tests::setUp()
 
 void ScriptSystem_Tests::tearDown()
 {
-	Management::GetInstance( )->Release( );
+	Management::Release( );
 }
 
 void ScriptSystem_Tests::Should_Initialize_Correctly()

@@ -28,12 +28,14 @@ public:
 
 	typedef std::deque< ISystemComponent* > SystemComponentList;
 	typedef std::map< std::string, ISystemComponent* > SystemComponentMap;
+	typedef std::multimap< std::string, ISystemComponent* > SystemComponentMultiMap;
 
 	/*! Default Destructor
 	 *
 	 *  @return ()
 	 */
 	virtual ~ISystemComponent( ) { };
+
 
 	/*! Initializes the Component
 	*

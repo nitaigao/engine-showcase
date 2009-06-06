@@ -37,7 +37,7 @@ public:
 	*  @param[in] ISystem * system
 	*  @return (void)
 	*/
-	void RegisterSystem( ISystem* system );
+	void RegisterSystem( const System::Queues::Queue& systemQueue, ISystem* system );
 
 
 	/*! Gets a Registered System
@@ -86,7 +86,8 @@ public:
 
 private:
 
-	ISystem::SystemMap _systems;
+	ISystem::SystemTypeMap _systemsByType;
+	ISystem::SystemQueueMap _systemsByQueue;
 
 	SystemManager( const SystemManager & copy ) { };
 	SystemManager & operator = ( const SystemManager & copy ) { return *this; };

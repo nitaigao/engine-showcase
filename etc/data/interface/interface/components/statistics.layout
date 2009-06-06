@@ -1,7 +1,18 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout">
-    <Widget type="StaticText" skin="StaticText" position_real="0.675 0 0.325 0.02" align="Right Top" layer="Main" name="statistics">
-        <Property key="Widget_Caption" value="-- Statistics --"/>
-        <Property key="Text_TextAlign" value="Right VCenter"/>
+    <Widget type="Window" skin="WindowC" position_real="0.877344 0.37 0.1125 0.21" align="Right VCenter" layer="Popup">
+        <Property key="Widget_Caption" value="Statistics"/>
+        <Widget type="StaticText" skin="StaticText" position="12 15 136 17" name="statistics_fps">
+            <Property key="Widget_Caption" value="FPS: 0"/>
+        </Widget>
+        <Widget type="StaticText" skin="StaticText" position="12 41 140 15" name="statistics_render">
+            <Property key="Widget_Caption" value="Render: 0"/>
+        </Widget>
+        <Widget type="StaticText" skin="StaticText" position="12 89 140 15" name="statistics_house">
+            <Property key="Widget_Caption" value="House: 0"/>
+        </Widget>
+        <Widget type="StaticText" skin="StaticText" position="12 65 140 16" name="statistics_logic">
+            <Property key="Widget_Caption" value="Logic: 0"/>
+        </Widget>
     </Widget>
 </MyGUI>

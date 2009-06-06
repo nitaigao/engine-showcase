@@ -5,8 +5,7 @@ script:include( '/data/entities/scripts/entities/character.lua' )
 ----------------------------------------------------------------
 
 Player = {
-	movementSet = false,
-	attackSet = false
+	actions = { }
 }
 
 extend( Player, Character )
@@ -30,6 +29,7 @@ function Player.onEvent( eventName, var1, var2 )
 	if ( eventName == 'WORLD_LOADING_FINISHED' ) then
 	
 		sfx:triggerEvent( 'game/environment/ambience' )
+		animation:startAnimation( 'stopped', true )
 	
 	end
 	
@@ -48,80 +48,88 @@ function Player.onEvent( eventName, var1, var2 )
 		
 		end
 		
-		if ( eventName == 'ACTOR_IDLE_ATTACK' ) then
+		-- Attack --
 		
-			attackSet = false
-			movementSet = false -- need to switch to a movement animation
-			player:stopFiringWeapon( );
+		attackSet = false
+		
+		if ( eventName == '+attack_primary' ) then 
+		
+			player:fireWeapon( )
+			animation:startAnimation( 'hit', true )
+			
+			return
 		
 		end
 		
-		if ( eventName == 'ACTOR_FIRED' ) then 
-		
-			player:fireWeapon( )
-			script:playAnimation( 'hit', true )
-			attackSet = true
+		if ( eventName == '-attack_primary' ) then 
+			
+			player:stopFiringWeapon( );
+			animation:stopAnimation( 'hit' )
 		
 		end
 		
 		-- Movement --
 		
-		if ( eventName == 'ACTOR_IDLE_MOVEMENT' ) then
+		movementSet = false
 		
-			movementSet = false
+		if( eventName == '-strafe_right' ) then
+		
+			animation:stopAnimation( 'strafe_right' )
+		
+		end
+		
+		if( eventName == '+strafe_right' ) then
+
+			animation:startAnimation( 'strafe_right', true )
+			--sfx:triggerEvent( 'game/biped/running' )
 			
-			if( not attackSet ) then
-				script:playAnimation( 'stopped', false )
-			end
-			
-			sfx:keyOutEvent( 'game/biped/running' )
 			return
 		
 		end
 		
-		if( eventName == 'ACTOR_STRAFE_RIGHT' and not movementSet ) then
-
-			if( not attackSet ) then
-				script:playAnimation( 'strafe_right', true )
-			end
-
-			sfx:triggerEvent( 'game/biped/running' )
-			movementSet = true
+		if( eventName == '-strafe_left' ) then
+		
+			animation:stopAnimation( 'stafe_left' )
 		
 		end
 		
-		if( eventName == 'ACTOR_STRAFE_LEFT' and not movementSet ) then
+		if( eventName == '+strafe_left' ) then
 		
-			if( not attackSet ) then
-				script:playAnimation( 'stafe_left', true )
-			end
-
-			sfx:triggerEvent( 'game/biped/running' )
-			movementSet = true
-		
-		end
-		
-		if( eventName == 'ACTOR_MOVE_FORWARD' and not movementSet ) then
+			animation:startAnimation( 'stafe_left', true )
+			--sfx:triggerEvent( 'game/biped/running' )
 			
-			if( not attackSet ) then
-				script:playAnimation( 'run_forward', true )
-			end
-			
-			sfx:triggerEvent( 'game/biped/running' )
-			movementSet = true
+			return
 		
 		end
 		
-		if( eventName == 'ACTOR_MOVE_BACKWARD' and not movementSet ) then
-		
-			if( not attackSet ) then
-				script:playAnimation( 'run_backward', true )
-			end
+		if( eventName == '-move_forward' ) then
 			
-			sfx:triggerEvent( 'game/biped/running' )
-			movementSet = true
+			animation:stopAnimation( 'run_forward' )
 		
 		end
+		
+		if( eventName == '+move_forward' ) then
+			
+			animation:startAnimation( 'run_forward', true )
+			--sfx:triggerEvent( 'game/biped/running' )
+		
+		end
+		
+		if( eventName == '-move_backward' ) then
+		
+			animation:stopAnimation( 'run_backward' )
+		
+		end
+		
+		if( eventName == '+move_backward' ) then
+		
+			animation:startAnimation( 'run_backward', true )
+			--sfx:triggerEvent( 'game/biped/running' )
+			
+			return
+		
+		end
+		
 		
 	end
 
