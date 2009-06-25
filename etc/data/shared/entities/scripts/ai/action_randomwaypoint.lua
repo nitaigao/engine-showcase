@@ -35,7 +35,8 @@ function RandomWaypointAction:update( deltaMilliseconds )
 		ai:navigateTo( self.waypointQueue[ 1 ] )
 		table.remove( self.waypointQueue, 1 )
 		
-		ai:playAnimation( 'run_forward', true )
+		animation:playAnimation( 'run_forward', true )
+		print( 'run_forward' )
 	
 	end
 	

@@ -2,6 +2,8 @@
 
 using namespace Maths;
 
+#include "AnimationBlender.h"
+
 #include "../IO/IResource.hpp"
 using namespace Resources;
 
@@ -25,6 +27,9 @@ using namespace Resources;
 #include <Animation/Animation/Mapper/hkaSkeletonMapperData.h>
 #include <Animation/Animation/Mapper/hkaSkeletonMapperUtils.h>
 
+#include <Animation/Animation/Ik/Ccd/hkaCcdIkSolver.h>
+#include <Animation/Animation/Ik/TwoJoints/hkaTwoJointsIkSolver.h>
+
 #include <Ogre.h>
 #include <OgreTagpoint.h>
 using namespace Ogre;
@@ -33,17 +38,24 @@ namespace Animation
 {
 	AnimationSystemComponent::~AnimationSystemComponent()
 	{
-		if ( m_loadedData != 0 )
+		for( LoadedDataList::iterator i = m_loadedData.begin( ); i != m_loadedData.end( ); ++i )
 		{
-			m_loadedData->removeReference( );
+			( *i )->removeReference( );
+		}
+
+		if ( m_animationBlender != 0 )
+		{
+			delete m_animationBlender;
+			m_animationBlender = 0;
 		}
 	}
 
 	void AnimationSystemComponent::Initialize( )
 	{
-		std::string rigPath = "/data/entities/animations/player_Idle.hkx";
+		m_animationBlender = new AnimationBlender( );
 
-		IResource* resource = Management::GetResourceManager( )->GetResource( rigPath );
+		std::string bindPose = m_attributes[ System::Attributes::Animation::BindPose ].As< std::string >( );
+		IResource* resource = Management::GetResourceManager( )->GetResource( bindPose );
 
 		hkIstream istreamFromMemory( resource->GetFileBuffer( )->fileBytes, resource->GetFileBuffer( )->fileLength );
 		hkStreamReader* streamReader = istreamFromMemory.getStreamReader( );
@@ -53,8 +65,9 @@ namespace Animation
 
 		hkVersionUtil::updateToCurrentVersion( reader, hkVersionRegistry::getInstance() );
 
-		m_loadedData = reader.getPackfileData( );
-		m_loadedData->addReference( );
+		hkPackfileData* loadedData = reader.getPackfileData( );
+		m_loadedData.push_back( loadedData );
+		loadedData->addReference( );
 
 		hkRootLevelContainer* container = static_cast< hkRootLevelContainer* >( reader.getContents( "hkRootLevelContainer" ) );
 		hkaAnimationContainer* animationContainer = reinterpret_cast< hkaAnimationContainer* >( container->findObjectByType( hkaAnimationContainerClass.getName( ) ) );
@@ -62,11 +75,19 @@ namespace Animation
 		m_skeleton = animationContainer->m_skeletons[ 0 ];
 		m_skeletonInstance = new hkaAnimatedSkeleton( m_skeleton );
 
-		this->LoadAnimation( "idle", "/data/entities/animations/player_Idle.hkx" );
-		this->LoadAnimation( "run_forward", "/data/entities/animations/player_run_forward.hkx" );
+		typedef std::map< std::string, std::string > AnimationList;
+		AnimationList animations = m_attributes[ System::Attributes::Animation::Animations ].As< AnimationList >( );
 
-		m_animationControls[ "idle" ]->setMasterWeight( 0.5f );
-		m_animationControls[ "run_forward" ]->setMasterWeight( 0.5f );
+		for( AnimationList::iterator i = animations.begin( ); i != animations.end( ); ++i )
+		{
+			this->LoadAnimation( ( *i ).first, ( *i ).second );
+		}
+
+		m_animationBlender->Blend( m_attributes[ System::Attributes::Animation::DefaultAnimation ].As< std::string >( ) );
+
+		m_attributes[ System::Attributes::LookAt ] = MathVector3::Zero( );
+		m_attributes[ System::Attributes::Position ] = MathVector3::Zero( );
+		m_attributes[ System::Attributes::POI ] = MathVector3::Zero( );
 	}
 
 	void AnimationSystemComponent::LoadAnimation( const std::string& animationName, const std::string& animationPath )
@@ -81,8 +102,9 @@ namespace Animation
 
 		hkVersionUtil::updateToCurrentVersion( reader, hkVersionRegistry::getInstance() );
 
-		m_loadedData = reader.getPackfileData( );
-		m_loadedData->addReference( );
+		hkPackfileData* loadedData = reader.getPackfileData( );  
+		m_loadedData.push_back( loadedData );
+		loadedData->addReference( );
 
 		hkRootLevelContainer* container = static_cast< hkRootLevelContainer* >( reader.getContents( "hkRootLevelContainer" ) );
 		hkaAnimationContainer* animationContainer = reinterpret_cast< hkaAnimationContainer* >( container->findObjectByType( hkaAnimationContainerClass.getName( ) ) );
@@ -95,7 +117,7 @@ namespace Animation
 		control->setPlaybackSpeed( 1.0f );
 
 		m_skeletonInstance->addAnimationControl( control );
-		m_animationControls.insert( std::make_pair( animationName, control ) );
+		m_animationBlender->RegisterController( animationName, control );
 		control->removeReference( );
 	}
 
@@ -106,48 +128,50 @@ namespace Animation
 		if ( message == System::Messages::AddedToComponent )
 		{
 			AnyType::AnyTypeKeyMap results = this->PushMessage( System::Messages::GetAnimationState, AnyType::AnyTypeMap( ) ).As< AnyType::AnyTypeKeyMap >( );
-			m_ogreSkeleton = results[ System::Types::RENDER ].As< Ogre::SkeletonInstance* >( );
+			m_ogreSkeletons = results[ System::Types::RENDER ].As< SkeletonList >( );
 		}
 
-		/*if ( message == System::Messages::StartAnimation )
+		if ( message == System::Messages::StartAnimation )
 		{
-			AnyType::AnyTypeKeyMap results = this->PushMessage( System::Messages::GetAnimationState, parameters ).As< AnyType::AnyTypeKeyMap >( );
-			
-			Renderer::IAnimationController* controller = results[ System::Types::RENDER ].As< Renderer::IAnimationController* >( );
-			
-			controller->SetTime( 0 );
-			controller->SetLoop( parameters[ System::Parameters::LoopAnimation ].As< bool >( ) );
-			controller->SetEnabled( true );
-
-			IAnimationNode* node = new AnimationNode( controller );
-			m_animationTree->AddNode( node );
+			m_animationBlender->Blend( parameters[ System::Parameters::AnimationName ].As< std::string >( ) );
 		}
 
 		if ( message == System::Messages::StopAnimation )
 		{
-			std::string animationName = parameters[ System::Parameters::AnimationName ].As< std::string >( );
-			IAnimationNode* node = m_animationTree->RemoveNode( animationName );
-			Renderer::IAnimationController* controller = node->GetAnimationController( );
-			controller->SetEnabled( false );
-			delete node;
-		}*/
+			m_animationBlender->UnBlend( parameters[ System::Parameters::AnimationName ].As< std::string >( ) );
+		}
+
+		if ( message == System::Messages::SetLookAt )
+		{
+			m_attributes[ System::Attributes::LookAt ] = parameters[ System::Attributes::LookAt ].As< MathVector3 >( );
+			m_attributes[ System::Attributes::POI ] = parameters[ System::Attributes::POI ].As< MathVector3 >( );
+		}
+
+		if ( message == System::Messages::SetPosition )
+		{
+			m_attributes[ System::Attributes::Position ] = parameters[ System::Attributes::Position ].As< MathVector3 >( );
+		}
 
 		return result;
 	}
 
 	void AnimationSystemComponent::Update( const float& deltaMilliseconds )
 	{
+		m_animationBlender->Update( deltaMilliseconds );
+
 		m_skeletonInstance->stepDeltaTime( deltaMilliseconds );
 
 		hkaPose* pose = new hkaPose( m_skeleton );
 		m_skeletonInstance->sampleAndCombineAnimations( pose->accessUnsyncedPoseLocalSpace( ).begin( ),pose->getFloatSlotValues( ).begin( ) );
 
-		Ogre::Skeleton::BoneIterator boneIterator = m_ogreSkeleton->getRootBoneIterator( );
-
-		while( boneIterator.hasMoreElements( ) )
+		for ( SkeletonList::iterator i = m_ogreSkeletons.begin( ); i != m_ogreSkeletons.end( ); ++i )
 		{
-			Ogre::Bone* oBone = boneIterator.getNext( );
-			this->TransformBone( pose, oBone );
+			Skeleton::BoneIterator rightBoneIterator = ( *i )->getRootBoneIterator( );
+
+			while( rightBoneIterator.hasMoreElements( ) )
+			{
+				this->TransformBone( pose, rightBoneIterator.getNext( ) );
+			}
 		}
 	}
 
@@ -174,6 +198,5 @@ namespace Animation
 			}
 		}
 	}
-
 	
 }

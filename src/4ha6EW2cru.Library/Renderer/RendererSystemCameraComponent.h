@@ -63,10 +63,6 @@ namespace Renderer
 
 		virtual AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters );
 
-	protected:
-
-		void InitializeSceneNode( Ogre::SceneNode* sceneNode );
-
 	private:
 
 		RendererSystemCameraComponent( ) { };

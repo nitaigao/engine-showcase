@@ -17,17 +17,35 @@ namespace Serialization
 		componentNode[ "type" ] >> type;
 
 		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, type );
+		std::map< std::string, std::string > animations;
 
 		for( YAML::Iterator componentProperty = componentNode.begin( ); componentProperty != componentNode.end( ); ++componentProperty ) 
 		{
-			std::string propertyKey, propertyValue;
+			if ( componentProperty.second().GetType( ) == YAML::CT_MAP )
+			{
+				for( YAML::Iterator animationNode = componentProperty.second( ).begin( ); animationNode != componentProperty.second( ).end( ); ++animationNode ) 
+				{
+					std::string animationName, animationPath;
 
-			componentProperty.first( ) >> propertyKey;
-			componentProperty.second( ) >> propertyValue;
+					animationNode.first( ) >> animationName;
+					animationNode.second( ) >> animationPath;
 
-			systemComponent->SetAttribute( propertyKey, propertyValue );
+					animations.insert( std::make_pair( animationName, animationPath ) );
+				}
+			}
+			else
+			{
+				std::string propertyKey, propertyValue;
+
+				componentProperty.first( ) >> propertyKey;
+				componentProperty.second( ) >> propertyValue;
+
+				systemComponent->SetAttribute( propertyKey, propertyValue );
+			}
 		}
 
+
+		systemComponent->SetAttribute( System::Attributes::Animation::Animations , animations );
 		systemComponent->Initialize( );
 
 		return systemComponent;

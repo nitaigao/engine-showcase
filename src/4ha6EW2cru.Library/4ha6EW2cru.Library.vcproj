@@ -210,11 +210,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Renderer\AnimationBlender.cpp"
+			RelativePath=".\Animation\AnimationBlender.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Renderer\AnimationBlender.h"
+			RelativePath=".\Animation\AnimationBlender.h"
 			>
 		</File>
 		<File
@@ -598,7 +598,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Renderer\IAnimationBlender.hpp"
+			RelativePath=".\Animation\IAnimationBlender.hpp"
 			>
 		</File>
 		<File

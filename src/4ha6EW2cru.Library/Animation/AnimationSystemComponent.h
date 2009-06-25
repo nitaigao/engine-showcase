@@ -19,6 +19,9 @@
 #include <Animation/Animation/Deform/Skinning/hkaMeshBinding.h>
 #include <Animation/Animation/Playback/Control/Default/hkaDefaultAnimationControl.h>
 
+#include "IAnimationBlender.hpp"
+
+#include "../Logging/Logger.h"
 
 namespace Animation
 {
@@ -28,9 +31,11 @@ namespace Animation
 	class AnimationSystemComponent : public IAnimationSystemComponent
 	{
 
+		typedef std::deque< hkPackfileData* > LoadedDataList;
 		typedef std::deque< hkaAnimationBinding* > AnimationBindingList;
 		typedef std::deque< hkaAnimation* > AnimationList;
 		typedef std::map< std::string, hkaDefaultAnimationControl* > AnimationControlList;
+		typedef std::deque< Ogre::Skeleton* > SkeletonList;
 
 	public:
 
@@ -49,7 +54,7 @@ namespace Animation
 			: m_scene( scene )
 			, m_observer( 0 )
 			, m_skeletonInstance( 0 )
-			, m_loadedData( 0 )
+			, m_animationBlender( 0 )
 		{ 
 		
 		};
@@ -131,16 +136,67 @@ namespace Animation
 
 		IObserver* m_observer;
 
-		hkPackfileData* m_loadedData;
+		LoadedDataList m_loadedData;
+		IAnimationBlender* m_animationBlender;
+
 		hkaSkeleton* m_skeleton;
 		hkaAnimatedSkeleton* m_skeletonInstance;
 
 		AnimationList m_animations;
 		AnimationBindingList m_animationBindings;
-		AnimationControlList m_animationControls;
 
-		Ogre::SkeletonInstance* m_ogreSkeleton;
-		
+		SkeletonList m_ogreSkeletons;
+	};
+
+	class SkeletonUtils
+	{
+
+	public:
+
+		static Ogre::Node* FindNode( const std::string& name, Ogre::Skeleton* skeleton )
+		{
+			Ogre::Skeleton::BoneIterator boneIterator = skeleton->getRootBoneIterator( );
+
+			Ogre::Node* node = 0;
+
+			while( boneIterator.hasMoreElements( ) )
+			{
+				node = SkeletonUtils::_FindChild( name, boneIterator.getNext( ) );
+
+				if ( node )
+				{
+					return node;
+				}
+			}
+
+			return node;
+		}
+
+	private:
+
+		static Ogre::Node* _FindChild( const std::string& name, Ogre::Node* node )
+		{
+			if ( node->getName( ) == name )
+			{
+				return node;
+			}
+
+			Ogre::Node::ChildNodeIterator children = node->getChildIterator( );
+
+			Ogre::Node* child = 0;
+
+			while( children.hasMoreElements( ) )
+			{
+				child = SkeletonUtils::_FindChild( name, children.getNext( ) );
+
+				if( child )
+				{
+					return child;
+				}
+			}
+
+			return child;
+		}
 	};
 };
 

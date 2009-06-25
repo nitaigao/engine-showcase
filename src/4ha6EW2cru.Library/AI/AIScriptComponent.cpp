@@ -137,7 +137,7 @@ namespace AI
 		}
 		else
 		{
-			assert( 0 && "" );
+			//assert( 0 && "" );
 			//this->PushMessage( System::Messages::Move_Idle, AnyType::AnyTypeMap( ) );
 		}
 	}

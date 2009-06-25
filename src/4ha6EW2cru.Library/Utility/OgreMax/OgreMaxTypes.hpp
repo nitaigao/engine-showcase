@@ -977,6 +977,7 @@ namespace OgreMax
                     Ogre::Bone* bone = skeleton->getBone(this->boneName);
                     //TODO: Modify Ogre to accept name when creating TagPoint
                     Ogre::TagPoint* tagPoint = skeleton->createTagPointOnBone(bone);
+					tagPoint->setName( name );
                     tagPoint->setPosition(this->attachPosition);
                     tagPoint->setScale(this->attachScale);
                     tagPoint->setOrientation(this->attachRotation);

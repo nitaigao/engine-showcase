@@ -272,7 +272,7 @@ function Options.setupMessageBindings( )
 	local keymapList = ux:findWidget( 'options_keylist' ):asMultiList( )
 	keymapList:removeAllItems( )
 	
-	local messageBinding = ux:getMessageBinding( 'attack_primary' )
+	local messageBinding = ux:getMessageBinding( '+attack_primary' )
 	
 	keymapList:addItem( '' )
 	keymapList:setSubItemName( 1, 0, 'Primary Attack' )
@@ -281,28 +281,28 @@ function Options.setupMessageBindings( )
 	
 	keymapList:addItem( '' )
 	
-	messageBinding = ux:getMessageBinding( 'move_forward' )
+	messageBinding = ux:getMessageBinding( '+move_forward' )
 	
 	keymapList:addItem( '' )
 	keymapList:setSubItemName( 1, 2, 'Move Forward' )
 	keymapList:setSubItemName( 2, 2, messageBinding:getText( ) )
 	keymapList:setSubItemName( 3, 2, messageBinding:getMessage( ) )
 	
-	messageBinding = ux:getMessageBinding( 'move_backward' )
+	messageBinding = ux:getMessageBinding( '+move_backward' )
 	
 	keymapList:addItem( '' )
 	keymapList:setSubItemName( 1, 3, 'Move Backwards' )
 	keymapList:setSubItemName( 2, 3, messageBinding:getText( ) )
 	keymapList:setSubItemName( 3, 3, messageBinding:getMessage( ) )
 	
-	messageBinding = ux:getMessageBinding( 'strafe_left' )
+	messageBinding = ux:getMessageBinding( '+strafe_left' )
 	
 	keymapList:addItem( '' )
 	keymapList:setSubItemName( 1, 4, 'Strafe Left' )
 	keymapList:setSubItemName( 2, 4, messageBinding:getText( ) )
 	keymapList:setSubItemName( 3, 4, messageBinding:getMessage( ) )
 	
-	messageBinding = ux:getMessageBinding( 'strafe_right' )
+	messageBinding = ux:getMessageBinding( '+strafe_right' )
 	
 	keymapList:addItem( '' )
 	keymapList:setSubItemName( 1, 5, 'Strafe Right' )

@@ -9,6 +9,7 @@ file = File.new( sourcePath )
 $workingDirectory = File.dirname( sourcePath )
 $levelName = File.basename( sourcePath, '.scene' )
 $basePath = $workingDirectory
+$sharedPath = File.join( $basePath, '../../shared/entities' )
 
 $bodiesFullPath = $basePath + '/bodies'
 $texturesFullPath = $basePath + '/textures'
@@ -22,6 +23,7 @@ $texturesGamePath = $baseGamePath + '/textures'
 $meshesGamePath = $baseGamePath + '/meshes'
 $modelsGamePath = $baseGamePath + '/models'
 $scriptsGamePath = $baseGamePath + '/scripts'
+$animationsGamePath = $baseGamePath + '/animations'
 
 $entityLinks = Array.new
 
@@ -266,6 +268,60 @@ class GraphicsComponent < Component
 
 end
 
+class AnimationComponent < Component
+
+	def initialize( ogreNode )
+	
+		super( 'animation' )
+		
+		@animations = Hash.new
+		
+		animationsPath = ogreNode.elements[ './/animationPath' ]
+		
+		if ( animationsPath.text != nil )
+		
+			fileExtension = '.hkx'
+			fullAnimationPath = File.join( $sharedPath, animationsPath.text )
+			searchPath = File.join( fullAnimationPath, '*' + fileExtension )
+			
+			Dir.glob( searchPath ).each { | file |
+			
+				fileName = File.basename( file )
+				seperatorIndex = fileName.index( '_' )
+				extensionIndex = fileName.index( fileExtension )
+				animationName = fileName[ seperatorIndex + 1, extensionIndex - seperatorIndex - 1 ].downcase
+				animationPath = File.join( $baseGamePath, animationsPath.text, fileName )
+			
+				@animations[ animationName ] = animationPath
+			
+			}
+			
+			bindPosePath = ogreNode.elements[ './/bindPose' ]
+		
+			if ( bindPosePath.text != nil )
+			
+				@bindPose = File.join( $baseGamePath, animationsPath.text, bindPosePath.text )
+			
+			end
+			
+			defaultAnimation = ogreNode.elements[ './/defaultAnimation' ]
+		
+			if ( defaultAnimation.text != nil )
+			
+				fileName = File.basename( defaultAnimation.text )
+				seperatorIndex = fileName.index( '_' )
+				extensionIndex = fileName.index( fileExtension )
+				@defaultAnimation = fileName[ seperatorIndex + 1, extensionIndex - seperatorIndex - 1 ].downcase
+			
+			end
+			
+	
+		end
+	
+	end
+
+end
+
 class ScriptComponent < Component
 
 	def initialize( ogreNode )
@@ -475,6 +531,14 @@ class Entity
 		
 		end
 		
+		attachAnimation = ogreNode.elements[ './/userData/components/attachAnimation' ]
+		
+		if ( attachAnimation != nil && attachAnimation.text == 'true')
+			
+			@components.push( AnimationComponent.new( ogreNode ) )
+		
+		end
+		
 		attachInput = ogreNode.elements[ './/userData/components/attachInput' ]
 		
 		if ( attachInput != nil && attachInput.text == 'true' )
@@ -636,71 +700,6 @@ def createLinks( xmlRoot )
 
 end
 
-def processMaterials( materialsPath )
-
-	materialsDir = Dir.new( materialsPath )
-	materialsDir.each { | entry |
-	
-		if ( entry.to_s.include? ".material" ) then
-		
-			materialFilePath = File.join( materialsPath, entry )
-		
-			materialFile = File.new( materialFilePath, 'r+' )
-			materialContents = materialFile.read( )
-			
-			if ( !materialContents.to_s.include? $texturesGamePath )
-			
-				materialContents = materialContents.gsub(/([A-Za-z0-9_\-\.]*)(jpg|tga|bmp|gif)/, $texturesGamePath + '/\0 ')
-				#materialContents = materialContents.gsub( "\ttexture ", "\ttexture " + $texturesGamePath + '/' )
-				
-				materialFile.close( )
-				
-				materialFile = File.new( materialFilePath, 'w' )
-				materialFile.write( materialContents )
-				materialFile.close( )
-				
-				puts 'Processed Material: ' + entry
-				
-			end
-			
-		end
-	}
-
-end
-
-def processMeshes( meshesPath )
-
-	meshesDir = Dir.new( meshesPath )
-	meshesDir.each { | entry |
-	
-		if ( entry.to_s.include? ".mesh" ) then
-		
-			meshFilePath = File.join( meshesPath, entry )
-		
-			meshFile = File.new( meshFilePath, 'rb+' )
-			meshContents = meshFile.read( )
-			
-			skeletonFilename = File.basename( entry, '.mesh' ) + '.skeleton'
-			
-			if ( !meshContents.to_s.include? $meshesGamePath )
-			
-				meshContents = meshContents.gsub( skeletonFilename, $meshesGamePath + '/' + skeletonFilename )
-				meshFile.close( )
-				
-				meshFile = File.new( meshFilePath, 'wb' )
-				meshFile.write( meshContents )
-				meshFile.close( )
-				
-				puts 'Processed Mesh: ' + entry
-			
-			end
-			
-		end
-		
-	}
-
-end
-
 def createBaseStructure( )
 
 	FileUtils.mkdir_p( $bodiesFullPath )
@@ -710,15 +709,7 @@ def createBaseStructure( )
 
 end
 
-puts ''
-puts 'Processing Scene Files'
-puts ''
-
-puts ''
-puts 'Processing Scene File: ' + ARGV[ 0 ].to_s
-puts ''
-
-createBaseStructure( )
+----------- big error this is where the paths script should be executed
 
 levelFilePath = File.join( $basePath, $levelName + '.yaml' )
 
@@ -731,28 +722,6 @@ outputFile.write( createLinks( root ).to_yaml )
 outputFile.write( "...\n" )
 outputFile.write( "---\n" )
 outputFile.close( )
-
-puts ''
-puts 'Finished Processing Scene Files'
-puts ''
-
-puts ''
-puts 'Processing Materials'
-puts ''
-
-materialPath = File.join( $workingDirectory, 'materials' )
-processMaterials( materialPath )
-
-puts ''
-puts 'Processing Meshes'
-puts ''
-
-meshesPath = File.join( $workingDirectory, 'meshes' )
-processMeshes( meshesPath )
-
-puts ''
-puts 'Finished Processing Materials'
-puts ''
 
 puts ''
 puts 'Deleting Old Scene File'

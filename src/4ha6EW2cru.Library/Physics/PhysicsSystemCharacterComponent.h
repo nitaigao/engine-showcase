@@ -41,8 +41,10 @@ namespace Physics
 			, m_characterBody( 0 )
 			, m_characterContext( 0 )
 			, m_framesInAir( 0 )
-			, m_forwardBackward( 0 )
-			, m_leftRight( 0 )
+			, m_isMovingForward( false )
+			, m_isMovingBackward( false )
+			, m_isMovingLeft( false )
+			, m_isMovingRight( false )
 			, m_previousGround( new hkpSurfaceInfo( ) )
 		{
 
@@ -73,8 +75,11 @@ namespace Physics
 		hkpCharacterInput m_characterInput;
 		hkpSurfaceInfo* m_previousGround;
 
-		float m_forwardBackward;
-		float m_leftRight;
+		bool m_isMovingForward;
+		bool m_isMovingBackward;
+		bool m_isMovingLeft;
+		bool m_isMovingRight;
+
 		int m_framesInAir;
 
 		PhysicsSystemCharacterComponent & operator = ( const PhysicsSystemCharacterComponent & copy ) { return *this; };

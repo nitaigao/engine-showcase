@@ -10,7 +10,6 @@
 #include <Ogre.h>
 
 #include "IRendererSystemComponent.hpp"
-#include "IAnimationBlender.hpp"
 #include "IRenderSystemScene.h"
 #include "IAnimationController.hpp"
 
@@ -21,6 +20,8 @@ namespace Renderer
 	 */
 	class RendererSystemComponent : public IRendererSystemComponent
 	{
+
+		typedef std::deque< Ogre::Skeleton* > SkeletonList;
 
 	public:
 
@@ -123,7 +124,7 @@ namespace Renderer
 		virtual void InitializeSceneNode( Ogre::SceneNode* sceneNode );
 		void LoadModel( Ogre::SceneNode* sceneNode, const std::string& modelPath );
 		void DestroySceneNode( Ogre::SceneNode* sceneNode );
-		Ogre::Entity* FindSkeletonEntity( Ogre::SceneNode* sceneNode );
+		void LinkSkeletons( Ogre::SceneNode* sceneNode, RendererSystemComponent::SkeletonList* skeletons );
 
 		std::string m_name;
 

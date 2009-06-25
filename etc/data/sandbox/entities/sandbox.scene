@@ -1,0 +1,71 @@
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="1" minOgreVersion="1.4" author="OgreMax Scene Exporter by Derek Nedelman (www.ogremax.com)">
+    <environment>
+        <colourAmbient r="1" g="1" b="1" />
+        <colourBackground r="0" g="0" b="0" />
+    </environment>
+    <nodes>
+        <node name="floor">
+            <scale x="1" y="1" z="1" />
+            <position x="2.08789" y="0" z="-4.6502" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="floor" id="1" meshFile="floor.mesh" castShadows="true" receiveShadows="true">
+                <subentities>
+                    <subentity index="0" materialName="01-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="wall01">
+            <scale x="1" y="1" z="1" />
+            <position x="0" y="23.6222" z="-503.658" />
+            <rotation qx="0.707107" qy="0" qz="0" qw="0.707107" />
+            <entity name="wall01" id="50" meshFile="wall02.mesh" castShadows="true" receiveShadows="true">
+                <subentities>
+                    <subentity index="0" materialName="02-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="wall02">
+            <scale x="1" y="1" z="1" />
+            <position x="0" y="23.6222" z="493.015" />
+            <rotation qx="0.707107" qy="0" qz="0" qw="0.707107" />
+            <entity name="wall02" id="93" meshFile="wall02.mesh" castShadows="true" receiveShadows="true">
+                <subentities>
+                    <subentity index="0" materialName="02-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="wall03">
+            <scale x="1" y="1" z="1" />
+            <position x="-498.336" y="23.6222" z="-5.94495" />
+            <rotation qx="0.499687" qy="-0.500313" qz="0.500313" qw="0.499687" />
+            <entity name="wall03" id="101" meshFile="wall02.mesh" castShadows="true" receiveShadows="true">
+                <subentities>
+                    <subentity index="0" materialName="02-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="wall04">
+            <scale x="1" y="1" z="1" />
+            <position x="498.336" y="23.6222" z="-4.69873" />
+            <rotation qx="0.499687" qy="-0.500313" qz="0.500313" qw="0.499687" />
+            <entity name="wall04" id="102" meshFile="wall02.mesh" castShadows="true" receiveShadows="true">
+                <subentities>
+                    <subentity index="0" materialName="02-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="player">
+            <scale x="1" y="1" z="1" />
+            <position x="-296.771" y="1.91258" z="-301.164" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="player" id="131" meshFile="player.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachSound>true</attachSound><attachGraphics>true</attachGraphics><overrideGraphicsModel>player-fps.model</overrideGraphicsModel><graphicsType>camera</graphicsType><attachInput>true</attachInput><attachPhysics>true</attachPhysics><physicsType>character</physicsType><attachScript>true</attachScript><scriptName>entities/player.lua</scriptName></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="NoMaterial" />
+                </subentities>
+            </entity>
+        </node>
+    </nodes>
+</scene>

@@ -6,10 +6,10 @@
   r: "1"
   type: color
 - !ruby/object:Color 
-  b: "1"
-  g: "1"
+  b: "0"
+  g: "0"
   name: background
-  r: "1"
+  r: "0"
   type: color
 ...
 --- 
@@ -383,6 +383,20 @@
     model: /data/entities/models/marine.model
     system: graphics
     type: default
+  - !ruby/object:AnimationComponent 
+    animations: 
+      strafe_left: /data/entities/animations/marine/marine_strafe_left.hkx
+      stopped: /data/entities/animations/marine/marine_stopped.hkx
+      shoot: /data/entities/animations/marine/marine_shoot.hkx
+      strafe_right: /data/entities/animations/marine/marine_strafe_right.hkx
+      run_backward: /data/entities/animations/marine/marine_run_backward.hkx
+      bindpose: /data/entities/animations/marine/marine_bindpose.hkx
+      idle: /data/entities/animations/marine/marine_idle.hkx
+      run_forward: /data/entities/animations/marine/marine_run_forward.hkx
+    bindPose: /data/entities/animations/marine/marine_bindpose.hkx
+    defaultAnimation: stopped
+    system: animation
+    type: default
   - !ruby/object:PhysicsComponent 
     body: /data/entities/bodies/enemy_marine01.hkx
     system: physics
@@ -489,7 +503,7 @@
 - !ruby/object:REXML::Entity 
   components: 
   - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/player-fps.model
+    model: /data/entities/models/marine-arms.model
     system: graphics
     type: camera
   - !ruby/object:PhysicsComponent 
@@ -497,6 +511,17 @@
     system: physics
     type: character
   - !ruby/object:AnimationComponent 
+    animations: 
+      strafe_left: /data/entities/animations/marine/marine_strafe_left.hkx
+      stopped: /data/entities/animations/marine/marine_stopped.hkx
+      shoot: /data/entities/animations/marine/marine_shoot.hkx
+      strafe_right: /data/entities/animations/marine/marine_strafe_right.hkx
+      run_backward: /data/entities/animations/marine/marine_run_backward.hkx
+      bindpose: /data/entities/animations/marine/marine_bindpose.hkx
+      idle: /data/entities/animations/marine/marine_idle.hkx
+      run_forward: /data/entities/animations/marine/marine_run_forward.hkx
+    bindPose: /data/entities/animations/marine/marine_bindpose.hkx
+    defaultAnimation: stopped
     system: animation
     type: default
   - !ruby/object:InputComponent 
@@ -665,84 +690,6 @@
     type: default
   name: AI_Waypoint07
   type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine02.hkx
-    system: physics
-    type: character
-  - !ruby/object:SoundComponent 
-    system: sound
-    type: default
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    filePath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "-42.0828"
-      y: "1.00185"
-      z: "17.4611"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  name: enemy_marine02
-  type: entity
-- !ruby/object:REXML::Entity 
-  components: 
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine.model
-    system: graphics
-    type: default
-  - !ruby/object:PhysicsComponent 
-    body: /data/entities/bodies/enemy_marine03.hkx
-    system: physics
-    type: character
-  - !ruby/object:SoundComponent 
-    system: sound
-    type: default
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/marine.lua
-    system: script
-    type: default
-  - !ruby/object:AIComponent 
-    filePath: /data/entities/scripts/ai/marine.lua
-    system: ai
-    type: default
-  - !ruby/object:GeometryComponent 
-    orientation: !ruby/object:Quaternion 
-      w: "1"
-      x: "0"
-      y: "0"
-      z: "0"
-    position: !ruby/object:Vector 
-      x: "-7.40283"
-      y: "1.00185"
-      z: "-8.05157"
-    scale: !ruby/object:Vector 
-      x: "1"
-      y: "1"
-      z: "1"
-    system: geometry
-    type: default
-  name: enemy_marine03
-  type: entity
 ...
 --- 
 - !ruby/object:EntityLink 
@@ -752,13 +699,55 @@
   subjectSystem: geometry
   type: entityLink
 - !ruby/object:EntityLink 
-  observerName: enemy_marine02
+  observerName: AI_Waypoint01
   observerSystem: ai
   subjectName: player
   subjectSystem: geometry
   type: entityLink
 - !ruby/object:EntityLink 
-  observerName: enemy_marine03
+  observerName: AI_Waypoint15
+  observerSystem: ai
+  subjectName: player
+  subjectSystem: geometry
+  type: entityLink
+- !ruby/object:EntityLink 
+  observerName: navmesh
+  observerSystem: ai
+  subjectName: player
+  subjectSystem: geometry
+  type: entityLink
+- !ruby/object:EntityLink 
+  observerName: AI_Waypoint02
+  observerSystem: ai
+  subjectName: player
+  subjectSystem: geometry
+  type: entityLink
+- !ruby/object:EntityLink 
+  observerName: AI_Waypoint03
+  observerSystem: ai
+  subjectName: player
+  subjectSystem: geometry
+  type: entityLink
+- !ruby/object:EntityLink 
+  observerName: AI_Waypoint04
+  observerSystem: ai
+  subjectName: player
+  subjectSystem: geometry
+  type: entityLink
+- !ruby/object:EntityLink 
+  observerName: AI_Waypoint05
+  observerSystem: ai
+  subjectName: player
+  subjectSystem: geometry
+  type: entityLink
+- !ruby/object:EntityLink 
+  observerName: AI_Waypoint06
+  observerSystem: ai
+  subjectName: player
+  subjectSystem: geometry
+  type: entityLink
+- !ruby/object:EntityLink 
+  observerName: AI_Waypoint07
   observerSystem: ai
   subjectName: player
   subjectSystem: geometry

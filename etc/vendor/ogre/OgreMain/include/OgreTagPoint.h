@@ -99,6 +99,8 @@ namespace Ogre	{
         /** @copydoc Renderable::getLights */
         const LightList& getLights(void) const;
 
+		inline void setName( const std::string& name ) { mName = name; };
+
 
 
 	private:

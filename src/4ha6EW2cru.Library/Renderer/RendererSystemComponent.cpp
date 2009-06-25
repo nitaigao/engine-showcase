@@ -2,7 +2,6 @@
 
 #include "../Management/Management.h"
 
-#include "AnimationBlender.h"
 #include "IRendererSystem.hpp"
 
 #include "../Maths/MathVector3.hpp"
@@ -40,6 +39,7 @@ namespace Renderer
 		this->LoadModel( m_sceneNode, m_attributes[ System::Parameters::Model ].As< std::string >( ) );
 
 		m_scene->GetSceneManager( )->getRootSceneNode( )->addChild( m_sceneNode );
+		m_sceneNode->showBoundingBox( true );
 
 		this->InitializeSceneNode( m_sceneNode );
 	}
@@ -86,26 +86,16 @@ namespace Renderer
 
 		if ( message == System::Messages::SetOrientation )
 		{
-			m_sceneNode->setOrientation( parameters[ System::Attributes::Orientation ].As< MathQuaternion >( ).AsOgreQuaternion( ) );
+			//m_sceneNode->setOrientation( parameters[ System::Attributes::Orientation ].As< MathQuaternion >( ).AsOgreQuaternion( ) );
 		}
 
 		if ( message == System::Messages::GetAnimationState )
 		{
-			Entity* entity = this->FindSkeletonEntity( m_sceneNode );
+			SkeletonList skeletons;
 
-			Ogre::Skeleton::BoneIterator boneIterator = entity->getSkeleton( )->getBoneIterator( );
-
-			while( boneIterator.hasMoreElements( ) )
-			{
-				Ogre::Bone* oBone = boneIterator.getNext( );
-				oBone->setManuallyControlled( true );
-
-				Entity *cubeEntity = Root::getSingletonPtr( )->getSceneManager( "default" )->createEntity( oBone->getName( ) + "_cube_entity", "/data/entities/meshes/axes.mesh" );
-				TagPoint* tagPoint = entity->attachObjectToBone( oBone->getName( ), cubeEntity );
-				tagPoint->setScale( 0.01f, 0.01f, 0.01f );
-			}
+			this->LinkSkeletons( m_sceneNode, &skeletons );
 			
-			return entity->getSkeleton( );
+			return skeletons;
 		}
 
 		return AnyType( );
@@ -119,7 +109,7 @@ namespace Renderer
 		{
 			MovableObject* object = objects.getNext( );
 
-			if( object->getMovableType( ) == "Entity" )
+			if( object->getMovableType( ) == EntityFactory::FACTORY_TYPE_NAME )
 			{
 				Entity* entity = m_scene->GetSceneManager( )->getEntity( object->getName( ) );
 
@@ -169,7 +159,7 @@ namespace Renderer
 		{
 			MovableObject* object = objects.getNext( );
 
-			if( object->getMovableType( ) == "Entity" )
+			if( object->getMovableType( ) == EntityFactory::FACTORY_TYPE_NAME )
 			{
 				Entity* entity = m_scene->GetSceneManager( )->getEntity( object->getName( ) );
 				
@@ -187,7 +177,7 @@ namespace Renderer
 		sceneNode->removeAndDestroyAllChildren( );
 	}
 
-	Ogre::Entity* RendererSystemComponent::FindSkeletonEntity( Ogre::SceneNode* sceneNode )
+	void RendererSystemComponent::LinkSkeletons( Ogre::SceneNode* sceneNode, RendererSystemComponent::SkeletonList* skeletons )
 	{
 		SceneNode::ObjectIterator objects = sceneNode->getAttachedObjectIterator( );
 
@@ -195,13 +185,25 @@ namespace Renderer
 		{
 			MovableObject* object = objects.getNext( );
 
-			if( object->getMovableType( ) == "Entity" )
+			if( object->getMovableType( ) == EntityFactory::FACTORY_TYPE_NAME )
 			{
 				Entity* entity = m_scene->GetSceneManager( )->getEntity( object->getName( ) );
 
-				if ( entity->getSkeleton( ) != 0 )
+				if ( entity->hasSkeleton( ) )
 				{
-					return entity;
+					Ogre::Skeleton::BoneIterator boneIterator = entity->getSkeleton( )->getBoneIterator( );
+
+					while( boneIterator.hasMoreElements( ) )
+					{
+						Ogre::Bone* oBone = boneIterator.getNext( );
+						oBone->setManuallyControlled( true );
+
+						/*Entity *axis = m_scene->GetSceneManager( )->createEntity( oBone->getName( ) + "_axis", "/data/entities/meshes/axes.mesh" );
+						TagPoint* tagPoint = entity->attachObjectToBone( oBone->getName( ), axis );
+						tagPoint->setScale( 0.005f, 0.005f, 0.005f );*/
+					}
+
+					skeletons->push_back( entity->getSkeleton( ) );
 				}
 			}
 		}
@@ -211,14 +213,7 @@ namespace Renderer
 		while( children.hasMoreElements( ) )
 		{
 			SceneNode* child = static_cast< SceneNode* >( children.getNext( ) );
-			Entity* entity = this->FindSkeletonEntity( child );
-
-			if ( entity )
-			{
-				return entity;
-			}
+			this->LinkSkeletons( child, skeletons );
 		}
-
-		return 0;
 	}
 }

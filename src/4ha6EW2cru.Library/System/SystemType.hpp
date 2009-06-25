@@ -61,6 +61,7 @@ namespace System
 	{
 		static const Attribute Name						=	"name";
 		static const Attribute LookAt					=	"lookAt";
+		static const Attribute POI						=	"poi";
 		static const Attribute Position					=	"position";
 		static const Attribute Orientation				=	"orientation";
 		static const Attribute Scale					=	"scale";
@@ -69,6 +70,13 @@ namespace System
 		static const Attribute Parent					=	"parent";
 		static const Attribute Message					=	"message";
 		static const Attribute ComponentType			=	"componentType";
+		
+		namespace Animation
+		{
+			static const std::string Animations			=	"animations";
+			static const std::string DefaultAnimation	=	"defaultAnimation";
+			static const std::string BindPose			=	"bindPose";
+		}
 	};
 
 	namespace Parameters

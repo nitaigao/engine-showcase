@@ -73,8 +73,47 @@ namespace Physics
 	{
 		if ( m_characterInput.m_userData )
 		{
-			m_characterInput.m_inputUD = m_forwardBackward;
-			m_characterInput.m_inputLR = m_leftRight;
+			float walkSpeed = 2.0f;
+			float stopSpeed = 0.0f;
+
+			if ( m_isMovingForward )
+			{
+				m_characterInput.m_inputUD = -walkSpeed;
+			}
+
+			if ( m_isMovingBackward )
+			{
+				m_characterInput.m_inputUD = walkSpeed;
+			}
+
+			if ( !m_isMovingForward && !m_isMovingBackward || m_isMovingForward && m_isMovingBackward )
+			{
+				m_characterInput.m_inputUD = stopSpeed;
+			}
+
+			if ( m_isMovingLeft )
+			{
+				m_characterInput.m_inputLR = walkSpeed;
+			}
+
+			if ( m_isMovingRight )
+			{
+				m_characterInput.m_inputLR = -walkSpeed;
+			}
+
+			if ( !m_isMovingLeft && !m_isMovingRight || m_isMovingLeft && m_isMovingRight )
+			{
+				m_characterInput.m_inputLR = stopSpeed;
+			}
+
+			hkReal lengthSquared = m_characterInput.m_inputUD * m_characterInput.m_inputUD + m_characterInput.m_inputLR * m_characterInput.m_inputLR;
+
+			if ( lengthSquared > HK_REAL_MIN )
+			{
+				lengthSquared = hkMath::sqrt( lengthSquared );
+				m_characterInput.m_inputUD /= lengthSquared;
+				m_characterInput.m_inputLR /= lengthSquared;
+			}
 
 			m_characterInput.m_stepInfo.m_deltaTime = deltaMilliseconds;
 			m_characterInput.m_stepInfo.m_invDeltaTime = 1.0f / deltaMilliseconds;
@@ -139,14 +178,7 @@ namespace Physics
 			this->PushMessage( System::Messages::SetPosition, m_attributes );
 			this->PushMessage( System::Messages::SetOrientation, m_attributes );
 
-			float stopSpeed = 0.0f;
-
-			/*m_forwardBackward = stopSpeed;
-			m_leftRight = stopSpeed;
-			m_characterInput.m_inputLR = stopSpeed;
-			m_characterInput.m_inputUD = stopSpeed;*/
 			m_characterInput.m_wantJump = false;
-
 			m_characterInput.m_userData = ( m_characterBody->getLinearVelocity( ).compareEqual4( hkVector4::getZero( ) ).anyIsSet( ) );
 		}
 	}
@@ -155,54 +187,49 @@ namespace Physics
 	{
 		AnyType returnValue = PhysicsSystemComponent::Message( message, parameters );
 
-		float walkSpeed = 2.0f;
-		float stopSpeed = 0.0f;
-
 		if( message == System::Messages::Move_Forward_Pressed )
 		{
-			m_forwardBackward = -walkSpeed;
+			m_isMovingForward = true;
 		}
 
 		if( message == System::Messages::Move_Backward_Pressed )
 		{
-			m_forwardBackward = walkSpeed;
+			m_isMovingBackward = true;
 		}
 
-		if ( message == System::Messages::Move_Forward_Released || message == System::Messages::Move_Backward_Released )
+		if ( message == System::Messages::Move_Forward_Released )
 		{
-			m_forwardBackward = stopSpeed;
+			m_isMovingForward = false;
+		}
+
+		if ( message == System::Messages::Move_Backward_Released )
+		{
+			m_isMovingBackward = false;
 		}
 
 		if( message == System::Messages::Strafe_Right_Pressed )
 		{
-			m_leftRight = -walkSpeed;
+			m_isMovingRight = true;
 		}
 
 		if( message == System::Messages::Strafe_Left_Pressed )
 		{
-			m_leftRight = walkSpeed;
+			m_isMovingLeft = true;
 		}
 
-		if( message == System::Messages::Strafe_Right_Released || message == System::Messages::Strafe_Left_Released )
+		if( message == System::Messages::Strafe_Right_Released )
 		{
-			m_leftRight = stopSpeed;
+			m_isMovingRight = false;
+		}
+
+		if ( message == System::Messages::Strafe_Left_Released )
+		{
+			m_isMovingLeft = false;
 		}
 
 		if( message == System::Messages::Jump )
 		{
 			m_characterInput.m_wantJump = true;
-		}
-
-		if ( m_forwardBackward || m_leftRight )
-		{
-			hkReal lengthSquared = m_forwardBackward * m_forwardBackward + m_leftRight * m_leftRight;
-
-			if ( lengthSquared > HK_REAL_MIN )
-			{
-				lengthSquared = hkMath::sqrt( lengthSquared );
-				m_forwardBackward /= lengthSquared;
-				m_leftRight /= lengthSquared;
-			}
 		}
 
 		//m_characterInput.m_userData = true;

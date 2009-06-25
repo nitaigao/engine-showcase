@@ -14,6 +14,30 @@ namespace Maths
 {
 	static const float PI = 4.0 * atan( 1.0 );
 
+
+	/*! Converts the given Radians to Degrees
+	*
+	* @param[in] const int & radians
+	* @return ( float )
+	*/
+	template< class T >
+	static inline T ToDegrees( const T& radians )
+	{
+		return radians * ( 180.0f / Maths::PI );
+	}
+
+
+	/*! Converts the given Degrees to Radians
+	*
+	* @param[in] const int & degrees
+	* @return ( float )
+	*/
+	template< class T >
+	static inline T ToRadians( const T& degrees )
+	{
+		return degrees * ( Maths::PI / 180.0f );
+	}
+
 	/*! Clamps the input value to within the region of the min & max values
 	 *
 	 *  @param[in] T input

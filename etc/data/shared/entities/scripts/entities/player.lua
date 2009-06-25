@@ -55,7 +55,7 @@ function Player.onEvent( eventName, var1, var2 )
 		if ( eventName == '+attack_primary' ) then 
 		
 			player:fireWeapon( )
-			animation:startAnimation( 'hit', true )
+			animation:startAnimation( 'shoot', true )
 			
 			return
 		
@@ -64,7 +64,7 @@ function Player.onEvent( eventName, var1, var2 )
 		if ( eventName == '-attack_primary' ) then 
 			
 			player:stopFiringWeapon( );
-			animation:stopAnimation( 'hit' )
+			animation:stopAnimation( 'shoot' )
 		
 		end
 		
@@ -75,13 +75,14 @@ function Player.onEvent( eventName, var1, var2 )
 		if( eventName == '-strafe_right' ) then
 		
 			animation:stopAnimation( 'strafe_right' )
+			sfx:keyOutEvent( 'game/biped/running' )
 		
 		end
 		
 		if( eventName == '+strafe_right' ) then
 
 			animation:startAnimation( 'strafe_right', true )
-			--sfx:triggerEvent( 'game/biped/running' )
+			sfx:triggerEvent( 'game/biped/running' )
 			
 			return
 		
@@ -89,14 +90,15 @@ function Player.onEvent( eventName, var1, var2 )
 		
 		if( eventName == '-strafe_left' ) then
 		
-			animation:stopAnimation( 'stafe_left' )
+			animation:stopAnimation( 'strafe_left' )
+			sfx:keyOutEvent( 'game/biped/running' )
 		
 		end
 		
 		if( eventName == '+strafe_left' ) then
 		
-			animation:startAnimation( 'stafe_left', true )
-			--sfx:triggerEvent( 'game/biped/running' )
+			animation:startAnimation( 'strafe_left', true )
+			sfx:triggerEvent( 'game/biped/running' )
 			
 			return
 		
@@ -105,26 +107,28 @@ function Player.onEvent( eventName, var1, var2 )
 		if( eventName == '-move_forward' ) then
 			
 			animation:stopAnimation( 'run_forward' )
+			sfx:keyOutEvent( 'game/biped/running' )
 		
 		end
 		
 		if( eventName == '+move_forward' ) then
 			
 			animation:startAnimation( 'run_forward', true )
-			--sfx:triggerEvent( 'game/biped/running' )
+			sfx:triggerEvent( 'game/biped/running' )
 		
 		end
 		
 		if( eventName == '-move_backward' ) then
 		
 			animation:stopAnimation( 'run_backward' )
+			sfx:keyOutEvent( 'game/biped/running' )
 		
 		end
 		
 		if( eventName == '+move_backward' ) then
 		
 			animation:startAnimation( 'run_backward', true )
-			--sfx:triggerEvent( 'game/biped/running' )
+			sfx:triggerEvent( 'game/biped/running' )
 			
 			return
 		

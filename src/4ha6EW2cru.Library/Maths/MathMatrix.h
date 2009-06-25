@@ -2,6 +2,7 @@
 #define MATHMATRIX_H
 
 #include <OgreMatrix3.h>
+#include <OgreMatrix4.h>
 
 namespace Maths
 {
@@ -13,6 +14,11 @@ namespace Maths
 	public:
 
 		MathMatrix( const float& angle, const MathVector3& axis );
+
+	};
+
+	class MathMatrix4 : public Ogre::Matrix4
+	{
 
 	};
 };

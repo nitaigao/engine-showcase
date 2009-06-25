@@ -64,7 +64,7 @@ void Game::Initialize( )
 	// -- Initialize All Systems
 
 	ISystemManager* systemManager = Management::GetSystemManager( );
-	systemManager->RegisterSystem( System::Queues::LOGIC, new Geometry::GeometrySystem( ) );
+	systemManager->RegisterSystem( System::Queues::HOUSE, new Geometry::GeometrySystem( ) );
 	systemManager->RegisterSystem( System::Queues::RENDER, new Renderer::RendererSystem( m_configuration ) );
 	systemManager->RegisterSystem( System::Queues::HOUSE, new Animation::AnimationSystem( ) );
 	systemManager->RegisterSystem( System::Queues::LOGIC, new Physics::HavokPhysicsSystem( ) );
@@ -72,7 +72,7 @@ void Game::Initialize( )
 	systemManager->RegisterSystem( System::Queues::HOUSE, new Script::ScriptSystem( m_configuration ) );
 	systemManager->RegisterSystem( System::Queues::HOUSE, new UX::UXSystem( ) );
 	systemManager->RegisterSystem( System::Queues::HOUSE, new Sound::SoundSystem( m_configuration ) );
-	//systemManager->RegisterSystem( System::Queues::HOUSE, new AI::AISystem( ) );
+	systemManager->RegisterSystem( System::Queues::HOUSE, new AI::AISystem( ) );
 	systemManager->InitializeAllSystems( );
 
 	// -- Setup the World and World Loader
