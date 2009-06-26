@@ -3,7 +3,7 @@ require 'fileutils'
 require 'rexml/document'
 include REXML
 
-sourcePath = ARGV[ 0 ].to_s
+sourcePath = ARGV[ 0 ].to_s.gsub( '\\', '/' )
 file = File.new( sourcePath )
 
 $workingDirectory = File.dirname( sourcePath )
@@ -108,8 +108,6 @@ def processMeshes( meshesPath )
 			meshContents = meshFile.read( )
 			
 			skeletonFilename = File.basename( entry, '.mesh' ) + '.skeleton'
-			
-			puts skeletonFilename
 			
 			if ( !meshContents.to_s.include? $meshesGamePath )
 			

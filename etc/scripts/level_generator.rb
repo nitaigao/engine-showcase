@@ -1,9 +1,11 @@
+load File.join( File.dirname( $0 ),'addPaths.rb' )
+
 require 'yaml'
 require 'fileutils'
 require 'rexml/document'
 include REXML
 
-sourcePath = ARGV[ 0 ].to_s
+sourcePath = ARGV[ 0 ].to_s.gsub( '\\', '/' )
 file = File.new( sourcePath )
 
 $workingDirectory = File.dirname( sourcePath )
@@ -28,7 +30,6 @@ $animationsGamePath = $baseGamePath + '/animations'
 $entityLinks = Array.new
 
 contents = file.read.gsub( '<![CDATA[', '' ).gsub( ']]>', '' )
-
 doc = Document.new( contents )
 root = doc.root
 
@@ -596,24 +597,6 @@ class Entity
 
 end
 
-def replaceMeshPaths( node )
-
-	node.each_element( ) { | childNode |
-	
-	if ( childNode.name == 'entity' ) then
-	
-		meshFile = childNode.attributes[ 'meshFile' ]
-		fullMeshFile = $meshesGamePath + '/' + meshFile.to_s
-		childNode.attributes[ 'meshFile' ] = fullMeshFile
-	
-	end
-		
-	replaceMeshPaths( childNode )
-	
-	}
-
-end
-
 def createEntities( xmlRoot )
 
 	entities = Array.new
@@ -708,8 +691,6 @@ def createBaseStructure( )
 	FileUtils.mkdir_p( $modelsFullPath )
 
 end
-
------------ big error this is where the paths script should be executed
 
 levelFilePath = File.join( $basePath, $levelName + '.yaml' )
 

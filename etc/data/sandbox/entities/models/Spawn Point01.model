@@ -1,0 +1,10 @@
+<node name='Spawn Point01'>
+  <scale x='1' y='1' z='1'/>
+  <position x='-250.122' y='0' z='-119.705'/>
+  <rotation qw='1' qx='0' qy='0' qz='0'/>
+  <entity name='Spawn Point01' id='160' receiveShadows='true' meshFile='Spawn Point01.mesh' castShadows='true'>
+    <subentities>
+      <subentity materialName='NoMaterial' index='0'/>
+    </subentities>
+  </entity>
+</node>
