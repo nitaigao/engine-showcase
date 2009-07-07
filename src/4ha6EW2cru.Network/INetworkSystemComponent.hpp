@@ -8,7 +8,7 @@
 #ifndef INETWORKSYSTEMCOMPONENT_HPP
 #define INETWORKSYSTEMCOMPONENT_HPP
 
-#include "../System/ISystemComponent.hpp"
+#include "System/ISystemComponent.hpp"
 
 namespace Network
 {

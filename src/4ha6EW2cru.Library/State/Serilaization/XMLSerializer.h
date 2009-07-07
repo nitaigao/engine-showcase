@@ -8,7 +8,6 @@
 #define WORLDLOADER_H
 
 #include <queue>
-#include <yaml.h>
 
 #include "../../Utility/tinyxml/ticpp.h"
 
@@ -81,11 +80,6 @@ namespace Serialization
 		void LoadColor( ticpp::Element* element );
 		void LoadEntity( ticpp::Element* element );
 		void LoadEntityComponents( ticpp::Element* element, NodePtrMap& components );
-
-		void LoadNode( const YAML::Node& node );
-		void LoadSkyBox( const YAML::Node& node );
-		void LoadFog( const YAML::Node& node );
-		void LoadLink( const YAML::Node& node );
 
 		State::IWorld* _world;
 

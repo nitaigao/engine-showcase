@@ -10,7 +10,7 @@
 
 #include "INetworkSystem.hpp"
 
-#include "../Configuration/IConfiguration.hpp"
+#include "Configuration/IConfiguration.hpp"
 
 #include <RakPeerInterface.h>
 

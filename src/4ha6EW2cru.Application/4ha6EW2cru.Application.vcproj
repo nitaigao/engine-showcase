@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
+				AdditionalIncludeDirectories="../4ha6EW2cru.Game;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
 				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -170,8 +170,8 @@
 	</Configurations>
 	<References>
 		<ProjectReference
-			ReferencedProjectIdentifier="{399D7AEA-884F-4884-B655-AED35E934A07}"
-			RelativePathToProject=".\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj"
+			ReferencedProjectIdentifier="{0930D1E7-1AB1-4067-85CF-90D360C498E3}"
+			RelativePathToProject=".\4ha6EW2cru.Game\4ha6EW2cru.Game.vcproj"
 		/>
 	</References>
 	<Files>

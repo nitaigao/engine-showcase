@@ -5,7 +5,6 @@
 	Name="4ha6EW2cru.Library"
 	ProjectGUID="{399D7AEA-884F-4884-B655-AED35E934A07}"
 	RootNamespace="My4ha6EW2cruLibrary"
-	AssemblyReferenceSearchPaths="&quot;..\4ha6EW2cru.Network&quot;"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -42,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../4ha6EW2cru.Network;../../etc/vendor/raknet/Source;../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
+				AdditionalIncludeDirectories="../../etc/vendor/raknet/Source;../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
 				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG;NOMINMAX;WIN32"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -496,14 +495,6 @@
 		</File>
 		<File
 			RelativePath=".\Utility\luabind\include\function.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Game.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Game.h"
 			>
 		</File>
 		<File
@@ -1007,26 +998,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Network\NetworkSystem.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Network\NetworkSystem.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Network\NetworkSystemComponent.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Network\NetworkSystemScene.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Network\NetworkSystemScene.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Utility\luabind\include\nil.hpp"
 			>
 		</File>
@@ -1071,11 +1042,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\luabind\include\open.hpp"
+			RelativePath=".\Utility\luabind\include\detail\open.hpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\luabind\include\detail\open.hpp"
+			RelativePath=".\Utility\luabind\include\open.hpp"
 			>
 		</File>
 		<File
@@ -1340,6 +1311,10 @@
 		</File>
 		<File
 			RelativePath=".\Utility\luabind\include\detail\stack_utils.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\System\SystemExports.hpp"
 			>
 		</File>
 		<File

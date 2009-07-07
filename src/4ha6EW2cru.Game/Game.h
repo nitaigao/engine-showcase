@@ -4,6 +4,7 @@
 *  @file   Game.h
 *  @date   2009/04/25
 */
+#pragma once
 #ifndef GAME_H
 #define GAME_H
 
@@ -13,6 +14,12 @@
 #include "Events/IEvent.hpp"
 #include "State/IWorld.hpp"
 #include "State/Serilaization/IWorldLoader.hpp"
+
+#ifdef _EXPORT
+#    define GAMEAPI __declspec( dllexport )
+#else
+#    define GAMEAPI __declspec( dllimport )
+#endif
 
 /*! 
  *  The core container of the Game
@@ -26,14 +33,14 @@ public:
 	 *
 	 *  @return ()
 	 */
-	~Game( );
+	GAMEAPI ~Game( );
 
 
 	/*! Default Constructor
 	 *
 	 *  @return ()
 	 */
-	Game( )
+	GAMEAPI Game( )
 		: m_isQuitting( false )
 		, m_isInitialized( false )
 		, m_world( 0 )
@@ -47,7 +54,7 @@ public:
 	 *
 	 *  @return (void)
 	 */
-	void Initialize( );
+	void GAMEAPI Initialize( );
 
 
 	/*! Steps the Game forward
@@ -55,21 +62,21 @@ public:
 	 *  @param[in] float deltaMilliseconds
 	 *  @return (void)
 	 */
-	void Update( );
+	void GAMEAPI Update( );
 
 	
 	/*! Releases the Game
 	 *
 	 *  @return (void)
 	 */
-	void Release( );
+	void GAMEAPI Release( );
 
 
 	/*! Returns whether or not the Game is ready to Quit
 	 *
 	 *  @return (bool)
 	 */
-	inline bool IsQuitting( ) const { return m_isQuitting; };
+	bool GAMEAPI IsQuitting( ) const { return m_isQuitting; };
 
 private:
 

@@ -6,7 +6,7 @@
 #include <RakSleep.h>
 #include <MessageIdentifiers.h>
 
-#include "../Logging/Logger.h"
+#include "Logging/Logger.h"
 using namespace Logging;
 
 namespace Network

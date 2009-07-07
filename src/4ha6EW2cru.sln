@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "4ha6EW2cru.Network", "4ha6E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Systems", "Systems", "{B6E641B9-1B60-401A-B761-9EB6BF9C8C21}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "4ha6EW2cru.Game", "4ha6EW2cru.Game\4ha6EW2cru.Game.vcproj", "{0930D1E7-1AB1-4067-85CF-90D360C498E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -33,11 +35,16 @@ Global
 		{85449B0E-74BD-41FF-8921-4DD42AF837EF}.Debug|Win32.Build.0 = Debug|Win32
 		{85449B0E-74BD-41FF-8921-4DD42AF837EF}.Release|Win32.ActiveCfg = Release|Win32
 		{85449B0E-74BD-41FF-8921-4DD42AF837EF}.Release|Win32.Build.0 = Release|Win32
+		{0930D1E7-1AB1-4067-85CF-90D360C498E3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0930D1E7-1AB1-4067-85CF-90D360C498E3}.Debug|Win32.Build.0 = Debug|Win32
+		{0930D1E7-1AB1-4067-85CF-90D360C498E3}.Release|Win32.ActiveCfg = Release|Win32
+		{0930D1E7-1AB1-4067-85CF-90D360C498E3}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{85449B0E-74BD-41FF-8921-4DD42AF837EF} = {B6E641B9-1B60-401A-B761-9EB6BF9C8C21}
+		{0930D1E7-1AB1-4067-85CF-90D360C498E3} = {B6E641B9-1B60-401A-B761-9EB6BF9C8C21}
 	EndGlobalSection
 EndGlobal

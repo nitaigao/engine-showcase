@@ -1,0 +1,7 @@
+LIBRARY	"4ha6EW2cru.Network"
+
+EXPORTS
+
+	InitializeSystemLib=Initialize		@1
+    CreateSystem=CreateSystem			@2
+    DestroySystem=DestroySystem			@3

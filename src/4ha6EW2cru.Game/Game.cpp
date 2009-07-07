@@ -26,7 +26,7 @@ using namespace Serialization;
 #include "UX/UXSystem.h"
 #include "Sound/SoundSystem.h"
 #include "Animation/AnimationSystem.h"
-#include "NetworkSystem.h"
+//#include "NetworkSystem.h"
 
 #include "Events/Event.h"
 #include "Events/EventData.hpp"
@@ -35,6 +35,8 @@ using namespace Events;
 #include "Renderer/Color.hpp"
 #include "Scripting/ScriptEvent.hpp"
 using namespace Script;
+
+#include "System/SystemExports.hpp"
 
 void Game::Initialize( )
 {
@@ -74,7 +76,14 @@ void Game::Initialize( )
 	systemManager->RegisterSystem( System::Queues::LOGIC, new Physics::HavokPhysicsSystem( ) );
 	systemManager->RegisterSystem( System::Queues::HOUSE, new Script::ScriptSystem( m_configuration ) );
 	systemManager->RegisterSystem( System::Queues::HOUSE, new AI::AISystem( ) );
-	systemManager->RegisterSystem( System::Queues::HOUSE, new Network::NetworkSystem( m_configuration ) );
+
+	HMODULE library = LoadLibraryA( "4ha6EW2cru.Network.dll" );
+
+	if ( library )
+	{
+		CreateSystemFunction createSystem = reinterpret_cast< CreateSystemFunction >( GetProcAddress( library, "CreateSystem" ) );
+		systemManager->RegisterSystem( System::Queues::HOUSE, createSystem( m_configuration ) );
+	}
 
 	if ( programOptions.find( System::Options::DedicatedServer ) != programOptions.end( ) )
 	{

@@ -93,7 +93,7 @@ namespace Serialization
 		}*/
 	}
 	
-	void XMLSerializer::LoadLink( const YAML::Node& node )
+	/*void XMLSerializer::LoadLink( const YAML::Node& node )
 	{ 
 		std::string subjectName, subjectSystem, observerName, observerSystem;
 	
@@ -115,9 +115,9 @@ namespace Serialization
 
 			subject->AddObserver( System::Messages::SetPlayerPosition, observer );
 		}
-	}
+	}*/
 	
-	void XMLSerializer::LoadSkyBox( const YAML::Node& node )
+	/*void XMLSerializer::LoadSkyBox( const YAML::Node& node )
 	{
 		if ( Management::GetSystemManager( )->HasSystem( System::Types::RENDER ) )
 		{
@@ -134,9 +134,9 @@ namespace Serialization
 			ISystem* renderer = Management::GetSystemManager( )->GetSystem( System::Types::RENDER );
 			renderer->SetAttribute( "skyBox", parameters );
 		}
-	}
+	}*/
 
-	void XMLSerializer::LoadFog( const YAML::Node& node )
+	/*void XMLSerializer::LoadFog( const YAML::Node& node )
 	{
 		if ( Management::GetSystemManager( )->HasSystem( System::Types::RENDER ) )
 		{
@@ -157,7 +157,7 @@ namespace Serialization
 			ISystem* renderer = Management::GetSystemManager( )->GetSystem( System::Types::RENDER );
 			renderer->SetAttribute( "fog", parameters );
 		}
-	}
+	}*/
 	
 	void XMLSerializer::LoadColor( ticpp::Element* element )
 	{
