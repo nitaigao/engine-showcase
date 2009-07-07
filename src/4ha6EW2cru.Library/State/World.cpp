@@ -19,6 +19,7 @@ namespace State
 	IWorldEntity* World::CreateEntity( const std::string& name )
 	{
 		IWorldEntity* entity = new WorldEntity( name );
+		entity->AddObserver( System::Messages::All_Messages, this );
 		m_entities.push_back( entity );
 		return entity;
 	}
@@ -27,7 +28,7 @@ namespace State
 	{
 		for( ISystemScene::SystemSceneMap::iterator i = m_systemScenes.begin( ); i != m_systemScenes.end( ); ++i )
 		{
-			( *i ).second->Update( deltaMilliseconds );
+			//( *i ).second->Update( deltaMilliseconds );
 		}
 	}
 	
@@ -59,5 +60,14 @@ namespace State
 		}
 	
 		return 0;
+	}
+
+	AnyType World::Message( const System::Message& message, AnyType::AnyTypeMap parameters )
+	{
+		std::stringstream logMessage;
+		logMessage << "message: " << message;
+		Logging::Logger::Debug( logMessage.str( ) );
+
+		return AnyType( );
 	}
 }

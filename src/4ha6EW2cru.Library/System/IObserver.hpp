@@ -24,7 +24,7 @@ public:
 	typedef std::multimap< System::Message, IObserver* > ObserverMap;
 	typedef std::deque< IObserver* > ObserverList;
 
-	/*! Messages the Component to influence its internal state
+	/*! Messages the Observer to influence its internal state
 	*
 	*  @param[in] const std::string & message
 	*  @return (AnyType)

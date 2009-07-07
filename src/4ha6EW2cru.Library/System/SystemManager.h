@@ -29,7 +29,11 @@ public:
 	 *
 	 *  @return ()
 	 */
-	SystemManager( ) { };
+	SystemManager( )
+		: m_accumulator( 0.0f )
+	{
+
+	}
 
 
 	/*! Registers a System
@@ -88,6 +92,8 @@ private:
 
 	ISystem::SystemTypeMap _systemsByType;
 	ISystem::SystemQueueMap _systemsByQueue;
+
+	float m_accumulator;
 
 	SystemManager( const SystemManager & copy ) { };
 	SystemManager & operator = ( const SystemManager & copy ) { return *this; };

@@ -8,7 +8,7 @@
 #define ICOMPONENTSERIALIZER_HPP
 
 #include <string>
-#include <yaml.h>
+#include "../../Utility/tinyxml/ticpp.h"
 
 #include "../../System/ISystemComponent.hpp"
 #include "../../System/ISystemScene.hpp"
@@ -30,14 +30,14 @@ namespace Serialization
 		virtual ~IComponentSerializer( ) { };
 
 
-		/*! De serializes the Component from the supplied Node
-		 *
-		 *  @param[in] const std::string & entityName
-		 *  @param[in] const YAML::Node & componentNode
-		 *  @param[in] const ISystemScene::SystemSceneMap & systemScenes
-		 *  @return (ISystemComponent*)
-		 */
-		virtual ISystemComponent* DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes ) = 0;
+		/*! DeSerializes the Component from the Supplied Element
+		*
+		* @param[in] const std::string entityName
+		* @param[in] const ticpp::Element & componentElement
+		* @param[in] const ISystemScene::SystemSceneMap & systemScenes
+		* @return ( ISystemComponent* )
+		*/
+		virtual ISystemComponent* DeSerialize( const std::string entityName, ticpp::Element* componentElement, const ISystemScene::SystemSceneMap& systemScenes ) = 0;
 
 	};
 };

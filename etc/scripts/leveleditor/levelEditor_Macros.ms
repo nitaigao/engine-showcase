@@ -18,11 +18,20 @@ macroScript levelEditor_exportLevelAndPreview
 (
 	on execute do 
 	(
-		levelEditor_ExportLevel()
-		
-		levelName = getFilenameFile( maxfilename )
-		commandPath = "C:\\Users\\NK\\Development\\viper\\build\\debug\\bin\\4ha6EW2cru.Applicaton.exe --levelName=" + levelName
-		HiddenDOSCommand commandPath startpath:"C:\\Users\\NK\\Development\\viper\\build\\debug\\bin" donotwait:true
+		levelEditor_exportLevelAndPreview()
 	)
 )
+
+macroScript levelEditor_exportModel
+	buttonText:"Export Model" 
+	category:"Level Editor" 
+	tooltip:"Exports a model to the File System"
+	icon:#("HavokCT",3)
+(
+	on execute do 
+	(
+		levelEditor_exportModel()
+	)
+)
+
 

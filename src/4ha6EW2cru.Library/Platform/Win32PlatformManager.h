@@ -65,6 +65,14 @@ namespace Platform
 		void CreateConsoleWindow( );
 
 
+		/*! Outputs the given message to std::cout
+		*
+		* @param[in] const std::string & message
+		* @return ( void )
+		*/
+		void OutputToConsole( const std::string& message );
+
+
 		/*! Steps internal data structures
 		*
 		*  @param[in] float deltaMilliseconds

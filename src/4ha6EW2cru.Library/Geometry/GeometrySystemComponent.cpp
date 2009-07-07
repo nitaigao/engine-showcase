@@ -4,6 +4,11 @@ using namespace Maths;
 
 namespace Geometry
 {
+	void GeometrySystemComponent::Initialize()
+	{
+		
+	}
+
 	AnyType GeometrySystemComponent::Message( const System::Message& message, AnyType::AnyTypeMap parameters )
 	{
 		if ( message == System::Messages::SetPosition )
@@ -16,13 +21,13 @@ namespace Geometry
 			m_attributes[ System::Attributes::Orientation ] = parameters[ System::Attributes::Orientation ].As< MathQuaternion >( );
 		}
 
-		if ( message == System::Messages::AddedToComponent )
+		if( message == System::Messages::PostInitialize )
 		{
 			this->PushMessage( System::Messages::SetPosition, m_attributes );
 			this->PushMessage( System::Messages::SetOrientation, m_attributes );
 		}
 
-		return MathVector3( );
+		return AnyType( );
 	}
 
 	AnyType GeometrySystemComponent::PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters )

@@ -21,14 +21,26 @@ namespace State
 			results.insert( std::make_pair( systemType, result ) );
 		}
 
-		ObserverMap::iterator observers = m_observers.find( message );
-
-		while( observers != m_observers.end( ) )
+		for ( ObserverMap::iterator i = m_observers.begin( ); i != m_observers.end( ); ++i )
 		{
-			( *observers ).second->Message( message, parameters );
-			++observers;
+			if ( ( *i ).first == System::Messages::All_Messages || ( *i ).first == message )
+			{
+				( *i ).second->Message( message, parameters );
+			}
 		}
 
 		return results;
+	}
+
+	void WorldEntity::Initialize( )
+	{
+		this->Message( System::Messages::PreInitialize, AnyType::AnyTypeMap( ) );
+
+		for( ISystemComponent::SystemComponentList::const_iterator i = m_components.begin( ); i != m_components.end( ); ++i )
+		{
+			( *i )->Initialize( ); 
+		}
+
+		this->Message( System::Messages::PostInitialize, AnyType::AnyTypeMap( ) );
 	}
 }

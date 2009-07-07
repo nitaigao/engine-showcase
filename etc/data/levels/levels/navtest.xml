@@ -1,0 +1,422 @@
+<level>
+  <environment>
+    <colors>
+      <color type="colourAmbient" r="1" g="1" b="1" />
+      <color type="colourBackground" r="0" g="0" b="0" />
+    </colors>
+  </environment>
+  <entities>
+    <entity name="floor01">
+      <components>
+        <component type="default" system="graphics">
+          <attributes>
+            <attribute key="model" v1="/data/entities/models/floor01.model" />
+          </attributes>
+        </component>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/floor01.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="41.5191" v2="0" v3="4.20376" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="floor02">
+      <components>
+        <component type="default" system="graphics">
+          <attributes>
+            <attribute key="model" v1="/data/entities/models/floor02.model" />
+          </attributes>
+        </component>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/floor02.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="11.6883" v2="0" v3="28.2402" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="floor03">
+      <components>
+        <component type="default" system="graphics">
+          <attributes>
+            <attribute key="model" v1="/data/entities/models/floor03.model" />
+          </attributes>
+        </component>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/floor03.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="-39.9832" v2="0" v3="-7.1116" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="floor04">
+      <components>
+        <component type="default" system="graphics">
+          <attributes>
+            <attribute key="model" v1="/data/entities/models/floor04.model" />
+          </attributes>
+        </component>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/floor04.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="0.45183" v2="0" v3="-8.80129" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="floor05">
+      <components>
+        <component type="default" system="graphics">
+          <attributes>
+            <attribute key="model" v1="/data/entities/models/floor05.model" />
+          </attributes>
+        </component>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/floor05.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="3.82433" v2="0" v3="10.6564" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="floor06">
+      <components>
+        <component type="default" system="graphics">
+          <attributes>
+            <attribute key="model" v1="/data/entities/models/floor06.model" />
+          </attributes>
+        </component>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/floor06.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="8.25915" v2="0" v3="-38.495" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="floor07">
+      <components>
+        <component type="default" system="graphics">
+          <attributes>
+            <attribute key="model" v1="/data/entities/models/floor07.model" />
+          </attributes>
+        </component>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/floor07.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="41.8916" v2="0" v3="-28.4058" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="floor08">
+      <components>
+        <component type="default" system="graphics">
+          <attributes>
+            <attribute key="model" v1="/data/entities/models/floor08.model" />
+          </attributes>
+        </component>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/floor08.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="28.333" v2="0" v3="59.9428" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="floor09">
+      <components>
+        <component type="default" system="graphics">
+          <attributes>
+            <attribute key="model" v1="/data/entities/models/floor09.model" />
+          </attributes>
+        </component>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/floor09.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="-7.97083" v2="0" v3="72.4086" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="floor10">
+      <components>
+        <component type="default" system="graphics">
+          <attributes>
+            <attribute key="model" v1="/data/entities/models/floor10.model" />
+          </attributes>
+        </component>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/floor10.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="-9.89571" v2="0" v3="106.149" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="floor11">
+      <components>
+        <component type="default" system="graphics">
+          <attributes>
+            <attribute key="model" v1="/data/entities/models/floor11.model" />
+          </attributes>
+        </component>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/floor11.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="-54.0384" v2="0" v3="121.284" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="floor12">
+      <components>
+        <component type="default" system="graphics">
+          <attributes>
+            <attribute key="model" v1="/data/entities/models/floor12.model" />
+          </attributes>
+        </component>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/floor12.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="-72.5133" v2="0" v3="71.5165" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="floor13">
+      <components>
+        <component type="default" system="graphics">
+          <attributes>
+            <attribute key="model" v1="/data/entities/models/floor13.model" />
+          </attributes>
+        </component>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/floor13.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="-52.5794" v2="0" v3="33.7952" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="AI_Waypoint01">
+      <components>
+        <component type="waypoint" system="ai">
+          <attributes />
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="-41.7917" v2="0" v3="-28.2277" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="AI_Waypoint15">
+      <components>
+        <component type="waypoint" system="ai">
+          <attributes />
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="3.33102" v2="0" v3="20.257" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="navmesh">
+      <components>
+        <component type="navmesh" system="ai">
+          <attributes>
+            <attribute key="navMesh" v1="/data/entities/meshes/navmesh.mesh" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="21.4339" v2="0" v3="28.1738" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="player" src="/data/entities/player.xml">
+      <components>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="28.7411" v2="4.98888" v3="50.882" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="AI_Waypoint02">
+      <components>
+        <component type="waypoint" system="ai">
+          <attributes />
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="4.93785" v2="0" v3="-7.67057" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="AI_Waypoint03">
+      <components>
+        <component type="waypoint" system="ai">
+          <attributes />
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="-38.8463" v2="0" v3="10.0516" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="AI_Waypoint04">
+      <components>
+        <component type="waypoint" system="ai">
+          <attributes />
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="-12.6105" v2="0" v3="28.1212" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="AI_Waypoint05">
+      <components>
+        <component type="waypoint" system="ai">
+          <attributes />
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="42.1196" v2="0" v3="-31.3001" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="AI_Waypoint06">
+      <components>
+        <component type="waypoint" system="ai">
+          <attributes />
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="2.67915" v2="0" v3="-37.9025" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="AI_Waypoint07">
+      <components>
+        <component type="waypoint" system="ai">
+          <attributes />
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="-16.2592" v2="0" v3="-9.06054" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+  </entities>
+</level>

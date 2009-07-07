@@ -1,16 +1,22 @@
 #include "InputComponentSerializer.h"
 
-#include <yaml.h>
+using namespace ticpp;
+
+#include "../../System/SystemTypeMapper.hpp"
+using namespace System;
 
 namespace Serialization
 {
-	ISystemComponent* InputComponentSerializer::DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes )
+	ISystemComponent* InputComponentSerializer::DeSerialize( const std::string entityName, ticpp::Element* componentElement, const ISystemScene::SystemSceneMap& systemScenes )
 	{
-		ISystemScene::SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::INPUT );
+		std::string system;
+		componentElement->GetAttribute( System::Attributes::SystemType, &system );
 
-		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
-		systemComponent->Initialize( );
+		ISystemScene::SystemSceneMap::const_iterator systemScene = systemScenes.find( System::SystemTypeMapper::StringToType( system ) );
 
-		return systemComponent;
+		std::string type;
+		componentElement->GetAttribute( System::Attributes::ComponentType, &type );
+
+		return ( *systemScene ).second->CreateComponent( entityName, type );
 	}
 }

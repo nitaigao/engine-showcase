@@ -1,10 +1,10 @@
-<node name='player'>
-  <scale x='1' y='1' z='1'/>
-  <position x='28.7411' y='4.98888' z='50.882'/>
-  <rotation qw='1' qx='0' qy='0' qz='0'/>
-  <entity name='player' id='508' receiveShadows='true' meshFile='/data/entities/meshes/player.mesh' castShadows='true'>
+<node name="player">
+  <scale x="1" y="1" z="1" />
+  <position x="28.7411" y="4.98888" z="50.882" />
+  <rotation qx="0" qy="0" qz="0" qw="1" />
+  <entity name="player" id="508" meshFile="/data/entities/meshes/player.mesh" castShadows="true" receiveShadows="true">
     <subentities>
-      <subentity materialName='NoMaterial' index='0'/>
+      <subentity index="0" materialName="NoMaterial" />
     </subentities>
   </entity>
 </node>

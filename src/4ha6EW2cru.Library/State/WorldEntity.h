@@ -52,12 +52,21 @@ namespace State
 		*/
 		void AddObserver( const System::Message& message, IObserver* observer ) { m_observers.insert( std::make_pair( message, observer ) ); };
 
+
+		/*! Initializes all of the components contained by the entity
+		*
+		* @return ( void )
+		*/
+		void Initialize( );
+
+
 		/*! Adds a System Component to the Entity
 		*
 		*  @param[in] ISystemComponent * component
 		*  @return (void)
 		*/
 		void AddComponent( ISystemComponent* component );
+
 
 		/*! Get a list of all System Components inside the Entity
 		*

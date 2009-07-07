@@ -25,7 +25,8 @@ namespace System
 			UX = 7,
 			SOUND = 8,
 			ANIMATION = 9,
-			TEST = 10,
+			NETWORK = 10,
+			TEST = 11,
 			SYSTEMTYPES_MAX
 		};
 	};
@@ -53,6 +54,7 @@ namespace System
 	namespace Options
 	{
 		static const std::string LevelName					=	"levelName";
+		static const std::string DedicatedServer			=	"dedicated";
 	}
 
 	typedef std::string Attribute;
@@ -66,16 +68,21 @@ namespace System
 		static const Attribute Orientation				=	"orientation";
 		static const Attribute Scale					=	"scale";
 		static const Attribute FilePath					=	"filePath";
-		static const Attribute SystemType				=	"systemType";
+		static const Attribute SystemType				=	"system";
 		static const Attribute Parent					=	"parent";
 		static const Attribute Message					=	"message";
-		static const Attribute ComponentType			=	"componentType";
+		static const Attribute ComponentType			=	"type";
 		
 		namespace Animation
 		{
-			static const std::string Animations			=	"animations";
-			static const std::string DefaultAnimation	=	"defaultAnimation";
-			static const std::string BindPose			=	"bindPose";
+			static const Attribute Animations			=	"animations";
+			static const Attribute DefaultAnimation	=	"defaultAnimation";
+			static const Attribute BindPose			=	"bindPose";
+		}
+
+		namespace Network
+		{
+			static const Attribute IsServer				=	"isServer";
 		}
 	};
 
@@ -96,7 +103,7 @@ namespace System
 		static const Attribute InvertYAxis				=	"invertYAxis";
 		static const Attribute SmoothMouse				=	"smoothMouse";
 		static const Attribute NavMeshPath				=	"navMeshPath";
-		static const Attribute NavigationMesh			=	"navigationMesh";
+		static const Attribute NavigationMesh			=	"navMesh";
 		static const Attribute MouseSensitivity			=	"mouseSensitivity";
 		static const Attribute Vertices					=	"vertices";
 		static const Attribute Origin					=	"origin";
@@ -109,12 +116,19 @@ namespace System
 		static const Attribute LoopAnimation			=	"loopAnimation";
 		static const Attribute AnimationWeight			=	"animationWeight";
 		static const Attribute AnimationController		=	"animationController";
+
+		namespace Network
+		{
+			static const Attribute HostAddress			=	"hostAddress";
+			static const Attribute Port					=	"port";
+		}
 	};
 
 	typedef std::string Message;
 
 	namespace Messages
 	{
+		static const Message All_Messages				=	"all_messages";
 		static const Message SetPosition				=	"set_position";
 		static const Message SetOrientation				=	"set_orientation";
 		static const Message SetLookAt					=	"set_lookAt";
@@ -162,6 +176,14 @@ namespace System
 		static const Message StartAnimation				=	"startAnimation";
 		static const Message StopAnimation				=	"stopAnimation";
 		static const Message GetAnimationState			=	"getAnimationState";
+
+		static const Message PreInitialize				=	"preInitialize";
+		static const Message PostInitialize				=	"postInitialize";
+
+		namespace Network
+		{
+			static const Message Connect				=	"connect";
+		}
 	}
 };
 

@@ -50,7 +50,7 @@ namespace Geometry
 		*  @param[in] AnyType::AnyValueMap properties
 		*  @return (void)
 		*/
-		inline void Initialize( ) { };
+		void Initialize( );
 
 
 		/*! Steps the internal data of the Component

@@ -65,38 +65,30 @@ namespace Platform
 
 	void Win32PlatformManager::CreateConsoleWindow( )
 	{
-		int hConHandle;
+		AllocConsole( );
 
-		long lStdHandle;
+		long lStdHandle = ( long )GetStdHandle( STD_OUTPUT_HANDLE );
+		int hConHandle = _open_osfhandle( lStdHandle, _O_TEXT );
+	}
 
-		CONSOLE_SCREEN_BUFFER_INFO coninfo;
+	void Win32PlatformManager::OutputToConsole( const std::string& message )
+	{
+		std::streambuf* existingBuffer = std::cout.rdbuf( );
+		std::ofstream newBuffer( "CONOUT$" );
 
-		AllocConsole();
+		std::cout.rdbuf( newBuffer.rdbuf( ) );
+		std::cout.sync_with_stdio( );
 
-		// set the screen buffer to be big enough to let us scroll text
+		std::cout << message.c_str( );
 
-		GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),
-
-			&coninfo);
-
-		coninfo.dwSize.Y = MAX_CONSOLE_LINES;
-
-		SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE),
-
-			coninfo.dwSize);
-
-		// redirect unbuffered STDOUT to the console
-
-		lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
-
-		hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+		std::cout.rdbuf( existingBuffer );
 	}
 
 	void Win32PlatformManager::Update( const float& deltaMilliseconds )
 	{
 		MSG msg;
 
-		if ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
+		while ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
 		{
 			if ( msg.message == WM_QUIT )
 			{
@@ -140,8 +132,14 @@ namespace Platform
 			"start the level immediately" 
 			);
 
+		optionsDescription.add_options( ) (
+			System::Options::DedicatedServer.c_str( ),
+			"runs the client as a dedicated server"
+			);
+
 		positional_options_description  positionalDescription;
 		positionalDescription.add( System::Options::LevelName.c_str( ), 1 );
+		positionalDescription.add( System::Options::DedicatedServer.c_str( ), 1 );
 
 		variables_map variablesMap;
 

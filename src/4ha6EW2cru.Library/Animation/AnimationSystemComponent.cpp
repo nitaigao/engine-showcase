@@ -52,6 +52,10 @@ namespace Animation
 
 	void AnimationSystemComponent::Initialize( )
 	{
+		m_attributes[ System::Attributes::LookAt ] = MathVector3::Zero( );
+		m_attributes[ System::Attributes::Position ] = MathVector3::Zero( );
+		m_attributes[ System::Attributes::POI ] = MathVector3::Zero( );
+
 		m_animationBlender = new AnimationBlender( );
 
 		std::string bindPose = m_attributes[ System::Attributes::Animation::BindPose ].As< std::string >( );
@@ -85,9 +89,8 @@ namespace Animation
 
 		m_animationBlender->Blend( m_attributes[ System::Attributes::Animation::DefaultAnimation ].As< std::string >( ) );
 
-		m_attributes[ System::Attributes::LookAt ] = MathVector3::Zero( );
-		m_attributes[ System::Attributes::Position ] = MathVector3::Zero( );
-		m_attributes[ System::Attributes::POI ] = MathVector3::Zero( );
+		AnyType::AnyTypeKeyMap results = this->PushMessage( System::Messages::GetAnimationState, AnyType::AnyTypeMap( ) ).As< AnyType::AnyTypeKeyMap >( );
+		m_ogreSkeletons = results[ System::Types::RENDER ].As< SkeletonList >( );
 	}
 
 	void AnimationSystemComponent::LoadAnimation( const std::string& animationName, const std::string& animationPath )
@@ -124,12 +127,6 @@ namespace Animation
 	AnyType AnimationSystemComponent::Message( const System::Message& message, AnyType::AnyTypeMap parameters )
 	{
 		AnyType result;
-
-		if ( message == System::Messages::AddedToComponent )
-		{
-			AnyType::AnyTypeKeyMap results = this->PushMessage( System::Messages::GetAnimationState, AnyType::AnyTypeMap( ) ).As< AnyType::AnyTypeKeyMap >( );
-			m_ogreSkeletons = results[ System::Types::RENDER ].As< SkeletonList >( );
-		}
 
 		if ( message == System::Messages::StartAnimation )
 		{

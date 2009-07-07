@@ -1,41 +1,64 @@
 #include "GeometryComponentSerializer.h"
 
-#include <yaml.h>
+using namespace ticpp;
+
 #include "../../Maths/MathVector3.hpp"
 #include "../../Maths/MathQuaternion.hpp"
 using namespace Maths;
 
+#include "../../System/SystemTypeMapper.hpp"
+using namespace System;
+
 namespace Serialization
 {
-	ISystemComponent* GeometryComponentSerializer::DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes )
+	ISystemComponent* GeometryComponentSerializer::DeSerialize( const std::string entityName, ticpp::Element* componentElement, const ISystemScene::SystemSceneMap& systemScenes )
 	{
-		ISystemScene::SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::GEOMETRY );
+		std::string system;
+		componentElement->GetAttribute( System::Attributes::SystemType, &system );
 
-		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
-	
-		float x, y, z, w;
-	
-		componentNode[ "position" ][ "x" ] >> x;
-		componentNode[ "position" ][ "y" ] >> y;
-		componentNode[ "position" ][ "z" ] >> z;
+		ISystemScene::SystemSceneMap::const_iterator systemScene = systemScenes.find( SystemTypeMapper::StringToType( system ) );
 
-		systemComponent->SetAttribute( System::Attributes::Position, MathVector3( x, y, z ) );
+		std::string type;
+		componentElement->GetAttribute( System::Attributes::ComponentType, &type );
 
+		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, type );
 
-		componentNode[ "scale" ][ "x" ] >> x;
-		componentNode[ "scale" ][ "y" ] >> y;
-		componentNode[ "scale" ][ "z" ] >> z;
+		ticpp::Element* attributesElement = componentElement->FirstChildElement( "attributes" );
+		for( Iterator< Element > attribute = attributesElement->FirstChildElement( false ); attribute != attribute.end( ); attribute++ )
+		{
+			std::string key;
+			attribute->GetAttribute( "key", &key );
 
-		systemComponent->SetAttribute( System::Attributes::Scale, MathVector3( x, y, z ) );
+			float x, y, z, w;
 
+			if ( key == System::Attributes::Position )
+			{
+				attribute->GetAttribute( "v1", &x );
+				attribute->GetAttribute( "v2", &y );
+				attribute->GetAttribute( "v3", &z );
 
-		componentNode[ "orientation" ][ "w" ] >> w;
-		componentNode[ "orientation" ][ "x" ] >> x;
-		componentNode[ "orientation" ][ "y" ] >> y;
-		componentNode[ "orientation" ][ "z" ] >> z;
-		systemComponent->SetAttribute( System::Attributes::Orientation, MathQuaternion( x, y, z, w ) );
+				systemComponent->SetAttribute( System::Attributes::Position, MathVector3( x, y, z ) );
+			}
 
-		systemComponent->Initialize( );
+			if ( key == System::Attributes::Scale )
+			{
+				attribute->GetAttribute( "v1", &x );
+				attribute->GetAttribute( "v2", &y );
+				attribute->GetAttribute( "v3", &z );
+
+				systemComponent->SetAttribute( System::Attributes::Scale, MathVector3( x, y, z ) );
+			}
+
+			if ( key == System::Attributes::Orientation )
+			{
+				attribute->GetAttribute( "v1", &x );
+				attribute->GetAttribute( "v2", &y );
+				attribute->GetAttribute( "v3", &z );
+				attribute->GetAttribute( "v4", &w );
+
+				systemComponent->SetAttribute( System::Attributes::Orientation, MathQuaternion( x, y, z, w ) );
+			}
+		}
 	
 		return systemComponent;
 	}

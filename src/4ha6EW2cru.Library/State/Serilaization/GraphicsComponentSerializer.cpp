@@ -1,25 +1,39 @@
 #include "GraphicsComponentSerializer.h"
 
-#include <yaml.h>
+using namespace ticpp;
+
+#include "../../System/SystemTypeMapper.hpp"
+using namespace System;
 
 namespace Serialization
 {
-	ISystemComponent* GraphicsComponentSerializer::DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes )
+	ISystemComponent* GraphicsComponentSerializer::DeSerialize( const std::string entityName, ticpp::Element* componentElement, const ISystemScene::SystemSceneMap& systemScenes )
 	{
-		ISystemScene::SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::RENDER );
+		std::string system;
+		componentElement->GetAttribute( System::Attributes::SystemType, &system );
+
+		ISystemScene::SystemSceneMap::const_iterator systemScene = systemScenes.find( System::SystemTypeMapper::StringToType( system ) );
 
 		std::string type;
-		componentNode[ "type" ] >> type;
+		componentElement->GetAttribute( System::Attributes::ComponentType, &type );
 
-		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, ( type == "camera" ) ? type : "default" );
+		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, type );
 
-		std::string model;
-		componentNode[ "model" ] >> model;
+		ticpp::Element* attributesElement = componentElement->FirstChildElement( "attributes" );
+		for( Iterator< Element > attribute = attributesElement->FirstChildElement( false ); attribute != attribute.end( ); attribute++ )
+		{
+			std::string key;
+			attribute->GetAttribute( "key", &key );
 
-		systemComponent->SetAttribute( System::Parameters::Model, model );
-		
-		systemComponent->Initialize( );
-	
+			if ( key == System::Parameters::Model )
+			{
+				std::string modelPath;
+				attribute->GetAttribute( "v1", &modelPath );
+
+				systemComponent->SetAttribute( System::Parameters::Model, modelPath );
+			}
+		}
+
 		return systemComponent;
 	}
 }

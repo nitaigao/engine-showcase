@@ -1,10 +1,10 @@
-<node name='wall02'>
-  <scale x='1' y='1' z='1'/>
-  <position x='0' y='23.6222' z='493.015'/>
-  <rotation qw='0.707107' qx='0.707107' qy='0' qz='0'/>
-  <entity name='wall02' id='93' receiveShadows='true' meshFile='/data/entities/meshes/wall01.mesh' castShadows='true'>
+<node name="wall02">
+  <scale x="1" y="1" z="1" />
+  <position x="0" y="23.6222" z="493.015" />
+  <rotation qx="0.707107" qy="0" qz="0" qw="0.707107" />
+  <entity name="wall02" id="93" meshFile="/data/entities/meshes/wall01.mesh" castShadows="true" receiveShadows="true">
     <subentities>
-      <subentity materialName='02-Default' index='0'/>
+      <subentity index="0" materialName="02-Default" />
     </subentities>
   </entity>
 </node>

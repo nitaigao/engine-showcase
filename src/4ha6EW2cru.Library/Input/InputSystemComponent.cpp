@@ -27,6 +27,9 @@ namespace Input
 			m_xHistory.push_front( 0.0f );
 			m_yHistory.push_front( 0.0f );
 		}
+
+		m_attributes[ System::Parameters::DeltaX ] = 0.0f;
+		m_attributes[ System::Parameters::DeltaY ] = 0.0f;
 	}
 
 	AnyType InputSystemComponent::PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters )
@@ -56,33 +59,38 @@ namespace Input
 
 	void InputSystemComponent::Update( const float& deltaMilliseconds )
 	{
-		OIS::Mouse* mouse = m_attributes[ System::Attributes::Parent ].As< IInputSystemScene* >( )->GetSystem( )->GetMouse( );
-
-		// Mouse Movement
-
+		Mouse* mouse = m_attributes[ System::Attributes::Parent ].As< IInputSystemScene* >( )->GetSystem( )->GetMouse( );
 		MouseState mouseState = mouse->getMouseState( );
-
-		float mouseY = 0;
-
-		if ( m_attributes[ System::Parameters::InvertYAxis ].As< bool >( ) )
-		{
-			mouseY = -mouseState.Y.rel;
-		}
-		else
-		{
-			mouseY = mouseState.Y.rel;
-		}
 
 		m_xHistory.pop_back( );
 		m_xHistory.push_front( mouseState.X.rel );
 
+		float mouseY = ( m_attributes[ System::Parameters::InvertYAxis ].As< bool >( ) ) ? -mouseState.Y.rel : mouseState.Y.rel;
+
 		m_yHistory.pop_back( );
 		m_yHistory.push_front( mouseY );
 
-		m_attributes[ System::Parameters::DeltaX ] = this->AverageInputHistory( m_xHistory );
-		m_attributes[ System::Parameters::DeltaY ] = this->AverageInputHistory( m_yHistory );
+		float lastInputX = m_attributes[ System::Parameters::DeltaX ].As< float >( );
+		float lastInputY = m_attributes[ System::Parameters::DeltaY ].As< float >( );
 
-		this->PushMessage( System::Messages::Mouse_Moved, m_attributes );
+		float nextInputX = this->AverageInputHistory( m_xHistory );
+		float nextInputY = this->AverageInputHistory( m_yHistory );
+
+		bool nextInputZero = ( nextInputX == 0.0f && nextInputY == 0.0f );
+		bool lastInputZero = ( lastInputX == 0.0f && lastInputY == 0.0f );
+
+		m_attributes[ System::Parameters::DeltaX ] = nextInputX;
+		m_attributes[ System::Parameters::DeltaY ] = nextInputY;
+
+		if ( !nextInputZero || nextInputZero && !lastInputZero )
+		{
+			this->PushMessage( System::Messages::Mouse_Moved, m_attributes );
+		}
+	}
+
+	void InputSystemComponent::MouseMoved( const OIS::MouseEvent &arg )
+	{
+		
 	}
 
 	void InputSystemComponent::MouseReleased( const MouseEvent &arg, MouseButtonID id )
@@ -190,4 +198,6 @@ namespace Input
 			}
 		}
 	}
+
+	
 }

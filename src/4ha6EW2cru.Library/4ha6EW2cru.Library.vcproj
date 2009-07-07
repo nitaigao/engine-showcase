@@ -5,6 +5,7 @@
 	Name="4ha6EW2cru.Library"
 	ProjectGUID="{399D7AEA-884F-4884-B655-AED35E934A07}"
 	RootNamespace="My4ha6EW2cruLibrary"
+	AssemblyReferenceSearchPaths="&quot;..\4ha6EW2cru.Network&quot;"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -41,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
+				AdditionalIncludeDirectories="../4ha6EW2cru.Network;../../etc/vendor/raknet/Source;../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
 				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG;NOMINMAX;WIN32"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -108,7 +109,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
+				AdditionalIncludeDirectories="../../etc/vendor/raknet/Source;../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
 				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;NOMINMAX;WIN32"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -698,6 +699,22 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Scripting\INetworkFacade.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Network\INetworkSystem.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Network\INetworkSystemComponent.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Network\INetworkSystemScene.hpp"
+			>
+		</File>
+		<File
 			RelativePath=".\State\Serilaization\InputComponentSerializer.cpp"
 			>
 		</File>
@@ -974,6 +991,42 @@
 			>
 		</File>
 		<File
+			RelativePath=".\State\Serilaization\NetworkComponentSerializer.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Serilaization\NetworkComponentSerializer.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\NetworkFacade.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Scripting\NetworkFacade.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Network\NetworkSystem.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Network\NetworkSystem.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Network\NetworkSystemComponent.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Network\NetworkSystemScene.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Network\NetworkSystemScene.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Utility\luabind\include\nil.hpp"
 			>
 		</File>
@@ -1018,11 +1071,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\luabind\include\detail\open.hpp"
+			RelativePath=".\Utility\luabind\include\open.hpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\luabind\include\open.hpp"
+			RelativePath=".\Utility\luabind\include\detail\open.hpp"
 			>
 		</File>
 		<File
@@ -1314,31 +1367,31 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\OgreMax\tinyxml\ticpp.cpp"
+			RelativePath=".\Utility\tinyxml\ticpp.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\OgreMax\tinyxml\ticpp.h"
+			RelativePath=".\Utility\tinyxml\ticpp.h"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\OgreMax\tinyxml\ticpprc.h"
+			RelativePath=".\Utility\tinyxml\ticpprc.h"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\OgreMax\tinyxml\tinyxml.cpp"
+			RelativePath=".\Utility\tinyxml\tinyxml.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\OgreMax\tinyxml\tinyxml.h"
+			RelativePath=".\Utility\tinyxml\tinyxml.h"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\OgreMax\tinyxml\tinyxmlerror.cpp"
+			RelativePath=".\Utility\tinyxml\tinyxmlerror.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\OgreMax\tinyxml\tinyxmlparser.cpp"
+			RelativePath=".\Utility\tinyxml\tinyxmlparser.cpp"
 			>
 		</File>
 		<File
@@ -1422,15 +1475,15 @@
 			>
 		</File>
 		<File
-			RelativePath=".\State\Serilaization\WorldSerializer.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\State\Serilaization\WorldSerializer.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Utility\luabind\include\wrapper_base.hpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Serilaization\XMLSerializer.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\State\Serilaization\XMLSerializer.h"
 			>
 		</File>
 		<File

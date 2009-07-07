@@ -7,7 +7,7 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( WorldLoader_Tests, Suites::StateSuite( ) 
 #include "../Mocks/Mock_World.hpp"
 #include "../Mocks/Mock_System.hpp"
 
-#include "State/Serilaization/WorldSerializer.h"
+#include "State/Serilaization/XMLSerializer.h"
 #include "IO/FileSystem.h"
 #include "Logging/Logger.h"
 

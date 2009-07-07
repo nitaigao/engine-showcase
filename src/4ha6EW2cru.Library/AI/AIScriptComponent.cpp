@@ -27,7 +27,7 @@ namespace AI
 
 		AnyType::AnyTypeMap parameters;
 		parameters[ System::Attributes::Name ] = m_name + "_ai";
-		parameters[ System::Parameters::ScriptPath ] = m_attributes[ System::Attributes::FilePath ];
+		parameters[ System::Parameters::ScriptPath ] = m_attributes[ System::Parameters::ScriptPath ];
 
 		ISystemComponent* scriptComponent = scriptService->Execute( System::Messages::LoadScript, parameters )[ "component" ].As< ISystemComponent* >( );
 

@@ -19,7 +19,7 @@ namespace State
 
 	public:
 
-		typedef std::vector< IWorldEntity* > WorldEntityList;
+		typedef std::deque< IWorldEntity* > WorldEntityList;
 
 		/*! Default Destructor
 		 *
@@ -33,6 +33,13 @@ namespace State
 		 *  @return (const std::string&)
 		 */
 		virtual const std::string& GetName( ) const = 0;
+
+
+		/*! Initializes all of the components contained by the entity
+		*
+		* @return ( void )
+		*/
+		virtual void Initialize( ) = 0;
 
 
 		/*! Adds a System Component to the Entity

@@ -1,7 +1,0 @@
-  - !ruby/object:GraphicsComponent 
-    model: /data/entities/models/marine-arms.model
-    system: graphics
-    type: camera
-  - !ruby/object:InputComponent 
-    system: input
-    type: default

@@ -30,6 +30,13 @@ namespace Input
 		 */
 		virtual ~IInputSystemComponent( ) { };
 
+
+		/*! Called by the Scene when the user presses a mouse button
+		*
+		* @param[in] const OIS::MouseEvent & arg
+		* @param[in] OIS::MouseButtonID id
+		* @return ( void )
+		*/
 		virtual void MousePressed( const OIS::MouseEvent& arg, OIS::MouseButtonID id ) = 0;
 
 
@@ -40,6 +47,14 @@ namespace Input
 		 *  @return (void)
 		 */
 		virtual void MouseReleased( const OIS::MouseEvent& arg, OIS::MouseButtonID id ) = 0;
+
+
+		/*! Called the the Scene when the user moves the mouse
+		*
+		* @param[in] const OIS::MouseEvent & arg
+		* @return ( void )
+		*/
+		virtual void MouseMoved( const OIS::MouseEvent &arg ) = 0;
 
 
 		/*! Called by the Scene when a key is released

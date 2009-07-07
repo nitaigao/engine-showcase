@@ -1,5 +1,6 @@
 load File.join( File.dirname( $0 ),'addPaths.rb' )
 
+require 'cl/xmlserial'
 require 'yaml'
 require 'fileutils'
 require 'rexml/document'
@@ -33,9 +34,23 @@ contents = file.read.gsub( '<![CDATA[', '' ).gsub( ']]>', '' )
 doc = Document.new( contents )
 root = doc.root
 
-class Color
+class Serializable 
+
+	include XmlSerialization
+	
+	def initialize( )
+	
+		XSConf.outputTypeElements = false
+	
+	end
+
+end
+
+class Color < Serializable
 
 	def initialize( name, xmlNode )
+	
+		super( )
 	
 		@name = name
 		@r = xmlNode.attributes[ 'r' ]
@@ -84,9 +99,11 @@ class Color
 end
 
 
-class Fog
+class Fog < Serializable
 
 	def initialize( xmlNode )
+	
+		super( )
 	
 		@mode = xmlNode.attributes[ 'mode' ];
 		@linearStart = Float( xmlNode.attributes[ 'linearStart' ] ) * Float( xmlNode.elements[ '//clipping' ].attributes[ 'far' ] )
@@ -130,12 +147,16 @@ class Fog
 end
 
 
-class Vector
+class Vector < Serializable
 
     def initialize( x, y, z )
+	
+		super( )
+		
         @x = x
         @y = y
         @z = z
+		
     end
     
     def x=( x )
@@ -164,13 +185,17 @@ class Vector
 
 end
 
-class Quaternion
+class Quaternion < Serializable
 
     def initialize( w, x, y, z )
+	
+		super( )
+		
         @w = w
         @x = x
         @y = y
         @z = z
+		
     end
     
     def w=( w )
@@ -207,9 +232,11 @@ class Quaternion
 
 end
 
-class Component
+class Component < Serializable
 
     def initialize( system )
+	
+		super( )
     
         @system = system
 		@type = 'default'
@@ -438,9 +465,11 @@ class SoundComponent < Component
 
 end
 
-class SkyBox
+class SkyBox < Serializable
 
 	def initialize( xmlNode )
+	
+		super( )
 	
 		@enabled = xmlNode.attributes[ 'enable' ]
 		@material = xmlNode.attributes[ 'material' ]
@@ -472,9 +501,11 @@ class SkyBox
 
 end
 
-class EntityLink
+class EntityLink < Serializable
 
 	def initialize( subjectName, subjectSystem, observerName, observerSystem )
+	
+		super( )
 	
 		@subjectName = subjectName
 		@subjectSystem = subjectSystem
@@ -506,9 +537,11 @@ class EntityLink
 	
 end
 
-class Entity
+class GameEntity < Serializable
 
     def initialize( ogreNode )
+	
+		super( )
     
 		@name = ogreNode.attributes[ 'name' ]
 		@type = 'entity'
@@ -605,7 +638,7 @@ def createEntities( xmlRoot )
 
 	xmlRoot.each_element( "/scene/nodes/node" ) { | node |
 
-		entity = Entity.new( node )	
+		entity = GameEntity.new( node )	
 		
 		entities.each { | savedEntity |
 		
@@ -638,7 +671,7 @@ def createEntities( xmlRoot )
 		modelFile.write( modelNode )
 		modelFile.close( )
 		
-		puts 'Processed Entity: ' + entity.name
+		puts 'Processed GameEntity: ' + entity.name
 	}
 	
 	return entities
@@ -710,7 +743,7 @@ puts ''
 
 	file.close( )
 
-	FileUtils.rm( sourcePath )
+	#FileUtils.rm( sourcePath )
 
 puts ''
 puts 'Finished Deleting Old Scene File'

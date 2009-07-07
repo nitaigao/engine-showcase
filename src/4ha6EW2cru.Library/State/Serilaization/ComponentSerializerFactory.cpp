@@ -11,6 +11,7 @@
 #include "ScriptComponentSerializer.h"
 #include "SoundComponentSerializer.h"
 #include "AnimationComponentSerializer.h"
+#include "NetworkComponentSerializer.h"
 
 namespace Serialization
 {
@@ -50,6 +51,10 @@ namespace Serialization
 		else if ( systemType == System::Types::ANIMATION )
 		{
 			strategy = new AnimationComponentSerializer( );
+		}
+		else if ( systemType == System::Types::NETWORK )
+		{
+			strategy = new NetworkComponentSerializer( );
 		}
 
 		return strategy;

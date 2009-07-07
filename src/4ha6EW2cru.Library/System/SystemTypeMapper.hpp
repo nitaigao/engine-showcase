@@ -61,6 +61,10 @@ namespace System
 			{
 				return System::Types::ANIMATION;
 			}
+			else if ( systemType == "network" )
+			{
+				return System::Types::NETWORK;
+			}
 
 			if ( returnType == System::Types::NONE )
 			{

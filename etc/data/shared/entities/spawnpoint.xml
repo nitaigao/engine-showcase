@@ -1,0 +1,12 @@
+<entity name="spawnpoint">
+  <components>
+	<component type="default" system="sound">
+	  <attributes />
+	</component>
+	<component type="default" system="script">
+	  <attributes>
+		<attribute key="scriptPath" v1="/data/entities/scripts/entities/spawnpoint.lua" />
+	  </attributes>
+	</component>
+  </components>
+</entity>

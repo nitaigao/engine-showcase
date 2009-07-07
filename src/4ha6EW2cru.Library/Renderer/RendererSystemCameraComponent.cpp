@@ -67,10 +67,18 @@ namespace Renderer
 		m_attributes[ System::Attributes::Orientation ] = MathQuaternion( m_sceneNode->getOrientation( ) );
 		m_attributes[ System::Parameters::PlayerPosition ] = MathVector3( m_sceneNode->getPosition( ) );
 
-		this->PushMessage( System::Messages::SetLookAt, m_attributes );
+		if ( yawDelta != 0.0f )
+		{
+			this->PushMessage( System::Messages::SetOrientation, m_attributes );
+		}
+
+		if ( yawDelta != 0.0f || pitchDelta != 0.0f )
+		{
+			this->PushMessage( System::Messages::SetLookAt, m_attributes );
+		}
+
 		//this->PushMessage( System::Messages::SetPosition, m_attributes );
-		this->PushMessage( System::Messages::SetOrientation, m_attributes );
-		this->PushMessage( System::Messages::SetPlayerPosition, m_attributes );
+		//this->PushMessage( System::Messages::SetPlayerPosition, m_attributes );
 	}
 
 	void RendererSystemCameraComponent::Initialize( )

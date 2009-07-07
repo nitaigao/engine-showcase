@@ -1,0 +1,186 @@
+<HTML>
+<HEAD>
+
+<TITLE>Bitstreams</TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></HEAD>
+<link href="RaknetManual.css" rel="stylesheet" type="text/css">
+<meta name="title" content="RakNet - Advanced multiplayer game networking API">
+</HEAD>
+<BODY BGCOLOR="#ffffff" LINK="#003399" vlink="#003399" alink="#003399" LEFTMARGIN="0" TOPMARGIN="0" MARGINWIDTH="0" MARGINHEIGHT="0"">
+<span style="background-color: rgb(255, 255, 255);"><img src="RakNet_Icon_Final-copy.jpg" alt="Jenkins Software" width="150" height="150"></span><BR>
+<BR>
+
+<table width="100%" border="0"><tr><td bgcolor="#2c5d92" class="RakNetWhiteHeader">
+<img src="spacer.gif" width="8" height="1">Bitstream Overview</td>
+</tr></table>
+<TABLE BORDER="0" CELLPADDING="10" CELLSPACING="0" WIDTH="100%"><TR><TD>
+<span class="RakNetBlueHeader">Description</span><BR>
+<BR>
+
+The bitstream class is a helper class under the namespace RakNet that is used to wrap a dynamic array for the purpose of packing and unpacking bits.  Its main three benefits are:
+<OL>
+<LI>Creating packets dynamically
+<LI>Compression
+<LI>Writing Bits
+</OL>
+With structs you have to predefine your structures and cast them to a (char*).  With a bitstream, you can choose to write blocks at runtime, depending on the context.  Bitstreams can compress the native types.<BR>
+<BR>
+The compression is quite simple and uses the following algorithm:<BR>
+1. Is the upper half all 0's (1's for unsigned types)?<BR>
+TRUE - Write a 1<BR>
+FALSE - Write a 0, and the upper half<BR>
+2. Repeat with the lower half, until we are at half a byte.<BR>
+What this means is you will save bits if your data under half its maximum range.  So if you know this is usually the case in advance, you can use WriteCompressed instead of Write and ReadCompressed instead of read.<BR>
+<BR>
+Finally, you can write bits.  Most of the time you will not care about this.  However, when writing booleans it will automatically only write one bit.  This can also be very useful for encryption since your data will no longer be byte aligned.<BR>
+<BR>
+<B>Writing Data</B>
+</p>
+Bitstream is templated to take any type of data. If this is a built-in type, such as NetworkIDObject, it uses partial template specialization to write the type more efficiently. If it's a native type, or a structure, it writes the individual bits, similar to memcpy. You can pass structs containing multiple data members to bitstreams. However, you may wish to serialize each individual element to do correct <A HREF="http://en.wikipedia.org/wiki/Endianness">endian</A> swapping (needed for communication between PCs and Macs, for example). Note: if you want to support endian swapping, you should also comment out __BITSTREAM_NATIVE_END in RakNetDefines.h. This is uncommented by default as a speed optimization.<BR>
+<BR>
+<span class="RakNetCode">
+struct MyVector<BR>
+{<BR>
+float x,y,z;<BR>
+} myVector;<BR>
+<BR>
+// No endian swapping<BR>
+bitStream.Write(myVector);<BR>
+<BR>
+// With endian swapping<BR>
+#undef __BITSTREAM_NATIVE_END<BR>
+bitStream.Write(myVector.x);<BR>
+bitStream.Write(myVector.y);<BR>
+bitStream.Write(myVector.z);<BR>
+<BR>
+// You can also override operator left shift and right shift<BR>
+RakNet::BitStream& operator &lt;&lt; (RakNet::BitStream& out, MyVector& in)<BR>
+{<BR>
+	out.WriteNormVector(in.x,in.y,in.z);<BR>
+	return out;<BR>
+}<BR>
+RakNet::BitStream& operator &gt;&gt; (RakNet::BitStream& in, MyVector& out)<BR>
+{<BR>
+	bool success = in.ReadNormVector(out.x,out.y,out.z);<BR>
+	assert(success);<BR>
+	return in;<BR>
+}<BR>
+<BR>
+// Read from bitstream<BR>
+myVector << bitStream;<BR>
+// Write to bitstream<BR>
+myVector >> bitStream;<BR>
+</span>
+<BR>
+Optional - One of the constructor versions takes a length in bytes as a parameter.  If you have an idea of the size of your data you can pass this number when creating the bitstream to avoid internal reallocations.<BR>
+<BR>
+See <A HREF="creatingpackets.html">Creating Packets</A> for more details.<BR>
+<BR>
+<B>Reading Data</B>
+<BR>
+<BR>
+Reading data is equally simple.  Create a bitstream, and in the constructor assign it your data.<BR>
+<BR>
+<span class="RakNetCode">
+	
+// Assuming we have a Packet *<BR>
+BitStream myBitStream(packet->data, packet->length, false);<BR>
+
+struct MyVector<BR>
+{<BR>
+float x,y,z;<BR>
+} myVector;<BR>
+<BR>
+// No endian swapping<BR>
+bitStream.Read(myVector);<BR>
+<BR>
+// With endian swapping (__BITSTREAM_NATIVE_END should just be commented in RakNetDefines.h)<BR>
+#undef __BITSTREAM_NATIVE_END<BR>
+#include "BitStream.h"
+bitStream.Read(myVector.x);<BR>
+bitStream.Read(myVector.y);<BR>
+bitStream.Read(myVector.z);<BR>
+<BR>
+</span>
+See <A HREF="receivingpackets.html">Receiving Packets</A> for a more complete example.<BR>
+<BR>
+
+<B>Serializing Data</B>
+<BR>
+<BR>
+You can have the same function read and write, by using BitStream::Serialize() instead of Read() or Write().<BR>
+<BR>
+<span class="RakNetCode">
+	
+struct MyVector<BR>
+{<BR>
+float x,y,z;<BR>
+// writeToBitstream==true means write, writeToBitstream==false means read<BR>
+void Serialize(bool writeToBitstream, BitStream *bs)<BR>
+{<BR>
+ bs->Serialize(writeToBitstream, x);<BR>
+ bs->Serialize(writeToBitstream, y);<BR>
+ bs->Serialize(writeToBitstream, z);<BR>
+}<BR>
+} myVector;<BR>
+</span>
+
+<BR>
+See <A HREF="receivingpackets.html">Receiving Packets</A> for a more complete example.<BR>
+<BR>
+
+
+</TD>
+</TR></TABLE>
+<table width="100%" border="0"><tr><td bgcolor="#2c5d92" class="RakNetWhiteHeader">
+<img src="spacer.gif" width="8" height="1">Major functions</td>
+</tr></table>
+<TABLE BORDER="0" CELLPADDING="10" CELLSPACING="0" WIDTH="100%"><TR><TD>
+<span class="RakNetBlueHeader">See BitStream.h for a full list of functions.</span><BR>
+<BR>
+
+<B>Constructor</B><BR>
+BitStream(int initialBytesToAllocate);<BR>
+Use the constuctor version that takes an int to determine how many bytes to initially allocate.  While not necessary, you can avoid reallocations when doing writes this way.<BR>
+<BR>
+<B>Constructor</B><BR>
+BitStream(const char* _data, unsigned int lengthInBytes, bool _copyData);<BR>
+This version of the constructor gives the bitstream some initial data.  This is used for interpreting an existing data stream as a bitstream, which you will almost always do when recieving a bitstream that you sent previously.  Use false for _copyData to simply point to the existing data (used for pure reading).  Use true if you want to make an internal copy, either to save the data or if you plan to change it.<BR>
+<BR>
+<B>Write functions</B><BR>
+The write functions write data to the bitstream at the end of the bitstream. You should use the analogous Read to get the data back out.<BR>
+<BR>
+<B>WriteCompressed functions</B><BR>
+The write functions write data to the bitstream at the end of the bitstream. You should use the analogous ReadCompressed to get the data back out<BR>
+<BR>
+<B>Read functions</B><BR>
+The read functions read data already in the bitstream, in order from beginning to end.  The read function returns false if there is no more data in the bitstream.<BR>
+<BR>
+<B>ReadCompressed functions</B><BR>
+The read compressed functions read data already in the bitstream, in order from beginning to end, written with WriteCompressed.  The ReadCompressed function returns false if there is no more data in the bitstream.<BR>
+<BR>
+<B>GetNumberOfBitsUsed</B><BR>
+<B>GetNumberOfBytesUsed</B><BR>
+Gives you the number of bytes or bits written.<BR>
+<BR>
+<B>GetData</B><BR>
+Gives you a pointer to the internal data of the bitstream.  This is a (char*) allocated with malloc and is presented in case you need direct assess to the data.
+
+
+
+</TD>
+</TR></TABLE>
+
+
+<table width="100%" border="0"><tr><td bgcolor="#2c5d92" class="RakNetWhiteHeader">
+<img src="spacer.gif" width="8" height="1">See Also</td>
+</tr></table>
+<TABLE BORDER="0" CELLPADDING="10" CELLSPACING="0" WIDTH="100%"><TR><TD>
+
+<A HREF="index.html">Index</A><BR>
+<A HREF="creatingpackets.html">Creating Packets</A><BR>
+<A HREF="receivingpackets.html">Receiving Packets</A><BR>
+
+</TD></TR></TABLE>
+</BODY>
+</HTML>

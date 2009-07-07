@@ -20,6 +20,8 @@ extend( Player, Character )
 
 function Player:initialize( )
 
+	print( 'player init' )
+
 	script:registerEventHandler( Player.onEvent )
 
 end

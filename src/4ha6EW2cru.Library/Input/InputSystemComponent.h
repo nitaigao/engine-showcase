@@ -132,6 +132,14 @@ namespace Input
 		void MouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
 
+		/*! Called the the Scene when the user moves the mouse
+		*
+		* @param[in] const OIS::MouseEvent & arg
+		* @return ( void )
+		*/
+		void MouseMoved( const OIS::MouseEvent &arg );
+
+
 		/*! Called by the Scene when a key is pressed
 		*
 		* @param[in] const OIS::KeyEvent & arg

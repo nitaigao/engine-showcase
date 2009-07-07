@@ -1,0 +1,47 @@
+<entity>
+  <components>
+	<component type="camera" system="graphics">
+	  <attributes>
+		<attribute key="model" v1="/data/entities/models/marine-arms.model" />
+	  </attributes>
+	</component>
+	<component type="character" system="physics">
+	  <attributes>
+		<attribute key="body" v1="/data/entities/bodies/player.hkx" />
+	  </attributes>
+	</component>
+	<component type="default" system="animation">
+	  <attributes>
+		<attribute key="animation" v1="bindpose" v2="/data/entities/animations/player/player_bindpose.hkx" />
+		<attribute key="animation" v1="idle" v2="/data/entities/animations/player/player_idle.hkx" />
+		<attribute key="animation" v1="run_backward" v2="/data/entities/animations/player/player_run_backward.hkx" />
+		<attribute key="animation" v1="run_forward" v2="/data/entities/animations/player/player_run_forward.hkx" />
+		<attribute key="animation" v1="shoot" v2="/data/entities/animations/player/player_shoot.hkx" />
+		<attribute key="animation" v1="stopped" v2="/data/entities/animations/player/player_stopped.hkx" />
+		<attribute key="animation" v1="strafe_left" v2="/data/entities/animations/player/player_strafe_left.hkx" />
+		<attribute key="animation" v1="strafe_right" v2="/data/entities/animations/player/player_strafe_right.hkx" />
+		<attribute key="bindPose" v1="/data/entities/animations/player/player_bindpose.hkx" />
+		<attribute key="defaultAnimation" v1="/data/entities/animations/player/player_stopped.hkx" />
+	  </attributes>
+	</component>
+	<component type="default" system="input">
+	  <attributes />
+	</component>
+	<component type="default" system="sound">
+	  <attributes />
+	</component>
+	<component type="default" system="script">
+	  <attributes>
+		<attribute key="scriptPath" v1="/data/entities/scripts/entities/player.lua" />
+	  </attributes>
+	</component>
+	<component type="default" system="geometry">
+	  <attributes>
+		<attribute key="scale" v1="1" v2="1" v3="1" />
+		<attribute key="position" v1="28.7411" v2="4.98888" v3="50.882" />
+		<attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+	  </attributes>
+	</component>
+	<component type="default" system="network" />
+  </components>
+</entity>

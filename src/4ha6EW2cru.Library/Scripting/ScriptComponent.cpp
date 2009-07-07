@@ -25,6 +25,7 @@ using namespace luabind;
 #include "SoundFacade.h"
 #include "InstrumentationFacade.h"
 #include "AnimationFacade.h"
+#include "NetworkFacade.h"
 
 namespace Script
 {
@@ -45,6 +46,10 @@ namespace Script
 		AnimationFacade* animationFacade = new AnimationFacade( this );
 		luabind::globals( m_state ) [ "animation" ] = animationFacade;
 		m_facades.push_back( animationFacade );
+
+		NetworkFacade* networkFacade = new NetworkFacade( this );
+		luabind::globals( m_state ) [ "network" ] = networkFacade;
+		m_facades.push_back( networkFacade );
 	}
 
 	void ScriptComponent::Destroy( )
@@ -318,6 +323,11 @@ namespace Script
 			this->RunScript( );
 		}
 
+		if ( message == System::Messages::PostInitialize )
+		{
+			this->RunScript( );
+		}
+
 		if( message == System::Messages::GetState )
 		{
 			result = m_state;
@@ -326,19 +336,6 @@ namespace Script
 		Management::GetEventManager( )->QueueEvent( new ScriptEvent( message, m_attributes[ System::Attributes::Name ].As< std::string >( ) ) );
 
 		return result;
-	}
-
-	void ScriptComponent::PlayAnimation( const std::string& animationName, const bool& loopAnimation )
-	{
-		IService* service = Management::GetServiceManager( )->FindService( System::Types::RENDER );
-
-		AnyType::AnyTypeMap parameters;
-
-		parameters[ "entityName" ] = m_attributes[ System::Attributes::Name ].As< std::string >( );
-		parameters[ "animationName" ] = animationName;
-		parameters[ "loopAnimation" ] = loopAnimation;
-
-		service->Execute( System::Messages::PlayAnimation, parameters );
 	}
 
 	void ScriptComponent::Update( const float& deltaMilliseconds )

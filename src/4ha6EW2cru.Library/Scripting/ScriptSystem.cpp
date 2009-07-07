@@ -13,6 +13,7 @@ using namespace luabind;
 #include "SoundFacade.h"
 #include "InstrumentationFacade.h"
 #include "AnimationFacade.h"
+#include "NetworkFacade.h"
 
 namespace Script
 {
@@ -35,9 +36,9 @@ namespace Script
 
 	ISystemScene* ScriptSystem::CreateScene( )
 	{
-		ScriptSystemScene* scene = new ScriptSystemScene( m_configuration );
-		scene->Initialize( );
-		return scene;
+		m_scene = new ScriptSystemScene( m_configuration );
+		m_scene->Initialize( );
+		return m_scene;
 	}
 
 	AnyType::AnyTypeMap ScriptSystem::Execute( const std::string& actionName, AnyType::AnyTypeMap& parameters )
@@ -97,7 +98,6 @@ namespace Script
 					.def( "getTime", &ScriptComponent::GetTime )
 					.def( "executeString", &ScriptComponent::ExecuteString )
 					.def( "rayQuery", &ScriptComponent::RayQuery, copy_table( result ) )
-					.def( "playAnimation", &ScriptComponent::PlayAnimation )
 					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string& ) ) &ScriptComponent::BroadcastEvent )
 					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string& ) ) &ScriptComponent::BroadcastEvent )
 					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int& ) ) &ScriptComponent::BroadcastEvent )
@@ -111,6 +111,7 @@ namespace Script
 			SoundFacade::RegisterFunctions( luaState );
 			InstrumentationFacade::RegisterFunctions( luaState );
 			AnimationFacade::RegisterFunctions( luaState );
+			NetworkFacade::RegisterFunctions( luaState );
 		}
 
 		return results;
@@ -124,6 +125,7 @@ namespace Script
 	void ScriptSystem::Update( const float& deltaMilliseconds )
 	{
 		m_auxScene->Update( deltaMilliseconds );
+		m_scene->Update( deltaMilliseconds );
 	}
 
 	void ScriptSystem::Message( const std::string& message, AnyType::AnyTypeMap parameters )

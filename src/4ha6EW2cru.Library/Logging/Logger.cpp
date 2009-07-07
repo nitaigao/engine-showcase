@@ -29,9 +29,11 @@ namespace Logging
 			Management::GetEventManager( )->QueueEvent( new ScriptEvent( "MESSAGE_LOGGED", outputMessage.str( ) ) );
 		}
 
-	#ifdef _DEBUG
+	//#ifdef _DEBUG
 		Management::GetPlatformManager( )->OutputDebugMessage( outputMessage.str( ) );
-	#endif // _DEBUG
+	//#endif // _DEBUG
+
+		Management::GetPlatformManager( )->OutputToConsole( outputMessage.str( ) );
 
 	}
 
@@ -64,6 +66,14 @@ namespace Logging
 		if ( s_logLevel >= LEVEL_FATAL )
 		{
 			s_logger.LogMessage( "FATAL", message );
+		}
+	}
+
+	void Logger::Net( const std::string& message )
+	{
+		if ( s_logLevel >= LEVEL_INFO )
+		{
+			s_logger.LogMessage( "NET", message );
 		}
 	}
 }

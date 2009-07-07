@@ -143,7 +143,7 @@ namespace Maths
 		 *  @param[out] MathVector3 & axis
 		 *  @return (void)
 		 */
-		inline void ToAngleAxis( float& angle, MathVector3& axis )
+		inline void ToAngleAxis( float& angle, MathVector3& axis ) const
 		{
 			float squaredLength = X * X + Y * Y + Z * Z;
 
@@ -165,13 +165,39 @@ namespace Maths
 			}
 		}
 
+		/*! Returns whether or not the input Quaternion does matches this Quaternion
+		*
+		* @param[in] const MathQuaternion & input
+		* @return ( bool )
+		*/
+		inline bool operator == ( const MathQuaternion& input ) const
+		{
+			return (
+				input.X == X,
+				input.Y == Y,
+				input.Z == Z,
+				input.W == W
+				);
+		}
+
+		
+		/*! Returns whether or not the input Quaternion does not match this Quaternion
+		*
+		* @param[in] const MathQuaternion & input
+		* @return ( bool )
+		*/
+		inline bool operator != ( const MathQuaternion& input ) const
+		{
+			return !( *this == input );
+		}
+
 
 		/*! Returns the Dot Product of the Quaternion and the specified input
 		 *
 		 *  @param[in] const MathQuaternion & input
 		 *  @return (Maths::MathQuaternion)
 		 */
-		inline MathQuaternion operator * ( const MathQuaternion& input )
+		inline MathQuaternion operator * ( const MathQuaternion& input ) const
 		{
 			return MathQuaternion(
 				W * input.X + X * input.W + Y * input.Z - Z * input.Y,

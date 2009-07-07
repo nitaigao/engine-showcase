@@ -1,0 +1,101 @@
+<level>
+  <environment>
+    <colors>
+      <color type="colourAmbient" r="1" g="1" b="1" />
+      <color type="colourBackground" r="0" g="0" b="0" />
+    </colors>
+  </environment>
+  <entities>
+    <entity name="floor">
+      <components>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/floor.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="2.08789" v2="0" v3="-4.6502" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="wall01">
+      <components>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/wall01.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="0" v2="23.6222" v3="-503.658" />
+            <attribute key="orientation" v1="0.707107" v2="0" v3="0" v4="0.707107" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="wall02">
+      <components>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/wall02.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="0" v2="23.6222" v3="493.015" />
+            <attribute key="orientation" v1="0.707107" v2="0" v3="0" v4="0.707107" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="wall03">
+      <components>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/wall03.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="-498.336" v2="23.6222" v3="-5.94495" />
+            <attribute key="orientation" v1="0.499687" v2="-0.500313" v3="0.500313" v4="0.499687" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="wall04">
+      <components>
+        <component type="default" system="physics">
+          <attributes>
+            <attribute key="body" v1="/data/entities/bodies/wall04.hkx" />
+          </attributes>
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="498.336" v2="23.6222" v3="-4.69873" />
+            <attribute key="orientation" v1="0.499687" v2="-0.500313" v3="0.500313" v4="0.499687" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="Spawn Point01" src="/data/entities/spawnpoint.xml">
+      <components>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="-250.122" v2="0" v3="-119.705" />
+            <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+  </entities>
+</level>

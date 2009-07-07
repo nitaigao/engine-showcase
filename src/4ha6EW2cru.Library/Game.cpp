@@ -14,7 +14,7 @@ using namespace Configuration;
 #include "State/World.h"
 using namespace State;
 
-#include "State/Serilaization/WorldSerializer.h"
+#include "State/Serilaization/XMLSerializer.h"
 using namespace Serialization;
 
 #include "Scripting/ScriptSystem.h"
@@ -26,6 +26,7 @@ using namespace Serialization;
 #include "UX/UXSystem.h"
 #include "Sound/SoundSystem.h"
 #include "Animation/AnimationSystem.h"
+#include "NetworkSystem.h"
 
 #include "Events/Event.h"
 #include "Events/EventData.hpp"
@@ -37,6 +38,8 @@ using namespace Script;
 
 void Game::Initialize( )
 {
+	AnyType::AnyTypeMap programOptions = Management::GetPlatformManager( )->GetProgramOptions( );
+
 	if ( m_isInitialized )
 	{
 		AlreadyInitializedException e ( "Game::Initialize - Attempted to Initialized when the game had already been Initialized" );
@@ -64,21 +67,37 @@ void Game::Initialize( )
 	// -- Initialize All Systems
 
 	ISystemManager* systemManager = Management::GetSystemManager( );
+
+	// -- Server
+
 	systemManager->RegisterSystem( System::Queues::HOUSE, new Geometry::GeometrySystem( ) );
-	systemManager->RegisterSystem( System::Queues::RENDER, new Renderer::RendererSystem( m_configuration ) );
-	systemManager->RegisterSystem( System::Queues::HOUSE, new Animation::AnimationSystem( ) );
 	systemManager->RegisterSystem( System::Queues::LOGIC, new Physics::HavokPhysicsSystem( ) );
-	systemManager->RegisterSystem( System::Queues::HOUSE, new Input::InputSystem( m_configuration ) );
 	systemManager->RegisterSystem( System::Queues::HOUSE, new Script::ScriptSystem( m_configuration ) );
-	systemManager->RegisterSystem( System::Queues::HOUSE, new UX::UXSystem( ) );
-	systemManager->RegisterSystem( System::Queues::HOUSE, new Sound::SoundSystem( m_configuration ) );
 	systemManager->RegisterSystem( System::Queues::HOUSE, new AI::AISystem( ) );
+	systemManager->RegisterSystem( System::Queues::HOUSE, new Network::NetworkSystem( m_configuration ) );
+
+	if ( programOptions.find( System::Options::DedicatedServer ) != programOptions.end( ) )
+	{
+		systemManager->GetSystem( System::Types::NETWORK )->SetAttribute( System::Attributes::Network::IsServer, true );
+		Management::GetPlatformManager( )->CreateConsoleWindow( );
+	}
+	else
+	{
+		systemManager->RegisterSystem( System::Queues::RENDER, new Renderer::RendererSystem( m_configuration ) );
+		systemManager->RegisterSystem( System::Queues::HOUSE, new Animation::AnimationSystem( ) );
+		systemManager->RegisterSystem( System::Queues::HOUSE, new Input::InputSystem( m_configuration ) );
+		systemManager->RegisterSystem( System::Queues::HOUSE, new UX::UXSystem( ) );
+		systemManager->RegisterSystem( System::Queues::HOUSE, new Sound::SoundSystem( m_configuration ) );
+
+		systemManager->GetSystem( System::Types::NETWORK )->SetAttribute( System::Attributes::Network::IsServer, false );
+	}
+
 	systemManager->InitializeAllSystems( );
 
 	// -- Setup the World and World Loader
 
 	m_world = systemManager->CreateWorld( );
-	m_worldLoader = new Serialization::WorldSerializer( m_world );
+	m_worldLoader = new Serialization::XMLSerializer( m_world );
 
 	// -- Register Events
 
@@ -87,8 +106,6 @@ void Game::Initialize( )
 	Management::GetEventManager( )->AddEventListener( GAME_ENDED, this, &Game::OnGameEnded );
 	Management::GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_INITIALIZED" ) );
 
-	AnyType::AnyTypeMap programOptions = Management::GetPlatformManager( )->GetProgramOptions( );
-	
 	if ( programOptions.find( System::Options::LevelName ) != programOptions.end( ) )
 	{
 		std::string levelName = programOptions[ System::Options::LevelName ].As< std::string >( );
@@ -111,12 +128,6 @@ void Game::Update( )
 	float deltaMilliseconds = Management::GetPlatformManager( )->GetClock( ).GetDeltaMilliseconds( );
 
 	m_worldLoader->Update( deltaMilliseconds );
-
-	if ( m_worldLoader->IsFinishedLoading( ) )
-	{
-		//m_world->Update( deltaMilliseconds );
-	}
-
 	Management::Update( deltaMilliseconds );
 }
 
@@ -152,7 +163,7 @@ void Game::OnGameLevelChanged( const IEvent* event )
 	LevelChangedEventData* eventData = static_cast< LevelChangedEventData* >( event->GetEventData( ) );
 
 	std::stringstream levelPath;
-	levelPath << "/data/levels/" << eventData->GetLevelName( ) << ".yaml";
+	levelPath << "/data/levels/" << eventData->GetLevelName( ) << ".xml";
 	
 	m_worldLoader->Load( levelPath.str( ) );
 }
@@ -160,11 +171,6 @@ void Game::OnGameLevelChanged( const IEvent* event )
 void Game::OnGameEnded( const IEvent* event )
 {
 	m_world->Clear( );
-
-	ISystem* renderSystem = Management::GetSystemManager( )->GetSystem( System::Types::RENDER );
-
-	renderSystem->SetAttribute( "activeCamera", "default" );
-	renderSystem->SetAttribute( "backgroundColor", Renderer::Color( 0.0f, 0.0f, 0.0f ) );
 }
 
 // EOF

@@ -17,11 +17,11 @@ namespace AI
 
 	void AINavigationMeshComponent::Destroy( )
 	{
-		AnyType::AnyTypeMap parameters;
+		/*AnyType::AnyTypeMap parameters;
 		parameters[ System::Attributes::Name ] = m_attributes[ System::Attributes::Name ].As< std::string >( );
 
 		IService* renderService = Management::GetServiceManager( )->FindService( System::Types::RENDER );
-		renderService->Execute( System::Messages::DestroyMesh, parameters );
+		renderService->Execute( System::Messages::DestroyMesh, parameters );*/
 	}
 
 	void AINavigationMeshComponent::Initialize( )

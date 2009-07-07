@@ -11,6 +11,7 @@
 
 #include "../Service/IService.hpp"
 #include "../Configuration/IConfiguration.hpp"
+#include "../Events/IEvent.hpp"
 
 #include "IRendererSystem.hpp"
 #include "IRenderSystemScene.h"
@@ -132,6 +133,8 @@ namespace Renderer
 		RendererSystem & operator = ( const RendererSystem & copy ) { return *this; };
 
 		void windowClosed( Ogre::RenderWindow* rw );
+
+		void OnGameEnded( const Events::IEvent* event );
 
 		void CreateRenderWindow( const std::string& windowTitle, int width, int height, bool fullScreen );
 		std::vector< std::string > GetVideoModes( ) const;

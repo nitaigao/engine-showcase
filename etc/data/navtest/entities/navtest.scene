@@ -1,0 +1,320 @@
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="1" minOgreVersion="1.4" author="OgreMax Scene Exporter by Derek Nedelman (www.ogremax.com)">
+    <environment>
+        <colourAmbient r="1" g="1" b="1" />
+        <colourBackground r="0" g="0" b="0" />
+    </environment>
+    <nodes>
+        <node name="floor01">
+            <scale x="1" y="1" z="1" />
+            <position x="41.5191" y="0" z="4.20376" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="floor01" id="120" meshFile="floor01.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aiScriptName></aiScriptName><attachGraphics>true</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="01-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="floor02">
+            <scale x="1" y="1" z="1" />
+            <position x="11.6883" y="0" z="28.2402" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="floor02" id="121" meshFile="floor02.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aiScriptName></aiScriptName><attachGraphics>true</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="01-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="floor03">
+            <scale x="1" y="1" z="1" />
+            <position x="-39.9832" y="0" z="-7.1116" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="floor03" id="123" meshFile="floor03.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aiScriptName></aiScriptName><attachGraphics>true</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="01-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="floor04">
+            <scale x="1" y="1" z="1" />
+            <position x="0.45183" y="0" z="-8.80129" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="floor04" id="125" meshFile="floor04.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aiScriptName></aiScriptName><attachGraphics>true</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="01-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="floor05">
+            <scale x="1" y="1" z="1" />
+            <position x="3.82433" y="0" z="10.6564" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="floor05" id="126" meshFile="floor05.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aiScriptName></aiScriptName><attachGraphics>true</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="01-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="floor06">
+            <scale x="1" y="1" z="1" />
+            <position x="8.25915" y="0" z="-38.495" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="floor06" id="128" meshFile="floor06.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aiScriptName></aiScriptName><attachGraphics>true</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="01-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="floor07">
+            <scale x="1" y="1" z="1" />
+            <position x="41.8916" y="0" z="-28.4058" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="floor07" id="129" meshFile="floor07.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aiScriptName></aiScriptName><attachGraphics>true</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="01-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="floor08">
+            <scale x="1" y="1" z="1" />
+            <position x="28.333" y="0" z="59.9428" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="floor08" id="131" meshFile="floor08.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aiScriptName></aiScriptName><attachGraphics>true</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="01-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="floor09">
+            <scale x="1" y="1" z="1" />
+            <position x="-7.97083" y="0" z="72.4086" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="floor09" id="132" meshFile="floor09.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aiScriptName></aiScriptName><attachGraphics>true</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="01-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="floor10">
+            <scale x="1" y="1" z="1" />
+            <position x="-9.89571" y="0" z="106.149" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="floor10" id="133" meshFile="floor10.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aiScriptName></aiScriptName><attachGraphics>true</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="01-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="floor11">
+            <scale x="1" y="1" z="1" />
+            <position x="-54.0384" y="0" z="121.284" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="floor11" id="135" meshFile="floor11.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aiScriptName></aiScriptName><attachGraphics>true</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="01-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="floor12">
+            <scale x="1" y="1" z="1" />
+            <position x="-72.5133" y="0" z="71.5165" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="floor12" id="136" meshFile="floor12.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aiScriptName></aiScriptName><attachGraphics>true</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="01-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="floor13">
+            <scale x="1" y="1" z="1" />
+            <position x="-52.5794" y="0" z="33.7952" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="floor13" id="137" meshFile="floor13.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aiScriptName></aiScriptName><attachGraphics>true</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="NoMaterial" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="enemy_marine01">
+            <scale x="1" y="1" z="1" />
+            <position x="-39.8941" y="0.966896" z="-35.4179" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="enemy_marine01" id="371" meshFile="enemy_marine01.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachSound>true</attachSound><attachGraphics>true</attachGraphics><overrideGraphicsModel>marine.model</overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>character</physicsType><attachScript>true</attachScript><scriptName>entities/marine.lua</scriptName><attachAI>true</attachAI><aifilePath>scripts/ai/marine.lua</aifilePath><aiType>default</aiType></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="NoMaterial" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="AI_Waypoint01">
+            <scale x="1" y="1" z="1" />
+            <position x="-41.7917" y="0" z="-28.2277" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="AI_Waypoint01" id="474" meshFile="AI_Waypoint01.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>true</attachAI><aifilePath></aifilePath><aiType>waypoint</aiType><attachGraphics>false</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>false</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="NoMaterial" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="AI_Waypoint15">
+            <scale x="1" y="1" z="1" />
+            <position x="3.33102" y="0" z="20.257" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="AI_Waypoint15" id="491" meshFile="AI_Waypoint15.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>true</attachAI><aifilePath></aifilePath><aiType>waypoint</aiType><attachGraphics>false</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>false</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="NoMaterial" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="navmesh">
+            <scale x="1" y="1" z="1" />
+            <position x="21.4339" y="0" z="28.1738" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="navmesh" id="507" meshFile="navmesh.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>true</attachAI><aifilePath></aifilePath><aiType>navmesh</aiType><attachGraphics>false</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>false</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound><ainavMesh>meshes/navmesh.mesh</ainavMesh><attachAnimation>false</attachAnimation><animationPath></animationPath><defaultAnimation></defaultAnimation><bindPose></bindPose></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="NoMaterial" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="player">
+            <scale x="1" y="1" z="1" />
+            <position x="28.7411" y="4.98888" z="50.882" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="player" id="508" meshFile="player.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<external><externalSrc>/data/entities/player.xml</externalSrc></external>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="NoMaterial" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="AI_Waypoint02">
+            <scale x="1" y="1" z="1" />
+            <position x="4.93785" y="0" z="-7.67057" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="AI_Waypoint02" id="509" meshFile="AI_Waypoint02.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>true</attachAI><aifilePath></aifilePath><aiType>waypoint</aiType><attachGraphics>false</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>false</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="NoMaterial" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="AI_Waypoint03">
+            <scale x="1" y="1" z="1" />
+            <position x="-38.8463" y="0" z="10.0516" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="AI_Waypoint03" id="510" meshFile="AI_Waypoint03.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>true</attachAI><aifilePath></aifilePath><aiType>waypoint</aiType><attachGraphics>false</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>false</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="NoMaterial" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="AI_Waypoint04">
+            <scale x="1" y="1" z="1" />
+            <position x="-12.6105" y="0" z="28.1212" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="AI_Waypoint04" id="511" meshFile="AI_Waypoint04.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>true</attachAI><aifilePath></aifilePath><aiType>waypoint</aiType><attachGraphics>false</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>false</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="NoMaterial" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="AI_Waypoint05">
+            <scale x="1" y="1" z="1" />
+            <position x="42.1196" y="0" z="-31.3001" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="AI_Waypoint05" id="512" meshFile="AI_Waypoint05.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>true</attachAI><aifilePath></aifilePath><aiType>waypoint</aiType><attachGraphics>false</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>false</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="NoMaterial" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="AI_Waypoint06">
+            <scale x="1" y="1" z="1" />
+            <position x="2.67915" y="0" z="-37.9025" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="AI_Waypoint06" id="513" meshFile="AI_Waypoint06.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>true</attachAI><aifilePath></aifilePath><aiType>waypoint</aiType><attachGraphics>false</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>false</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="NoMaterial" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="AI_Waypoint07">
+            <scale x="1" y="1" z="1" />
+            <position x="-16.2592" y="0" z="-9.06054" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="AI_Waypoint07" id="514" meshFile="AI_Waypoint07.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>true</attachAI><aifilePath></aifilePath><aiType>waypoint</aiType><attachGraphics>false</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>false</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="NoMaterial" />
+                </subentities>
+            </entity>
+        </node>
+    </nodes>
+</scene>

@@ -21,6 +21,7 @@ using namespace IO;
 #include "../Maths/MathVector3.hpp"
 using namespace Maths;
 
+using namespace Events;
 
 namespace Renderer
 {
@@ -37,6 +38,8 @@ namespace Renderer
 	void RendererSystem::Release()
 	{
 		Ogre::WindowEventUtilities::removeWindowEventListener( m_window, this );
+
+		Management::GetEventManager( )->RemoveEventListener( GAME_ENDED, this, &RendererSystem::OnGameEnded );
 
 		if ( m_root != 0 )
 		{
@@ -153,6 +156,8 @@ namespace Renderer
 		m_factories.push_back( lineFactory );
 		m_root->addMovableObjectFactory( lineFactory );
 
+		Management::GetEventManager( )->AddEventListener( GAME_ENDED, this, &RendererSystem::OnGameEnded );
+
 		//CompositorManager::getSingletonPtr( )->addCompositor( m_sceneManager->getCurrentViewport( ), "HDR" );
 		//CompositorManager::getSingletonPtr( )->setCompositorEnabled( m_sceneManager->getCurrentViewport( ), "HDR", true );
 	}
@@ -175,7 +180,7 @@ namespace Renderer
 			m_sceneManager->getCurrentViewport( )->setCamera( camera );
 		}
 
-		if ( name == "ambientColor" )
+		if ( name == "colourAmbient" )
 		{
 			Color color = value.As< Renderer::Color >( );
 			ColourValue colorValue( color.Red, color.Green, color.Blue );
@@ -183,7 +188,7 @@ namespace Renderer
 			m_sceneManager->setAmbientLight( colorValue );
 		}
 
-		if ( name == "backgroundColor" )
+		if ( name == "colourBackground" )
 		{
 			Color color = value.As< Renderer::Color >( );
 			ColourValue colorValue( color.Red, color.Green, color.Blue );
@@ -345,7 +350,7 @@ namespace Renderer
 
 		if ( message == System::Messages::LoadMesh )
 		{
-			Ogre::MeshPtr mesh = m_root->getMeshManager( )->load( parameters[ System::Attributes::FilePath ].As< std::string >( ), Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME );
+			Ogre::MeshPtr mesh = m_root->getMeshManager( )->load( parameters[ System::Parameters::NavigationMesh ].As< std::string >( ), Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME );
 
 			size_t vertexCount, indexCount;
 			Vector3* vertices;
@@ -510,5 +515,11 @@ namespace Renderer
 			ibuf->unlock();
 			current_offset = next_offset;
 		}
+	}
+
+	void RendererSystem::OnGameEnded( const IEvent* event )
+	{
+		this->SetAttribute( "activeCamera", "default" );
+		this->SetAttribute( "backgroundColor", Renderer::Color( 0.0f, 0.0f, 0.0f ) );
 	}
 }

@@ -61,14 +61,17 @@ namespace Physics
 
 	AnyType PhysicsSystemComponent::Message( const System::Message& message, AnyType::AnyTypeMap parameters )
 	{
-		if ( message == System::Messages::SetPosition )
+		if ( m_body )
 		{
-			m_body->setPosition( parameters[ System::Attributes::Position ].As< MathVector3 >( ).AshkVector4( ) );
-		}
+			if ( message == System::Messages::SetPosition )
+			{
+				m_body->setPosition( parameters[ System::Attributes::Position ].As< MathVector3 >( ).AshkVector4( ) );
+			}
 
-		if ( message == System::Messages::SetOrientation )
-		{
-			m_body->setRotation( parameters[ System::Attributes::Orientation ].As< MathQuaternion >( ).AshkQuaternion( ) );
+			if ( message == System::Messages::SetOrientation )
+			{
+				m_body->setRotation( parameters[ System::Attributes::Orientation ].As< MathQuaternion >( ).AshkQuaternion( ) );
+			}
 		}
 
 		return AnyType( );

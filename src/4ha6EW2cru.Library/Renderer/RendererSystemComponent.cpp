@@ -39,7 +39,6 @@ namespace Renderer
 		this->LoadModel( m_sceneNode, m_attributes[ System::Parameters::Model ].As< std::string >( ) );
 
 		m_scene->GetSceneManager( )->getRootSceneNode( )->addChild( m_sceneNode );
-		m_sceneNode->showBoundingBox( true );
 
 		this->InitializeSceneNode( m_sceneNode );
 	}

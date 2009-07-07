@@ -32,6 +32,8 @@ public:
 
 	AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters ) { };
 
+	void Initialize() { };
+
 private:
 
 	Mock_Entity & operator = ( const Mock_Entity & copy ) { return *this; };

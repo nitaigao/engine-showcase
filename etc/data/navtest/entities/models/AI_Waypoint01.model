@@ -1,10 +1,10 @@
-<node name='AI_Waypoint01'>
-  <scale x='1' y='1' z='1'/>
-  <position x='-41.7917' y='0' z='-28.2277'/>
-  <rotation qw='1' qx='0' qy='0' qz='0'/>
-  <entity name='AI_Waypoint01' id='474' receiveShadows='true' meshFile='/data/entities/meshes/AI_Waypoint01.mesh' castShadows='true'>
+<node name="AI_Waypoint01">
+  <scale x="1" y="1" z="1" />
+  <position x="-41.7917" y="0" z="-28.2277" />
+  <rotation qx="0" qy="0" qz="0" qw="1" />
+  <entity name="AI_Waypoint01" id="474" meshFile="/data/entities/meshes/AI_Waypoint01.mesh" castShadows="true" receiveShadows="true">
     <subentities>
-      <subentity materialName='NoMaterial' index='0'/>
+      <subentity index="0" materialName="NoMaterial" />
     </subentities>
   </entity>
 </node>

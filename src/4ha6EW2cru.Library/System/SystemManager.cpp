@@ -33,11 +33,11 @@ void SystemManager::Update( const float& deltaMilliseconds )
 	int maxLoops = 10;
 
 	float step = 1.0f / 100.0f;
-	float accumulator = step + deltaMilliseconds;
+	m_accumulator += deltaMilliseconds;
 
 	float logicStart = Management::GetPlatformManager( )->GetClock( ).GetTime( );
 
-	while( accumulator > step && loopCount < maxLoops )
+	while( m_accumulator >= deltaMilliseconds && loopCount < maxLoops )
 	{
 		for( ISystem::SystemQueueMap::iterator i = _systemsByQueue.begin( ); i != _systemsByQueue.end( ); ++i )
 		{
@@ -47,7 +47,7 @@ void SystemManager::Update( const float& deltaMilliseconds )
 			}
 		}
 
-		accumulator -= step;
+		m_accumulator -= step;
 		loopCount++;
 	}
 

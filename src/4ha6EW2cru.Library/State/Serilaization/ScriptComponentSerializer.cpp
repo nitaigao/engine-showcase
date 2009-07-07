@@ -1,25 +1,42 @@
 #include "ScriptComponentSerializer.h"
 
-#include <yaml.h>
+using namespace ticpp;
+
 #include "../../Scripting/IScriptComponent.hpp"
 using namespace Script;
 
+#include "../../System/SystemTypeMapper.hpp"
+using namespace System;
+
 namespace Serialization
 {
-	ISystemComponent* ScriptComponentSerializer::DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes )
+	ISystemComponent* ScriptComponentSerializer::DeSerialize( const std::string entityName, ticpp::Element* componentElement, const ISystemScene::SystemSceneMap& systemScenes )
 	{
-		ISystemScene::SystemSceneMap::const_iterator systemScene = systemScenes.find( System::Types::SCRIPT );
+		std::string system;
+		componentElement->GetAttribute( System::Attributes::SystemType, &system );
 
-		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, "default" );
-		IScriptComponent* scriptComponent = static_cast< IScriptComponent* >( systemComponent );
-		
-		std::string scriptPath;
-		componentNode[ "scriptPath" ] >> scriptPath;
+		ISystemScene::SystemSceneMap::const_iterator systemScene = systemScenes.find( SystemTypeMapper::StringToType( system ) );
 
-		systemComponent->SetAttribute( System::Parameters::ScriptPath, scriptPath );
-		scriptComponent->Initialize( );
-		scriptComponent->RunScript( );
+		std::string type;
+		componentElement->GetAttribute( System::Attributes::ComponentType, &type );
+
+		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, type );
+
+		ticpp::Element* attributesElement = componentElement->FirstChildElement( "attributes" );
+		for( Iterator< Element > attribute = attributesElement->FirstChildElement( false ); attribute != attribute.end( ); attribute++ )
+		{
+			std::string key;
+			attribute->GetAttribute( "key", &key );
+
+			if ( key == System::Parameters::ScriptPath )
+			{
+				std::string scriptPath;
+				attribute->GetAttribute( "v1", &scriptPath );
+
+				systemComponent->SetAttribute( System::Parameters::ScriptPath, scriptPath );
+			}
+		}
 	
-		return scriptComponent;
+		return systemComponent;
 	}
 }

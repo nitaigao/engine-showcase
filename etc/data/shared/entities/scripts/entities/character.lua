@@ -22,6 +22,12 @@ extend( Character, Actor )
 -- Character Functions
 ----------------------------------------------------------------
 
+function Character:initialize( )
+
+	print( '#######################################' )
+
+end
+
 function Character:fireWeapon( )
 	
 	self.weapon:fireAt( script:getPosition( ) + self.eyeLevel, script:getLookAt( ) + self.eyeLevel )

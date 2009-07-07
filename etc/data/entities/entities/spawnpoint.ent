@@ -1,7 +1,0 @@
-  - !ruby/object:SoundComponent 
-    system: sound
-    type: default
-  - !ruby/object:ScriptComponent 
-    scriptPath: /data/entities/scripts/entities/spawnpoint.lua
-    system: script
-    type: default

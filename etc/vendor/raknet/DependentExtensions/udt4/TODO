@@ -1,0 +1,7 @@
+# rename core.* to socket.*
+# rename contorl.* to kbase.*
+add selectEx
+add accurate receiver buffer size calculation in our-of-order message delivery.
+add file transfer under messaging mode
+reduce frequency of ACK2s
+add identification code for each UDT packet

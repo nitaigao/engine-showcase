@@ -15,6 +15,9 @@ namespace Physics
 {
 	void PhysicsSystemCharacterComponent::Initialize( )
 	{
+		m_attributes[ System::Attributes::Position ] = MathVector3::Zero( );
+		m_attributes[ System::Attributes::Orientation ] = MathQuaternion::Identity( );
+
 		hkpCharacterStateManager* characterManager = new hkpCharacterStateManager( );
 
 		hkpCharacterState* state = new hkpCharacterStateOnGround( );
@@ -172,12 +175,22 @@ namespace Physics
 			m_characterContext->update( m_characterInput, output );
 			m_characterBody->setLinearVelocity( output.m_velocity, deltaMilliseconds );
 
-			m_attributes[ System::Attributes::Position ] = MathVector3( m_body->getPosition( ) );
-			m_attributes[ System::Attributes::Orientation ] = MathQuaternion( m_body->getRotation( ) );
+			MathVector3 newPosition( m_body->getPosition( ) );
 
-			this->PushMessage( System::Messages::SetPosition, m_attributes );
-			this->PushMessage( System::Messages::SetOrientation, m_attributes );
+			if ( m_attributes[ System::Attributes::Position ].As< MathVector3 >( ) != newPosition )
+			{
+				m_attributes[ System::Attributes::Position ] = newPosition;
+				this->PushMessage( System::Messages::SetPosition, m_attributes );
+			}
 
+			MathQuaternion newOrientation( m_body->getRotation( ) );
+
+			if ( m_attributes[ System::Attributes::Orientation ].As< MathQuaternion >( ) != newOrientation )
+			{
+				m_attributes[ System::Attributes::Orientation ] = newOrientation;
+				this->PushMessage( System::Messages::SetOrientation, m_attributes );
+			}
+			
 			m_characterInput.m_wantJump = false;
 			m_characterInput.m_userData = ( m_characterBody->getLinearVelocity( ).compareEqual4( hkVector4::getZero( ) ).anyIsSet( ) );
 		}

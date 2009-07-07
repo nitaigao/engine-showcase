@@ -1,52 +1,61 @@
 #include "AnimationComponentSerializer.h"
 
-#include <yaml.h>
+using namespace ticpp;
+
 #include "../../System/SystemTypeMapper.hpp"
 using namespace System;
 
 namespace Serialization
 {
-	ISystemComponent* AnimationComponentSerializer::DeSerialize( const std::string& entityName, const YAML::Node& componentNode, const ISystemScene::SystemSceneMap& systemScenes )
+	ISystemComponent* AnimationComponentSerializer::DeSerialize( const std::string entityName, ticpp::Element* componentElement, const ISystemScene::SystemSceneMap& systemScenes )
 	{
 		std::string system;
-		componentNode[ "system" ] >> system;
+		componentElement->GetAttribute( System::Attributes::SystemType, &system );
 
-		ISystemScene::SystemSceneMap::const_iterator systemScene = systemScenes.find( SystemTypeMapper::StringToType( system ) );
+		ISystemScene::SystemSceneMap::const_iterator systemScene = systemScenes.find( System::SystemTypeMapper::StringToType( system ) );
 
 		std::string type;
-		componentNode[ "type" ] >> type;
+		componentElement->GetAttribute( System::Attributes::ComponentType, &type );
 
 		ISystemComponent* systemComponent = ( *systemScene ).second->CreateComponent( entityName, type );
+
 		std::map< std::string, std::string > animations;
 
-		for( YAML::Iterator componentProperty = componentNode.begin( ); componentProperty != componentNode.end( ); ++componentProperty ) 
+		ticpp::Element* attributesElement = componentElement->FirstChildElement( "attributes" );
+		for( Iterator< Element > attribute = attributesElement->FirstChildElement( false ); attribute != attribute.end( ); attribute++ )
 		{
-			if ( componentProperty.second().GetType( ) == YAML::CT_MAP )
+			std::string key;
+			attribute->GetAttribute( "key", &key );
+
+			if ( key == "animation" )
 			{
-				for( YAML::Iterator animationNode = componentProperty.second( ).begin( ); animationNode != componentProperty.second( ).end( ); ++animationNode ) 
-				{
-					std::string animationName, animationPath;
+				std::string animationName;
+				attribute->GetAttribute( "v1", &animationName );
 
-					animationNode.first( ) >> animationName;
-					animationNode.second( ) >> animationPath;
+				std::string animationPath;
+				attribute->GetAttribute( "v2", &animationPath );
 
-					animations.insert( std::make_pair( animationName, animationPath ) );
-				}
+				animations.insert( std::make_pair( animationName, animationPath ) );
 			}
-			else
+
+			if ( key == System::Attributes::Animation::BindPose )
 			{
-				std::string propertyKey, propertyValue;
+				std::string animationPath;
+				attribute->GetAttribute( "v1", &animationPath );
 
-				componentProperty.first( ) >> propertyKey;
-				componentProperty.second( ) >> propertyValue;
+				systemComponent->SetAttribute( System::Attributes::Animation::BindPose, animationPath );
+			}
 
-				systemComponent->SetAttribute( propertyKey, propertyValue );
+			if ( key == System::Attributes::Animation::DefaultAnimation )
+			{
+				std::string animationPath;
+				attribute->GetAttribute( "v1", &animationPath );
+
+				systemComponent->SetAttribute( System::Attributes::Animation::DefaultAnimation, animationPath );
 			}
 		}
 
-
 		systemComponent->SetAttribute( System::Attributes::Animation::Animations , animations );
-		systemComponent->Initialize( );
 
 		return systemComponent;
 	}

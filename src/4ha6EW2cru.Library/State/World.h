@@ -14,7 +14,7 @@ namespace State
 	/*!
 	 *  The Container for all Entities 
 	 */
-	class World : public IWorld
+	class World : public IWorld, public IObserver
 	{
 
 	public:
@@ -81,6 +81,14 @@ namespace State
 		*  @return (void)
 		*/
 		void Clear( );
+
+
+		/*! Messages the Observer to influence its internal state
+		*
+		*  @param[in] const std::string & message
+		*  @return (AnyType)
+		*/
+		AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters );
 
 	private:
 

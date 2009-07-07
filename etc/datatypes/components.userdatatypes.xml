@@ -23,7 +23,8 @@
 		<data displayName="Attach Physics" name="attachPhysics" groupName="Physics" type="bool" default="false" />	
 		<data displayName="Physics Type" name="physicsType" groupName="Physics" type="physicsTypeOptions" />
 		<data displayName="Attach AI" name="attachAI" groupName="AI" type="bool" default="false" />
-		<data displayName="File Path" name="aifilePath" groupName="AI" type="string" />
+		<data displayName="AI Script Path" name="aifilePath" groupName="AI" type="string" />
+		<data displayName="AI Navmesh" name="ainavMesh" groupName="AI" type="string" />
 		<data displayName="AI Type" name="aiType" groupName="AI" type="aiTypeOptions" />
 		<data displayName="Attach Animation" name="attachAnimation" groupName="Animation" type="bool" default="false" />
 		<data displayName="Path to Animations" name="animationPath" groupName="Animation" type="string" />
@@ -31,5 +32,8 @@
 		<data displayName="Bind Pose" name="bindPose" groupName="Animation" type="string" />
 		
 	</class>	
+	<class name="external" usage="object">
+		<data displayName="External Source" name="externalSrc" groupName="External" type="string" />
+	</class>
 </userDataTypes>	
 		<!--<data displayName="Attach Animation" name="attachAnimation" groupName="Animation" type="bool" default="false" />	-->

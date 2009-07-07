@@ -279,16 +279,6 @@ namespace Script
 		std::vector< std::string > RayQuery( Maths::MathVector3 origin, Maths::MathVector3 direction, const float& length, const bool& sortByDistance, const int& maxResults );
 
 
-		/*! If a Render Component is attached to this component's parent, 
-		 *  then this will request it plays the given animation
-		 *
-		 *  @param[in] const std::string & animationName
-		 *  @param[in] bool loopAnimation
-		 *  @return (void)
-		 */
-		void PlayAnimation( const std::string& animationName, const bool& loopAnimation );
-
-
 		/*! Returns the system time in Milliseconds
 		 *
 		 *  @return (float)

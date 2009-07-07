@@ -119,7 +119,7 @@ namespace Input
 		{
 			for( IInputSystemComponent::InputSystemComponentList::iterator i = m_inputComponents.begin( ); i != m_inputComponents.end( ); ++i  )
 			{
-				//( *i )->MouseMoved( arg );
+				( *i )->MouseMoved( arg );
 			}
 		}
 

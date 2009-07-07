@@ -1,0 +1,86 @@
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="1" minOgreVersion="1.4" author="OgreMax Scene Exporter by Derek Nedelman (www.ogremax.com)">
+    <environment>
+        <colourAmbient r="1" g="1" b="1" />
+        <colourBackground r="0" g="0" b="0" />
+    </environment>
+    <nodes>
+        <node name="floor">
+            <scale x="1" y="1" z="1" />
+            <position x="2.08789" y="0" z="-4.6502" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="floor" id="1" meshFile="floor.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aifilePath></aifilePath><aiType>default</aiType><attachAnimation>false</attachAnimation><animationPath></animationPath><defaultAnimation></defaultAnimation><bindPose></bindPose><attachGraphics>false</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="01-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="wall01">
+            <scale x="1" y="1" z="1" />
+            <position x="0" y="23.6222" z="-503.658" />
+            <rotation qx="0.707107" qy="0" qz="0" qw="0.707107" />
+            <entity name="wall01" id="50" meshFile="wall01.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aifilePath></aifilePath><aiType>default</aiType><attachAnimation>false</attachAnimation><animationPath></animationPath><defaultAnimation></defaultAnimation><bindPose></bindPose><attachGraphics>false</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="02-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="wall02">
+            <scale x="1" y="1" z="1" />
+            <position x="0" y="23.6222" z="493.015" />
+            <rotation qx="0.707107" qy="0" qz="0" qw="0.707107" />
+            <entity name="wall02" id="93" meshFile="wall01.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aifilePath></aifilePath><aiType>default</aiType><attachAnimation>false</attachAnimation><animationPath></animationPath><defaultAnimation></defaultAnimation><bindPose></bindPose><attachGraphics>false</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="02-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="wall03">
+            <scale x="1" y="1" z="1" />
+            <position x="-498.336" y="23.6222" z="-5.94495" />
+            <rotation qx="0.499687" qy="-0.500313" qz="0.500313" qw="0.499687" />
+            <entity name="wall03" id="101" meshFile="wall01.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aifilePath></aifilePath><aiType>default</aiType><attachAnimation>false</attachAnimation><animationPath></animationPath><defaultAnimation></defaultAnimation><bindPose></bindPose><attachGraphics>false</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="02-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="wall04">
+            <scale x="1" y="1" z="1" />
+            <position x="498.336" y="23.6222" z="-4.69873" />
+            <rotation qx="0.499687" qy="-0.500313" qz="0.500313" qw="0.499687" />
+            <entity name="wall04" id="102" meshFile="wall01.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<components><attachAI>false</attachAI><aifilePath></aifilePath><aiType>default</aiType><attachAnimation>false</attachAnimation><animationPath></animationPath><defaultAnimation></defaultAnimation><bindPose></bindPose><attachGraphics>false</attachGraphics><overrideGraphicsModel></overrideGraphicsModel><graphicsType>default</graphicsType><attachInput>false</attachInput><attachPhysics>true</attachPhysics><physicsType>default</physicsType><attachScript>false</attachScript><scriptName></scriptName><attachSound>false</attachSound></components>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="02-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Spawn Point01">
+            <scale x="1" y="1" z="1" />
+            <position x="-250.122" y="0" z="-119.705" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="Spawn Point01" id="160" meshFile="Spawn Point01.mesh" castShadows="true" receiveShadows="true">
+                <userData>
+                    <![CDATA[<external><externalSrc>/data/entities/spawnpoint.xml</externalSrc></external>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="NoMaterial" />
+                </subentities>
+            </entity>
+        </node>
+    </nodes>
+</scene>

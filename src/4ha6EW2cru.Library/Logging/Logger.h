@@ -53,6 +53,14 @@ namespace Logging
 		 */
 		static void Fatal( const std::string& message );
 
+
+		/*! Logs a message with the NET prefix
+		*
+		* @param[in] const std::string & message
+		* @return ( void )
+		*/
+		static void Net( const std::string& message );
+
 		
 		/*! Sets the current logging level
 		 *

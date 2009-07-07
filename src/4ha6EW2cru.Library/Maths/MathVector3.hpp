@@ -110,7 +110,7 @@ namespace Maths
 		 *  @param[in] const MathVector3 & input
 		 *  @return (float)
 		 */
-		inline float DotProduct( const MathVector3& input )
+		inline float DotProduct( const MathVector3& input ) const
 		{
 			return X * input.X + Y * input.Y + Z * input.Z;
 		}
@@ -131,7 +131,7 @@ namespace Maths
 		 *  @param[in] const MathVector3 & input
 		 *  @return (Maths::MathVector3)
 		 */
-		inline MathVector3 CrossProduct( const MathVector3& input )
+		inline MathVector3 CrossProduct( const MathVector3& input ) const
 		{
 			return MathVector3(
 				Y * input.Z - Z * input.Y,
@@ -174,12 +174,12 @@ namespace Maths
 		 *  @param[in] const float & input
 		 *  @return (Maths::MathVector3)
 		 */
-		inline MathVector3 operator / ( const float& input )
+		inline MathVector3 operator / ( const float& input ) const
 		{
 			return MathVector3(
-				X /= input,
-				Y /= input,
-				Z /= input
+				X / input,
+				Y / input,
+				Z / input
 				);
 		}
 
@@ -204,7 +204,7 @@ namespace Maths
 		 *  @param[in] const MathVector3 & input
 		 *  @return (Maths::MathVector3)
 		 */
-		inline MathVector3 operator += ( const MathVector3& input )
+		inline MathVector3 operator += ( const MathVector3& input ) const
 		{
 			return *this + input;
 		};
@@ -230,7 +230,7 @@ namespace Maths
 		 *  @param[in] const float & input
 		 *  @return (Maths::MathVector3)
 		 */
-		inline MathVector3 operator * ( const float& input )
+		inline MathVector3 operator * ( const float& input ) const
 		{
 			return MathVector3(
 				input * X,
@@ -245,7 +245,7 @@ namespace Maths
 		 *  @param[in] const MathVector3 & input
 		 *  @return (Maths::MathVector3)
 		 */
-		inline MathVector3 operator * ( const MathVector3& input )
+		inline MathVector3 operator * ( const MathVector3& input ) const
 		{
 			return MathVector3(
 				X * input.X,
@@ -274,12 +274,9 @@ namespace Maths
 		* @param[in] const MathVector3 & input
 		* @return ( bool )
 		*/
-		inline bool operator != ( const MathVector3& input )
+		inline bool operator != ( const MathVector3& input ) const
 		{
-			return (
-				X != input.X && 
-				Y != input.Y &&
-				Z != input.Z );
+			return !( * this == input );
 		}
 
 
@@ -288,7 +285,7 @@ namespace Maths
 		 *  @param[in] const MathMatrix & input
 		 *  @return (Maths::MathVector3)
 		 */
-		inline MathVector3 operator * ( const MathMatrix& input )
+		inline MathVector3 operator * ( const MathMatrix& input ) const
 		{
 			return this->AsOgreVector3( ) * input;
 		}
