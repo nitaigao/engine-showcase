@@ -24,14 +24,14 @@ void HavokPhysicsSystem_Tests::tearDown()
 void HavokPhysicsSystem_Tests::Should_Initialize_Correctly()
 {
 	HavokPhysicsSystem system;
-	system.Initialize( );
+	system.Initialize( 0 );
 	system.Release( );
 }
 
 void HavokPhysicsSystem_Tests::Should_Return_PhysicsScene_On_CreateScene()
 {
 	HavokPhysicsSystem system;
-	system.Initialize( );
+	system.Initialize( 0 );
 
 	ISystemScene* scene = system.CreateScene( );
 

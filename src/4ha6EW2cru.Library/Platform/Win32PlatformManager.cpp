@@ -92,7 +92,7 @@ namespace Platform
 		{
 			if ( msg.message == WM_QUIT )
 			{
-				Management::GetEventManager( )->QueueEvent( new Events::Event( Events::GAME_QUIT ) );
+				Management::Get( )->GetEventManager( )->QueueEvent( new Events::Event( Events::GAME_QUIT ) );
 			}
 
 			TranslateMessage( &msg );

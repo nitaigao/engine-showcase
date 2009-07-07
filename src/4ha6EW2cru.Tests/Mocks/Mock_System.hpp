@@ -30,7 +30,7 @@ public:
 	ExpectationCounter release_count;
 	ExpectationCounter createScene_count;
 
-	void Initialize( )
+	void Initialize( Configuration::IConfiguration* configuration )
 	{
 		initialize_count.inc( );
 	}

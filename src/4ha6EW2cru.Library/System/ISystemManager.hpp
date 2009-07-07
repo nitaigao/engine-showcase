@@ -25,6 +25,14 @@ public:
 	virtual ~ISystemManager( ) { };
 
 
+	/*! Loads a System dll and returns a pointer to the contained ISystem
+	*
+	* @param[in] const std::string & systemPath
+	* @return ( ISystem* )
+	*/
+	virtual ISystem* LoadSystem( const std::string& systemPath ) = 0;
+
+
 	/*! Registers a System
 	 *
 	 *  @param[in] ISystem * system
@@ -45,7 +53,7 @@ public:
 	 *
 	 *  @return (void)
 	 */
-	virtual void InitializeAllSystems( ) = 0;
+	virtual void InitializeAllSystems( Configuration::IConfiguration* configuration ) = 0;
 
 
 	/*! Checks to see if a system has been registered

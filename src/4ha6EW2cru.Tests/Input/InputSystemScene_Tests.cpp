@@ -14,7 +14,7 @@ using namespace Logging;
 void InputSystemScene_Tests::setUp()
 {
 	Management::Initialize( );
-	Management::GetPlatformManager( )->CreateInteractiveWindow( "Test Window", 1, 1, false );
+	Management::Get( )->GetPlatformManager( )->CreateInteractiveWindow( "Test Window", 1, 1, false );
 }
 
 void InputSystemScene_Tests::tearDown()

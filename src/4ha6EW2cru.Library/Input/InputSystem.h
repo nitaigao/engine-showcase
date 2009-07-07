@@ -20,7 +20,7 @@ namespace Input
 	/*! 
 	 *  Receives all Input from the User(s) and translates it into Game Events
 	 */
-	class InputSystem : public IInputSystem, public IService, public OIS::KeyListener, public OIS::MouseListener
+	class InputSystem : public IInputSystem, public Services::IService, public OIS::KeyListener, public OIS::MouseListener
 	{
 	
 		typedef std::deque< InputSystemScene* > InputSystemSceneList;
@@ -39,9 +39,9 @@ namespace Input
 		 *  @param[in] Configuration::IConfiguration * configuration
 		 *  @return ()
 		 */
-		InputSystem( Configuration::IConfiguration* configuration )
+		InputSystem( )
 			: _inputAllowed( true )
-			, m_configuration( configuration )
+			, m_configuration( 0 )
 			, m_inputManager( 0 )
 			, m_keyboard( 0 )
 			, m_mouse( 0 )
@@ -54,7 +54,7 @@ namespace Input
 		*
 		*  @return (void)
 		*/
-		void Initialize( );
+		void Initialize( Configuration::IConfiguration* configuration );
 	
 	
 		/*! Performs an Input capture and steps internal data
@@ -207,7 +207,6 @@ namespace Input
 		OIS::Mouse* m_mouse;
 		OIS::Keyboard* m_keyboard;
 	
-		InputSystem( ) { };
 		InputSystem( const InputSystem & copy ) { };
 		InputSystem & operator = ( const InputSystem & copy ) { return *this; };
 	

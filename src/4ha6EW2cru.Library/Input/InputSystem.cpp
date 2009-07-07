@@ -22,15 +22,17 @@ namespace Input
 		m_inputManager->destroyInputSystem( m_inputManager );
 	}
 	
-	void InputSystem::Initialize( ) 
+	void InputSystem::Initialize( Configuration::IConfiguration* configuration )
 	{ 	
 		Logger::Info( "Initializing Input System" );
+
+		m_configuration = configuration;
 
 		m_configuration->SetDefault( System::ConfigSections::Input, "inverty", false );
 		m_configuration->SetDefault( System::ConfigSections::Input, "smoothmouse", true );
 		m_configuration->SetDefault( System::ConfigSections::Input, "mousesmooth_amount", 50 );
 	
-		m_inputManager = OIS::InputManager::createInputSystem( Management::GetPlatformManager( )->GetWindowId( ) );
+		m_inputManager = OIS::InputManager::createInputSystem( Management::Get( )->GetPlatformManager( )->GetWindowId( ) );
 	
 		m_keyboard = static_cast< OIS::Keyboard* >( m_inputManager->createInputObject( OIS::OISKeyboard, true ) );
 		m_keyboard->setEventCallback( this );
@@ -225,7 +227,7 @@ namespace Input
 	{
 		if ( message == System::Messages::RegisterService )
 		{
-			Management::GetServiceManager( )->RegisterService( this );
+			Management::Get( )->GetServiceManager( )->RegisterService( this );
 		}
 	}
 }

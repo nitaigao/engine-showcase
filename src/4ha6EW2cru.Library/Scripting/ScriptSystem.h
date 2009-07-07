@@ -18,7 +18,7 @@ namespace Script
 	/*!
 	 *  The Scripting System 
 	 */
-	class ScriptSystem : public IScriptSystem, public IService
+	class ScriptSystem : public IScriptSystem, public Services::IService
 	{
 
 	public:
@@ -34,8 +34,8 @@ namespace Script
 		*
 		*  @return ()
 		*/
-		ScriptSystem( Configuration::IConfiguration* configuration )
-			: m_configuration( configuration )
+		ScriptSystem( )
+			: m_configuration( 0 )
 			, m_scene( 0 )
 			, m_auxScene( 0 )
 		{
@@ -47,7 +47,7 @@ namespace Script
 		*
 		*  @return (void)
 		*/
-		void Initialize( );
+		void Initialize( Configuration::IConfiguration* configuration );
 
 
 		/*! Steps the System's internal data

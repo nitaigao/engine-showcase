@@ -20,13 +20,9 @@ using namespace Serialization;
 #include "Scripting/ScriptSystem.h"
 #include "Input/InputSystem.h"
 #include "Renderer/RendererSystem.h"
-#include "Geometry/GeometrySystem.h"
 #include "Physics/HavokPhysicsSystem.h"
-#include "AI/AISystem.h"
 #include "UX/UXSystem.h"
 #include "Sound/SoundSystem.h"
-#include "Animation/AnimationSystem.h"
-//#include "NetworkSystem.h"
 
 #include "Events/Event.h"
 #include "Events/EventData.hpp"
@@ -36,11 +32,11 @@ using namespace Events;
 #include "Scripting/ScriptEvent.hpp"
 using namespace Script;
 
-#include "System/SystemExports.hpp"
-
 void Game::Initialize( )
 {
-	AnyType::AnyTypeMap programOptions = Management::GetPlatformManager( )->GetProgramOptions( );
+	Management::Initialize( );
+
+	AnyType::AnyTypeMap programOptions = Management::Get( )->GetPlatformManager( )->GetProgramOptions( );
 
 	if ( m_isInitialized )
 	{
@@ -53,10 +49,6 @@ void Game::Initialize( )
 	Logger::SetLogLevel( Logging::LEVEL_ALL );
 #endif // _DEBUG
 
-	// -- Initialize All Singletons
-
-	Management::Initialize( );
-
 	// -- Set Configuration Defaults 
 
 	m_configuration = ClientConfiguration::Load( "config/game.cfg" );
@@ -68,40 +60,42 @@ void Game::Initialize( )
 
 	// -- Initialize All Systems
 
-	ISystemManager* systemManager = Management::GetSystemManager( );
+	ISystemManager* systemManager = Management::Get( )->GetSystemManager( );
 
 	// -- Server
 
-	systemManager->RegisterSystem( System::Queues::HOUSE, new Geometry::GeometrySystem( ) );
+	ISystem* geometrySystem = systemManager->LoadSystem( "4ha6EW2cru.Geometry.dll" );
+	systemManager->RegisterSystem( System::Queues::HOUSE, geometrySystem );
+
 	systemManager->RegisterSystem( System::Queues::LOGIC, new Physics::HavokPhysicsSystem( ) );
-	systemManager->RegisterSystem( System::Queues::HOUSE, new Script::ScriptSystem( m_configuration ) );
-	systemManager->RegisterSystem( System::Queues::HOUSE, new AI::AISystem( ) );
+	systemManager->RegisterSystem( System::Queues::HOUSE, new Script::ScriptSystem( ) );
 
-	HMODULE library = LoadLibraryA( "4ha6EW2cru.Network.dll" );
+	ISystem* networkSystem = systemManager->LoadSystem( "4ha6EW2cru.Network.dll" );
+	systemManager->RegisterSystem( System::Queues::HOUSE, networkSystem );
 
-	if ( library )
-	{
-		CreateSystemFunction createSystem = reinterpret_cast< CreateSystemFunction >( GetProcAddress( library, "CreateSystem" ) );
-		systemManager->RegisterSystem( System::Queues::HOUSE, createSystem( m_configuration ) );
-	}
+	ISystem* aiSystem = systemManager->LoadSystem( "4ha6EW2cru.AI.dll" );
+	systemManager->RegisterSystem( System::Queues::HOUSE, aiSystem );
 
 	if ( programOptions.find( System::Options::DedicatedServer ) != programOptions.end( ) )
 	{
 		systemManager->GetSystem( System::Types::NETWORK )->SetAttribute( System::Attributes::Network::IsServer, true );
-		Management::GetPlatformManager( )->CreateConsoleWindow( );
+		Management::Get( )->GetPlatformManager( )->CreateConsoleWindow( );
 	}
 	else
 	{
-		systemManager->RegisterSystem( System::Queues::RENDER, new Renderer::RendererSystem( m_configuration ) );
-		systemManager->RegisterSystem( System::Queues::HOUSE, new Animation::AnimationSystem( ) );
-		systemManager->RegisterSystem( System::Queues::HOUSE, new Input::InputSystem( m_configuration ) );
+		systemManager->RegisterSystem( System::Queues::RENDER, new Renderer::RendererSystem( ) );
+
+		ISystem* animationSystem = systemManager->LoadSystem( "4ha6EW2cru.Animation.dll" );
+		systemManager->RegisterSystem( System::Queues::HOUSE, animationSystem );
+
+		systemManager->RegisterSystem( System::Queues::HOUSE, new Input::InputSystem( ) );
 		systemManager->RegisterSystem( System::Queues::HOUSE, new UX::UXSystem( ) );
-		systemManager->RegisterSystem( System::Queues::HOUSE, new Sound::SoundSystem( m_configuration ) );
+		systemManager->RegisterSystem( System::Queues::HOUSE, new Sound::SoundSystem( ) );
 
 		systemManager->GetSystem( System::Types::NETWORK )->SetAttribute( System::Attributes::Network::IsServer, false );
 	}
 
-	systemManager->InitializeAllSystems( );
+	systemManager->InitializeAllSystems( m_configuration );
 
 	// -- Setup the World and World Loader
 
@@ -110,16 +104,16 @@ void Game::Initialize( )
 
 	// -- Register Events
 
-	Management::GetEventManager( )->AddEventListener( GAME_QUIT, this, &Game::OnGameQuit );
-	Management::GetEventManager( )->AddEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
-	Management::GetEventManager( )->AddEventListener( GAME_ENDED, this, &Game::OnGameEnded );
-	Management::GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_INITIALIZED" ) );
+	Management::Get( )->GetEventManager( )->AddEventListener( GAME_QUIT, this, &Game::OnGameQuit );
+	Management::Get( )->GetEventManager( )->AddEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
+	Management::Get( )->GetEventManager( )->AddEventListener( GAME_ENDED, this, &Game::OnGameEnded );
+	Management::Get( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_INITIALIZED" ) );
 
 	if ( programOptions.find( System::Options::LevelName ) != programOptions.end( ) )
 	{
 		std::string levelName = programOptions[ System::Options::LevelName ].As< std::string >( );
 		LevelChangedEventData* eventData = new LevelChangedEventData( levelName );
-		Management::GetEventManager( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
+		Management::Get( )->GetEventManager( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
 	}
 
 	m_isInitialized = true;
@@ -134,10 +128,10 @@ void Game::Update( )
 {
 	assert( m_isInitialized && "Game::StartLoop - Cannot Start the Loop when not Initialized" );
 
-	float deltaMilliseconds = Management::GetPlatformManager( )->GetClock( ).GetDeltaMilliseconds( );
+	float deltaMilliseconds = Management::Get( )->GetPlatformManager( )->GetClock( ).GetDeltaMilliseconds( );
 
 	m_worldLoader->Update( deltaMilliseconds );
-	Management::Update( deltaMilliseconds );
+	Management::Get( )->Update( deltaMilliseconds );
 }
 
 void Game::Release( )
@@ -149,8 +143,8 @@ void Game::Release( )
 		throw e;
 	}
 
-	Management::GetEventManager( )->RemoveEventListener( GAME_QUIT, this, &Game::OnGameQuit );
-	Management::GetEventManager( )->RemoveEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
+	Management::Get( )->GetEventManager( )->RemoveEventListener( GAME_QUIT, this, &Game::OnGameQuit );
+	Management::Get( )->GetEventManager( )->RemoveEventListener( GAME_LEVEL_CHANGED, this, &Game::OnGameLevelChanged ); 
 
 	m_world->Clear( );
 

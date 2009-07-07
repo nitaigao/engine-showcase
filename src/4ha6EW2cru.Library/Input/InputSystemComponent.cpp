@@ -96,7 +96,7 @@ namespace Input
 	void InputSystemComponent::MouseReleased( const MouseEvent &arg, MouseButtonID id )
 	{
 		IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_RELEASED", m_attributes[ System::Attributes::Name ].As< std::string >( ), id );
-		Management::GetEventManager( )->TriggerEvent( scriptEvent );
+		Management::Get( )->GetEventManager( )->TriggerEvent( scriptEvent );
 
 		for( InputMessageBinding::InputMessageBindingList::iterator i = m_mouseUpMessages.begin( ); i != m_mouseUpMessages.end( ); )
 		{
@@ -116,7 +116,7 @@ namespace Input
 	void InputSystemComponent::MousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 	{
 		IEvent* scriptEvent = new ScriptEvent( "INPUT_MOUSE_PRESSED", m_attributes[ System::Attributes::Name ].As< std::string >( ), id );
-		Management::GetEventManager( )->TriggerEvent( scriptEvent );
+		Management::Get( )->GetEventManager( )->TriggerEvent( scriptEvent );
 
 		IInputSystem* inputSystem = m_attributes[ System::Attributes::Parent ].As< IInputSystemScene* >( )->GetSystem( );
 		InputMessageBinding::InputMessageBindingList messageBindings = inputSystem->GetBindings( );

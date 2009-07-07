@@ -15,6 +15,8 @@
 #include "AnyType.hpp"
 #include "ISystemScene.hpp"
 
+#include "../Configuration/IConfiguration.hpp"
+
 /*! 
  *  A Game System
  */
@@ -32,11 +34,13 @@ public:
 	*/
 	virtual ~ISystem( ) { };
 
-	/*! Initializes the System
+
+	/*! Initializes the System with the game configuration
 	*
-	*  @return (void)
+	* @param[in] Configuration::IConfiguration * configuration
+	* @return ( void )
 	*/
-	virtual void Initialize( ) = 0;
+	virtual void Initialize( Configuration::IConfiguration* configuration ) = 0;
 
 
 	/*! Steps the System's internal data

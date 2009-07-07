@@ -110,7 +110,7 @@ namespace UX
 	{
 		if ( message == System::Messages::RegisterService )
 		{
-			Management::GetServiceManager( )->RegisterService( this );
+			Management::Get( )->GetServiceManager( )->RegisterService( this );
 		}
 	}
 };

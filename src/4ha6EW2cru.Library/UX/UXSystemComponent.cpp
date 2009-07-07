@@ -7,6 +7,8 @@ using namespace MyGUI;
 using namespace Script;
 
 #include "../Service/IService.hpp"
+using namespace Services;
+
 #include "../Management/Management.h"
 
 using namespace Input;
@@ -15,7 +17,7 @@ namespace UX
 {
 	void UXSystemComponent::ChangeResolution( int width, int height, bool isFullScreen )
 	{
-		IService* renderService = Management::GetServiceManager( )->FindService( System::Types::RENDER );
+		IService* renderService = Management::Get( )->GetServiceManager( )->FindService( System::Types::RENDER );
 
 		AnyType::AnyTypeMap parameters;
 		parameters[ "width" ] = width;
@@ -24,14 +26,14 @@ namespace UX
 
 		renderService->Execute( "changeResolution", parameters );
 
-		Management::GetEventManager( )->QueueEvent( new ScriptEvent( "GRAPHICS_SETTINGS_CHANGED", width, height ) );
+		Management::Get( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GRAPHICS_SETTINGS_CHANGED", width, height ) );
 
 		m_scene->GetGui( )->windowResized( m_scene->GetGui( )->getRenderWindow( ) );
 	}
 
 	void UXSystemComponent::SetInputAllowed( bool inputAllowed )
 	{
-		IService* inputService = Management::GetServiceManager( )->FindService( System::Types::INPUT );
+		IService* inputService = Management::Get( )->GetServiceManager( )->FindService( System::Types::INPUT );
 		
 		AnyType::AnyTypeMap parameters;
 		parameters[ "inputAllowed" ] = inputAllowed;
@@ -217,7 +219,7 @@ namespace UX
 	{
 		typedef std::vector< std::string > StringVector;
 
-		IService* renderService = Management::GetServiceManager( )->FindService( System::Types::RENDER );
+		IService* renderService = Management::Get( )->GetServiceManager( )->FindService( System::Types::RENDER );
 		StringVector resolutions = renderService->Execute( "getAvailableVideoModes", AnyType::AnyTypeMap( ) )[ "availableVideoModes" ].As< StringVector >( );
 
 		std::multimap< int, std::string > resolutionWidths;
@@ -246,7 +248,7 @@ namespace UX
 
 	InputMessageBinding UXSystemComponent::GetMessageBinding( const std::string& message )
 	{
-		IService* inputService = Management::GetServiceManager( )->FindService( System::Types::INPUT );
+		IService* inputService = Management::Get( )->GetServiceManager( )->FindService( System::Types::INPUT );
 
 		AnyType::AnyTypeMap parameters;
 		parameters[ System::Attributes::Message ] = message;
@@ -256,7 +258,7 @@ namespace UX
 
 	void UXSystemComponent::SetMessageBinding( const std::string& message, const std::string& binding )
 	{
-		IService* inputService = Management::GetServiceManager( )->FindService( System::Types::INPUT );
+		IService* inputService = Management::Get( )->GetServiceManager( )->FindService( System::Types::INPUT );
 
 		AnyType::AnyTypeMap parameters;
 		parameters[ System::Attributes::Message ] = message;
@@ -266,7 +268,7 @@ namespace UX
 
 	void UXSystemComponent::SetInvertYAxis( const bool& invert )
 	{
-		IService* inputService = Management::GetServiceManager( )->FindService( System::Types::INPUT );
+		IService* inputService = Management::Get( )->GetServiceManager( )->FindService( System::Types::INPUT );
 
 		AnyType::AnyTypeMap parameters;
 		parameters[ System::Parameters::InvertYAxis ] = invert;

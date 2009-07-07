@@ -19,6 +19,9 @@ using namespace Events;
 #include <luabind/luabind.hpp>
 using namespace luabind;
 
+#include "../Service/IService.hpp"
+using namespace Services;
+
 #include "ScriptEvent.hpp"
 #include "ScriptFunctionHandler.hpp"
 
@@ -31,7 +34,7 @@ namespace Script
 {
 	void ScriptComponent::Initialize( )
 	{
-		Management::GetEventManager( )->AddEventListener( ALL_EVENTS, this, &ScriptComponent::OnEvent );
+		Management::Get( )->GetEventManager( )->AddEventListener( ALL_EVENTS, this, &ScriptComponent::OnEvent );
 
 		this->LoadScript( m_attributes[ System::Parameters::ScriptPath ].As< std::string >( ) );
 
@@ -54,7 +57,7 @@ namespace Script
 
 	void ScriptComponent::Destroy( )
 	{
-		Management::GetEventManager( )->RemoveEventListener( ALL_EVENTS, this, &ScriptComponent::OnEvent );
+		Management::Get( )->GetEventManager( )->RemoveEventListener( ALL_EVENTS, this, &ScriptComponent::OnEvent );
 
 		for ( IScriptFunctionHandler::FunctionList::iterator i = m_updateHandlers.begin( ); i != m_updateHandlers.end( ); )	
 		{
@@ -77,7 +80,7 @@ namespace Script
 
 	void ScriptComponent::LoadScript( const std::string& scriptPath )
 	{
-		IResource* resource = Management::GetResourceManager( )->GetResource( scriptPath );
+		IResource* resource = Management::Get( )->GetResourceManager( )->GetResource( scriptPath );
 
 		int result = luaL_loadbuffer( m_state, resource->GetFileBuffer( )->fileBytes, resource->GetFileBuffer( )->fileLength, resource->GetFileBuffer( )->filePath.c_str( ) );
 
@@ -243,37 +246,37 @@ namespace Script
 
 	void ScriptComponent::BroadcastEvent( const std::string& eventName, const std::string& var1 )
 	{
-		Management::GetEventManager( )->QueueEvent( new ScriptEvent( eventName, var1 ) ); 
+		Management::Get( )->GetEventManager( )->QueueEvent( new ScriptEvent( eventName, var1 ) ); 
 	}
 
 	void ScriptComponent::BroadcastEvent( const std::string& eventName, const int& var1 )
 	{
-		Management::GetEventManager( )->QueueEvent( new ScriptEvent( eventName, var1 ) ); 
+		Management::Get( )->GetEventManager( )->QueueEvent( new ScriptEvent( eventName, var1 ) ); 
 	}
 
 	void ScriptComponent::BroadcastEvent( const std::string& eventName, const std::string& var1, const std::string& var2 )
 	{
-		Management::GetEventManager( )->QueueEvent( new ScriptEvent( eventName, var1, var2 ) ); 
+		Management::Get( )->GetEventManager( )->QueueEvent( new ScriptEvent( eventName, var1, var2 ) ); 
 	}
 
 	void ScriptComponent::BroadcastEvent( const std::string& eventName, const std::string& var1, const int& var2 )
 	{
-		Management::GetEventManager( )->QueueEvent( new ScriptEvent( eventName, var1, var2 ) ); 
+		Management::Get( )->GetEventManager( )->QueueEvent( new ScriptEvent( eventName, var1, var2 ) ); 
 	}
 
 	void ScriptComponent::BroadcastEvent( const std::string& eventName, const int& var1, const std::string& var2 )
 	{
-		Management::GetEventManager( )->QueueEvent( new ScriptEvent( eventName, var1, var2 ) ); 
+		Management::Get( )->GetEventManager( )->QueueEvent( new ScriptEvent( eventName, var1, var2 ) ); 
 	}
 
 	void ScriptComponent::BroadcastEvent( const std::string& eventName, const int& var1, const int& var2 )
 	{
-		Management::GetEventManager( )->QueueEvent( new ScriptEvent( eventName, var1, var2 ) ); 
+		Management::Get( )->GetEventManager( )->QueueEvent( new ScriptEvent( eventName, var1, var2 ) ); 
 	}
 
 	void ScriptComponent::BroadcastEvent( const std::string& eventName )
 	{
-		Management::GetEventManager( )->QueueEvent( new ScriptEvent( eventName ) ); 
+		Management::Get( )->GetEventManager( )->QueueEvent( new ScriptEvent( eventName ) ); 
 	}
 
 	std::vector< std::string > ScriptComponent::RayQuery( MathVector3 origin, MathVector3 direction, const float& length, const bool& sortByDistance, const int& maxResults )
@@ -292,10 +295,10 @@ namespace Script
 		debugParameters[ "origin" ] = origin;
 		debugParameters[ "destination" ] = destination;
 
-		IService* renderService = Management::GetServiceManager( )->FindService( System::Types::RENDER );
+		IService* renderService = Management::Get( )->GetServiceManager( )->FindService( System::Types::RENDER );
 		renderService->Execute( "drawLine", debugParameters );*/
 
-		IService* rayService = Management::GetServiceManager( )->FindService( System::Types::PHYSICS );
+		IService* rayService = Management::Get( )->GetServiceManager( )->FindService( System::Types::PHYSICS );
 		return rayService->Execute( System::Messages::CastRay, parameters ) [ "hits" ].As< std::vector< std::string > >( );
 	}
 
@@ -333,7 +336,7 @@ namespace Script
 			result = m_state;
 		}
 
-		Management::GetEventManager( )->QueueEvent( new ScriptEvent( message, m_attributes[ System::Attributes::Name ].As< std::string >( ) ) );
+		Management::Get( )->GetEventManager( )->QueueEvent( new ScriptEvent( message, m_attributes[ System::Attributes::Name ].As< std::string >( ) ) );
 
 		return result;
 	}
@@ -384,6 +387,6 @@ namespace Script
 
 	float ScriptComponent::GetTime( ) const
 	{
-		return Management::GetPlatformManager( )->GetClock( ).GetTime( );
+		return Management::Get( )->GetPlatformManager( )->GetClock( ).GetTime( );
 	}
 }

@@ -21,7 +21,7 @@ namespace Renderer
 	/*!
 	 *  The Render System 
 	 */
-	class RendererSystem : public IRendererSystem, public IService, public Ogre::WindowEventListener
+	class RendererSystem : public IRendererSystem, public Services::IService, public Ogre::WindowEventListener
 	{
 
 		typedef std::deque< Ogre::MovableObjectFactory* > FactoryList;
@@ -39,8 +39,8 @@ namespace Renderer
 		*
 		*  @return ()
 		*/
-		RendererSystem( Configuration::IConfiguration* configuration )
-			: m_configuration( configuration )
+		RendererSystem( )
+			: m_configuration( 0 )
 			, m_root( 0 )
 			, m_window( 0 )
 			, m_sceneManager( 0 )
@@ -55,7 +55,7 @@ namespace Renderer
 		*
 		*  @return (void)
 		*/
-		void Initialize( );
+		void Initialize( Configuration::IConfiguration* configuration );
 
 
 		/*! Steps the System's internal data

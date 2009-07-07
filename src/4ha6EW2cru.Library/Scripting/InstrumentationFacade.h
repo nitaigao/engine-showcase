@@ -26,7 +26,7 @@ namespace Script
 		*
 		* @return ( int )
 		*/
-		inline int GetFPS( ) { return Management::GetInstrumentation( )->GetFPS( ); };
+		inline int GetFPS( ) { return Management::Get( )->GetInstrumentation( )->GetFPS( ); };
 
 
 		/*! Returns the Round Time for the given Queue
@@ -34,7 +34,7 @@ namespace Script
 		* @param[in] const System::Queues::Queue & queue
 		* @return ( float )
 		*/
-		inline float GetRoundTime( const System::Queues::Queue& queue ) { return Management::GetInstrumentation( )->GetRoundTime( queue ); };
+		inline float GetRoundTime( const System::Queues::Queue& queue ) { return Management::Get( )->GetInstrumentation( )->GetRoundTime( queue ); };
 
 	};
 };

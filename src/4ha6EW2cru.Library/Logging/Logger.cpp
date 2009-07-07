@@ -26,14 +26,14 @@ namespace Logging
 
 		if( level != "DEBUG" )
 		{
-			Management::GetEventManager( )->QueueEvent( new ScriptEvent( "MESSAGE_LOGGED", outputMessage.str( ) ) );
+			Management::Get( )->GetEventManager( )->QueueEvent( new ScriptEvent( "MESSAGE_LOGGED", outputMessage.str( ) ) );
 		}
 
 	//#ifdef _DEBUG
-		Management::GetPlatformManager( )->OutputDebugMessage( outputMessage.str( ) );
+		Management::Get( )->GetPlatformManager( )->OutputDebugMessage( outputMessage.str( ) );
 	//#endif // _DEBUG
 
-		Management::GetPlatformManager( )->OutputToConsole( outputMessage.str( ) );
+		Management::Get( )->GetPlatformManager( )->OutputToConsole( outputMessage.str( ) );
 
 	}
 

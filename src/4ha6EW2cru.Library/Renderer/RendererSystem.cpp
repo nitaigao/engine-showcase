@@ -39,7 +39,7 @@ namespace Renderer
 	{
 		Ogre::WindowEventUtilities::removeWindowEventListener( m_window, this );
 
-		Management::GetEventManager( )->RemoveEventListener( GAME_ENDED, this, &RendererSystem::OnGameEnded );
+		Management::Get( )->GetEventManager( )->RemoveEventListener( GAME_ENDED, this, &RendererSystem::OnGameEnded );
 
 		if ( m_root != 0 )
 		{
@@ -52,14 +52,9 @@ namespace Renderer
 		}
 	}
 
-	void RendererSystem::Initialize( )
+	void RendererSystem::Initialize( Configuration::IConfiguration* configuration )
 	{
-		if ( m_configuration == 0 )
-		{
-			NullReferenceException e( "RenderSystem::Initialize - The Configuration is NULL" );
-			Logger::Fatal( e.what( ) );
-			throw e;
-		}
+		m_configuration = configuration;
 
 		bool defaultFullScreen = false;
 		int defaultWidth = 640;
@@ -125,7 +120,7 @@ namespace Renderer
 				m_configuration->Set( m_configSectionName, "depth", defaultDepth );
 				m_configuration->Set( m_configSectionName, "window_title", defaultWindowTitle );
 
-				Management::GetPlatformManager( )->CloseWindow( );
+				Management::Get( )->GetPlatformManager( )->CloseWindow( );
 			}
 		}
 
@@ -150,13 +145,13 @@ namespace Renderer
 
 		m_root->renderOneFrame( );
 
-		Management::GetServiceManager( )->RegisterService( this );
+		Management::Get( )->GetServiceManager( )->RegisterService( this );
 
 		LineFactory* lineFactory = new LineFactory( );
 		m_factories.push_back( lineFactory );
 		m_root->addMovableObjectFactory( lineFactory );
 
-		Management::GetEventManager( )->AddEventListener( GAME_ENDED, this, &RendererSystem::OnGameEnded );
+		Management::Get( )->GetEventManager( )->AddEventListener( GAME_ENDED, this, &RendererSystem::OnGameEnded );
 
 		//CompositorManager::getSingletonPtr( )->addCompositor( m_sceneManager->getCurrentViewport( ), "HDR" );
 		//CompositorManager::getSingletonPtr( )->setCompositorEnabled( m_sceneManager->getCurrentViewport( ), "HDR", true );
@@ -259,7 +254,7 @@ namespace Renderer
 
 	void RendererSystem::windowClosed( RenderWindow* rw )
 	{
-		Management::GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
+		Management::Get( )->GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
 	}
 
 	std::vector< std::string > RendererSystem::GetVideoModes( ) const
@@ -294,10 +289,10 @@ namespace Renderer
 
 	void RendererSystem::CreateRenderWindow( const std::string& windowTitle, int width, int height, bool fullScreen )
 	{
-		Management::GetPlatformManager( )->CreateInteractiveWindow( windowTitle, width, height, fullScreen );
+		Management::Get( )->GetPlatformManager( )->CreateInteractiveWindow( windowTitle, width, height, fullScreen );
 		
 		NameValuePairList params;
-		params[ "externalWindowHandle" ] = StringConverter::toString( ( int ) Management::GetPlatformManager( )->GetWindowId( ) );
+		params[ "externalWindowHandle" ] = StringConverter::toString( ( int ) Management::Get( )->GetPlatformManager( )->GetWindowId( ) );
 		params[ "vsync" ] = m_configuration->Find( m_configSectionName, "vsync" ).As< bool >( ) ? "true" : "false";
 
 		m_window = m_root->createRenderWindow( windowTitle, width, height, fullScreen, &params ); 

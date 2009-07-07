@@ -3,6 +3,8 @@
 using namespace MyGUI;
 
 #include "../Service/IService.hpp"
+using namespace Services;
+
 #include "../Management/Management.h"
 
 using namespace luabind;
@@ -23,25 +25,25 @@ namespace UX
 
 	void UXSystemScene::Initialize( )
 	{
-		IService* renderService = Management::GetServiceManager( )->FindService( System::Types::RENDER );
+		IService* renderService = Management::Get( )->GetServiceManager( )->FindService( System::Types::RENDER );
 		Ogre::RenderWindow* renderWindow = renderService->Execute( "getRenderWindow", AnyType::AnyTypeMap( ) )[ "renderWindow" ].As< Ogre::RenderWindow* >( );
 		m_gui->initialise( renderWindow, "/data/interface/core/core.xml" );
 		m_gui->hidePointer( );
 
 		WidgetManager::getInstancePtr( )->registerUnlinker( this );
 
-		Management::GetEventManager( )->AddEventListener( INPUT_MOUSE_PRESSED, this, &UXSystemScene::OnMousePressed );
-		Management::GetEventManager( )->AddEventListener( INPUT_MOUSE_MOVED, this, &UXSystemScene::OnMouseMoved );
-		Management::GetEventManager( )->AddEventListener( INPUT_MOUSE_RELEASED, this, &UXSystemScene::OnMouseReleased );
-		Management::GetEventManager( )->AddEventListener( INPUT_KEY_DOWN, this, &UXSystemScene::OnKeyDown );
-		Management::GetEventManager( )->AddEventListener( INPUT_KEY_UP, this, &UXSystemScene::OnKeyUp );
+		Management::Get( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_PRESSED, this, &UXSystemScene::OnMousePressed );
+		Management::Get( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_MOVED, this, &UXSystemScene::OnMouseMoved );
+		Management::Get( )->GetEventManager( )->AddEventListener( INPUT_MOUSE_RELEASED, this, &UXSystemScene::OnMouseReleased );
+		Management::Get( )->GetEventManager( )->AddEventListener( INPUT_KEY_DOWN, this, &UXSystemScene::OnKeyDown );
+		Management::Get( )->GetEventManager( )->AddEventListener( INPUT_KEY_UP, this, &UXSystemScene::OnKeyUp );
 
 		this->InitializeComponent( "interface-root", "/data/interface/interface.lua" );
 	}
 
 	void UXSystemScene::Destroy()
 	{
-		IService* scriptService = Management::GetServiceManager( )->FindService( System::Types::SCRIPT );
+		IService* scriptService = Management::Get( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
 
 		for ( IUXSystemComponent::UXSystemComponentList::iterator i = m_components.begin( ); i != m_components.end( ); ++i )
 		{
@@ -51,11 +53,11 @@ namespace UX
 			delete ( *i );
 		}
 
-		Management::GetEventManager( )->RemoveEventListener( INPUT_MOUSE_PRESSED, this, &UXSystemScene::OnMousePressed );
-		Management::GetEventManager( )->RemoveEventListener( INPUT_MOUSE_MOVED, this, &UXSystemScene::OnMouseMoved );
-		Management::GetEventManager( )->RemoveEventListener( INPUT_MOUSE_RELEASED, this, &UXSystemScene::OnMouseReleased );
-		Management::GetEventManager( )->RemoveEventListener( INPUT_KEY_DOWN, this, &UXSystemScene::OnKeyDown );
-		Management::GetEventManager( )->RemoveEventListener( INPUT_KEY_UP, this, &UXSystemScene::OnKeyUp );
+		Management::Get( )->GetEventManager( )->RemoveEventListener( INPUT_MOUSE_PRESSED, this, &UXSystemScene::OnMousePressed );
+		Management::Get( )->GetEventManager( )->RemoveEventListener( INPUT_MOUSE_MOVED, this, &UXSystemScene::OnMouseMoved );
+		Management::Get( )->GetEventManager( )->RemoveEventListener( INPUT_MOUSE_RELEASED, this, &UXSystemScene::OnMouseReleased );
+		Management::Get( )->GetEventManager( )->RemoveEventListener( INPUT_KEY_DOWN, this, &UXSystemScene::OnKeyDown );
+		Management::Get( )->GetEventManager( )->RemoveEventListener( INPUT_KEY_UP, this, &UXSystemScene::OnKeyUp );
 
 		m_gui->shutdown( );
 	}
@@ -71,7 +73,7 @@ namespace UX
 		scriptParameters[ System::Parameters::ScriptPath ] = scriptPath;
 		scriptParameters[ System::Attributes::Name ] = name;
 
-		IService* scriptService = Management::GetServiceManager( )->FindService( System::Types::SCRIPT );
+		IService* scriptService = Management::Get( )->GetServiceManager( )->FindService( System::Types::SCRIPT );
 		ISystemComponent* scriptComponent = scriptService->Execute( System::Messages::LoadScript, scriptParameters )[ "component" ].As< ISystemComponent* >( );
 
 		lua_State* scriptState = scriptComponent->Message( System::Messages::GetState, AnyType::AnyTypeMap( ) ).As< lua_State* >( );

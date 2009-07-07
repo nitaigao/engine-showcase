@@ -1,22 +1,25 @@
 #include "ServiceManager.h"
 
-IService* ServiceManager::FindService( System::Types::Type systemType ) const
+namespace Services
 {
-	for( IService::ServiceList::const_iterator i = m_services.begin( ); i != m_services.end( ); ++i )
+	IService* ServiceManager::FindService( System::Types::Type systemType ) const
 	{
-		if ( ( *i )->GetType( ) == systemType )
+		for( IService::ServiceList::const_iterator i = m_services.begin( ); i != m_services.end( ); ++i )
 		{
-			return ( *i );
+			if ( ( *i )->GetType( ) == systemType )
+			{
+				return ( *i );
+			}
 		}
+
+		return 0;
 	}
 
-	return 0;
-}
-
-void ServiceManager::MessageAll( const std::string& message, AnyType::AnyTypeMap parameters )
-{
-	for( IService::ServiceList::const_iterator i = m_services.begin( ); i != m_services.end( ); ++i )
+	void ServiceManager::MessageAll( const std::string& message, AnyType::AnyTypeMap parameters )
 	{
-		( *i )->Execute( message, parameters );
+		for( IService::ServiceList::const_iterator i = m_services.begin( ); i != m_services.end( ); ++i )
+		{
+			( *i )->Execute( message, parameters );
+		}
 	}
 }

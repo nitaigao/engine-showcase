@@ -18,7 +18,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="..\..\build\debug\bin\"
-			IntermediateDirectory="..\..\build\debug\obj\$(ParentName)"
+			IntermediateDirectory="../../build/debug/obj/4ha6EW2cru.Application"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			CharacterSet="2"
@@ -94,7 +94,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="../../build/release/bin/"
-			IntermediateDirectory="../../build/release/obj/$(ParentName)"
+			IntermediateDirectory="../../build/release/obj/4ha6EW2cru.Application"
 			ConfigurationType="1"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
@@ -173,8 +173,20 @@
 			ReferencedProjectIdentifier="{0930D1E7-1AB1-4067-85CF-90D360C498E3}"
 			RelativePathToProject=".\4ha6EW2cru.Game\4ha6EW2cru.Game.vcproj"
 		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{402389EC-49BE-4A7B-A8C0-6593C8E0E1D2}"
+			RelativePathToProject=".\4ha6EW2cru.AI\4ha6EW2cru.AI.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{85449B0E-74BD-41FF-8921-4DD42AF837EF}"
+			RelativePathToProject=".\4ha6EW2cru.Network\4ha6EW2cru.Network.vcproj"
+		/>
 	</References>
 	<Files>
+		<File
+			RelativePath="..\..\etc\assets\icons\file1.bin"
+			>
+		</File>
 		<File
 			RelativePath="..\..\etc\assets\icons\gun.ico"
 			>

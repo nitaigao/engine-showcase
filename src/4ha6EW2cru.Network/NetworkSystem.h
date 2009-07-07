@@ -35,9 +35,9 @@ namespace Network
 		*
 		* @return (  )
 		*/
-		NetworkSystem( Configuration::IConfiguration* configuration )
+		NetworkSystem( )
 			: m_networkInterface( 0 )
-			, m_configuration( configuration )
+			, m_configuration( 0 )
 		{
 
 		}
@@ -47,7 +47,7 @@ namespace Network
 		*
 		*  @return (void)
 		*/
-		void Initialize( );
+		virtual void Initialize( Configuration::IConfiguration* configuration );
 
 
 		/*! Steps the System's internal data

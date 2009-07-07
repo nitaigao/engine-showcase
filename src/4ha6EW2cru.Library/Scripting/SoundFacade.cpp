@@ -1,7 +1,9 @@
 #include "SoundFacade.h"
 
 #include "../Management/Management.h"
+
 #include "../Service/IService.hpp"
+using namespace Services;
 
 #include <luabind/luabind.hpp>
 using namespace luabind;
@@ -20,7 +22,7 @@ namespace Script
 
 	void SoundFacade::PlayMusic( const std::string& eventPath )
 	{
-		IService* soundService = Management::GetServiceManager( )->FindService( System::Types::SOUND );
+		IService* soundService = Management::Get( )->GetServiceManager( )->FindService( System::Types::SOUND );
 		
 		AnyType::AnyTypeMap parameters;
 		parameters[ "eventPath" ] = eventPath;

@@ -18,7 +18,7 @@ namespace Physics
 	/*! 
 	 *  The Physics System
 	 */
-	class HavokPhysicsSystem : public IPhysicsSystem, public IService
+	class HavokPhysicsSystem : public IPhysicsSystem, public Services::IService
 	{
 
 	public:
@@ -48,7 +48,7 @@ namespace Physics
 		*
 		*  @return (void)
 		*/
-		void Initialize( );
+		void Initialize( Configuration::IConfiguration* configuration );
 
 
 		/*! Steps the System's internal data

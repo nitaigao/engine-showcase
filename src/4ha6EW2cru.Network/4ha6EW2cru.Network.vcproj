@@ -18,9 +18,10 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="../../build/debug/bin"
-			IntermediateDirectory="../../build/debug/obj/$(ParentName)"
+			IntermediateDirectory="../../build/debug/obj/4ha6EW2cru.Network"
 			ConfigurationType="2"
 			CharacterSet="2"
+			BuildLogFile="$(IntDir)\$(TARGETNAME).htm"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,6 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/raknet/Source;../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;_EXPORT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -61,6 +63,7 @@
 				AdditionalDependencies="winmm.lib RakNetLibStaticDebug.lib ws2_32.lib"
 				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;../../etc/vendor/raknet/lib"
 				ModuleDefinitionFile="SystemDefinition.def"
+				GenerateDebugInformation="true"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -87,7 +90,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="../../build/release/bin"
-			IntermediateDirectory="../../build/release/obj/$(ParentName)"
+			IntermediateDirectory="../../build/release/obj/4ha6EW2cru.Network"
 			ConfigurationType="2"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
@@ -128,7 +131,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				ModuleDefinitionFile="SystemDefinition.def"
+				ModuleDefinitionFile="4ha6EW2cru.Network"
 				GenerateDebugInformation="true"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -178,11 +181,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SystemDefinition.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SystemDefinition.def"
+				RelativePath=".\SystemDefinition.cxx"
 				>
 			</File>
 		</Filter>
@@ -222,6 +221,10 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
+		<File
+			RelativePath=".\SystemDefinition.def"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

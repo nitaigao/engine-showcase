@@ -35,6 +35,14 @@ public:
 
 	}
 
+	
+	/*! Loads a System dll and returns a pointer to the contained ISystem
+	*
+	* @param[in] const std::string & systemPath
+	* @return ( ISystem* )
+	*/
+	ISystem* LoadSystem( const std::string& systemPath );
+
 
 	/*! Registers a System
 	*
@@ -56,7 +64,7 @@ public:
 	*
 	*  @return (void)
 	*/
-	void InitializeAllSystems( );
+	void InitializeAllSystems( Configuration::IConfiguration* configuration );
 
 
 	/*! Checks to see if a system has been registered

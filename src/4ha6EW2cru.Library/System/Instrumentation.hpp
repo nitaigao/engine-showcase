@@ -1,15 +1,36 @@
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   Instrumentation.hpp
+*  @date   2009/07/07
+*/
 #pragma once
 #ifndef INSTRUMENTATION_HPP
 #define INSTRUMENTATION_HPP
 
-#include "IInstrumentation.hpp"
-
+/*! 
+ *  A provider for performance statistics
+ */
 class Instrumentation : public IInstrumentation
 {
 
 	typedef std::map< System::Queues::Queue, float > RoundTimeList;
 
 public:
+
+	/*! Default Destructor
+	 *
+	 *  @return ()
+	 */
+	~Instrumentation( ) { };
+
+
+	/*! Default Constructor
+	*
+	* @return (  )
+	*/
+	Instrumentation( ) { };
+
 
 	/*! Gets the Frames Per Second Statistic
 	*
@@ -43,9 +64,12 @@ public:
 
 private:
 
+	Instrumentation( const Instrumentation & copy ) { };
+	Instrumentation & operator = ( const Instrumentation & copy ) { return *this; };
+
 	int m_fps;
 	RoundTimeList m_roundTimes;
-
+	
 };
 
 #endif

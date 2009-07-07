@@ -18,9 +18,10 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="../../build/debug/bin"
-			IntermediateDirectory="../../build/debug/obj/$(ParentName)"
+			IntermediateDirectory="../../build/debug/obj/4ha6EW2cru.Game"
 			ConfigurationType="2"
 			CharacterSet="2"
+			BuildLogFile="$(IntDir)\$(TARGETNAME).htm"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -89,8 +90,8 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="../../build/release/bin"
-			IntermediateDirectory="../../build/release/obj/$(ParentName)"
-			ConfigurationType="1"
+			IntermediateDirectory="../../build/release/obj/4ha6EW2cru.Game"
+			ConfigurationType="2"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -113,6 +114,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;_EXPORT"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"

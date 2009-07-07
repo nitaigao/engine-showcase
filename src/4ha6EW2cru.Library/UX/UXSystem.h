@@ -17,7 +17,7 @@ namespace UX
 	/*! 
 	 *  The System that controls the User Experience ( ie. GUI Elements )
 	 */
-	class UXSystem : public IUXSystem, public IService
+	class UXSystem : public IUXSystem, public Services::IService
 	{
 
 	public:
@@ -44,7 +44,7 @@ namespace UX
 		*
 		*  @return (void)
 		*/
-		void Initialize( ) { };
+		void Initialize( Configuration::IConfiguration* configuration ) { };
 
 
 		/*! Steps the System's internal data

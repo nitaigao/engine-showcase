@@ -12,9 +12,6 @@ using namespace Maths;
 using namespace OgreMax;
 using namespace Ogre;
 
-#include "../AI/AISystemComponent.h"
-using namespace AI;
-
 #include "../Logging/Logger.h"
 using namespace Logging;
 

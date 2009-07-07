@@ -22,7 +22,7 @@ namespace Configuration
 
 	ConfigurationFile* ConfigurationFile::Load( const std::string& filePath )
 	{
-		Resources::IResource* resource = Management::GetResourceManager( )->GetResource( filePath );
+		Resources::IResource* resource = Management::Get( )->GetResourceManager( )->GetResource( filePath );
 		return new ConfigurationFile( resource->GetFileBuffer( ) );
 	}
 
@@ -81,7 +81,7 @@ namespace Configuration
 		outputBuffer[ output.length( ) ] = '\0';
 
 		FileBuffer fileBuffer( outputBuffer, output.length( ), filePath );
-		Management::GetFileManager( )->SaveFile( fileBuffer );
+		Management::Get( )->GetFileManager( )->SaveFile( fileBuffer );
 	}
 
 	AnyType::AnyTypeMap ConfigurationFile::FindConfigSection( const std::string& section )

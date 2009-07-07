@@ -21,10 +21,10 @@ public:
 	void SetupTest( )
 	{
 		Management::Initialize( );
-		Management::GetFileManager( )->Mount( "../../../etc", "/" ); 
+		Management::Get( )->GetFileManager( )->Mount( "../../../etc", "/" ); 
 
 		_scene = 0;
-		_subject = new SoundSystem( 0 );
+		_subject = new SoundSystem( );
 	}
 
 	void TearDownTest( )
@@ -61,7 +61,7 @@ public:
 
 	void EstablishBaseContext( )
 	{
-		_subject->Initialize( );
+		_subject->Initialize( 0 );
 		_subject->Update( 0 );
 		_subject->Release( );
 	}
@@ -85,7 +85,7 @@ public:
 
 	void EstablishBaseContext( )
 	{
-		_subject->Initialize( );
+		_subject->Initialize( 0 );
 
 		AnyType::AnyTypeMap parameters;
 		parameters[ "filePath" ] = "/data/sound/music/ux.fev";
@@ -117,7 +117,7 @@ public:
 
 	void EstablishBaseContext( )
 	{
-		_subject->Initialize( );
+		_subject->Initialize( 0 );
 
 		AnyType::AnyTypeMap parameters;
 		parameters[ "filePath" ] = "/data/sound/music/ux.fev";

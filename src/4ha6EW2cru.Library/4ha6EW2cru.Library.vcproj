@@ -162,59 +162,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\AI\AINavigationMeshComponent.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\AINavigationMeshComponent.h"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\AIScriptComponent.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\AIScriptComponent.h"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\AISystem.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\AISystem.h"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\AISystemComponent.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\AISystemComponent.h"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\AISystemScene.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\AISystemScene.h"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\AIWaypointComponent.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Exceptions\AlreadyInitializedException.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Animation\AnimationBlender.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Animation\AnimationBlender.h"
 			>
 		</File>
 		<File
@@ -239,38 +187,6 @@
 		</File>
 		<File
 			RelativePath=".\Scripting\AnimationFacade.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Animation\AnimationNode.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Animation\AnimationNode.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Animation\AnimationSystem.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Animation\AnimationSystem.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Animation\AnimationSystemComponent.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Animation\AnimationSystemComponent.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Animation\AnimationSystemScene.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Animation\AnimationSystemScene.h"
 			>
 		</File>
 		<File
@@ -510,30 +426,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Geometry\GeometrySystem.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Geometry\GeometrySystem.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Geometry\GeometrySystemComponent.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Geometry\GeometrySystemComponent.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Geometry\GeometrySystemScene.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Geometry\GeometrySystemScene.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Utility\luabind\include\detail\get_overload_signature.hpp"
 			>
 		</File>
@@ -578,47 +470,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\AI\IAISystem.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\IAISystemComponent.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\IAISystemScene.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Animation\IAnimationBlender.hpp"
-			>
-		</File>
-		<File
 			RelativePath=".\Renderer\IAnimationController.hpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Scripting\IAnimationFacade.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Animation\IAnimationNode.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Animation\IAnimationSystem.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Animation\IAnimationSystemComponent.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Animation\IAnimationSystemScene.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\IBehavior.hpp"
 			>
 		</File>
 		<File
@@ -974,14 +830,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\AI\NavigationPolygon.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\NavigationPolygon.h"
-			>
-		</File>
-		<File
 			RelativePath=".\State\Serilaization\NetworkComponentSerializer.cpp"
 			>
 		</File>
@@ -1042,11 +890,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\luabind\include\detail\open.hpp"
+			RelativePath=".\Utility\luabind\include\open.hpp"
 			>
 		</File>
 		<File
-			RelativePath=".\Utility\luabind\include\open.hpp"
+			RelativePath=".\Utility\luabind\include\detail\open.hpp"
 			>
 		</File>
 		<File

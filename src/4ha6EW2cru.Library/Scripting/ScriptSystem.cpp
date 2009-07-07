@@ -117,8 +117,9 @@ namespace Script
 		return results;
 	}
 
-	void ScriptSystem::Initialize()
+	void ScriptSystem::Initialize( Configuration::IConfiguration* configuration )
 	{
+		m_configuration = configuration;
 		m_auxScene = static_cast< IScriptSystemScene* >( this->CreateScene( ) );  
 	}
 
@@ -132,7 +133,7 @@ namespace Script
 	{
 		if ( message == System::Messages::RegisterService )
 		{
-			Management::GetServiceManager( )->RegisterService( this );
+			Management::Get( )->GetServiceManager( )->RegisterService( this );
 		}
 	}
 }

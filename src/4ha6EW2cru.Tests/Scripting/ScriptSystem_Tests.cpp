@@ -23,15 +23,15 @@ void ScriptSystem_Tests::tearDown()
 
 void ScriptSystem_Tests::Should_Initialize_Correctly()
 {
-	ScriptSystem system( 0 );
-	system.Initialize( );
+	ScriptSystem system;
+	system.Initialize( 0 );
 	system.Release( );
 }
 
 void ScriptSystem_Tests::Should_Return_Scene_On_CreateScene()
 {
-	ScriptSystem system( 0 );
-	system.Initialize( );
+	ScriptSystem system;
+	system.Initialize( 0 );
 
 	ISystemScene* scene = system.CreateScene( );
 
@@ -46,8 +46,8 @@ void ScriptSystem_Tests::Should_Return_Scene_On_CreateScene()
 
 void ScriptSystem_Tests::Should_Return_ScriptSystemType_On_GetType()
 {
-	ScriptSystem system( 0 );
-	system.Initialize( );
+	ScriptSystem system;
+	system.Initialize( 0 );
 
 	CPPUNIT_ASSERT( system.GetType( ) == System::Types::SCRIPT );
 

@@ -178,30 +178,6 @@
 	</References>
 	<Files>
 		<File
-			RelativePath=".\AI\AISystem_Tests.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\AISystem_Tests.h"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\AISystemComponent_Tests.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\AISystemComponent_Tests.h"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\AISystemScene_Tests.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\AI\AISystemScene_Tests.h"
-			>
-		</File>
-		<File
 			RelativePath=".\IO\BadArchiveFactoryFixture.cpp"
 			>
 		</File>

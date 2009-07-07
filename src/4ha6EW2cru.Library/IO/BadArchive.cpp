@@ -12,7 +12,7 @@ namespace IO
 	{
 		DataStreamPtr stream;
 
-		IResource* resource = Management::GetResourceManager( )->GetResource( filename );
+		IResource* resource = Management::Get( )->GetResourceManager( )->GetResource( filename );
 
 		MemoryDataStream memoryStream( resource->GetFileBuffer( )->fileBytes, resource->GetFileBuffer( )->fileLength, false );
 		stream = DataStreamPtr( new MemoryDataStream( memoryStream, true ) );
@@ -22,14 +22,14 @@ namespace IO
 
 	bool BadArchive::exists( const Ogre::String& filename )
 	{
-		return Management::GetFileManager( )->FileExists( filename );
+		return Management::Get( )->GetFileManager( )->FileExists( filename );
 	}
 
 	StringVectorPtr BadArchive::find( const String& pattern, bool recursive /* = true */, bool dirs /* = false */ )
 	{
 		StringVector* resultsVector = new StringVector( );
 
-		FileSearchResult::FileSearchResultList* results = Management::GetFileManager( )->FileSearch( "/data/", pattern, true );
+		FileSearchResult::FileSearchResultList* results = Management::Get( )->GetFileManager( )->FileSearch( "/data/", pattern, true );
 
 		for( FileSearchResult::FileSearchResultList::iterator i = results->begin( ); i != results->end( ); ++i )
 		{

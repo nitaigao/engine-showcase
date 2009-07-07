@@ -36,7 +36,7 @@ namespace Physics
 		return m_scene;
 	}
 
-	void HavokPhysicsSystem::Initialize()
+	void HavokPhysicsSystem::Initialize( Configuration::IConfiguration* configuration )
 	{
 		hkPoolMemory* memoryManager = new hkPoolMemory( );
 		m_threadMemory = new hkThreadMemory( memoryManager );
@@ -74,7 +74,7 @@ namespace Physics
 		m_vdb->serve( );
 #endif
 
-		Management::GetServiceManager( )->RegisterService( this ); 
+		Management::Get( )->GetServiceManager( )->RegisterService( this ); 
 	}
 
 	void HavokPhysicsSystem::Update( const float& deltaMilliseconds )

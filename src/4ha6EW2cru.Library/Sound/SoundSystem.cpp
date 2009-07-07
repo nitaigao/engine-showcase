@@ -19,8 +19,9 @@ namespace Sound
 		return scene;
 	}
 
-	void SoundSystem::Initialize()
+	void SoundSystem::Initialize( Configuration::IConfiguration* configuration )
 	{
+		m_configuration = configuration;
 		m_configuration->SetDefault( System::ConfigSections::Sound, "sfx_volume", 100 );
 		m_configuration->SetDefault( System::ConfigSections::Sound, "music_volume", 100 );
 
@@ -139,7 +140,7 @@ namespace Sound
 			Logging::Logger::Warn( "SoundSystem::Initialize - Couldn't load the game sound archive" );
 		}
 
-		Management::GetServiceManager( )->RegisterService( this );
+		Management::Get( )->GetServiceManager( )->RegisterService( this );
 	}
 
 	void SoundSystem::Release()
@@ -189,7 +190,7 @@ namespace Sound
 
 	FMOD_RESULT F_CALLBACK SoundSystem::FileOpen( const char* name, int unicode, unsigned int* filesize, void** handle, void** userdata )
 	{
-		IResource* resource = Management::GetResourceManager( )->GetResource( name );
+		IResource* resource = Management::Get( )->GetResourceManager( )->GetResource( name );
 		resource->AddReference( );
 
 		*handle = resource;

@@ -17,7 +17,7 @@ namespace Sound
 	/*!
 	 *  The Sound System 
 	 */
-	class SoundSystem : public ISoundSystem, public IService
+	class SoundSystem : public ISoundSystem, public Services::IService
 	{
 
 	public:
@@ -33,10 +33,10 @@ namespace Sound
 		 *
 		 *  @return ()
 		 */
-		SoundSystem( Configuration::IConfiguration* configuration )
+		SoundSystem( )
 			: m_fmodSystem( 0 )
 			, m_eventSystem( 0 )
-			, m_configuration( configuration )
+			, m_configuration( 0 )
 		{
 
 		}
@@ -46,7 +46,7 @@ namespace Sound
 		*
 		*  @return (void)
 		*/
-		void Initialize( );
+		void Initialize( Configuration::IConfiguration* configuration );
 
 
 		/*! Steps the System's internal data

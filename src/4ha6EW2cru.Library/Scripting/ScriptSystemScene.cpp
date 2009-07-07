@@ -92,7 +92,7 @@ namespace Script
 
 		AnyType::AnyTypeMap serviceParameters;
 		serviceParameters[ System::Parameters::ScriptState ] = m_state;
-		Management::GetServiceManager( )->MessageAll( System::Messages::RegisterScriptFunctions, serviceParameters );
+		Management::Get( )->GetServiceManager( )->MessageAll( System::Messages::RegisterScriptFunctions, serviceParameters );
 
 		luabind::globals( m_state )[ "Configuration" ] = m_scriptConfiguration;
 
@@ -160,19 +160,19 @@ namespace Script
 
 	void ScriptSystemScene::Quit( )
 	{
-		Management::GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
+		Management::Get( )->GetEventManager( )->QueueEvent( new Event( GAME_QUIT ) );
 	}
 
 	void ScriptSystemScene::LoadLevel( const std::string& levelName )
 	{
 		IEventData* eventData = new LevelChangedEventData( levelName );
-		Management::GetEventManager( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
+		Management::Get( )->GetEventManager( )->QueueEvent( new Event( GAME_LEVEL_CHANGED, eventData ) );
 	}
 
 	void ScriptSystemScene::EndGame()
 	{
-		Management::GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_ENDED" ) );
-		Management::GetEventManager( )->QueueEvent( new Event( GAME_ENDED ) );
+		Management::Get( )->GetEventManager( )->QueueEvent( new ScriptEvent( "GAME_ENDED" ) );
+		Management::Get( )->GetEventManager( )->QueueEvent( new Event( GAME_ENDED ) );
 	}
 
 	void ScriptSystemScene::Update( const float& deltaMilliseconds )

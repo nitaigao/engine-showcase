@@ -36,8 +36,9 @@ namespace Network
 		return new NetworkSystemScene( );
 	}
 
-	void NetworkSystem::Initialize( )
+	void NetworkSystem::Initialize( Configuration::IConfiguration* configuration )
 	{
+		m_configuration = configuration;
 		m_configuration->SetDefault( "Network", "port", 8989 );
 		m_configuration->SetDefault( "Network", "max_server_connections", 10 );
 		m_configuration->SetDefault( "Network", "max_client_connections", 1 );
@@ -84,7 +85,7 @@ namespace Network
 					message.messageId = "changelevel";
 					message.parameters[ "levelName" ] = "mylevel";
 
-					m_networkInterface->Send( ( char* ) &message, sizeof( message ), PacketPriority::MEDIUM_PRIORITY, PacketReliability::RELIABLE, 0, packet->systemAddress, false );
+					m_networkInterface->Send( ( char* ) &message, sizeof( message ), MEDIUM_PRIORITY, RELIABLE, 0, packet->systemAddress, false );
 
 					break;
 				}

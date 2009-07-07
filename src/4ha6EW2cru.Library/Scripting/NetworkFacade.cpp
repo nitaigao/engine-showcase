@@ -21,6 +21,6 @@ namespace Script
 		parameters[ System::Parameters::Network::HostAddress ] = hostAddress;
 		parameters[ System::Parameters::Network::Port ] = port;
 
-		Management::GetSystemManager( )->GetSystem( System::Types::NETWORK )->Message( System::Messages::Network::Connect, parameters );
+		Management::Get( )->GetSystemManager( )->GetSystem( System::Types::NETWORK )->Message( System::Messages::Network::Connect, parameters );
 	}
 }

@@ -30,25 +30,25 @@ void InputSystemFixture::tearDown( )
 
 void InputSystemFixture::Should_Initialize_Properly( )
 {
-	InputSystem* inputSystem = new InputSystem( 0 );
-	inputSystem->Initialize( );
+	InputSystem* inputSystem = new InputSystem( );
+	inputSystem->Initialize( 0 );
 
 	delete inputSystem;
 }
 
 void InputSystemFixture::Should_Throw_Given_Already_Initialized( )
 {
-	InputSystem* inputSystem = new InputSystem( 0 );
-	inputSystem->Initialize( );
-	CPPUNIT_ASSERT_THROW( inputSystem->Initialize( ), AlreadyInitializedException );
+	InputSystem* inputSystem = new InputSystem( );
+	inputSystem->Initialize( 0 );
+	CPPUNIT_ASSERT_THROW( inputSystem->Initialize( 0 ), AlreadyInitializedException );
 
 	delete inputSystem;
 }
 
 void InputSystemFixture::Should_Not_Initialize_With_NULL_HWND( )
 {	
-	InputSystem* inputSystem = new InputSystem( 0 );
-	CPPUNIT_ASSERT_THROW( inputSystem->Initialize( ), IntializeFailedException );
+	InputSystem* inputSystem = new InputSystem( );
+	CPPUNIT_ASSERT_THROW( inputSystem->Initialize( 0 ), IntializeFailedException );
 
 	delete inputSystem;
 }
