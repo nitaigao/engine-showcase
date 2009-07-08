@@ -6,10 +6,6 @@
 
 #include "Management/Management.h"
 
-#include "Scripting/ScriptComponent.h"
-#include "Scripting/ScriptSystemScene.h"
-using namespace Script;
-
 #include "Maths/MathVector3.hpp"
 using namespace Maths;
 
@@ -84,6 +80,7 @@ namespace AI
 		module( state )
 		[
 			class_< AIScriptComponent >( "AISystemComponent" )
+				.def( constructor< const std::string& >( ) )
 				.def( "getName", &AIScriptComponent::GetName )
 				.def( "walkForward", &AIScriptComponent::WalkForward )
 				.def( "walkBackward", &AIScriptComponent::WalkBackward )

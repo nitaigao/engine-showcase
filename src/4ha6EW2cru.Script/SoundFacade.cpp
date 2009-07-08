@@ -5,19 +5,17 @@
 #include "Service/IService.hpp"
 using namespace Services;
 
-#include <luabind/luabind.hpp>
 using namespace luabind;
 
 namespace Script
 {
-	void SoundFacade::RegisterFunctions( lua_State* state )
+	scope SoundFacade::RegisterFunctions( )
 	{
-		module( state )
-		[
+		return
 			class_< SoundFacade >( "SoundFacade" )
+				.def( constructor< IScriptComponent* >( ) )
 				.def( "triggerEvent", &SoundFacade::TriggerEvent )
-				.def( "keyOutEvent", &SoundFacade::KeyOutEvent )
-		];
+				.def( "keyOutEvent", &SoundFacade::KeyOutEvent );
 	}
 
 	void SoundFacade::PlayMusic( const std::string& eventPath )

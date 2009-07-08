@@ -11,7 +11,6 @@ namespace State
 	{
 		for ( ISystemScene::SystemSceneMap::reverse_iterator i = m_systemScenes.rbegin( ); i != m_systemScenes.rend( ); ++i )
 		{
-			( *i ).second->Destroy( );
 			delete ( *i ).second;
 		}
 	}
@@ -48,6 +47,16 @@ namespace State
 	
 		m_entities.clear( );
 	}
+
+	void World::Destroy()
+	{
+		this->Clear( );
+
+		for ( ISystemScene::SystemSceneMap::reverse_iterator i = m_systemScenes.rbegin( ); i != m_systemScenes.rend( ); ++i )
+		{
+			( *i ).second->Destroy( );
+		}
+	}
 	
 	IWorldEntity* World::FindEntity( const std::string& name )
 	{
@@ -66,7 +75,7 @@ namespace State
 	{
 		std::stringstream logMessage;
 		logMessage << "message: " << message;
-		Logging::Logger::Debug( logMessage.str( ) );
+		Logging::Logger::Get( )->Debug( logMessage.str( ) );
 
 		return AnyType( );
 	}

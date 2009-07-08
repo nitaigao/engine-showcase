@@ -4,6 +4,7 @@
 *  @file   AISystem.h
 *  @date   2009/04/25
 */
+#pragma once
 #ifndef AISYSTEM_H
 #define AISYSTEM_H
 
@@ -98,6 +99,9 @@ namespace AI
 		inline void SetAttribute( const std::string& name, AnyType value ) { };
 
 	private:
+
+		AISystem( const AISystem & copy ) { };
+		AISystem & operator = ( const AISystem & copy ) { return *this; };
 
 		AnyType::AnyTypeMap m_attributes;
 		ISystemScene* m_scene;

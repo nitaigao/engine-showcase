@@ -11,9 +11,8 @@ using namespace Resources;
 #include "../../System/SystemTypeMapper.hpp"
 #include "../../Management/Management.h"
 
-#include "../../Scripting/ScriptEvent.hpp"
-#include "../../Scripting/IScriptComponent.hpp"
-using namespace Script;
+#include "../../Events/ScriptEvent.hpp"
+using namespace Events;
 
 #include "ComponentSerializerFactory.h"
 #include "AIComponentSerializer.h"
@@ -35,7 +34,7 @@ namespace Serialization
 		{
 			std::stringstream logMessage;
 			logMessage << "Unable to locate level file at path: " << levelPath;
-			Logger::Warn( logMessage.str( ) );
+			Logger::Get( )->Warn( logMessage.str( ) );
 			return;
 		}
 

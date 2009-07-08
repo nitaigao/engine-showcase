@@ -8,7 +8,6 @@
 #define IAISYSTEMCOMPONENT_HPP
 
 #include "System/ISystemComponent.hpp"
-#include "Scripting/IScriptComponent.hpp"
 
 namespace AI
 {

@@ -11,7 +11,6 @@
 
 #include "IRendererSystemComponent.hpp"
 #include "IRenderSystemScene.h"
-#include "IAnimationController.hpp"
 
 namespace Renderer
 {
@@ -121,7 +120,6 @@ namespace Renderer
 
 		RendererSystemComponent( ) { };
 
-		virtual void InitializeSceneNode( Ogre::SceneNode* sceneNode );
 		void LoadModel( Ogre::SceneNode* sceneNode, const std::string& modelPath );
 		void DestroySceneNode( Ogre::SceneNode* sceneNode );
 		void LinkSkeletons( Ogre::SceneNode* sceneNode, RendererSystemComponent::SkeletonList* skeletons );
@@ -133,8 +131,6 @@ namespace Renderer
 		IObserver* m_observer;
 		IRenderSystemScene* m_scene;
 		Ogre::SceneNode* m_sceneNode;
-
-		IAnimationController::AnimationControllerMap m_animationControllers;
 
 	private:
 

@@ -39,7 +39,7 @@ namespace Network
 			: m_networkInterface( 0 )
 			, m_configuration( 0 )
 		{
-
+			m_attributes[ System::Attributes::Network::IsServer ] = false;
 		}
 
 

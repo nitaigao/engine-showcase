@@ -42,8 +42,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../4ha6EW2cru.Game;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32"
+				AdditionalIncludeDirectories="../4ha6EW2cru.Game;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
+				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -118,7 +118,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
+				AdditionalIncludeDirectories="../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
 				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;NOMINMAX;WIN32"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -204,6 +204,14 @@
 		<ProjectReference
 			ReferencedProjectIdentifier="{4C8A052A-E490-46DC-90AC-B70605128E5C}"
 			RelativePathToProject=".\4ha6EW2cru.Script\4ha6EW2cru.Script.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{829F3961-5773-40CB-839F-211B75C81D39}"
+			RelativePathToProject=".\4ha6EW2cru.Sound\4ha6EW2cru.Sound.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{BDC25B19-F2FC-4F40-8395-8BC7AB10B326}"
+			RelativePathToProject=".\4ha6EW2cru.UX\4ha6EW2cru.UX.vcproj"
 		/>
 	</References>
 	<Files>

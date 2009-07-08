@@ -40,6 +40,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/raknet/Source;../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
+				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;_EXPORT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -57,6 +59,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="winmm.lib fmodex_vc.lib fmod_event.lib"
+				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;../../etc/vendor/fmod/lib"
+				ModuleDefinitionFile="SystemDefinition.def"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -154,6 +159,10 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{399D7AEA-884F-4884-B655-AED35E934A07}"
+			RelativePathToProject=".\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -161,12 +170,56 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\SoundScene.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SoundSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SoundSystemComponent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SystemDefinition.cxx"
+				>
+			</File>
+			<File
+				RelativePath=".\SystemDefinition.def"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\ISoundScene.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ISoundSystem.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ISoundSystemComponent.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SoundScene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SoundSystem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SoundSystemComponent.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

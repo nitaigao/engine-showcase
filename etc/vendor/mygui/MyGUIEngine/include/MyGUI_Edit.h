@@ -302,8 +302,9 @@ namespace MyGUI
 
 		virtual ~Edit();
 
+		Edit(WidgetStyle _style, const IntCoord& _coord, Align _align, WidgetSkinInfo* _info, Widget* _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
+
 	protected:
-		Edit(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
 
 		virtual void onMouseDrag(int _left, int _top);
 		virtual void onKeyLostFocus(WidgetPtr _new);

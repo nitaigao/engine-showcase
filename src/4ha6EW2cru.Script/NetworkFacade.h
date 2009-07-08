@@ -46,7 +46,7 @@ namespace Script
 		* @param[in] lua_State * state
 		* @return ( void )
 		*/
-		static void RegisterFunctions( lua_State* state );
+		static luabind::scope RegisterFunctions( );
 
 
 		/*! Requests the Game connects to the specified server

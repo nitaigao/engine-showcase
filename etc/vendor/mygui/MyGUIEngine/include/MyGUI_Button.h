@@ -72,9 +72,10 @@ namespace MyGUI
 		
 		virtual ~Button();
 
-	protected:
-		Button(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
+		Button(WidgetStyle _style, const IntCoord& _coord, Align _align, WidgetSkinInfo* _info, Widget* _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
 
+	protected:
+	
 		virtual void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
 
 		virtual void onMouseLostFocus(WidgetPtr _new);

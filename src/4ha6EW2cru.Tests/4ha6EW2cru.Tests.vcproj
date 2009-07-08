@@ -41,8 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/cppunit/include;../../etc/vendor/ois/includes;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/mockpp;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/lua/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG;NOMINMAX;WIN32"
+				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/cppunit/include;../../etc/vendor/ois/includes;../../etc/vendor/physfs;../../etc/vendor/luabind;../../etc/vendor/boost/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/mockpp;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/lua/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
+				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;HK_DEBUG;NOMINMAX;WIN32"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -118,7 +118,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/cppunit/include;../../etc/vendor/ois/includes;../../etc/vendor/physfs;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/mockpp;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/lua/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
+				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/cppunit/include;../../etc/vendor/ois/includes;../../etc/vendor/physfs;../../etc/vendor/luabind;../../etc/vendor/boost/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/mockpp;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/lua/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
 				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;NOMINMAX;WIN32"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -191,14 +191,6 @@
 		</File>
 		<File
 			RelativePath=".\IO\BadArchiveFixture.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\Color_Tests.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Graphics\Color_Tests.h"
 			>
 		</File>
 		<File
@@ -326,39 +318,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Scripting\ScriptSystem_Tests.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ScriptSystem_Tests.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ScriptSystemScene_Tests.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ScriptSystemScene_Tests.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Utility\SearchUtilityFixture.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Utility\SearchUtilityFixture.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Sound\SoundScene_Tests.cxx"
-			>
-		</File>
-		<File
-			RelativePath=".\Sound\SoundSystem_Tests.cxx"
-			>
-		</File>
-		<File
-			RelativePath=".\Sound\Specification.hpp"
 			>
 		</File>
 		<File

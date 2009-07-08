@@ -116,7 +116,7 @@ namespace Physics
 
 	void HavokPhysicsSystem::errorReportFunction( const char* errorMessage, void* errorOutputObject )
 	{
-		Logger::Warn( errorMessage );
+		Logger::Get( )->Warn( errorMessage );
 	}
 
 	std::vector< std::string > HavokPhysicsSystem::RayQuery( const Maths::MathVector3& origin, const Maths::MathVector3& destination, const bool& sortByDistance, const unsigned int& maxResults )

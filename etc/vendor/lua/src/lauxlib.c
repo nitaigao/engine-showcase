@@ -623,16 +623,34 @@ LUALIB_API int (luaL_loadstring) (lua_State *L, const char *s) {
 
 /* }====================================================== */
 
+#include <windows.h>
 
 static void *l_alloc (void *ud, void *ptr, size_t osize, size_t nsize) {
-  (void)ud;
+  /*(void)ud;
   (void)osize;
   if (nsize == 0) {
     free(ptr);
     return NULL;
   }
   else
-    return realloc(ptr, nsize);
+    return realloc(ptr, nsize);*/
+
+  (void)ud;  (void)osize;  /* not used */
+
+  if ( nsize == 0 ) 
+  {
+	  HeapFree( GetProcessHeap( ), 0, ptr );// free(ptr);
+	  return NULL;
+  }
+
+  if ( ptr )
+  {
+	  return HeapReAlloc( GetProcessHeap( ), 0, ptr, nsize );
+  }
+
+  return HeapAlloc( GetProcessHeap( ), 0, nsize );
+
+  //return HeapReAlloc( NULL, HEAP_GENERATE_EXCEPTIONS, ptr, nsize );// realloc(ptr, nsize);
 }
 
 

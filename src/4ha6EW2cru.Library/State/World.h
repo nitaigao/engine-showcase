@@ -83,6 +83,13 @@ namespace State
 		void Clear( );
 
 
+		/*! Destroys the World and All Registered Scenes
+		*
+		* @return ( void )
+		*/
+		void Destroy( );
+
+
 		/*! Messages the Observer to influence its internal state
 		*
 		*  @param[in] const std::string & message

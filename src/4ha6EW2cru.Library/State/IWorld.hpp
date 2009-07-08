@@ -75,6 +75,13 @@ namespace State
 		 */
 		virtual void Clear( ) = 0;
 
+		
+		/*! Destroys the World and All Registered Scenes
+		*
+		* @return ( void )
+		*/
+		virtual void Destroy( ) = 0;
+
 	};
 };
 

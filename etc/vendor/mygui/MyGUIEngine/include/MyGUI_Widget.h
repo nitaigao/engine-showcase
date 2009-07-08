@@ -384,9 +384,10 @@ namespace MyGUI
 
 		virtual ~Widget();
 
-	protected:
 		// все создание только через фабрику
-		Widget(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
+		Widget(WidgetStyle _style, const IntCoord& _coord, Align _align, WidgetSkinInfo * _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name);
+
+	protected:
 
 		virtual void baseChangeWidgetSkin(WidgetSkinInfoPtr _info);
 

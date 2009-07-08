@@ -21,13 +21,42 @@ namespace Logging
 	{
 
 	public:
+
+		/*! Initializes the Logger Singleton
+		*
+		* @return ( void )
+		*/
+		static void Initialize( );
+
+
+		/*! Initializes the Logger Singleton from an already existing pointer
+		*
+		* @param[in] Logger * logger
+		* @return ( void )
+		*/
+		static void Initialize( Logger* logger );
+
+
+		/*! Releases the Logger Singleton
+		*
+		* @return ( void )
+		*/
+		static void Release( );
+
+
+		/*! Returns the instance of the Logger Singleton
+		*
+		* @return ( Logger* )
+		*/
+		static Logger* Get( );
+
 		
 		/*! Logs a message with the DEBUG prefix
 		 *
 		 *  @param[in] const std::string message
 		 *  @return (void)
 		 */
-		static void Debug( const std::string& message );
+		void Debug( const std::string& message );
 
 		
 		/*! Logs a message with the INFO prefix
@@ -35,7 +64,7 @@ namespace Logging
 		 *  @param[in] const std::string message
 		 *  @return (void)
 		 */
-		static void Info( const std::string& message );
+		void Info( const std::string& message );
 
 		
 		/*! Logs a message with the WARN prefix
@@ -43,7 +72,7 @@ namespace Logging
 		 *  @param[in] const std::string message
 		 *  @return (void)
 		 */
-		static void Warn( const std::string& message );
+		void Warn( const std::string& message );
 
 		
 		/*! Logs a message with the FATAL prefix
@@ -51,7 +80,7 @@ namespace Logging
 		 *  @param[in] const std::string message
 		 *  @return (void)
 		 */
-		static void Fatal( const std::string& message );
+		void Fatal( const std::string& message );
 
 
 		/*! Logs a message with the NET prefix
@@ -59,7 +88,7 @@ namespace Logging
 		* @param[in] const std::string & message
 		* @return ( void )
 		*/
-		static void Net( const std::string& message );
+		void Net( const std::string& message );
 
 		
 		/*! Sets the current logging level
@@ -67,24 +96,29 @@ namespace Logging
 		 *  @param[in] LogLevel logLevel
 		 *  @return (void)
 		 */
-		static void SetLogLevel( const LogLevel& logLevel ) { s_logLevel = logLevel; };
+		void SetLogLevel( const LogLevel& logLevel ) { m_logLevel = logLevel; };
 
 		
 		/*! Gets the current logging level
 		 *
 		 *  @return (LogLevel)
 		 */
-		static LogLevel GetLogLevel( ) { return s_logLevel; };
+		LogLevel GetLogLevel( ) { return m_logLevel; };
 
 	private:
 
-		static void LogMessage( const std::string& level, const std::string& message );
+		void LogMessage( const std::string& level, const std::string& message );
 
-		static LogLevel s_logLevel;
-		static Logger s_logger;
+		LogLevel m_logLevel;
 
 		~Logger( ) { };
-		Logger( ) { };
+
+		Logger( )
+			: m_logLevel( LEVEL_FATAL )
+		{
+
+		}
+
 		Logger( const Logger & copy ) { };
 		Logger & operator = ( const Logger & copy ) { return *this; };
 

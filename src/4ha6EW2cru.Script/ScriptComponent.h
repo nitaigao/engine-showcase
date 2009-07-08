@@ -31,6 +31,8 @@ namespace Script
 		*/
 		~ScriptComponent( ) { };
 
+		ScriptComponent( ) { };
+
 
 		/*! Default Constructor
 		*

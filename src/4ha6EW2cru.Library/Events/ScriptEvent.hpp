@@ -7,9 +7,9 @@
 #ifndef SCRIPTEVENT_HPP
 #define SCRIPTEVENT_HPP
 
-#include "Events/IEvent.hpp"
-#include "Events/IEventData.hpp"
-#include "Events/EventType.hpp"
+#include "IEvent.hpp"
+#include "IEventData.hpp"
+#include "EventType.hpp"
 
 namespace Events
 {

@@ -17,9 +17,6 @@ using namespace State;
 #include "State/Serilaization/XMLSerializer.h"
 using namespace Serialization;
 
-#include "UX/UXSystem.h"
-#include "Sound/SoundSystem.h"
-
 #include "Events/Event.h"
 #include "Events/EventData.hpp"
 #include "Events/ScriptEvent.hpp"
@@ -27,6 +24,7 @@ using namespace Events;
 
 void Game::Initialize( )
 {
+	Logger::Initialize( );
 	Management::Initialize( );
 
 	AnyType::AnyTypeMap programOptions = Management::Get( )->GetPlatformManager( )->GetProgramOptions( );
@@ -34,12 +32,12 @@ void Game::Initialize( )
 	if ( m_isInitialized )
 	{
 		AlreadyInitializedException e ( "Game::Initialize - Attempted to Initialized when the game had already been Initialized" );
-		Logger::Fatal( e.what( ) );
+		Logger::Get( )->Fatal( e.what( ) );
 		throw e;
 	}
 
 #ifdef _DEBUG
-	Logger::SetLogLevel( Logging::LEVEL_ALL );
+	Logger::Get( )->SetLogLevel( Logging::LEVEL_ALL );
 #endif // _DEBUG
 
 	// -- Set Configuration Defaults 
@@ -49,7 +47,7 @@ void Game::Initialize( )
 	m_configuration->SetDefault( "Logging", "level", static_cast< int >( LEVEL_FATAL ) );
 
 	LogLevel logLevel = static_cast< LogLevel >( m_configuration->Find( "Logging", "level" ).As< int >( ) );
-	Logger::SetLogLevel( logLevel );
+	Logger::Get( )->SetLogLevel( logLevel );
 
 	// -- Initialize All Systems
 
@@ -88,10 +86,11 @@ void Game::Initialize( )
 		ISystem* inputSystem = systemManager->LoadSystem( "4ha6EW2cru.Input.dll" );
 		systemManager->RegisterSystem( System::Queues::HOUSE, inputSystem );
 
-		systemManager->RegisterSystem( System::Queues::HOUSE, new UX::UXSystem( ) );
-		systemManager->RegisterSystem( System::Queues::HOUSE, new Sound::SoundSystem( ) );
+		ISystem* uxSystem = systemManager->LoadSystem( "4ha6EW2cru.UX.dll" );
+		systemManager->RegisterSystem( System::Queues::HOUSE, uxSystem );
 
-		systemManager->GetSystem( System::Types::NETWORK )->SetAttribute( System::Attributes::Network::IsServer, false );
+		ISystem* soundSystem = systemManager->LoadSystem( "4ha6EW2cru.Sound.dll" );
+		systemManager->RegisterSystem( System::Queues::HOUSE, soundSystem );
 	}
 
 	systemManager->InitializeAllSystems( m_configuration );
@@ -138,7 +137,7 @@ void Game::Release( )
 	if ( !m_isInitialized )
 	{
 		UnInitializedException e( "Game::Release - Cannot Release when not Initialized" );
-		Logger::Fatal( e.what( ) );
+		Logger::Get( )->Fatal( e.what( ) );
 		throw e;
 	}
 
@@ -151,10 +150,13 @@ void Game::Release( )
 	delete m_world;
 
 	Management::Release( );
+	Logger::Release( );
 }
 
 void Game::OnGameQuit( const IEvent* event )
 {
+	m_world->Destroy( );
+
 	m_isQuitting = true;
 }
 

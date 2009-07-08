@@ -14,7 +14,7 @@ namespace Events
 		if ( 0 == event )
 		{
 			NullReferenceException e( "EventManager::QueueEvent - Attempted to add a NULL Event to the Queue" );
-			Logger::Fatal( e.what ( ) );
+			Logger::Get( )->Fatal( e.what ( ) );
 			throw e;
 		}
 
@@ -26,7 +26,7 @@ namespace Events
 		if ( 0 == event )
 		{
 			NullReferenceException e( "EventManager::TriggerEvent - Attempted to trigger a NULL Event" );
-			Logger::Fatal( e.what ( ) );
+			Logger::Get( )->Fatal( e.what ( ) );
 			throw e;
 		}
 
@@ -70,7 +70,7 @@ namespace Events
 
 	EventManager::~EventManager()
 	{
-		Logger::Info( "EventManager::Release - Releasing Event Manager" );
+		Logger::Get( )->Info( "EventManager::Release - Releasing Event Manager" );
 
 		while( m_eventQueue.size( ) > 0 )
 		{

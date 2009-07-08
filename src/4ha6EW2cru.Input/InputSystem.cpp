@@ -24,7 +24,7 @@ namespace Input
 	
 	void InputSystem::Initialize( Configuration::IConfiguration* configuration )
 	{ 	
-		Logger::Info( "Initializing Input System" );
+		Logger::Get( )->Info( "Initializing Input System" );
 
 		m_configuration = configuration;
 
@@ -133,12 +133,12 @@ namespace Input
 
 		if ( message == System::Messages::RegisterScriptFunctions )
 		{
-			module( parameters[ System::Parameters::ScriptState ].As< lua_State* >( ) )
+			/*module( parameters[ System::Parameters::ScriptState ].As< lua_State* >( ) )
 			[
 				class_< InputMessageBinding >( InputMessageBinding::TypeName( ).c_str( ) )
 					.def( "getText", &InputMessageBinding::GetText )
 					.def( "getMessage", &InputMessageBinding::GetMessage )
-			];
+			];*/
 		}
 
 		if ( message == System::Messages::GetBindingForMessage )

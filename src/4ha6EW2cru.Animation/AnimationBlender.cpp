@@ -13,7 +13,7 @@ namespace Animation
 		{
 			std::stringstream logMessage;
 			logMessage << "AnimationBlender::Blend: " << animationName << " doesn't exist";
-			Logger::Warn( logMessage.str( ) );
+			Logger::Get( )->Warn( logMessage.str( ) );
 		}
 		else
 		{
@@ -34,7 +34,7 @@ namespace Animation
 		{
 			std::stringstream logMessage;
 			logMessage << "AnimationBlender::UnBlend: " << animationName << " doesn't exist";
-			Logger::Warn( logMessage.str( ) );
+			Logger::Get( )->Warn( logMessage.str( ) );
 		}
 		else
 		{

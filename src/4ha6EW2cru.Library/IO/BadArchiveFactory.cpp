@@ -20,7 +20,7 @@ namespace IO
 	{
 		std::stringstream logMessage;
 		logMessage << "BadArchiveFactory::createInstance - of " << name;
-		Logger::Debug( logMessage.str( ) );
+		Logger::Get( )->Debug( logMessage.str( ) );
 
 		std::string archiveName = "";
 
@@ -44,13 +44,13 @@ namespace IO
 		if ( 0 == archive )
 		{
 			NullReferenceException e( "BadArchiveFactory::destroyInstance -- Archive is NULL" );
-			Logger::Fatal( e.what( ) );
+			Logger::Get( )->Fatal( e.what( ) );
 			throw e;
 		}
 
 		std::stringstream logMessage;
 		logMessage << "BadArchiveFactory::destroyInstance - Instance of " << archive->getName( );
-		Logger::Debug( logMessage.str( ) );
+		Logger::Get( )->Debug( logMessage.str( ) );
 
 		delete archive;
 	}

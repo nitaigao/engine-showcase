@@ -6,13 +6,12 @@ using namespace luabind;
 
 namespace Script
 {
-	void NetworkFacade::RegisterFunctions( lua_State* state )
+	scope NetworkFacade::RegisterFunctions( )
 	{
-		module( state )
-		[
+		return
 			class_< NetworkFacade >( "NetworkFacade" )
-				.def( "connect", &NetworkFacade::Connect )
-		];
+				.def( constructor< ISystemComponent* >( ) )
+				.def( "connect", &NetworkFacade::Connect );
 	}
 
 	void NetworkFacade::Connect( const std::string& hostAddress, const int& port )

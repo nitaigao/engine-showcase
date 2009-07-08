@@ -4,14 +4,35 @@
 #include "../Exceptions/AlreadyInitializedException.hpp"
 #include "../Exceptions/NullReferenceException.hpp"
 
-#include "../Scripting/ScriptEvent.hpp"
-using namespace Script;
+#include "../Events/ScriptEvent.hpp"
+using namespace Events;
 
 #include "../Management/Management.h"
 
 namespace Logging
 {
-	LogLevel Logger::s_logLevel = LEVEL_FATAL;
+	Logger* g_logger = 0;
+
+	void Logger::Initialize( )
+	{
+		g_logger = new Logger( );
+	}
+
+	void Logger::Initialize( Logger* logger )
+	{
+		g_logger = logger;
+	}
+
+	void Logger::Release( )
+	{
+		delete g_logger;
+		g_logger = 0;
+	}
+
+	Logger* Logger::Get()
+	{
+		return g_logger;
+	}
 
 	void Logger::LogMessage( const std::string& level, const std::string& message )
 	{
@@ -24,56 +45,55 @@ namespace Logging
 		std::stringstream outputMessage;
 		outputMessage << level << ": " << message << "\n";
 
-		if( level != "DEBUG" )
+		if ( Management::IsInitialized( ) )
 		{
-			Management::Get( )->GetEventManager( )->QueueEvent( new ScriptEvent( "MESSAGE_LOGGED", outputMessage.str( ) ) );
+			if( level != "DEBUG" )
+			{
+				Management::Get( )->GetEventManager( )->QueueEvent( new ScriptEvent( "MESSAGE_LOGGED", outputMessage.str( ) ) );
+			}
+
+			Management::Get( )->GetPlatformManager( )->OutputDebugMessage( outputMessage.str( ) );
+			Management::Get( )->GetPlatformManager( )->OutputToConsole( outputMessage.str( ) );
 		}
-
-	//#ifdef _DEBUG
-		Management::Get( )->GetPlatformManager( )->OutputDebugMessage( outputMessage.str( ) );
-	//#endif // _DEBUG
-
-		Management::Get( )->GetPlatformManager( )->OutputToConsole( outputMessage.str( ) );
-
 	}
 
 	void Logger::Info( const std::string& message )
 	{
-		if ( s_logLevel >= LEVEL_INFO )
+		if ( m_logLevel >= LEVEL_INFO )
 		{
-			s_logger.LogMessage( "INFO", message );
+			g_logger->LogMessage( "INFO", message );
 		}
 	}
 
 	void Logger::Debug( const std::string& message )
 	{
-		if ( s_logLevel >= LEVEL_DEBUG )
+		if ( m_logLevel >= LEVEL_DEBUG )
 		{
-			s_logger.LogMessage( "DEBUG", message );
+			g_logger->LogMessage( "DEBUG", message );
 		}
 	}
 
 	void Logger::Warn( const std::string& message )
 	{
-		if ( s_logLevel >= LEVEL_WARN )
+		if ( m_logLevel >= LEVEL_WARN )
 		{
-			s_logger.LogMessage( "WARN", message );
+			g_logger->LogMessage( "WARN", message );
 		}
 	}
 
 	void Logger::Fatal( const std::string& message )
 	{
-		if ( s_logLevel >= LEVEL_FATAL )
+		if ( m_logLevel >= LEVEL_FATAL )
 		{
-			s_logger.LogMessage( "FATAL", message );
+			g_logger->LogMessage( "FATAL", message );
 		}
 	}
 
 	void Logger::Net( const std::string& message )
 	{
-		if ( s_logLevel >= LEVEL_INFO )
+		if ( m_logLevel >= LEVEL_INFO )
 		{
-			s_logger.LogMessage( "NET", message );
+			g_logger->LogMessage( "NET", message );
 		}
 	}
 }

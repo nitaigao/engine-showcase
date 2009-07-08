@@ -1,5 +1,7 @@
 #include "ScriptSystem.h"
 
+using namespace Maths;
+
 #include "ScriptSystemScene.h"
 #include "ScriptComponent.h"
 
@@ -10,14 +12,15 @@
 #include <luabind/operator.hpp>
 using namespace luabind;
 
-#include "SoundFacade.h"
-#include "InstrumentationFacade.h"
-#include "AnimationFacade.h"
-#include "NetworkFacade.h"
+extern "C"
+{
+	#include <lua.h>
+}
+
 
 namespace Script
 {
-	ScriptSystem::~ScriptSystem()
+	ScriptSystem::~ScriptSystem( )
 	{
 		if ( m_auxScene != 0 )
 		{
@@ -26,7 +29,7 @@ namespace Script
 		}
 	}
 
-	void ScriptSystem::Release()
+	void ScriptSystem::Release( )
 	{
 		if ( m_auxScene != 0 )
 		{
@@ -66,16 +69,15 @@ namespace Script
 
 		if ( actionName == System::Messages::RegisterScriptFunctions )
 		{
-			lua_State* luaState = parameters[ System::Parameters::ScriptState ].As< lua_State* >( );
-			
-			module( luaState )
-			[
+			scope luaScope = 
+			(
 				def( "print", &ScriptSystemScene::Print ),
 				def( "quit", &ScriptSystemScene::Quit ),
 				def( "loadLevel", &ScriptSystemScene::LoadLevel ),
 				def( "endGame", &ScriptSystemScene::EndGame ),
 
 				class_< ScriptConfiguration >( "Config" )
+					.def( constructor< Configuration::IConfiguration* >( ) )
 					.property( "isFullScreen", &ScriptConfiguration::IsFullScreen, &ScriptConfiguration::SetFullScreen )
 					.property( "displayWidth", &ScriptConfiguration::GetDisplayWidth, &ScriptConfiguration::SetDisplayWidth )
 					.property( "displayHeight", &ScriptConfiguration::GetDisplayHeight, &ScriptConfiguration::SetDisplayHeight )
@@ -87,6 +89,7 @@ namespace Script
 					.property( "musicVolume", &ScriptConfiguration::GetMusicVolume, &ScriptConfiguration::SetMusicVolume ),
 
 				class_< ScriptComponent >( "ScriptComponent" )
+					.def( constructor< >( ) )
 					.def( "include", &ScriptComponent::IncludeScript )
 					.def( "registerEventHandler", &ScriptComponent::RegisterEvent )
 					.def( "registerUpdateHandler", &ScriptComponent::RegisterUpdate )
@@ -104,14 +107,17 @@ namespace Script
 					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string&, const std::string& ) ) &ScriptComponent::BroadcastEvent )
 					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const std::string&, const int& ) ) &ScriptComponent::BroadcastEvent )
 					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const int& ) ) &ScriptComponent::BroadcastEvent )
-					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const std::string& ) ) &ScriptComponent::BroadcastEvent )
-					
-			];
+					.def( "broadcastEvent", ( void ( ScriptComponent::* ) ( const std::string&, const int&, const std::string& ) ) &ScriptComponent::BroadcastEvent ),
 
-			SoundFacade::RegisterFunctions( luaState );
-			InstrumentationFacade::RegisterFunctions( luaState );
-			AnimationFacade::RegisterFunctions( luaState );
-			NetworkFacade::RegisterFunctions( luaState );
+					class_< MathVector3 >( "Vector" )
+						.def( constructor< const float&, const float&, const float& >( ) )
+						.def( self + MathVector3( ) ),
+
+					class_< MathQuaternion >( "Quaternion" )
+						.def( constructor< const float&, const float&, const float&, const float& >( ) )
+				);
+
+			results[ System::TypeStrings::SCRIPT ] = luaScope;
 		}
 
 		return results;

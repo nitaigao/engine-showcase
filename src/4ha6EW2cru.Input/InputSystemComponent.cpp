@@ -6,10 +6,8 @@ using namespace OIS;
 using namespace Maths;
 
 #include "Events/IEvent.hpp"
+#include "Events/ScriptEvent.hpp"
 using namespace Events;
-
-#include "Scripting/ScriptEvent.hpp"
-using namespace Script;
 
 #include "Management/Management.h"
 

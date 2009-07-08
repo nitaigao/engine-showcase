@@ -4,6 +4,7 @@
 *  @file   SystemType.hpp
 *  @date   2009/04/25
 */
+#pragma once
 #ifndef SYSTEMTYPES_H
 #define SYSTEMTYPES_H
 
@@ -31,6 +32,20 @@ namespace System
 		};
 	};
 
+	namespace TypeStrings
+	{
+		static const std::string RENDERER				= "graphics";
+		static const std::string SCRIPT					= "script";
+		static const std::string GEOMETRY				= "geometry";
+		static const std::string PHYSICS				= "physics";
+		static const std::string INPUT					= "input";
+		static const std::string AI						= "ai";
+		static const std::string SOUND					= "sound";
+		static const std::string ANIMATION				= "animation";
+		static const std::string NETWORK				= "network";
+		static const std::string UX						= "ux";
+	};
+
 	namespace Queues
 	{
 		enum Queue
@@ -43,18 +58,19 @@ namespace System
 
 	namespace ConfigSections
 	{
-		static const std::string Graphics					=	"Graphics";
-		static const std::string Developer					=	"Developer";
-		static const std::string Logging					=	"Logging";
-		static const std::string Bindings					=	"Bindings";
-		static const std::string Input						=	"Input";
-		static const std::string Sound						=	"Sound";
+		static const std::string Graphics				=	"Graphics";
+		static const std::string Developer				=	"Developer";
+		static const std::string Logging				=	"Logging";
+		static const std::string Bindings				=	"Bindings";
+		static const std::string Input					=	"Input";
+		static const std::string Sound					=	"Sound";
+		static const std::string Network				=	"Network";
 	};
 
 	namespace Options
 	{
-		static const std::string LevelName					=	"levelName";
-		static const std::string DedicatedServer			=	"dedicated";
+		static const std::string LevelName				=	"levelName";
+		static const std::string DedicatedServer		=	"dedicated";
 	}
 
 	typedef std::string Attribute;
@@ -76,8 +92,8 @@ namespace System
 		namespace Animation
 		{
 			static const Attribute Animations			=	"animations";
-			static const Attribute DefaultAnimation	=	"defaultAnimation";
-			static const Attribute BindPose			=	"bindPose";
+			static const Attribute DefaultAnimation		=	"defaultAnimation";
+			static const Attribute BindPose				=	"bindPose";
 		}
 
 		namespace Network

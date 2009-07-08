@@ -28,7 +28,7 @@ namespace Resources
 		{
 			std::stringstream cacheHitMessage;
 			cacheHitMessage << "ResourceCache::GetResource: Cache Hit for " << filePath;
-			Logger::Debug( cacheHitMessage.str( ) );
+			Logger::Get( )->Debug( cacheHitMessage.str( ) );
 
 			return ( *result ).second;
 		}
@@ -40,7 +40,7 @@ namespace Resources
 
 		std::stringstream cacheMissMessage;
 		cacheMissMessage << "ResourceCache::GetResource: Cache Miss for " << filePath;
-		Logger::Debug( cacheMissMessage.str( ) );
+		Logger::Get( )->Debug( cacheMissMessage.str( ) );
 
 		return resource;
 	}

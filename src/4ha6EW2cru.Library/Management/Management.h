@@ -47,6 +47,13 @@ public:
 	static void Initialize( Management* management );
 
 
+	/*! Returns whether or not the Singleton has been initialized
+	*
+	* @return ( bool )
+	*/
+	static bool IsInitialized( );
+
+
 	/*! Returns the Instance of the Management Singleton
 	*
 	* @return ( Management* )

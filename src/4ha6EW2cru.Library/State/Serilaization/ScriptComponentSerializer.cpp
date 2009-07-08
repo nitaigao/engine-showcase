@@ -2,9 +2,6 @@
 
 using namespace ticpp;
 
-#include "../../Scripting/IScriptComponent.hpp"
-using namespace Script;
-
 #include "../../System/SystemTypeMapper.hpp"
 using namespace System;
 

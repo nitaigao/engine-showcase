@@ -9,7 +9,6 @@
 
 #include "IAnimationSystemComponent.hpp"
 #include "IAnimationSystemScene.hpp"
-#include "IAnimationNode.hpp"
 
 #include <Common/Base/hkBase.h>
 #include <Common/Serialize/Util/hkLoader.h>
@@ -18,6 +17,8 @@
 #include <Animation/Animation/Animation/hkaAnimationBinding.h>
 #include <Animation/Animation/Deform/Skinning/hkaMeshBinding.h>
 #include <Animation/Animation/Playback/Control/Default/hkaDefaultAnimationControl.h>
+
+#include <Ogre.h>
 
 #include "IAnimationBlender.hpp"
 

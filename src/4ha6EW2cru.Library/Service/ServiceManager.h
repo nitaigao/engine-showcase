@@ -46,9 +46,9 @@ namespace Services
 		*
 		* @param[in] const std::string & message
 		* @param[in] AnyType::AnyTypeMap parameters
-		* @return ( void )
+		* @return ( AnyType::AnyTypeMap )
 		*/
-		void MessageAll( const std::string& message, AnyType::AnyTypeMap parameters );
+		AnyType::AnyTypeMap MessageAll( const std::string& message, AnyType::AnyTypeMap parameters );
 
 
 		/*! Finds a Registered Service by System::Types::Type

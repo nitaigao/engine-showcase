@@ -16,7 +16,7 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( FileManagerFixture, Suites::IOSuite( ) );
 
 void FileManagerFixture::setUp( )
 {
-	Logger::SetLogLevel( LEVEL_DEBUG );
+	Logger::Get( )->SetLogLevel( LEVEL_DEBUG );
 }
 
 void FileManagerFixture::tearDown( )

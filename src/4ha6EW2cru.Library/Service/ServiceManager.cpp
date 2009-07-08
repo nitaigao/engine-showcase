@@ -15,11 +15,20 @@ namespace Services
 		return 0;
 	}
 
-	void ServiceManager::MessageAll( const std::string& message, AnyType::AnyTypeMap parameters )
+	AnyType::AnyTypeMap ServiceManager::MessageAll( const std::string& message, AnyType::AnyTypeMap parameters )
 	{
+		AnyType::AnyTypeMap results;
+
 		for( IService::ServiceList::const_iterator i = m_services.begin( ); i != m_services.end( ); ++i )
 		{
-			( *i )->Execute( message, parameters );
+			AnyType::AnyTypeMap serviceResults = ( *i )->Execute( message, parameters );
+
+			for ( AnyType::AnyTypeMap::iterator i = serviceResults.begin( ); i != serviceResults.end( ); ++i )
+			{
+				results.insert( *i );
+			}
 		}
+
+		return results;
 	}
 }

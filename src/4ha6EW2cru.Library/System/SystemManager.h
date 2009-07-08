@@ -16,6 +16,8 @@
 class SystemManager : public ISystemManager
 {
 
+	typedef std::map< ISystem*, HMODULE > SystemLibraryList;
+
 public:
 
 	/*! Default Destructor
@@ -98,13 +100,15 @@ public:
 
 private:
 
+	SystemManager( const SystemManager & copy ) { };
+	SystemManager & operator = ( const SystemManager & copy ) { return *this; };
+
 	ISystem::SystemTypeMap _systemsByType;
 	ISystem::SystemQueueMap _systemsByQueue;
 
-	float m_accumulator;
+	SystemLibraryList m_systemLibraries;
 
-	SystemManager( const SystemManager & copy ) { };
-	SystemManager & operator = ( const SystemManager & copy ) { return *this; };
+	float m_accumulator;
 
 };
 

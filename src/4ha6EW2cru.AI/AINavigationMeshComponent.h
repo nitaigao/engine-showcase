@@ -1,3 +1,9 @@
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   AINavigationMeshComponent.h
+*  @date   2009/07/08
+*/
 #pragma once
 #ifndef AINAVIGATIONMESHCOMPONENT_H
 #define AINAVIGATIONMESHCOMPONENT_H
@@ -9,11 +15,18 @@
 
 namespace AI
 {
+	/*! 
+	 *  A Component that contains the Navigation Mesh for the AI Characters
+	 */
 	class AINavigationMeshComponent : public AISystemComponent
 	{
 
 	public:
 
+		/*! Default Destructor
+		 *
+		 *  @return ()
+		 */
 		~AINavigationMeshComponent( );
 
 
@@ -23,9 +36,20 @@ namespace AI
 
 		}
 
+
+		/*! Initializes the Component
+		*
+		* @return ( void )
+		*/
 		void Initialize( );
 
+
+		/*! Destroys the Component
+		*
+		* @return ( void )
+		*/
 		void Destroy( );
+
 
 		AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters );
 
@@ -48,10 +72,14 @@ namespace AI
 
 	private:
 
+		AINavigationMeshComponent( ) { };
+		AINavigationMeshComponent( const AINavigationMeshComponent & copy ) { };
+		AINavigationMeshComponent & operator = ( const AINavigationMeshComponent & copy ) { return *this; };
+
 		void RecalculateNeighbours( );
 
 		NavigationPolygon::NavPolyList m_polygons;
-
+		
 	};
 };
 

@@ -22,7 +22,7 @@ function Options.initialize( )
 	local saveButton = ux:findWidget( 'options_button_save' )
 	ux:scriptWidget( saveButton, 'onRelease', Options.onSave )
 	
-	Options.initializeKeyboard( )
+	--Options.initializeKeyboard( )
 	Options.initializeMouse( )
 	Options.initializeGraphics( )
 	Options.initializeSound( )
@@ -55,7 +55,7 @@ end
 
 function Options.onSave( )
 
-	Options.saveInput( )
+	--Options.saveInput( )
 	Options.saveAdvanced( )
 	Options.saveGraphics( )
 	

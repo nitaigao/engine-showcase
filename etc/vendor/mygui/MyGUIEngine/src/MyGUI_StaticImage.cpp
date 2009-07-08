@@ -31,7 +31,7 @@ namespace MyGUI
 
 	const size_t IMAGE_MAX_INDEX = 256;
 
-	StaticImage::StaticImage(WidgetStyle _style, const IntCoord& _coord, Align _align, const WidgetSkinInfoPtr _info, WidgetPtr _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name) :
+	StaticImage::StaticImage(WidgetStyle _style, const IntCoord& _coord, Align _align, WidgetSkinInfo* _info, Widget* _parent, ICroppedRectangle * _croppedParent, IWidgetCreator * _creator, const std::string & _name) :
 		Base(_style, _coord, _align, _info, _parent, _croppedParent, _creator, _name),
 		mIndexSelect(ITEM_NONE),
 		mFrameAdvise(false),

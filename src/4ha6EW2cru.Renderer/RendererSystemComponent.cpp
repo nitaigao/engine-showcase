@@ -15,18 +15,11 @@ using namespace Ogre;
 #include "Logging/Logger.h"
 using namespace Logging;
 
-#include "AnimationController.h"
-
 namespace Renderer
 {
 	RendererSystemComponent::~RendererSystemComponent( )
 	{
 		m_scene->GetSceneManager( )->getRootSceneNode( )->removeAndDestroyChild( m_name );
-
-		for( IAnimationController::AnimationControllerMap::iterator i = m_animationControllers.begin( ); i != m_animationControllers.end( ); ++i )
-		{
-			delete ( *i ).second;
-		}
 	}
 
 	void RendererSystemComponent::Initialize( )
@@ -36,8 +29,6 @@ namespace Renderer
 		this->LoadModel( m_sceneNode, m_attributes[ System::Parameters::Model ].As< std::string >( ) );
 
 		m_scene->GetSceneManager( )->getRootSceneNode( )->addChild( m_sceneNode );
-
-		this->InitializeSceneNode( m_sceneNode );
 	}
 
 	void RendererSystemComponent::LoadModel( Ogre::SceneNode* sceneNode, const std::string& modelPath )
@@ -57,7 +48,7 @@ namespace Renderer
 		}
 		catch( Ogre::FileNotFoundException e )
 		{
-			Logger::Fatal( e.what( ) );
+			Logger::Get( )->Fatal( e.what( ) );
 		}
 
 		delete model;
@@ -95,48 +86,6 @@ namespace Renderer
 		}
 
 		return AnyType( );
-	}
-
-	void RendererSystemComponent::InitializeSceneNode( Ogre::SceneNode* sceneNode )
-	{
-		SceneNode::ObjectIterator objects = sceneNode->getAttachedObjectIterator( );
-
-		while( objects.hasMoreElements( ) )
-		{
-			MovableObject* object = objects.getNext( );
-
-			if( object->getMovableType( ) == EntityFactory::FACTORY_TYPE_NAME )
-			{
-				Entity* entity = m_scene->GetSceneManager( )->getEntity( object->getName( ) );
-
-				AnimationStateSet* animationStates = entity->getAllAnimationStates( );
-
-				if ( animationStates != 0 )
-				{
-					AnimationStateIterator animationStateIterator = animationStates->getAnimationStateIterator( );
-
-					while ( animationStateIterator.hasMoreElements( ) )
-					{
-						AnimationState* animationState = animationStateIterator.getNext( );
-
-						if ( m_animationControllers.find( animationState->getAnimationName( ) ) == m_animationControllers.end( ) )
-						{
-							m_animationControllers[ animationState->getAnimationName( ) ] = new AnimationController( animationState->getAnimationName( ) );
-						}
-						
-						m_animationControllers[ animationState->getAnimationName( ) ]->AddAnimationState( animationState );
-					}
-				}
-			}
-		}
-
-		Ogre::Node::ChildNodeIterator children = sceneNode->getChildIterator( );
-
-		while( children.hasMoreElements( ) )
-		{
-			SceneNode* childSceneNode = static_cast< SceneNode* >( children.getNext( ) );
-			this->InitializeSceneNode( childSceneNode );
-		}
 	}
 
 	void RendererSystemComponent::DestroySceneNode( Ogre::SceneNode* sceneNode )

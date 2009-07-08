@@ -1,3 +1,9 @@
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   NavigationPolygon.h
+*  @date   2009/07/08
+*/
 #pragma once
 #ifndef NAVIGATIONPOLYGON_H
 #define NAVIGATIONPOLYGON_H
@@ -6,6 +12,9 @@
 
 namespace AI
 {
+	/*! 
+	 *  A Navigation Polygon used inside the Navigation Mesh
+	 */
 	class NavigationPolygon
 	{
 
@@ -103,14 +112,14 @@ namespace AI
 		* @return ( const PolyEdgeList& )
 		*/
 		inline const PolyEdgeList& GetEdgeLinks( ) const { return m_edgeLinks; };
-		
+
 
 		/*! Returns the Center Coordinates of this Polygon
 		*
 		* @return ( Maths::MathVector3 )
 		*/
 		Maths::MathVector3 GetCenter( ) const;
-		
+
 
 		/*! Returns whether or not the given point resides inside this Polygon
 		*
@@ -179,6 +188,9 @@ namespace AI
 
 	private:
 
+		NavigationPolygon( const NavigationPolygon & copy ) { };
+		NavigationPolygon & operator = ( const NavigationPolygon & copy ) { return *this; };
+
 		Maths::MathVector3::MathVector3List m_vertices;
 		Maths::MathVector3::MathVector3List m_offsetVertices;
 
@@ -193,9 +205,8 @@ namespace AI
 
 		PolyEdgeList GetEdges( ) const;
 		bool SameSide( const Maths::MathVector3& point1, const Maths::MathVector3& point2, const Maths::MathVector3& a, const Maths::MathVector3& b ) const;
-
+		
 	};
 };
-
 
 #endif

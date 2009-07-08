@@ -55,6 +55,11 @@ void Management::Initialize( Management* management )
 	g_management = management;
 }
 
+bool Management::IsInitialized()
+{
+	return g_management != 0;
+}
+
 void Management::Release( )
 {
 	g_management->m_systemManager->Release( );

@@ -54,21 +54,21 @@ namespace Events
 			if ( m_handlerTarget == 0 )
 			{
 				NullReferenceException nullTarget( "EventListener::HandleEvent - HandlerTarget is NULL" );
-				Logging::Logger::Fatal( nullTarget.what( ) );
+				Logging::Logger::Get( )->Fatal( nullTarget.what( ) );
 				throw nullTarget;
 			}
 
 			if ( m_handlerFunctor == 0 )
 			{
 				NullReferenceException nullHandler( "EventListener::HandleEvent - HandlerFunctor is NULL" );
-				Logging::Logger::Fatal( nullHandler.what( ) );
+				Logging::Logger::Get( )->Fatal( nullHandler.what( ) );
 				throw nullHandler;
 			}
 
 			if ( 0 == event )
 			{
 				NullReferenceException nullEvent( "EventListener::HandleEvent - Event is NULL" );
-				Logging::Logger::Fatal( nullEvent.what( ) );
+				Logging::Logger::Get( )->Fatal( nullEvent.what( ) );
 				throw nullEvent;
 			}
 

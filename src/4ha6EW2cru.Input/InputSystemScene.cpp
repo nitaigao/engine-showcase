@@ -7,11 +7,9 @@ using namespace Services;
 
 #include "Management/Management.h"
 
-#include "Scripting/ScriptEvent.hpp"
-using namespace Script;
-
 #include "Events/Event.h"
 #include "Events/EventData.hpp"
+#include "Events/ScriptEvent.hpp"
 using namespace Events;
 
 #include "InputSystemComponent.h"

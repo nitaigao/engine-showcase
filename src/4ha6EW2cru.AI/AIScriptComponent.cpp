@@ -11,16 +11,14 @@ using namespace Services;
 #include "IO/FileBuffer.hpp"
 #include "Management/Management.h"
 
-#include "Scripting/ScriptComponent.h"
-#include "Scripting/ScriptEvent.hpp"
-#include "Scripting/ScriptSystemScene.h"
-using namespace Script;
-
 #include <luabind/luabind.hpp>
 using namespace luabind;
 
 #include "Logging/Logger.h"
 using namespace Logging;
+
+#include "Events/ScriptEvent.hpp"
+using namespace Events;
 
 namespace AI
 {

@@ -4,6 +4,7 @@
 *  @file   AISystemComponent.h
 *  @date   2009/04/25
 */
+#pragma once
 #ifndef AISYSTEMCOMPONENT_H
 #define AISYSTEMCOMPONENT_H
 
@@ -112,6 +113,10 @@ namespace AI
 		inline void SetAttribute( const System::Attribute& attributeId, const AnyType& value ) { m_attributes[ attributeId ] = value; };
 
 	protected:
+
+		AISystemComponent( ) { };
+		AISystemComponent( const AISystemComponent & copy ) { };
+		AISystemComponent & operator = ( const AISystemComponent & copy ) { return *this; };
 
 		std::string m_name;
 

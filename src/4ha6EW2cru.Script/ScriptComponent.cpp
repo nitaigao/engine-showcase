@@ -14,6 +14,7 @@ using namespace Resources;
 #include "Management/Management.h"
 
 #include "Events/Event.h"
+#include "Events/ScriptEvent.hpp"
 using namespace Events;
 
 #include <luabind/luabind.hpp>
@@ -22,7 +23,6 @@ using namespace luabind;
 #include "Service/IService.hpp"
 using namespace Services;
 
-#include "ScriptEvent.hpp"
 #include "ScriptFunctionHandler.hpp"
 
 #include "SoundFacade.h"
@@ -88,14 +88,14 @@ namespace Script
 		{
 			std::stringstream errorMessage;
 			errorMessage << lua_tostring( m_state, -1 );
-			Logger::Warn( errorMessage.str( ) );
+			Logger::Get( )->Warn( errorMessage.str( ) );
 			lua_pop( m_state, 1 );
 		}
 
 		if ( LUA_ERRMEM == result )
 		{
 			ScriptException memE( "Script::Initialize - There is memory allocation error within the Script" );
-			Logger::Fatal( memE.what( ) );
+			Logger::Get( )->Fatal( memE.what( ) );
 			throw memE;
 		}
 	}
@@ -111,7 +111,7 @@ namespace Script
 			object error_msg( from_stack( e.state( ) , -1) );
 			std::stringstream logMessage;
 			logMessage << error_msg;
-			Logger::Warn( logMessage.str( ) );
+			Logger::Get( )->Warn( logMessage.str( ) );
 		}
 	}
 
@@ -123,7 +123,7 @@ namespace Script
 		{
 			std::stringstream errorMessage;
 			errorMessage << lua_tostring( m_state, -1 );
-			Logger::Warn( errorMessage.str( ) );
+			Logger::Get( )->Warn( errorMessage.str( ) );
 			lua_pop( m_state, 1 );
 		}
 	}
@@ -131,13 +131,13 @@ namespace Script
 
 	void ScriptComponent::ExecuteString( const std::string& input )
 	{
-		Logger::Info( input );
+		Logger::Get( )->Info( input );
 
 		if ( luaL_dostring( m_state, input.c_str( ) ) )
 		{
 			std::stringstream errorMessage;
 			errorMessage << lua_tostring( m_state, -1 );
-			Logger::Warn( errorMessage.str( ) );
+			Logger::Get( )->Warn( errorMessage.str( ) );
 			lua_pop( m_state, 1 );
 		}
 	}
@@ -238,7 +238,7 @@ namespace Script
 					object error_msg( from_stack( e.state( ) , -1) );
 					std::stringstream logMessage;
 					logMessage << error_msg;
-					Logger::Warn( logMessage.str( ) );
+					Logger::Get( )->Warn( logMessage.str( ) );
 				}
 			}
 		}
@@ -354,7 +354,7 @@ namespace Script
 				object error_msg( from_stack( e.state( ) , -1) );
 				std::stringstream logMessage;
 				logMessage << error_msg;
-				Logger::Warn( logMessage.str( ) );
+				Logger::Get( )->Warn( logMessage.str( ) );
 			}
 		}
 

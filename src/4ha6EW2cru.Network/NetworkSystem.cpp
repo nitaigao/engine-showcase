@@ -39,28 +39,29 @@ namespace Network
 	void NetworkSystem::Initialize( Configuration::IConfiguration* configuration )
 	{
 		m_configuration = configuration;
-		m_configuration->SetDefault( "Network", "port", 8989 );
-		m_configuration->SetDefault( "Network", "max_server_connections", 10 );
-		m_configuration->SetDefault( "Network", "max_client_connections", 1 );
-		m_configuration->SetDefault( "Network", "sleeptime", 30 );
+
+		m_configuration->SetDefault( System::ConfigSections::Network, "port", 8989 );
+		m_configuration->SetDefault( System::ConfigSections::Network, "max_server_connections", 10 );
+		m_configuration->SetDefault( System::ConfigSections::Network, "max_client_connections", 1 );
+		m_configuration->SetDefault( System::ConfigSections::Network, "sleeptime", 30 );
 
 		m_networkInterface = RakNetworkFactory::GetRakPeerInterface( );
 
 		if ( m_attributes[ System::Attributes::Network::IsServer ].As< bool >( ) )
 		{
-			SocketDescriptor socketDescriptor( m_configuration->Find( "Network", "port" ).As< int >( ), 0 );
-			m_networkInterface->SetMaximumIncomingConnections( m_configuration->Find( "Network", "max_server_connections" ).As< int >( ) );
-			m_networkInterface->Startup( m_configuration->Find( "Network", "max_server_connections" ).As< int >( ), 0, &socketDescriptor, 1 );
+			SocketDescriptor socketDescriptor( m_configuration->Find( System::ConfigSections::Network, "port" ).As< int >( ), 0 );
+			m_networkInterface->SetMaximumIncomingConnections( m_configuration->Find( System::ConfigSections::Network, "max_server_connections" ).As< int >( ) );
+			m_networkInterface->Startup( m_configuration->Find( System::ConfigSections::Network, "max_server_connections" ).As< int >( ), 0, &socketDescriptor, 1 );
 		}
 		else
 		{
-			m_networkInterface->Startup( m_configuration->Find( "Network", "max_client_connections" ).As< int >( ), 0, &SocketDescriptor( ), 1 );
+			m_networkInterface->Startup( m_configuration->Find( System::ConfigSections::Network, "max_client_connections" ).As< int >( ), 0, &SocketDescriptor( ), 1 );
 		}
 	}
 
 	void NetworkSystem::Update( const float& deltaMilliseconds )
 	{
-		RakSleep( m_configuration->Find( "Network", "sleeptime" ).As< int >( ) );
+		RakSleep( m_configuration->Find( System::ConfigSections::Network, "sleeptime" ).As< int >( ) );
 
 		Packet* packet = m_networkInterface->Receive( );
 
@@ -140,7 +141,7 @@ namespace Network
 
 			if( logMessage.str( ).length( ) > 0 )
 			{
-				Logger::Net( logMessage.str( ) );
+				Logger::Get( )->Net( logMessage.str( ) );
 			}
 
 			m_networkInterface->DeallocatePacket( packet );

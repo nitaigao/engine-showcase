@@ -4,12 +4,12 @@
 *  @file   AISystemScene.h
 *  @date   2009/04/25
 */
+#pragma once
 #ifndef AISYSTEMSCENE_H
 #define AISYSTEMSCENE_H
 
 #include "IAISystemComponent.hpp"
 #include "IAISystemScene.hpp"
-#include "Scripting/IScriptSystemScene.hpp"
 
 #include <hash_map>
 
@@ -96,6 +96,9 @@ namespace AI
 		ISystemComponent* GetNavigationMesh( ) { return ( *m_componentsByType.find( "navmesh" ) ).second; };
 
 	private:
+
+		AISystemScene( const AISystemScene & copy ) { };
+		AISystemScene & operator = ( const AISystemScene & copy ) { return *this; };
 
 		ISystemComponent::SystemComponentMap m_componentsByName;
 		ISystemComponent::SystemComponentMultiMap m_componentsByType;

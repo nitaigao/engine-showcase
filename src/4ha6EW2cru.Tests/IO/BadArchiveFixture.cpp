@@ -17,7 +17,7 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( BadArchiveFixture, Suites::IOSuite( ) );
 
 void BadArchiveFixture::setUp( )
 {
-	Logging::Logger::SetLogLevel( Logging::LEVEL_ALL );
+	Logging::Logger::Get( )->SetLogLevel( Logging::LEVEL_ALL );
 	Management::Initialize( );
 }
 

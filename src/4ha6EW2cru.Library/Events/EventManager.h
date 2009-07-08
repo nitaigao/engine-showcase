@@ -80,14 +80,14 @@ namespace Events
 			if ( 0 == handlerTarget )
 			{
 				NullReferenceException nullTarget( "EventManager::AddEventListener - Event Target is NULL" );
-				Logging::Logger::Fatal( nullTarget.what( ) );
+				Logging::Logger::Get( )->Fatal( nullTarget.what( ) );
 				throw nullTarget;
 			}
 
 			if ( 0 == handlerFunctor )
 			{
 				NullReferenceException nullFunctor( "EventManager::AddEventListener - Handler Functor is NULL" );
-				Logging::Logger::Fatal( nullFunctor.what( ) );
+				Logging::Logger::Get( )->Fatal( nullFunctor.what( ) );
 				throw nullFunctor;
 			}
 
@@ -112,14 +112,14 @@ namespace Events
 			if ( 0 == handlerTarget )
 			{
 				NullReferenceException nullTarget( "EventManager::RemoveEventListener - Event Target is NULL" );
-				Logging::Logger::Fatal( nullTarget.what( ) );
+				Logging::Logger::Get( )->Fatal( nullTarget.what( ) );
 				throw nullTarget;
 			}
 
 			if ( 0 == handlerFunctor )
 			{
 				NullReferenceException nullFunctor( "EventManager::RemoveEventListener - Handler Functor is NULL" );
-				Logging::Logger::Fatal( nullFunctor.what( ) );
+				Logging::Logger::Get( )->Fatal( nullFunctor.what( ) );
 				throw nullFunctor;
 			}
 

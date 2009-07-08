@@ -7,6 +7,7 @@ using namespace luabind;
 
 #include "Events/Event.h"
 #include "Events/EventData.hpp"
+#include "Events/ScriptEvent.hpp"
 using namespace Events;
 
 #include "Logging/Logger.h"
@@ -18,9 +19,13 @@ using namespace Maths;
 #include "Exceptions/ScriptException.hpp"
 #include "Exceptions/OutOfRangeException.hpp"
 
-#include "ScriptEvent.hpp"
 #include "ScriptComponent.h"
 #include "ScriptConfiguration.h"
+
+#include "SoundFacade.h"
+#include "InstrumentationFacade.h"
+#include "AnimationFacade.h"
+#include "NetworkFacade.h"
 
 namespace Script
 {
@@ -35,8 +40,11 @@ namespace Script
 
 	ScriptSystemScene::ScriptSystemScene( Configuration::IConfiguration* configuration )
 	{
-		m_scriptConfiguration = new ScriptConfiguration( configuration );
 		m_state = lua_open( );
+
+		//lua_setallocf( m_state, l_alloc, 0 );
+
+		m_scriptConfiguration = new ScriptConfiguration( configuration );
 		m_eventHandlers = new EventHandlerList( );
 	}
 
@@ -47,7 +55,7 @@ namespace Script
 		if( !result )
 		{
 			OutOfRangeException e( "ScriptSystemScene::CreateComponent - Unable to grow the LUA stack to the required size" );
-			Logger::Fatal( e.what( ) );
+			Logger::Get( )->Fatal( e.what( ) );
 			throw e;
 		}
 		
@@ -90,15 +98,25 @@ namespace Script
 		luaL_openlibs( m_state );
 		luabind::open( m_state );
 
-		AnyType::AnyTypeMap serviceParameters;
-		serviceParameters[ System::Parameters::ScriptState ] = m_state;
-		Management::Get( )->GetServiceManager( )->MessageAll( System::Messages::RegisterScriptFunctions, serviceParameters );
+		AnyType::AnyTypeMap results = Management::Get( )->GetServiceManager( )->MessageAll( System::Messages::RegisterScriptFunctions, AnyType::AnyTypeMap( ) );
+
+		for( AnyType::AnyTypeMap::iterator i = results.begin( ); i != results.end( ); ++i )
+		{
+			module( m_state )
+			[
+				( *i ).second.As< scope >( )
+			];
+		}
+
+		module( m_state )
+		[
+			SoundFacade::RegisterFunctions( ),
+			InstrumentationFacade::RegisterFunctions( ),
+			AnimationFacade::RegisterFunctions( ),
+			NetworkFacade::RegisterFunctions( )
+		];
 
 		luabind::globals( m_state )[ "Configuration" ] = m_scriptConfiguration;
-
-		//luabind::set_pcall_callback( &ScriptSystemScene::Script_PError );
-		//luabind::set_error_callback( &ScriptSystemScene::Script_Error );
-		//luabind::set_cast_failed_callback( &ScriptSystemScene::Script_CastError );
 	}
 
 	void ScriptSystemScene::Destroy( )
@@ -138,7 +156,7 @@ namespace Script
 		}
 
 		lua_pushstring( luaState, errorMessage.str( ).c_str( ) );
-		Logger::Warn( errorMessage.str( ) );
+		Logger::Get( )->Warn( errorMessage.str( ) );
 
 		return 0;	
 	}
@@ -155,7 +173,7 @@ namespace Script
 
 	void ScriptSystemScene::Print( const std::string& message )
 	{
-		Logger::Info( message );
+		Logger::Get( )->Info( message );
 	}
 
 	void ScriptSystemScene::Quit( )

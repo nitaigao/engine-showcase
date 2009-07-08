@@ -74,7 +74,7 @@ namespace Geometry
 		*  @param[in] AnyType::AnyTypeMap & parameters
 		*  @return (AnyType::AnyTypeMap)
 		*/
-		AnyType::AnyTypeMap Execute( const std::string& actionName, AnyType::AnyTypeMap& parameters );
+		AnyType::AnyTypeMap Execute( const std::string& actionName, AnyType::AnyTypeMap& parameters ) { return AnyType::AnyTypeMap( ); };
 
 
 		/*! Returns the type of the System

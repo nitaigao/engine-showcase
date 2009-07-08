@@ -3,7 +3,6 @@
 #include "RendererSystemScene.h"
 #include "LineFactory.h"
 
-#include "Color.hpp"
 using namespace Ogre;
 
 #include "Management/Management.h"
@@ -217,11 +216,16 @@ namespace Renderer
 		if( name == "fog" )
 		{
 			AnyType::AnyTypeMap parameters = value.As< AnyType::AnyTypeMap >( );
-			Color color = parameters[ "color" ].As< Renderer::Color >( );
+			
+			ColourValue colorValue( 
+				parameters[ "r" ].As< float >( ),
+				parameters[ "g" ].As< float >( ),
+				parameters[ "b" ].As< float >( )
+				);
 
 			m_sceneManager->setFog( 
 				FOG_LINEAR, 
-				ColourValue( color.Red, color.Green, color.Blue ),
+				colorValue,
 				0.001000, 
 				parameters[ "linearStart" ].As< float >( ), 
 				parameters[ "linearEnd" ].As< float >( ) 
@@ -525,6 +529,12 @@ namespace Renderer
 	void RendererSystem::OnGameEnded( const IEvent* event )
 	{
 		this->SetAttribute( "activeCamera", "default" );
-		this->SetAttribute( "backgroundColor", Renderer::Color( 0.0f, 0.0f, 0.0f ) );
+
+		AnyType::AnyTypeMap parameters;
+		parameters[ "r" ] = 0.0f;
+		parameters[ "g" ] = 0.0f;
+		parameters[ "b" ] = 0.0f;
+
+		this->SetAttribute( "backgroundColor", parameters );
 	}
 }

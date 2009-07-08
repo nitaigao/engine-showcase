@@ -4,6 +4,7 @@
 *  @file   SystemTypeMapper.hpp
 *  @date   2009/04/25
 */
+#pragma once
 #ifndef SYSTEMTYPEMAPPER_H
 #define SYSTEMTYPEMAPPER_H
 
@@ -27,51 +28,91 @@ namespace System
 		 */
 		inline static System::Types::Type StringToType( const std::string& systemType )
 		{
-			System::Types::Type returnType = System::Types::NONE;
-
-			if( systemType == "graphics" )
+			if( systemType == System::TypeStrings::RENDERER )
 			{
 				return System::Types::RENDER;
 			}
-			else if ( systemType == "script" )
+			else if ( systemType == System::TypeStrings::SCRIPT )
 			{
 				return System::Types::SCRIPT;
 			}
-			else if ( systemType == "geometry" )
+			else if ( systemType == System::TypeStrings::GEOMETRY )
 			{
 				return System::Types::GEOMETRY;
 			}
-			else if ( systemType == "physics" )
+			else if ( systemType == System::TypeStrings::PHYSICS )
 			{
 				return System::Types::PHYSICS;
 			}
-			else if ( systemType == "input" )
+			else if ( systemType == System::TypeStrings::INPUT )
 			{
 				return System::Types::INPUT;
 			}
-			else if ( systemType == "ai" )
+			else if ( systemType == System::TypeStrings::AI )
 			{
 				return System::Types::AI;
 			}
-			else if( systemType == "sound" )
+			else if( systemType == System::TypeStrings::SOUND )
 			{
 				return System::Types::SOUND;
 			}
-			else if ( systemType == "animation" )
+			else if ( systemType == System::TypeStrings::ANIMATION )
 			{
 				return System::Types::ANIMATION;
 			}
-			else if ( systemType == "network" )
+			else if ( systemType == System::TypeStrings::NETWORK )
 			{
 				return System::Types::NETWORK;
 			}
 
-			if ( returnType == System::Types::NONE )
-			{
-				throw OutOfRangeException( "Couldn't match string to System::Types::Type" );
-			}
+			throw OutOfRangeException( "StringToType - Couldn't match string to System::Types::Type" );
+		}
 
-			return System::Types::NONE;
+		/*! Maps the given System::Types::Type to a string
+		*
+		*  @param[in] System::Types::Type systemType
+		*  @return (std::string)
+		*/
+		inline static std::string TypeToString( const System::Types::Type& systemType)
+		{
+			if( systemType == System::Types::RENDER )
+			{
+				return System::TypeStrings::RENDERER;
+			}
+			else if ( systemType == System::Types::SCRIPT )
+			{
+				return System::TypeStrings::SCRIPT;
+			}
+			else if ( systemType == System::Types::GEOMETRY )
+			{
+				return System::TypeStrings::GEOMETRY;
+			}
+			else if ( systemType == System::Types::PHYSICS )
+			{
+				return System::TypeStrings::PHYSICS;
+			}
+			else if ( systemType == System::Types::INPUT )
+			{
+				return System::TypeStrings::INPUT;
+			}
+			else if ( systemType == System::Types::AI )
+			{
+				return System::TypeStrings::AI;
+			}
+			else if( systemType == System::Types::SOUND )
+			{
+				return System::TypeStrings::SOUND;
+			}
+			else if ( systemType == System::Types::ANIMATION )
+			{
+				return System::TypeStrings::ANIMATION;
+			}
+			else if ( systemType == System::Types::NETWORK )
+			{
+				return System::TypeStrings::NETWORK;
+			}
+				
+			throw OutOfRangeException( "Couldn't match string to System::Types::Type" );
 		}
 	};
 };

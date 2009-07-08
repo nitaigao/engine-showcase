@@ -1,3 +1,9 @@
+/*!
+*  @company Black Art Studios
+*  @author Nicholas Kostelnik
+*  @file   AIScriptComponent.h
+*  @date   2009/07/08
+*/
 #pragma once
 #ifndef AISCRIPTCOMPONENT_H
 #define AISCRIPTCOMPONENT_H
@@ -8,12 +14,20 @@
 
 namespace AI
 {
+	/*! 
+	 *  A Script Component for the AI System
+	 */
 	class AIScriptComponent : public AISystemComponent
 	{
 
 	public:
 
+		/*! Default Destructor
+		 *
+		 *  @return ()
+		 */
 		~AIScriptComponent( ) { };
+
 
 		AIScriptComponent( const std::string& name )
 			: AISystemComponent( name )
@@ -146,10 +160,14 @@ namespace AI
 		*  @return (const std::string&)
 		*/
 		inline std::string GetName( ) { return m_attributes[ System::Attributes::Name ].As< std::string >( ); };
+		
+	private:
 
+		AIScriptComponent( ) { };
+		AIScriptComponent( const AIScriptComponent & copy ) { };
+		AIScriptComponent & operator = ( const AIScriptComponent & copy ) { return *this; };
+		
 	};
 };
-
-
 
 #endif

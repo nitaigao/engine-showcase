@@ -1,18 +1,16 @@
 #include "AnimationFacade.h"
 
-#include <luabind/luabind.hpp>
 using namespace luabind;
 
 namespace Script
 {
-	void AnimationFacade::RegisterFunctions( lua_State* state )
+	scope AnimationFacade::RegisterFunctions( )
 	{
-		module( state )
-		[
+		return
 			class_< AnimationFacade >( "AnimationFacade" )
+				.def( constructor< ISystemComponent* >( ) )
 				.def( "startAnimation", &AnimationFacade::StartAnimation )
-				.def( "stopAnimation", &AnimationFacade::StopAnimation )
-		];
+				.def( "stopAnimation", &AnimationFacade::StopAnimation );
 	}
 
 	void AnimationFacade::StartAnimation( const std::string& animationName, const bool& loop )

@@ -4,11 +4,14 @@
 *  @file   SoundFacade.h
 *  @date   2009/04/28
 */
+#pragma once
 #ifndef SOUNDFACADE_H
 #define SOUNDFACADE_H
 
 #include "ISoundFacade.hpp"
 #include "IScriptComponent.hpp"
+
+#include <luabind/luabind.hpp>
 
 namespace Script
 {
@@ -22,10 +25,9 @@ namespace Script
 
 		/*! Registers the Script functions with the given state
 		*
-		* @param[in] lua_State * state
 		* @return ( void )
 		*/
-		static void RegisterFunctions( lua_State* state );
+		static luabind::scope RegisterFunctions( );
 
 		/*! Default Destructor
 		 *

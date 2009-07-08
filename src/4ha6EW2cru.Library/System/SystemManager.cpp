@@ -96,11 +96,17 @@ void SystemManager::Release( )
 	for( ISystem::SystemTypeMap::const_reverse_iterator i = _systemsByType.rbegin( ); i != _systemsByType.rend( ); ++i )
 	{
 		( *i ).second->Release( );
-		delete ( *i ).second;
+
+		HMODULE library = m_systemLibraries[ ( *i ).second ];
+
+		DestroySystemFunction destroySystem = reinterpret_cast< DestroySystemFunction >( GetProcAddress( library, "DestroySystem" ) );
+		destroySystem( ( *i ).second );
 	}
 
 	_systemsByType.clear( );
 	_systemsByQueue.clear( );
+
+	m_systemLibraries.clear( );
 }
 
 IWorld* SystemManager::CreateWorld()
@@ -127,16 +133,20 @@ ISystem* SystemManager::LoadSystem( const std::string& systemPath )
 	if ( library == NULL )
 	{
 		FileNotFoundException e( "SystemManager::LoadSystem - Unable to load the given System dll" );
-		Logger::Fatal( e.what( ) );
+		Logger::Get( )->Fatal( e.what( ) );
 		throw e;
 	}
 
 	DWORD error = GetLastError( );
 
 	InitializeSystemFunction initializeSystem = reinterpret_cast< InitializeSystemFunction >( GetProcAddress( library, "Initialize" ) );
-	initializeSystem( Management::Get( ) );
+	initializeSystem( Management::Get( ), Logger::Get( ) );
 
 
 	CreateSystemFunction createSystem = reinterpret_cast< CreateSystemFunction >( GetProcAddress( library, "CreateSystem" ) );
-	return createSystem( );
+	ISystem* system = createSystem( );
+
+	m_systemLibraries.insert( std::make_pair( system, library ) );
+
+	return system;
 }

@@ -114,8 +114,6 @@ namespace Renderer
 		this->LoadModel( modelNode, m_attributes[ System::Parameters::Model ].As< std::string >( ) );
 		modelNode->setPosition( modelNode->getPosition( ) - cameraOffset );
 
-		this->InitializeSceneNode( m_sceneNode );
-
 		Entity *axis = m_scene->GetSceneManager( )->createEntity( "poi_axis", "/data/entities/meshes/axes.mesh" );
 		SceneNode* axisNode = m_scene->GetSceneManager( )->createSceneNode( "poi_axis" );
 		axisNode->attachObject( axis );
