@@ -266,46 +266,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Geometry\GeometrySystem_Tests.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Geometry\GeometrySystem_Tests.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Physics\HavokPhysicsSystem_Tests.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Physics\HavokPhysicsSystem_Tests.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Physics\HavokPhysicsSystemScene_Tests.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Physics\HavokPhysicsSystemScene_Tests.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\InputSystemFixture.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\InputSystemFixture.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\InputSystemScene_Tests.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\InputSystemScene_Tests.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Logging\LoggerFixture.cpp"
 			>
 		</File>
@@ -363,14 +323,6 @@
 		</File>
 		<File
 			RelativePath=".\Mocks\MockScriptBinder.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Physics\PhysicsSystemComponent_Tests.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Physics\PhysicsSystemComponent_Tests.h"
 			>
 		</File>
 		<File

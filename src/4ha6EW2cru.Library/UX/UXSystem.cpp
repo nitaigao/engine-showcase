@@ -33,7 +33,7 @@ namespace UX
 					.def( "getScreenWidth", &UXSystemComponent::GetScreenWidth )
 					.def( "getScreenHeight", &UXSystemComponent::GetScreenHeight )
 					.def( "getSupportedResolutions", &UXSystemComponent::GetSupportedResolutions, copy_table( result ) )
-					.def( "getMessageBinding", &UXSystemComponent::GetMessageBinding )
+					//.def( "getMessageBinding", &UXSystemComponent::GetMessageBinding )
 					.def( "setMessageBinding", &UXSystemComponent::SetMessageBinding )
 					.def( "scriptWidget", &UXSystemComponent::ScriptWidget )
 					.def( "unscriptWidget", &UXSystemComponent::UnScriptWidget) 

@@ -174,22 +174,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Renderer\AnimationController.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\AnimationController.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\AnimationFacade.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\AnimationFacade.h"
-			>
-		</File>
-		<File
 			RelativePath=".\System\AnyType.hpp"
 			>
 		</File>
@@ -255,10 +239,6 @@
 		</File>
 		<File
 			RelativePath=".\Utility\luabind\include\detail\class_rep.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\Color.hpp"
 			>
 		</File>
 		<File
@@ -454,30 +434,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Physics\HavokPhysicsSystem.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Physics\HavokPhysicsSystem.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Physics\HavokPhysicsSystemScene.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Physics\HavokPhysicsSystemScene.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\IAnimationController.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\IAnimationFacade.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Platform\IClock.hpp"
 			>
 		</File>
@@ -526,27 +482,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Input\IInputSystem.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\IInputSystemComponent.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\IInputSystemScene.hpp"
-			>
-		</File>
-		<File
 			RelativePath=".\System\IInstrumentation.hpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Utility\luabind\include\detail\implicit_cast.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\INetworkFacade.h"
 			>
 		</File>
 		<File
@@ -570,47 +510,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Input\InputMessageBinding.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\InputMessageBindingType.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\InputSystem.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\InputSystem.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\InputSystemComponent.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\InputSystemComponent.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\InputSystemScene.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Input\InputSystemScene.h"
-			>
-		</File>
-		<File
 			RelativePath=".\System\Instrumentation.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\InstrumentationFacade.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\InstrumentationFacade.h"
 			>
 		</File>
 		<File
@@ -622,27 +522,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Physics\IPhysicsSystem.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Physics\IPhysicsSystemComponent.hpp"
-			>
-		</File>
-		<File
 			RelativePath=".\Platform\IPlatformManager.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\IRendererSystem.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\IRendererSystemComponent.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\IRenderSystemScene.h"
 			>
 		</File>
 		<File
@@ -658,39 +538,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Scripting\IScriptComponent.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\IScriptConfiguration.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\IScriptFacade.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\IScriptFunctionHandler.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\IScriptSystem.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\IScriptSystemScene.hpp"
-			>
-		</File>
-		<File
 			RelativePath=".\Service\IService.hpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Service\IServiceManager.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ISoundFacade.hpp"
 			>
 		</File>
 		<File
@@ -751,22 +603,6 @@
 		</File>
 		<File
 			RelativePath=".\State\Serilaization\IWorldLoader.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\Line3d.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\Line3d.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\LineFactory.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\LineFactory.h"
 			>
 		</File>
 		<File
@@ -835,14 +671,6 @@
 		</File>
 		<File
 			RelativePath=".\State\Serilaization\NetworkComponentSerializer.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\NetworkFacade.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\NetworkFacade.h"
 			>
 		</File>
 		<File
@@ -938,22 +766,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Physics\PhysicsSystemCharacterComponent.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Physics\PhysicsSystemCharacterComponent.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Physics\PhysicsSystemComponent.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Physics\PhysicsSystemComponent.h"
-			>
-		</File>
-		<File
 			RelativePath=".\Utility\luabind\include\detail\pointee_sizeof.hpp"
 			>
 		</File>
@@ -994,38 +806,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Renderer\RendererSystem.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\RendererSystem.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\RendererSystemCameraComponent.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\RendererSystemCameraComponent.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\RendererSystemComponent.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\RendererSystemComponent.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\RendererSystemScene.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Renderer\RendererSystemScene.h"
-			>
-		</File>
-		<File
 			RelativePath=".\IO\Resource.h"
 			>
 		</File>
@@ -1050,14 +830,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Scripting\ScriptComponent.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ScriptComponent.h"
-			>
-		</File>
-		<File
 			RelativePath=".\State\Serilaization\ScriptComponentSerializer.cpp"
 			>
 		</File>
@@ -1066,35 +838,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Scripting\ScriptConfiguration.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ScriptEvent.hpp"
+			RelativePath=".\Events\ScriptEvent.hpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Exceptions\ScriptException.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ScriptFunctionHandler.hpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ScriptSystem.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ScriptSystem.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ScriptSystemScene.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\ScriptSystemScene.h"
 			>
 		</File>
 		<File
@@ -1123,14 +871,6 @@
 		</File>
 		<File
 			RelativePath=".\State\Serilaization\SoundComponentSerializer.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\SoundFacade.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Scripting\SoundFacade.h"
 			>
 		</File>
 		<File

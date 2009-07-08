@@ -1,0 +1,8 @@
+LIBRARY	"4ha6EW2cru.Script"
+
+EXPORTS
+
+	Initialize		=	Initialize			@1
+	CreateSystem	=	CreateSystem		@2
+	DestroySystem	=	DestroySystem		@3
+	

@@ -181,6 +181,30 @@
 			ReferencedProjectIdentifier="{85449B0E-74BD-41FF-8921-4DD42AF837EF}"
 			RelativePathToProject=".\4ha6EW2cru.Network\4ha6EW2cru.Network.vcproj"
 		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{A88E1A6E-729F-451D-AD46-66C764A8EE9E}"
+			RelativePathToProject=".\4ha6EW2cru.Animation\4ha6EW2cru.Animation.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{643FD76F-1A19-4168-B813-3B876F8AC900}"
+			RelativePathToProject=".\4ha6EW2cru.Geometry\4ha6EW2cru.Geometry.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{CCBB2111-A4ED-48DF-9321-E022C519E38A}"
+			RelativePathToProject=".\4ha6EW2cru.Input\4ha6EW2cru.Input.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{537F634D-AF1C-48EE-9D18-EE69B61C3F24}"
+			RelativePathToProject=".\4ha6EW2cru.Physics\4ha6EW2cru.Physics.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{29BDC832-1CA6-43C0-B0D1-2908EFBB057B}"
+			RelativePathToProject=".\4ha6EW2cru.Renderer\4ha6EW2cru.Renderer.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{4C8A052A-E490-46DC-90AC-B70605128E5C}"
+			RelativePathToProject=".\4ha6EW2cru.Script\4ha6EW2cru.Script.vcproj"
+		/>
 	</References>
 	<Files>
 		<File

@@ -17,20 +17,13 @@ using namespace State;
 #include "State/Serilaization/XMLSerializer.h"
 using namespace Serialization;
 
-#include "Scripting/ScriptSystem.h"
-#include "Input/InputSystem.h"
-#include "Renderer/RendererSystem.h"
-#include "Physics/HavokPhysicsSystem.h"
 #include "UX/UXSystem.h"
 #include "Sound/SoundSystem.h"
 
 #include "Events/Event.h"
 #include "Events/EventData.hpp"
+#include "Events/ScriptEvent.hpp"
 using namespace Events;
-
-#include "Renderer/Color.hpp"
-#include "Scripting/ScriptEvent.hpp"
-using namespace Script;
 
 void Game::Initialize( )
 {
@@ -67,8 +60,11 @@ void Game::Initialize( )
 	ISystem* geometrySystem = systemManager->LoadSystem( "4ha6EW2cru.Geometry.dll" );
 	systemManager->RegisterSystem( System::Queues::HOUSE, geometrySystem );
 
-	systemManager->RegisterSystem( System::Queues::LOGIC, new Physics::HavokPhysicsSystem( ) );
-	systemManager->RegisterSystem( System::Queues::HOUSE, new Script::ScriptSystem( ) );
+	ISystem* physicsSystem = systemManager->LoadSystem( "4ha6EW2cru.Physics.dll" );
+	systemManager->RegisterSystem( System::Queues::LOGIC, physicsSystem );
+
+	ISystem* scriptSystem = systemManager->LoadSystem( "4ha6EW2cru.Script.dll" );
+	systemManager->RegisterSystem( System::Queues::HOUSE, scriptSystem );
 
 	ISystem* networkSystem = systemManager->LoadSystem( "4ha6EW2cru.Network.dll" );
 	systemManager->RegisterSystem( System::Queues::HOUSE, networkSystem );
@@ -83,12 +79,15 @@ void Game::Initialize( )
 	}
 	else
 	{
-		systemManager->RegisterSystem( System::Queues::RENDER, new Renderer::RendererSystem( ) );
+		ISystem* rendererSystem = systemManager->LoadSystem( "4ha6EW2cru.Renderer.dll" );
+		systemManager->RegisterSystem( System::Queues::HOUSE, rendererSystem );
 
 		ISystem* animationSystem = systemManager->LoadSystem( "4ha6EW2cru.Animation.dll" );
 		systemManager->RegisterSystem( System::Queues::HOUSE, animationSystem );
 
-		systemManager->RegisterSystem( System::Queues::HOUSE, new Input::InputSystem( ) );
+		ISystem* inputSystem = systemManager->LoadSystem( "4ha6EW2cru.Input.dll" );
+		systemManager->RegisterSystem( System::Queues::HOUSE, inputSystem );
+
 		systemManager->RegisterSystem( System::Queues::HOUSE, new UX::UXSystem( ) );
 		systemManager->RegisterSystem( System::Queues::HOUSE, new Sound::SoundSystem( ) );
 

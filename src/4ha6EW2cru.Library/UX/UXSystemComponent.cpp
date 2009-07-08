@@ -11,8 +11,6 @@ using namespace Services;
 
 #include "../Management/Management.h"
 
-using namespace Input;
-
 namespace UX
 {
 	void UXSystemComponent::ChangeResolution( int width, int height, bool isFullScreen )
@@ -246,7 +244,7 @@ namespace UX
 		return resolutions;
 	}
 
-	InputMessageBinding UXSystemComponent::GetMessageBinding( const std::string& message )
+	/*InputMessageBinding UXSystemComponent::GetMessageBinding( const std::string& message )
 	{
 		IService* inputService = Management::Get( )->GetServiceManager( )->FindService( System::Types::INPUT );
 
@@ -254,7 +252,7 @@ namespace UX
 		parameters[ System::Attributes::Message ] = message;
 
 		return inputService->Execute( System::Messages::GetBindingForMessage, parameters )[ "result" ].As< InputMessageBinding >( );
-	}
+	}*/
 
 	void UXSystemComponent::SetMessageBinding( const std::string& message, const std::string& binding )
 	{

@@ -2,6 +2,12 @@
 
 #include "AnimationSystemScene.h"
 
+#define INCLUDE_HAVOK_ANIMATION_CLASSES
+#define HK_CLASSES_FILE <Common/Serialize/Classlist/hkClasses.h>
+#include <Common/Serialize/Util/hkBuiltinTypeRegistry.cxx>
+#define HK_COMPAT_FILE <Common/Compat/hkCompatVersions.h>
+#include <Common/Compat/hkCompat_All.cxx> 
+
 namespace Animation
 {
 	void AnimationSystem::Initialize( Configuration::IConfiguration* configuration )

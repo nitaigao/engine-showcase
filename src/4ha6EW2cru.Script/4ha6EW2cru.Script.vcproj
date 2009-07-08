@@ -40,6 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/raknet/Source;../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -57,6 +58,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="winmm.lib luad.lib luabindd.lib"
+				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;../../etc/vendor/luabind/lib;../../etc/vendor/lua"
+				ModuleDefinitionFile="SystemDefinition.def"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -154,6 +158,10 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{399D7AEA-884F-4884-B655-AED35E934A07}"
+			RelativePathToProject=".\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -161,12 +169,120 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\AnimationFacade.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\InstrumentationFacade.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\NetworkFacade.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ScriptComponent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ScriptSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ScriptSystemScene.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SoundFacade.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SystemDefinition.cxx"
+				>
+			</File>
+			<File
+				RelativePath=".\SystemDefinition.def"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\AnimationFacade.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IAnimationFacade.h"
+				>
+			</File>
+			<File
+				RelativePath=".\INetworkFacade.h"
+				>
+			</File>
+			<File
+				RelativePath=".\InstrumentationFacade.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IScriptComponent.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\IScriptConfiguration.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\IScriptFacade.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\IScriptFunctionHandler.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\IScriptSystem.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\IScriptSystemScene.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ISoundFacade.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\NetworkFacade.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ScriptComponent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ScriptConfiguration.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ScriptFunctionHandler.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ScriptSystem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ScriptSystemScene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SoundFacade.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

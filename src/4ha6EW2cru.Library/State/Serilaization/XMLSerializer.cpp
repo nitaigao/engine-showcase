@@ -15,9 +15,6 @@ using namespace Resources;
 #include "../../Scripting/IScriptComponent.hpp"
 using namespace Script;
 
-#include "../../Renderer/Color.hpp"
-using namespace Renderer;
-
 #include "ComponentSerializerFactory.h"
 #include "AIComponentSerializer.h"
 #include "GeometryComponentSerializer.h"
@@ -174,9 +171,14 @@ namespace Serialization
 			element->GetAttribute( "g", &green );
 			element->GetAttribute( "b", &blue );
 
+			AnyType::AnyTypeMap parameters;
+			parameters[ "r" ] = red;
+			parameters[ "g" ] = green;
+			parameters[ "b" ] = blue;
+
 			ISystem* graphicsSystem = Management::Get( )->GetSystemManager( )->GetSystem( System::Types::RENDER );
 
-			graphicsSystem->SetAttribute( key, Color( red, green, blue )  );
+			graphicsSystem->SetAttribute( key, parameters );
 		}
 	}
 	

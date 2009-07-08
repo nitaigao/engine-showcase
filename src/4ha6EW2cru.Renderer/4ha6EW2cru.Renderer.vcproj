@@ -40,6 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/raknet/Source;../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind/include;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -57,6 +58,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="winmm.lib Rpcrt4.lib"
+				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;"
+				ModuleDefinitionFile="SystemDefinition.def"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -154,6 +158,10 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{399D7AEA-884F-4884-B655-AED35E934A07}"
+			RelativePathToProject=".\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -161,12 +169,96 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\AnimationController.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Line3d.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\LineFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RendererSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RendererSystemCameraComponent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RendererSystemComponent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RendererSystemScene.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SystemDefinition.cxx"
+				>
+			</File>
+			<File
+				RelativePath=".\SystemDefinition.def"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\AnimationController.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Color.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\IAnimationController.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\IRendererSystem.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\IRendererSystemComponent.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\IRenderSystemScene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Line3d.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LineFactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RendererSystem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RendererSystemCameraComponent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RendererSystemComponent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RendererSystemScene.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

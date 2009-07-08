@@ -18,8 +18,6 @@
 #include "IUXSystemComponent.hpp"
 #include "IUXSystemScene.hpp"
 
-#include "../Input/InputMessageBinding.hpp"
-
 namespace UX
 {
 	/*! 
@@ -253,7 +251,7 @@ namespace UX
 		 */
 		std::vector< std::string > GetSupportedResolutions( );
 
-		Input::InputMessageBinding GetMessageBinding( const std::string& message );
+		//Input::InputMessageBinding GetMessageBinding( const std::string& message );
 
 		void SetMessageBinding( const std::string& message, const std::string& binding );
 
