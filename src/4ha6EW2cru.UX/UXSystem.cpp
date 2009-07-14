@@ -41,9 +41,7 @@ namespace UX
 					.def( "showMouse", &UXSystemComponent::ShowMouse )
 					.def( "hideMouse", &UXSystemComponent::HideMouse )
 					.def( "setInputAllowed", &UXSystemComponent::SetInputAllowed )
-					.def( "changeResolution", &UXSystemComponent::ChangeResolution )
-					.def( "setFarClip", &UXSystemComponent::SetFarClip )
-					.def( "getFps", &UXSystemComponent::GetFps ),
+					.def( "changeResolution", &UXSystemComponent::ChangeResolution ),
 
 				class_< Widget >( "Widget" )
 					.def( constructor< WidgetStyle, const IntCoord&, Align, WidgetSkinInfo*, WidgetPtr, ICroppedRectangle*, IWidgetCreator*, const std::string& >( ) )
@@ -123,5 +121,10 @@ namespace UX
 		{
 			Management::Get( )->GetServiceManager( )->RegisterService( this );
 		}
+	}
+
+	void UXSystem::Update( const float& deltaMilliseconds )
+	{
+		m_scene->Update( deltaMilliseconds );
 	}
 };

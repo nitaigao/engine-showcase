@@ -33,6 +33,8 @@ namespace Animation
 		*/
 		AnimationSystem( )
 			: m_scene( 0 )
+			, m_threadMemory( 0 )
+			, m_stackBuffer( 0 )
 		{
 
 		}
@@ -111,6 +113,11 @@ namespace Animation
 
 		AnimationSystem( const AnimationSystem & copy ) { };
 		AnimationSystem & operator = ( const AnimationSystem & copy ) { return *this; };
+
+		static void errorReportFunction( const char* str, void* errorOutputObject );
+
+		hkThreadMemory* m_threadMemory;
+		char* m_stackBuffer;
 
 		IAnimationSystemScene* m_scene;
 		

@@ -52,7 +52,7 @@ namespace UX
 		*  @param[in] float deltaMilliseconds
 		*  @return (void)
 		*/
-		inline void Update( const float& deltaMilliseconds ) { };
+		void Update( const float& deltaMilliseconds );
 
 
 		/*! Releases the System

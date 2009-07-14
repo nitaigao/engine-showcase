@@ -77,7 +77,7 @@ namespace Network
 		*  @param[in] ISystemComponent * component
 		*  @return (void)
 		*/
-		void DestroyComponent( ISystemComponent* component ) { };
+		void DestroyComponent( ISystemComponent* component );
 
 	private:
 

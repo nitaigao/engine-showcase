@@ -130,11 +130,6 @@ namespace UX
 		m_scene->CreateComponent( componentName, "default" );
 	}
 
-	void UXSystemComponent::SetFarClip( const float& farClip )
-	{
-
-	}
-
 	void UXSystemComponent::OnMouseReleased( MyGUI::WidgetPtr widget, int left, int top, MyGUI::MouseButton id )
 	{
 		void* userData = widget->getUserData( );
@@ -242,14 +237,5 @@ namespace UX
 		}
 
 		return resolutions;
-	}
-
-	void UXSystemComponent::SetInvertYAxis( const bool& invert )
-	{
-		IService* inputService = Management::Get( )->GetServiceManager( )->FindService( System::Types::INPUT );
-
-		AnyType::AnyTypeMap parameters;
-		parameters[ System::Parameters::InvertYAxis ] = invert;
-		inputService->Execute( System::Messages::SetInvertYAxis, parameters );
 	}
 }

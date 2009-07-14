@@ -184,14 +184,6 @@ namespace UX
 		void ChangeResolution( int width, int height, bool isFullScreen );
 
 		
-		/*! Sets the Far Clip Distance of the Camera
-		 *
-		 *  @param[in] const float & farClip
-		 *  @return (void)
-		 */
-		void SetFarClip( const float& farClip );
-
-		
 		/*!  Returns the Screen Width in pixels
 		 *
 		 *  @return (int)
@@ -204,15 +196,6 @@ namespace UX
 		 *  @return (int)
 		 */
 		int GetScreenHeight( ) { return m_scene->GetGui( )->getViewHeight( ); };
-
-		
-		/*! Returns the Average FPS from the renderer
-		 *
-		 *  @return (int)
-		 */
-		inline int GetFps( ) { return static_cast< int >( m_scene->GetGui( )->getRenderWindow( )->getAverageFPS( ) ); };
-
-
 
 
 		/*! -- Widget Event Handlers -- */
@@ -228,6 +211,14 @@ namespace UX
 		static void OnMouseReleased( MyGUI::WidgetPtr widget, int left, int top, MyGUI::MouseButton id );
 
 
+		/*! Forwards the Mouse Button Pressed Events to the subscribing Widgets in Script
+		*
+		* @param[in] MyGUI::WidgetPtr widget
+		* @param[in] int left
+		* @param[in] int top
+		* @param[in] MyGUI::MouseButton id
+		* @return ( void )
+		*/
 		static void OnMousePressed( MyGUI::WidgetPtr widget, int left, int top, MyGUI::MouseButton id );
 
 		
@@ -240,8 +231,21 @@ namespace UX
 		static void OnKeyUp( MyGUI::WidgetPtr widget, MyGUI::KeyCode key );
 
 
+		/*! Forwards the List Select Events to the sibscribing Widgets in Script
+		*
+		* @param[in] MyGUI::MultiListPtr widget
+		* @param[in] size_t index
+		* @return ( void )
+		*/
 		static void OnListSelectAccept( MyGUI::MultiListPtr widget, size_t index );
 
+
+		/*! Forwards the Scroll Events to the subscribed widgets in Script
+		*
+		* @param[in] MyGUI::VScrollPtr sender
+		* @param[in] size_t position
+		* @return ( void )
+		*/
 		static void OnEventScrollChangePosition( MyGUI::VScrollPtr sender, size_t position );
 
 		
@@ -250,8 +254,6 @@ namespace UX
 		 *  @return (std::vector< std::string >)
 		 */
 		std::vector< std::string > GetSupportedResolutions( );
-
-		void SetInvertYAxis( const bool& invert );
 
 	private:
 

@@ -35,8 +35,7 @@ namespace Physics
 		 *  @return ()
 		 */
 		HavokPhysicsSystem( )
-			: m_stepAccumulator( 0 )
-			, m_threadMemory( 0 )
+			: m_threadMemory( 0 )
 			, m_stackBuffer( 0 )
 			, m_scene( 0 )
 		{
@@ -133,8 +132,6 @@ namespace Physics
 	private:
 
 		static void errorReportFunction( const char* str, void* errorOutputObject );
-
-		float m_stepAccumulator;
 
 		HavokPhysicsSystemScene* m_scene;
 

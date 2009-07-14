@@ -78,20 +78,11 @@ namespace Physics
 
 	void HavokPhysicsSystem::Update( const float& deltaMilliseconds )
 	{
-		//float step = 1.0f / 100.0f;
-		//float maxStep = 0.05f;
-
-		//m_stepAccumulator += ( deltaMilliseconds > maxStep ) ? maxStep : deltaMilliseconds;
-
-		//while( m_stepAccumulator >= step )
-		//{
-			m_world->stepDeltaTime( deltaMilliseconds );
+		m_world->stepDeltaTime( deltaMilliseconds );
 
 #ifdef _DEBUG
-			m_vdb->step( deltaMilliseconds );
+		m_vdb->step( deltaMilliseconds );
 #endif
-		//	m_stepAccumulator -= step;
-		//}
 
 		m_scene->Update( deltaMilliseconds );
 	}

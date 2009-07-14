@@ -43,6 +43,4 @@ namespace Script
 
 		inputService->Execute( System::Messages::SetBindingForMessage, parameters );
 	}
-
-
 }
