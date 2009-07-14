@@ -29,6 +29,7 @@ using namespace Services;
 #include "InstrumentationFacade.h"
 #include "AnimationFacade.h"
 #include "NetworkFacade.h"
+#include "InputFacade.h"
 
 namespace Script
 {
@@ -50,9 +51,13 @@ namespace Script
 		luabind::globals( m_state ) [ "animation" ] = animationFacade;
 		m_facades.push_back( animationFacade );
 
-		NetworkFacade* networkFacade = new NetworkFacade( this );
+		NetworkFacade* networkFacade = new NetworkFacade( );
 		luabind::globals( m_state ) [ "network" ] = networkFacade;
 		m_facades.push_back( networkFacade );
+
+		InputFacade* inputFacade = new InputFacade( );
+		luabind::globals( m_state )[ "input" ] = inputFacade;
+		m_facades.push_back( inputFacade );
 	}
 
 	void ScriptComponent::Destroy( )

@@ -10,7 +10,7 @@ namespace Script
 	{
 		return
 			class_< NetworkFacade >( "NetworkFacade" )
-				.def( constructor< ISystemComponent* >( ) )
+				.def( constructor< >( ) )
 				.def( "connect", &NetworkFacade::Connect );
 	}
 

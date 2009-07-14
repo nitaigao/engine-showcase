@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../4ha6EW2cru.Library;../../etc/vendor/raknet/Source;../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
+				AdditionalIncludeDirectories="../4ha6EW2cru.System;../../etc/vendor/raknet/Source;../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
 				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;_EXPORT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -160,8 +160,8 @@
 	</Configurations>
 	<References>
 		<ProjectReference
-			ReferencedProjectIdentifier="{399D7AEA-884F-4884-B655-AED35E934A07}"
-			RelativePathToProject=".\4ha6EW2cru.Library\4ha6EW2cru.Library.vcproj"
+			ReferencedProjectIdentifier="{58D6A894-4481-4A63-9958-49AE9B3A83D3}"
+			RelativePathToProject=".\4ha6EW2cru.System\4ha6EW2cru.System.vcproj"
 		/>
 	</References>
 	<Files>
@@ -172,6 +172,10 @@
 			>
 			<File
 				RelativePath=".\AnimationFacade.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\InputFacade.cpp"
 				>
 			</File>
 			<File
@@ -221,7 +225,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IInputFacade.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\INetworkFacade.h"
+				>
+			</File>
+			<File
+				RelativePath=".\InputFacade.h"
 				>
 			</File>
 			<File

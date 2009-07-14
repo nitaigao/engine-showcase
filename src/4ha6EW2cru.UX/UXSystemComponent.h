@@ -251,10 +251,6 @@ namespace UX
 		 */
 		std::vector< std::string > GetSupportedResolutions( );
 
-		//Input::InputMessageBinding GetMessageBinding( const std::string& message );
-
-		void SetMessageBinding( const std::string& message, const std::string& binding );
-
 		void SetInvertYAxis( const bool& invert );
 
 	private:

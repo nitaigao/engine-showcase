@@ -26,6 +26,7 @@ using namespace Maths;
 #include "InstrumentationFacade.h"
 #include "AnimationFacade.h"
 #include "NetworkFacade.h"
+#include "InputFacade.h"
 
 namespace Script
 {
@@ -113,7 +114,8 @@ namespace Script
 			SoundFacade::RegisterFunctions( ),
 			InstrumentationFacade::RegisterFunctions( ),
 			AnimationFacade::RegisterFunctions( ),
-			NetworkFacade::RegisterFunctions( )
+			NetworkFacade::RegisterFunctions( ),
+			InputFacade::RegisterFunctions( )
 		];
 
 		luabind::globals( m_state )[ "Configuration" ] = m_scriptConfiguration;

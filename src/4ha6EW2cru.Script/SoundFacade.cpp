@@ -33,7 +33,7 @@ namespace Script
 		AnyType::AnyTypeMap parameters;
 		parameters[ System::Parameters::SoundEventPath ] = eventPath;
 
-		m_scriptComponent->PushMessage( System::Messages::TriggerSoundEvent, parameters );
+		m_component->PushMessage( System::Messages::TriggerSoundEvent, parameters );
 	}
 
 	void SoundFacade::KeyOutEvent( const std::string& eventPath )
@@ -41,6 +41,6 @@ namespace Script
 		AnyType::AnyTypeMap parameters;
 		parameters[ System::Parameters::SoundEventPath ] = eventPath;
 
-		m_scriptComponent->PushMessage( System::Messages::KeyOutSoundEvent, parameters );
+		m_component->PushMessage( System::Messages::KeyOutSoundEvent, parameters );
 	}
 }

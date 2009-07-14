@@ -244,26 +244,6 @@ namespace UX
 		return resolutions;
 	}
 
-	/*InputMessageBinding UXSystemComponent::GetMessageBinding( const std::string& message )
-	{
-		IService* inputService = Management::Get( )->GetServiceManager( )->FindService( System::Types::INPUT );
-
-		AnyType::AnyTypeMap parameters;
-		parameters[ System::Attributes::Message ] = message;
-
-		return inputService->Execute( System::Messages::GetBindingForMessage, parameters )[ "result" ].As< InputMessageBinding >( );
-	}*/
-
-	void UXSystemComponent::SetMessageBinding( const std::string& message, const std::string& binding )
-	{
-		IService* inputService = Management::Get( )->GetServiceManager( )->FindService( System::Types::INPUT );
-
-		AnyType::AnyTypeMap parameters;
-		parameters[ System::Attributes::Message ] = message;
-		parameters[ System::Parameters::Binding ] = binding;
-		inputService->Execute( System::Messages::SetBindingForMessage, parameters );
-	}
-
 	void UXSystemComponent::SetInvertYAxis( const bool& invert )
 	{
 		IService* inputService = Management::Get( )->GetServiceManager( )->FindService( System::Types::INPUT );

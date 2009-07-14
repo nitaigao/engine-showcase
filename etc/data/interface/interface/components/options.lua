@@ -22,7 +22,7 @@ function Options.initialize( )
 	local saveButton = ux:findWidget( 'options_button_save' )
 	ux:scriptWidget( saveButton, 'onRelease', Options.onSave )
 	
-	--Options.initializeKeyboard( )
+	Options.initializeKeyboard( )
 	Options.initializeMouse( )
 	Options.initializeGraphics( )
 	Options.initializeSound( )
@@ -55,7 +55,7 @@ end
 
 function Options.onSave( )
 
-	--Options.saveInput( )
+	Options.saveInput( )
 	Options.saveAdvanced( )
 	Options.saveGraphics( )
 	
@@ -272,49 +272,37 @@ function Options.setupMessageBindings( )
 	local keymapList = ux:findWidget( 'options_keylist' ):asMultiList( )
 	keymapList:removeAllItems( )
 	
-	local messageBinding = ux:getMessageBinding( '+attack_primary' )
-	
 	keymapList:addItem( '' )
 	keymapList:setSubItemName( 1, 0, 'Primary Attack' )
-	keymapList:setSubItemName( 2, 0, messageBinding:getText( ) )
-	keymapList:setSubItemName( 3, 0, messageBinding:getMessage( ) )
+	keymapList:setSubItemName( 2, 0, input:getTextForMessage( '+attack_primary' ) )
+	keymapList:setSubItemName( 3, 0, '+attack_primary' )
 	
 	keymapList:addItem( '' )
-	
-	messageBinding = ux:getMessageBinding( '+move_forward' )
 	
 	keymapList:addItem( '' )
 	keymapList:setSubItemName( 1, 2, 'Move Forward' )
-	keymapList:setSubItemName( 2, 2, messageBinding:getText( ) )
-	keymapList:setSubItemName( 3, 2, messageBinding:getMessage( ) )
-	
-	messageBinding = ux:getMessageBinding( '+move_backward' )
+	keymapList:setSubItemName( 2, 2, input:getTextForMessage( '+move_forward' ) )
+	keymapList:setSubItemName( 3, 2, '+move_forward' )
 	
 	keymapList:addItem( '' )
 	keymapList:setSubItemName( 1, 3, 'Move Backwards' )
-	keymapList:setSubItemName( 2, 3, messageBinding:getText( ) )
-	keymapList:setSubItemName( 3, 3, messageBinding:getMessage( ) )
-	
-	messageBinding = ux:getMessageBinding( '+strafe_left' )
+	keymapList:setSubItemName( 2, 3, input:getTextForMessage( '+move_backward' ) )
+	keymapList:setSubItemName( 3, 3, '+move_backward' )
 	
 	keymapList:addItem( '' )
 	keymapList:setSubItemName( 1, 4, 'Strafe Left' )
-	keymapList:setSubItemName( 2, 4, messageBinding:getText( ) )
-	keymapList:setSubItemName( 3, 4, messageBinding:getMessage( ) )
-	
-	messageBinding = ux:getMessageBinding( '+strafe_right' )
+	keymapList:setSubItemName( 2, 4, input:getTextForMessage( '+strafe_left' ) )
+	keymapList:setSubItemName( 3, 4, '+strafe_left' )
 	
 	keymapList:addItem( '' )
 	keymapList:setSubItemName( 1, 5, 'Strafe Right' )
-	keymapList:setSubItemName( 2, 5, messageBinding:getText( ) )
-	keymapList:setSubItemName( 3, 5, messageBinding:getMessage( ) )
-	
-	messageBinding = ux:getMessageBinding( 'jump' )
+	keymapList:setSubItemName( 2, 5, input:getTextForMessage( '+strafe_right' ) )
+	keymapList:setSubItemName( 3, 5, '+strafe_right' )
 	
 	keymapList:addItem( '' )
 	keymapList:setSubItemName( 1, 6, 'Jump' )
-	keymapList:setSubItemName( 2, 6, messageBinding:getText( ) )
-	keymapList:setSubItemName( 3, 6, messageBinding:getMessage( ) )
+	keymapList:setSubItemName( 2, 6, input:getTextForMessage( 'jump' ) )
+	keymapList:setSubItemName( 3, 6, 'jump' )
 
 end
 

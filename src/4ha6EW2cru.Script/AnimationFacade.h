@@ -46,7 +46,6 @@ namespace Script
 
 		}
 
-
 		/*! Instructs the Animation System to Start an Animation for the component
 		*
 		* @param[in] const std::string & animationName
@@ -67,7 +66,7 @@ namespace Script
 
 		AnimationFacade( const AnimationFacade & copy ) { };
 		AnimationFacade & operator = ( const AnimationFacade & copy ) { return *this; };
-
+	
 		ISystemComponent* m_component;
 		
 	};

@@ -131,14 +131,16 @@ namespace Input
 	{
 		AnyType::AnyTypeMap results;
 
-		if ( message == System::Messages::RegisterScriptFunctions )
+		if ( message == System::Messages::Input::GetTextForMessage )
 		{
-			/*module( parameters[ System::Parameters::ScriptState ].As< lua_State* >( ) )
-			[
-				class_< InputMessageBinding >( InputMessageBinding::TypeName( ).c_str( ) )
-					.def( "getText", &InputMessageBinding::GetText )
-					.def( "getMessage", &InputMessageBinding::GetMessage )
-			];*/
+			for ( InputMessageBinding::InputMessageBindingList::iterator i = m_messageBindings.begin( ); i != m_messageBindings.end( ); ++i )
+			{
+				if ( ( *i ).GetMessage( ) == parameters[ System::Attributes::Message ].As< std::string >( ) )
+				{
+					results[ "result" ] = ( *i ).GetText( );
+					return results;
+				}
+			}
 		}
 
 		if ( message == System::Messages::GetBindingForMessage )

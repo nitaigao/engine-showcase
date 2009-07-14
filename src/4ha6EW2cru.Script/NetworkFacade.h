@@ -35,11 +35,8 @@ namespace Script
 		*
 		* @return (  )
 		*/
-		NetworkFacade( ISystemComponent* component )
-			: m_component( component )
-		{
+		NetworkFacade( ) { };
 
-		}
 
 		/*! Registers the Script functions with the given state
 		*
@@ -62,8 +59,6 @@ namespace Script
 
 		NetworkFacade( const NetworkFacade & copy ) { };
 		NetworkFacade & operator = ( const NetworkFacade & copy ) { return *this; };
-
-		ISystemComponent* m_component;
 		
 	};
 };

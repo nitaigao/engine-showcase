@@ -64,8 +64,8 @@ void Game::Initialize( )
 	ISystem* scriptSystem = systemManager->LoadSystem( "4ha6EW2cru.Script.dll" );
 	systemManager->RegisterSystem( System::Queues::HOUSE, scriptSystem );
 
-	ISystem* networkSystem = systemManager->LoadSystem( "4ha6EW2cru.Network.dll" );
-	systemManager->RegisterSystem( System::Queues::HOUSE, networkSystem );
+	//ISystem* networkSystem = systemManager->LoadSystem( "4ha6EW2cru.Network.dll" );
+	//systemManager->RegisterSystem( System::Queues::HOUSE, networkSystem );
 
 	ISystem* aiSystem = systemManager->LoadSystem( "4ha6EW2cru.AI.dll" );
 	systemManager->RegisterSystem( System::Queues::HOUSE, aiSystem );

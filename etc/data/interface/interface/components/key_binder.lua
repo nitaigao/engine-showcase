@@ -49,7 +49,7 @@ function KeyBinder.onKeyUp( keyCode )
 
 		if ( keyCode ~= 27 ) then -- Cancel on the Escape Key
 		
-			ux:setMessageBinding( message, 'k_' .. keyCode )
+			input:setMessageBinding( message, 'k_' .. keyCode )
 		
 			script:broadcastEvent( 'UI_MAPPINGBOUND' )
 		
@@ -65,7 +65,7 @@ function KeyBinder.onClick( mouseId )
 
 	if ( widget:isVisible( ) ) then
 		
-		ux:setMessageBinding( message, 'm_' .. mouseId )
+		input:setMessageBinding( message, 'm_' .. mouseId )
 		
 		script:broadcastEvent( 'UI_MAPPINGBOUND' )
 		

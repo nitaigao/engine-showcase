@@ -200,6 +200,11 @@ namespace System
 		{
 			static const Message Connect				=	"connect";
 		}
+
+		namespace Input
+		{
+			static const Message GetTextForMessage		=	"getTextForMessage";
+		}
 	}
 };
 

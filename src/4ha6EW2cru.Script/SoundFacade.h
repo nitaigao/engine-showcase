@@ -40,11 +40,12 @@ namespace Script
 		 *
 		 *  @return ()
 		 */
-		SoundFacade( IScriptComponent* scriptComponent )
-			: m_scriptComponent( scriptComponent )
+		SoundFacade( ISystemComponent* component )
+			: m_component( component )
 		{
 
 		}
+
 
 		void TriggerEvent( const std::string& eventPath );
 
@@ -62,8 +63,7 @@ namespace Script
 		SoundFacade( const SoundFacade & copy ) { };
 		SoundFacade & operator = ( const SoundFacade & copy ) { return *this; };
 
-		IScriptComponent* m_scriptComponent;
-
+		ISystemComponent* m_component;
 	};
 };
 

@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../4ha6EW2cru.Game;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
+				AdditionalIncludeDirectories="../4ha6EW2cru.Game;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../4ha6EW2cru.System;../../etc/vendor/physfs;../../etc/vendor/luabind;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
 				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -113,7 +113,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../4ha6EW2cru.Library;../../etc/vendor/physfs;../../etc/vendor/luabind;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
+				AdditionalIncludeDirectories="../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../4ha6EW2cru.System;../../etc/vendor/physfs;../../etc/vendor/luabind;../../etc/vendor/boost/include;../../etc/vendor/ois/includes;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
 				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;NOMINMAX;WIN32"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
