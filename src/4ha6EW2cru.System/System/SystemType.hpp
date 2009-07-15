@@ -56,17 +56,6 @@ namespace System
 		};
 	};
 
-	namespace ConfigSections
-	{
-		static const std::string Graphics				=	"Graphics";
-		static const std::string Developer				=	"Developer";
-		static const std::string Logging				=	"Logging";
-		static const std::string Bindings				=	"Bindings";
-		static const std::string Input					=	"Input";
-		static const std::string Sound					=	"Sound";
-		static const std::string Network				=	"Network";
-	};
-
 	namespace Options
 	{
 		static const std::string LevelName				=	"levelName";
@@ -102,41 +91,52 @@ namespace System
 		}
 	};
 
+	typedef std::string Parameter;
+
 	namespace Parameters
 	{
-		static const Attribute DeltaX					=	"deltaX";
-		static const Attribute DeltaY					=	"deltaY";
-		static const Attribute ScriptPath				=	"scriptPath";
-		static const Attribute Model					=	"model";
-		static const Attribute Body						=	"body";
-		static const Attribute PlayerPosition			=	"playerPosition";
-		static const Attribute PlayerOrientation		=	"playerOrientation";
-		static const Attribute SoundEventPath			=	"soundEventPath";
-		static const Attribute Mouse					=	"mouse";
-		static const Attribute Keyboard					=	"keyboard";
-		static const Attribute ScriptState				=	"scriptState";
-		static const Attribute Binding					=	"binding";
-		static const Attribute InvertYAxis				=	"invertYAxis";
-		static const Attribute SmoothMouse				=	"smoothMouse";
-		static const Attribute NavMeshPath				=	"navMeshPath";
-		static const Attribute NavigationMesh			=	"navMesh";
-		static const Attribute MouseSensitivity			=	"mouseSensitivity";
-		static const Attribute Vertices					=	"vertices";
-		static const Attribute Origin					=	"origin";
-		static const Attribute Destination				=	"destination";
-		static const Attribute GlobalObject				=	"globalObject";
-		static const Attribute GlobalName				=	"globalName";
-		static const Attribute SortByyDistance			=	"sortByDistance";
-		static const Attribute MaxResults				=	"maxResults";
-		static const Attribute AnimationName			=	"animationName";
-		static const Attribute LoopAnimation			=	"loopAnimation";
-		static const Attribute AnimationWeight			=	"animationWeight";
-		static const Attribute AnimationController		=	"animationController";
+		static const Parameter DeltaX					=	"deltaX";
+		static const Parameter DeltaY					=	"deltaY";
+		static const Parameter ScriptPath				=	"scriptPath";
+		static const Parameter Model					=	"model";
+		static const Parameter Body						=	"body";
+		static const Parameter PlayerPosition			=	"playerPosition";
+		static const Parameter PlayerOrientation		=	"playerOrientation";
+		static const Parameter SoundEventPath			=	"soundEventPath";
+		static const Parameter Mouse					=	"mouse";
+		static const Parameter Keyboard					=	"keyboard";
+		static const Parameter ScriptState				=	"scriptState";
+		static const Parameter Binding					=	"binding";
+		static const Parameter InvertYAxis				=	"invertYAxis";
+		static const Parameter SmoothMouse				=	"smoothMouse";
+		static const Parameter NavMeshPath				=	"navMeshPath";
+		static const Parameter NavigationMesh			=	"navMesh";
+		static const Parameter MouseSensitivity			=	"mouseSensitivity";
+		static const Parameter Vertices					=	"vertices";
+		static const Parameter Origin					=	"origin";
+		static const Parameter Destination				=	"destination";
+		static const Parameter GlobalObject				=	"globalObject";
+		static const Parameter GlobalName				=	"globalName";
+		static const Parameter SortByyDistance			=	"sortByDistance";
+		static const Parameter MaxResults				=	"maxResults";
+		static const Parameter AnimationName			=	"animationName";
+		static const Parameter LoopAnimation			=	"loopAnimation";
+		static const Parameter AnimationWeight			=	"animationWeight";
+		static const Parameter AnimationController		=	"animationController";
 
 		namespace Network
 		{
-			static const Attribute HostAddress			=	"hostAddress";
-			static const Attribute Port					=	"port";
+			static const Parameter HostAddress			=	"hostAddress";
+			static const Parameter Port					=	"port";
+			static const Parameter ComponentId			=	"componentId";
+			static const Parameter ComponentMessage		=	"componentMessage";
+			static const Parameter EndOfParameters		=	"endOfParameters";
+			static const Parameter Sender				=	"sender";
+		}
+
+		namespace Game
+		{
+			static const Parameter LevelName			=	"levelName";
 		}
 	};
 
@@ -199,11 +199,21 @@ namespace System
 		namespace Network
 		{
 			static const Message Connect				=	"connect";
+			static const Message ComponentUpdate		=	"updateComponent";
+			static const Message NetwokSetPosition		=	"networkSetPosition";
+			static const Message NetworkSetOrientation	=	"networkSetOrientation";
 		}
 
 		namespace Input
 		{
 			static const Message GetTextForMessage		=	"getTextForMessage";
+			static const Message GetMessageBindings		=	"getMessageBindings";
+			static const Message SetInputAllowed		=	"setInputAllowed";
+		}
+
+		namespace Game
+		{
+			static const Message ChangeLevel			=	"changeLevel";
 		}
 	}
 };

@@ -86,7 +86,7 @@ public:
 	 *
 	 *  @return (const std::type_info&)
 	 */
-	const std::type_info& GetType( ) { return m_value.type( ); };
+	const std::type_info& GetType( ) const { return m_value.type( ); };
 
 private:
 

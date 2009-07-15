@@ -14,6 +14,8 @@ using namespace Events;
 
 #include "InputSystemComponent.h"
 
+#include "Configuration/ConfigurationTypes.hpp"
+
 namespace Input
 {
 	ISystemComponent* InputSystemScene::CreateComponent( const std::string& name, const std::string& type )
@@ -50,9 +52,9 @@ namespace Input
 		{
 			for( IInputSystemComponent::InputSystemComponentList::iterator i = m_inputComponents.begin( ); i != m_inputComponents.end( ); ++i  )
 			{
-				( *i )->SetAttribute( System::Parameters::InvertYAxis, m_configuration->Find( System::ConfigSections::Input, "inverty" ).As< bool >( ) );
-				( *i )->SetAttribute( System::Parameters::SmoothMouse, m_configuration->Find( System::ConfigSections::Input, "smoothmouse" ).As< bool >( ) );
-				( *i )->SetAttribute( System::Parameters::MouseSensitivity, m_configuration->Find( System::ConfigSections::Input, "mousesmooth_amount" ).As< int >( ) );
+				( *i )->SetAttribute( System::Parameters::InvertYAxis, m_configuration->Find( Configuration::ConfigSections::Input, Configuration::ConfigItems::Input::InvertY ).As< bool >( ) );
+				( *i )->SetAttribute( System::Parameters::SmoothMouse, m_configuration->Find( Configuration::ConfigSections::Input, Configuration::ConfigItems::Input::SmoothMouse ).As< bool >( ) );
+				( *i )->SetAttribute( System::Parameters::MouseSensitivity, m_configuration->Find( Configuration::ConfigSections::Input, Configuration::ConfigItems::Input::MouseSmoothAmount ).As< int >( ) );
 				( *i )->Update( deltaMilliseconds );
 			}
 

@@ -23,7 +23,7 @@ public:
 
 	float GetDeltaMilliseconds( );
 
-	inline float GetTime( ) const { return timeGetTime( ); };
+	inline float GetTime( ) const { return static_cast< float >( timeGetTime( ) ); };
 
 private:
 

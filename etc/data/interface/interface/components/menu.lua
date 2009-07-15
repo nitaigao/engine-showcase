@@ -189,7 +189,8 @@ function Menu.onPlayReleased( )
 
 	Menu.onHideMenu( )
 	ux:hideMouse( )
-	loadLevel( 'theman' )
+	--loadLevel( 'theman' )
+	network:connect('10.0.1.3', 8989 )
 
 end
 

@@ -31,7 +31,11 @@ namespace Network
 		*
 		* @return (  )
 		*/
-		NetworkSystemScene( ) { };
+		NetworkSystemScene( INetworkSystem* system )
+			: m_system( system )
+		{
+
+		}
 
 
 		/*! Initializes the System Scene
@@ -79,10 +83,31 @@ namespace Network
 		*/
 		void DestroyComponent( ISystemComponent* component );
 
+
+		/*! Returns the Network System
+		*
+		* @return ( INetworkSystem* )
+		*/
+		INetworkSystem* GetSystem( ) const { return m_system; };
+
+
+		/*! Messages a component within the Scene
+		*
+		* @param[in] const std::string componentId
+		* @param[in] const System::Message & message
+		* @param[in] AnyType::AnyTypeMap parameters
+		* @return ( void )
+		*/
+		void MessageComponent( const std::string componentId, const System::Message& message, AnyType::AnyTypeMap parameters );
+
 	private:
 
 		NetworkSystemScene( const NetworkSystemScene & copy ) { };
 		NetworkSystemScene & operator = ( const NetworkSystemScene & copy ) { return *this; };
+
+		ISystemComponent::SystemComponentMap m_components;
+
+		INetworkSystem* m_system;
 		
 	};
 };

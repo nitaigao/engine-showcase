@@ -62,6 +62,21 @@ public:
 	*/
 	inline void SetRoundTime( const System::Queues::Queue& queue, const float& roundTime ) { m_roundTimes[ queue ] = roundTime; };
 
+
+	/*! Sets the name of the active level
+	*
+	* @param[in] const std::string & levelName
+	* @return ( void )
+	*/
+	inline void SetLevelName( const std::string& levelName ) { m_levelName = levelName; };
+
+
+	/*! Gets the name of the active level
+	*
+	* @return ( std::string )
+	*/
+	inline std::string GetLevelName( ) const { return m_levelName; }
+
 private:
 
 	Instrumentation( const Instrumentation & copy ) { };
@@ -69,7 +84,7 @@ private:
 
 	int m_fps;
 	RoundTimeList m_roundTimes;
-	
+	std::string m_levelName;
 };
 
 #endif

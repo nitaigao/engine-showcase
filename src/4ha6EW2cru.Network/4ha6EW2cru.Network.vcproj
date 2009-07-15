@@ -173,11 +173,23 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\ClientNetworkProvider.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\NetworkSystem.cpp"
 				>
 			</File>
 			<File
+				RelativePath=".\NetworkSystemComponent.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\NetworkSystemScene.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ServerNetworkProvider.cpp"
 				>
 			</File>
 			<File
@@ -190,6 +202,14 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\ClientNetworkProvider.h"
+				>
+			</File>
+			<File
+				RelativePath=".\INetworkProvider.hpp"
+				>
+			</File>
 			<File
 				RelativePath=".\INetworkSystem.hpp"
 				>
@@ -212,6 +232,14 @@
 			</File>
 			<File
 				RelativePath=".\NetworkSystemScene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\NetworkUtils.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ServerNetworkProvider.h"
 				>
 			</File>
 		</Filter>

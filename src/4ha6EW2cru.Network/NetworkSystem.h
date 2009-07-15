@@ -9,10 +9,10 @@
 #define NETWORKSYSTEM_H
 
 #include "INetworkSystem.hpp"
+#include "INetworkSystemScene.hpp"
+#include "INetworkProvider.hpp"
 
 #include "Configuration/IConfiguration.hpp"
-
-#include <RakPeerInterface.h>
 
 namespace Network
 {
@@ -36,8 +36,9 @@ namespace Network
 		* @return (  )
 		*/
 		NetworkSystem( )
-			: m_networkInterface( 0 )
-			, m_configuration( 0 )
+			: m_configuration( 0 )
+			, m_scene( 0 )
+			, m_networkProvider( 0 )
 		{
 			m_attributes[ System::Attributes::Network::IsServer ] = false;
 		}
@@ -71,7 +72,7 @@ namespace Network
 		* @param[in] AnyType::AnyTypeMap parameters
 		* @return ( void )
 		*/
-		inline void Message( const std::string& message, AnyType::AnyTypeMap parameters );
+		void Message( const std::string& message, AnyType::AnyTypeMap parameters );
 
 
 		/*! Returns the type of the System
@@ -113,17 +114,35 @@ namespace Network
 		AnyType::AnyTypeMap Execute( const std::string& actionName, AnyType::AnyTypeMap& parameters ) { };
 
 
+		/*! Sends a message across the network
+		*
+		* @param[in] const SystemAddress & networkAddress
+		* @param[in] const std::string & message
+		* @param[in] AnyType::AnyTypeMap parameters
+		* @return ( void )
+		*/
+		void PushMessage( const std::string& componentName, const std::string& message, AnyType::AnyTypeMap parameters );
+
+
+		/*! Sends a message to a local component
+		*
+		* @param[in] const std::string & message
+		* @param[in] AnyType::AnyTypeMap parameters
+		* @return ( void )
+		*/
+		void MessageComponent( const std::string& componentName, const std::string& message, AnyType::AnyTypeMap parameters );
+
 	private:
 
 		NetworkSystem( const NetworkSystem & copy ) { };
 		NetworkSystem & operator = ( const NetworkSystem & copy ) { return *this; };
-
-		unsigned char GetPacketIdentifier( Packet *p );
-
-		RakPeerInterface* m_networkInterface;
+	
 		Configuration::IConfiguration* m_configuration;
 
 		AnyType::AnyTypeMap m_attributes;
+		INetworkSystemScene* m_scene;
+
+		INetworkProvider* m_networkProvider;
 		
 	};
 };

@@ -25,6 +25,15 @@ namespace Network
 		 *  @return ()
 		 */
 		virtual ~INetworkSystemComponent( ) { };
+
+
+		/*! Receives Messages from an inbound network connection
+		*
+		* @param[in] const std::string & message
+		* @param[in] AnyType::AnyTypeMap parameters
+		* @return ( void )
+		*/
+		virtual void MessageFromNetwork( const std::string& message, AnyType::AnyTypeMap parameters ) = 0;
 		
 	};
 };

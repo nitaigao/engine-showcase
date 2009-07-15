@@ -58,20 +58,20 @@ void Game::Initialize( )
 	ISystem* geometrySystem = systemManager->LoadSystem( "4ha6EW2cru.Geometry.dll" );
 	systemManager->RegisterSystem( System::Queues::HOUSE, geometrySystem );
 
-	ISystem* physicsSystem = systemManager->LoadSystem( "4ha6EW2cru.Physics.dll" );
-	systemManager->RegisterSystem( System::Queues::LOGIC, physicsSystem );
-
 	ISystem* scriptSystem = systemManager->LoadSystem( "4ha6EW2cru.Script.dll" );
 	systemManager->RegisterSystem( System::Queues::HOUSE, scriptSystem );
 
 	ISystem* networkSystem = systemManager->LoadSystem( "4ha6EW2cru.Network.dll" );
 	systemManager->RegisterSystem( System::Queues::HOUSE, networkSystem );
 
-	ISystem* aiSystem = systemManager->LoadSystem( "4ha6EW2cru.AI.dll" );
-	systemManager->RegisterSystem( System::Queues::HOUSE, aiSystem );
-
 	if ( programOptions.find( System::Options::DedicatedServer ) != programOptions.end( ) )
 	{
+		ISystem* physicsSystem = systemManager->LoadSystem( "4ha6EW2cru.Physics.dll" );
+		systemManager->RegisterSystem( System::Queues::LOGIC, physicsSystem );
+
+		//ISystem* aiSystem = systemManager->LoadSystem( "4ha6EW2cru.AI.dll" );
+		//systemManager->RegisterSystem( System::Queues::HOUSE, aiSystem );
+
 		systemManager->GetSystem( System::Types::NETWORK )->SetAttribute( System::Attributes::Network::IsServer, true );
 		Management::Get( )->GetPlatformManager( )->CreateConsoleWindow( );
 	}
@@ -170,6 +170,8 @@ void Game::OnGameLevelChanged( const IEvent* event )
 	levelPath << "/data/levels/" << eventData->GetLevelName( ) << ".xml";
 	
 	m_worldLoader->Load( levelPath.str( ) );
+
+	Management::Get( )->GetInstrumentation( )->SetLevelName( eventData->GetLevelName( ) );
 }
 
 void Game::OnGameEnded( const IEvent* event )

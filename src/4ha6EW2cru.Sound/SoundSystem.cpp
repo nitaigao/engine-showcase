@@ -10,6 +10,8 @@ using namespace Resources;
 #include "IO/FileBuffer.hpp"
 using namespace IO;
 
+#include "Configuration/ConfigurationTypes.hpp"
+
 namespace Sound
 {
 	ISystemScene* SoundSystem::CreateScene()
@@ -22,8 +24,8 @@ namespace Sound
 	void SoundSystem::Initialize( Configuration::IConfiguration* configuration )
 	{
 		m_configuration = configuration;
-		m_configuration->SetDefault( System::ConfigSections::Sound, "sfx_volume", 100 );
-		m_configuration->SetDefault( System::ConfigSections::Sound, "music_volume", 100 );
+		m_configuration->SetDefault( Configuration::ConfigSections::Sound, "sfx_volume", 100 );
+		m_configuration->SetDefault( Configuration::ConfigSections::Sound, "music_volume", 100 );
 
 		FMOD_RESULT result;
 		m_fmodSystem = 0;
@@ -156,7 +158,7 @@ namespace Sound
 
 		FMOD::EventCategory* masterCategory = 0;
 		m_eventSystem->getCategory( "master", &masterCategory );
-		float sfxVolume = static_cast< float >( m_configuration->Find( System::ConfigSections::Sound, "sfx_volume" ).As< int >( ) ) / 100;
+		float sfxVolume = static_cast< float >( m_configuration->Find( Configuration::ConfigSections::Sound, "sfx_volume" ).As< int >( ) ) / 100;
 		masterCategory->setVolume( sfxVolume );
 	}
 

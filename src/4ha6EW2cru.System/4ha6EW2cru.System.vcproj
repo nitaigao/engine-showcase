@@ -258,10 +258,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\System.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\System\SystemManager.cpp"
 				>
 			</File>
@@ -345,6 +341,10 @@
 			</File>
 			<File
 				RelativePath=".\Configuration\ConfigurationFile.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Configuration\ConfigurationTypes.hpp"
 				>
 			</File>
 			<File
@@ -609,10 +609,6 @@
 			</File>
 			<File
 				RelativePath=".\State\Serilaization\SoundComponentSerializer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\System.h"
 				>
 			</File>
 			<File

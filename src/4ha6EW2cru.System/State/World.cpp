@@ -18,7 +18,7 @@ namespace State
 	IWorldEntity* World::CreateEntity( const std::string& name )
 	{
 		IWorldEntity* entity = new WorldEntity( name );
-		entity->AddObserver( System::Messages::All_Messages, this );
+		//entity->AddObserver( System::Messages::All_Messages, this );
 		m_entities.push_back( entity );
 		return entity;
 	}
@@ -75,7 +75,7 @@ namespace State
 	{
 		std::stringstream logMessage;
 		logMessage << "message: " << message;
-		Logging::Logger::Get( )->Debug( logMessage.str( ) );
+		//Logging::Logger::Get( )->Debug( logMessage.str( ) );
 
 		return AnyType( );
 	}

@@ -9,6 +9,7 @@
 #define INETWORKSYSTEMSCENE_HPP
 
 #include "System/ISystemScene.hpp"
+#include "INetworkSystem.hpp"
 
 namespace Network
 {
@@ -25,6 +26,23 @@ namespace Network
 		 *  @return ()
 		 */
 		virtual ~INetworkSystemScene( ) { };
+
+
+		/*! Returns the Network System
+		*
+		* @return ( INetworkSystem* )
+		*/
+		virtual INetworkSystem* GetSystem( ) const = 0;
+
+
+		/*! Messages a component within the Scene
+		*
+		* @param[in] const std::string componentId
+		* @param[in] const System::Message & message
+		* @param[in] AnyType::AnyTypeMap parameters
+		* @return ( void )
+		*/
+		virtual void MessageComponent( const std::string componentId, const System::Message& message, AnyType::AnyTypeMap parameters ) = 0;
 		
 	};
 };

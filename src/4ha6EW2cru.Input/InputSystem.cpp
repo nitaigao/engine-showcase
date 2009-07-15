@@ -13,6 +13,8 @@ using namespace Logging;
 #include "Exceptions/UnInitializedException.hpp"
 #include "Exceptions/AlreadyInitializedException.hpp"
 
+#include "Configuration/ConfigurationTypes.hpp"
+
 using namespace OIS;
 
 namespace Input
@@ -28,9 +30,9 @@ namespace Input
 
 		m_configuration = configuration;
 
-		m_configuration->SetDefault( System::ConfigSections::Input, "inverty", false );
-		m_configuration->SetDefault( System::ConfigSections::Input, "smoothmouse", true );
-		m_configuration->SetDefault( System::ConfigSections::Input, "mousesmooth_amount", 50 );
+		m_configuration->SetDefault( Configuration::ConfigSections::Input, Configuration::ConfigItems::Input::InvertY, false );
+		m_configuration->SetDefault( Configuration::ConfigSections::Input, Configuration::ConfigItems::Input::SmoothMouse, true );
+		m_configuration->SetDefault( Configuration::ConfigSections::Input, Configuration::ConfigItems::Input::MouseSmoothAmount, 50 );
 	
 		m_inputManager = OIS::InputManager::createInputSystem( Management::Get( )->GetPlatformManager( )->GetWindowId( ) );
 	
@@ -68,8 +70,8 @@ namespace Input
 		m_mouse->capture( );
 		m_keyboard->capture( );
 
-		m_mouse->getMouseState( ).width = m_configuration->Find( System::ConfigSections::Graphics, "width" ).As< int >( );
-		m_mouse->getMouseState( ).height = m_configuration->Find( System::ConfigSections::Graphics, "height" ).As< int >( );
+		m_mouse->getMouseState( ).width = m_configuration->Find( Configuration::ConfigSections::Graphics, Configuration::ConfigItems::Graphics::Width ).As< int >( );
+		m_mouse->getMouseState( ).height = m_configuration->Find( Configuration::ConfigSections::Graphics, Configuration::ConfigItems::Graphics::Height ).As< int >( );
 
 		for( InputSystemSceneList::iterator i = m_inputScenes.begin( ); i != m_inputScenes.end( ); ++i )
 		{
@@ -168,12 +170,12 @@ namespace Input
 					( *i ).GetMessage( ) != parameters[ System::Attributes::Message ].As< std::string >( )
 					)
 				{
-					m_configuration->Set( System::ConfigSections::Bindings, ( *i ).GetMessage( ), "" );
+					m_configuration->Set( Configuration::ConfigSections::Bindings, ( *i ).GetMessage( ), "" );
 				}
 			}
 
 			m_configuration->Set( 
-				System::ConfigSections::Bindings, 
+				Configuration::ConfigSections::Bindings, 
 				parameters[ System::Attributes::Message ].As< std::string >( ), 
 				parameters[ System::Parameters::Binding ].As< std::string >( ) 
 				);
@@ -184,13 +186,13 @@ namespace Input
 		if ( message == System::Messages::SetInvertYAxis )
 		{
 			m_configuration->Set( 
-				System::ConfigSections::Input,
+				Configuration::ConfigSections::Input,
 				parameters[ System::Attributes::Message ].As< std::string >( ),
 				parameters[ System::Parameters::InvertYAxis ].As< bool >( )
 				);
 		}
 	
-		if ( message == "setInputAllowed" )
+		if ( message == System::Messages::Input::SetInputAllowed )
 		{
 			for( InputSystemSceneList::iterator i = m_inputScenes.begin( ); i != m_inputScenes.end( ); ++i )
 			{
@@ -198,7 +200,7 @@ namespace Input
 			}
 		}
 
-		if ( message == "getMessageBindings" )
+		if ( message == System::Messages::Input::GetMessageBindings )
 		{
 			results[ "result" ] = m_messageBindings;
 		}
@@ -210,7 +212,7 @@ namespace Input
 	{
 		m_messageBindings.clear( );
 
-		AnyType::AnyTypeMap bindings = m_configuration->FindSection( System::ConfigSections::Bindings );
+		AnyType::AnyTypeMap bindings = m_configuration->FindSection( Configuration::ConfigSections::Bindings );
 
 		for ( AnyType::AnyTypeMap::iterator i = bindings.begin( ); i != bindings.end( ); ++i )
 		{

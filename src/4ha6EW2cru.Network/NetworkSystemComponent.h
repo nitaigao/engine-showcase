@@ -31,7 +31,11 @@ namespace Network
 		*
 		* @return (  )
 		*/
-		NetworkSystemComponent( ) { };
+		NetworkSystemComponent( )
+			: m_observer( 0 )
+		{
+
+		}
 
 
 		/*! Initializes the Component
@@ -62,7 +66,7 @@ namespace Network
 		*  @param[in] IObserver * observer
 		*  @return (void)
 		*/
-		inline void AddObserver( IObserver* observer ) { };
+		inline void AddObserver( IObserver* observer ) { m_observer = observer; };
 
 
 		/*! Gets the properties of the Component
@@ -86,7 +90,7 @@ namespace Network
 		*  @param[in] AnyType::AnyValueMap parameters
 		*  @return (AnyType)
 		*/
-		inline AnyType PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters ) { return AnyType( ); };
+		inline AnyType PushMessage( const System::Message& message, AnyType::AnyTypeMap parameters ) { return m_observer->Message( message, parameters ); };
 
 
 		/*! Messages the Component to influence its internal state
@@ -94,7 +98,16 @@ namespace Network
 		*  @param[in] const std::string & message
 		*  @return (AnyType)
 		*/
-		AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters ) { return AnyType( ); };
+		AnyType Message( const System::Message& message, AnyType::AnyTypeMap parameters );
+
+
+		/*! Receives Messages from an inbound network connection
+		*
+		* @param[in] const std::string & message
+		* @param[in] AnyType::AnyTypeMap parameters
+		* @return ( void )
+		*/
+		void MessageFromNetwork( const std::string& message, AnyType::AnyTypeMap parameters );
 
 	private:
 
@@ -102,6 +115,7 @@ namespace Network
 		NetworkSystemComponent & operator = ( const NetworkSystemComponent & copy ) { return *this; };
 
 		AnyType::AnyTypeMap m_attributes;
+		IObserver* m_observer;
 		
 	};
 };
