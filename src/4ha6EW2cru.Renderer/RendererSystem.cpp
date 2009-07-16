@@ -22,6 +22,9 @@ using namespace Maths;
 
 using namespace Events;
 
+#include "Configuration/ConfigurationTypes.hpp"
+using namespace Configuration;
+
 namespace Renderer
 {
 
@@ -62,12 +65,12 @@ namespace Renderer
 		bool defaultVsync = true;
 		std::string defaultWindowTitle = "Interactive View";
 
-		m_configuration->SetDefault( m_configSectionName, "fullscreen", defaultFullScreen );
-		m_configuration->SetDefault( m_configSectionName, "width", defaultWidth );
-		m_configuration->SetDefault( m_configSectionName, "height", defaultHeight );
-		m_configuration->SetDefault( m_configSectionName, "depth", defaultDepth );
-		m_configuration->SetDefault( m_configSectionName, "window_title", defaultWindowTitle );
-		m_configuration->SetDefault( m_configSectionName, "vsync", defaultVsync );
+		m_configuration->SetDefault( ConfigSections::Graphics, ConfigItems::Graphics::FullScreen, defaultFullScreen );
+		m_configuration->SetDefault( ConfigSections::Graphics, ConfigItems::Graphics::Width, defaultWidth );
+		m_configuration->SetDefault( ConfigSections::Graphics, ConfigItems::Graphics::Height, defaultHeight );
+		m_configuration->SetDefault( ConfigSections::Graphics, ConfigItems::Graphics::Depth, defaultDepth );
+		m_configuration->SetDefault( ConfigSections::Graphics, ConfigItems::Graphics::WindowTitle, defaultWindowTitle );
+		m_configuration->SetDefault( ConfigSections::Graphics, ConfigItems::Graphics::VSync, defaultVsync );
 
 		m_root = new Root( );
 
@@ -84,7 +87,6 @@ namespace Renderer
 		ArchiveManager::getSingletonPtr( )->addArchiveFactory( new BadArchiveFactory( ) );
 
 		ResourceGroupManager::getSingleton( ).addResourceLocation( "/", "BAD" );
-		ResourceGroupManager::getSingleton( ).addResourceLocation( "/data/bootstrap", "BAD", ResourceGroupManager::BOOTSTRAP_RESOURCE_GROUP_NAME );
 		ResourceGroupManager::getSingleton( ).initialiseAllResourceGroups( );
 
 		RenderSystemList *renderSystems = m_root->getAvailableRenderers( );
@@ -93,31 +95,31 @@ namespace Renderer
 		m_root->setRenderSystem( *renderSystemIterator );
 
 		std::stringstream videoModeDesc;
-		videoModeDesc << m_configuration->Find( m_configSectionName, "width" ).As< int >( ) << " x " << m_configuration->Find( m_configSectionName, "height" ).As< int >( ) << " @ " << defaultDepth << "-bit colour";
+		videoModeDesc << m_configuration->Find( ConfigSections::Graphics, ConfigItems::Graphics::Width ).As< int >( ) << " x " << m_configuration->Find( ConfigSections::Graphics, ConfigItems::Graphics::Height ).As< int >( ) << " @ " << defaultDepth << "-bit colour";
 		( *renderSystemIterator )->setConfigOption( "Video Mode", videoModeDesc.str( ) );
-		( *renderSystemIterator )->setConfigOption( "Full Screen", m_configuration->Find( m_configSectionName, "fullscreen" ).As< bool >( ) ? "Yes" : "No" );
-		( *renderSystemIterator )->setConfigOption( "VSync", m_configuration->Find( m_configSectionName, "vsync" ).As< bool >( ) ? "Yes" : "No" );
+		( *renderSystemIterator )->setConfigOption( "Full Screen", m_configuration->Find( ConfigSections::Graphics, ConfigItems::Graphics::FullScreen ).As< bool >( ) ? "Yes" : "No" );
+		( *renderSystemIterator )->setConfigOption( "VSync", m_configuration->Find( ConfigSections::Graphics, ConfigItems::Graphics::VSync ).As< bool >( ) ? "Yes" : "No" );
 
 		m_root->initialise( false );
 
 		try
 		{
 			this->CreateRenderWindow(
-				m_configuration->Find( m_configSectionName, "window_title" ).As< std::string >( ), 
-				m_configuration->Find( m_configSectionName, "width" ).As< int >( ), 
-				m_configuration->Find( m_configSectionName, "height" ).As< int >( ),
-				m_configuration->Find( m_configSectionName, "fullscreen" ).As< bool >( )
+				m_configuration->Find( ConfigSections::Graphics, ConfigItems::Graphics::WindowTitle ).As< std::string >( ), 
+				m_configuration->Find( ConfigSections::Graphics, ConfigItems::Graphics::Width ).As< int >( ), 
+				m_configuration->Find( ConfigSections::Graphics, ConfigItems::Graphics::Height ).As< int >( ),
+				m_configuration->Find( ConfigSections::Graphics, ConfigItems::Graphics::FullScreen ).As< bool >( )
 				);
 		}
 		catch( Exception e )
 		{
 			if ( e.getNumber( ) == Exception::ERR_RENDERINGAPI_ERROR )
 			{
-				m_configuration->Set( m_configSectionName, "fullscreen", defaultFullScreen );
-				m_configuration->Set( m_configSectionName, "width", defaultWidth );
-				m_configuration->Set( m_configSectionName, "height", defaultHeight );
-				m_configuration->Set( m_configSectionName, "depth", defaultDepth );
-				m_configuration->Set( m_configSectionName, "window_title", defaultWindowTitle );
+				m_configuration->Set( ConfigSections::Graphics, ConfigItems::Graphics::FullScreen, defaultFullScreen );
+				m_configuration->Set( ConfigSections::Graphics, ConfigItems::Graphics::Width, defaultWidth );
+				m_configuration->Set( ConfigSections::Graphics, ConfigItems::Graphics::Height, defaultHeight );
+				m_configuration->Set( ConfigSections::Graphics, ConfigItems::Graphics::Depth, defaultDepth );
+				m_configuration->Set( ConfigSections::Graphics, ConfigItems::Graphics::WindowTitle, defaultWindowTitle );
 
 				Management::Get( )->GetPlatformManager( )->CloseWindow( );
 			}
@@ -307,7 +309,7 @@ namespace Renderer
 		
 		NameValuePairList params;
 		params[ "externalWindowHandle" ] = StringConverter::toString( ( int ) Management::Get( )->GetPlatformManager( )->GetWindowId( ) );
-		params[ "vsync" ] = m_configuration->Find( m_configSectionName, "vsync" ).As< bool >( ) ? "true" : "false";
+		params[ ConfigItems::Graphics::VSync ] = m_configuration->Find( ConfigSections::Graphics, ConfigItems::Graphics::VSync ).As< bool >( ) ? "true" : "false";
 
 		m_window = m_root->createRenderWindow( windowTitle, width, height, fullScreen, &params ); 
 	}
@@ -329,9 +331,9 @@ namespace Renderer
 		if ( message == "changeResolution" )
 		{
 			m_window->setFullscreen(  
-				parameters[ "fullScreen" ].As< bool >( ),
-				parameters[ "width" ].As< int >( ),
-				parameters[ "height" ].As< int >( )
+				parameters[ ConfigItems::Graphics::FullScreen ].As< bool >( ),
+				parameters[ ConfigItems::Graphics::Width ].As< int >( ),
+				parameters[ ConfigItems::Graphics::Height ].As< int >( )
 				);
 		}
 

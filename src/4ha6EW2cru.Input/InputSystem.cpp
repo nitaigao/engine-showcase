@@ -180,6 +180,29 @@ namespace Input
 			this->LoadMessageBindings( );
 		}
 
+		if ( message == System::Messages::Input::SetDefaultBindingForMessage )
+		{
+			// if the binding is already set, unset the old binding
+			for ( InputMessageBinding::InputMessageBindingList::iterator i = m_messageBindings.begin( ); i != m_messageBindings.end( ); ++i )
+			{
+				if( 
+					( *i ).GetFullCode( ) == parameters[ System::Parameters::Binding ].As< std::string >( ) &&
+					( *i ).GetMessage( ) != parameters[ System::Attributes::Message ].As< std::string >( )
+					)
+				{
+					m_configuration->Set( Configuration::ConfigSections::Bindings, ( *i ).GetMessage( ), "" );
+				}
+			}
+
+			m_configuration->SetDefault( 
+				Configuration::ConfigSections::Bindings, 
+				parameters[ System::Attributes::Message ].As< std::string >( ), 
+				parameters[ System::Parameters::Binding ].As< std::string >( ) 
+				);
+
+			this->LoadMessageBindings( );
+		}
+
 		if ( message == System::Messages::SetInvertYAxis )
 		{
 			m_configuration->Set( 

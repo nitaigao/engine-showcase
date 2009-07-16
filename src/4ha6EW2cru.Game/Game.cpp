@@ -9,6 +9,7 @@ using namespace Logging;
 #include "Management/Management.h"
 
 #include "Configuration/Configuration.h"
+#include "Configuration/ConfigurationTypes.hpp"
 using namespace Configuration;
 
 #include "State/World.h"
@@ -25,9 +26,9 @@ using namespace Events;
 void Game::Initialize( )
 {
 	Logger::Initialize( );
-	Management::Initialize( );
+	Logger::Get( )->SetLogLevel( Logging::LEVEL_WARN );
 
-	AnyType::AnyTypeMap programOptions = Management::Get( )->GetPlatformManager( )->GetProgramOptions( );
+	Management::Initialize( );
 
 	if ( m_isInitialized )
 	{
@@ -36,22 +37,23 @@ void Game::Initialize( )
 		throw e;
 	}
 
-#ifdef _DEBUG
-	Logger::Get( )->SetLogLevel( Logging::LEVEL_ALL );
-#endif // _DEBUG
-
 	// -- Set Configuration Defaults 
 
 	m_configuration = ClientConfiguration::Load( "config/game.cfg" );
-	m_configuration->SetDefault( "Developer", "console", false );
-	m_configuration->SetDefault( "Logging", "level", static_cast< int >( LEVEL_FATAL ) );
+	m_configuration->SetDefault( ConfigSections::Developer, ConfigItems::Developer::Console, false );
+	m_configuration->SetDefault( ConfigSections::Logging, ConfigItems::Logging::LogLevel, static_cast< int >( LEVEL_FATAL ) );
 
-	LogLevel logLevel = static_cast< LogLevel >( m_configuration->Find( "Logging", "level" ).As< int >( ) );
+#ifdef _DEBUG
+	m_configuration->SetDefault( ConfigSections::Logging, ConfigItems::Logging::LogLevel, static_cast< int >( LEVEL_ALL ) );
+#endif // _DEBUG
+
+	LogLevel logLevel = static_cast< LogLevel >( m_configuration->Find( ConfigSections::Logging, ConfigItems::Logging::LogLevel ).As< int >( ) );
 	Logger::Get( )->SetLogLevel( logLevel );
 
 	// -- Initialize All Systems
 
 	ISystemManager* systemManager = Management::Get( )->GetSystemManager( );
+	AnyType::AnyTypeMap programOptions = Management::Get( )->GetPlatformManager( )->GetProgramOptions( );
 
 	// -- Server
 

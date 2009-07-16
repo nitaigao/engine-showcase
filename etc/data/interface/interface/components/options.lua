@@ -269,6 +269,13 @@ end
 
 function Options.setupMessageBindings( )
 
+	input:setDefaultMessageBinding( '+move_forward', 'k_17' )
+	input:setDefaultMessageBinding( '+move_backward', 'k_31' )
+	input:setDefaultMessageBinding( '+strafe_left', 'k_30' )
+	input:setDefaultMessageBinding( '+strafe_right', 'k_32' )
+	input:setDefaultMessageBinding( '+attack_primary', 'm_0' )
+	input:setDefaultMessageBinding( 'jump', 'k_57' )
+
 	local keymapList = ux:findWidget( 'options_keylist' ):asMultiList( )
 	keymapList:removeAllItems( )
 	

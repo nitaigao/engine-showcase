@@ -18,10 +18,17 @@ namespace Configuration
 	{
 		m_ini = new CSimpleIni( true );
 		m_ini->Load( fileBuffer->fileBytes );
+		m_filePath = fileBuffer->filePath;
 	}
 
 	ConfigurationFile* ConfigurationFile::Load( const std::string& filePath )
 	{
+		if ( !Management::Get( )->GetFileManager( )->FileExists( filePath ) )
+		{
+			FileBuffer fileBuffer( 0, 0, filePath );
+			Management::Get( )->GetFileManager( )->SaveFile( fileBuffer );
+		}
+
 		Resources::IResource* resource = Management::Get( )->GetResourceManager( )->GetResource( filePath );
 		return new ConfigurationFile( resource->GetFileBuffer( ) );
 	}
@@ -49,8 +56,6 @@ namespace Configuration
 		return result;
 	}
 
-
-
 	void ConfigurationFile::Update( const std::string& section, const std::string& key, const AnyType& value )
 	{
 		AnyType& unConstValue = const_cast< AnyType& >( value );
@@ -71,7 +76,7 @@ namespace Configuration
 		}
 	}
 
-	void ConfigurationFile::Save( const std::string& filePath )
+	void ConfigurationFile::Save( )
 	{
 		std::string output;
 		m_ini->Save( output );
@@ -80,7 +85,7 @@ namespace Configuration
 		memcpy( outputBuffer, output.c_str( ), output.length( ) );
 		outputBuffer[ output.length( ) ] = '\0';
 
-		FileBuffer fileBuffer( outputBuffer, output.length( ), filePath );
+		FileBuffer fileBuffer( outputBuffer, output.length( ), m_filePath );
 		Management::Get( )->GetFileManager( )->SaveFile( fileBuffer );
 	}
 

@@ -19,7 +19,8 @@ namespace Configuration
 	 */
 	class ClientConfiguration : public IConfiguration
 	{
-		typedef std::map< std::string, AnyType > DefaultPropertyList;
+		typedef std::pair< std::string, AnyType > KeyValuePair;
+		typedef std::multimap< std::string, KeyValuePair > DefaultPropertyList;
 
 	public:
 

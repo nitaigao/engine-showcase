@@ -45,7 +45,6 @@ namespace Renderer
 			, m_window( 0 )
 			, m_sceneManager( 0 )
 			, m_scene( 0 )
-			, m_configSectionName( "Graphics" )
 		{
 
 		}
@@ -143,7 +142,6 @@ namespace Renderer
 		Configuration::IConfiguration* m_configuration;
 		IRenderSystemScene* m_scene;
 
-		std::string m_configSectionName;
 		std::string m_skyBoxMaterial;
 
 		Ogre::Root* m_root;

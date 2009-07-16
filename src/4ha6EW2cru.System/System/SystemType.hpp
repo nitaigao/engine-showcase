@@ -206,9 +206,10 @@ namespace System
 
 		namespace Input
 		{
-			static const Message GetTextForMessage		=	"getTextForMessage";
-			static const Message GetMessageBindings		=	"getMessageBindings";
-			static const Message SetInputAllowed		=	"setInputAllowed";
+			static const Message GetTextForMessage				=	"getTextForMessage";
+			static const Message GetMessageBindings				=	"getMessageBindings";
+			static const Message SetInputAllowed				=	"setInputAllowed";
+			static const Message SetDefaultBindingForMessage	=	"setDefaultBindingForMessage";
 		}
 
 		namespace Game

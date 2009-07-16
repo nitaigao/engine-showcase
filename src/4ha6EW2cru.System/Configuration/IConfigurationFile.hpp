@@ -56,10 +56,9 @@ namespace Configuration
 
 		/*! Saves the configuration file to the File System
 		*
-		*  @param[in] const std::string & filePath
 		*  @return (void)
 		*/
-		virtual void Save( const std::string& filePath ) = 0;
+		virtual void Save( ) = 0;
 
 	};
 };

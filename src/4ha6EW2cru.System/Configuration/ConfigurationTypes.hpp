@@ -44,6 +44,8 @@ namespace Configuration
 			static const ConfigItem Width					=	"width";
 			static const ConfigItem Height					=	"height";
 			static const ConfigItem Depth					=	"depth";
+			static const ConfigItem WindowTitle				=	"window_title";
+			static const ConfigItem VSync					=	"vsync";
 		}
 
 		namespace Developer
@@ -62,6 +64,11 @@ namespace Configuration
 		{
 			static const ConfigItem SFXVolume				=	"sfx_volume";
 			static const ConfigItem MusicVolume				=	"music_volume";
+		}
+
+		namespace Logging
+		{
+			static const ConfigItem LogLevel				=	"level";
 		}
 	}
 };

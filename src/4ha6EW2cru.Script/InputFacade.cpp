@@ -19,6 +19,7 @@ namespace Script
 				.def( constructor< >( ) )
 				.def( "getTextForMessage", &InputFacade::GetTextForMessage )
 				.def( "setMessageBinding", &InputFacade::SetMessageBinding )
+				.def( "setDefaultMessageBinding", &InputFacade::SetDefaultMessageBinding )
 			);
 	}
 
@@ -42,5 +43,16 @@ namespace Script
 		parameters[ System::Parameters::Binding ] = binding;
 
 		inputService->Execute( System::Messages::SetBindingForMessage, parameters );
+	}
+
+	void InputFacade::SetDefaultMessageBinding( const std::string& message, const std::string& binding )
+	{
+		IService* inputService = Management::Get( )->GetServiceManager( )->FindService( System::Types::INPUT );
+
+		AnyType::AnyTypeMap parameters;
+		parameters[ System::Attributes::Message ] = message;
+		parameters[ System::Parameters::Binding ] = binding;
+
+		inputService->Execute( System::Messages::Input::SetDefaultBindingForMessage, parameters );
 	}
 }

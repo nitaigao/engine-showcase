@@ -67,16 +67,17 @@ namespace Configuration
 
 		/*! Saves the configuration file to the File System
 		 *
-		 *  @param[in] const std::string & filePath
 		 *  @return (void)
 		 */
-		void Save( const std::string& filePath );
+		void Save( );
 
 	private:
 
+		ConfigurationFile( ) { }
 		ConfigurationFile( const IO::FileBuffer* fileBuffer );
 
 		CSimpleIni* m_ini;
+		std::string m_filePath;
 
 		ConfigurationFile( const ConfigurationFile & copy ) { };
 		ConfigurationFile & operator = ( const ConfigurationFile & copy ) { return *this; };

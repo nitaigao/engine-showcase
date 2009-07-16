@@ -59,6 +59,15 @@ namespace Script
 		*/
 		void SetMessageBinding( const std::string& message, const std::string& binding );
 
+
+		/*! Sets a default binding for the given message which will be used if the binding isn't specified in the config file
+		*
+		* @param[in] const std::string & message
+		* @param[in] const std::string & binding
+		* @return ( void )
+		*/
+		void SetDefaultMessageBinding( const std::string& message, const std::string& binding );
+
 	private:
 
 		InputFacade( const InputFacade & copy ) { };

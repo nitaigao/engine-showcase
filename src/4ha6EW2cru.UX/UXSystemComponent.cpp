@@ -11,6 +11,9 @@ using namespace Services;
 
 #include "Management/Management.h"
 
+#include "Logging/Logger.h";
+using namespace Logging;
+
 namespace UX
 {
 	void UXSystemComponent::ChangeResolution( int width, int height, bool isFullScreen )
@@ -140,7 +143,18 @@ namespace UX
 			if ( ( *i ).first == "onRelease" )
 			{
 				object eventHandler = *( *i ).second;
-				eventHandler( static_cast< int >( id.value ), left, top );
+
+				try
+				{
+					eventHandler( static_cast< int >( id.value ), left, top );
+				}
+				catch( error& e )
+				{
+					object error_msg( from_stack( e.state( ) , -1 ) );
+					std::stringstream logMessage;
+					logMessage << error_msg;
+					Logger::Get( )->Warn( logMessage.str( ) );
+				}
 			}
 		}
 	}
@@ -155,7 +169,18 @@ namespace UX
 			if ( ( *i ).first == "onClick" )
 			{
 				object eventHandler = *( *i ).second;
-				eventHandler( static_cast< int >( id.value ), left, top );
+
+				try
+				{
+					eventHandler( static_cast< int >( id.value ), left, top );
+				}
+				catch( error& e )
+				{
+					object error_msg( from_stack( e.state( ) , -1 ) );
+					std::stringstream logMessage;
+					logMessage << error_msg;
+					Logger::Get( )->Warn( logMessage.str( ) );
+				}
 			}
 		}
 	}
@@ -173,7 +198,18 @@ namespace UX
 				char* keyText = ( char* ) &keyCode;
 
 				object eventHandler = *( *i ).second;
-				eventHandler( static_cast< int >( key.value ), std::string( keyText ) );
+
+				try
+				{
+					eventHandler( static_cast< int >( key.value ), std::string( keyText ) );
+				}
+				catch( error& e )
+				{
+					object error_msg( from_stack( e.state( ) , -1 ) );
+					std::stringstream logMessage;
+					logMessage << error_msg;
+					Logger::Get( )->Warn( logMessage.str( ) );
+				}
 			}
 		}
 	}
@@ -188,7 +224,18 @@ namespace UX
 			if ( ( *i ).first == "onListSelectAccept" )
 			{
 				object eventHandler = *( *i ).second;
-				eventHandler( index );
+
+				try
+				{
+					eventHandler( index );
+				}
+				catch( error& e )
+				{
+					object error_msg( from_stack( e.state( ) , -1 ) );
+					std::stringstream logMessage;
+					logMessage << error_msg;
+					Logger::Get( )->Warn( logMessage.str( ) );
+				}
 			}
 		}
 	}
@@ -203,7 +250,18 @@ namespace UX
 			if ( ( *i ).first == "onScrollChangePosition" )
 			{
 				object eventHandler = *( *i ).second;
-				eventHandler( static_cast< int >( position ) );
+
+				try
+				{
+					eventHandler( static_cast< int >( position ) );
+				}
+				catch( error& e )
+				{
+					object error_msg( from_stack( e.state( ) , -1 ) );
+					std::stringstream logMessage;
+					logMessage << error_msg;
+					Logger::Get( )->Warn( logMessage.str( ) );
+				}
 			}
 		}
 	}
