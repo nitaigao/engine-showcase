@@ -162,9 +162,9 @@ namespace Maths
 		inline MathVector3 Round( ) const
 		{
 			return MathVector3(
-				Maths::Round( X ),
-				Maths::Round( Y ),
-				Maths::Round( Z )
+				MathUnits::Round( X ),
+				MathUnits::Round( Y ),
+				MathUnits::Round( Z )
 				);
 		}
 

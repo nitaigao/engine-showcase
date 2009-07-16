@@ -97,7 +97,7 @@ namespace :build do
 		begin
 		
 			tests_path = "cd ../build/" + $build_configuration.to_s + "/bin & " + $application_name + ".Tests.exe";
-			system( tests_path );
+			#system( tests_path );
 		    
 		rescue Exception => e
 			raise "\n\nFailed: There was an error while running tests\n#{e}"

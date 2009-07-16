@@ -10,6 +10,8 @@
 #include "IConfiguration.hpp"
 #include "IConfigurationFile.hpp"
 
+#include "../Export.hpp"
+
 namespace Configuration
 {
 	/*! 
@@ -33,7 +35,7 @@ namespace Configuration
 		 *  @param[in] const std::string & filePath
 		 *  @return (ClientConfiguration*)
 		 */
-		static IConfiguration* Load( const std::string& filePath );
+		static GAMEAPI IConfiguration* Load( const std::string& filePath );
 
 
 		/*! Finds a configuration item based on the specified section and key
@@ -42,7 +44,7 @@ namespace Configuration
 		 *  @param[in] const std::string & key
 		 *  @return (AnyType)
 		 */
-		AnyType Find( const std::string& section, const std::string& key );
+		GAMEAPI AnyType Find( const std::string& section, const std::string& key );
 
 
 		/*! Finds an entire section
@@ -50,7 +52,7 @@ namespace Configuration
 		* @param[in] const std::string & section
 		* @return ( AnyType::AnyTypeMap )
 		*/
-		AnyType::AnyTypeMap FindSection( const std::string& section );
+		GAMEAPI AnyType::AnyTypeMap FindSection( const std::string& section );
 
 
 		/*! Sets the default value for a configuration item
@@ -60,7 +62,7 @@ namespace Configuration
 		 *  @param[in] const AnyType & value
 		 *  @return (void)
 		 */
-		void SetDefault( const std::string& section, const std::string& key, const AnyType& value );
+		GAMEAPI void SetDefault( const std::string& section, const std::string& key, const AnyType& value );
 
 
 		/*! Sets the value for a configuration item
@@ -70,7 +72,7 @@ namespace Configuration
 		 *  @param[in] const AnyType & value
 		 *  @return (void)
 		 */
-		void Set( const std::string& section, const std::string& key, const AnyType& value );
+		GAMEAPI void Set( const std::string& section, const std::string& key, const AnyType& value );
 
 	private:
 

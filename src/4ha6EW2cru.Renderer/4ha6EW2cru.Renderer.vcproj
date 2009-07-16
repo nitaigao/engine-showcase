@@ -40,8 +40,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../4ha6EW2cru.System;../../etc/vendor/raknet/Source;../../etc/vendor/physfs;../../etc/vendor/lua/include;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/ois/includes;../../etc/vendor/luabind;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/yaml/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc"
-				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;_EXPORT"
+				AdditionalIncludeDirectories="../4ha6EW2cru.System;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc;../../etc/vendor/tinyxml/include"
+				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;EXPORT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -59,8 +59,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib Rpcrt4.lib"
-				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;"
+				AdditionalDependencies="ogremain_d.lib tinyxmld.lib Rpcrt4.lib"
+				AdditionalLibraryDirectories="../../etc/vendor/ogre/lib; ../../etc/vendor/tinyxml/lib"
+				IgnoreDefaultLibraryNames="LIBCMT"
 				ModuleDefinitionFile="SystemDefinition.def"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
@@ -114,6 +115,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="../4ha6EW2cru.System;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc;../../etc/vendor/tinyxml/include"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;EXPORT"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -130,6 +133,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="ogremain.lib tinyxml.lib Rpcrt4.lib"
+				AdditionalLibraryDirectories="../../etc/vendor/ogre/lib; ../../etc/vendor/tinyxml/lib"
+				IgnoreDefaultLibraryNames="LIBCMT"
+				ModuleDefinitionFile="SystemDefinition.def"
 				GenerateDebugInformation="true"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -179,6 +186,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OgreMax\OgreMaxModel.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreMax\OgreMaxScene.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreMax\OgreMaxUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreMax\ProgressCalculator.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\RendererSystem.cpp"
 				>
 			</File>
@@ -200,6 +223,10 @@
 			</File>
 			<File
 				RelativePath=".\SystemDefinition.def"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreMax\Version.cpp"
 				>
 			</File>
 		</Filter>
@@ -229,6 +256,34 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OgreMax\OgreMaxModel.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreMax\OgreMaxPlatform.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreMax\OgreMaxRenderWindowIterator.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreMax\OgreMaxScene.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreMax\OgreMaxTypes.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreMax\OgreMaxUtilities.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreMax\ProgressCalculator.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\RendererSystem.h"
 				>
 			</File>
@@ -242,6 +297,10 @@
 			</File>
 			<File
 				RelativePath=".\RendererSystemScene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreMax\Version.hpp"
 				>
 			</File>
 		</Filter>

@@ -11,6 +11,7 @@ using namespace luabind;
 
 #include "Events/EventType.hpp"
 #include "Events/EventData.hpp"
+#include "Events/InputEventData.hpp"
 using namespace Events;
 
 #include "UXSystemComponent.h"

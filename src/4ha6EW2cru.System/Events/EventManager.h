@@ -13,6 +13,8 @@
 #include "IEvent.hpp"
 #include "EventListener.h"
 
+#include "../Export.hpp"
+
 namespace Events
 {
 	/*! 
@@ -45,7 +47,7 @@ namespace Events
 		 *  @param[in] const IEvent * event
 		 *  @return (void)
 		 */
-		void QueueEvent( const Events::IEvent* event );
+		GAMEAPI void QueueEvent( const Events::IEvent* event );
 
 
 		/*! Processes an Event immediately
@@ -53,7 +55,7 @@ namespace Events
 		 *  @param[in] const IEvent * event
 		 *  @return (void)
 		 */
-		void TriggerEvent( const Events::IEvent* event );
+		GAMEAPI void TriggerEvent( const Events::IEvent* event );
 
 		
 		/*! Dispatched all events in the Event Queue to their Listening Event Handlers

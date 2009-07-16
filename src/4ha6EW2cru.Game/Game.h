@@ -8,18 +8,13 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "System/ISystem.hpp"
 #include "Configuration/IConfiguration.hpp"
 
 #include "Events/IEvent.hpp"
 #include "State/IWorld.hpp"
 #include "State/Serilaization/IWorldLoader.hpp"
 
-#ifdef _EXPORT
-#    define GAMEAPI __declspec( dllexport )
-#else
-#    define GAMEAPI __declspec( dllimport )
-#endif
+#include "Export.hpp"
 
 /*! 
  *  The core container of the Game

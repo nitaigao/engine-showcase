@@ -8,7 +8,7 @@
 #include "Maths/MathQuaternion.hpp"
 using namespace Maths;
 
-#include "Utility/OgreMax/OgreMaxModel.hpp"
+#include "OgreMax/OgreMaxModel.hpp"
 using namespace OgreMax;
 using namespace Ogre;
 

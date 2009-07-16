@@ -19,7 +19,7 @@
 			Name="Debug|Win32"
 			OutputDirectory="../../build/debug/bin/"
 			IntermediateDirectory="../../build/debug/obj/4ha6EW2cru.System"
-			ConfigurationType="4"
+			ConfigurationType="2"
 			CharacterSet="2"
 			>
 			<Tool
@@ -40,8 +40,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/havok/source;../../etc/vendor/fmod/inc;../../etc/vendor/physfs"
-				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;_EXPORT"
+				AdditionalIncludeDirectories="../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/havok/source;../../etc/vendor/fmod/inc;../../etc/vendor/physfs;../../etc/vendor/tinyxml/include"
+				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;EXPORT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -58,12 +58,16 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
-				AdditionalDependencies="ogremain_d.lib physfsd.lib"
-				AdditionalLibraryDirectories="../../etc/vendor/ogre/lib;../../etc/vendor/physfs"
+				Name="VCLinkerTool"
+				AdditionalDependencies="winmm.lib Rpcrt4.lib ogremain_d.lib physfsd.lib tinyxmld.lib"
+				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;../../etc/vendor/ogre/lib;../../etc/vendor/physfs;../../etc/vendor/tinyxml/lib"
+				IgnoreDefaultLibraryNames="LIBCMT"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -73,6 +77,9 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -105,6 +112,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/havok/source;../../etc/vendor/fmod/inc;../../etc/vendor/physfs;../../etc/vendor/tinyxml/include"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;EXPORT"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -121,6 +130,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="winmm.lib ogremain.lib physfs.lib tinyxml.lib"
+				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;../../etc/vendor/ogre/lib;../../etc/vendor/physfs;../../etc/vendor/tinyxml/lib"
+				IgnoreDefaultLibraryNames="LIBCMT"
 				GenerateDebugInformation="true"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -190,6 +202,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Export.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\IO\FileSystem.cpp"
 				>
 			</File>
@@ -222,23 +238,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Utility\OgreMax\OgreMaxModel.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\OgreMax\OgreMaxScene.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\OgreMax\OgreMaxUtilities.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\State\Serilaization\PhysicsComponentSerializer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\OgreMax\ProgressCalculator.cpp"
 				>
 			</File>
 			<File
@@ -259,26 +259,6 @@
 			</File>
 			<File
 				RelativePath=".\System\SystemManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\tinyxml\ticpp.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\tinyxml\tinyxml.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\tinyxml\tinyxmlerror.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\tinyxml\tinyxmlparser.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\OgreMax\Version.cpp"
 				>
 			</File>
 			<File
@@ -436,6 +416,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Events\InputEventData.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\System\Instrumentation.hpp"
 				>
 			</File>
@@ -536,39 +520,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Utility\OgreMax\OgreMaxModel.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\OgreMax\OgreMaxPlatform.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\OgreMax\OgreMaxRenderWindowIterator.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\OgreMax\OgreMaxScene.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\OgreMax\OgreMaxTypes.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\OgreMax\OgreMaxUtilities.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Exceptions\OutOfRangeException.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\State\Serilaization\PhysicsComponentSerializer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\OgreMax\ProgressCalculator.hpp"
 				>
 			</File>
 			<File
@@ -632,23 +588,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Utility\tinyxml\ticpp.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\tinyxml\ticpprc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\tinyxml\tinyxml.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Exceptions\UnInitializedException.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Utility\OgreMax\Version.hpp"
 				>
 			</File>
 			<File

@@ -2,9 +2,6 @@
 
 using namespace Maths;
 
-#include <luabind/luabind.hpp>
-using namespace luabind;
-
 namespace Sound
 {
 	AnyType SoundSystemComponent::Message( const System::Message& message, AnyType::AnyTypeMap parameters )

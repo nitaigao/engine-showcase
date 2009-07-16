@@ -9,10 +9,12 @@
 
 #include <queue>
 
-#include "../../Utility/tinyxml/ticpp.h"
+#include "../../Export.hpp"
 
 #include "IWorldLoader.hpp"
 #include "../IWorld.hpp"
+
+#include <ticpp.h>
 
 namespace Serialization
 {
@@ -30,7 +32,7 @@ namespace Serialization
 		*
 		*  @return ()
 		*/
-		~XMLSerializer( );
+		GAMEAPI ~XMLSerializer( );
 
 
 		/*! Default Constructor
@@ -51,7 +53,7 @@ namespace Serialization
 		*  @param[in] const std::string & levelPath
 		*  @return (void)
 		*/
-		void Load( const std::string& levelPath );
+		GAMEAPI void Load( const std::string& levelPath );
 
 
 		/*! Steps the loading process
@@ -59,7 +61,7 @@ namespace Serialization
 		*  @param[in] float deltaMilliseconds
 		*  @return (void)
 		*/
-		void Update( const float& deltaMilliseconds );
+		GAMEAPI void Update( const float& deltaMilliseconds );
 
 
 		/*! Returns whether or no the Serializer has finished its loading task

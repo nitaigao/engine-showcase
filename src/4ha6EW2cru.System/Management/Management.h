@@ -8,8 +8,9 @@
 #ifndef MANAGEMENT_H
 #define MANAGEMENT_H
 
-#include "../Events/EventManager.h"
+#include "../Export.hpp"
 
+#include "../Events/EventManager.h"
 #include "../IO/IResourceCache.hpp"
 #include "../Service/IServiceManager.h"
 #include "../Platform/IPlatformManager.h"
@@ -29,14 +30,14 @@ public:
 	 *
 	 *  @return (void)
 	 */
-	static void Release( );
+	static GAMEAPI void Release( );
 
 
 	/*! Creates the Singleton Instance of Management
 	 *
 	 *  @return (void)
 	 */
-	static void Initialize( );
+	static GAMEAPI void Initialize( );
 
 	
 	/*! Initializes Management from another instance of the Singleton, for use accross dll boundaries
@@ -44,7 +45,7 @@ public:
 	* @param[in] Management * management
 	* @return ( void )
 	*/
-	static void Initialize( Management* management );
+	static GAMEAPI void Initialize( Management* management );
 
 
 	/*! Returns whether or not the Singleton has been initialized
@@ -58,7 +59,7 @@ public:
 	*
 	* @return ( Management* )
 	*/
-	static Management* Get( );
+	static GAMEAPI Management* Get( );
 
 
 	/*! Steps the internal data of each Manager
@@ -66,7 +67,7 @@ public:
 	 *  @param[in] float deltaMilliseconds
 	 *  @return (void)
 	 */
-	void Update( const float& deltaMilliseconds );
+	GAMEAPI void Update( const float& deltaMilliseconds );
 
 
 	/*! Returns the System Manager

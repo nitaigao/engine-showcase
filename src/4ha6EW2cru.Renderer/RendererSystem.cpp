@@ -338,7 +338,7 @@ namespace Renderer
 		if ( message == "drawLine" )
 		{
 			std::stringstream lineName;
-			lineName << "line-" << Maths::GenUUID( );
+			lineName << "line-" << MathUnits::GenUUID( );
 
 			Line3D* line = static_cast< Line3D* >( m_sceneManager->createMovableObject( lineName.str( ), Line3D::TypeName( ) ) );
 

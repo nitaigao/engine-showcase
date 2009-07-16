@@ -8,7 +8,7 @@
 #define ICOMPONENTSERIALIZER_HPP
 
 #include <string>
-#include "../../Utility/tinyxml/ticpp.h"
+#include <ticpp.h>
 
 #include "../../System/ISystemComponent.hpp"
 #include "../../System/ISystemScene.hpp"

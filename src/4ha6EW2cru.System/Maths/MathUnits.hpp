@@ -10,83 +10,90 @@
 
 #include <Rpc.h>
 
+#include "../Export.hpp"
+
 namespace Maths
 {
-	static const float PI = 4.0 * atan( 1.0 );
-
-
-	/*! Converts the given Radians to Degrees
-	*
-	* @param[in] const int & radians
-	* @return ( float )
-	*/
-	template< class T >
-	static inline T ToDegrees( const T& radians )
+	class MathUnits
 	{
-		return radians * ( 180.0f / Maths::PI );
-	}
+
+	public:
+
+		static float PI( ) { return 4.0 * atan( 1.0 ); };
+
+		/*! Converts the given Radians to Degrees
+		*
+		* @param[in] const int & radians
+		* @return ( float )
+		*/
+		template< class T >
+		static inline T ToDegrees( const T& radians )
+		{
+			return radians * ( 180.0f / MathUnits::PI( ) );
+		}
 
 
-	/*! Converts the given Degrees to Radians
-	*
-	* @param[in] const int & degrees
-	* @return ( float )
-	*/
-	template< class T >
-	static inline T ToRadians( const T& degrees )
-	{
-		return degrees * ( Maths::PI / 180.0f );
-	}
+		/*! Converts the given Degrees to Radians
+		*
+		* @param[in] const int & degrees
+		* @return ( float )
+		*/
+		template< class T >
+		static inline T ToRadians( const T& degrees )
+		{
+			return degrees * ( MathUnits::PI( ) / 180.0f );
+		}
 
-	/*! Clamps the input value to within the region of the min & max values
-	 *
-	 *  @param[in] T input
-	 *  @param[in] T min
-	 *  @param[in] T max
-	 *  @return (T)
-	 */
-	template< class T >
-	static inline T Clamp( const T& input, const T& min, const T& max )
-	{
-		if ( input < min ) return min;
-		if ( input > max ) return max;
-		return input;
-	}
-
-
-	/*! Rounds the given number to the nearest whole number
-	*
-	* @param[in] T value
-	* @return ( T )
-	*/
-	template< class T >
-	static inline T Round( T value )
-	{
-		T integral = 0;
-		return ( modf( value, &integral ) > 0.5 ) ? ceil( value ) : floor( value );
-	}
+		/*! Clamps the input value to within the region of the min & max values
+		 *
+		 *  @param[in] T input
+		 *  @param[in] T min
+		 *  @param[in] T max
+		 *  @return (T)
+		 */
+		template< class T >
+		static inline T Clamp( const T& input, const T& min, const T& max )
+		{
+			if ( input < min ) return min;
+			if ( input > max ) return max;
+			return input;
+		}
 
 
-	/*! Generates a unique UUID
-	*
-	* @return ( std::string )
-	*/
-	static std::string GenUUID( )
-	{
-		UUID uuid;
+		/*! Rounds the given number to the nearest whole number
+		*
+		* @param[in] T value
+		* @return ( T )
+		*/
+		template< class T >
+		static inline T Round( T value )
+		{
+			T integral = 0;
+			return ( modf( value, &integral ) > 0.5 ) ? ceil( value ) : floor( value );
+		}
 
-		ZeroMemory( &uuid, sizeof( UUID ) );
 
-		UuidCreate( &uuid );
+		/*! Generates a unique UUID
+		*
+		* @return ( std::string )
+		*/
+		static inline std::string GenUUID( )
+		{
+			UUID uuid;
 
-		RPC_CSTR uuidChar;
-		UuidToString( &uuid, &uuidChar );
+			ZeroMemory( &uuid, sizeof( UUID ) );
 
-		std::stringstream uuidString;
-		uuidString << uuidChar;
+			UuidCreate( &uuid );
 
-		return uuidString.str( );
-	}
+			RPC_CSTR uuidChar;
+			UuidToString( &uuid, &uuidChar );
+
+			std::stringstream uuidString;
+			uuidString << uuidChar;
+
+			return uuidString.str( );
+		}
+	};
 }
 
 

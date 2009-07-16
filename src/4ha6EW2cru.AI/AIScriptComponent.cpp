@@ -66,14 +66,14 @@ namespace AI
 		MathVector3 aiToOrigin = ( MathVector3::Zero( ) - aiPosition ).Normalize( );
 
 		float aiToTargetDot = aiToOrigin.DotProduct( aiToPlayer );
-		float aiToTargetAngle = acos( Maths::Clamp( aiToTargetDot, -1.0f, 1.0f ) );
+		float aiToTargetAngle = acos( MathUnits::Clamp( aiToTargetDot, -1.0f, 1.0f ) );
 
 		MathVector3 aiToTargetCross = aiToOrigin.CrossProduct( aiToPlayer );
 
 		if( aiToTargetCross.Y < 0 )
 		{
-			float delta = Maths::PI - aiToTargetAngle;
-			aiToTargetAngle = Maths::PI + delta;
+			float delta = MathUnits::PI( ) - aiToTargetAngle;
+			aiToTargetAngle = MathUnits::PI( ) + delta;
 		}
 
 		// Angle from Forward to Origin
@@ -82,14 +82,14 @@ namespace AI
 		MathVector3 aiToForward = ( aiForward - aiPosition ).Normalize( );
 
 		float aiForwardToOrigin = aiToForward.DotProduct( aiToOrigin );
-		float aiForwardToOriginAngle = acos( Maths::Clamp( aiForwardToOrigin, -1.0f, 1.0f ) );
+		float aiForwardToOriginAngle = acos( MathUnits::Clamp( aiForwardToOrigin, -1.0f, 1.0f ) );
 
 		MathVector3 aiForwardToOriginCross = aiToForward.CrossProduct( aiToOrigin );
 
 		if( aiForwardToOriginCross.Y < 0 )
 		{
-			float delta = Maths::PI - aiForwardToOriginAngle;
-			aiForwardToOriginAngle = Maths::PI + delta;
+			float delta = MathUnits::PI( ) - aiForwardToOriginAngle;
+			aiForwardToOriginAngle = MathUnits::PI( ) + delta;
 		}
 
 		// rotate to origin - then rotate to player from origin
@@ -103,7 +103,7 @@ namespace AI
 
 	void AIScriptComponent::FireWeapon( )
 	{
-		Management::Get( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WEAPON_FIRED", m_name ) );
+		//Management::Get( )->GetEventManager( )->QueueEvent( new ScriptEvent( "WEAPON_FIRED", m_name ) );
 	}
 
 	void AIScriptComponent::PlayAnimation( const std::string& animationName, const bool& loopAnimation )

@@ -9,6 +9,7 @@ using namespace Services;
 
 #include "Events/Event.h"
 #include "Events/EventData.hpp"
+#include "Events/InputEventData.hpp"
 #include "Events/ScriptEvent.hpp"
 using namespace Events;
 

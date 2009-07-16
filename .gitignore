@@ -2,11 +2,12 @@
 *.user
 *.cache
 *.dat
-*.exe
 *.log
 *.exp
 *.idb
 *resharper*
 _Resharper*
 build/*
+profile/*
+packages/*
 *obj*

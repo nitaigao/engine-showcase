@@ -8,9 +8,11 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-#include "LogLevel.hpp"
 #include <string>
 #include <sstream>
+
+#include "../Export.hpp"
+#include "LogLevel.hpp"
 
 namespace Logging
 {
@@ -26,7 +28,7 @@ namespace Logging
 		*
 		* @return ( void )
 		*/
-		static void Initialize( );
+		static GAMEAPI void Initialize( );
 
 
 		/*! Initializes the Logger Singleton from an already existing pointer
@@ -34,21 +36,21 @@ namespace Logging
 		* @param[in] Logger * logger
 		* @return ( void )
 		*/
-		static void Initialize( Logger* logger );
+		static GAMEAPI void Initialize( Logger* logger );
 
 
 		/*! Releases the Logger Singleton
 		*
 		* @return ( void )
 		*/
-		static void Release( );
+		static GAMEAPI void Release( );
 
 
 		/*! Returns the instance of the Logger Singleton
 		*
 		* @return ( Logger* )
 		*/
-		static Logger* Get( );
+		static GAMEAPI Logger* Get( );
 
 		
 		/*! Logs a message with the DEBUG prefix
@@ -56,7 +58,7 @@ namespace Logging
 		 *  @param[in] const std::string message
 		 *  @return (void)
 		 */
-		void Debug( const std::string& message );
+		GAMEAPI void Debug( const std::string& message );
 
 		
 		/*! Logs a message with the INFO prefix
@@ -64,7 +66,7 @@ namespace Logging
 		 *  @param[in] const std::string message
 		 *  @return (void)
 		 */
-		void Info( const std::string& message );
+		GAMEAPI void Info( const std::string& message );
 
 		
 		/*! Logs a message with the WARN prefix
@@ -72,7 +74,7 @@ namespace Logging
 		 *  @param[in] const std::string message
 		 *  @return (void)
 		 */
-		void Warn( const std::string& message );
+		GAMEAPI void Warn( const std::string& message );
 
 		
 		/*! Logs a message with the FATAL prefix
@@ -80,7 +82,7 @@ namespace Logging
 		 *  @param[in] const std::string message
 		 *  @return (void)
 		 */
-		void Fatal( const std::string& message );
+		GAMEAPI void Fatal( const std::string& message );
 
 
 		/*! Logs a message with the NET prefix
@@ -88,7 +90,7 @@ namespace Logging
 		* @param[in] const std::string & message
 		* @return ( void )
 		*/
-		void Net( const std::string& message );
+		GAMEAPI void Net( const std::string& message );
 
 		
 		/*! Sets the current logging level

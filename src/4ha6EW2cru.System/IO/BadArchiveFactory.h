@@ -7,6 +7,8 @@
 #ifndef BADARCHIVEFACTORY_H
 #define BADARCHIVEFACTORY_H
 
+#include "../Export.hpp"
+
 #include "OgreArchiveFactory.h"
 #include "OgreArchive.h"
 
@@ -38,7 +40,7 @@ namespace IO
 		 *
 		 *  @return (const Ogre::String&)
 		 */
-		const Ogre::String& getType( ) const;
+		GAMEAPI const Ogre::String& getType( ) const;
 
 
 		/*! Creates an instance of a BadArchive
@@ -46,7 +48,7 @@ namespace IO
 		 *  @param[in] const Ogre::String & name
 		 *  @return (Ogre::Archive*)
 		 */
-		Ogre::Archive* createInstance( const Ogre::String& name ); 
+		GAMEAPI Ogre::Archive* createInstance( const Ogre::String& name ); 
 
 
 		/*! Destroys an instance of a BadArchive
@@ -54,7 +56,7 @@ namespace IO
 		 *  @param[in] Ogre::Archive *
 		 *  @return (void)
 		 */
-		void destroyInstance( Ogre::Archive* );  
+		GAMEAPI void destroyInstance( Ogre::Archive* );  
 
 	private:
 
