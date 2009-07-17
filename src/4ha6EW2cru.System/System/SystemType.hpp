@@ -138,6 +138,13 @@ namespace System
 		{
 			static const Parameter LevelName			=	"levelName";
 		}
+
+		namespace Graphics
+		{
+			static const Parameter Width				=	"width";
+			static const Parameter Height				=	"height";
+			static const Parameter FullScreen			=	"fullScreen";
+		}
 	};
 
 	typedef std::string Message;
@@ -215,6 +222,11 @@ namespace System
 		namespace Game
 		{
 			static const Message ChangeLevel			=	"changeLevel";
+		}
+
+		namespace Graphics
+		{
+			static const Message ChangeResolution		=	"changeResolution";
 		}
 	}
 };

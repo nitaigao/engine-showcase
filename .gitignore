@@ -7,7 +7,7 @@
 *.idb
 *resharper*
 _Resharper*
-build/*
-profile/*
-packages/*
+build*
+profile*
+packages*
 *obj*

@@ -39,7 +39,7 @@ void Game::Initialize( )
 
 	// -- Set Configuration Defaults 
 
-	m_configuration = ClientConfiguration::Load( "config/game.cfg" );
+	m_configuration = ClientConfiguration::Load( "game.cfg" );
 	m_configuration->SetDefault( ConfigSections::Developer, ConfigItems::Developer::Console, false );
 	m_configuration->SetDefault( ConfigSections::Logging, ConfigItems::Logging::LogLevel, static_cast< int >( LEVEL_FATAL ) );
 

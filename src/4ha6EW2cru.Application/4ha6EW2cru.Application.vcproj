@@ -162,7 +162,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy /Y ..\..\etc\vendor\mygui\shared\release\mygui.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\ogremain.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\RenderSystem_Direct3D9.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\fmod\lib\fmodex.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\fmod\lib\fmod_event.dll ..\..\build\release\bin&#x0D;&#x0A;"
+				CommandLine="copy /Y ..\..\etc\vendor\mygui\shared\release\mygui.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\ogremain.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\RenderSystem_Direct3D9.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\fmod\lib\fmodex.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\fmod\lib\fmod_event.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\directx\D3DX9_40.dll ..\..\build\release\bin"
 			/>
 		</Configuration>
 	</Configurations>

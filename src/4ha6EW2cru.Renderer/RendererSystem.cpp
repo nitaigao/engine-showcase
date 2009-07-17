@@ -328,12 +328,12 @@ namespace Renderer
 			results[ "availableVideoModes" ] = this->GetVideoModes( );
 		}
 
-		if ( message == "changeResolution" )
+		if ( message == System::Messages::Graphics::ChangeResolution )
 		{
 			m_window->setFullscreen(  
-				parameters[ ConfigItems::Graphics::FullScreen ].As< bool >( ),
-				parameters[ ConfigItems::Graphics::Width ].As< int >( ),
-				parameters[ ConfigItems::Graphics::Height ].As< int >( )
+				parameters[ System::Parameters::Graphics::FullScreen ].As< bool >( ),
+				parameters[ System::Parameters::Graphics::Width ].As< int >( ),
+				parameters[ System::Parameters::Graphics::Height ].As< int >( )
 				);
 		}
 

@@ -21,9 +21,9 @@ namespace UX
 		IService* renderService = Management::Get( )->GetServiceManager( )->FindService( System::Types::RENDER );
 
 		AnyType::AnyTypeMap parameters;
-		parameters[ "width" ] = width;
-		parameters[ "height" ] = height;
-		parameters[ "fullScreen" ] = isFullScreen;
+		parameters[ System::Parameters::Graphics::Width ] = width;
+		parameters[ System::Parameters::Graphics::Height ] = height;
+		parameters[ System::Parameters::Graphics::FullScreen ] = isFullScreen;
 
 		renderService->Execute( "changeResolution", parameters );
 

@@ -83,10 +83,6 @@ namespace :build do
 				end
 			}
 			
-			etc_config_dir = File.join( '..', 'etc', 'config' );
-			game_config_dir = File.join( game_dir, 'config' );
-			FileUtils.cp_r etc_config_dir, game_dir
-		
 		rescue Exception => e
 			raise "\n\nFailed: There was an error when copying build data\n#{e}"
 		end

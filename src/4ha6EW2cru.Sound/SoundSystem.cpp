@@ -11,6 +11,7 @@ using namespace Resources;
 using namespace IO;
 
 #include "Configuration/ConfigurationTypes.hpp"
+using namespace Configuration;
 
 namespace Sound
 {
@@ -21,11 +22,11 @@ namespace Sound
 		return scene;
 	}
 
-	void SoundSystem::Initialize( Configuration::IConfiguration* configuration )
+	void SoundSystem::Initialize( IConfiguration* configuration )
 	{
 		m_configuration = configuration;
-		m_configuration->SetDefault( Configuration::ConfigSections::Sound, "sfx_volume", 100 );
-		m_configuration->SetDefault( Configuration::ConfigSections::Sound, "music_volume", 100 );
+		m_configuration->SetDefault( ConfigSections::Sound, ConfigItems::Sound::SFXVolume, 99 );
+		m_configuration->SetDefault( ConfigSections::Sound, ConfigItems::Sound::MusicVolume, 99 );
 
 		FMOD_RESULT result;
 		m_fmodSystem = 0;
@@ -158,7 +159,7 @@ namespace Sound
 
 		FMOD::EventCategory* masterCategory = 0;
 		m_eventSystem->getCategory( "master", &masterCategory );
-		float sfxVolume = static_cast< float >( m_configuration->Find( Configuration::ConfigSections::Sound, "sfx_volume" ).As< int >( ) ) / 100;
+		float sfxVolume = static_cast< float >( m_configuration->Find( ConfigSections::Sound, "sfx_volume" ).As< int >( ) ) / 100;
 		masterCategory->setVolume( sfxVolume );
 	}
 
