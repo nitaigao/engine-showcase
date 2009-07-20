@@ -1,0 +1,29 @@
+# CMake generation dependency list for this directory.
+C:/Users/NK/Desktop/physfs-2.0.0/CMakeLists.txt
+C:/Users/NK/Desktop/physfs-2.0.0/CMakeFiles/CMakeSystem.cmake
+C:/Users/NK/Desktop/physfs-2.0.0/CMakeFiles/CMakeCCompiler.cmake
+C:/Users/NK/Desktop/physfs-2.0.0/CMakeFiles/CMakeCXXCompiler.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/CMakeSystemSpecificInformation.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/CMakeGenericSystem.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/Platform/gcc.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/Platform/Windows.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/Platform/WindowsPaths.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/CMakeCInformation.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/Platform/Windows-cl.cmake
+C:/Users/NK/Desktop/physfs-2.0.0/CMakeFiles/CMakeCPlatform.cmake
+C:/Users/NK/Desktop/physfs-2.0.0/CMakeFiles/CMakeCXXPlatform.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/Platform/cl.cmake
+C:/Users/NK/Desktop/physfs-2.0.0/CMakeFiles/CMakeRCCompiler.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/CMakeRCInformation.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/CMakeCommonLanguageInclude.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/CMakeCXXInformation.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/CMakeCommonLanguageInclude.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/CheckIncludeFile.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/CheckLibraryExists.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/CheckCSourceCompiles.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/FindwxWidgets.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/FindPackageMessage.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/FindDoxygen.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files (x86)/CMake 2.6/share/cmake-2.6/Modules/FindPackageMessage.cmake

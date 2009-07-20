@@ -43,7 +43,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../4ha6EW2cru.Game;../4ha6EW2cru.System;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/havok/source;../../etc/vendor/fmod/inc;../../etc/vendor/physfs"
-				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32"
+				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;WIN32"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -87,7 +87,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy /Y ..\..\etc\vendor\mygui\shared\debug\mygui_d.dll ..\..\build\debug\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\ogremain_d.dll ..\..\build\debug\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\RenderSystem_Direct3D9_d.dll ..\..\build\debug\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\fmod\lib\fmodex.dll ..\..\build\debug\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\fmod\lib\fmod_event.dll ..\..\build\debug\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\directx\D3DX9_40.dll ..\..\build\debug\bin&#x0D;&#x0A;"
+				CommandLine="copy /Y ..\..\etc\vendor\fmod\lib\fmodex.dll ..\..\build\debug\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\fmod\lib\fmod_event.dll ..\..\build\debug\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\directx\runtime\D3DX9_41.dll ..\..\build\debug\bin&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -118,7 +118,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../4ha6EW2cru.Game;../4ha6EW2cru.System;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/havok/source;../../etc/vendor/fmod/inc;../../etc/vendor/physfs"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;EXPORT"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;WIN32;EXPORT"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -162,7 +162,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy /Y ..\..\etc\vendor\mygui\shared\release\mygui.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\ogremain.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\ogre\lib\RenderSystem_Direct3D9.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\fmod\lib\fmodex.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\fmod\lib\fmod_event.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\directx\D3DX9_40.dll ..\..\build\release\bin"
+				CommandLine="copy /Y ..\..\etc\vendor\fmod\lib\fmodex.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\fmod\lib\fmod_event.dll ..\..\build\release\bin&#x0D;&#x0A;copy /Y ..\..\etc\vendor\directx\runtime\D3DX9_41.dll ..\..\build\release\bin&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

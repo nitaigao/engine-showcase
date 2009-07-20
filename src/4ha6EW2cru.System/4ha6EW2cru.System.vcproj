@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/havok/source;../../etc/vendor/fmod/inc;../../etc/vendor/physfs;../../etc/vendor/tinyxml/include"
-				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;EXPORT"
+				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;WIN32;EXPORT;OGRE_STATIC_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -59,8 +59,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib Rpcrt4.lib ogremain_d.lib physfsd.lib tinyxmld.lib"
-				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;../../etc/vendor/ogre/lib;../../etc/vendor/physfs;../../etc/vendor/tinyxml/lib"
+				AdditionalDependencies="winmm.lib Rpcrt4.lib ogremainstatic_d.lib physfs.lib tinyxmld.lib"
+				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;../../etc/vendor/ogre/lib;../../etc/vendor/physfs/debug;../../etc/vendor/tinyxml/lib"
 				IgnoreDefaultLibraryNames="LIBCMT"
 				GenerateDebugInformation="true"
 			/>
@@ -114,7 +114,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/havok/source;../../etc/vendor/fmod/inc;../../etc/vendor/physfs;../../etc/vendor/tinyxml/include"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;EXPORT"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;WIN32;EXPORT;OGRE_STATIC_LIB"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -131,8 +131,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib ogremain.lib physfs.lib tinyxml.lib"
-				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;../../etc/vendor/ogre/lib;../../etc/vendor/physfs;../../etc/vendor/tinyxml/lib"
+				AdditionalDependencies="winmm.lib ogremainstatic.lib physfs.lib tinyxml.lib"
+				AdditionalLibraryDirectories="../../etc/vendor/boost/lib;../../etc/vendor/ogre/lib;../../etc/vendor/physfs/release;../../etc/vendor/tinyxml/lib"
 				IgnoreDefaultLibraryNames="LIBCMT"
 				GenerateDebugInformation="true"
 				OptimizeReferences="2"
@@ -176,14 +176,6 @@
 			</File>
 			<File
 				RelativePath=".\State\Serilaization\AnimationComponentSerializer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\IO\BadArchive.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\IO\BadArchiveFactory.cpp"
 				>
 			</File>
 			<File
@@ -302,14 +294,6 @@
 			</File>
 			<File
 				RelativePath=".\System\AnyType.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\IO\BadArchive.h"
-				>
-			</File>
-			<File
-				RelativePath=".\IO\BadArchiveFactory.h"
 				>
 			</File>
 			<File
@@ -510,6 +494,10 @@
 			</File>
 			<File
 				RelativePath=".\Maths\MathVector3.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\System\Memory.cxx"
 				>
 			</File>
 			<File

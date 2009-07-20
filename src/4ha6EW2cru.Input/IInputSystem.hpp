@@ -11,9 +11,9 @@
 
 #include "InputMessageBinding.hpp"
 
-#include <OIS/OISInputManager.h>
-#include <OIS/OISKeyboard.h>
-#include <OIS/OISMouse.h>
+#include <OISInputManager.h>
+#include <OISKeyboard.h>
+#include <OISMouse.h>
 
 namespace Input
 {

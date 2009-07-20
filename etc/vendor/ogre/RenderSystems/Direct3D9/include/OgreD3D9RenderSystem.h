@@ -268,21 +268,22 @@ namespace Ogre
 		void _setDepthBias(float constantBias, float slopeScaleBias);
 		void _setFog( FogMode mode = FOG_NONE, const ColourValue& colour = ColourValue::White, Real expDensity = 1.0, Real linearStart = 0.0, Real linearEnd = 1.0 );
 		void _convertProjectionMatrix(const Matrix4& matrix,
-            Matrix4& dest, bool forGpuProgram = false);
+			Matrix4& dest, bool forGpuProgram = false);
 		void _makeProjectionMatrix(const Radian& fovy, Real aspect, Real nearPlane, Real farPlane, 
-            Matrix4& dest, bool forGpuProgram = false);
+			Matrix4& dest, bool forGpuProgram = false);
 		void _makeProjectionMatrix(Real left, Real right, Real bottom, Real top, Real nearPlane, 
-            Real farPlane, Matrix4& dest, bool forGpuProgram = false);
+			Real farPlane, Matrix4& dest, bool forGpuProgram = false);
 		void _makeOrthoMatrix(const Radian& fovy, Real aspect, Real nearPlane, Real farPlane, 
-            Matrix4& dest, bool forGpuProgram = false);
-        void _applyObliqueDepthProjection(Matrix4& matrix, const Plane& plane, 
-            bool forGpuProgram);
+			Matrix4& dest, bool forGpuProgram = false);
+		void _applyObliqueDepthProjection(Matrix4& matrix, const Plane& plane, 
+			bool forGpuProgram);
 		void _setPolygonMode(PolygonMode level);
-        void _setTextureUnitFiltering(size_t unit, FilterType ftype, FilterOptions filter);
+		void _setTextureUnitFiltering(size_t unit, FilterType ftype, FilterOptions filter);
 		void _setTextureLayerAnisotropy(size_t unit, unsigned int maxAnisotropy);
 		void setVertexDeclaration(VertexDeclaration* decl);
 		void setVertexBufferBinding(VertexBufferBinding* binding);
-        void _render(const RenderOperation& op);
+		void _render(const RenderOperation& op);
+		HardwareBufferManager* _getHardwareBufferManager( ) { return ( HardwareBufferManager* ) mHardwareBufferManager; };
         /** See
           RenderSystem
          */

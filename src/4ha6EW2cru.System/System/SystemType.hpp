@@ -227,6 +227,8 @@ namespace System
 		namespace Graphics
 		{
 			static const Message ChangeResolution		=	"changeResolution";
+			static const Message GetRenderWindow		=	"getRenderWindow";
+			static const Message GetRootSingleton		=	"getRootSingleton";
 		}
 	}
 };

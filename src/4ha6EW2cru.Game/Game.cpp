@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include "System/Memory.cxx"
+
 #include "Exceptions/AlreadyInitializedException.hpp"
 #include "Exceptions/UnInitializedException.hpp"
 

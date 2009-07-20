@@ -3,6 +3,7 @@
 #include "RendererSystemScene.h"
 #include "LineFactory.h"
 
+#include <OgreD3D9Plugin.h>
 using namespace Ogre;
 
 #include "Management/Management.h"
@@ -12,7 +13,7 @@ using namespace Events;
 #include "Logging/Logger.h"
 using namespace Logging;
 
-#include "IO/BadArchiveFactory.h"
+#include "BadArchiveFactory.h"
 using namespace IO;
 
 #include "Line3d.h"
@@ -72,35 +73,28 @@ namespace Renderer
 		m_configuration->SetDefault( ConfigSections::Graphics, ConfigItems::Graphics::WindowTitle, defaultWindowTitle );
 		m_configuration->SetDefault( ConfigSections::Graphics, ConfigItems::Graphics::VSync, defaultVsync );
 
-		m_root = new Root( );
+		m_root = new Root( "", "", "" ); 
 
-	#ifdef _DEBUG
-		m_root->loadPlugin( "RenderSystem_Direct3D9_d" );
-	#else
-		m_root->loadPlugin( "RenderSystem_Direct3D9" );
-
-		Ogre::LogManager::getSingletonPtr( )->destroyLog( Ogre::LogManager::getSingletonPtr( )->getDefaultLog( ) );
-		Ogre::LogManager::getSingletonPtr( )->createLog( "default", true, false, true );
-	#endif // _DEBUG	
-
-		//_badFactory = new BadArchiveFactory( );
-		ArchiveManager::getSingletonPtr( )->addArchiveFactory( new BadArchiveFactory( ) );
-
-		ResourceGroupManager::getSingleton( ).addResourceLocation( "/", "BAD" );
-		ResourceGroupManager::getSingleton( ).initialiseAllResourceGroups( );
-
+		m_root->installPlugin( new D3D9Plugin( ) );
 		RenderSystemList *renderSystems = m_root->getAvailableRenderers( );
 		RenderSystemList::iterator renderSystemIterator = renderSystems->begin( );
-
 		m_root->setRenderSystem( *renderSystemIterator );
 
 		std::stringstream videoModeDesc;
-		videoModeDesc << m_configuration->Find( ConfigSections::Graphics, ConfigItems::Graphics::Width ).As< int >( ) << " x " << m_configuration->Find( ConfigSections::Graphics, ConfigItems::Graphics::Height ).As< int >( ) << " @ " << defaultDepth << "-bit colour";
+		videoModeDesc << m_configuration->Find( ConfigSections::Graphics, ConfigItems::Graphics::Width ).As< int >( );   
+		videoModeDesc << " x ";
+		videoModeDesc << m_configuration->Find( ConfigSections::Graphics, ConfigItems::Graphics::Height ).As< int >( );
+		videoModeDesc << " @ " << defaultDepth << "-bit colour";
+
 		( *renderSystemIterator )->setConfigOption( "Video Mode", videoModeDesc.str( ) );
 		( *renderSystemIterator )->setConfigOption( "Full Screen", m_configuration->Find( ConfigSections::Graphics, ConfigItems::Graphics::FullScreen ).As< bool >( ) ? "Yes" : "No" );
 		( *renderSystemIterator )->setConfigOption( "VSync", m_configuration->Find( ConfigSections::Graphics, ConfigItems::Graphics::VSync ).As< bool >( ) ? "Yes" : "No" );
 
 		m_root->initialise( false );
+
+		ArchiveManager::getSingletonPtr( )->addArchiveFactory( new BadArchiveFactory( ) );
+		ResourceGroupManager::getSingletonPtr( )->addResourceLocation( "/", "BAD" );
+		ResourceGroupManager::getSingletonPtr( )->initialiseAllResourceGroups( );
 
 		try
 		{
@@ -138,11 +132,9 @@ namespace Renderer
 		camera->setFarClipDistance( 500.0f );
 
 		Viewport* viewPort = m_window->addViewport( camera );
-		viewPort->setBackgroundColour( ColourValue( 0, 0, 0 ) );
+		viewPort->setBackgroundColour( ColourValue::Black );
 
-		camera->setAspectRatio(
-			Real( viewPort->getActualWidth( )) / Real( viewPort->getActualHeight( ) )
-			);
+		camera->setAspectRatio( Real( viewPort->getActualWidth( ) ) / Real( viewPort->getActualHeight( ) ) );
 
 		m_root->renderOneFrame( );
 
@@ -335,6 +327,11 @@ namespace Renderer
 				parameters[ System::Parameters::Graphics::Width ].As< int >( ),
 				parameters[ System::Parameters::Graphics::Height ].As< int >( )
 				);
+		}
+
+		if ( message == System::Messages::Graphics::GetRootSingleton )
+		{
+			results[ "result" ] = m_root;
 		}
 
 		if ( message == "drawLine" )

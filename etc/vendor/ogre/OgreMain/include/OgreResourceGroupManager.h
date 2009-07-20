@@ -377,6 +377,7 @@ namespace Ogre {
 		/// Stored current group - optimisation for when bulk loading a group
 		ResourceGroup* mCurrentGroup;
     public:
+
         ResourceGroupManager();
         virtual ~ResourceGroupManager();
 

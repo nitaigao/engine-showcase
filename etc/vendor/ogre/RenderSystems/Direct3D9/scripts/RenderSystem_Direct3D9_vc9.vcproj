@@ -4,6 +4,7 @@
 	Version="9.00"
 	Name="RenderSystem_Direct3D9"
 	ProjectGUID="{0F172B9C-E5D5-4EB1-BFDB-93D787A37461}"
+	RootNamespace="RenderSystem_Direct3D9"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -41,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\Microsoft DirectX SDK (November 2008)\Include&quot;;..\include;..\..\..\OgreMain\include;..\..\..\Dependencies\include"
+				AdditionalIncludeDirectories="..\..\..\..\directx\Include;..\include;..\..\..\OgreMain\include;..\..\..\Dependencies\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;OGRED3DENGINEDLL_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -234,7 +235,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="..\include;..\..\..\OgreMain\include;..\..\..\Dependencies\include"
+				AdditionalIncludeDirectories="..\..\..\..\directx\Include;..\include;..\..\..\OgreMain\include;..\..\..\Dependencies\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;OGRE_STATIC_LIB"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -259,6 +260,7 @@
 				Name="VCLibrarianTool"
 				AdditionalDependencies="d3d9.lib d3dx9.lib dxerr9.lib dxguid.lib"
 				OutputFile="$(OutDir)\$(ProjectName)Static.lib"
+				AdditionalLibraryDirectories="..\..\..\..\directx\Lib\x86;"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -303,7 +305,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\include;..\..\..\OgreMain\include;..\..\..\Dependencies\include"
+				AdditionalIncludeDirectories="..\..\..\..\directx\Include;..\include;..\..\..\OgreMain\include;..\..\..\Dependencies\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DEBUG_SAVE_TEXTURE;OGRE_STATIC_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -330,6 +332,7 @@
 				Name="VCLibrarianTool"
 				AdditionalDependencies="d3d9.lib d3dx9.lib dxerr9.lib dxguid.lib"
 				OutputFile="$(OutDir)\$(ProjectName)Static_d.lib"
+				AdditionalLibraryDirectories="..\..\..\..\directx\Lib\x86;"
 			/>
 			<Tool
 				Name="VCALinkTool"

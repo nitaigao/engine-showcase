@@ -21,7 +21,7 @@
 #define __MYGUI_WIDGET_OIS_H__
 
 #ifndef MYGUI_NO_OIS
-#include <OIS/OIS.h>
+#include <OIS.h>
 #endif
 
 #endif // __MYGUI_WIDGET_OIS_H__

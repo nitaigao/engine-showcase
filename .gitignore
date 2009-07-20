@@ -6,8 +6,10 @@
 *.exp
 *.idb
 *resharper*
-_Resharper*
+*_Resharper*
 build*
 profile*
 packages*
 *obj*
+*.manifest
+*.ilk

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding = "Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="test_physfs"
+	ProjectGUID="{E63D4350-8FFA-4DAA-9927-37C70629B5CC}"
+	Keyword="Win32Proj">
+	<Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="Debug"
+			IntermediateDirectory="test_physfs.dir\Debug"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" /Zm1000"
+				AdditionalIncludeDirectories="C:\Users\NK\Desktop\physfs-2.0.0\.;C:\Users\NK\Desktop\physfs-2.0.0\zlib123;"
+				BasicRuntimeChecks="3"
+				CompileAs="1"
+				DebugInformationFormat="3"
+				ExceptionHandling="0"
+				InlineFunctionExpansion="0"
+				Optimization="0"
+				RuntimeLibrary="3"
+				WarningLevel="3"
+				PreprocessorDefinitions="WIN32,_WINDOWS,_DEBUG,_CRT_SECURE_NO_WARNINGS=1,_REENTRANT,_THREAD_SAFE,HAVE_ASSERT_H=1,PHYSFS_SUPPORTS_ZIP=1,PHYSFS_SUPPORTS_7Z=1,PHYSFS_SUPPORTS_GRP=1,PHYSFS_SUPPORTS_WAD=1,PHYSFS_SUPPORTS_HOG=1,PHYSFS_SUPPORTS_MVL=1,PHYSFS_SUPPORTS_QPAK=1,Z_PREFIX=1,CMAKE_INTDIR=\&quot;Debug\&quot;"
+				AssemblerListingLocation="Debug"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="C:/Users/NK/Desktop/physfs-2.0.0/Debug/test_physfs.pdb"
+/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				AdditionalIncludeDirectories="C:\Users\NK\Desktop\physfs-2.0.0\.;C:\Users\NK\Desktop\physfs-2.0.0\zlib123;"
+				PreprocessorDefinitions="WIN32,_WINDOWS,_DEBUG,_CRT_SECURE_NO_WARNINGS=1,_REENTRANT,_THREAD_SAFE,HAVE_ASSERT_H=1,PHYSFS_SUPPORTS_ZIP=1,PHYSFS_SUPPORTS_7Z=1,PHYSFS_SUPPORTS_GRP=1,PHYSFS_SUPPORTS_WAD=1,PHYSFS_SUPPORTS_HOG=1,PHYSFS_SUPPORTS_MVL=1,PHYSFS_SUPPORTS_QPAK=1,Z_PREFIX=1,CMAKE_INTDIR=\&quot;Debug\&quot;"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="WIN32,_WINDOWS,_DEBUG,_CRT_SECURE_NO_WARNINGS=1,_REENTRANT,_THREAD_SAFE,HAVE_ASSERT_H=1,PHYSFS_SUPPORTS_ZIP=1,PHYSFS_SUPPORTS_7Z=1,PHYSFS_SUPPORTS_GRP=1,PHYSFS_SUPPORTS_WAD=1,PHYSFS_SUPPORTS_HOG=1,PHYSFS_SUPPORTS_MVL=1,PHYSFS_SUPPORTS_QPAK=1,Z_PREFIX=1,CMAKE_INTDIR=\&quot;Debug\&quot;"
+				MkTypLibCompatible="FALSE"
+				TargetEnvironment="1"
+				GenerateStublessProxies="TRUE"
+				TypeLibraryName="$(InputName).tlb"
+				OutputDirectory="$(IntDir)"
+				HeaderFileName="$(InputName).h"
+				DLLDataFileName=""
+				InterfaceIdentifierFileName="$(InputName)_i.c"
+				ProxyFileName="$(InputName)_p.c"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions=" /STACK:10000000 /machine:I386 /debug"
+				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  Debug\physfs.lib "
+				OutputFile="C:\Users\NK\Desktop\physfs-2.0.0\Debug\test_physfs.exe"
+				Version="0.0"
+				GenerateManifest="TRUE"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
+				ProgramDataBaseFile="C:/Users/NK/Desktop/physfs-2.0.0/Debug/test_physfs.pdb"
+				GenerateDebugInformation="TRUE"
+				SubSystem="1"
+				ImportLibrary="C:\Users\NK\Desktop\physfs-2.0.0\Debug\test_physfs.lib"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="Release"
+			IntermediateDirectory="test_physfs.dir\Release"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" /Zm1000"
+				AdditionalIncludeDirectories="C:\Users\NK\Desktop\physfs-2.0.0\.;C:\Users\NK\Desktop\physfs-2.0.0\zlib123;"
+				CompileAs="1"
+				ExceptionHandling="0"
+				InlineFunctionExpansion="2"
+				Optimization="2"
+				RuntimeLibrary="2"
+				WarningLevel="3"
+				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,_CRT_SECURE_NO_WARNINGS=1,_REENTRANT,_THREAD_SAFE,HAVE_ASSERT_H=1,PHYSFS_SUPPORTS_ZIP=1,PHYSFS_SUPPORTS_7Z=1,PHYSFS_SUPPORTS_GRP=1,PHYSFS_SUPPORTS_WAD=1,PHYSFS_SUPPORTS_HOG=1,PHYSFS_SUPPORTS_MVL=1,PHYSFS_SUPPORTS_QPAK=1,Z_PREFIX=1,CMAKE_INTDIR=\&quot;Release\&quot;"
+				AssemblerListingLocation="Release"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="C:/Users/NK/Desktop/physfs-2.0.0/Release/test_physfs.pdb"
+/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				AdditionalIncludeDirectories="C:\Users\NK\Desktop\physfs-2.0.0\.;C:\Users\NK\Desktop\physfs-2.0.0\zlib123;"
+				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,_CRT_SECURE_NO_WARNINGS=1,_REENTRANT,_THREAD_SAFE,HAVE_ASSERT_H=1,PHYSFS_SUPPORTS_ZIP=1,PHYSFS_SUPPORTS_7Z=1,PHYSFS_SUPPORTS_GRP=1,PHYSFS_SUPPORTS_WAD=1,PHYSFS_SUPPORTS_HOG=1,PHYSFS_SUPPORTS_MVL=1,PHYSFS_SUPPORTS_QPAK=1,Z_PREFIX=1,CMAKE_INTDIR=\&quot;Release\&quot;"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,_CRT_SECURE_NO_WARNINGS=1,_REENTRANT,_THREAD_SAFE,HAVE_ASSERT_H=1,PHYSFS_SUPPORTS_ZIP=1,PHYSFS_SUPPORTS_7Z=1,PHYSFS_SUPPORTS_GRP=1,PHYSFS_SUPPORTS_WAD=1,PHYSFS_SUPPORTS_HOG=1,PHYSFS_SUPPORTS_MVL=1,PHYSFS_SUPPORTS_QPAK=1,Z_PREFIX=1,CMAKE_INTDIR=\&quot;Release\&quot;"
+				MkTypLibCompatible="FALSE"
+				TargetEnvironment="1"
+				GenerateStublessProxies="TRUE"
+				TypeLibraryName="$(InputName).tlb"
+				OutputDirectory="$(IntDir)"
+				HeaderFileName="$(InputName).h"
+				DLLDataFileName=""
+				InterfaceIdentifierFileName="$(InputName)_i.c"
+				ProxyFileName="$(InputName)_p.c"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions=" /STACK:10000000 /machine:I386"
+				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  Release\physfs.lib "
+				OutputFile="C:\Users\NK\Desktop\physfs-2.0.0\Release\test_physfs.exe"
+				Version="0.0"
+				GenerateManifest="TRUE"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ProgramDataBaseFile="C:/Users/NK/Desktop/physfs-2.0.0/Release/test_physfs.pdb"
+				SubSystem="1"
+				ImportLibrary="C:\Users\NK\Desktop\physfs-2.0.0\Release\test_physfs.lib"/>
+		</Configuration>
+		<Configuration
+			Name="MinSizeRel|Win32"
+			OutputDirectory="MinSizeRel"
+			IntermediateDirectory="test_physfs.dir\MinSizeRel"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" /Zm1000"
+				AdditionalIncludeDirectories="C:\Users\NK\Desktop\physfs-2.0.0\.;C:\Users\NK\Desktop\physfs-2.0.0\zlib123;"
+				CompileAs="1"
+				ExceptionHandling="0"
+				InlineFunctionExpansion="1"
+				Optimization="1"
+				RuntimeLibrary="2"
+				WarningLevel="3"
+				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,_CRT_SECURE_NO_WARNINGS=1,_REENTRANT,_THREAD_SAFE,HAVE_ASSERT_H=1,PHYSFS_SUPPORTS_ZIP=1,PHYSFS_SUPPORTS_7Z=1,PHYSFS_SUPPORTS_GRP=1,PHYSFS_SUPPORTS_WAD=1,PHYSFS_SUPPORTS_HOG=1,PHYSFS_SUPPORTS_MVL=1,PHYSFS_SUPPORTS_QPAK=1,Z_PREFIX=1,CMAKE_INTDIR=\&quot;MinSizeRel\&quot;"
+				AssemblerListingLocation="MinSizeRel"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="C:/Users/NK/Desktop/physfs-2.0.0/MinSizeRel/test_physfs.pdb"
+/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				AdditionalIncludeDirectories="C:\Users\NK\Desktop\physfs-2.0.0\.;C:\Users\NK\Desktop\physfs-2.0.0\zlib123;"
+				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,_CRT_SECURE_NO_WARNINGS=1,_REENTRANT,_THREAD_SAFE,HAVE_ASSERT_H=1,PHYSFS_SUPPORTS_ZIP=1,PHYSFS_SUPPORTS_7Z=1,PHYSFS_SUPPORTS_GRP=1,PHYSFS_SUPPORTS_WAD=1,PHYSFS_SUPPORTS_HOG=1,PHYSFS_SUPPORTS_MVL=1,PHYSFS_SUPPORTS_QPAK=1,Z_PREFIX=1,CMAKE_INTDIR=\&quot;MinSizeRel\&quot;"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,_CRT_SECURE_NO_WARNINGS=1,_REENTRANT,_THREAD_SAFE,HAVE_ASSERT_H=1,PHYSFS_SUPPORTS_ZIP=1,PHYSFS_SUPPORTS_7Z=1,PHYSFS_SUPPORTS_GRP=1,PHYSFS_SUPPORTS_WAD=1,PHYSFS_SUPPORTS_HOG=1,PHYSFS_SUPPORTS_MVL=1,PHYSFS_SUPPORTS_QPAK=1,Z_PREFIX=1,CMAKE_INTDIR=\&quot;MinSizeRel\&quot;"
+				MkTypLibCompatible="FALSE"
+				TargetEnvironment="1"
+				GenerateStublessProxies="TRUE"
+				TypeLibraryName="$(InputName).tlb"
+				OutputDirectory="$(IntDir)"
+				HeaderFileName="$(InputName).h"
+				DLLDataFileName=""
+				InterfaceIdentifierFileName="$(InputName)_i.c"
+				ProxyFileName="$(InputName)_p.c"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions=" /STACK:10000000 /machine:I386"
+				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  MinSizeRel\physfs.lib "
+				OutputFile="C:\Users\NK\Desktop\physfs-2.0.0\MinSizeRel\test_physfs.exe"
+				Version="0.0"
+				GenerateManifest="TRUE"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ProgramDataBaseFile="C:/Users/NK/Desktop/physfs-2.0.0/MinSizeRel/test_physfs.pdb"
+				SubSystem="1"
+				ImportLibrary="C:\Users\NK\Desktop\physfs-2.0.0\MinSizeRel\test_physfs.lib"/>
+		</Configuration>
+		<Configuration
+			Name="RelWithDebInfo|Win32"
+			OutputDirectory="RelWithDebInfo"
+			IntermediateDirectory="test_physfs.dir\RelWithDebInfo"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" /Zm1000"
+				AdditionalIncludeDirectories="C:\Users\NK\Desktop\physfs-2.0.0\.;C:\Users\NK\Desktop\physfs-2.0.0\zlib123;"
+				CompileAs="1"
+				DebugInformationFormat="3"
+				ExceptionHandling="0"
+				InlineFunctionExpansion="1"
+				Optimization="2"
+				RuntimeLibrary="2"
+				WarningLevel="3"
+				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,_CRT_SECURE_NO_WARNINGS=1,_REENTRANT,_THREAD_SAFE,HAVE_ASSERT_H=1,PHYSFS_SUPPORTS_ZIP=1,PHYSFS_SUPPORTS_7Z=1,PHYSFS_SUPPORTS_GRP=1,PHYSFS_SUPPORTS_WAD=1,PHYSFS_SUPPORTS_HOG=1,PHYSFS_SUPPORTS_MVL=1,PHYSFS_SUPPORTS_QPAK=1,Z_PREFIX=1,CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;"
+				AssemblerListingLocation="RelWithDebInfo"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="C:/Users/NK/Desktop/physfs-2.0.0/RelWithDebInfo/test_physfs.pdb"
+/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				AdditionalIncludeDirectories="C:\Users\NK\Desktop\physfs-2.0.0\.;C:\Users\NK\Desktop\physfs-2.0.0\zlib123;"
+				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,_CRT_SECURE_NO_WARNINGS=1,_REENTRANT,_THREAD_SAFE,HAVE_ASSERT_H=1,PHYSFS_SUPPORTS_ZIP=1,PHYSFS_SUPPORTS_7Z=1,PHYSFS_SUPPORTS_GRP=1,PHYSFS_SUPPORTS_WAD=1,PHYSFS_SUPPORTS_HOG=1,PHYSFS_SUPPORTS_MVL=1,PHYSFS_SUPPORTS_QPAK=1,Z_PREFIX=1,CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,_CRT_SECURE_NO_WARNINGS=1,_REENTRANT,_THREAD_SAFE,HAVE_ASSERT_H=1,PHYSFS_SUPPORTS_ZIP=1,PHYSFS_SUPPORTS_7Z=1,PHYSFS_SUPPORTS_GRP=1,PHYSFS_SUPPORTS_WAD=1,PHYSFS_SUPPORTS_HOG=1,PHYSFS_SUPPORTS_MVL=1,PHYSFS_SUPPORTS_QPAK=1,Z_PREFIX=1,CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;"
+				MkTypLibCompatible="FALSE"
+				TargetEnvironment="1"
+				GenerateStublessProxies="TRUE"
+				TypeLibraryName="$(InputName).tlb"
+				OutputDirectory="$(IntDir)"
+				HeaderFileName="$(InputName).h"
+				DLLDataFileName=""
+				InterfaceIdentifierFileName="$(InputName)_i.c"
+				ProxyFileName="$(InputName)_p.c"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions=" /STACK:10000000 /machine:I386 /debug"
+				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  RelWithDebInfo\physfs.lib "
+				OutputFile="C:\Users\NK\Desktop\physfs-2.0.0\RelWithDebInfo\test_physfs.exe"
+				Version="0.0"
+				GenerateManifest="TRUE"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
+				ProgramDataBaseFile="C:/Users/NK/Desktop/physfs-2.0.0/RelWithDebInfo/test_physfs.pdb"
+				GenerateDebugInformation="TRUE"
+				SubSystem="1"
+				ImportLibrary="C:\Users\NK\Desktop\physfs-2.0.0\RelWithDebInfo\test_physfs.lib"/>
+		</Configuration>
+	</Configurations>
+	<Files>
+			<File
+				RelativePath="C:\Users\NK\Desktop\physfs-2.0.0\CMakeLists.txt">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+					Name="VCCustomBuildTool"
+					Description="Building Custom Rule C:/Users/NK/Desktop/physfs-2.0.0/CMakeLists.txt"
+					CommandLine="&quot;C:\Program Files (x86)\CMake 2.6\bin\cmake.exe&quot; -HC:/Users/NK/Desktop/physfs-2.0.0 -BC:/Users/NK/Desktop/physfs-2.0.0 --check-stamp-file CMakeFiles/generate.stamp"
+					AdditionalDependencies="C:\Users\NK\Desktop\physfs-2.0.0\CMakeLists.txt;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeSystem.cmake;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeCCompiler.cmake;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeCXXCompiler.cmake;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeSystemSpecificInformation.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeGenericSystem.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\gcc.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\Windows.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\WindowsPaths.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeCInformation.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\Windows-cl.cmake&quot;;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeCPlatform.cmake;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeCXXPlatform.cmake;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\cl.cmake&quot;;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeRCCompiler.cmake;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeRCInformation.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeCommonLanguageInclude.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeCXXInformation.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeCommonLanguageInclude.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CheckIncludeFile.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CheckLibraryExists.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CheckCSourceCompiles.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindwxWidgets.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindPackageHandleStandardArgs.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindPackageMessage.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindDoxygen.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindPackageHandleStandardArgs.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindPackageMessage.cmake&quot;;C:\Users\NK\Desktop\physfs-2.0.0\CMakeLists.txt;"
+					Outputs="CMakeFiles\generate.stamp"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+					Name="VCCustomBuildTool"
+					Description="Building Custom Rule C:/Users/NK/Desktop/physfs-2.0.0/CMakeLists.txt"
+					CommandLine="&quot;C:\Program Files (x86)\CMake 2.6\bin\cmake.exe&quot; -HC:/Users/NK/Desktop/physfs-2.0.0 -BC:/Users/NK/Desktop/physfs-2.0.0 --check-stamp-file CMakeFiles/generate.stamp"
+					AdditionalDependencies="C:\Users\NK\Desktop\physfs-2.0.0\CMakeLists.txt;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeSystem.cmake;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeCCompiler.cmake;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeCXXCompiler.cmake;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeSystemSpecificInformation.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeGenericSystem.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\gcc.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\Windows.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\WindowsPaths.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeCInformation.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\Windows-cl.cmake&quot;;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeCPlatform.cmake;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeCXXPlatform.cmake;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\cl.cmake&quot;;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeRCCompiler.cmake;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeRCInformation.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeCommonLanguageInclude.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeCXXInformation.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeCommonLanguageInclude.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CheckIncludeFile.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CheckLibraryExists.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CheckCSourceCompiles.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindwxWidgets.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindPackageHandleStandardArgs.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindPackageMessage.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindDoxygen.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindPackageHandleStandardArgs.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindPackageMessage.cmake&quot;;C:\Users\NK\Desktop\physfs-2.0.0\CMakeLists.txt;"
+					Outputs="CMakeFiles\generate.stamp"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="MinSizeRel|Win32">
+					<Tool
+					Name="VCCustomBuildTool"
+					Description="Building Custom Rule C:/Users/NK/Desktop/physfs-2.0.0/CMakeLists.txt"
+					CommandLine="&quot;C:\Program Files (x86)\CMake 2.6\bin\cmake.exe&quot; -HC:/Users/NK/Desktop/physfs-2.0.0 -BC:/Users/NK/Desktop/physfs-2.0.0 --check-stamp-file CMakeFiles/generate.stamp"
+					AdditionalDependencies="C:\Users\NK\Desktop\physfs-2.0.0\CMakeLists.txt;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeSystem.cmake;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeCCompiler.cmake;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeCXXCompiler.cmake;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeSystemSpecificInformation.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeGenericSystem.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\gcc.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\Windows.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\WindowsPaths.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeCInformation.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\Windows-cl.cmake&quot;;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeCPlatform.cmake;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeCXXPlatform.cmake;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\cl.cmake&quot;;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeRCCompiler.cmake;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeRCInformation.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeCommonLanguageInclude.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeCXXInformation.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeCommonLanguageInclude.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CheckIncludeFile.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CheckLibraryExists.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CheckCSourceCompiles.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindwxWidgets.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindPackageHandleStandardArgs.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindPackageMessage.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindDoxygen.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindPackageHandleStandardArgs.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindPackageMessage.cmake&quot;;C:\Users\NK\Desktop\physfs-2.0.0\CMakeLists.txt;"
+					Outputs="CMakeFiles\generate.stamp"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="RelWithDebInfo|Win32">
+					<Tool
+					Name="VCCustomBuildTool"
+					Description="Building Custom Rule C:/Users/NK/Desktop/physfs-2.0.0/CMakeLists.txt"
+					CommandLine="&quot;C:\Program Files (x86)\CMake 2.6\bin\cmake.exe&quot; -HC:/Users/NK/Desktop/physfs-2.0.0 -BC:/Users/NK/Desktop/physfs-2.0.0 --check-stamp-file CMakeFiles/generate.stamp"
+					AdditionalDependencies="C:\Users\NK\Desktop\physfs-2.0.0\CMakeLists.txt;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeSystem.cmake;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeCCompiler.cmake;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeCXXCompiler.cmake;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeSystemSpecificInformation.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeGenericSystem.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\gcc.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\Windows.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\WindowsPaths.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeCInformation.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\Windows-cl.cmake&quot;;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeCPlatform.cmake;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeCXXPlatform.cmake;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\Platform\cl.cmake&quot;;C:\Users\NK\Desktop\physfs-2.0.0\CMakeFiles\CMakeRCCompiler.cmake;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeRCInformation.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeCommonLanguageInclude.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeCXXInformation.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CMakeCommonLanguageInclude.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CheckIncludeFile.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CheckLibraryExists.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\CheckCSourceCompiles.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindwxWidgets.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindPackageHandleStandardArgs.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindPackageMessage.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindDoxygen.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindPackageHandleStandardArgs.cmake&quot;;&quot;C:\Program Files (x86)\CMake 2.6\share\cmake-2.6\Modules\FindPackageMessage.cmake&quot;;C:\Users\NK\Desktop\physfs-2.0.0\CMakeLists.txt;"
+					Outputs="CMakeFiles\generate.stamp"/>
+				</FileConfiguration>
+			</File>
+		<Filter
+			Name="Source Files"
+			Filter="">
+			<File
+				RelativePath="C:\Users\NK\Desktop\physfs-2.0.0\test\test_physfs.c">
+			</File>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

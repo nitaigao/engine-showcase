@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="ois_vc8">
+</Property><Property Name="Solution File" Value="C:\Users\NK\Documents\Downloads\ois_1.2.0\ois\Win32\ois_vc8.sln">
+</Property><Property Name="Date" Value="20 July 2009">
+</Property><Property Name="Time" Value="15:53">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="ois_vc8.sln" Description="File successfully backed up as C:\Users\NK\Documents\Downloads\ois_1.2.0\ois\Win32\ois_vc8.sln.old">
+</Event><Event ErrorLevel="0" Project="OIS_vc8" Source="OIS_vc8.vcproj" Description="Web deployment to the local IIS server is no longer supported. The Web Deployment build tool has been removed from your project settings.">
+</Event><Event ErrorLevel="1" Project="OIS_vc8" Source="OIS_vc8.vcproj" Description="This application has been updated to include settings related to the User Account Control (UAC) feature of Windows Vista. By default, when run on Windows Vista with UAC enabled, this application is marked to run with the same privileges as the process that launched it. This marking also disables the application from running with virtualization. You can change UAC related settings from the Property Pages of the project.">
+</Event><Event ErrorLevel="0" Project="OIS_vc8" Source="OIS_vc8.vcproj" Description="Project file successfully backed up as 'C:\Users\NK\Documents\Downloads\ois_1.2.0\ois\Win32\OIS_vc8.vcproj.8.00.old'.">
+</Event><Event ErrorLevel="0" Project="OIS_vc8" Source="OIS_vc8.vcproj" Description="Project upgraded successfully.">
+</Event><Event ErrorLevel="3" Project="OIS_vc8" Source="OIS_vc8.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="CommandLine_vc8" Source="CommandLine\CommandLine_vc8.vcproj" Description="Web deployment to the local IIS server is no longer supported. The Web Deployment build tool has been removed from your project settings.">
+</Event><Event ErrorLevel="1" Project="CommandLine_vc8" Source="CommandLine\CommandLine_vc8.vcproj" Description="This application has been updated to include settings related to the User Account Control (UAC) feature of Windows Vista. By default, when run on Windows Vista with UAC enabled, this application is marked to run with the same privileges as the process that launched it. This marking also disables the application from running with virtualization. You can change UAC related settings from the Property Pages of the project.">
+</Event><Event ErrorLevel="0" Project="CommandLine_vc8" Source="CommandLine\CommandLine_vc8.vcproj" Description="Project file successfully backed up as 'C:\Users\NK\Documents\Downloads\ois_1.2.0\ois\Win32\CommandLine\CommandLine_vc8.vcproj.8.00.old'.">
+</Event><Event ErrorLevel="0" Project="CommandLine_vc8" Source="CommandLine\CommandLine_vc8.vcproj" Description="Project upgraded successfully.">
+</Event><Event ErrorLevel="3" Project="CommandLine_vc8" Source="CommandLine\CommandLine_vc8.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="DemoFFTest_vc8" Source="DemoFFTest\DemoFFTest_vc8.vcproj" Description="Web deployment to the local IIS server is no longer supported. The Web Deployment build tool has been removed from your project settings.">
+</Event><Event ErrorLevel="1" Project="DemoFFTest_vc8" Source="DemoFFTest\DemoFFTest_vc8.vcproj" Description="This application has been updated to include settings related to the User Account Control (UAC) feature of Windows Vista. By default, when run on Windows Vista with UAC enabled, this application is marked to run with the same privileges as the process that launched it. This marking also disables the application from running with virtualization. You can change UAC related settings from the Property Pages of the project.">
+</Event><Event ErrorLevel="0" Project="DemoFFTest_vc8" Source="DemoFFTest\DemoFFTest_vc8.vcproj" Description="Project file successfully backed up as 'C:\Users\NK\Documents\Downloads\ois_1.2.0\ois\Win32\DemoFFTest\DemoFFTest_vc8.vcproj.8.00.old'.">
+</Event><Event ErrorLevel="0" Project="DemoFFTest_vc8" Source="DemoFFTest\DemoFFTest_vc8.vcproj" Description="Project upgraded successfully.">
+</Event><Event ErrorLevel="3" Project="DemoFFTest_vc8" Source="DemoFFTest\DemoFFTest_vc8.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="ois_vc8.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="ois_vc8.sln" Description="Converted">
+</Event></UpgradeLog>

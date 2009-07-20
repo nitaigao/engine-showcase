@@ -112,7 +112,7 @@ namespace UX
 			results[ System::TypeStrings::UX ] = luaScope;
 		}
 
-		return results;;
+		return results;
 	}
 
 	void UXSystem::Message( const std::string& message, AnyType::AnyTypeMap parameters )

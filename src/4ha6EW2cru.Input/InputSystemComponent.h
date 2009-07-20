@@ -8,7 +8,7 @@
 #define INPUTSYSTEMCOMPONENT_H
 
 #include <string>
-#include <ois/OIS.h>
+#include <OIS.h>
 
 #include "IInputSystemComponent.hpp"
 #include "InputMessageBinding.hpp"

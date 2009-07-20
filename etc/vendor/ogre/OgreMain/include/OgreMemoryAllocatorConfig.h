@@ -205,6 +205,16 @@ namespace Ogre
 	
 }
 
+#elif OGRE_MEMORY_ALLOCATOR == OGRE_MEMORY_ALLOCATOR_GLOBAL
+
+#include "OgreMemoryGlobalAlloc.h"
+
+namespace Ogre
+{
+	template <MemoryCategory Cat> class CategorisedAllocPolicy : public GlobalAllocPolicy{};
+	template <MemoryCategory Cat, size_t align = 0> class CategorisedAlignAllocPolicy : public GlobalAlignedAllocPolicy<align>{};
+}
+
 #else
 	
 // your allocators here?

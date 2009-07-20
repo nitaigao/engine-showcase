@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../4ha6EW2cru.System;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../../etc/vendor/luabind;../../etc/vendor/ois/includes"
-				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;EXPORT"
+				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;WIN32;EXPORT;OGRE_STATIC_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -59,8 +59,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain_d.lib MyGui_d.lib luad.lib luabindd.lib"
-				AdditionalLibraryDirectories="../../etc/vendor/mygui/myguiengine/lib/debug;../../etc/vendor/ogre/lib;../../etc/vendor/luabind/lib;../../etc/vendor/lua"
+				AdditionalDependencies="MyGuiStatic_d.lib luad.lib luabindd.lib"
+				AdditionalLibraryDirectories="../../etc/vendor/mygui/myguiengine/lib/debug;../../etc/vendor/luabind/lib;../../etc/vendor/lua"
 				IgnoreDefaultLibraryNames="LIBCMT"
 				ModuleDefinitionFile="SystemDefinition.def"
 				GenerateDebugInformation="true"
@@ -116,7 +116,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../4ha6EW2cru.System;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc;../../etc/vendor/mygui/myguiengine/include;../../etc/vendor/lua/include;../../etc/vendor/luabind;../../etc/vendor/ois/includes"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;EXPORT"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;WIN32;EXPORT;OGRE_STATIC_LIB"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -133,7 +133,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib MyGui.lib lua.lib luabind.lib"
+				AdditionalDependencies="OgreMainStatic.lib MyGuiStatic.lib lua.lib luabind.lib"
 				AdditionalLibraryDirectories="../../etc/vendor/mygui/myguiengine/lib/release;../../etc/vendor/ogre/lib;../../etc/vendor/luabind/lib;../../etc/vendor/lua"
 				IgnoreDefaultLibraryNames="LIBCMT"
 				ModuleDefinitionFile="SystemDefinition.def"
@@ -169,6 +169,10 @@
 		<ProjectReference
 			ReferencedProjectIdentifier="{58D6A894-4481-4A63-9958-49AE9B3A83D3}"
 			RelativePathToProject=".\4ha6EW2cru.System\4ha6EW2cru.System.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{29BDC832-1CA6-43C0-B0D1-2908EFBB057B}"
+			RelativePathToProject=".\4ha6EW2cru.Renderer\4ha6EW2cru.Renderer.vcproj"
 		/>
 	</References>
 	<Files>

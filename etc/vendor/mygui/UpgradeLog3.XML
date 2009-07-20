@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
-<Properties/><Event ErrorLevel="0" Project="TestApp.Managed" Source="Wrapper\TestApp.Managed\TestApp.Managed.csproj" Description="Scan complete: Upgrade not required for project files.">
-</Event><Event ErrorLevel="0" Project="TestApp.Sharp" Source="Wrapper\TestApp.Sharp\TestApp.Sharp.csproj" Description="Scan complete: Upgrade not required for project files.">
-</Event><Event ErrorLevel="0" Project="MyGUI.Sharp" Source="Wrapper\MyGUI.Sharp\MyGUI.Sharp.csproj" Description="Scan complete: Upgrade not required for project files.">
-</Event></UpgradeLog>

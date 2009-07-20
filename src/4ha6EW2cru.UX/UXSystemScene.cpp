@@ -1,5 +1,6 @@
 #include "UXSystemScene.h"
 
+using namespace Ogre;
 using namespace MyGUI;
 
 #include "Service/IService.hpp"
@@ -27,8 +28,11 @@ namespace UX
 	void UXSystemScene::Initialize( )
 	{
 		IService* renderService = Management::Get( )->GetServiceManager( )->FindService( System::Types::RENDER );
-		Ogre::RenderWindow* renderWindow = renderService->Execute( "getRenderWindow", AnyType::AnyTypeMap( ) )[ "renderWindow" ].As< Ogre::RenderWindow* >( );
-		m_gui->initialise( renderWindow, "/data/interface/core/core.xml" );
+		Root* root = renderService->Execute( System::Messages::Graphics::GetRootSingleton, AnyType::AnyTypeMap( ) )[ "result" ].As< Ogre::Root* >( );
+		Root::initFromPtr( root ); 
+		
+		Ogre::RenderWindow* renderWindow = renderService->Execute( System::Messages::Graphics::GetRenderWindow, AnyType::AnyTypeMap( ) )[ "renderWindow" ].As< Ogre::RenderWindow* >( );
+		m_gui->initialise( renderWindow, "/data/interface/core/core.xml", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, "" );
 		m_gui->hidePointer( );
 
 		WidgetManager::getInstancePtr( )->registerUnlinker( this );

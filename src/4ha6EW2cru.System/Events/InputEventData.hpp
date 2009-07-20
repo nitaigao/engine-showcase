@@ -8,8 +8,8 @@
 #ifndef INPUTEVENTDATA_HPP
 #define INPUTEVENTDATA_HPP
 
-#include "OIS/OISMouse.h"
-#include "OIS/OISKeyboard.h"
+#include <OISMouse.h>
+#include <OISKeyboard.h>
 
 namespace Events
 {

@@ -14,7 +14,7 @@ using namespace Events;
 #include "IInputSystemScene.hpp"
 #include "IInputSystem.hpp"
 
-#include <OIS/OISKeyboard.h>
+#include <OISKeyboard.h>
 
 namespace Input
 {	

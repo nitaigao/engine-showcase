@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="OIS::EventArg" Collapsed="true">
+    <Position X="11" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAACAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISEvents.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Exception" Collapsed="true">
+    <Position X="17.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAEAAAAAAAAAQAgAAAEBAAABAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISException.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::FactoryCreator" Collapsed="true">
+    <Position X="11.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAEAAABAgAAAAAAAAAAAAAEAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISFactoryCreator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::InputManager" Collapsed="true">
+    <Position X="0.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAASABAAAAAAgAIAAkAAIBAQWAAgFAIAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISInputManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Pov" Collapsed="true">
+    <Position X="5.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACCCABABAAAAIAAAAAAAABAAEACAAAAAAAAAAAABAAQ=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISJoystick.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Slider" Collapsed="true">
+    <Position X="9.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISJoystick.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::JoyStickState" Collapsed="true">
+    <Position X="17.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEEAAAAABCCAAAAAAAAAAAAAAAAAQAAAAQAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISJoystick.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::JoyStickEvent" Collapsed="true">
+    <Position X="8.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAIEAAAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISJoystick.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::JoyStickListener" Collapsed="true">
+    <Position X="15.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAIAAAAAAAAAAAAAAACCAAAAAEAAAAAAAAAAAEQAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISJoystick.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::JoyStick" Collapsed="true">
+    <Position X="3" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAEIAAAQGAAAAAAwAAAAQAAAAAAAAAAAASAAAgAAEAE=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISJoystick.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::KeyEvent" Collapsed="true">
+    <Position X="13.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAEAAAAAAAAIAAAAAACAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISKeyboard.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::KeyListener" Collapsed="true">
+    <Position X="19.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISKeyboard.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Keyboard" Collapsed="true">
+    <Position X="0.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAhAABAQAAAAAAACAAAAAAAIgAIAAABAASAACAAABAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISKeyboard.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::MouseState" Collapsed="true">
+    <Position X="17.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAQAAAAQAYAAAAAAAAAAAAAAAAAAAAAACYAE=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISMouse.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::MouseEvent" Collapsed="true">
+    <Position X="11" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISMouse.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::MouseListener" Collapsed="true">
+    <Position X="15.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACgAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISMouse.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Mouse" Collapsed="true">
+    <Position X="5.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQCAAAAAAAUAAgAAAAAAAAAAAAASAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISMouse.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Object" Collapsed="true">
+    <Position X="3" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAASoAAAGgAAAAABCAAEABEAAAAAAhAgAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Component" Collapsed="true">
+    <Position X="5.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISPrereqs.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Button" Collapsed="true">
+    <Position X="0.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISPrereqs.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Axis" Collapsed="true">
+    <Position X="3" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAACAAQAAAAIAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISPrereqs.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Vector3" Collapsed="true">
+    <Position X="7.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAABgAQAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISPrereqs.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Win32ForceFeedback" Collapsed="true">
+    <Position X="8.5" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AKAAAAAMDaAAAAAEAAAAAAAAAIAIAAAEgAAJCAABAAQ=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\win32\Win32ForceFeedback.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Win32InputManager" Collapsed="true">
+    <Position X="0.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAABAAAEAiABAlAJAAAAIACAAAAEAACABAEIgAAgAAU=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\win32\Win32InputManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Win32JoyStick" Collapsed="true">
+    <Position X="3" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACkAAEASAQIAAACAAAAAEACAAAApAgQAEAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\win32\Win32JoyStick.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Win32Keyboard" Collapsed="true">
+    <Position X="0.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QCAAAEAAACiCAEAAAQAEAACAgAQAEABAACAAAAQABAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\win32\Win32KeyBoard.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Win32Mouse" Collapsed="true">
+    <Position X="5.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACgAAEAAAAAAAACACAAAEAAAACAAABQAAEA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\win32\Win32Mouse.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::JoyStickInfo" Collapsed="true">
+    <Position X="19.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAEAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\win32\Win32Prereqs.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Effect" Collapsed="true">
+    <Position X="15.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RAgAiAAAAEgQYAAAAAEAAAAIAAABAAAAABgAAIAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISEffect.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::ForceEffect" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISEffect.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Envelope" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACgAAAAAACAAAAAAAAAAAgIAAQAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISEffect.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::ConstantEffect" Collapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAEABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISEffect.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::RampEffect" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAIAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISEffect.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::PeriodicEffect" Collapsed="true">
+    <Position X="7.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAIQAAAAAAAAAAAAAAAAAAAAAAQAEAgAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISEffect.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::ConditionalEffect" Collapsed="true">
+    <Position X="9.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAoAAAACAAAAAAAAAAAIAAAAAgIAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISEffect.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::ForceFeedback" Collapsed="true">
+    <Position X="8.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIEAAAAABKAAAACMCAAAAAAAABAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISForceFeedback.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OIS::Interface" Collapsed="true">
+    <Position X="8.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISInterface.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Typedef Name="OIS::ParamList" Collapsed="true">
+    <Position X="17.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISPrereqs.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="OIS::FactoryList" Collapsed="true">
+    <Position X="19.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISPrereqs.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="OIS::FactoryCreatedObject" Collapsed="true">
+    <Position X="17.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISPrereqs.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="OIS::DeviceList" Collapsed="true">
+    <Position X="15.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISPrereqs.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="OIS::JoyStickInfoList" Collapsed="true">
+    <Position X="15.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\win32\Win32Prereqs.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="OIS::OIS_ERROR" Collapsed="true">
+    <Position X="15.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAgAAQACAAAQAQAAAAAQEQAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISException.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OIS::KeyCode" Collapsed="true">
+    <Position X="17.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQBjKmYhFQj4f+j/J0JY1KYjIPz/n5JjTsIgCJ4kmQ8=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISKeyboard.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OIS::MouseButtonID" Collapsed="true">
+    <Position X="19.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAQAAQAAAAAAAAAAAAAAAD0AAAAAAAAAAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISMouse.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OIS::Type" Collapsed="true">
+    <Position X="17.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAQAAAAAAAAAEAAABAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISPrereqs.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OIS::ComponentType" Collapsed="true">
+    <Position X="15.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAgAAAAAAAAAAAAAAAAAABAAAAAAAIAAAAAAACIAAA=</HashCode>
+      <FileName>c:\Users\NK\Documents\Downloads\ois_1.2.0\ois\includes\OISPrereqs.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -34,6 +34,26 @@ def delete_empty_directories(root_directory)
   end
 end
 
+namespace :vendor do
+	desc "Cleans the solution"
+	task :clean do
+		begin
+			MSBuild.new($vendor_file).clean( $build_configuration )
+		rescue Exception => e
+			raise "\n\nFailed: There was an error when trying to clean the solution\n#{e}"
+		end
+	end
+	
+	desc "Builds the solution"
+	task :compile do
+		begin
+			MSBuild.new($vendor_file).compile( $build_configuration )
+		rescue Exception => e
+			raise "\n\nFailed: There was an error when compiling the solution\n#{e}"
+		end
+	end
+end
+
 namespace :build do
 	desc "Cleans the solution"
 	task :clean do
@@ -41,6 +61,14 @@ namespace :build do
 			MSBuild.new($solution_file).clean( $build_configuration )
 		rescue Exception => e
 			raise "\n\nFailed: There was an error when trying to clean the solution\n#{e}"
+		end
+	end
+	
+	task :vendor do
+		begin
+			MSBuild.new($vendor_file).compile( $build_configuration )
+		rescue Exception => e
+			raise "\n\nFailed: There was an error when compiling the vendor dependencies\n#{e}"
 		end
 	end
 	
@@ -142,13 +170,15 @@ end
 
 $build_configuration = 'Release'
 $application_name = '4ha6EW2cru'
+$vendor_file = '../etc/vendor/Vendor.sln'
 $solution_file = $application_name + '.sln'
 $builddir = '../build'
 $packagesdir = File.join( '../', 'packages' );
 $outputdir = File.join( $builddir, $build_configuration )
 
 task :build => ["build:clean", "build:compile", "build:data"]
+task :vendor => ["vendor:clean", "vendor:compile"]
 task :test => ["build:test"]
 task :deploy => [ "deploy:clean", "deploy:store" ]
-task :continuous_integration => [ :build, :test, :deploy ]
+task :continuous_integration => [ :vendor, :build, :test, :deploy ]
 task :default => :build

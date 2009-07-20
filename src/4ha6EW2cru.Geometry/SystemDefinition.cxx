@@ -1,5 +1,7 @@
 #include "GeometrySystem.h"
 
+#include "System/Memory.cxx"
+
 #include "Management/Management.h"
 #include "Logging/Logger.h"
 using namespace Logging;
@@ -11,8 +13,9 @@ BOOL __stdcall DllMain( HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReser
 
 extern "C" void __stdcall Initialize( Management* management, Logger* logger )
 {
-	Management::Initialize( management );
-	Logger::Initialize( logger );
+	//Management::Initialize( management );
+	//Logger::Initialize( logger );
+	Logger::Get( )->Info( "Geometry System Imported" );
 }
 
 extern "C" ISystem* __stdcall CreateSystem( )

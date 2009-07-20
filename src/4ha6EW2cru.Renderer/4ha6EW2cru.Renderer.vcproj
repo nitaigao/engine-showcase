@@ -40,8 +40,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../4ha6EW2cru.System;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc;../../etc/vendor/tinyxml/include"
-				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;EXPORT"
+				AdditionalIncludeDirectories="../4ha6EW2cru.System;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/ogre/rendersystems/direct3d9/include;../../etc/vendor/directx/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc;../../etc/vendor/tinyxml/include"
+				PreprocessorDefinitions="_DEBUG;TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;WIN32;EXPORT;OGRE_STATIC_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -59,8 +59,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ogremain_d.lib tinyxmld.lib Rpcrt4.lib"
-				AdditionalLibraryDirectories="../../etc/vendor/ogre/lib; ../../etc/vendor/tinyxml/lib"
+				AdditionalDependencies="ogremainstatic_d.lib OgreWin32Resources_d.res rendersystem_direct3d9static_d.lib tinyxmld.lib Rpcrt4.lib"
+				AdditionalLibraryDirectories="../../etc/vendor/ogre/lib;../../etc/vendor/tinyxml/lib"
 				IgnoreDefaultLibraryNames="LIBCMT"
 				ModuleDefinitionFile="SystemDefinition.def"
 				GenerateDebugInformation="true"
@@ -115,8 +115,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../4ha6EW2cru.System;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc;../../etc/vendor/tinyxml/include"
-				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;EXPORT"
+				AdditionalIncludeDirectories="../4ha6EW2cru.System;../../etc/vendor/boost/include;../../etc/vendor/ogre/ogremain/include;../../etc/vendor/ogre/rendersystems/direct3d9/include;../../etc/vendor/directx/include;../../etc/vendor/havok/Source;../../etc/vendor/fmod/inc;../../etc/vendor/tinyxml/include"
+				PreprocessorDefinitions="TIXML_USE_STL;VC_EXTRALEAN;WIN32_LEAN_AND_MEAN;WIN32;EXPORT;OGRE_STATIC_LIB"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -133,7 +133,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ogremain.lib tinyxml.lib Rpcrt4.lib"
+				AdditionalDependencies="ogremainstatic.lib rendersystem_direct3d9static.lib tinyxml.lib Rpcrt4.lib"
 				AdditionalLibraryDirectories="../../etc/vendor/ogre/lib; ../../etc/vendor/tinyxml/lib"
 				IgnoreDefaultLibraryNames="LIBCMT"
 				ModuleDefinitionFile="SystemDefinition.def"
@@ -177,6 +177,14 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\BadArchive.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\BadArchiveFactory.cpp"
+				>
+			</File>
 			<File
 				RelativePath=".\Line3d.cpp"
 				>
@@ -235,6 +243,14 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\BadArchive.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BadArchiveFactory.h"
+				>
+			</File>
 			<File
 				RelativePath=".\IRendererSystem.hpp"
 				>

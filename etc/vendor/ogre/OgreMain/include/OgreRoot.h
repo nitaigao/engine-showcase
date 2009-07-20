@@ -177,6 +177,8 @@ namespace Ogre
         Real calculateEventTime(unsigned long now, FrameEventTimeType type);
     public:
 
+		static void initFromPtr( Root* rootPtr );
+
         /** Constructor
         @param pluginFileName The file that contains plugins information.
             Defaults to "plugins.cfg", may be left blank to ignore.

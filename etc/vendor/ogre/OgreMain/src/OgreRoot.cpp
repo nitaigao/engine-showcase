@@ -1285,6 +1285,34 @@ namespace Ogre {
 		}
 		mRQSequenceMap.clear();
 	}
+
+	void Root::initFromPtr( Root* rootPtr )
+
+	{
+		ms_Singleton = rootPtr;
+
+		// initialize all the singletons
+
+		LogManager::setSingletonPtr( rootPtr->mLogManager );
+		ControllerManager::setSingletonPtr( rootPtr->mControllerManager );
+		SceneManagerEnumerator::setSingletonPtr( rootPtr->mSceneManagerEnum );
+		DynLibManager::setSingletonPtr( rootPtr->mDynLibManager );
+		ArchiveManager::setSingletonPtr( rootPtr->mArchiveManager );
+		MaterialManager::setSingletonPtr( rootPtr->mMaterialManager );
+		MeshManager::setSingletonPtr( rootPtr->mMeshManager );
+		ParticleSystemManager::setSingletonPtr( rootPtr->mParticleManager );
+		SkeletonManager::setSingletonPtr( rootPtr->mSkeletonManager );
+		OverlayManager::setSingletonPtr( rootPtr->mOverlayManager );
+		FontManager::setSingletonPtr( rootPtr->mFontManager );
+		ResourceGroupManager::setSingletonPtr( rootPtr->mResourceGroupManager );
+		ResourceBackgroundQueue::setSingletonPtr( rootPtr->mResourceBackgroundQueue );
+		ShadowTextureManager::setSingletonPtr( rootPtr->mShadowTextureManager );
+		RenderSystemCapabilitiesManager::setSingletonPtr( rootPtr->mRenderSystemCapabilitiesManager );
+		ScriptCompilerManager::setSingletonPtr( rootPtr->mCompilerManager );
+
+		HardwareBufferManager::setSingletonPtr( rootPtr->mRenderers[ 0 ]->_getHardwareBufferManager( ) );
+		TextureManager::setSingletonPtr( rootPtr->mRenderers[ 0 ]->_getTextureManager( ) );
+	}
 	//---------------------------------------------------------------------
 
 

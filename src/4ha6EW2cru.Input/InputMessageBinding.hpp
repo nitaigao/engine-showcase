@@ -3,7 +3,7 @@
 
 #include "InputMessageBindingType.hpp"
 
-#include <ois/OIS.h>
+#include <OIS.h>
 
 namespace Input
 {

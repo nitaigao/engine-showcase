@@ -9,8 +9,8 @@
 
 #include "System/ISystemComponent.hpp"
 
-#include <OIS/OISKeyboard.h>
-#include <OIS/OISMouse.h>
+#include <OISKeyboard.h>
+#include <OISMouse.h>
 
 namespace Input
 {

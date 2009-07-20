@@ -77,6 +77,7 @@ namespace Ogre {
 		{	assert( ms_Singleton );  return ( *ms_Singleton ); }
         static T* getSingletonPtr( void )
 		{ return ms_Singleton; }
+		static void setSingletonPtr( T* ptr ) { ms_Singleton = ptr; };
     };
 }
 #if defined ( OGRE_GCC_VISIBILITY )

@@ -46,6 +46,7 @@ Torus Knot Software Ltd.
 #include "OgreGpuProgram.h"
 #include "OgrePlane.h"
 #include "OgreIteratorWrappers.h"
+#include "OgreHardwareBufferManager.h"
 
 namespace Ogre
 {
@@ -1016,6 +1017,10 @@ namespace Ogre
 		/** Internal method for swapping all the buffers on all render targets,
 		if _updateAllRenderTargets was called with a 'false' parameter. */
 		virtual void _swapAllRenderTargetBuffers(bool waitForVsync = true);
+
+		virtual TextureManager* _getTextureManager( ) { return mTextureManager; };
+
+		virtual HardwareBufferManager* _getHardwareBufferManager( ) = 0;
 
 		/** Sets whether or not vertex windings set should be inverted; this can be important
 		for rendering reflections. */

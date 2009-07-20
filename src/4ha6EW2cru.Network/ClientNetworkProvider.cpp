@@ -9,6 +9,7 @@ using namespace Configuration;
 #include <RakNetworkFactory.h>
 #include <RakSleep.h>
 #include <BitStream.h>
+#include <RakPeer.h>
 #include <MessageIdentifiers.h>
 using namespace RakNet;
 
@@ -44,7 +45,7 @@ namespace Network
 		m_configuration->SetDefault( ConfigSections::Network, ConfigItems::Network::ClientSleepTime, 0 );
 		m_configuration->SetDefault( ConfigSections::Network, ConfigItems::Network::MaxClientReleaseTime, 10 );
 
-		m_networkInterface = RakNetworkFactory::GetRakPeerInterface( );
+		m_networkInterface = new RakPeer( );
 
 		m_networkInterface->Startup( 
 			m_configuration->Find( ConfigSections::Network, ConfigItems::Network::MaxClientConnections ).As< int >( ), 

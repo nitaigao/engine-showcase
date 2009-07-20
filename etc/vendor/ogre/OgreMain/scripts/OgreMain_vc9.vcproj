@@ -268,7 +268,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="zziplibd.lib freetype235_D.lib freeimaged.lib zlibd.lib "
+				AdditionalDependencies="zziplibd.lib freetype235_D.lib freeimaged.lib "
 				OutputFile="$(OutDir)\$(ProjectName)Static_d.lib"
 				AdditionalLibraryDirectories="..\..\lib;..\..\Dependencies\lib\Debug"
 			/>
@@ -347,7 +347,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="zziplib.lib freetype235.lib freeimage.lib zlib.lib"
+				AdditionalDependencies="zziplib.lib freetype235.lib freeimage.lib"
 				OutputFile="$(OutDir)\$(ProjectName)Static.lib"
 				AdditionalLibraryDirectories="..\..\lib;..\..\Dependencies\lib\Release"
 			/>
@@ -1503,6 +1503,10 @@
 			</File>
 			<File
 				RelativePath="..\include\OgreMemoryAllocatorConfig.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\OgreMemoryGlobalAlloc.h"
 				>
 			</File>
 			<File
