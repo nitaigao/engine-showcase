@@ -1,6 +1,0 @@
-USELIB("c:\tmp\compile\mockpp_44.lib");
-USEUNIT("..\mockpp\tests\readability_test.cpp");
-USEUNIT("..\mockpp\tests\classes_ABCDE.cpp");
-//---------------------------------------------------------------------------
-This file is used by the project manager only and should be treated like the project file
-main

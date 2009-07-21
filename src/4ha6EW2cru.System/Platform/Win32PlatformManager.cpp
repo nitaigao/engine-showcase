@@ -122,7 +122,7 @@ namespace Platform
 
 	AnyType::AnyTypeMap Win32PlatformManager::GetProgramOptions( ) const
 	{
-		/*int argc = 0;
+		int argc = 0;
 		LPWSTR* argv = CommandLineToArgvW( GetCommandLineW( ), &argc );
 
 		options_description optionsDescription( "Allowed options" );
@@ -148,15 +148,15 @@ namespace Platform
 			.options( optionsDescription )
 			.positional( positionalDescription )
 			.run( ), variablesMap 
-			);*/
+			);
 			
 
 		AnyType::AnyTypeMap programOptions;
 
-		/*for ( variables_map::iterator i = variablesMap.begin( ); i != variablesMap.end( ); ++i )
+		for ( variables_map::iterator i = variablesMap.begin( ); i != variablesMap.end( ); ++i )
 		{
 			programOptions[ ( *i ).first ] = ( *i ).second.as< std::string >( );
-		}*/
+		}
 
 		return programOptions;
 	}

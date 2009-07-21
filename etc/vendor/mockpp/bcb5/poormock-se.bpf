@@ -1,6 +1,0 @@
-USELIB("c:\tmp\compile\mockpp_44.lib");
-USEUNIT("..\mockpp\examples\tutorial\poormock-se.cpp");
-USEUNIT("..\mockpp\examples\tutorial\consumer.cpp");
-T//---------------------------------------------------------------------------
-his file is used by the project manager only and should be treated like the project file
-main

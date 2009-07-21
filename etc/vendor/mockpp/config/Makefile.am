@@ -1,1 +1,0 @@
-EXTRA_DIST = ac_cxx_rtti.m4 ac_cxx_except.m4
