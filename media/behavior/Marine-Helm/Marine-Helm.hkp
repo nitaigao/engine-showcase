@@ -1,0 +1,259 @@
+<!--HBT-->
+<HBT version="1.0">
+    <HBT_ITEM type="HavokTools.hkAssetLocationInfo" name="AssetLocationInfo" priority="0">
+        <hkAssetLocationInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <IncomingRefs />
+            <MachineName>NK-PC</MachineName>
+            <ProjectPath>C:\Users\NK\Development\viper\etc\assets\behavior\Marine-Helm\</ProjectPath>
+            <ProjectName>Marine-Helm.hkp</ProjectName>
+            <CharacterAssetsFolder>C:\Users\NK\Development\viper\etc\assets\animation\Marine-Helm\</CharacterAssetsFolder>
+            <CharactersFolder>Characters\</CharactersFolder>
+            <AnimationsFolder>C:\Users\NK\Development\viper\etc\assets\animation\Marine-Helm\</AnimationsFolder>
+            <BehaviorsFolder>Behaviors\</BehaviorsFolder>
+            <TerrainFolder>Terrain\</TerrainFolder>
+        </hkAssetLocationInfo>
+    </HBT_ITEM>
+    <HBT_ITEM type="HavokTools.hkGameViewInfo" name="GameViewInfo" priority="0">
+        <hkGameViewInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <IncomingRefs />
+            <GameViewApplication />
+            <GameViewWorkingDirectory />
+            <GameViewCommandString />
+        </hkGameViewInfo>
+    </HBT_ITEM>
+    <HBT_ITEM type="HavokTools.hkPlaybackOptions" name="PlaybackOptions" priority="0">
+        <hkPlaybackOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <IncomingRefs />
+            <AccumulateMotionEnabled>true</AccumulateMotionEnabled>
+            <TreadmillEnabled>true</TreadmillEnabled>
+        </hkPlaybackOptions>
+    </HBT_ITEM>
+    <HBT_ITEM type="HavokTools.hkPlatformExportConfig" name="PlatformExportConfig" priority="0">
+        <hkPlatformExportConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <IncomingRefs />
+            <ParentNodes />
+            <Notes />
+            <NotesPopUpAutomatically>false</NotesPopUpAutomatically>
+            <Checklist>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+            </Checklist>
+            <ChecklistXML>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+                <boolean>false</boolean>
+            </ChecklistXML>
+            <Platforms>
+                <string>Win32 MSVC</string>
+                <string>AMD64 MSVC</string>
+                <string>Xbox</string>
+                <string>PS2 CW</string>
+                <string>PS2 GCC 3.2</string>
+                <string>PS2 SN 3.1</string>
+                <string>GameCube CW</string>
+                <string>GameCube SN 3.93</string>
+                <string>Linux GCC 2.95</string>
+                <string>Linux GCC 3.3</string>
+                <string>PSP SNC 1.0x</string>
+                <string>PSP GCC 1.5.1</string>
+                <string>Xbox 360</string>
+                <string>PS3 GCC</string>
+                <string>Mac PPC GCC 4.0</string>
+                <string>Mac Intel GCC 4.0</string>
+                <string>WII CW</string>
+            </Platforms>
+            <Suffixes>
+                <string>_MSVC_WIN32</string>
+                <string>_MSVC_AMD64</string>
+                <string>_MSVC_XBOX</string>
+                <string>_CW_PS2</string>
+                <string>_GCC32_PS2</string>
+                <string>_SN31_PS2</string>
+                <string>_CW_NGC</string>
+                <string>_SN393_NGC</string>
+                <string>_GCC295_LINUX</string>
+                <string>_GCC33_LINUX</string>
+                <string>_SN10_PSP</string>
+                <string>_GCC151_PSP</string>
+                <string>_XBOX360</string>
+                <string>_GCC_PS3</string>
+                <string>_GCC40_MAC_PPC</string>
+                <string>_GCC40_MAC_INTEL</string>
+                <string>_CW_WII</string>
+            </Suffixes>
+            <Extensions>
+                <string>.hkx</string>
+                <string>.hkx</string>
+                <string>.hkx</string>
+                <string>.hkx</string>
+                <string>.hkx</string>
+                <string>.hkx</string>
+                <string>.hkx</string>
+                <string>.hkx</string>
+                <string>.hkx</string>
+                <string>.hkx</string>
+                <string>.hkx</string>
+                <string>.hkx</string>
+                <string>.hkx</string>
+                <string>.hkx</string>
+                <string>.hkx</string>
+                <string>.hkx</string>
+                <string>.hkx</string>
+            </Extensions>
+            <ExportPaths>
+                <string>Export\</string>
+                <string>Export\</string>
+                <string>Export\</string>
+                <string>Export\</string>
+                <string>Export\</string>
+                <string>Export\</string>
+                <string>Export\</string>
+                <string>Export\</string>
+                <string>Export\</string>
+                <string>Export\</string>
+                <string>Export\</string>
+                <string>Export\</string>
+                <string>Export\</string>
+                <string>Export\</string>
+                <string>Export\</string>
+                <string>Export\</string>
+                <string>Export\</string>
+            </ExportPaths>
+            <ExportSaveOptions>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+                <ExportSaveOption>RelativeToAssets</ExportSaveOption>
+            </ExportSaveOptions>
+        </hkPlatformExportConfig>
+    </HBT_ITEM>
+    <HBT_ITEM type="HavokTools.hkGenericConfigInfo" name="GenericConfigInfo" priority="0">
+        <hkGenericConfigInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <IncomingRefs />
+            <Hash>
+                <Keys>
+                    <anyType xsi:type="xsd:string">Viewport.RenderShaded</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.RenderWorldFromModelTripod</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.RenderFlashlight</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.RenderSkeleton</anyType>
+                    <anyType xsi:type="xsd:string">GraphView.DefaultTransitionDuration</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.RenderWireframe</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.BackfaceCullingMode</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.RenderTexture</anyType>
+                    <anyType xsi:type="xsd:string">Playback.TimeMultiplier</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.DisplayMesh</anyType>
+                    <anyType xsi:type="xsd:string">Playback.PlaybackMode</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.GridSize</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.RenderVertexColor</anyType>
+                    <anyType xsi:type="xsd:string">GraphView.TransitionLabel</anyType>
+                    <anyType xsi:type="xsd:string">DataStore.ActiveCharacters</anyType>
+                    <anyType xsi:type="xsd:string">Playback.SamplesPerSecond</anyType>
+                    <anyType xsi:type="xsd:string">GraphView.AutoCreateEvents</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.ProjectionMode</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.AccumulateMotion</anyType>
+                    <anyType xsi:type="xsd:string">Playback.TimeDisplayUnits</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.RenderSceneLighting</anyType>
+                    <anyType xsi:type="xsd:string">GraphView.TransitionEffectDefaultEventMode</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.UpAxis</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.DisplayOrigin</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.TreadmillAxis</anyType>
+                    <anyType xsi:type="xsd:string">Gamepad.DeadZone</anyType>
+                    <anyType xsi:type="xsd:string">AssetViewer.expansionListAssets</anyType>
+                    <anyType xsi:type="xsd:string">DataStore.ActiveTerrains</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.ShowGrid</anyType>
+                    <anyType xsi:type="xsd:string">AssetViewer.expansionList</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.DisplayAxisTripod</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.BackFaceCullingMode</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.ForwardAxis</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.GridSubdivisionsPerSide</anyType>
+                    <anyType xsi:type="xsd:string">GraphView.TransitionLabelShowFactor</anyType>
+                    <anyType xsi:type="xsd:string">Viewport.CoordinateSystem</anyType>
+                </Keys>
+                <Values>
+                    <anyType xsi:type="xsd:boolean">true</anyType>
+                    <anyType xsi:type="xsd:boolean">true</anyType>
+                    <anyType xsi:type="xsd:boolean">true</anyType>
+                    <anyType xsi:type="xsd:boolean">false</anyType>
+                    <anyType xsi:type="xsd:float">0.5</anyType>
+                    <anyType xsi:type="xsd:boolean">false</anyType>
+                    <anyType xsi:type="xsd:string">Clockwise</anyType>
+                    <anyType xsi:type="xsd:boolean">true</anyType>
+                    <anyType xsi:type="xsd:float">1</anyType>
+                    <anyType xsi:type="xsd:boolean">true</anyType>
+                    <anyType xsi:type="xsd:string">SinglePlay</anyType>
+                    <anyType xsi:type="xsd:float">50</anyType>
+                    <anyType xsi:type="xsd:boolean">false</anyType>
+                    <anyType xsi:type="xsd:string">EventName</anyType>
+                    <anyType xsi:type="hkRefMakerOfhkCharacter">
+                        <MangledTargetNames />
+                    </anyType>
+                    <anyType xsi:type="xsd:int">30</anyType>
+                    <anyType xsi:type="xsd:boolean">true</anyType>
+                    <anyType xsi:type="xsd:string">Perspective</anyType>
+                    <anyType xsi:type="xsd:string">AccumulateMotionOnWithTreadmill</anyType>
+                    <anyType xsi:type="xsd:string">Seconds</anyType>
+                    <anyType xsi:type="xsd:boolean">false</anyType>
+                    <anyType xsi:type="xsd:string">ProcessAll</anyType>
+                    <anyType xsi:type="xsd:string">Z</anyType>
+                    <anyType xsi:type="xsd:boolean">false</anyType>
+                    <anyType xsi:type="xsd:string">XYZ</anyType>
+                    <anyType xsi:type="xsd:float">0.125</anyType>
+                    <anyType xsi:type="xsd:string">110</anyType>
+                    <anyType xsi:type="hkRefMakerOfhkTerrainHKX">
+                        <MangledTargetNames />
+                    </anyType>
+                    <anyType xsi:type="xsd:boolean">true</anyType>
+                    <anyType xsi:type="xsd:string">1110</anyType>
+                    <anyType xsi:type="xsd:boolean">true</anyType>
+                    <anyType xsi:type="xsd:string">Clockwise</anyType>
+                    <anyType xsi:type="xsd:string">X</anyType>
+                    <anyType xsi:type="xsd:int">20</anyType>
+                    <anyType xsi:type="xsd:float">0.75</anyType>
+                    <anyType xsi:type="xsd:string">Right-handed</anyType>
+                </Values>
+            </Hash>
+        </hkGenericConfigInfo>
+    </HBT_ITEM>
+</HBT>
