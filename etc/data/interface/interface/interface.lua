@@ -29,6 +29,7 @@ function Interface.initialize( )
 	ux:loadComponent( 'statistics' )
 	ux:loadComponent( 'actor_hit' )
 	ux:loadComponent( 'key_binder' )
+	ux:loadComponent( 'characterselect' )
 	
 end
 

@@ -3,6 +3,7 @@
 #include "BasisManager.h"
 #include "InputManager.h"
 #include "resource.h"
+#include <OgreD3D9Plugin.h>
 
 BasisManager::BasisManager() :
 	mRoot(0),
@@ -46,7 +47,9 @@ void BasisManager::createBasisManager(void) // создаем начальную точки каркаса п
 		pluginsPath = mResourcePath + "plugins.cfg";
 	#endif
 
-	mRoot = new Ogre::Root(pluginsPath, mResourcePath + "ogre.cfg", mResourcePath + "Ogre.log");
+	mRoot = new Ogre::Root("", mResourcePath + "ogre.cfg", mResourcePath + "Ogre.log");
+
+	mRoot->installPlugin( new Ogre::D3D9Plugin( ) );
 
 	setupResources();
 

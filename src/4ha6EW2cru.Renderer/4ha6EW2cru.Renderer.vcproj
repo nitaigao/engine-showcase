@@ -186,11 +186,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CameraComponent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FPSCameraComponent.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Line3d.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\LineFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreLogListener.cpp"
 				>
 			</File>
 			<File
@@ -211,10 +223,6 @@
 			</File>
 			<File
 				RelativePath=".\RendererSystem.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RendererSystemCameraComponent.cpp"
 				>
 			</File>
 			<File
@@ -252,6 +260,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CameraComponent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FPSCameraComponent.h"
+				>
+			</File>
+			<File
 				RelativePath=".\IRendererSystem.hpp"
 				>
 			</File>
@@ -269,6 +285,10 @@
 			</File>
 			<File
 				RelativePath=".\LineFactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreLogListener.h"
 				>
 			</File>
 			<File
@@ -301,10 +321,6 @@
 			</File>
 			<File
 				RelativePath=".\RendererSystem.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RendererSystemCameraComponent.h"
 				>
 			</File>
 			<File

@@ -1,0 +1,19 @@
+x when a user connects the server should send a change level message to allow the client to load the level
+x when the client loads the level successfully it should send a message to say so
+
+x when a client has loaded the level successfully the client should switch to the general overview camera for the level
+x when a client has loaded the level successfully the user should be presented with a character select screen
+x when a user selected a character the client should send a message telling the server about the character selection
+when a client sends a character select message to the server the server should load the character file and send a message to the client that it has loaded the file
+when the server has loaded all requirements for a client to play the game it should send the client a 'ready to play' message
+when a client has loaded all requirements for to play the game it should send the 'ready to play' message to the server
+when a server receives or send the 'ready to play' message, if the other side of the connection has also send the message it should spawn the character
+
+
+
+
+
+when the user disconnects the its entity should be removed from the simulation
+when the user inputs keys or mouse, those inputs should be sent to the server and the server sends a response
+when the server receives input commands those inputs should control an aspect of the simulation and the server should send those changes back to the client
+when the server changes level it should update the clients and the clients change level to accomodate

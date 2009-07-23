@@ -70,7 +70,7 @@ namespace Events
 
 	EventManager::~EventManager()
 	{
-		Logger::Get( )->Info( "EventManager::Release - Releasing Event Manager" );
+		Info( "Releasing Event Manager" );
 
 		while( m_eventQueue.size( ) > 0 )
 		{

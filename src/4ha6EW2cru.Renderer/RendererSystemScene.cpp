@@ -1,7 +1,8 @@
 #include "RendererSystemScene.h"
 
 #include "RendererSystemComponent.h"
-#include "RendererSystemCameraComponent.h"
+#include "FPSCameraComponent.h"
+#include "CameraComponent.h"
 
 namespace Renderer
 {
@@ -9,9 +10,13 @@ namespace Renderer
 	{
 		IRendererSystemComponent* component = 0;
 
-		if( type == "camera" )
+		if( type == "fpscamera" )
 		{
-			component = new RendererSystemCameraComponent( name, this );
+			component = new FPSCameraComponent( name, this );
+		}
+		else if ( type == "camera" )
+		{
+			component = new CameraComponent( name, this );
 		}
 		else
 		{

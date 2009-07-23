@@ -1,6 +1,6 @@
 #include "ServerNetworkProvider.h"
 
-#include "NetworkUtils.hpp"
+#include "NetworkUtils.h"
 
 #include "Configuration/Configuration.h"
 #include "Configuration/ConfigurationTypes.hpp"
@@ -100,7 +100,7 @@ namespace Network
 
 			if( logMessage.str( ).length( ) > 0 )
 			{
-				Logger::Get( )->Debug( logMessage.str( ) );
+				Debug( logMessage.str( ) );
 			}
 
 			m_networkInterface->DeallocatePacket( packet );
@@ -114,16 +114,19 @@ namespace Network
 
 	void ServerNetworkProvider::OnClientConnected( Packet* packet )
 	{
-		std::stringstream logMessage;
-		logMessage << "Server - " << packet->systemAddress.ToString( false ) << " connected";
-		Logger::Get( )->Debug( logMessage.str( ) );
+		Debug( packet->systemAddress.ToString( ), "connected" );
 
 		m_clients.push_back( packet->systemAddress );
 
 		AnyType::AnyTypeMap parameters;
 		parameters[ System::Parameters::Game::LevelName ] = Management::Get( )->GetInstrumentation( )->GetLevelName( );
 
-		this->SendMessageTo( packet->systemAddress, System::Messages::Game::ChangeLevel, parameters );
+		NetworkMessage messageToSend;
+		messageToSend.message = ID_USER_PACKET_ENUM;
+		messageToSend.messageId = System::Messages::Game::ChangeLevel.c_str( );
+		messageToSend.parameters = parameters;
+
+		NetworkUtils::SendNetworkMessage( messageToSend, packet->systemAddress, m_networkInterface );
 	}
 
 	void ServerNetworkProvider::OnUserPacketReceived( Packet* packet )
@@ -131,11 +134,7 @@ namespace Network
 		BitStream bitStream( packet->data, packet->length, false );
 		NetworkMessage* message = NetworkUtils::DeSerialize( &bitStream );
 
-		std::stringstream logMessage;
-		std::string messageText = message->parameters[ System::Parameters::Network::ComponentMessage ].As< System::Message >( );
-		messageText = ( messageText.empty( ) ) ? message->messageId.C_String( ) : messageText;
-		logMessage << "ServerNetworkProvider::OnUserPacketReceived - " << messageText << " from " << packet->systemAddress.ToString( false );
-		Logger::Get( )->Debug( logMessage.str( ) );
+		Debug( message->messageId.C_String( ), "from", packet->systemAddress.ToString( false ) );
 
 		if ( message->messageId == System::Messages::Network::ComponentUpdate.c_str( ) )
 		{
@@ -144,34 +143,26 @@ namespace Network
 				message->parameters[ System::Parameters::Network::ComponentMessage ].As< System::Message >( ),
 				message->parameters
 				);
+
+			std::string messageText = message->parameters[ System::Parameters::Network::ComponentMessage ].As< System::Message >( );
+			messageText = ( messageText.empty( ) ) ? message->messageId.C_String( ) : messageText;
+			Debug( messageText, "from", packet->systemAddress.ToString( false ) );
+		}
+
+		if ( message->messageId == System::Messages::Network::Client::CharacterSelected.c_str( ) )
+		{
+			//IEvent* event = new ScriptEvent( "CHARACTER_SELECTED", message->parameters[ System::Parameters::Network::Client::CharacterName ].As< System::Message >( ) );
+			//Management::Get( )->GetEventManager( )->QueueEvent( event );
 		}
 	}
 
-	void ServerNetworkProvider::SendMessageTo( const SystemAddress& networkAddress, const std::string& message, AnyType::AnyTypeMap parameters )
-	{
-		NetworkMessage messageToSend;
-		messageToSend.message = ID_USER_PACKET_ENUM;
-		messageToSend.messageId = message.c_str( );
-		messageToSend.parameters = parameters;
-
-		messageToSend.parameters[ System::Parameters::Network::ComponentMessage ] = std::string( "" );
-
-		BitStream* bitStream = NetworkUtils::Serialize( messageToSend );
-
-		m_networkInterface->Send( bitStream, MEDIUM_PRIORITY, RELIABLE, 0, networkAddress, false );
-
-		delete bitStream;
-
-		std::stringstream logMessage;
-		std::string messageText = messageToSend.parameters[ System::Parameters::Network::ComponentMessage ].As< System::Message >( );
-		messageText = ( messageText.empty( ) ) ? messageToSend.messageId.C_String( ) : messageText;
-		logMessage << "ServerNetworkProvider::SendMessageTo - " << messageText << " to " << networkAddress.ToString( false );
-		Logger::Get( )->Debug( logMessage.str( ) );
-	}
 
 	void ServerNetworkProvider::PushMessage( const std::string& componentId, const std::string& message, AnyType::AnyTypeMap parameters )
 	{
-		if ( message == System::Messages::SetPosition )
+		if ( 
+			message == System::Messages::SetPosition ||
+			message == System::Messages::SetOrientation
+			)
 		{
 			parameters[ System::Parameters::Network::ComponentMessage ] = message;
 			parameters[ System::Parameters::Network::ComponentId ] = componentId;
@@ -181,17 +172,9 @@ namespace Network
 			messageToSend.messageId = System::Messages::Network::ComponentUpdate.c_str( );
 			messageToSend.parameters = parameters;
 
-			BitStream* bitStream = NetworkUtils::Serialize( messageToSend );
-
 			for ( SystemAddressList::iterator i = m_clients.begin( ); i != m_clients.end( ); ++i )
 			{
-				m_networkInterface->Send( bitStream, MEDIUM_PRIORITY, RELIABLE, 0, ( *i ), false );
-
-				std::stringstream logMessage;
-				logMessage << "ServerNetworkProvider::PushMessage - " << message << " to " << ( *i ).ToString( false );
-				Logger::Get( )->Debug( logMessage.str( ) );
-
-				delete bitStream;
+				NetworkUtils::SendNetworkMessage( messageToSend, ( *i ), m_networkInterface );
 			}
 		}
 	}

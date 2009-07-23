@@ -132,6 +132,11 @@ namespace System
 			static const Parameter ComponentMessage		=	"componentMessage";
 			static const Parameter EndOfParameters		=	"endOfParameters";
 			static const Parameter Sender				=	"sender";
+
+			namespace Client
+			{
+				static const Parameter CharacterName	=	"characterName";
+			}
 		}
 
 		namespace Game
@@ -209,6 +214,12 @@ namespace System
 			static const Message ComponentUpdate		=	"updateComponent";
 			static const Message NetwokSetPosition		=	"networkSetPosition";
 			static const Message NetworkSetOrientation	=	"networkSetOrientation";
+
+			namespace Client
+			{
+				static const Message LevelLoaded		=	"levelLoaded";
+				static const Message CharacterSelected	=	"characterSelelected";
+			}
 		}
 
 		namespace Input

@@ -69,9 +69,7 @@ namespace IO
 
 	bool FileSystem::Mount( const std::string& filePath, const std::string& mountPoint )
 	{
-		std::stringstream mountMessage;
-		mountMessage << "FileSystem::Mount - Mounting " << filePath << " to " << mountPoint;
-		Logger::Get( )->Info( mountMessage.str( ) );
+		Info( "Mounting", filePath, "to", mountPoint );
 
 		int result = ( PHYSFS_mount( filePath.c_str( ), mountPoint.c_str( ), 1 ) > 0 );
 

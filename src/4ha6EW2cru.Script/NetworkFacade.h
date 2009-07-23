@@ -55,6 +55,14 @@ namespace Script
 		void Connect( const std::string& hostAddress, const int& port );
 
 
+		/*! Messages the Server that a character has been selected
+		*
+		* @param[in] const std::string & characterName
+		* @return ( void )
+		*/
+		void SelectCharacter( const std::string& characterName );
+
+
 	private:
 
 		NetworkFacade( const NetworkFacade & copy ) { };

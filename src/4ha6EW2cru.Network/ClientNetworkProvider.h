@@ -10,6 +10,7 @@
 
 #include "INetworkProvider.hpp"
 #include "INetworkSystem.hpp"
+#include "NetworkMessage.hpp"
 
 #include <RakPeerInterface.h>
 
@@ -49,7 +50,11 @@ namespace Network
 
 		void Message( const std::string& message, AnyType::AnyTypeMap parameters );
 
+		void PushMessage( const std::string& message, AnyType::AnyTypeMap parameters );
+
 		void PushMessage( const std::string& componentId, const std::string& message, AnyType::AnyTypeMap parameters );
+
+		void SendNetworkMessage( const NetworkMessage& message, const SystemAddress& destination );
 
 	private:
 

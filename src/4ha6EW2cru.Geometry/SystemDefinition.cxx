@@ -15,7 +15,7 @@ extern "C" void __stdcall Initialize( Management* management, Logger* logger )
 {
 	//Management::Initialize( management );
 	//Logger::Initialize( logger );
-	Logger::Get( )->Info( "Geometry System Imported" );
+	Debug( "Geometry System Imported" );
 }
 
 extern "C" ISystem* __stdcall CreateSystem( )

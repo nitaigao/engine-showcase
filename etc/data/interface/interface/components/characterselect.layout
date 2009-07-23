@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout">
+    <Widget type="Window" skin="Window" position="304 168 696 448" align="HCenter VCenter" layer="Modal" name="character_select">
+        <Property key="Widget_Caption" value="Select Your Character"/>
+        <Widget type="StaticImage" skin="StaticImage" position="276 105 128 128" layer="Back" name="character_marine">
+            <Property key="Image_Texture" value="/data/entities/textures/thumbnails/marine.png"/>
+        </Widget>
+    </Widget>
+</MyGUI>

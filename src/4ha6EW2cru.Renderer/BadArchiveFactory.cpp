@@ -18,9 +18,7 @@ namespace Renderer
 
 	Ogre::Archive* BadArchiveFactory::createInstance( const Ogre::String& name )
 	{
-		std::stringstream logMessage;
-		logMessage << "BadArchiveFactory::createInstance - of " << name;
-		Logger::Get( )->Debug( logMessage.str( ) );
+		Debug( name );
 
 		std::string archiveName = "";
 
@@ -48,9 +46,7 @@ namespace Renderer
 			throw e;
 		}
 
-		std::stringstream logMessage;
-		logMessage << "BadArchiveFactory::destroyInstance - Instance of " << archive->getName( );
-		Logger::Get( )->Debug( logMessage.str( ) );
+		Debug( archive->getName( ) );
 
 		delete archive;
 	}

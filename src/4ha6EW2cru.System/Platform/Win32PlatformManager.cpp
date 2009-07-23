@@ -16,6 +16,9 @@
 #include <boost/program_options.hpp>
 using namespace boost::program_options;
 
+#include "../Logging/Logger.h"
+using namespace Logging;
+
 LRESULT CALLBACK WindowProcedure( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	switch( msg )

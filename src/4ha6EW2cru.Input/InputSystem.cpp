@@ -23,7 +23,7 @@ namespace Input
 	
 	void InputSystem::Initialize( Configuration::IConfiguration* configuration )
 	{ 	
-		Logger::Get( )->Info( "Initializing Input System" );
+		Info( "Initializing Input System" );
 
 		m_configuration = configuration;
 

@@ -15,6 +15,7 @@
 
 #include "IRendererSystem.hpp"
 #include "IRenderSystemScene.h"
+#include "OgreLogListener.h"
 
 namespace Renderer 
 {
@@ -45,6 +46,7 @@ namespace Renderer
 			, m_window( 0 )
 			, m_sceneManager( 0 )
 			, m_scene( 0 )
+			, m_logListener( 0 )
 		{
 
 		}
@@ -149,6 +151,7 @@ namespace Renderer
 		Ogre::RenderWindow* m_window;
 
 		FactoryList m_factories;
+		OgreLogListener* m_logListener;
 
 	};
 };

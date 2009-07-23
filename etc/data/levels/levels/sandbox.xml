@@ -1,32 +1,37 @@
 <level>
   <environment>
     <colors>
-      <color type="colourAmbient" r="1" g="1" b="1" />
+      <color type="colourAmbient" r="0.333333" g="0.333333" b="0.333333" />
       <color type="colourBackground" r="0" g="0" b="0" />
     </colors>
   </environment>
   <entities>
-    <entity name="floor">
+    <entity name="sandbox_floorh">
       <components>
+        <component type="default" system="graphics">
+          <attributes>
+            <attribute key="model" v1="/data/entities/models/sandbox_floorh.model" />
+          </attributes>
+        </component>
         <component type="default" system="physics">
           <attributes>
-            <attribute key="body" v1="/data/entities/bodies/floor.hkx" />
+            <attribute key="body" v1="/data/entities/bodies/sandbox_floorh.hkx" />
           </attributes>
         </component>
         <component type="default" system="geometry">
           <attributes>
             <attribute key="scale" v1="1" v2="1" v3="1" />
-            <attribute key="position" v1="2.08789" v2="0" v3="-4.6502" />
+            <attribute key="position" v1="2.08789" v2="-2.03267e-007" v3="-4.6502" />
             <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
           </attributes>
         </component>
       </components>
     </entity>
-    <entity name="wall01">
+    <entity name="sandbox_wall01">
       <components>
         <component type="default" system="physics">
           <attributes>
-            <attribute key="body" v1="/data/entities/bodies/wall01.hkx" />
+            <attribute key="body" v1="/data/entities/bodies/sandbox_wall01.hkx" />
           </attributes>
         </component>
         <component type="default" system="geometry">
@@ -38,11 +43,11 @@
         </component>
       </components>
     </entity>
-    <entity name="wall02">
+    <entity name="sandbox_wall02">
       <components>
         <component type="default" system="physics">
           <attributes>
-            <attribute key="body" v1="/data/entities/bodies/wall02.hkx" />
+            <attribute key="body" v1="/data/entities/bodies/sandbox_wall02.hkx" />
           </attributes>
         </component>
         <component type="default" system="geometry">
@@ -54,34 +59,34 @@
         </component>
       </components>
     </entity>
-    <entity name="wall03">
+    <entity name="sandbox_wall03">
       <components>
         <component type="default" system="physics">
           <attributes>
-            <attribute key="body" v1="/data/entities/bodies/wall03.hkx" />
+            <attribute key="body" v1="/data/entities/bodies/sandbox_wall03.hkx" />
           </attributes>
         </component>
         <component type="default" system="geometry">
           <attributes>
             <attribute key="scale" v1="1" v2="1" v3="1" />
             <attribute key="position" v1="-498.336" v2="23.6222" v3="-5.94495" />
-            <attribute key="orientation" v1="0.499687" v2="-0.500313" v3="0.500313" v4="0.499687" />
+            <attribute key="orientation" v1="0.499687" v2="-0.500312" v3="0.500313" v4="0.499687" />
           </attributes>
         </component>
       </components>
     </entity>
-    <entity name="wall04">
+    <entity name="sandbox_wall04">
       <components>
         <component type="default" system="physics">
           <attributes>
-            <attribute key="body" v1="/data/entities/bodies/wall04.hkx" />
+            <attribute key="body" v1="/data/entities/bodies/sandbox_wall04.hkx" />
           </attributes>
         </component>
         <component type="default" system="geometry">
           <attributes>
             <attribute key="scale" v1="1" v2="1" v3="1" />
             <attribute key="position" v1="498.336" v2="23.6222" v3="-4.69873" />
-            <attribute key="orientation" v1="0.499687" v2="-0.500313" v3="0.500313" v4="0.499687" />
+            <attribute key="orientation" v1="0.499687" v2="-0.500312" v3="0.500313" v4="0.499687" />
           </attributes>
         </component>
       </components>
@@ -91,8 +96,27 @@
         <component type="default" system="geometry">
           <attributes>
             <attribute key="scale" v1="1" v2="1" v3="1" />
-            <attribute key="position" v1="-250.122" v2="0" v3="-119.705" />
+            <attribute key="position" v1="-250.122" v2="-5.23246e-006" v3="-119.705" />
             <attribute key="orientation" v1="0" v2="0" v3="0" v4="1" />
+          </attributes>
+        </component>
+      </components>
+    </entity>
+    <entity name="camera_default">
+      <components>
+        <component type="camera" system="graphics">
+          <attributes>
+            <attribute key="model" v1="/data/entities/models/camera_default.model" />
+          </attributes>
+        </component>
+        <component type="default" system="sound">
+          <attributes />
+        </component>
+        <component type="default" system="geometry">
+          <attributes>
+            <attribute key="scale" v1="1" v2="1" v3="1" />
+            <attribute key="position" v1="-491.552" v2="140.654" v3="486.756" />
+            <attribute key="orientation" v1="-0.0922054" v2="-0.381555" v3="-0.0382849" v4="0.918939" />
           </attributes>
         </component>
       </components>

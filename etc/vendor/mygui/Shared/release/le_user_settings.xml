@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Settings">
+    <PropertiesPanelView>
+        <Property key="PanelMinimized" value="false"/>
+        <Property key="PanelMinimized" value="false"/>
+        <Property key="PanelMinimized" value="false"/>
+        <Property key="PanelMinimized" value="false"/>
+        <Property key="PanelMinimized" value="false"/>
+        <Property key="PanelMinimized" value="false"/>
+    </PropertiesPanelView>
+    <SettingsWindow>
+        <Property key="Grid" value="8"/>
+        <Property key="ShowName" value="true"/>
+        <Property key="ShowType" value="true"/>
+        <Property key="ShowSkin" value="false"/>
+        <Property key="EdgeHide" value="false"/>
+    </SettingsWindow>
+    <WidgetsWindow>
+        <Property key="widgetsButtonWidth" value="135"/>
+        <Property key="widgetsButtonHeight" value="24"/>
+        <Property key="widgetsButtonsInOneLine" value="3"/>
+        <Property key="lastSkinGroup" value="Other"/>
+    </WidgetsWindow>
+    <RecentFile name="C:/Users/NK/Desktop/characterselect.layout"/>
+    <RecentFile name="C:\Users\NK\Development\viper\etc\data\interface\interface\components\characterselect.layout"/>
+</MyGUI>

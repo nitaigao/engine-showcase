@@ -18,7 +18,7 @@ namespace Resources
 		{
 			delete ( *i ).second;
 		}
-	}
+	}	
 
 	IResource* ResourceCache::GetResource( const std::string& filePath )
 	{
@@ -26,10 +26,7 @@ namespace Resources
 
 		if ( result != m_resourceCache.end( ) )
 		{
-			std::stringstream cacheHitMessage;
-			cacheHitMessage << "ResourceCache::GetResource: Cache Hit for " << filePath;
-			Logger::Get( )->Debug( cacheHitMessage.str( ) );
-
+			Debug( "Cache hit for", filePath );
 			return ( *result ).second;
 		}
 
@@ -38,9 +35,7 @@ namespace Resources
 
 		m_resourceCache.insert( std::make_pair( filePath, resource ) );
 
-		std::stringstream cacheMissMessage;
-		cacheMissMessage << "ResourceCache::GetResource: Cache Miss for " << filePath;
-		Logger::Get( )->Debug( cacheMissMessage.str( ) );
+		Debug( "Cache miss for", filePath );
 
 		return resource;
 	}

@@ -63,8 +63,6 @@ namespace Network
 		void OnUserPacketReceived( Packet* packet );
 		void OnClientConnected( Packet* packet );
 
-		void SendMessageTo( const SystemAddress& networkAddress, const std::string& message, AnyType::AnyTypeMap parameters );
-
 		Configuration::IConfiguration* m_configuration;
 
 		INetworkSystem* m_networkSystem;

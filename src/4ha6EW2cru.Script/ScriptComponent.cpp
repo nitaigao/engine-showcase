@@ -136,7 +136,7 @@ namespace Script
 
 	void ScriptComponent::ExecuteString( const std::string& input )
 	{
-		Logger::Get( )->Info( input );
+		Info( input );
 
 		if ( luaL_dostring( m_state, input.c_str( ) ) )
 		{

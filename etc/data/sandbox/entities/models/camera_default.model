@@ -1,0 +1,8 @@
+<node name='camera_default'>
+  <position x='-491.552' y='140.654' z='486.756'/>
+  <scale x='1' y='1' z='1'/>
+  <rotation qw='0.918939' qx='-0.0922054' qy='-0.381555' qz='-0.0382849'/>
+  <camera name='camera_default' fov='0.998059'>
+    <clipping far='1000' near='1'/>
+  </camera>
+</node>

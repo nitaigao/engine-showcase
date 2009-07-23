@@ -21,7 +21,7 @@ using namespace Configuration;
 
 #include "Management/Management.h"
 
-#include "NetworkUtils.hpp"
+#include "NetworkUtils.h"
 
 #include "Configuration/ConfigurationTypes.hpp"
 

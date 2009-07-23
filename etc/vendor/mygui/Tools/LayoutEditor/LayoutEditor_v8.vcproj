@@ -179,7 +179,7 @@
 		</Configuration>
 		<Configuration
 			Name="DebugStatic|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory="../../Shared/debug"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="2"
@@ -204,7 +204,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="-Zm200"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\Common;..\..\MyGUIEngine\include;.;../../../ogre/include;../../../ois/includes"
+				AdditionalIncludeDirectories="..\..\Common;..\..\MyGUIEngine\include;.;../../../ogre/ogremain/include;../../../ois/includes"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -227,9 +227,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMainStatic_d.lib OIS_static_d.lib MyGUI_d.lib"
+				AdditionalDependencies="OgreMainStatic_d.lib RenderSystem_Direct3D9Static_d.lib OIS_static_d.lib MyGUIStatic_d.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\MyGUIEngine\lib\$(ConfigurationName);../../../ogre/lib;../../../freetype/lib;../../../ois/lib"
+				AdditionalLibraryDirectories="..\..\MyGUIEngine\lib\debug;../../../ogre/lib;../../../freetype/lib;../../../ois/lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeForWindows98="1"
@@ -261,7 +261,7 @@
 		</Configuration>
 		<Configuration
 			Name="ReleaseStatic|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory="../../Shared/release"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="2"
@@ -285,7 +285,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="-Zm200"
-				AdditionalIncludeDirectories="..\..\Common;..\..\MyGUIEngine\include;.;../../../ogre/include;../../../ois/includes"
+				AdditionalIncludeDirectories="..\..\Common;..\..\MyGUIEngine\include;.;../../../ois/includes;../../../ogre/ogremain/include;../../../ogre/RenderSystems/Direct3D9/include;../../../directx/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -304,9 +304,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMainStatic.lib OIS_static.lib MyGUI.lib"
+				AdditionalDependencies="OgreMainStatic.lib RenderSystem_Direct3D9Static.lib OIS_static.lib MyGUIStatic.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\MyGUIEngine\lib\$(ConfigurationName);../../../ogre/lib;../../../freetype/lib;../../../ois/lib"
+				AdditionalLibraryDirectories="..\..\MyGUIEngine\lib\release;../../../ogre/lib;../../../freetype/lib;../../../ois/lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"

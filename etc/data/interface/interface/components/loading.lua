@@ -72,7 +72,6 @@ function Loading.onEvent( eventName, var1 )
 	if ( eventName == 'WORLD_LOADING_FINISHED' ) then
 	
 		Loading.onHideLoading( )
-		ux:setInputAllowed( true )
 	
 	end
 

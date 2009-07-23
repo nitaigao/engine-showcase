@@ -1,0 +1,10 @@
+<node name='sandbox_wall02'>
+  <position x='0' y='23.6222' z='493.015'/>
+  <scale x='1' y='1' z='1'/>
+  <rotation qw='0.707107' qx='0.707107' qy='0' qz='0'/>
+  <entity name='sandbox_wall02' receiveShadows='true' castShadows='true' meshFile='/data/entities/meshes/sandbox_wall01.mesh'>
+    <subentities>
+      <subentity materialName='invisible_OgreMax' index='0'/>
+    </subentities>
+  </entity>
+</node>

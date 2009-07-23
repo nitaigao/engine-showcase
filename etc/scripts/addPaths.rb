@@ -78,7 +78,7 @@ def processMaterials( materialsPath )
 			
 			if ( !materialContents.to_s.include? $texturesGamePath )
 			
-				materialContents = materialContents.gsub(/([A-Za-z0-9_\-\.]*)(jpg|tga|bmp|gif)/, $texturesGamePath + '/\0 ')
+				materialContents = materialContents.gsub(/([A-Za-z0-9_\-\.]*)(jpg|tga|bmp|gif|png)/, $texturesGamePath + '/\0 ')
 				
 				materialFile.close( )
 				

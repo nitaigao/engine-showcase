@@ -56,44 +56,4 @@ namespace Logging
 			Management::Get( )->GetPlatformManager( )->OutputToConsole( outputMessage.str( ) );
 		}
 	}
-
-	void Logger::Info( const std::string& message )
-	{
-		if ( m_logLevel >= LEVEL_INFO )
-		{
-			g_logger->LogMessage( "INFO", message );
-		}
-	}
-
-	void Logger::Debug( const std::string& message )
-	{
-		if ( m_logLevel >= LEVEL_DEBUG )
-		{
-			g_logger->LogMessage( "DEBUG", message );
-		}
-	}
-
-	void Logger::Warn( const std::string& message )
-	{
-		if ( m_logLevel >= LEVEL_WARN )
-		{
-			g_logger->LogMessage( "WARN", message );
-		}
-	}
-
-	void Logger::Fatal( const std::string& message )
-	{
-		if ( m_logLevel >= LEVEL_FATAL )
-		{
-			g_logger->LogMessage( "FATAL", message );
-		}
-	}
-
-	void Logger::Net( const std::string& message )
-	{
-		if ( m_logLevel >= LEVEL_INFO )
-		{
-			g_logger->LogMessage( "NET", message );
-		}
-	}
 }

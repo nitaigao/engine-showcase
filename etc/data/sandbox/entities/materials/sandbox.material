@@ -1,37 +1,3 @@
-material 01-Default
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 
-			diffuse 0.588235 0.588235 0.588235 
-			specular 0 0 0 10
-			emissive 0 0 0 
-
-			texture_unit 
-			{
-				texture board.png
-			}
-		}
-	}
-}
-
-
-material 02-Default
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 
-			diffuse 0.588235 0.588235 0.588235 
-			specular 0 0 0 10
-			emissive 0 0 0 
-		}
-	}
-}
-
 
 material NoMaterial
 {
@@ -39,10 +5,49 @@ material NoMaterial
 	{
 		pass
 		{
-			ambient 0.7 0.7 0.7 
-			diffuse 0.7 0.7 0.7 
 		}
+
 	}
+
+}
+
+
+
+material invisible_OgreMax
+{
+	technique Map#5
+	{
+		pass Map#6
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 1 10
+		}
+
+	}
+
+}
+
+
+
+material 03-Default
+{
+	technique Map#7
+	{
+		pass Map#8
+		{
+			specular 1 1 1 1 20
+
+			texture_unit Map#9
+			{
+				texture_alias Map#9
+				texture /data/entities/textures/board.png 
+				filtering linear linear linear
+			}
+		}
+
+	}
+
 }
 
 

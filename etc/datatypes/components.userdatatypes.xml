@@ -6,6 +6,7 @@
 	<enum name="graphicsTypeOptions" type="string">
 		<enumItem name="default" value="default" />
 		<enumItem name="camera" value="camera" />
+		<enumItem name="fpscamera" value="fpscamera" />
 	</enum>	
 	<enum name="aiTypeOptions" type="string">
 		<enumItem name="default" value="default" />

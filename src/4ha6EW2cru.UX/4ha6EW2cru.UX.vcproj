@@ -59,8 +59,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MyGuiStatic_d.lib luad.lib luabindd.lib"
-				AdditionalLibraryDirectories="../../etc/vendor/mygui/myguiengine/lib/debug;../../etc/vendor/luabind/lib;../../etc/vendor/lua"
+				AdditionalDependencies="MyGuiStatic_d.lib ogremainstatic_d.lib luad.lib luabindd.lib"
+				AdditionalLibraryDirectories="../../etc/vendor/ogre/lib;../../etc/vendor/mygui/myguiengine/lib/debug;../../etc/vendor/luabind/lib;../../etc/vendor/lua"
 				IgnoreDefaultLibraryNames="LIBCMT"
 				ModuleDefinitionFile="SystemDefinition.def"
 				GenerateDebugInformation="true"
@@ -169,10 +169,6 @@
 		<ProjectReference
 			ReferencedProjectIdentifier="{58D6A894-4481-4A63-9958-49AE9B3A83D3}"
 			RelativePathToProject=".\4ha6EW2cru.System\4ha6EW2cru.System.vcproj"
-		/>
-		<ProjectReference
-			ReferencedProjectIdentifier="{29BDC832-1CA6-43C0-B0D1-2908EFBB057B}"
-			RelativePathToProject=".\4ha6EW2cru.Renderer\4ha6EW2cru.Renderer.vcproj"
 		/>
 	</References>
 	<Files>

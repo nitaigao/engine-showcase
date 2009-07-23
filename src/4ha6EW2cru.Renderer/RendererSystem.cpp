@@ -31,6 +31,11 @@ namespace Renderer
 
 	RendererSystem::~RendererSystem( )
 	{	
+		if ( m_logListener != 0 )
+		{
+			delete m_logListener;
+		}
+
 		if ( m_root != 0 )
 		{
 			delete m_root;
@@ -43,6 +48,11 @@ namespace Renderer
 		Ogre::WindowEventUtilities::removeWindowEventListener( m_window, this );
 
 		Management::Get( )->GetEventManager( )->RemoveEventListener( GAME_ENDED, this, &RendererSystem::OnGameEnded );
+		
+		if ( m_logListener != 0 )
+		{
+			LogManager::getSingletonPtr( )->getLog( "" )->removeListener( m_logListener );
+		}
 
 		if ( m_root != 0 )
 		{
@@ -74,6 +84,9 @@ namespace Renderer
 		m_configuration->SetDefault( ConfigSections::Graphics, ConfigItems::Graphics::VSync, defaultVsync );
 
 		m_root = new Root( "", "", "" ); 
+
+		m_logListener = new OgreLogListener( );
+		LogManager::getSingletonPtr( )->getLog( "" )->addListener( m_logListener );
 
 		m_root->installPlugin( new D3D9Plugin( ) );
 		RenderSystemList *renderSystems = m_root->getAvailableRenderers( );
